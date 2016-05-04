@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <!--<table-filter match-catalog="localtour" match-name="businesstypetable"/>
+  <table-filter match-catalog="localtour" match-name="contenttable"/>
+  <table-filter match-catalog="localtour" match-name="costtable"/>
+  <table-filter match-catalog="localtour" match-name="customeragencytable"/> -->
+  <table-filter match-catalog="localtour" match-name="depttable"/>
+  <!--
+  <table-filter match-catalog="localtour" match-name="regiontable"/>
+  <table-filter match-catalog="localtour" match-name="supplierscopetable"/>
+  <table-filter match-catalog="localtour" match-name="suppliertable"/>
+  <table-filter match-catalog="localtour" match-name="tourtable"/>
+  <table-filter match-catalog="localtour" match-name="transactiontable"/>
+  <table-filter match-catalog="localtour" match-name="triptable"/>
+  <table-filter match-catalog="localtour" match-name="usertable"/>
+  <table-filter match-catalog="localtour" match-name="visitortypetable"/>
+  -->
+</hibernate-reverse-engineering>

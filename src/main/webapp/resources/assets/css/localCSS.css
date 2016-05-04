@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main-container{
+	padding-top:100px;
+}
+.login-layout {
+    background-color: #dedede;
+}
+
+.login-layout .widget-box {
+    background-color: #CECECE;
+}
+
+.grey{
+	color: #6f6f6f !important;
+}
