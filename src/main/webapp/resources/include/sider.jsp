@@ -214,14 +214,7 @@
 								</li>
 							</ul>
 						</li>
-
-						<li>
-							<a href="widgets.html">
-								<i class="icon-list-alt"></i>
-								<span class="menu-text"> 数据管理 </span>
-							</a>
-						</li>
-
+						
 						<li>
 							<a href="calendar.html">
 								<i class="icon-bar-chart"></i>
@@ -233,6 +226,43 @@
 									</span>
 								</span>
 							</a>
+						</li>
+
+						<li id="dataManage">
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-list-alt"></i>
+								<span class="menu-text"> 数据管理 </span>
+								<b class="arrow icon-angle-down"></b>
+							</a>
+							<ul class="submenu">
+								<li id="businessTypeManage">
+									<a href="<%=path %>businessTypeManage">
+										<i class="icon-double-angle-right"></i>
+										业务类型
+									</a>
+								</li>
+
+								<li id="">
+									<a href="<%=path %>">
+										<i class="icon-double-angle-right"></i>
+										团队类型
+									</a>
+								</li>
+								
+								<li id="">
+									<a href="<%=path %>">
+										<i class="icon-double-angle-right"></i>
+										游客类型
+									</a>
+								</li>
+								
+								<li id="">
+									<a href="<%=path %>">
+										<i class="icon-double-angle-right"></i>
+										国家地区
+									</a>
+								</li>
+							</ul>
 						</li>
 
 						<li id="systemManage">
@@ -253,20 +283,6 @@
 									<a href="<%=path %>deptManage">
 										<i class="icon-double-angle-right"></i>
 										部门管理
-									</a>
-								</li>
-
-								<li>
-									<a href="wysiwyg.html">
-										<i class="icon-double-angle-right"></i>
-										编辑器
-									</a>
-								</li>
-
-								<li>
-									<a href="dropzone.html">
-										<i class="icon-double-angle-right"></i>
-										文件上传
 									</a>
 								</li>
 							</ul>
