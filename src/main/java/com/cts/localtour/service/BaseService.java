@@ -1,6 +1,5 @@
 package com.cts.localtour.service;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.DAO.BaseDAO;
+import com.cts.localtour.entity.BusinessTypeTable;
 @Service
 public class BaseService<T> {
 	@Autowired
@@ -23,18 +23,17 @@ public class BaseService<T> {
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<T> getAllByParam(String tableName, String where, Map<String, Object> param, int pageNo, int pageSize) {
 		String hql = "from "+tableName+" where "+where+" order by id desc";
 		ArrayList<T> list = (ArrayList<T>) baseDAO.find(hql, param, pageNo, pageSize);	
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean add(T t) {
 		try {
 			baseDAO.add(t);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
@@ -55,10 +54,20 @@ public class BaseService<T> {
 
 
 	@SuppressWarnings("unchecked")
-	public List<T> getByOtherId(String tableName, String where,  String param) {
+	public List<T> getById(String tableName, String where,  String param) {
 		String hql = "from "+tableName+" t where t."+where+"="+param+" order by t.id desc ";
 		List<T> list = baseDAO.findHql(hql, null);
 		return list;
+	}
+	
+	public void changeEnable(String tableName , boolean enable , int id){
+		String hql = "update "+tableName+" set enable="+enable+" where id="+id;
+		baseDAO.updateHql(hql);
+	}
+	
+	public void updateByParam(String tableName, String set, String where, Object... objects){
+		String hql = "update "+tableName+" set "+set+" where "+where;
+		baseDAO.updateByParam(hql, objects);
 	}
 	
 }

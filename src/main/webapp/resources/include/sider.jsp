@@ -242,22 +242,22 @@
 									</a>
 								</li>
 
-								<li id="">
-									<a href="<%=path %>">
+								<li id="tourTypeManage"">
+									<a href="<%=path %>tourTypeManage">
 										<i class="icon-double-angle-right"></i>
 										团队类型
 									</a>
 								</li>
 								
-								<li id="">
-									<a href="<%=path %>">
+								<li id="visitorTypeManage">
+									<a href="<%=path %>visitorTypeManage">
 										<i class="icon-double-angle-right"></i>
 										游客类型
 									</a>
 								</li>
 								
-								<li id="">
-									<a href="<%=path %>">
+								<li id="regionManage">
+									<a href="<%=path %>regionManage">
 										<i class="icon-double-angle-right"></i>
 										国家地区
 									</a>

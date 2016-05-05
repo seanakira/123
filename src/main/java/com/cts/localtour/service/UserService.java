@@ -26,7 +26,7 @@ public class UserService extends BaseService{
 			for (int i = 0; i < users.size(); i++) {
 				UserViewModel userViewModel = new UserViewModel();
 				users.get(i).setPwd("");
-				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getByOtherId("DeptTable", "id", users.get(i).getDeptId()+"");
+				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getById("DeptTable", "id", users.get(i).getDeptId()+"");
 				userViewModel.setDeptName(dept.get(0).getDeptName());
 				userViewModel.setUserTable(users.get(i));
 				userViewModels.add(userViewModel);
@@ -41,7 +41,7 @@ public class UserService extends BaseService{
 			for (int i = 0; i < users.size(); i++) {
 				UserViewModel userViewModel = new UserViewModel();
 				users.get(i).setPwd("");
-				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getByOtherId("DeptTable", "id", users.get(i).getDeptId()+"");
+				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getById("DeptTable", "id", users.get(i).getDeptId()+"");
 				userViewModel.setDeptName(dept.get(0).getDeptName());
 				userViewModel.setUserTable(users.get(i));
 				userViewModels.add(userViewModel);
@@ -63,29 +63,12 @@ public class UserService extends BaseService{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public void del(Class<UserTable> c, int id) {
-		UserTable user = (UserTable) userTableDAO.getById(c, id);
-		user.setEnable(false);
-		try {
-			userTableDAO.update(user);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void del(int id) {
+		this.changeEnable("UserTable", false, id);
 	}
 
-	@SuppressWarnings("unchecked")
-	public void recover(Class<UserTable> c, int id) {
-		UserTable user = (UserTable) userTableDAO.getById(c, id);
-		user.setEnable(true);
-		try {
-			userTableDAO.update(user);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	public void recover(int id) {
+		this.changeEnable("UserTable", true, id);
 	}
 
 	@SuppressWarnings("unchecked")

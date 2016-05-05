@@ -31,7 +31,6 @@ public class sysManageController {
  * */
 	@RequestMapping("/userManage")
 	public String getUserAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		ArrayList<UserViewModel> users = userService.getAll(key,page,maxResults);
 		int counts = userService.getCounts(key);
 		int pageMax = counts/maxResults;
 		if(counts!=1&&counts%maxResults>0){
@@ -43,6 +42,7 @@ public class sysManageController {
 		if(page<1){
 			page=1;
 		}
+		ArrayList<UserViewModel> users = userService.getAll(key,page,maxResults);
 		md.addAttribute("users", users);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
@@ -61,13 +61,13 @@ public class sysManageController {
 	
 	@RequestMapping("/userManage/del")
 	public @ResponseBody boolean del(@RequestParam int id){
-		userService.del(UserTable.class, id);
+		userService.del(id);
 		return true;
 	}
 	
 	@RequestMapping("/userManage/recover")
 	public @ResponseBody boolean recover(@RequestParam int id){
-		userService.recover(UserTable.class, id);
+		userService.recover(id);
 		return true;
 	}
 	

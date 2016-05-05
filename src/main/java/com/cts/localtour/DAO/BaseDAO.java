@@ -393,5 +393,9 @@ public class BaseDAO<T>{
 		List list = findHql(hql, null);
 		return list;
 	}
+	
+	public int updateByParam(String hql, Object... objects){
+		return executeUpdate(hql, objects);
+	}
 
 }

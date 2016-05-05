@@ -17,7 +17,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="add" href="#">新增业务类型</a>
+								<a id="add" href="#">新增国家地区</a>
 							</li>
 
 							
@@ -25,7 +25,7 @@
 						</ul><!-- .breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="${path }businessTypeManage" method="get">
+							<form class="form-search" action="${path }regionManage" method="get">
 								<span class="input-icon">
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
 									<i class="icon-search nav-search-icon"></i>
@@ -47,7 +47,7 @@
 									id
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 187px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									业务类型
+									国家地区
 								</th>
 								<th aria-label="Clicks: activate to sort column ascending" style="width: 204px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
 									有效
@@ -85,7 +85,7 @@
 							</tr>
 <!-- 增加模板结束 -->		
 <!-- 列表循环 -->								
-							<c:forEach var="businessType" items="${businessTypes }" varStatus="status">
+							<c:forEach var="region" items="${regions }" varStatus="status">
 								<tr id="" <%-- <c:if test="${status.index%2!=0 }"> --%>class="style:{background-color:#f9f9f9;}"<%-- </c:if> --%>>
 									<td class="center  sorting_1">
 										<label>
@@ -93,11 +93,11 @@
 											<span class="lbl"></span>
 										</label>
 									</td>
-									<td class="">${businessType.id }</td>
-									<td class="">${businessType.businessTypeName }</td>
+									<td class="">${region.id }</td>
+									<td class="">${region.regionName }</td>
 									<td class="hidden-480 " id="">
 									<c:choose>
-										<c:when test="${businessType.enable }">
+										<c:when test="${region.enable }">
 											<span class="label label-sm label-success">有效</span>
 										</c:when>
 										<c:otherwise>
@@ -115,13 +115,13 @@
 											</a>
 											<span id="">
 												<c:choose>
-													<c:when test='${businessType.enable }'>
-														<a id="${businessType.id }" class="red" href="#">
+													<c:when test='${region.enable }'>
+														<a id="${region.id }" class="red" href="#">
 															<i class="icon-trash bigger-130"></i>
 														</a>
 													</c:when>
 													<c:otherwise>
-														<a id="${businessType.id }" class="green" href="#">
+														<a id="${region.id }" class="green" href="#">
 															<i class="icon-undo bigger-130"></i>
 														</a>
 													</c:otherwise>
@@ -171,15 +171,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/businessTypeManage?page=${pageNo-1 }"><i class="icon-double-angle-left"></i></a>
+											<a href="/localtour/regionManage?page=${pageNo-1 }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/businessTypeManage?page=${page }">${page }</a>
+												<a href="/localtour/regionManage?page=${page }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/businessTypeManage?page=${pageNo+1 }"><i class="icon-double-angle-right"></i></a>
+											<a href="/localtour/regionManage?page=${pageNo+1 }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -208,7 +208,7 @@
 	/* 初始化 */
 			$("#dataManage").addClass("open");
 			$("#dataManage").children("ul").attr("style","display:block");
-			$("#businessTypeManage").addClass("active");
+			$("#regionManage").addClass("active");
 	/* 新增 */		
 			$("#add").click(function(){
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
@@ -227,21 +227,20 @@
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var input = $(this);
-				var businessTypeName = $(this).val();
-				var businessType = {businessTypeName:businessTypeName};
-				var myData = JSON.stringify(businessType);
+				var regionName = $(this).val();
+				var region = {regionName:regionName};
+				var myData = JSON.stringify(region);
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/businessTypeManage/save",  
+			        url:"/localtour/regionManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	input.parent().html(businessTypeName);
+			        	input.parent().html(regionName);
 			        }  
 				 });
-			 	obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
 				obj.next().find("input").eq(1).focus().select();
 			}
 		});
@@ -254,7 +253,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/businessTypeManage/del",  
+		        url:"/localtour/regionManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -274,7 +273,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/businessTypeManage/recover",  
+		        url:"/localtour/regionManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -292,9 +291,9 @@
 			var obj = $(this);
 			var td = obj.parents("td").siblings();
 			var info = {id:td.eq(-1).children("a").attr("id"),
-						businessTypeName:td.eq(2).text()};
+						regionName:td.eq(2).text()};
 			var myData = JSON.stringify(info);
-			td.eq(2).html("<input id='update' type='text' value='"+info.businessTypeName+"' style='width:150px' />");
+			td.eq(2).html("<input id='update' type='text' value='"+info.regionName+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});
 		/*回车更新 */		
@@ -302,21 +301,22 @@
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var params = $(this).parents("tr").find("input");
-		 		var businessTypeName = params.eq(1).val();
+		 		var regionName = params.eq(1).val();
 				var id = obj.find(".red").attr("id");
-				var businessType = {id:id,businessTypeName:businessTypeName};
-				var myData = JSON.stringify(businessType);
+				var region = {id:id,regionName:regionName};
+				var myData = JSON.stringify(region);
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/businessTypeManage/update",  
+			        url:"/localtour/regionManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	params.eq(1).parent().html(businessTypeName);
+			        	params.eq(1).parent().html(regionName);
 			        }  
 				 }); 
+				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
 				obj.next().find("input").eq(1).focus().select();
 			}
 		});
@@ -324,19 +324,19 @@
 		$("#table").delegate("#save","click",function(){
 			var obj = $(this).parents("tr");
 			var params = $(this).parents("tr").find("input");
-	 		var businessTypeName = params.eq(1).val();
+	 		var regionName = params.eq(1).val();
 			var id = obj.find(".red").attr("id");
-			var businessType = {id:id,businessTypeName:businessTypeName};
-			var myData = JSON.stringify(businessType);
+			var region = {id:id,regionName:regionName};
+			var myData = JSON.stringify(region);
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/businessTypeManage/update",  
+		        url:"/localtour/regionManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	params.eq(1).parent().html(businessTypeName);
+		        	params.eq(1).parent().html(regionName);
 		        }  
 			 }); 
 			$(this).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
