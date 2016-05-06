@@ -285,6 +285,12 @@
 										部门管理
 									</a>
 								</li>
+								<li id="deptManage">
+									<a href="<%=path %>deptStructure">
+										<i class="icon-double-angle-right"></i>
+										部门结构
+									</a>
+								</li>
 							</ul>
 						</li>
 
