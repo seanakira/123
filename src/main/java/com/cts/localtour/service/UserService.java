@@ -100,6 +100,12 @@ public class UserService extends BaseService{
 		}
 	}
 	
+	public ArrayList<UserTable> getUserStructureTree(int deptId){
+		String hql = "from UserTable u where u.deptId = "+ deptId;
+		ArrayList<UserTable> users = (ArrayList<UserTable>)userTableDAO.findHql(hql);
+		return users;
+	}
+	
 	
 
 }

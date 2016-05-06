@@ -162,4 +162,23 @@ public class sysManageController {
 		md.addAttribute("pageNo", page);
 		return "/sysManage/deptManage";
 	}
+	
+	@RequestMapping("/deptStructure")
+	public String getDeptStructureAll(Model md){
+		ArrayList<DeptTable> depts = deptService.getAllStructure();
+		md.addAttribute("depts", depts);
+		return "/sysManage/deptStructure";
+	} 
+	
+	@RequestMapping("/deptStructure/getTree")
+	public @ResponseBody ArrayList<DeptTable> getDeptStructureTree(Model md, @RequestParam int upperDeptId){
+		ArrayList<DeptTable> depts = deptService.getStructureTree(upperDeptId);
+		return depts;
+	}
+	
+	@RequestMapping("/deptStructure/getUserTree")
+	public @ResponseBody ArrayList<UserTable> getUserStructureTree(Model md, @RequestParam int deptId){
+		ArrayList<UserTable> users = userService.getUserStructureTree(deptId);
+		return users;
+	}
 }
