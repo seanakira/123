@@ -163,6 +163,13 @@
 	<!-- inline scripts related to this page -->
 
 		<script type="text/javascript">
+		$(function(){
+			/* 初始化 */
+					$("#systemManage").addClass("open");
+					$("#systemManage").children("ul").attr("style","display:block");
+					$("#deptStructure").addClass("active");
+		});
+		
 		
 		$(function(){
 			$('.tree-folder').delegate(".tree-folder-header","click",function(){
@@ -226,20 +233,27 @@
 		});
 		
 		$(function(){
-			$('.btn-view').delegate(".tree-item","click",function(){
-				var val = $(this).attr("value");
+			$('.btn-view').click(function(){
+				var val = $(".tree-selected").attr("value");
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8", 
 			        data:"userId="+val,
-			        url:"/localtour/deptStructure/getUser", 
+			        url:"/localtour/deptStructure/getUserView", 
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
 			        	if(null!=data){
-			        		for (var index = 0; index < data.length; index++) {
-									$("#content"+val).append("<div class='tree-folder' style='display:block;' ><div class='tree-folder-header' value='"+data[index].id+"' expand='1'><i class='icon-plus'></i><div class='tree-folder-name'>"+data[index].deptName+"</div></div><div class='tree-folder-content' id='content"+data[index].id+"'></div></div>");
-							}
+			        		$(".modal-title").empty();
+							$(".modal-title").append(data.userTable.realName);
+							$("#deptSpan").empty();
+							$("#deptSpan").append(data.deptName);
+							$("#positionSpan").empty();
+							$("#positionSpan").append(data.userTable.position);
+							$("#telSpan").empty();
+							$("#telSpan").append(data.userTable.phone);
+							$("#qqSpan").empty();
+							$("#qqSpan").append(data.userTable.qq);
 			        	}
 			        	
 			        }

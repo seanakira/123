@@ -181,4 +181,10 @@ public class sysManageController {
 		ArrayList<UserTable> users = userService.getUserStructureTree(deptId);
 		return users;
 	}
+	
+	@RequestMapping("/deptStructure/getUserView")
+	public @ResponseBody UserViewModel getUserView(Model md, @RequestParam int userId){
+		UserViewModel user = userService.getUserView(userId);
+		return user;
+	}
 }

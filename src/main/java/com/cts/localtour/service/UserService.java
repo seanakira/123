@@ -106,6 +106,16 @@ public class UserService extends BaseService{
 		return users;
 	}
 	
+	public UserViewModel getUserView(int userId){
+		UserViewModel user = new UserViewModel();
+		UserTable userTemp = (UserTable) userTableDAO.getById(UserTable.class, userId);
+		user.setUserTable(userTemp);
+		int deptId = userTemp.getDeptId();
+		ArrayList<DeptTable> deptTemp = (ArrayList<DeptTable>) this.getById("DeptTable", "id", deptId+"");
+		user.setDeptName(deptTemp.get(0).getDeptName());
+		return user;
+	}
+	
 	
 
 }
