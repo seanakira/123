@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.ContentTable;
 import com.cts.localtour.entity.RegionTable;
+import com.cts.localtour.entity.SupplierScopeTable;
 import com.cts.localtour.entity.TourTypeTable;
 import com.cts.localtour.entity.VisitorTypeTable;
 import com.cts.localtour.service.BusinessTypeService;
+import com.cts.localtour.service.ContentService;
 import com.cts.localtour.service.RegionService;
+import com.cts.localtour.service.SupplierScopeService;
 import com.cts.localtour.service.TourTypeService;
 import com.cts.localtour.service.VisitorTypeService;
+import com.cts.localtour.viewModel.ContentViewModel;
 
 @Controller
-public class dataManageController {
+public class DataManageController {
 	@Autowired
 	private BusinessTypeService businessTypeService;
 	@Autowired
@@ -29,6 +34,12 @@ public class dataManageController {
 	private VisitorTypeService visitorTypeService;
 	@Autowired
 	private RegionService regionService;
+	@Autowired
+	private SupplierScopeService supplierScopeService;
+	@Autowired
+	private ContentService contentService;
+	
+	
 /*
  * 
  * 业务类型管理
@@ -38,7 +49,7 @@ public class dataManageController {
 	public String getBusinessTypeAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = businessTypeService.getCounts(key);
 		int pageMax = counts/maxResults;
-		if(counts!=1&&counts%maxResults>0){
+		if(counts%maxResults>0){
 			pageMax++;
 		}
 		if(page>pageMax){
@@ -52,6 +63,7 @@ public class dataManageController {
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
 		return "/dataManage/businessTypeManage";
 		
 	}
@@ -90,7 +102,7 @@ public class dataManageController {
 	public String gettourTypeAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = tourTypeService.getCounts(key);
 		int pageMax = counts/maxResults;
-		if(counts!=1&&counts%maxResults>0){
+		if(counts%maxResults>0){
 			pageMax++;
 		}
 		if(page>pageMax){
@@ -104,6 +116,7 @@ public class dataManageController {
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
 		return "/dataManage/tourTypeManage";
 		
 	}
@@ -142,7 +155,7 @@ public class dataManageController {
 		public String getvisitorTypeAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 			int counts = visitorTypeService.getCounts(key);
 			int pageMax = counts/maxResults;
-			if(counts!=1&&counts%maxResults>0){
+			if(counts%maxResults>0){
 				pageMax++;
 			}
 			if(page>pageMax){
@@ -156,6 +169,7 @@ public class dataManageController {
 			md.addAttribute("counts", counts);
 			md.addAttribute("pageMax", pageMax);
 			md.addAttribute("pageNo", page);
+			md.addAttribute("key", key);
 			return "/dataManage/visitorTypeManage";
 			
 		}
@@ -194,7 +208,7 @@ public class dataManageController {
 		public String getregionAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 			int counts = regionService.getCounts(key);
 			int pageMax = counts/maxResults;
-			if(counts!=1&&counts%maxResults>0){
+			if(counts%maxResults>0){
 				pageMax++;
 			}
 			if(page>pageMax){
@@ -208,6 +222,7 @@ public class dataManageController {
 			md.addAttribute("counts", counts);
 			md.addAttribute("pageMax", pageMax);
 			md.addAttribute("pageNo", page);
+			md.addAttribute("key", key);
 			return "/dataManage/regionManage";
 			
 		}
@@ -236,5 +251,115 @@ public class dataManageController {
 		public @ResponseBody boolean updata(@RequestBody RegionTable region){
 			regionService.update(region);
 			return true;
-		}		
+		}
+/*
+ * 
+ * 供应范围管理管理
+ * 
+ * */
+		@RequestMapping("/supplierScopeManage")
+		public String getsupplierScopeAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+			int counts = supplierScopeService.getCounts(key);
+			int pageMax = counts/maxResults;
+			if(counts%maxResults>0){
+				pageMax++;
+			}
+			if(page>pageMax){
+				page=pageMax;
+			}
+			if(page<1){
+				page=1;
+			}
+			ArrayList<SupplierScopeTable> supplierScopes = supplierScopeService.getAll(key,page,maxResults);
+			md.addAttribute("supplierScopes", supplierScopes);
+			md.addAttribute("counts", counts);
+			md.addAttribute("pageMax", pageMax);
+			md.addAttribute("pageNo", page);
+			md.addAttribute("key", key);
+			return "/dataManage/supplierScopeManage";
+			
+		}
+		
+		@SuppressWarnings("unchecked")
+		@RequestMapping("/supplierScopeManage/save")
+		public @ResponseBody boolean save(@RequestBody SupplierScopeTable supplierScope){
+			supplierScope.setEnable(true);
+			supplierScopeService.add(supplierScope);
+			return true;
+		}
+		
+		@RequestMapping("/supplierScopeManage/del")
+		public @ResponseBody boolean delsupplierScope(@RequestParam int id){
+			supplierScopeService.del(id);
+			return true;
+		}
+		
+		@RequestMapping("/supplierScopeManage/recover")
+		public @ResponseBody boolean recoversupplierScope(@RequestParam int id){
+			supplierScopeService.recover(id);
+			return true;
+		}
+		
+		@RequestMapping("/supplierScopeManage/update")
+		public @ResponseBody boolean updata(@RequestBody SupplierScopeTable supplierScope){
+			supplierScopeService.update(supplierScope);
+			return true;
+		}
+/*
+ * 
+ * 供应内容管理管理
+ * 
+ * */
+		@SuppressWarnings("unchecked")
+		@RequestMapping("/contentManage")
+		public String getcontentAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+			int counts = contentService.getCounts(key);
+			int pageMax = counts/maxResults;
+			if(counts%maxResults>0){
+				pageMax++;
+			}
+			if(page>pageMax){
+				page=pageMax;
+			}
+			if(page<1){
+				page=1;
+			}
+			ArrayList<ContentViewModel> contents = contentService.getAll(key,page,maxResults);
+			ArrayList<SupplierScopeTable> supplierScopes = supplierScopeService.getAllByTableName("SupplierScopeTable", 1, 999);
+			md.addAttribute("contents", contents);
+			md.addAttribute("supplierScopes", supplierScopes);
+			md.addAttribute("counts", counts);
+			md.addAttribute("pageMax", pageMax);
+			md.addAttribute("pageNo", page);
+			md.addAttribute("key", key);
+			return "/dataManage/contentManage";
+			
+		}
+		
+		@SuppressWarnings("unchecked")
+		@RequestMapping("/contentManage/save")
+		public @ResponseBody boolean save(@RequestBody ContentTable content){
+			content.setEnable(true);
+			contentService.add(content);
+			return true;
+		}
+		
+		@RequestMapping("/contentManage/del")
+		public @ResponseBody boolean delcontent(@RequestParam int id){
+			contentService.del(id);
+			return true;
+		}
+		
+		@RequestMapping("/contentManage/recover")
+		public @ResponseBody boolean recovercontent(@RequestParam int id){
+			contentService.recover(id);
+			return true;
+		}
+		
+		@SuppressWarnings("unchecked")
+		@RequestMapping("/contentManage/update")
+		public @ResponseBody boolean updata(@RequestBody ContentTable content){
+			contentService.update(content);
+			return true;
+		}
 }

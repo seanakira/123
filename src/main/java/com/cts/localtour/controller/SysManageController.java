@@ -19,7 +19,7 @@ import com.cts.localtour.viewModel.DeptViewModel;
 import com.cts.localtour.viewModel.UserViewModel;
 
 @Controller
-public class sysManageController {
+public class SysManageController {
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -33,7 +33,7 @@ public class sysManageController {
 	public String getUserAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = userService.getCounts(key);
 		int pageMax = counts/maxResults;
-		if(counts!=1&&counts%maxResults>0){
+		if(counts%maxResults>0){
 			pageMax++;
 		}
 		if(page>pageMax){
@@ -47,6 +47,7 @@ public class sysManageController {
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
 		return "/sysManage/userManage";
 	}
 	
@@ -92,7 +93,7 @@ public class sysManageController {
 	public String getDeptAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,Model md){
 		int counts = deptService.getCounts(null,null);
 		int pageMax = counts/maxResults;
-		if(counts!=1&&counts%maxResults>0){
+		if(counts%maxResults>0){
 			pageMax++;
 		}
 		if(page>pageMax){
@@ -145,7 +146,7 @@ public class sysManageController {
 		param.put("deptName", "%"+key+"%");
 		int counts = deptService.getCounts(hql,param);
 		int pageMax = counts/maxResults;
-		if(counts!=1&&counts%maxResults>0){
+		if(counts%maxResults>0){
 			pageMax++;
 		}
 		if(page>pageMax){

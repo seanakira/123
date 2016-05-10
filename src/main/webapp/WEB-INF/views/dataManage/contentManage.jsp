@@ -7,7 +7,7 @@
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
-<!-- 正文开始 -->	
+<!-- 正文开始 -->
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
@@ -17,7 +17,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="add" href="#">新增团队类型</a>
+								<a id="add" href="#">新增供应内容</a>
 							</li>
 
 							
@@ -25,7 +25,7 @@
 						</ul><!-- .breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="${path }tourTypeManage" method="get">
+							<form class="form-search" action="${path }contentManage" method="get">
 								<span class="input-icon">
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
@@ -47,7 +47,10 @@
 									id
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 187px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									团队类型
+									供应范围
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 187px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									供应内容
 								</th>
 								<th aria-label="Clicks: activate to sort column ascending" style="width: 204px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
 									有效
@@ -68,14 +71,17 @@
 										<span class="lbl"></span>
 									</label>
 								</td>
+								
 
 								<td class="">
 									
 								</td>
 								<td  class="">
+									
+								</td>	
+								<td  class="">
 									<input id="submit" type="text">
 								</td>
-								
 								<td class="hidden-480 ">
 										<span class="label label-sm label-success">有效</span>
 								</td>
@@ -85,7 +91,7 @@
 							</tr>
 <!-- 增加模板结束 -->		
 <!-- 列表循环 -->								
-							<c:forEach var="tourType" items="${tourTypes }" varStatus="status">
+							<c:forEach var="content" items="${contents }" varStatus="status">
 								<tr id="" <%-- <c:if test="${status.index%2!=0 }"> --%>class="style:{background-color:#f9f9f9;}"<%-- </c:if> --%>>
 									<td class="center  sorting_1">
 										<label>
@@ -93,11 +99,15 @@
 											<span class="lbl"></span>
 										</label>
 									</td>
-									<td class="">${tourType.id }</td>
-									<td class="">${tourType.tourTypeName }</td>
+									<td class="">${content.contentTable.id }</td>
+									<td class="">
+										${content.supplierScopeName }
+										<span hidden="">${content.contentTable.supplierScopeId }</span>
+									</td>
+									<td class="">${content.contentTable.contentName }</td>
 									<td class="hidden-480 " id="">
 									<c:choose>
-										<c:when test="${tourType.enable }">
+										<c:when test="${content.contentTable.enable }">
 											<span class="label label-sm label-success">有效</span>
 										</c:when>
 										<c:otherwise>
@@ -115,13 +125,13 @@
 											</a>
 											<span id="">
 												<c:choose>
-													<c:when test='${tourType.enable }'>
-														<a id="${tourType.id }" class="red" href="#">
+													<c:when test='${content.contentTable.enable }'>
+														<a id="${content.contentTable.id }" class="red" href="#">
 															<i class="icon-trash bigger-130"></i>
 														</a>
 													</c:when>
 													<c:otherwise>
-														<a id="${tourType.id }" class="green" href="#">
+														<a id="${content.contentTable.id }" class="green" href="#">
 															<i class="icon-undo bigger-130"></i>
 														</a>
 													</c:otherwise>
@@ -171,15 +181,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/tourTypeManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="/localtour/contentManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/tourTypeManage?page=${page }&key=${key }">${page }</a>
+												<a href="/localtour/contentManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/tourTypeManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="/localtour/contentManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -200,45 +210,63 @@
 				</div>
 <!--部门树模板结束 -->
 <!-- 正文结束 -->	
-
+<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
+				<div id="select">
+					<select hidden="" style="display: none;" class="" data-placeholder="Choose a Country...">
+						<option value="">&nbsp;</option>
+						<c:forEach var="supplierScope" items="${supplierScopes }" varStatus="status">
+						<option value="${supplierScope.id }">${supplierScope.supplierScopeName }</option>
+						</c:forEach>												
+					</select>
+				</div>															
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
+
+<script src="${path }resources/assets/js/chosen.jquery.min.js"></script>
 
 <script type="text/javascript">
 	$(function(){
+		
 	/* 初始化 */
 			$("#dataManage").addClass("open");
 			$("#dataManage").children("ul").attr("style","display:block");
-			$("#tourTypeManage").addClass("active");
+			$("#contentManage").addClass("active");
+			$("#addModel").children("td").eq(2).html($("#select").html());
+			
 	/* 新增 */		
 			$("#add").click(function(){
+				var isChange = false;
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
+				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
+				$(".chosen-select").chosen();
+				
 				$("#table").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13){
-						if($(this).parent().next().children("input").attr("id")=="deptId"){
-							$(this).parent().next().next().children("input").focus().select();
-						}else{
-							$(this).parent().next().children("input").focus().select();
-						}
-				}
+					if(event.keyCode==13&&isChange==true){
+						$(this).parents("td").next().find("input").focus().select();
+						isChange = false;
+					}
+				});
+				$("#table").find("select").change(function(){isChange = true;});
 			});
-		});
 	/* 回车保存 */		
 		$("#table").delegate("#submit","keydown",function(event){
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var input = $(this);
-				var tourTypeName = $(this).val();
-				var tourType = {tourTypeName:tourTypeName};
-				var myData = JSON.stringify(tourType);
+				var contentName = obj.find("input").eq(2).val();
+				var supplierScopeId = obj.find("select").val();
+				var supplierScopeName = obj.find("option:selected").text();
+				var content = {contentName:contentName,supplierScopeId:supplierScopeId};
+				var myData = JSON.stringify(content);
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/tourTypeManage/save",  
+			        url:"/localtour/contentManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	input.parent().html(tourTypeName);
+			        	input.parent().prev().html(supplierScopeName);
+			        	input.parent().html(contentName);
 			        }  
 				 });
 				obj.next().find("input").eq(1).focus().select();
@@ -253,7 +281,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/tourTypeManage/del",  
+		        url:"/localtour/contentManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -273,7 +301,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/tourTypeManage/recover",  
+		        url:"/localtour/contentManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -291,29 +319,36 @@
 			var obj = $(this);
 			var td = obj.parents("td").siblings();
 			var info = {id:td.eq(-1).children("a").attr("id"),
-						tourTypeName:td.eq(2).text()};
-			var myData = JSON.stringify(info);
-			td.eq(2).html("<input id='update' type='text' value='"+info.tourTypeName+"' style='width:150px' />");
+						contentName:td.eq(3).text(),
+						supplierScopeId:td.eq(2).children("span").text()};
+			td.eq(2).html($("#select").html());
+			td.eq(2).children("select").attr("class","width-20 chosen-select");
+			td.eq(2).children("select").val(info.supplierScopeId);
+			$(".chosen-select").chosen();
+			td.eq(3).html("<input id='update' type='text' value='"+info.contentName+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});
-		/*回车更新 */		
+	/*回车更新 */		
 		$("#table").delegate("#update","keydown",function(event){
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var params = $(this).parents("tr").find("input");
-		 		var tourTypeName = params.eq(1).val();
+		 		var contentName = params.eq(2).val();
 				var id = obj.find(".red").attr("id");
-				var tourType = {id:id,tourTypeName:tourTypeName};
-				var myData = JSON.stringify(tourType);
+				var supplierScopeId = obj.find("select").val();
+				var supplierScopeName = obj.find("option:selected").text();
+				var content = {id:id,contentName:contentName,supplierScopeId:supplierScopeId};
+				var myData = JSON.stringify(content);
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/tourTypeManage/update",  
+			        url:"/localtour/contentManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	params.eq(1).parent().html(tourTypeName);
+			        	params.eq(2).parent().html(contentName);
+			        	obj.find("select").parent().html(supplierScopeName+"<span hidden=''>"+supplierScopeId+"</span>");
 			        }  
 				 }); 
 				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
@@ -324,26 +359,28 @@
 		$("#table").delegate("#save","click",function(){
 			var obj = $(this).parents("tr");
 			var params = $(this).parents("tr").find("input");
-	 		var tourTypeName = params.eq(1).val();
+	 		var contentName = params.eq(2).val();
 			var id = obj.find(".red").attr("id");
-			var tourType = {id:id,tourTypeName:tourTypeName};
-			var myData = JSON.stringify(tourType);
+			var supplierScopeId = obj.find("select").val();
+			var supplierScopeName = obj.find("option:selected").text();
+			var content = {id:id,contentName:contentName,supplierScopeId:supplierScopeId};
+			var myData = JSON.stringify(content);
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/tourTypeManage/update",  
+		        url:"/localtour/contentManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	params.eq(1).parent().html(tourTypeName);
+		        	params.eq(2).parent().html(contentName);
+		        	obj.find("select").parent().html(supplierScopeName+"<span hidden=''>"+supplierScopeId+"</span>");
 		        }  
 			 }); 
-			$(this).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
+			obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
+			obj.next().find("input").eq(1).focus().select();
 		});
-		
-		
-	
+			
 	
 	});
 	
