@@ -7,7 +7,6 @@
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 
-
  
 	<div class="main-content">
 		<div class="breadcrumbs" id="breadcrumbs">
@@ -18,7 +17,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-globe"></i>
-					<a href="#">部门结构</a>
+					<a href="#">修改资料</a>
 				</li>
 			</ul><!-- .breadcrumb -->
 
@@ -34,69 +33,194 @@
 
 		
 		<div class="page-content">
-		<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
-						<!-- <div class="page-header align-right">
-								<small>
-									<i class="icon-double-angle-right"></i>
-									
-								</small>
-						</div>/.page-header -->
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
+			<div id="user-profile-3" class="user-profile row">
+				<div class="col-sm-offset-1 col-sm-10">
+					<div class="space"></div>
 
-								<div class="row">
-									<div class="col-sm-12">
-										<div class="widget-box">
-											<div class="widget-header header-color-blue2">
-												<h4 class="lighter smaller">部门结构图</h4>
+					<form class="form-horizontal">
+						<div class="tabbable">
+							<ul class="nav nav-tabs padding-16">
+								<li class="active">
+									<a data-toggle="tab" href="#edit-basic">
+										<i class="green icon-edit bigger-125"></i>
+										Basic Info
+									</a>
+								</li>
+
+								<li>
+									<a data-toggle="tab" href="#edit-password">
+										<i class="blue icon-key bigger-125"></i>
+										Password
+									</a>
+								</li>
+							</ul>
+
+							<div class="tab-content profile-edit-tab-content">
+								<div id="edit-basic" class="tab-pane in active">
+									<h4 class="header blue bolder smaller">General</h4>
+
+									<div class="row">
+										<div class="col-xs-12 col-sm-4">
+											<input type="file" />
+										</div>
+
+										<div class="vspace-xs"></div>
+
+										<div class="col-xs-12 col-sm-8">
+											<div class="form-group">
+												<label class="col-sm-4 control-label no-padding-right" for="form-field-username">Username</label>
+
+												<div class="col-sm-8">
+													<input class="col-xs-12 col-sm-10" type="text" id="form-field-username" placeholder="Username" value="alexdoe" />
+												</div>
 											</div>
 
-											<div class="widget-body">
-												<div class="widget-main padding-8">
-													
-													<div id="treeview" class="tree tree-selectable">
-													<c:forEach var="dept" items="${depts }" varStatus="status">
-													  <c:if test="${dept.upperDeptId==null }">
-														<div class="tree-folder" style="display:block;">
-															<div class="tree-folder-header" value="${dept.id }" expand="1">
-																<i class ="icon-plus"></i>
-																<div class="tree-folder-name">${dept.deptName }</div>
-															</div>
-															<div class="tree-folder-content" id="content${dept.id }"></div>
-														</div>
-													  </c:if>
-													</c:forEach>
+											<div class="space-4"></div>
+
+											<div class="form-group">
+												<label class="col-sm-4 control-label no-padding-right" for="form-field-first">Name</label>
+
+												<div class="col-sm-8">
+													<input class="input-small" type="text" id="form-field-first" placeholder="First Name" value="Alex" />
+													<input class="input-small" type="text" id="form-field-last" placeholder="Last Name" value="Doe" />
 												</div>
 											</div>
 										</div>
-										
 									</div>
-									<button class="btn btn-sm btn-info btn-view" data-toggle="modal" data-target="#userModal">
-										查看
-										<i class="icon-print"></i>
-									</button>
-									<button class="btn btn-sm btn-danger btn-del" disabled="true">
-										停用
-										<i class="icon-bolt"></i>
-									</button>
-										
+
+									<hr />
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-date">Birth Date</label>
+
+										<div class="col-sm-9">
+											<div class="input-medium">
+												<div class="input-group">
+													<input class="input-medium date-picker" id="form-field-date" type="text" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+													<span class="input-group-addon">
+														<i class="icon-calendar"></i>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right">Gender</label>
+
+										<div class="col-sm-9">
+											<label class="inline">
+												<input name="form-field-radio" type="radio" class="ace" />
+												<span class="lbl"> Male</span>
+											</label>
+
+											&nbsp; &nbsp; &nbsp;
+											<label class="inline">
+												<input name="form-field-radio" type="radio" class="ace" />
+												<span class="lbl"> Female</span>
+											</label>
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-comment">Comment</label>
+
+										<div class="col-sm-9">
+											<textarea id="form-field-comment"></textarea>
+										</div>
+									</div>
+
+									<div class="space"></div>
+									<h4 class="header blue bolder smaller">Contact</h4>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-email">Email</label>
+
+										<div class="col-sm-9">
+											<span class="input-icon input-icon-right">
+												<input type="email" id="form-field-email" value="alexdoe@gmail.com" />
+												<i class="icon-envelope"></i>
+											</span>
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-website">Website</label>
+
+										<div class="col-sm-9">
+											<span class="input-icon input-icon-right">
+												<input type="url" id="form-field-website" value="http://www.alexdoe.com/" />
+												<i class="icon-globe"></i>
+											</span>
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-phone">Phone</label>
+
+										<div class="col-sm-9">
+											<span class="input-icon input-icon-right">
+												<input class="input-medium input-mask-phone" type="text" id="form-field-phone" />
+												<i class="icon-phone icon-flip-horizontal"></i>
+											</span>
+										</div>
+									</div>
+
+									<div class="space"></div>
 								</div>
-							
 
-								<script type="text/javascript">
-									var $assets = "assets";//this will be used in fuelux.tree-sampledata.js
-								</script>
-								
-								
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
-					</div><!-- /.page-content -->
-				</div><!-- /.main-content -->
+								<div id="edit-password" class="tab-pane">
+									<div class="space-10"></div>
 
-				</div>
-				</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-pass1">New Password</label>
+
+										<div class="col-sm-9">
+											<input type="password" id="form-field-pass1" />
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-pass2">Confirm Password</label>
+
+										<div class="col-sm-9">
+											<input type="password" id="form-field-pass2" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="clearfix form-actions">
+							<div class="col-md-offset-3 col-md-9">
+								<button class="btn btn-info" type="button">
+									<i class="icon-ok bigger-110"></i>
+									Save
+								</button>
+
+								&nbsp; &nbsp;
+								<button class="btn" type="reset">
+									<i class="icon-undo bigger-110"></i>
+									Reset
+								</button>
+							</div>
+						</div>
+					</form>
+				</div><!-- /span -->
+			</div><!-- /user-profile -->			
+
+		</div><!-- /.page-content -->
+	</div><!-- /.main-content -->
+
 				
 				<!-- Modal -->
 				<div class="modal fade" id="userModal" tabindex="-1" role="dialog" 
@@ -165,14 +289,6 @@
 	<!-- inline scripts related to this page -->
 
 		<script type="text/javascript">
-		$(function(){
-			/* 初始化 */
-					$("#systemManage").addClass("open");
-					$("#systemManage").children("ul").attr("style","display:block");
-					$("#deptStructure").addClass("active");
-		});
-		
-		
 		$(function(){
 			$('.tree-folder').delegate(".tree-folder-header","click",function(){
 				var val = $(this).attr("value");
