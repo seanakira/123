@@ -25,7 +25,7 @@
 						</ul><!-- .breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="${path }contentManage" method="get">
+							<form class="form-search" action="${path }customerAgencyManage" method="get">
 								<span class="input-icon">
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
@@ -78,7 +78,7 @@
 									
 								</td>
 								<td class="">
-									
+									<input type="text">
 								</td>
 								<td  class="">
 									
@@ -95,7 +95,7 @@
 							</tr>
 <!-- 增加模板结束 -->		
 <!-- 列表循环 -->								
-							<c:forEach var="content" items="${contents }" varStatus="status">
+							<c:forEach var="customerAgency" items="${customerAgencys }" varStatus="status">
 								<tr id="" <%-- <c:if test="${status.index%2!=0 }"> --%>class="style:{background-color:#f9f9f9;}"<%-- </c:if> --%>>
 									<td class="center  sorting_1">
 										<label>
@@ -103,15 +103,15 @@
 											<span class="lbl"></span>
 										</label>
 									</td>
-									<td class="">${content.contentTable.id }</td>
+									<td class="">${customerAgency.customerAgencyTable.id }</td>
 									<td class="">
-										${content.supplierScopeName }
-										<span hidden="">${content.contentTable.supplierScopeId }</span>
+										${customerAgency.regionName }
+										<span hidden="">${customerAgency.customerAgencyTable.regionId }</span>
 									</td>
-									<td class="">${content.contentTable.contentName }</td>
+									<td class="">${customerAgency.customerAgencyTable.customerAgencyName }</td>
 									<td class="hidden-480 " id="">
 									<c:choose>
-										<c:when test="${content.contentTable.enable }">
+										<c:when test="${customerAgency.customerAgencyTable.enable }">
 											<span class="label label-sm label-success">有效</span>
 										</c:when>
 										<c:otherwise>
@@ -129,13 +129,13 @@
 											</a>
 											<span id="">
 												<c:choose>
-													<c:when test='${content.contentTable.enable }'>
-														<a id="${content.contentTable.id }" class="red" href="#">
+													<c:when test='${customerAgency.customerAgencyTable.enable }'>
+														<a id="${customerAgency.customerAgencyTable.id }" class="red" href="#">
 															<i class="icon-trash bigger-130"></i>
 														</a>
 													</c:when>
 													<c:otherwise>
-														<a id="${content.contentTable.id }" class="green" href="#">
+														<a id="${customerAgency.customerAgencyTable.id }" class="green" href="#">
 															<i class="icon-undo bigger-130"></i>
 														</a>
 													</c:otherwise>
@@ -185,15 +185,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/contentManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="/localtour/customerAgencyManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/contentManage?page=${page }&key=${key }">${page }</a>
+												<a href="/localtour/customerAgencyManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/contentManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="/localtour/customerAgencyManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -219,8 +219,8 @@
 				<div id="select">
 					<select hidden="" style="display: none;" class="" data-placeholder="Choose a Country...">
 						<option value="">&nbsp;</option>
-						<c:forEach var="supplierScope" items="${supplierScopes }" varStatus="status">
-						<option value="${supplierScope.id }">${supplierScope.supplierScopeName }</option>
+						<c:forEach var="region" items="${regions }" varStatus="status">
+						<option value="${region.id }">${region.regionName }</option>
 						</c:forEach>												
 					</select>
 				</div>
@@ -234,9 +234,9 @@
 	$(function(){
 		
 	/* 初始化 */
-			$("#dataManage").addClass("open");
-			$("#dataManage").children("ul").attr("style","display:block");
-			$("#contentManage").addClass("active");
+			$("#customerManage").addClass("open");
+			$("#customerManage").children("ul").attr("style","display:block");
+			$("#customerAgencyManage").addClass("active");
 			$("#addModel").children("td").eq(3).html($("#select").html());
 			
 	/* 新增 */		
@@ -247,7 +247,7 @@
 				$(".chosen-select").chosen();
 				$("#table").find("select").next().attr("style","width:200px;");
 				$("#table").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13&&isChange==true){
+					if((event.keyCode==13&&isChange==true)||$(this).parent("td").length==1){
 						$(this).parents("td").next().find("input").focus().select();
 						isChange = false;
 					}
@@ -259,21 +259,21 @@
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var input = $(this);
-				var contentName = obj.find("input").eq(2).val();
-				var supplierScopeId = obj.find("select").val();
-				var supplierScopeName = obj.find("option:selected").text();
-				var content = {contentName:contentName,supplierScopeId:supplierScopeId};
-				var myData = JSON.stringify(content);
+				var customerAgencyName = obj.find("input").eq(2).val();
+				var regionId = obj.find("select").val();
+				var regionName = obj.find("option:selected").text();
+				var customerAgency = {customerAgencyName:customerAgencyName,regionId:regionId};
+				var myData = JSON.stringify(customerAgency);
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/contentManage/save",  
+			        url:"/localtour/customerAgencyManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	input.parent().prev().html(supplierScopeName);
-			        	input.parent().html(contentName);
+			        	input.parent().prev().html(regionName);
+			        	input.parent().html(customerAgencyName);
 			        }  
 				 });
 				obj.next().find("input").eq(1).focus().select();
@@ -288,7 +288,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/contentManage/del",  
+		        url:"/localtour/customerAgencyManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -308,7 +308,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/contentManage/recover",  
+		        url:"/localtour/customerAgencyManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -326,13 +326,13 @@
 			var obj = $(this);
 			var td = obj.parents("td").siblings();
 			var info = {id:td.eq(-1).children("a").attr("id"),
-						contentName:td.eq(3).text(),
-						supplierScopeId:td.eq(2).children("span").text()};
+						customerAgencyName:td.eq(3).text(),
+						regionId:td.eq(2).children("span").text()};
 			td.eq(2).html($("#select").html());
 			td.eq(2).children("select").attr("class","width-20 chosen-select");
-			td.eq(2).children("select").val(info.supplierScopeId);
+			td.eq(2).children("select").val(info.regionId);
 			$(".chosen-select").chosen();
-			td.eq(3).html("<input id='update' type='text' value='"+info.contentName+"' style='width:150px' />");
+			td.eq(3).html("<input id='update' type='text' value='"+info.customerAgencyName+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});
 	/*回车更新 */		
@@ -340,22 +340,22 @@
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var params = $(this).parents("tr").find("input");
-		 		var contentName = params.eq(2).val();
+		 		var customerAgencyName = params.eq(2).val();
 				var id = obj.find(".red").attr("id");
-				var supplierScopeId = obj.find("select").val();
-				var supplierScopeName = obj.find("option:selected").text();
-				var content = {id:id,contentName:contentName,supplierScopeId:supplierScopeId};
-				var myData = JSON.stringify(content);
+				var regionId = obj.find("select").val();
+				var regionName = obj.find("option:selected").text();
+				var customerAgency = {id:id,customerAgencyName:customerAgencyName,regionId:regionId};
+				var myData = JSON.stringify(customerAgency);
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/contentManage/update",  
+			        url:"/localtour/customerAgencyManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	params.eq(2).parent().html(contentName);
-			        	obj.find("select").parent().html(supplierScopeName+"<span hidden=''>"+supplierScopeId+"</span>");
+			        	params.eq(2).parent().html(customerAgencyName);
+			        	obj.find("select").parent().html(regionName+"<span hidden=''>"+regionId+"</span>");
 			        }  
 				 }); 
 				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
@@ -366,22 +366,22 @@
 		$("#table").delegate("#save","click",function(){
 			var obj = $(this).parents("tr");
 			var params = $(this).parents("tr").find("input");
-	 		var contentName = params.eq(2).val();
+	 		var customerAgencyName = params.eq(2).val();
 			var id = obj.find(".red").attr("id");
-			var supplierScopeId = obj.find("select").val();
-			var supplierScopeName = obj.find("option:selected").text();
-			var content = {id:id,contentName:contentName,supplierScopeId:supplierScopeId};
-			var myData = JSON.stringify(content);
+			var regionId = obj.find("select").val();
+			var regionName = obj.find("option:selected").text();
+			var customerAgency = {id:id,customerAgencyName:customerAgencyName,regionId:regionId};
+			var myData = JSON.stringify(customerAgency);
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/contentManage/update",  
+		        url:"/localtour/customerAgencyManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	params.eq(2).parent().html(contentName);
-		        	obj.find("select").parent().html(supplierScopeName+"<span hidden=''>"+supplierScopeId+"</span>");
+		        	params.eq(2).parent().html(customerAgencyName);
+		        	obj.find("select").parent().html(regionName+"<span hidden=''>"+regionId+"</span>");
 		        }  
 			 }); 
 			obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});

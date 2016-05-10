@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.service.CustomerAgencyService;
+import com.cts.localtour.service.RegionService;
 import com.cts.localtour.viewModel.CustomerAgencyViewModel;
 @Controller
 public class CustomerAgencyController {
 	@Autowired
 	private CustomerAgencyService customerAgencyService;
-	
+	@Autowired
+	private RegionService regionService;
 	@RequestMapping("/customerAgencyManage")
 	public String getCustomerAgencyAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = customerAgencyService.getCounts(key);
@@ -32,6 +34,7 @@ public class CustomerAgencyController {
 			page=1;
 		}
 		ArrayList<CustomerAgencyViewModel> customerAgencys = customerAgencyService.getAll(key,page,maxResults);
+		regions = regionService.getAllBy("RegionTable", "enable=?", "true", 1, 999);
 		md.addAttribute("customerAgencys", customerAgencys);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);

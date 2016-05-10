@@ -397,5 +397,15 @@ public class BaseDAO<T>{
 	public int updateByParam(String hql, Object... objects){
 		return executeUpdate(hql, objects);
 	}
+	
+	public List getAllByString(final String hql, final Object...objects){
+		return hibernateTemplate.execute(new HibernateCallback<List>() {
+			@Override
+			public List<T> doInHibernate(Session session) throws HibernateException {
+				Query createQuery = createQuery(session, hql, objects);
+				return createQuery.list();
+			}
+		});
+	}
 
 }

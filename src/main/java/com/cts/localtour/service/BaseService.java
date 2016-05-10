@@ -78,4 +78,7 @@ public class BaseService<T> {
 			e.printStackTrace();
 		}
 	}
+	public List<T> getAllByString(String hql, Object objects){
+		return baseDAO.getAllByString(hql, objects);
+	}
 }
