@@ -5,7 +5,7 @@
 
 <jsp:include page="../../resources/include/header.jsp"></jsp:include>
 <jsp:include page="../../resources/include/sider.jsp"></jsp:include>
-<jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
+<jsp:include page="../../resources/include/pageSettings.jsp"></jsp:include>
 
 
 
