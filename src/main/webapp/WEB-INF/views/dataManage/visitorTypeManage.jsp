@@ -27,7 +27,7 @@
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }visitorTypeManage" method="get">
 								<span class="input-icon">
-									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
+									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
 								</span>
 							</form>
@@ -171,15 +171,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/visitorTypeManage?page=${pageNo-1 }"><i class="icon-double-angle-left"></i></a>
+											<a href="/localtour/visitorTypeManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/visitorTypeManage?page=${page }">${page }</a>
+												<a href="/localtour/visitorTypeManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/visitorTypeManage?page=${pageNo+1 }"><i class="icon-double-angle-right"></i></a>
+											<a href="/localtour/visitorTypeManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>

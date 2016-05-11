@@ -19,7 +19,7 @@ import com.cts.localtour.viewModel.DeptViewModel;
 import com.cts.localtour.viewModel.UserViewModel;
 
 @Controller
-public class sysManageController {
+public class SysManageController {
 	@Autowired
 	private UserService userService;
 	@Autowired

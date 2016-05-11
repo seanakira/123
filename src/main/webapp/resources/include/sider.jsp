@@ -151,7 +151,7 @@
 							</ul>
 						</li>
 
-						<li>
+						<li id="customerManage">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-group"></i>
 								<span class="menu-text"> 客户管理 </span>
@@ -160,17 +160,17 @@
 							</a>
 
 							<ul class="submenu">
-								<li>
-									<a href="tables.html">
+								<li id="customerAgencyManage">
+									<a href="<%=path %>customerAgencyManage">
 										<i class="icon-double-angle-right"></i>
-										简单 &amp; 动态
+										组团社管理
 									</a>
 								</li>
 
 								<li>
 									<a href="jqgrid.html">
 										<i class="icon-double-angle-right"></i>
-										jqGrid plugin
+										个人客户
 									</a>
 								</li>
 							</ul>
@@ -260,6 +260,20 @@
 									<a href="<%=path %>regionManage">
 										<i class="icon-double-angle-right"></i>
 										国家地区
+									</a>
+								</li>
+								
+								<li id="supplierScopeManage">
+									<a href="<%=path %>supplierScopeManage">
+										<i class="icon-double-angle-right"></i>
+										供应范围
+									</a>
+								</li>
+								
+								<li id="contentManage">
+									<a href="<%=path %>contentManage">
+										<i class="icon-double-angle-right"></i>
+										供应内容
 									</a>
 								</li>
 							</ul>

@@ -26,7 +26,7 @@ public class UserService extends BaseService{
 			for (int i = 0; i < users.size(); i++) {
 				UserViewModel userViewModel = new UserViewModel();
 				users.get(i).setPwd("");
-				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getById("DeptTable", "id", users.get(i).getDeptId()+"");
+				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getByWhere("DeptTable", "id", users.get(i).getDeptId()+"");
 				userViewModel.setDeptName(dept.get(0).getDeptName());
 				userViewModel.setUserTable(users.get(i));
 				userViewModels.add(userViewModel);
@@ -41,7 +41,7 @@ public class UserService extends BaseService{
 			for (int i = 0; i < users.size(); i++) {
 				UserViewModel userViewModel = new UserViewModel();
 				users.get(i).setPwd("");
-				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getById("DeptTable", "id", users.get(i).getDeptId()+"");
+				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getByWhere("DeptTable", "id", users.get(i).getDeptId()+"");
 				userViewModel.setDeptName(dept.get(0).getDeptName());
 				userViewModel.setUserTable(users.get(i));
 				userViewModels.add(userViewModel);

@@ -54,7 +54,7 @@ public class BaseService<T> {
 
 
 	@SuppressWarnings("unchecked")
-	public List<T> getById(String tableName, String where,  String param) {
+	public List<T> getByWhere(String tableName, String where,  String param) {
 		String hql = "from "+tableName+" t where t."+where+"="+param+" order by t.id desc ";
 		List<T> list = baseDAO.findHql(hql, null);
 		return list;
@@ -70,4 +70,15 @@ public class BaseService<T> {
 		baseDAO.updateByParam(hql, objects);
 	}
 	
+	public void update(T t){
+		try {
+			baseDAO.update(t);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public List<T> getAllByString(String hql, Object objects){
+		return baseDAO.getAllByString(hql, objects);
+	}
 }
