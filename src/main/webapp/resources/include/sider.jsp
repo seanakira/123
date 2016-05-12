@@ -48,8 +48,8 @@
 					</div><!-- #sidebar-shortcuts -->
 
 					<ul class="nav nav-list">
-						<li id="operatingStatus" class="active">
-							<a href="<%=path %>">
+						<li id="operatingStatus">
+							<a href="<%=path %>operatingStatus">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 经营状况 </span>
 							</a>

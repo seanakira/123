@@ -9,18 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cts.localtour.entity.DeptTable;
 
 @Controller
-public class IndexController {
+public class OperatingStatusController {
 
-	@RequestMapping("/")
-	public String index(){
+	@RequestMapping("/operatingStatus")
+	public String operatingStatus(){
 		return "/operatingStatus/operatingStatus";
 	}
-	
-	@RequestMapping("/profile")
-	public String getDeptStructureAll(Model md){
-		return "/userSettings/profile";
-	} 
-	
-
 }
 
