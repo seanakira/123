@@ -112,5 +112,17 @@ public class DeptTableService {
 		String hql = "from DeptTable d where d.enable=true";
 		return (ArrayList<DeptTable>) deptTableDAO.findHql(hql);
 	}
+	
+	public ArrayList<DeptTable> getAllStructure(){
+		String hql = "from DeptTable d where d.enable = 1 and d.upperDeptId = null";
+		ArrayList<DeptTable> depts = (ArrayList<DeptTable>)deptTableDAO.findHql(hql);
+		return depts;
+	}
+	
+	public ArrayList<DeptTable> getStructureTree(int upperDeptId){
+		String hql = "from DeptTable d where d.upperDeptId = "+ upperDeptId;
+		ArrayList<DeptTable> depts = (ArrayList<DeptTable>)deptTableDAO.findHql(hql);
+		return depts;
+	}
 
 }
