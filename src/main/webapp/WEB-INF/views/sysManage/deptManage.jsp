@@ -305,7 +305,7 @@
 			}
 			addID++;
 		});
-	    
+		$(".nav-list").children("li").attr('class','');
 	    $("#systemManage").addClass("open");
 	    $("#systemManage").children("ul").attr("style","display:block");
 	    $("#deptManage").addClass("active");

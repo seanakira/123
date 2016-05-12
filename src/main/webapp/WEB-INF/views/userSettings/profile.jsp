@@ -276,6 +276,9 @@
 	<!-- inline scripts related to this page -->
 
 		<script type="text/javascript">
+		
+		$(".nav-list").children("li").attr('class','');
+		
 		$(function(){
 			$('.tree-folder').delegate(".tree-folder-header","click",function(){
 				var val = $(this).attr("value");

@@ -234,6 +234,7 @@
 	$(function(){
 		
 	/* 初始化 */
+			$(".nav-list").children("li").attr('class','');
 			$("#customerManage").addClass("open");
 			$("#customerManage").children("ul").attr("style","display:block");
 			$("#customerAgencyManage").addClass("active");
