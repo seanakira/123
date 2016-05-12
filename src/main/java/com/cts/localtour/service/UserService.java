@@ -111,7 +111,7 @@ public class UserService extends BaseService{
 		UserTable userTemp = (UserTable) userTableDAO.getById(UserTable.class, userId);
 		user.setUserTable(userTemp);
 		int deptId = userTemp.getDeptId();
-		ArrayList<DeptTable> deptTemp = (ArrayList<DeptTable>) this.getById("DeptTable", "id", deptId+"");
+		ArrayList<DeptTable> deptTemp = (ArrayList<DeptTable>) this.getByWhere("DeptTable", "id", deptId+"");
 		user.setDeptName(deptTemp.get(0).getDeptName());
 		return user;
 	}
