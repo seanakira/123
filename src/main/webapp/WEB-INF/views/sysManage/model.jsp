@@ -36,6 +36,7 @@
 
 <script type="text/javascript">
 	$(function(){
+		$(".nav-list").children("li").attr('class','');
 		$("#systemManage").addClass("open");
 		$("#systemManage").children("ul").attr("style","display:block");
 		$("#userManage").addClass("active");

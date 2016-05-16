@@ -206,6 +206,10 @@
 <script type="text/javascript">
 	$(function(){
 	/* 初始化 */
+<<<<<<< HEAD
+=======
+			$(".nav-list").children("li").attr('class','');
+>>>>>>> branch 'master' of https://github.com/zhangdalang/localtour.git
 			$("#dataManage").addClass("open");
 			$("#dataManage").children("ul").attr("style","display:block");
 			$("#supplierScopeManage").addClass("active");

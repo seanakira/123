@@ -227,6 +227,7 @@
 	$(function(){
 		
 	/* 初始化 */
+			$(".nav-list").children("li").attr('class','');
 			$("#dataManage").addClass("open");
 			$("#dataManage").children("ul").attr("style","display:block");
 			$("#contentManage").addClass("active");
