@@ -36,6 +36,7 @@ public class SysManageController {
 		if(counts%maxResults>0){
 			pageMax++;
 		}
+//		dsadasd
 		if(page>pageMax){
 			page=pageMax;
 		}
