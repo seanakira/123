@@ -7,6 +7,8 @@
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
+<jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
+
 <!-- 正文开始 -->	
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
@@ -248,6 +250,7 @@
 <script type="text/javascript">
 	$(function(){
 	/* 初始化 */
+			$(".nav-list").children("li").attr('class','');
 			$("#systemManage").addClass("open");
 			$("#systemManage").children("ul").attr("style","display:block");
 			$("#userManage").addClass("active");

@@ -7,6 +7,8 @@
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
+<jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
+
 	
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
@@ -303,7 +305,7 @@
 			}
 			addID++;
 		});
-	    
+		$(".nav-list").children("li").attr('class','');
 	    $("#systemManage").addClass("open");
 	    $("#systemManage").children("ul").attr("style","display:block");
 	    $("#deptManage").addClass("active");

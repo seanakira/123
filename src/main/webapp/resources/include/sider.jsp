@@ -48,8 +48,8 @@
 					</div><!-- #sidebar-shortcuts -->
 
 					<ul class="nav nav-list">
-						<li class="active">
-							<a href="<%=path %>">
+						<li id="operatingStatus">
+							<a href="<%=path %>operatingStatus">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 经营状况 </span>
 							</a>
@@ -297,6 +297,13 @@
 									<a href="<%=path %>deptManage">
 										<i class="icon-double-angle-right"></i>
 										部门管理
+									</a>
+								</li>
+								
+								<li id="deptStructure">
+									<a href="<%=path %>deptStructure">
+										<i class="icon-double-angle-right"></i>
+										部门结构
 									</a>
 								</li>
 							</ul>

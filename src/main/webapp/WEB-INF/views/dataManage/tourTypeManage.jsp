@@ -206,6 +206,7 @@
 <script type="text/javascript">
 	$(function(){
 	/* 初始化 */
+			$(".nav-list").children("li").attr('class','');
 			$("#dataManage").addClass("open");
 			$("#dataManage").children("ul").attr("style","display:block");
 			$("#tourTypeManage").addClass("active");
