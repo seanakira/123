@@ -78,7 +78,9 @@ public class BaseService<T> {
 			e.printStackTrace();
 		}
 	}
-	public List<T> getAllByString(String hql, Object objects){
+	@SuppressWarnings("unchecked")
+	public List<T> getAllByString(String tableName, String where ,Object... objects){
+		String hql = "from "+tableName+" where "+where;
 		return baseDAO.getAllByString(hql, objects);
 	}
 }

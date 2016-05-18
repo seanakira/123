@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.service.CustomerAgencyService;
 import com.cts.localtour.service.RegionService;
 import com.cts.localtour.viewModel.CustomerAgencyViewModel;
@@ -20,6 +21,8 @@ public class CustomerAgencyController {
 	private CustomerAgencyService customerAgencyService;
 	@Autowired
 	private RegionService regionService;
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/customerAgencyManage")
 	public String getCustomerAgencyAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = customerAgencyService.getCounts(key);
@@ -34,8 +37,9 @@ public class CustomerAgencyController {
 			page=1;
 		}
 		ArrayList<CustomerAgencyViewModel> customerAgencys = customerAgencyService.getAll(key,page,maxResults);
-		regions = regionService.getAllBy("RegionTable", "enable=?", "true", 1, 999);
+		ArrayList<RegionTable>regions = (ArrayList<RegionTable>) regionService.getAllByString("RegionTable", "enable=?", true);
 		md.addAttribute("customerAgencys", customerAgencys);
+		md.addAttribute("regions", regions);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
