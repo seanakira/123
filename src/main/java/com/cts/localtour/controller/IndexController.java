@@ -14,6 +14,11 @@ public class IndexController {
 		return "/operatingStatus/operatingStatus";
 	}
 	
+	@RequestMapping("/profile")
+	public String profile(){
+		return "/userSettings/profile";
+	}
+	
 
 }
 

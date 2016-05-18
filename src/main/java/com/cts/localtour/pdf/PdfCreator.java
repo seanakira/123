@@ -12,5 +12,5 @@ import com.itextpdf.text.DocumentException;
  *
  */
 public interface PdfCreator {
-	public void createPdf(String dest) throws IOException, DocumentException;
+	public void createPdf() throws IOException, DocumentException;
 }
