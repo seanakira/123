@@ -247,7 +247,7 @@
 				$(".chosen-select").chosen();
 				$("#table").find("select").next().attr("style","width:200px;");
 				$("#table").find("input").not("#submit").keydown(function(event){
-					if((event.keyCode==13&&isChange==true)||$(this).parent("td").length==1){
+					if(event.keyCode==13&&$(this).text()!=""){
 						$(this).parents("td").next().find("input").focus().select();
 						isChange = false;
 					}
@@ -262,7 +262,8 @@
 				var customerAgencyName = obj.find("input").eq(2).val();
 				var regionId = obj.find("select").val();
 				var regionName = obj.find("option:selected").text();
-				var customerAgency = {customerAgencyName:customerAgencyName,regionId:regionId};
+				var phone = obj.find("input").eq(4).val();
+				var customerAgency = {customerAgencyName:customerAgencyName,regionId:regionId,phone:phone};
 				var myData = JSON.stringify(customerAgency);
 			 	$.ajax({  
 			        type: "POST",  
@@ -272,8 +273,9 @@
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	input.parent().prev().html(regionName);
-			        	input.parent().html(customerAgencyName);
+			        	input.parent().prev().prev().html(customerAgencyName);
+			        	input.parent().prev().html(regionName+"<span hidden=''>"+regionId+"</span>");
+			        	input.parent().html(phone);
 			        }  
 				 });
 				obj.next().find("input").eq(1).focus().select();
@@ -326,8 +328,8 @@
 			var obj = $(this);
 			var td = obj.parents("td").siblings();
 			var info = {id:td.eq(-1).children("a").attr("id"),
-						customerAgencyName:td.eq(3).text(),
-						regionId:td.eq(2).children("span").text()};
+						customerAgencyName:td.eq(2).text(),
+						regionId:td.eq(3).children("span").text()};
 			td.eq(2).html($("#select").html());
 			td.eq(2).children("select").attr("class","width-20 chosen-select");
 			td.eq(2).children("select").val(info.regionId);

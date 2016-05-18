@@ -398,8 +398,10 @@ public class BaseDAO<T>{
 		return executeUpdate(hql, objects);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public List getAllByString(final String hql, final Object...objects){
 		return hibernateTemplate.execute(new HibernateCallback<List>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				Query createQuery = createQuery(session, hql, objects);
