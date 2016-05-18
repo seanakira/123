@@ -36,12 +36,10 @@ public class SysManageController {
 		if(counts%maxResults>0){
 			pageMax++;
 		}
-//		dsadasdasd
 		if(page>pageMax){
 			page=pageMax;
 		}
 		if(page<1){
-			page=1;
 			page=1;
 		}
 		ArrayList<UserViewModel> users = userService.getAll(key,page,maxResults);
