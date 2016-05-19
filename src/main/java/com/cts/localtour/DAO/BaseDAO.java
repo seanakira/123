@@ -402,12 +402,16 @@ public class BaseDAO<T>{
 	public List getAllByString(final String hql, final Object...objects){
 		return hibernateTemplate.execute(new HibernateCallback<List>() {
 			@SuppressWarnings("unchecked")
-			@Override
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				Query createQuery = createQuery(session, hql, objects);
 				return createQuery.list();
 			}
 		});
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	public void deleteByString(String hql,Object...objects) {
+		hibernateTemplate.bulkUpdate(hql, objects);
 	}
 
 }

@@ -60,6 +60,13 @@ public class BaseService<T> {
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<T> getByWhere(String tableName, String where,  String param, String orderBy) {
+		String hql = "from "+tableName+" t where t."+where+"="+param+" order by "+orderBy;
+		List<T> list = baseDAO.findHql(hql, null);
+		return list;
+	}
+	
 	public void changeEnable(String tableName , boolean enable , int id){
 		String hql = "update "+tableName+" set enable="+enable+" where id="+id;
 		baseDAO.updateHql(hql);
@@ -78,9 +85,24 @@ public class BaseService<T> {
 			e.printStackTrace();
 		}
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<T> getAllByString(String tableName, String where ,Object... objects){
 		String hql = "from "+tableName+" where "+where;
 		return baseDAO.getAllByString(hql, objects);
+	}
+	
+	public void delete(T t){
+		try {
+			baseDAO.delete(t);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteByString(String tableName,String where, Object...objects){
+		String hql = "delete "+tableName+" where "+where;
+		baseDAO.deleteByString(hql , objects);
 	}
 }

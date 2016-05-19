@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-5-4 17:53:20 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-5-19 14:40:25 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +16,6 @@ import javax.persistence.Table;
 public class SupplierTable implements java.io.Serializable {
 
 	private Integer id;
-	private int supplierScopeId;
 	private String supplierName;
 	private int regionId;
 	private String phone;
@@ -25,8 +24,7 @@ public class SupplierTable implements java.io.Serializable {
 	public SupplierTable() {
 	}
 
-	public SupplierTable(int supplierScopeId, String supplierName, int regionId, String phone, boolean enable) {
-		this.supplierScopeId = supplierScopeId;
+	public SupplierTable(String supplierName, int regionId, String phone, boolean enable) {
 		this.supplierName = supplierName;
 		this.regionId = regionId;
 		this.phone = phone;
@@ -43,15 +41,6 @@ public class SupplierTable implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	@Column(name = "supplierScopeID", nullable = false)
-	public int getSupplierScopeId() {
-		return this.supplierScopeId;
-	}
-
-	public void setSupplierScopeId(int supplierScopeId) {
-		this.supplierScopeId = supplierScopeId;
 	}
 
 	@Column(name = "supplierName", nullable = false, length = 20)

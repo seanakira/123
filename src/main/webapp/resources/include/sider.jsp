@@ -55,11 +55,22 @@
 							</a>
 						</li>
 
-						<li>
-							<a href="typography.html">
+						<li id="supplierManage">
+							<a href="#" class="dropdown-toggle">
 								<i class="icon-flag"></i>
-								<span class="menu-text"> 地接团队 </span>
+								<span class="menu-text"> 团队管理 </span>
+
+								<b class="arrow icon-angle-down"></b>
 							</a>
+
+							<ul class="submenu">
+								<li id="supplierInfoManage">
+									<a href="<%=path %>localTourManage">
+										<i class="icon-double-angle-right"></i>
+										地接团队
+									</a>
+								</li>
+							</ul>
 						</li>
 
 						<li>
@@ -176,7 +187,7 @@
 							</ul>
 						</li>
 
-						<li>
+						<li id="supplierManage">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-edit"></i>
 								<span class="menu-text"> 供应商管理 </span>
@@ -185,31 +196,10 @@
 							</a>
 
 							<ul class="submenu">
-								<li>
-									<a href="form-elements.html">
+								<li id="supplierInfoManage">
+									<a href="<%=path %>supplierInfoManage">
 										<i class="icon-double-angle-right"></i>
-										表单组件
-									</a>
-								</li>
-
-								<li>
-									<a href="form-wizard.html">
-										<i class="icon-double-angle-right"></i>
-										向导提示 &amp; 验证
-									</a>
-								</li>
-
-								<li>
-									<a href="wysiwyg.html">
-										<i class="icon-double-angle-right"></i>
-										编辑器
-									</a>
-								</li>
-
-								<li>
-									<a href="dropzone.html">
-										<i class="icon-double-angle-right"></i>
-										文件上传
+										供应商信息管理
 									</a>
 								</li>
 							</ul>

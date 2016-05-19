@@ -15,27 +15,27 @@ public class CustomerAgencyService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public ArrayList<CustomerAgencyViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
-			ArrayList<CustomerAgencyTable> contents = this.getAllByTableName("CustomerAgencyTable", page, maxResults);
+			ArrayList<CustomerAgencyTable> customerAgencys = this.getAllByTableName("CustomerAgencyTable", page, maxResults);
 			ArrayList<CustomerAgencyViewModel> CustomerAgencyViewModels = new ArrayList<CustomerAgencyViewModel>();
-			for (int i = 0; i < contents.size(); i++) {
-				CustomerAgencyViewModel contentViewModel = new CustomerAgencyViewModel();
-				contentViewModel.setCustomerAgencyTable(contents.get(i));
-				String supplierScopeName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", contents.get(i).getRegionId()+"")).get(0).getRegionName();
-				contentViewModel.setRegionName(supplierScopeName);
-				CustomerAgencyViewModels.add(contentViewModel);
+			for (int i = 0; i < customerAgencys.size(); i++) {
+				CustomerAgencyViewModel customerAgencyViewModel = new CustomerAgencyViewModel();
+				customerAgencyViewModel.setCustomerAgencyTable(customerAgencys.get(i));
+				String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", customerAgencys.get(i).getRegionId()+"")).get(0).getRegionName();
+				customerAgencyViewModel.setRegionName(regionName);
+				CustomerAgencyViewModels.add(customerAgencyViewModel);
 			}
 			return CustomerAgencyViewModels;
 		}else{
 			Hashtable<String, String> param = new Hashtable<String, String>();
-			param.put("contentName", "%"+key+"%");
-			ArrayList<CustomerAgencyTable> contents = this.getAllByParam("CustomerAgencyTable", "contentName like :contentName", param, page, maxResults);
+			param.put("customerAgencyName", "%"+key+"%");
+			ArrayList<CustomerAgencyTable> customerAgencys = this.getAllByParam("CustomerAgencyTable", "customerAgencyName like :customerAgencyName", param, page, maxResults);
 			ArrayList<CustomerAgencyViewModel> CustomerAgencyViewModels = new ArrayList<CustomerAgencyViewModel>();
-			for (int i = 0; i < contents.size(); i++) {
-				CustomerAgencyViewModel contentViewModel = new CustomerAgencyViewModel();
-				contentViewModel.setCustomerAgencyTable(contents.get(i));
-				String supplierScopeName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", contents.get(i).getRegionId()+"")).get(0).getRegionName();
-				contentViewModel.setRegionName(supplierScopeName);
-				CustomerAgencyViewModels.add(contentViewModel);
+			for (int i = 0; i < customerAgencys.size(); i++) {
+				CustomerAgencyViewModel customerAgencyViewModel = new CustomerAgencyViewModel();
+				customerAgencyViewModel.setCustomerAgencyTable(customerAgencys.get(i));
+				String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", customerAgencys.get(i).getRegionId()+"")).get(0).getRegionName();
+				customerAgencyViewModel.setRegionName(regionName);
+				CustomerAgencyViewModels.add(customerAgencyViewModel);
 			}
 			return CustomerAgencyViewModels;
 		}
@@ -46,9 +46,9 @@ public class CustomerAgencyService extends BaseService{
 		if(key.equals("")){
 			return this.getCountsAll("CustomerAgencyTable");
 		}else{
-			String where = "contentName like :contentName";
+			String where = "customerAgencyName like :customerAgencyName";
 			Hashtable<String, String> param = new Hashtable<String, String>();
-			param.put("contentName", "%"+key+"%");
+			param.put("customerAgencyName", "%"+key+"%");
 			return this.getCountsByParam("CustomerAgencyTable", where, param);
 		}
 	}
@@ -61,7 +61,7 @@ public class CustomerAgencyService extends BaseService{
 		this.changeEnable("CustomerAgencyTable", true, id);
 	}
 
-	public void update(CustomerAgencyTable content) {
-		this.updateByParam("CustomerAgencyTable", "contentName=?,supplierScopeId=?", "id="+content.getId(), content.getCustomerAgencyName(),content.getRegionId());
+	public void update(CustomerAgencyTable customerAgency) {
+		this.updateByParam("CustomerAgencyTable", "customerAgencyName=?,regionId=?,phone=?", "id="+customerAgency.getId(), customerAgency.getCustomerAgencyName(),customerAgency.getRegionId(),customerAgency.getPhone());
 	}
 }
