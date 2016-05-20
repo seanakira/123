@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
-<jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
+<jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 
 <link rel="stylesheet" href="/localtour/resources/assets/css/fullcalendar.css" />
 
