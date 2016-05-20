@@ -6,8 +6,6 @@
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 
-<link rel="stylesheet" href="/localtour/resources/assets/css/fullcalendar.css" />
-
 	<div class="main-content">
 		<div class="breadcrumbs" id="breadcrumbs">
 			<script type="text/javascript">
@@ -260,10 +258,6 @@
 <!-- Required Javascript -->
 <!-- page specific plugin scripts -->
 	<!-- script src="/localtour/resources/assets/js/fuelux/data/fuelux.tree-sampledata.js"></script> -->
-	<script src="/localtour/resources/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-	<script src="/localtour/resources/assets/js/jquery.ui.touch-punch.min.js"></script>
-	<script src="/localtour/resources/assets/js/fullcalendar.min.js"></script>
-	<script src="/localtour/resources/assets/js/bootbox.min.js"></script>
 	
 	
 	<!-- inline scripts related to this page -->
