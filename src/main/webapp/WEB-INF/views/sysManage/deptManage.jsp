@@ -8,7 +8,6 @@
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
-
 	
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
