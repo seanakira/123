@@ -55,7 +55,7 @@
 							</a>
 						</li>
 
-						<li id="supplierManage">
+						<li id="gourpManage">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-flag"></i>
 								<span class="menu-text"> 团队管理 </span>
@@ -64,7 +64,7 @@
 							</a>
 
 							<ul class="submenu">
-								<li id="supplierInfoManage">
+								<li id="localTourManage">
 									<a href="<%=path %>localTourManage">
 										<i class="icon-double-angle-right"></i>
 										地接团队
@@ -73,47 +73,47 @@
 							</ul>
 						</li>
 
-						<li>
+						<li id="statementManage">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-desktop"></i>
-								<span class="menu-text"> 结算中心 </span>
+								<span class="menu-text"> 结算管理</span>
 
 								<b class="arrow icon-angle-down"></b>
 							</a>
 
 							<ul class="submenu">
-								<li>
-									<a href="elements.html">
+								<li id="loanManage">
+									<a href="<%=path %>loanManage">
 										<i class="icon-double-angle-right"></i>
-										组件
+										借款管理
 									</a>
 								</li>
 
 								<li>
 									<a href="buttons.html">
 										<i class="icon-double-angle-right"></i>
-										按钮 &amp; 图表
+										应收款项
 									</a>
 								</li>
 
-								<li>
-									<a href="treeview.html">
+								<li id="lendManage">
+									<a href="lendManage">
 										<i class="icon-double-angle-right"></i>
-										树菜单
+										应付款项
 									</a>
 								</li>
 
 								<li>
 									<a href="jquery-ui.html">
 										<i class="icon-double-angle-right"></i>
-										jQuery UI
+										实收款项
 									</a>
 								</li>
 
-								<li>
-									<a href="nestable-list.html">
+								<li id="actualLendManage">
+									<a href="actualLendManage">
 										<i class="icon-double-angle-right"></i>
-										可拖拽列表
+										实付款项
 									</a>
 								</li>
 
@@ -121,7 +121,7 @@
 									<a href="#" class="dropdown-toggle">
 										<i class="icon-double-angle-right"></i>
 
-										三级菜单
+										团队结算
 										<b class="arrow icon-angle-down"></b>
 									</a>
 
