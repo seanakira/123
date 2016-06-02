@@ -5,17 +5,24 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.SupplierScopeTable;
 import com.cts.localtour.entity.SupplierTable;
+import com.cts.localtour.entity.TourTypeTable;
+import com.cts.localtour.entity.VisitorTypeTable;
 import com.cts.localtour.service.RegionService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.SupplierScopeService;
+import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.SupplierInfoViewModel;
 
 @Controller
@@ -24,8 +31,6 @@ public class TourController {
 	private LocalTourService localTourService;
 	@Autowired
 	private RegionService regionService;
-	@Autowired
-	private SupplierScopeService supplierScopeService;
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage")
@@ -41,12 +46,8 @@ public class TourController {
 		if(page<1){
 			page=1;
 		}
-		ArrayList<SupplierInfoViewModel> suppliers = localTourService.getAll(key,page,maxResults);
-		ArrayList<RegionTable> regions = (ArrayList<RegionTable>) regionService.getAllByString("RegionTable", "enable=?", true);
-		ArrayList<SupplierScopeTable> supplierScopes = (ArrayList<SupplierScopeTable>) supplierScopeService.getAllByString("SupplierScopeTable", "enable=?", true);
-		md.addAttribute("suppliers", suppliers);
-		md.addAttribute("regions", regions);
-		md.addAttribute("supplierScopes", supplierScopes);
+		ArrayList<SimpleLocalTourViewModel> localTours = localTourService.getAll(key,page,maxResults);
+		md.addAttribute("localTours", localTours);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
@@ -56,9 +57,9 @@ public class TourController {
 	}
 	
 	@RequestMapping("/localTourManage/save")
-	public @ResponseBody int save(@RequestBody SupplierTable supplier){
-		supplier.setEnable(true);
-		return localTourService.add(supplier);
+	public @ResponseBody int save(@RequestBody LocalTourTable localTour){
+		localTour.setEnable(true);
+		return localTourService.add(localTour);
 	}
 	
 /*	@RequestMapping("/supplierBusiness/save")
@@ -67,17 +68,25 @@ public class TourController {
 	}*/
 	
 	@RequestMapping("/localTourManage/del")
-	public @ResponseBody boolean delSupplier(@RequestParam int id){
+	public @ResponseBody boolean delLocalTour(@RequestParam int id){
+		System.out.println(id);
 		localTourService.del(id);
 		return true;
 	}
 	
 	@RequestMapping("/localTourManage/recover")
-	public @ResponseBody boolean recoverSupplier(@RequestParam int id){
+	public @ResponseBody boolean recoverLocalTour(@RequestParam int id){
 		localTourService.recover(id);
 		return true;
 	}
 	
+	@RequestMapping("/localTourManage/chanageStatus/{status}")
+	public @ResponseBody boolean auditingLocalTour(@RequestParam int id ,@PathVariable int status){
+		localTourService.changeStatus(id,status);
+		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/update")
 	public @ResponseBody boolean updata(@RequestBody SupplierTable supplier){
 		localTourService.update(supplier);

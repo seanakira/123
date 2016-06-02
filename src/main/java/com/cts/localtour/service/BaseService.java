@@ -105,4 +105,16 @@ public class BaseService<T> {
 		String hql = "delete "+tableName+" where "+where;
 		baseDAO.deleteByString(hql , objects);
 	}
+	
+	public Object getById(String tableName,int id){
+		String className = "com.cts.localtour.entity."+tableName;
+		Class<?> clzz = null;
+		try {
+			clzz = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return baseDAO.getById(clzz, id);
+	}
 }

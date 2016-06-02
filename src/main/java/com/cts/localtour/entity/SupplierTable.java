@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-5-19 14:40:25 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-5-31 15:52:29 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,17 +18,30 @@ public class SupplierTable implements java.io.Serializable {
 	private Integer id;
 	private String supplierName;
 	private int regionId;
+	private String supplierContact;
 	private String phone;
 	private boolean enable;
+	private int supplierScopeId;
 
 	public SupplierTable() {
 	}
 
-	public SupplierTable(String supplierName, int regionId, String phone, boolean enable) {
+	public SupplierTable(String supplierName, int regionId, String phone, boolean enable, int supplierScopeId) {
 		this.supplierName = supplierName;
 		this.regionId = regionId;
 		this.phone = phone;
 		this.enable = enable;
+		this.supplierScopeId = supplierScopeId;
+	}
+
+	public SupplierTable(String supplierName, int regionId, String supplierContact, String phone, boolean enable,
+			int supplierScopeId) {
+		this.supplierName = supplierName;
+		this.regionId = regionId;
+		this.supplierContact = supplierContact;
+		this.phone = phone;
+		this.enable = enable;
+		this.supplierScopeId = supplierScopeId;
 	}
 
 	@Id
@@ -61,6 +74,15 @@ public class SupplierTable implements java.io.Serializable {
 		this.regionId = regionId;
 	}
 
+	@Column(name = "supplierContact", length = 16)
+	public String getSupplierContact() {
+		return this.supplierContact;
+	}
+
+	public void setSupplierContact(String supplierContact) {
+		this.supplierContact = supplierContact;
+	}
+
 	@Column(name = "phone", nullable = false, length = 16)
 	public String getPhone() {
 		return this.phone;
@@ -77,6 +99,15 @@ public class SupplierTable implements java.io.Serializable {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+
+	@Column(name = "supplierScopeID", nullable = false)
+	public int getSupplierScopeId() {
+		return this.supplierScopeId;
+	}
+
+	public void setSupplierScopeId(int supplierScopeId) {
+		this.supplierScopeId = supplierScopeId;
 	}
 
 }

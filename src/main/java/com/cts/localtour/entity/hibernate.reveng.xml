@@ -2,23 +2,27 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
+  <table-filter match-catalog="localtour" match-name="arrDepartTable"/>
   <table-filter match-catalog="localtour" match-name="businessTypeTable"/>
   <table-filter match-catalog="localtour" match-name="contentTable"/>
   <table-filter match-catalog="localtour" match-name="costTable"/>
   <table-filter match-catalog="localtour" match-name="customerAgencyTable"/>
   <table-filter match-catalog="localtour" match-name="deptTable"/>
+  <table-filter match-catalog="localtour" match-name="guideTable"/>
+  <table-filter match-catalog="localtour" match-name="localTourTable"/>
   <table-filter match-catalog="localtour" match-name="notificationTable"/>
   <table-filter match-catalog="localtour" match-name="previlegeTable"/>
   <table-filter match-catalog="localtour" match-name="regionTable"/>
+  <table-filter match-catalog="localtour" match-name="rolePrevilegeTable"/>
   <table-filter match-catalog="localtour" match-name="roleTable"/>
   <table-filter match-catalog="localtour" match-name="supplierBusinessTable"/>
   <table-filter match-catalog="localtour" match-name="supplierScopeTable"/>
   <table-filter match-catalog="localtour" match-name="supplierTable"/>
-  <table-filter match-catalog="localtour" match-name="tourTable"/>
   <table-filter match-catalog="localtour" match-name="tourTypeTable"/>
   <table-filter match-catalog="localtour" match-name="transactionTable"/>
   <table-filter match-catalog="localtour" match-name="tripTable"/>
   <table-filter match-catalog="localtour" match-name="userPrevilegeTable"/>
+  <table-filter match-catalog="localtour" match-name="userRoleTable"/>
   <table-filter match-catalog="localtour" match-name="userTable"/>
   <table-filter match-catalog="localtour" match-name="visitorTypeTable"/>
 </hibernate-reverse-engineering>

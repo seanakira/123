@@ -34,6 +34,4 @@ public class SupplierInfoViewModel {
 	public void setSupplierScopeIds(ArrayList<Integer> supplierScopeIds) {
 		this.supplierScopeIds = supplierScopeIds;
 	}
-	
-	
 }

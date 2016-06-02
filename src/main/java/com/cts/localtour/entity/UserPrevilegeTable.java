@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-5-19 14:40:25 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-5-31 15:52:29 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,19 +16,19 @@ import javax.persistence.Table;
 public class UserPrevilegeTable implements java.io.Serializable {
 
 	private Integer id;
-	private Integer userId;
-	private Integer previlegeId;
-	private String note;
 	private Boolean enable;
+	private String note;
+	private Integer previlegeId;
+	private Integer userId;
 
 	public UserPrevilegeTable() {
 	}
 
-	public UserPrevilegeTable(Integer userId, Integer previlegeId, String note, Boolean enable) {
-		this.userId = userId;
-		this.previlegeId = previlegeId;
-		this.note = note;
+	public UserPrevilegeTable(Boolean enable, String note, Integer previlegeId, Integer userId) {
 		this.enable = enable;
+		this.note = note;
+		this.previlegeId = previlegeId;
+		this.userId = userId;
 	}
 
 	@Id
@@ -43,22 +43,13 @@ public class UserPrevilegeTable implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "userId")
-	public Integer getUserId() {
-		return this.userId;
+	@Column(name = "enable")
+	public Boolean getEnable() {
+		return this.enable;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	@Column(name = "previlegeId")
-	public Integer getPrevilegeId() {
-		return this.previlegeId;
-	}
-
-	public void setPrevilegeId(Integer previlegeId) {
-		this.previlegeId = previlegeId;
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
 	}
 
 	@Column(name = "note", length = 20)
@@ -70,13 +61,22 @@ public class UserPrevilegeTable implements java.io.Serializable {
 		this.note = note;
 	}
 
-	@Column(name = "enable")
-	public Boolean getEnable() {
-		return this.enable;
+	@Column(name = "previlegeId")
+	public Integer getPrevilegeId() {
+		return this.previlegeId;
 	}
 
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
+	public void setPrevilegeId(Integer previlegeId) {
+		this.previlegeId = previlegeId;
+	}
+
+	@Column(name = "userId")
+	public Integer getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

@@ -9,15 +9,6 @@
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
-
-<style type="text/css">
-	#create input{
-		width: 100%;
-	}
-	#create select{
-		width: 100%;
-	}
-</style>
 <!-- 正文开始 -->
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
@@ -36,7 +27,7 @@
 						</ul><!-- .breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="${path }supplierInfoManage" method="get">
+							<form class="form-search" action="${path }localTourManage" method="get">
 								<span class="input-icon">
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
@@ -87,156 +78,115 @@
 							</tr>
 						</thead>
 
-							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-<!-- 		增加模板			 -->
-							<tr id="addModel" hidden="">
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="">
-									
-								</td>
-								<td class="">
-									<input type="text">
-								</td>
-								<td  class="">
-									
-								</td>	
-								<td  class="">
-									
-								</td>
-								<td  class="">
-									<input id="submit" type="text">
-								</td>
-								<td class="hidden-480 ">
-										<span class="label label-sm label-success">有效</span>
-								</td>
-								<td class="">
-									
-								</td>
-							</tr>
-<!-- 增加模板结束 -->		
-<!-- 列表循环 -->								
-							<%-- <c:forEach var="supplier" items="${suppliers }" varStatus="status">
+						<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+<!-- 列表循环 -->				
+							<c:forEach var="localTour" items="${localTours }" varStatus="status">
 								<tr>
 									<td class="center  sorting_1">
-										<label>
-											<input class="ace" type="checkbox">
-											<span class="lbl"></span>
-										</label>
-									</td>
-									<td class="">${supplier.supplierTable.id }</td>
-									<td class="">${supplier.supplierTable.supplierName }</td>
-									<td class="">
-										${supplier.regionName }
-										<span hidden="">${supplier.supplierTable.regionId }</span>
-									</td>
+											<label>
+												<input class="ace" type="checkbox">
+												<span class="lbl"></span>
+											</label>
+										</td>
+									<td><a id="" role="button" data-toggle="modal" href="#modify">${localTour.localTourTable.tourNo }</a></td>
+									<td>${localTour.localTourTable.tourName }</td>
+									<td>${localTour.localTourTable.adultNo }</td>
+									<td>${localTour.localTourTable.childrenNo }</td>
+									<td>${localTour.days }</td>
+									<td>${localTour.localTourTable.startTime }</td>
+									<td>${localTour.localTourTable.endTime }</td>
 									<td>
-										<c:forEach var="supplierScopeName" items="${supplier.supplierScopeNames }">
-											${supplierScopeName }
-										</c:forEach>
-										<span hidden="">
-											<c:forEach var="supplierScopeId" items="${supplier.supplierScopeIds }" varStatus="status">
-												<c:choose>
-													<c:when test="${status.count==1 }">${supplierScopeId}</c:when><c:otherwise>,${supplierScopeId }</c:otherwise>
-												</c:choose>
-											</c:forEach>
-										</span>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.enable }">
+												${localTour.status }
+											</c:when>
+											<c:otherwise>
+												已取消
+											</c:otherwise>
+										</c:choose>
 									</td>
-									<td class="">${supplier.supplierTable.phone }</td>
-									<td class="hidden-480 " id="">
-									<c:choose>
-										<c:when test="${supplier.supplierTable.enable }">
-											<span class="label label-sm label-success">有效</span>
-										</c:when>
-										<c:otherwise>
-											<span class="label label-sm label-warning">无效</span>
-										</c:otherwise>
-									</c:choose>
-									</td>
-	
-									<td class=" ">
-										<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-											
-	
-											<a id="edit" class="green" href="#">
+									<td>${localTour.userName }</td>
+									<td id="${localTour.localTourTable.id }">
+										<c:if test="${localTour.localTourTable.status==0 }">
+											<a id="edit" class="green" href="#" title="编辑">
 												<i class="icon-pencil bigger-130"></i>
 											</a>
-											<span id="">
-												<c:choose>
-													<c:when test='${supplier.supplierTable.enable }'>
-														<a id="${supplier.supplierTable.id }" class="red" href="#">
-															<i class="icon-trash bigger-130"></i>
-														</a>
-													</c:when>
-													<c:otherwise>
-														<a id="${supplier.supplierTable.id }" class="green" href="#">
-															<i class="icon-undo bigger-130"></i>
-														</a>
-													</c:otherwise>
-												</c:choose>
-											</span>
-										</div>
-	
-										<div class="visible-xs visible-sm hidden-md hidden-lg">
-											<div class="inline position-relative">
-												<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-													<i class="icon-caret-down icon-only bigger-120"></i>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==0 }">
+											<a class="pink action" id="auditing" href="#" title="提交审核">
+												<i id="1" class="icon-hand-right bigger-130"></i>
+											</a>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==1 }">
+											<a class="pink action" id="unAuditing" href="#" title="退回编辑">
+												<i id="0" class="icon-hand-left bigger-130"></i>
+											</a>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==1 }">
+											<a class="orange action" id="finance" href="#" title="报送财务">
+												<i id="2" class="icon-share-alt bigger-130"></i>
+											</a>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
+											<a class="grey" id="addCost" href="#" title="成本收入变更">
+												<i class="icon-tasks bigger-130"></i>
+											</a>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==5 }">
+											<a class="blue action" id="balance" href="#" title="申请结算">
+												<i id="6" class="icon-table bigger-130"></i>
+											</a>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
+											<div class="btn-group" style="top: -3px;">
+												<button data-toggle="dropdown" class="" style="border-width: 0px;background-color: rgba(255,255,255,0);">
+														<i class="icon-print bigger-130"></i>
+													<span class="icon-caret-down icon-on-right"></span>
 												</button>
-	
-												<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-													
-	
+		
+												<ul class="dropdown-menu dropdown-default" style="left: -120px;">
 													<li>
-														<a data-original-title="Edit" href="#" class="tooltip-success" data-rel="tooltip" title="">
-															<span class="green">
-																<i class="icon-edit bigger-120"></i>
-															</span>
-														</a>
+														<a href="#">打印借款单</a>
 													</li>
-	
+		
 													<li>
-														<a data-original-title="Delete" href="#" class="tooltip-error" data-rel="tooltip" title="">
-															<span class="red">
-																<i class="icon-trash bigger-120"></i>
-															</span>
-														</a>
+														<a href="#">打印行程确认单</a>
+													</li>
+		
+													<li>
+														<a href="#">打印出团通知书</a>
+													</li>
+		
+													<li class="divider"></li>
+		
+													<li>
+														<a href="#">打印订房单</a>
+													</li>
+													<li>
+														<a href="#">打印预借发票申请</a>
 													</li>
 												</ul>
 											</div>
-										</div>
+										</c:if>
+										<c:if test="${localTour.localTourTable.status==0 }">
+											<c:choose>
+												<c:when test="${localTour.localTourTable.enable }">
+													<a  class="red" id="delete" href="#" title="取消团队">
+														<i class="icon-trash bigger-130"></i>
+													</a>
+												</c:when>
+												<c:otherwise>
+													<a  class="green" id="recover" href="#" title="恢复团队">
+														<i class="icon-undo bigger-130"></i>
+													</a>
+												</c:otherwise>
+											</c:choose>
+											
+										</c:if>
 									</td>
+									
 								</tr>
-							</c:forEach> --%>
-							<tr>
-								<td class="center  sorting_1">
-										<label>
-											<input class="ace" type="checkbox">
-											<span class="lbl"></span>
-										</label>
-									</td>
-								<td><a id="" role="button" data-toggle="modal" href="#modify">sd0001(手填或自动生成)</a></td>
-								<td>崂山一日游</td>
-								<td>10</td>
-								<td>4</td>
-								<td>1</td>
-								<td>2016/06/01</td>
-								<td>2016/06/02</td>
-								<td>新建</td>
-								<td>李四</td>
-								<td>
-									<a id="edit" class="green" href="#">
-												<i class="icon-pencil bigger-130"></i>
-									</a>
-									<a  class="red" href="#">
-											<i class="icon-trash bigger-130"></i>
-									</a>
-								</td>
-								
-							</tr>
+							</c:forEach>
 <!-- 列表循环结束 -->								
 						</tbody>
 					</table>
@@ -288,20 +238,14 @@
 											<td><input type="text"></td>
 											<td>团名</td>
 											<td><input type="text"></td>
-											<td>导游</td>
-											<td>
-												<select>
-													<option>李四</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
 											<td>业务类型</td>
 											<td>
 												<select>
 													<option>地接</option>
 												</select>
 											</td>
+										</tr>
+										<tr>
 											<td>团队类型</td>
 											<td>
 												<select>
@@ -314,14 +258,14 @@
 													<option>广州</option>
 												</select>
 											</td>
-										</tr>
-										<tr>
 											<td>游客类型</td>
 											<td>
 												<select>
 													<option>外国人</option>
 												</select>
 											</td>
+										</tr>
+										<tr>
 											<td>组团社</td>
 											<td>
 												<select>
@@ -330,114 +274,29 @@
 											</td>
 											<td>组团人</td>
 											<td><input type="text"></td>
+											<td>全陪人数</td>
+											<td><input type="text"></td>
 										</tr>
 										<tr>
 											<td>成人数</td>
 											<td><input type="text"></td>
 											<td>儿童数</td>
 											<td><input type="text"></td>
-											<td>全陪人数</td>
-											<td><input type="text"></td>
+											<td>人数合计</td>
+											<td></td>
 										</tr>
 										<tr>
 											<td>开始日期</td>
 											<td><input id="datepickerStart" class="form-control" type="text"></td>
 											<td>结束日期</td>
 											<td><input id="datepickerEnd" class="form-control" type="text"></td>
-											<td>人数合计</td>
-											<td></td>
+											<td>导游</td>
+											<td>
+												<select>
+													<option>李四</option>
+												</select>
+											</td>
 										</tr>			
-									</tbody>
-								</table>
-								<div class="modal-header no-padding">
-								<div id="headerName" class="table-header">
-									抵离信息
-									<a class="white" href="#"><i class="icon-plus bigger-100"></i></a>
-								</div>
-							</div>
-								<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-									<thead>
-										<tr>
-											<th>出发地</th>
-											<th>抵达交通</th>
-											<th>抵达时间</th>
-											<th>抵达班次</th>
-											<th>抵达地</th>
-											<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
-												操作
-											</th>
-										</tr>
-									</thead>
-
-									<tbody id="">
-										<tr>
-											<td>
-												<select>
-													<option>广州</option>
-												</select>
-											</td>
-											<td>
-												<select>
-													<option>飞机</option>
-												</select>
-											</td>
-											<td><input id="arrTime" class="form-control" type="text"></td>
-											<td><input type="text"></td>
-											<td>
-												<select>
-													<option>烟台</option>
-												</select>
-											</td>
-											<td>
-												<a id="edit" class="green" href="#">
-														<i class="icon-pencil bigger-130"></i>
-												</a>
-												<a class="red" href="#">
-														<i class="icon-trash bigger-130"></i>
-												</a>
-											</td>
-										</tr>
-									</tbody>
-									<thead>
-										<tr>
-											<th>前往地</th>
-											<th>离开交通</th>
-											<th>离开时间</th>
-											<th>离开班次</th>
-											<th>离开地</th>
-											<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
-												操作
-											</th>
-										</tr>
-									</thead>
-									<tbody id="">
-										<tr>
-											<td>
-												<select>
-													<option>广州</option>
-												</select>
-											</td>
-											<td>
-												<select>
-													<option>飞机</option>
-												</select>
-											</td>
-											<td><input id="departTime" class="form-control" type="text"></td>
-											<td><input type="text"></td>
-											<td>
-												<select>
-													<option>青岛</option>
-												</select>
-											</td>
-											<td>
-												<a id="edit" class="green" href="#">
-													<i class="icon-pencil bigger-130"></i>
-												</a>
-												<a class="red" href="#">
-													<i class="icon-trash bigger-130"></i>
-												</a>
-											</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -462,7 +321,7 @@
 					      <div class="modal-content">
 					         <div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
-									团号 线路
+									团队信息
 						 		</div>
 						  	 </div>
 					         <div class="modal-body no-padding">
@@ -470,22 +329,30 @@
 					         		<ul class="nav nav-tabs padding-18" id="myTab">
 										<li class="active">
 											<a data-toggle="tab" href="#tour-tab-1">
-												<i class="blue icon-cog bigger-120"></i>
-												修改
+												<i class="blue icon-laptop bigger-120"></i>
+												基本信息
 											</a>
 										</li>
 					
+					
+										<li>
+											<a data-toggle="tab" href="#tour-tab-3">
+												<i class="orange icon-calendar bigger-120"></i>
+												行程
+											</a>
+										</li>
+										
+										
 										<li>
 											<a data-toggle="tab" href="#tour-tab-2">
 												<i class="green icon-credit-card bigger-120"></i>
 												成本
 											</a>
 										</li>
-					
 										<li>
-											<a data-toggle="tab" href="#tour-tab-3">
-												<i class="orange icon-calendar bigger-120"></i>
-												行程
+											<a data-toggle="tab" href="#tour-tab-4">
+												<i class="pink icon-briefcase bigger-120"></i>
+												收入
 											</a>
 										</li>
 									</ul>
@@ -494,76 +361,75 @@
 					         	<div class="tab-content no-border padding-6">
 					         		<div id="tour-tab-1" class="tab-pane fade in active">
 					         			<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-									<thead>
-									</thead>
-
-									<tbody id="">
-										<tr>
-											<td>团号</td>
-											<td><input type="text"></td>
-											<td>团名</td>
-											<td><input type="text"></td>
-											<td>导游</td>
-											<td>
-												<select>
-													<option>李四</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>业务类型</td>
-											<td>
-												<select>
-													<option>地接</option>
-												</select>
-											</td>
-											<td>团队类型</td>
-											<td>
-												<select>
-													<option>横向地接</option>
-												</select>
-											</td>
-											<td>国家/地区</td>
-											<td>
-												<select>
-													<option>广州</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>游客类型</td>
-											<td>
-												<select>
-													<option>外国人</option>
-												</select>
-											</td>
-											<td>组团社</td>
-											<td>
-												<select>
-													<option>广州旅行社</option>
-												</select>
-											</td>
-											<td>组团人</td>
-											<td><input type="text"></td>
-										</tr>
-										<tr>
-											<td>成人数</td>
-											<td><input type="text"></td>
-											<td>儿童数</td>
-											<td><input type="text"></td>
-											<td>全陪人数</td>
-											<td><input type="text"></td>
-										</tr>
-										<tr>
-											<td>开始日期</td>
-											<td><input id="datepickerStart" class="form-control" type="text"></td>
-											<td>结束日期</td>
-											<td><input id="datepickerEnd" class="form-control" type="text"></td>
-											<td>人数合计</td>
-											<td></td>
-										</tr>			
-									</tbody>
-								</table>
+											<thead>
+											</thead>
+											<tbody id="">
+												<tr>
+													<td>团号</td>
+													<td><input type="text"></td>
+													<td>团名</td>
+													<td><input type="text"></td>
+													<td>导游</td>
+													<td>
+														<select>
+															<option>李四</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td>业务类型</td>
+													<td>
+														<select>
+															<option>地接</option>
+														</select>
+													</td>
+													<td>团队类型</td>
+													<td>
+														<select>
+															<option>横向地接</option>
+														</select>
+													</td>
+													<td>国家/地区</td>
+													<td>
+														<select>
+															<option>广州</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td>游客类型</td>
+													<td>
+														<select>
+															<option>外国人</option>
+														</select>
+													</td>
+													<td>组团社</td>
+													<td>
+														<select>
+															<option>广州旅行社</option>
+														</select>
+													</td>
+													<td>组团人</td>
+													<td><input type="text"></td>
+												</tr>
+												<tr>
+													<td>成人数</td>
+													<td><input type="text"></td>
+													<td>儿童数</td>
+													<td><input type="text"></td>
+													<td>全陪人数</td>
+													<td><input type="text"></td>
+												</tr>
+												<tr>
+													<td>开始日期</td>
+													<td><input id="datepickerStart" class="form-control" type="text"></td>
+													<td>结束日期</td>
+													<td><input id="datepickerEnd" class="form-control" type="text"></td>
+													<td>人数合计</td>
+													<td></td>
+												</tr>			
+											</tbody>
+										</table>
 								<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
 									抵离信息
@@ -924,8 +790,39 @@
 												<table></table>
 											</div>
 					         			</div><!-- tab content 结束 -->
-					         			</div><!-- 左tab结束 -->>
+					         			</div><!-- 左tab结束 -->
 					         		</div><!-- 行程tab结束 -->
+					         		
+					         		<div id="tour-tab-4" class="tab-pane fade">
+					         			<div class="tabbable tabs-left">
+										<div class="tab-content no-padding">
+											
+											
+												<table class="table table-striped table-bordered table-hover">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>客户</th>
+															<th>收入</th>
+															<th>已开发票金额</th>
+															<th>是否预借</th>
+														</tr>
+													</thead>
+									            	<tr>
+									            		<td>2016/05/27</td>
+									            		<td>标准间(不含早)</td>
+									            		<td>青岛香格里拉大酒店</td>
+									            		<td>500</td>
+									            		<td>750</td>
+									            		<td><i class="green icon-ok bigger-130"></i></td>
+									            	</tr>
+									            </table>
+											         			
+					         			</div><!-- tab content 结束 -->
+					         			</div><!-- 左tab 结束 -->
+					         		</div><!-- 收入tab结束 -->
+					         		
 					         	</div>
 					         	
 					            
@@ -978,8 +875,88 @@
 			$("#gourpManage").addClass("open");
 			$("#gourpManage").children("ul").attr("style","display:block");
 			$("#localTourManage").addClass("active");
-			$("#addModel").children("td").eq(3).html($("#select").html());
-			$("#addModel").children("td").eq(4).html($("#multiple").html());
+			$("#create").find("input").attr("style","width:100%;");
+			$("#create").find("select").attr("style","width:100%;");
+			$("#edit").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#delete").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#recover").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#addCost").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#auditing").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#unAuditing").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#finance").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
+			$("#balance").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
 			$("#datepickerStart").datepicker({
 				showOtherMonths: true,
 				selectOtherMonths: false,
@@ -1058,25 +1035,9 @@
 				} */
 			});
 	/* 新增 */		
-			$("#add").click(function(){
-				var isChange = false;
-				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
-				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
-				$("#table").find("select").eq(1).attr("class","width-20 chosen-select");
-				$(".chosen-select").chosen();
-				$("#table").find("select").eq(0).next().attr("style","width:150px;");
-				$("#table").find("select").eq(1).next().attr("style","width:410px;");
-				$("#table").find("select").next().find("input").attr("style","height:25px;");
-				$("#table").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13&&isChange||event.keyCode==13&&$("#table").find("input").index($(this))==1){
-						$(this).parents("td").next().find("input").focus().select();
-						isChange = false;
-					}
-				});
-				$("#table").find("select").change(function(){isChange = true;});
-			});
+			
 	/* 回车保存 */		
-		$("#table").delegate("#submit","keydown",function(event){
+		/* $("#table").delegate("#submit","keydown",function(event){
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var input = $(this);
@@ -1120,73 +1081,71 @@
 				});
 				obj.next().find("input").eq(1).focus().select();
 			}
-		});
+		}); */
 	
 	
 	/* 删除 */
-		$("#table").delegate(".red","click",function(){
+		$("#table").delegate("#delete","click",function(){
 			var obj = $(this);
-			var myData = {id:obj.attr("id")};
+			var td = obj.parent();
+			var myData = {id:td.attr("id")};
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/del",  
+		        url:"/localtour/localTourManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	obj.attr("class","green");
+		        	obj.attr({"class":"green","id":"recover"});
 		        	obj.children("i").attr("class","icon-undo bigger-130");
-		        	var span = obj.parents("td").prev().children("span");
-		        	span.attr("class","label label-sm label-warning");
-		        	span.text("无效");
+		        	td.prev().prev().text("已取消");
 		        }  
-			}); 
-		});
+			});
+		}); 
 	/* 恢复 */
-		$("#table").delegate("span .green","click",function(){
+		$("#table").delegate("#recover","click",function(){
 			var obj = $(this);
-			var myData = {id:obj.attr("id")};
+			var td = obj.parent();
+			var myData = {id:td.attr("id")};
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/recover",  
+		        url:"/localtour/localTourManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	obj.attr("class","red");
+		        	obj.attr({"class":"red","id":"delete"});
 		        	obj.children("i").attr("class","icon-trash bigger-130");
 		        	var span = obj.parents("td").prev().children("span");
-		        	span.attr("class","label label-sm label-success");
-		        	span.text("有效");
+		        	td.prev().prev().text("新建");
 		        }  
 			}); 
 		});
-	/* 编辑 */
-		$("#table").delegate("#edit","click",function(){
+	/* 改状态 */
+		$("#table").delegate(".action","click",function(){
 			var obj = $(this);
-			var td = obj.parents("td").siblings();
-			var info = {id:td.eq(-1).children("a").attr("id"),
-						supplierName:td.eq(2).text(),
-						regionId:td.eq(3).children("span").text(),
-						phone:td.eq(5).text(),
-						supplierScopeIds:td.eq(4).find("span").text().split("")};
-			td.eq(2).html("<input id='update' type='text' value='"+info.supplierName+"' style='width:150px' />");
-			td.eq(3).html($("#select").html());
-			td.eq(3).children("select").attr("class","width-20 chosen-select");
-			td.eq(3).children("select").val(info.regionId);
-			td.eq(4).html($("#multiple").html());
-			td.eq(4).children("select").attr("class","width-20 chosen-select");
-			td.eq(4).children("select").val(info.supplierScopeIds);
-			$(".chosen-select").chosen();
-			td.eq(3).find("select").next().attr("style","width:150px;");
-			td.eq(4).find("input").attr("style","height:25px;");
-			td.eq(5).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");
-			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
+			var td = obj.parent();
+			var myData = {id:td.attr("id")};
+			var status = obj.children("i").attr("id");
+			td.html('<i class="icon-spinner icon-spin grey bigger-130"></i>');
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/chanageStatus/"+status,  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	window.location.reload();
+		        }  
+			});
 		});
+	/* 编辑 */
+		
 	/*回车更新 */		
-		$("#table").delegate("#update","keydown",function(event){
+		/* $("#table").delegate("#update","keydown",function(event){
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
 				var td = $(this).parents("td").siblings();
@@ -1230,9 +1189,9 @@
 				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
 				obj.next().find("input").eq(1).focus().select();
 			}
-		});
+		}); */
 		/* 按钮更新 */
-		$("#table").delegate("#save","click",function(){
+		/* $("#table").delegate("#save","click",function(){
 			var obj = $(this).parents("tr");
 			var td = $(this).parents("td").siblings();
 			var params = $(this).parents("tr").find("input");
@@ -1274,7 +1233,7 @@
 			});
 			obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
 			obj.next().find("input").eq(1).focus().select();
-		});
+		}); */
 			
 	
 	});
