@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-5-31 15:52:29 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-6-3 16:02:14 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -32,19 +32,20 @@ public class LocalTourTable implements java.io.Serializable {
 	private Integer childrenNo;
 	private Integer qpGuideNo;
 	private String organizor;
-	private String customerAgency;
+	private int customerAgencyId;
 	private Date startTime;
 	private Date endTime;
 	private String remark;
 	private int status;
 	private boolean enable;
+	private String customerAgency;
 
 	public LocalTourTable() {
 	}
 
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
-			int regionId, int visitorTypeId, int adultNo, String organizor, String customerAgency, Date startTime,
-			Date endTime, int status, boolean enable) {
+			int regionId, int visitorTypeId, int adultNo, String organizor, int customerAgencyId, Date startTime,
+			Date endTime, int status, boolean enable, String customerAgency) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -55,16 +56,18 @@ public class LocalTourTable implements java.io.Serializable {
 		this.visitorTypeId = visitorTypeId;
 		this.adultNo = adultNo;
 		this.organizor = organizor;
-		this.customerAgency = customerAgency;
+		this.customerAgencyId = customerAgencyId;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.status = status;
 		this.enable = enable;
+		this.customerAgency = customerAgency;
 	}
 
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
 			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
-			String customerAgency, Date startTime, Date endTime, String remark, int status, boolean enable) {
+			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
+			String customerAgency) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -77,12 +80,13 @@ public class LocalTourTable implements java.io.Serializable {
 		this.childrenNo = childrenNo;
 		this.qpGuideNo = qpGuideNo;
 		this.organizor = organizor;
-		this.customerAgency = customerAgency;
+		this.customerAgencyId = customerAgencyId;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.remark = remark;
 		this.status = status;
 		this.enable = enable;
+		this.customerAgency = customerAgency;
 	}
 
 	@Id
@@ -205,13 +209,13 @@ public class LocalTourTable implements java.io.Serializable {
 		this.organizor = organizor;
 	}
 
-	@Column(name = "customerAgency", nullable = false, length = 20)
-	public String getCustomerAgency() {
-		return this.customerAgency;
+	@Column(name = "customerAgencyID", nullable = false)
+	public int getCustomerAgencyId() {
+		return this.customerAgencyId;
 	}
 
-	public void setCustomerAgency(String customerAgency) {
-		this.customerAgency = customerAgency;
+	public void setCustomerAgencyId(int customerAgencyId) {
+		this.customerAgencyId = customerAgencyId;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -259,6 +263,15 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+
+	@Column(name = "customerAgency", nullable = false, length = 20)
+	public String getCustomerAgency() {
+		return this.customerAgency;
+	}
+
+	public void setCustomerAgency(String customerAgency) {
+		this.customerAgency = customerAgency;
 	}
 
 }

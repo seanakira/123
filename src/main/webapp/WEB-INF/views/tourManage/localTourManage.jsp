@@ -7,6 +7,7 @@
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
+<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <!-- 正文开始 -->
@@ -19,7 +20,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="" role="button" data-toggle="modal" href="#create">新增团队</a>
+								<a id="createTour" role="button" data-toggle="modal" href="#create">新增团队</a>
 							</li>
 
 							
@@ -240,48 +241,48 @@
 											<td><input type="text"></td>
 											<td>业务类型</td>
 											<td>
-												<select>
-													<option>地接</option>
+												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
+													<option value="">&nbsp;</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td>团队类型</td>
 											<td>
-												<select>
-													<option>横向地接</option>
+												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
+													<option value="">&nbsp;</option>
 												</select>
 											</td>
 											<td>国家/地区</td>
 											<td>
-												<select>
-													<option>广州</option>
+												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
+													<option value="">&nbsp;</option>
 												</select>
 											</td>
 											<td>游客类型</td>
 											<td>
-												<select>
-													<option>外国人</option>
+												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
+													<option value="">&nbsp;</option>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<td>组团社</td>
 											<td>
-												<select>
-													<option>广州旅行社</option>
+												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
+													<option value="">&nbsp;</option>
 												</select>
 											</td>
 											<td>组团人</td>
 											<td><input type="text"></td>
 											<td>全陪人数</td>
-											<td><input type="text"></td>
+											<td><input class="counts" type="text"></td>
 										</tr>
 										<tr>
 											<td>成人数</td>
-											<td><input type="text"></td>
+											<td><input class="counts" type="text"></td>
 											<td>儿童数</td>
-											<td><input type="text"></td>
+											<td><input class="counts" type="text"></td>
 											<td>人数合计</td>
 											<td></td>
 										</tr>
@@ -292,8 +293,8 @@
 											<td><input id="datepickerEnd" class="form-control" type="text"></td>
 											<td>导游</td>
 											<td>
-												<select>
-													<option>李四</option>
+												<select style="display: none;" multiple="multiple" class="width-80 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
+													<option value="">&nbsp;</option>
 												</select>
 											</td>
 										</tr>			
@@ -841,26 +842,7 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 编辑结束 -->
-<!-- 下拉搜索开始 -->
-<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
-				<div id="select">
-					<select hidden="" style="display: none;" class="" data-placeholder="Choose a Country...">
-						<option value="">&nbsp;</option>
-						<c:forEach var="region" items="${regions }" varStatus="status">
-						<option value="${region.id }">${region.regionName }</option>
-						</c:forEach>												
-					</select>
-				</div>
-<!-- 下拉搜索结束 -->					
-<!-- 多选模板开始 -->
-				<div id="multiple">
-					<select hidden="" style="display: none;" multiple="multiple" class="" data-placeholder="可选择多个范围...">
-						<c:forEach var="supplierScope" items="${ supplierScopes}">
-							<option value="${supplierScope.id }">${supplierScope.supplierScopeName }&nbsp;</option>
-						</c:forEach>
-					</select>
-				</div>
-<!-- 多选模板结束 -->										
+	
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -1034,56 +1016,50 @@
 					}, 0);
 				} */
 			});
-	/* 新增 */		
-			
-	/* 回车保存 */		
-		/* $("#table").delegate("#submit","keydown",function(event){
-			if(event.keyCode==13){
-				var obj = $(this).parents("tr");
-				var input = $(this);
-				var td = obj.children("td");
-				var supplierName = obj.find("input").eq(1).val();
-				var regionId = obj.find("select").eq(0).val();
-				var supplierScopeIds =obj.find("select").eq(1).val().toString();
-				var regionName = obj.find("select").eq(0).find("option:selected").text();
-				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-				var phone = obj.find("input").eq(-1).val();
-				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone};
-				var myData = JSON.stringify(supplier);
-				var supplierId;
-				
-			 	$.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/save",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	supplierId = data;
-			        	td.eq(2).html(supplierName);
-			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	td.eq(4).html(supplierScopeName);
-			        	input.parent().html(phone);
-			        }  
-				 });
-				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-			  	$.ajax({  
+			$("#createTour").click(function(){
+				var selects = $("#create").find("select");
+				$.ajax({  
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/save",  
-			        data:ids,  
+			        url:"/localtour/localTourManage/getCreateInfo",
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	
+			        	selects.html('<option value="">&nbsp;</option>');
+			        	$.each(data.businessTypes,function(){
+			        		selects.eq(0).append('<option value="'+this.id+'">'+this.businessTypeName+'</option>');
+			        	});
+			        	$.each(data.tourTypes,function(){
+			        		selects.eq(1).append('<option value="'+this.id+'">'+this.tourTypeName+'</option>');
+			        	});
+			        	$.each(data.regions,function(){
+			        		selects.eq(2).append('<option value="'+this.id+'">'+this.regionName+'</option>');
+			        	});
+			        	$.each(data.visitorTypes,function(){
+			        		selects.eq(3).append('<option value="'+this.id+'">'+this.visitorTypeName+'</option>');
+			        	});
+			        	$.each(data.customerAgencys,function(){
+			        		selects.eq(4).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+			        	});
+			        	$(".chosen-select").chosen();
+						$(".chosen-select").next().attr("style","width:100%;");
+						$(".chosen-select").next().find("input").attr("style","height:100%;");
 			        }  
 				});
-				obj.next().find("input").eq(1).focus().select();
-			}
-		}); */
-	
-	
+			});
+			$(".counts").blur(function(){
+				var sum = 0;
+				$(".counts").each(function(){
+					if(isNaN(parseInt($(this).val()))){
+					}else{
+						sum = sum + parseInt($(this).val());
+					}
+					
+				})
+				
+				$(".counts").last().parent().next().next().text(sum);
+			});
+			
 	/* 删除 */
 		$("#table").delegate("#delete","click",function(){
 			var obj = $(this);

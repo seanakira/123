@@ -8,8 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.cts.localtour.DAO.LocalTourDAO;
 import com.cts.localtour.entity.SupplierBusinessTable;
+import com.cts.localtour.entity.TourTypeTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.entity.VisitorTypeTable;
+import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.RegionTable;
+import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
 @SuppressWarnings("rawtypes")
@@ -121,6 +127,16 @@ public class LocalTourService extends BaseService{
 
 	public void deleteSupplierBusiness(int supplierId) {
 		this.deleteByString("SupplierBusinessTable", "supplierId=?", supplierId);
+	}
+	@SuppressWarnings("unchecked")
+	public CreateInfoViewModel getCreateInfo() {
+		CreateInfoViewModel createInfoViewModel = new CreateInfoViewModel();
+		createInfoViewModel.setBusinessTypes((ArrayList<BusinessTypeTable>) this.getAllByString("BusinessTypeTable", "enable=?", true));
+		createInfoViewModel.setTourTypes((ArrayList<TourTypeTable>) this.getAllByString("TourTypeTable", "enable=?", true));
+		createInfoViewModel.setRegions((ArrayList<RegionTable>) this.getAllByString("RegionTable", "enable=?", true));
+		createInfoViewModel.setVisitorTypes((ArrayList<VisitorTypeTable>) this.getAllByString("VisitorTypeTable", "enable=?", true));
+		createInfoViewModel.setCustomerAgencys((ArrayList<CustomerAgencyTable>) this.getAllByString("CustomerAgencyTable", "enable=?", true));
+		return createInfoViewModel;
 	}
 	
 }

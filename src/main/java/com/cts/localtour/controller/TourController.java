@@ -22,6 +22,7 @@ import com.cts.localtour.entity.VisitorTypeTable;
 import com.cts.localtour.service.RegionService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.SupplierScopeService;
+import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.SupplierInfoViewModel;
 
@@ -54,6 +55,11 @@ public class TourController {
 		md.addAttribute("key", key);
 		return "/tourManage/localTourManage";
 		
+	}
+	
+	@RequestMapping("/localTourManage/getCreateInfo")
+	public @ResponseBody CreateInfoViewModel getCreateInfo(){
+		return localTourService.getCreateInfo();
 	}
 	
 	@RequestMapping("/localTourManage/save")

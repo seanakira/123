@@ -72,6 +72,24 @@
 								</li>
 							</ul>
 						</li>
+						
+						<li id="guideManage">
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-github-alt"></i>
+								<span class="menu-text"> 导游管理 </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li id="guideTimeManage">
+									<a href="<%=path %>guideTimeManage">
+										<i class="icon-double-angle-right"></i>
+										导游排团表
+									</a>
+								</li>
+							</ul>
+						</li>
 
 						<li id="statementManage">
 							<a href="#" class="dropdown-toggle">
