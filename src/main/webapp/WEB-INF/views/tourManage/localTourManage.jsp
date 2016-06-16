@@ -6,8 +6,10 @@
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
+
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
 <link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
+
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <!-- 正文开始 -->

@@ -233,7 +233,7 @@ public class BaseDAO<T>{
 	* 2014年3月21日 下午2:07:56
 	*/
 	private Query createQuery(Session session,String hql, Object ... objects) {
-		System.out.println(hql);
+//		System.out.println(hql);
 		Query query = session.createQuery(hql);
 		if (objects != null){
 			for (int i = 0; i < objects.length; i++) {

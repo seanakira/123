@@ -6,6 +6,7 @@
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
+
 <style type="text/css">
 	.calendar a{
 		display: inline-block;
@@ -13,9 +14,11 @@
 		text-align: center;
 		color: black;
 		text-decoration: none;
-		background-color: lightblue;
+		
 	}
 </style>
+<link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
+
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <!-- 正文开始 -->
@@ -53,6 +56,26 @@
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 90%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									日历
+									<span class="ui-spinner ui-widget ui-widget-content ui-corner-all" style="width: 71px;">
+										<input aria-valuenow="2" role="spinbutton" autocomplete="off" class="ui-spinner-input" id="year" name="value" type="text" style="width:80%;">
+										<a id="plusY" aria-disabled="false" role="button" tabindex="-1" class="ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default ui-button-text-only btn btn-success" style="left:50px">
+											<i class="icon-plus bigger-150" style="margin-top: 2px;width: 100%;"></i>
+										</a>
+										<a id="minusY" aria-disabled="false" role="button" tabindex="-1" class="ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default ui-button-text-only btn btn-danger" style="left:50px">
+											<i class="icon-minus bigger-150" style="margin-top: 2px;width: 100%;"></i>
+										</a>
+									</span>
+									年
+									<span class="ui-spinner ui-widget ui-widget-content ui-corner-all" style="width: 50px;">
+										<input aria-valuenow="2" role="spinbutton" autocomplete="off" class="ui-spinner-input" id="month" name="value" type="text" style="width:80%;">
+										<a id="plusM" aria-disabled="false" role="button" tabindex="-1" class="ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default ui-button-text-only btn btn-success" style="left:30px">
+											<i class="icon-plus bigger-150" style="margin-top: 2px;width: 100%;"></i>
+										</a>
+										<a id="minusM" aria-disabled="false" role="button" tabindex="-1" class="ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default ui-button-text-only btn btn-danger" style="left:30px">
+											<i class="icon-minus bigger-150" style="margin-top: 2px;width: 100%;"></i>
+										</a>
+									</span>
+									月
 								</th>
 								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
@@ -73,42 +96,278 @@
 				</div>
 <!-- 正文结束 -->	
 
+<!-- 增加模板 -->
+				<div aria-hidden="true" style="display: none;" id="addModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width:500px;margin-top: 10%;">
+						<div class="modal-content">
+							<div class="modal-header no-padding">
+								<div id="headerName" class="table-header">
+									增加派团信息
+								</div>
+								<div class="modal-body no-padding">
+									<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<thead>
+										</thead>
+										<tbody id="">
+											<tr>
+												<td>
+													<input style="width:100%;" id="startTime" class="form-control hasDatepicker" type="text">
+												</td>
+												<td>
+													<input style="width:100%;" id="endTime" class="form-control hasDatepicker" type="text">
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="modal-footer no-margin-top">
+									<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+										<i class="icon-remove"></i>
+										取消
+									</button>
+									<button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+<!-- 增加模板 结束-->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
+
+<script src="${path }resources/assets/js/jquery-ui-1.10.3.full.min.js"></script>
 
 <script type="text/javascript">
 	$(function(){
-		$("#add").click(function(){
-			var myData = {id:99};
-			$.ajax({  
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideTimeManage/initialize",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	
-		        }  
-			}); 
-		});
 	/* 初始化 */
-			$("#guideManage").addClass("open");
-			$("#guideManage").children("ul").attr("style","display:block");
-			$("#guideTimeManage").addClass("active");
-			var d = new Date();
-			var days = getDays(d.getFullYear(),d.getMonth() + 1);
+		var color =["lightblue","lightcoral","lightseagreen","lightsalmon","lightgreen","lightgray","lightpink","aquamarine","burlywood","cornflowerblue"];
+		$("#guideManage").addClass("open");
+		$("#guideManage").children("ul").attr("style","display:block");
+		$("#guideTimeManage").addClass("active");
+		var date = new Date();
+		var days = getDays(date.getFullYear(),date.getMonth() + 1);
+		$("#plusM").prev().val(date.getMonth()+1);
+		$("#plusY").prev().val(date.getFullYear());
+		var from = new Date(date.getFullYear(),date.getMonth(),1);
+		var to = new Date(date.getFullYear(),date.getMonth()+1,0);
+		var myData = {"from":from,"to":to};
+		$.ajax({  
+			type: "GET",  
+	        contentType:"application/json;charset=utf-8",  
+	        url:"/localtour/guideTimeManage/initialize",
+	        data:myData,
+	        dataType: "json",  
+	        async: false,  
+	        success:function(data){
+	        	$("#table").html("");
+	        	$.each(data,function(){
+	        		$("#table").append("<tr id='guideId"+this.guideId+"'>"+
+	        								"<td>"+
+	        									this.realName+
+	        								"</td>"+
+	        								"<td class='calendar'></td>"+
+	        								"<td>"+
+		        								"<a class='green' id='add' href='#addModel' role='button' data-toggle='modal' title='手动派团'>"+
+													"<i class='icon-plus bigger-130'></i>"+
+												"</a>"+
+	        								"</td>"+
+	        							"</tr>");
+	        		var info = $("#guideId"+this.guideId).children("td").eq(1);
+	        		for (var int = 1; int <= days; int++) {
+						info.append("<a>"+int+"</a>");
+					}
+	        		var index = 0;
+	        		$.each(this.tourInfo,function(tourNo,tourInfo){
+	        			var start = new Date(tourInfo.startTime);
+	        			var end = new Date(tourInfo.endTime);
+	        			var startTime = start.getDate();
+	        			var endTime = end.getDate();
+	        			if(start.getMonth()+1<$("#month").val()){
+	        				startTime = 1;
+	        			}
+	        			if(end.getMonth()+1>$("#month").val()){
+	        				endTime=endTime=to.getDate();
+	        			}
+	        			for (var int2 = startTime-1; int2 < endTime; int2++) {
+	        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo"});
+						}
+	        			index++;
+	        			if(index>=color.length){
+	        				index=0;
+	        			}
+	        		});
+	        	});
+	        	$(".tourInfo").tooltip({
+    				show: null,
+    				position: {
+    					my: "left top",
+    					at: "left bottom"
+    				},
+    				open: function( event, ui ) {
+    					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+    				}
+    			});
+	        } 
+		}); 
+		$(".green").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#startTime").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			}  */
+		});
+		$("#endTime").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			}  */
+		});
+	/* 年月查询 */
+		$("#plusM").click(function(){
+			var input = $("#month");
+			var month = input.val();
+			month++;
+			if(month==13){
+				month=1;
+			}
+			input.val(month);
+			days = getDays($("#year").val(),month);
+			$("#month").change();
+		});
+		
+		$("#minusM").click(function(){
+			var input = $("#month");
+			var month = input.val();
+			month--;
+			if(month==0){
+				month=12;
+			}
+			input.val(month);
+			days = getDays($("#year").val(),month);
+			$("#month").change();
+		});
+		
+		$("#plusY").click(function(){
+			var input = $("#year");
+			var year = input.val();
+			year++;
+			input.val(year);
+			days = getDays(year,$("#month").val());
+			$("#year").change();
+		});
+		
+		$("#minusY").click(function(){
+			var input = $("#year");
+			var year = input.val();
+			year--;
+			input.val(year);
+			days = getDays(year,$("#month").val());
+			$("#year").change();
+		});
+		
+		$(".ui-spinner-input").change(function(){
+			var year = $("#year").val();
+			var month = $("#month").val();
+			var from = new Date(year,month-1,1);
+			var to = new Date(year,month,0);
+			var myData = {"from":from,"to":to};
+			$("#table").html("<i class='icon-spinner icon-spin orange' style='font-size: 500%;position: absolute;left: 50%;top: 200%;'></i>");
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/guideTimeManage/initialize",
+		        data:myData,
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
+		        	$("#table").html("");
 		        	$.each(data,function(){
-		        		
-		        	});		        		
+		        		$("#table").append("<tr id='guideId"+this.guideId+"'>"+
+		        								"<td>"+
+		        									this.realName+
+		        								"</td>"+
+		        								"<td class='calendar'></td>"+
+		        								"<td></td>"+
+		        							"</tr>");
+		        		var info = $("#guideId"+this.guideId).children("td").eq(1);
+		        		for (var int = 1; int <= days; int++) {
+							info.append("<a>"+int+"</a>");
+						}
+		        		var index = 0;
+		        		$.each(this.tourInfo,function(tourNo,tourInfo){
+		        			var start = new Date(tourInfo.startTime);
+		        			var end = new Date(tourInfo.endTime);
+		        			var startTime = start.getDate();
+		        			var endTime = end.getDate();
+		        			if(start.getMonth()+1<$("#month").val()){
+		        				startTime = 1;
+		        			}
+		        			if(end.getMonth()+1>$("#month").val()){
+		        				endTime=endTime=to.getDate();
+		        			}
+		        			
+		        			for (var int2 = startTime-1; int2 < endTime; int2++) {
+		        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo"});
+							}
+		        			index++;
+		        			if(index>=color.length){
+		        				index=0;
+		        			}
+		        		});
+		        	});
+		        	$(".tourInfo").tooltip({
+        				show: null,
+        				position: {
+        					my: "left top",
+        					at: "left bottom"
+        				},
+        				open: function( event, ui ) {
+        					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+        				}
+        			});
 		        }  
-			}); 
+			});
+		});
+		
 	/* 回车保存 */		
 		$("#table").delegate("#submit","keydown",function(event){
 			if(event.keyCode==13){

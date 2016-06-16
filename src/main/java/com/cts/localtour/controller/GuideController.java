@@ -1,6 +1,9 @@
 package com.cts.localtour.controller;
 
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +26,8 @@ public class GuideController {
 	}
 	
 	@RequestMapping("/guideTimeManage/initialize")
-	public @ResponseBody ArrayList<GuideTimeViewModel> initialize(){
-		ArrayList<GuideTimeViewModel> guideTimes = guideTimeService.getAll();
+	public @ResponseBody ArrayList<GuideTimeViewModel> initialize(@RequestParam Date from,@RequestParam Date to){
+		ArrayList<GuideTimeViewModel> guideTimes = guideTimeService.getAll(from,to);
 		return guideTimes;
 	}
 }
