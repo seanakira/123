@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-6-3 16:02:14 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-6-17 10:39:33 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,6 +23,7 @@ public class GuideTimeTable implements java.io.Serializable {
 	private int guideId;
 	private Date startTime;
 	private Date endTime;
+	private String remark;
 
 	public GuideTimeTable() {
 	}
@@ -33,11 +34,12 @@ public class GuideTimeTable implements java.io.Serializable {
 		this.endTime = endTime;
 	}
 
-	public GuideTimeTable(Integer tourId, int guideId, Date startTime, Date endTime) {
+	public GuideTimeTable(Integer tourId, int guideId, Date startTime, Date endTime, String remark) {
 		this.tourId = tourId;
 		this.guideId = guideId;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.remark = remark;
 	}
 
 	@Id
@@ -88,6 +90,15 @@ public class GuideTimeTable implements java.io.Serializable {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+
+	@Column(name = "remark", length = 65535)
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

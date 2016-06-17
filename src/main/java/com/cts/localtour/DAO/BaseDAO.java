@@ -233,7 +233,6 @@ public class BaseDAO<T>{
 	* 2014年3月21日 下午2:07:56
 	*/
 	private Query createQuery(Session session,String hql, Object ... objects) {
-//		System.out.println(hql);
 		Query query = session.createQuery(hql);
 		if (objects != null){
 			for (int i = 0; i < objects.length; i++) {
@@ -404,6 +403,17 @@ public class BaseDAO<T>{
 			@SuppressWarnings("unchecked")
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				Query createQuery = createQuery(session, hql, objects);
+				return createQuery.list();
+			}
+		});
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getAllBystringLimit(final String hql, final int maxResults, final Object...objects){
+		return hibernateTemplate.execute(new HibernateCallback<List>() {
+			public List<?> doInHibernate(Session session) throws HibernateException {
+				Query createQuery = createQuery(session, hql, objects);
+				createQuery.setMaxResults(maxResults);
 				return createQuery.list();
 			}
 		});

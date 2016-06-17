@@ -30,16 +30,31 @@ public class GuideTimeService extends BaseService{
 					LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", tourId);
 					tourInfo.put(tour.getTourNo()+"  "+tour.getTourName(), gTimes.get(j));
 				}else{
-					tourInfo.put(""+j, gTimes.get(j));
+					if(gTimes.get(j).getRemark()==null||"".equals(gTimes.get(j).getRemark())){
+						tourInfo.put(j+"", gTimes.get(j));
+					}else{
+						tourInfo.put(gTimes.get(j).getRemark(), gTimes.get(j));
+					}
 				}
 			}
-			
 			guideTime.setGuideId(guideId);
 			guideTime.setRealName(((UserTable)this.getById("UserTable", guides.get(i).getUserId())).getRealName());
 			guideTime.setTourInfo(tourInfo);
 			guideTimes.add(guideTime);
 		}
 		return guideTimes;
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean checkTime(int guideId, Date startTime, Date endTime) {
+		ArrayList<GuideTimeTable> guideTimeTables = ((ArrayList<GuideTimeTable>) this.getAllByStringOrderByLimit("GuideTimeTable", "guideId=? and ((startTime>=? and startTime<=?) or (endTime>=? and endTime<=?))", "startTime asc",  1, guideId, startTime, endTime, startTime, endTime));
+		if(guideTimeTables.size()==0){
+			return true;
+		}else{
+			System.out.println(guideTimeTables.get(0).getGuideId());
+			return false;
+		}
+		
 	}
 
 }

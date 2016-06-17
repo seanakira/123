@@ -95,9 +95,15 @@ public class BaseService<T> {
 	@SuppressWarnings("unchecked")
 	public List<T> getAllByStringOrderBy(String tableName, String where , String orderBy, Object... objects){
 		String hql = "from "+tableName+" where "+where+" order by "+orderBy;
+		System.out.println(hql);
 		return baseDAO.getAllByString(hql, objects);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<T> getAllByStringOrderByLimit(String tableName, String where, String orderBy, int maxResults, Object... objects){
+		String hql = "from "+tableName+" where "+where+" order by "+orderBy;
+		return baseDAO.getAllBystringLimit(hql, maxResults, objects);
+	}
 	public void delete(T t){
 		try {
 			baseDAO.delete(t);

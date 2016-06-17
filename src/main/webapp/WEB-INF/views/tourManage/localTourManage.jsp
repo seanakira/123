@@ -6,6 +6,14 @@
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
+<style type="text/css">
+	#ui-datepicker-div a{
+		text-align: center;
+	}
+	#ui-datepicker-div span{
+		text-align: center;
+	}
+</style>
 
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
 <link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />

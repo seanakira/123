@@ -16,6 +16,12 @@
 		text-decoration: none;
 		
 	}
+	#ui-datepicker-div a{
+		text-align: center;
+	}
+	#ui-datepicker-div span{
+		text-align: center;
+	}
 </style>
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
 
@@ -111,10 +117,13 @@
 										<tbody id="">
 											<tr>
 												<td>
-													<input style="width:100%;" id="startTime" class="form-control hasDatepicker" type="text">
+													<input type="text" id="startTime" class="form-control" placeholder="开始日期" />
 												</td>
 												<td>
-													<input style="width:100%;" id="endTime" class="form-control hasDatepicker" type="text">
+													<input type="text" id="endTime" class="form-control" placeholder="结束日期" />
+												</td>
+												<td>
+													<input type="text" id="endTime" class="form-control" placeholder="备注" />
 												</td>
 											</tr>
 										</tbody>
@@ -125,7 +134,7 @@
 										<i class="icon-remove"></i>
 										取消
 									</button>
-									<button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 										<i class="icon-save"></i>
 										保存
 									</button>
@@ -135,6 +144,7 @@
 					</div>
 				</div>
 <!-- 增加模板 结束-->
+
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <script src="${path }resources/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -153,6 +163,7 @@
 		var from = new Date(date.getFullYear(),date.getMonth(),1);
 		var to = new Date(date.getFullYear(),date.getMonth()+1,0);
 		var myData = {"from":from,"to":to};
+		
 		$.ajax({  
 			type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
@@ -188,7 +199,7 @@
 	        				startTime = 1;
 	        			}
 	        			if(end.getMonth()+1>$("#month").val()){
-	        				endTime=endTime=to.getDate();
+	        				endTime=to.getDate();
 	        			}
 	        			for (var int2 = startTime-1; int2 < endTime; int2++) {
 	        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo"});
@@ -272,6 +283,16 @@
 			input.val(month);
 			days = getDays($("#year").val(),month);
 			$("#month").change();
+			$(".green").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
 		});
 		
 		$("#minusM").click(function(){
@@ -284,6 +305,16 @@
 			input.val(month);
 			days = getDays($("#year").val(),month);
 			$("#month").change();
+			$(".green").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
 		});
 		
 		$("#plusY").click(function(){
@@ -293,6 +324,16 @@
 			input.val(year);
 			days = getDays(year,$("#month").val());
 			$("#year").change();
+			$(".green").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
 		});
 		
 		$("#minusY").click(function(){
@@ -302,6 +343,16 @@
 			input.val(year);
 			days = getDays(year,$("#month").val());
 			$("#year").change();
+			$(".green").tooltip({
+				show: null,
+				position: {
+					my: "left top",
+					at: "left bottom"
+				},
+				open: function( event, ui ) {
+					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+				}
+			});
 		});
 		
 		$(".ui-spinner-input").change(function(){
@@ -326,7 +377,11 @@
 		        									this.realName+
 		        								"</td>"+
 		        								"<td class='calendar'></td>"+
-		        								"<td></td>"+
+		        								"<td>"+
+		        								"<a class='green' id='add' href='#addModel' role='button' data-toggle='modal' title='手动派团'>"+
+													"<i class='icon-plus bigger-130'></i>"+
+												"</a>"+
+	        								"</td>"+
 		        							"</tr>");
 		        		var info = $("#guideId"+this.guideId).children("td").eq(1);
 		        		for (var int = 1; int <= days; int++) {
@@ -342,7 +397,7 @@
 		        				startTime = 1;
 		        			}
 		        			if(end.getMonth()+1>$("#month").val()){
-		        				endTime=endTime=to.getDate();
+		        				endTime=to.getDate();
 		        			}
 		        			
 		        			for (var int2 = startTime-1; int2 < endTime; int2++) {
@@ -367,55 +422,60 @@
 		        }  
 			});
 		});
-		
-	/* 回车保存 */		
-		$("#table").delegate("#submit","keydown",function(event){
-			if(event.keyCode==13){
-				var obj = $(this).parents("tr");
-				var input = $(this);
-				var td = obj.children("td");
-				var supplierName = obj.find("input").eq(1).val();
-				var regionId = obj.find("select").eq(0).val();
-				var supplierScopeIds =obj.find("select").eq(1).val().toString();
-				var regionName = obj.find("select").eq(0).find("option:selected").text();
-				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-				var phone = obj.find("input").eq(-1).val();
-				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone};
-				var myData = JSON.stringify(supplier);
-				var supplierId;
-				
-			 	$.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/save",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	supplierId = data;
-			        	td.eq(2).html(supplierName);
-			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	td.eq(4).html(supplierScopeName);
-			        	input.parent().html(phone);
-			        }  
-				 });
-				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-			  	$.ajax({  
-			        type: "GET",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/save",  
-			        data:ids,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	
-			        }  
-				});
-				obj.next().find("input").eq(1).focus().select();
-			}
+	/* 新增 */		
+		$("#table").delegate(".green","click",function(){
+			var guideId = $(this).parents("tr").attr("id").substring(7);
+			$(".pull-right").attr("name",guideId);
 		});
 	
-	
+	/* 保存 */
+		$("#saveNew").click(function(){
+			var inputs = $(".modal-content").find("input");
+			var startTime = new Date(inputs.eq(0).val());
+			var endTime = new Date(inputs.eq(1).val());
+			var remark = inputs.eq(2).val();
+			var guideId = $(this).attr("name");
+			var guideTime = {guideId:guideId,startTime:startTime,endTime:endTime,remark:remark};
+			var myData = JSON.stringify(guideTime);
+			$.ajax({  
+		        type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/guideTimeManage/save",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(!data){
+		        		alert("添加失败，请检查输入日期是否正确");
+		        	}else{
+		        		$("#table").html("<i class='icon-spinner icon-spin orange' style='font-size: 500%;position: absolute;left: 50%;top: 200%;'></i>");
+		        		window.location.reload();
+		        		/* var start = startTime.getDate();
+		        		var end = endTime.getDate();
+		        		if(startTime.getMonth()+1<date.getMonth()+1){
+		        			start=0;
+		        		}
+		        		if(endTime.getMonth()+1>date.getMonth()+1){
+		        			endTime=to.getDate();
+		        		}
+		        		var info = $("#guideId"+guideId).children("td").eq(1);
+		        		for (var int = start; int < end; int++) {
+		        			info.children("a").eq(int).attr({"style":"background-color:gold;","title":remark,"class":"tourInfo"});
+						}
+		        		$(".tourInfo").tooltip({
+	        				show: null,
+	        				position: {
+	        					my: "left top",
+	        					at: "left bottom"
+	        				},
+	        				open: function( event, ui ) {
+	        					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+	        				}
+	        			}); */
+		        	}
+		        }  
+			}); 
+		});
 	/* 删除 */
 		$("#table").delegate(".red","click",function(){
 			var obj = $(this);
