@@ -30,10 +30,7 @@ import com.cts.localtour.viewModel.SupplierInfoViewModel;
 public class TourController {
 	@Autowired
 	private LocalTourService localTourService;
-	@Autowired
-	private RegionService regionService;
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage")
 	public String getSupplierAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -54,7 +51,6 @@ public class TourController {
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
 		return "/tourManage/localTourManage";
-		
 	}
 	
 	@RequestMapping("/localTourManage/getCreateInfo")

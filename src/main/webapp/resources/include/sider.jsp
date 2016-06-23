@@ -88,6 +88,12 @@
 										导游排团表
 									</a>
 								</li>
+								<li id="guideManager">
+									<a href="<%=path %>guideManage">
+										<i class="icon-double-angle-right"></i>
+										导游管理
+									</a>
+								</li>
 							</ul>
 						</li>
 

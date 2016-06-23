@@ -29,7 +29,7 @@
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 <!-- 正文开始 -->
 				<div class="main-content">
-					<div class="breadcrumbs" id="breadcrumbs">
+					<%-- <div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
 							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 						</script>
@@ -37,7 +37,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="add" href="#">新增排团</a>
+								<span>&nbsp;排团表</span>
 							</li>
 
 							
@@ -45,14 +45,14 @@
 						</ul><!-- .breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="${path }supplierInfoManage" method="get">
+							<form class="form-search" action="${path }guideTimeManage/initialize" method="get">
 								<span class="input-icon">
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
 								</span>
 							</form>
 						</div><!-- #nav-search -->
-					</div>
+					</div> --%>
 					
 					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
@@ -83,9 +83,9 @@
 									</span>
 									月
 								</th>
-								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+								<!-- <th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
-								</th>
+								</th> -->
 							</tr>
 						</thead>
 
@@ -108,7 +108,7 @@
 						<div class="modal-content">
 							<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
-									增加派团信息
+									增加排团信息
 								</div>
 								<div class="modal-body no-padding">
 									<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
@@ -123,7 +123,7 @@
 													<input type="text" id="endTime" class="form-control" placeholder="结束日期" />
 												</td>
 												<td>
-													<input type="text" id="endTime" class="form-control" placeholder="备注" />
+													<input type="text" id="endTime" class="" placeholder="备注" style="height: 34px;"/>
 												</td>
 											</tr>
 										</tbody>
@@ -144,6 +144,50 @@
 					</div>
 				</div>
 <!-- 增加模板 结束-->
+<!-- 编辑模板 -->
+				<div aria-hidden="true" style="display: none;" id="editModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width:500px;margin-top: 10%;">
+						<div class="modal-content">
+							<div class="modal-header no-padding">
+								<div id="headerName" class="table-header">
+									编辑排团日期<span style="font-size: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;清空开始和结束日期并无关联团号即可删除</span>
+								</div>
+								<div class="modal-body no-padding">
+									<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<thead>
+										</thead>
+										<tbody id="">
+											<tr>
+												<td>
+													<input type="text" id="startTime2" class="form-control" placeholder="开始日期" />
+												</td>
+												<td>
+													<input type="text" id="endTime2" class="form-control" placeholder="结束日期" />
+												</td>
+												<td>
+													<input type="text" id="" class="" placeholder="备注" style="height: 34px;"/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									
+								</div>
+								<div class="modal-footer no-margin-top">
+								
+									<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+										<i class="icon-remove"></i>
+										取消
+									</button>
+									<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+<!-- 编辑模板 结束-->
 
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
@@ -179,15 +223,15 @@
 	        									this.realName+
 	        								"</td>"+
 	        								"<td class='calendar'></td>"+
-	        								"<td>"+
-		        								"<a class='green' id='add' href='#addModel' role='button' data-toggle='modal' title='手动派团'>"+
+	        								/* "<td>"+
+		        								"<a class='green' id='add' href='#addModel' role='button' data-toggle='modal' title='手动排团'>"+
 													"<i class='icon-plus bigger-130'></i>"+
 												"</a>"+
-	        								"</td>"+
+	        								"</td>"+ */
 	        							"</tr>");
 	        		var info = $("#guideId"+this.guideId).children("td").eq(1);
 	        		for (var int = 1; int <= days; int++) {
-						info.append("<a>"+int+"</a>");
+						info.append("<a href='#addModel' data-toggle='modal'>"+int+"</a>");
 					}
 	        		var index = 0;
 	        		$.each(this.tourInfo,function(tourNo,tourInfo){
@@ -202,7 +246,7 @@
 	        				endTime=to.getDate();
 	        			}
 	        			for (var int2 = startTime-1; int2 < endTime; int2++) {
-	        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo"});
+	        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo","data-toggle":"modal","href":"#editModel","id":"gt"+tourInfo.id});
 						}
 	        			index++;
 	        			if(index>=color.length){
@@ -232,6 +276,7 @@
 				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
 			}
 		});
+		
 		$("#startTime").datepicker({
 			showOtherMonths: true,
 			selectOtherMonths: false,
@@ -253,6 +298,46 @@
 			}  */
 		});
 		$("#endTime").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			}  */
+		});
+		$("#startTime2").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			}  */
+		});
+		$("#endTime2").datepicker({
 			showOtherMonths: true,
 			selectOtherMonths: false,
 			//isRTL:true,
@@ -377,15 +462,15 @@
 		        									this.realName+
 		        								"</td>"+
 		        								"<td class='calendar'></td>"+
-		        								"<td>"+
+		        								/* "<td>"+
 		        								"<a class='green' id='add' href='#addModel' role='button' data-toggle='modal' title='手动派团'>"+
 													"<i class='icon-plus bigger-130'></i>"+
 												"</a>"+
-	        								"</td>"+
+	        								"</td>"+ */
 		        							"</tr>");
 		        		var info = $("#guideId"+this.guideId).children("td").eq(1);
 		        		for (var int = 1; int <= days; int++) {
-							info.append("<a>"+int+"</a>");
+							info.append("<a href='#addModel' data-toggle='modal'>"+int+"</a>");
 						}
 		        		var index = 0;
 		        		$.each(this.tourInfo,function(tourNo,tourInfo){
@@ -401,7 +486,7 @@
 		        			}
 		        			
 		        			for (var int2 = startTime-1; int2 < endTime; int2++) {
-		        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo"});
+		        				info.children("a").eq(int2).attr({"style":"background-color: "+color[index]+";","title":tourNo,"class":"tourInfo","data-toggle":"modal","href":"#editModel","id":"gt"+tourInfo.id});
 							}
 		        			index++;
 		        			if(index>=color.length){
@@ -423,9 +508,10 @@
 			});
 		});
 	/* 新增 */		
-		$("#table").delegate(".green","click",function(){
+		$("#table").delegate("a:not(.tourInfo)","click",function(){
 			var guideId = $(this).parents("tr").attr("id").substring(7);
 			$(".pull-right").attr("name",guideId);
+			$("#startTime").val($("#year").val()+"/"+$("#month").val()+"/"+$(this).text());
 		});
 	
 	/* 保存 */
@@ -476,45 +562,48 @@
 		        }  
 			}); 
 		});
-	/* 删除 */
-		$("#table").delegate(".red","click",function(){
-			var obj = $(this);
-			var myData = {id:obj.attr("id")};
-			$.ajax({  
-		        type: "GET",  
+	/* 编辑 */
+		var entity;
+		$("#table").delegate(".tourInfo","click",function(){
+			var id = $(this).attr("id").substring(2);
+			var myData = {id:id};
+			$.ajax({
+				type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/del",  
+		        url:"/localtour/guideTimeManage/get",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	obj.attr("class","green");
-		        	obj.children("i").attr("class","icon-undo bigger-130");
-		        	var span = obj.parents("td").prev().children("span");
-		        	span.attr("class","label label-sm label-warning");
-		        	span.text("无效");
+		        	$("#editModel").find("input").eq(0).val(data.startTime);
+		        	$("#editModel").find("input").eq(1).val(data.endTime);
+		        	$("#editModel").find("input").eq(2).val(data.remark);
+		        	entity = data;
 		        }  
-			}); 
+			});
 		});
-	/* 恢复 */
-		$("#table").delegate("span .green","click",function(){
-			var obj = $(this);
-			var myData = {id:obj.attr("id")};
-			$.ajax({  
-		        type: "GET",  
+	/* 更新 */
+		$("#saveEdit").click(function(){
+			entity.startTime = new Date($("#editModel").find("input").eq(0).val());
+			entity.endTime = new Date($("#editModel").find("input").eq(1).val());
+			entity.remark = $("#editModel").find("input").eq(2).val();
+			var myData = JSON.stringify(entity);
+        	$.ajax({
+        		type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/recover",  
+		        url:"/localtour/guideTimeManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	obj.attr("class","red");
-		        	obj.children("i").attr("class","icon-trash bigger-130");
-		        	var span = obj.parents("td").prev().children("span");
-		        	span.attr("class","label label-sm label-success");
-		        	span.text("有效");
+		        	if(!data){
+		        		alert("修改失败，请检查输入日期是否正确");
+		        	}else{
+		        		$("#table").html("<i class='icon-spinner icon-spin orange' style='font-size: 500%;position: absolute;left: 50%;top: 200%;'></i>");
+		        		window.location.reload();
+		        	}
 		        }  
-			}); 
+        	});
 		});
 	/* 编辑 */
 		$("#table").delegate("#edit","click",function(){

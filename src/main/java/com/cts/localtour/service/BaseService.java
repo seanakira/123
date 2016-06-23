@@ -113,6 +113,20 @@ public class BaseService<T> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void delById(String tableName, int id) {
+		String className = "com.cts.localtour.entity."+tableName;
+		Class<?> clzz = null;
+		try {
+			clzz = Class.forName(className);
+			T t = (T) baseDAO.getById(clzz, id);
+			baseDAO.delete( t);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void deleteByString(String tableName,String where, Object...objects){
 		String hql = "delete "+tableName+" where "+where;
 		baseDAO.deleteByString(hql , objects);

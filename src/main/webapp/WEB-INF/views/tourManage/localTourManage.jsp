@@ -230,7 +230,7 @@
 <!-- 正文结束 -->	
 <!-- 新增模板 -->
 				<div aria-hidden="true" style="display: none;" id="create" class="modal fade" tabindex="-1">
-					<div class="modal-dialog" style="width:80%;">
+					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
@@ -302,10 +302,11 @@
 											<td>结束日期</td>
 											<td><input id="datepickerEnd" class="form-control" type="text"></td>
 											<td>导游</td>
-											<td>
-												<select style="display: none;" multiple="multiple" class="width-80 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
+											<td id="guideTd">
+												<input id="guide" type="text" placeholder="可选多个">
+												<!-- <select style="display: none;" multiple="multiple" class="width-80 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
 													<option value="">&nbsp;</option>
-												</select>
+												</select> -->
 											</td>
 										</tr>			
 									</tbody>
@@ -864,212 +865,258 @@
 	$(function(){
 		
 	/* 初始化 */
-			$("#gourpManage").addClass("open");
-			$("#gourpManage").children("ul").attr("style","display:block");
-			$("#localTourManage").addClass("active");
-			$("#create").find("input").attr("style","width:100%;");
-			$("#create").find("select").attr("style","width:100%;");
-			$("#edit").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#delete").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#recover").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#addCost").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#auditing").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#unAuditing").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#finance").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#balance").tooltip({
-				show: null,
-				position: {
-					my: "left top",
-					at: "left bottom"
-				},
-				open: function( event, ui ) {
-					ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-				}
-			});
-			$("#datepickerStart").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				}  */
-			});
-			$("#datepickerEnd").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				} */
-			});
-			$("#arrTime").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				} */
-			});
-			$("#departTime").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				} */
-			});
-			$("#createTour").click(function(){
-				var selects = $("#create").find("select");
-				$.ajax({  
-			        type: "GET",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/localTourManage/getCreateInfo",
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	selects.html('<option value="">&nbsp;</option>');
-			        	$.each(data.businessTypes,function(){
-			        		selects.eq(0).append('<option value="'+this.id+'">'+this.businessTypeName+'</option>');
-			        	});
-			        	$.each(data.tourTypes,function(){
-			        		selects.eq(1).append('<option value="'+this.id+'">'+this.tourTypeName+'</option>');
-			        	});
-			        	$.each(data.regions,function(){
-			        		selects.eq(2).append('<option value="'+this.id+'">'+this.regionName+'</option>');
-			        	});
-			        	$.each(data.visitorTypes,function(){
-			        		selects.eq(3).append('<option value="'+this.id+'">'+this.visitorTypeName+'</option>');
-			        	});
-			        	$.each(data.customerAgencys,function(){
-			        		selects.eq(4).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-			        	});
-			        	$(".chosen-select").chosen();
-						$(".chosen-select").next().attr("style","width:100%;");
-						$(".chosen-select").next().find("input").attr("style","height:100%;");
-			        }  
-				});
-			});
-			$(".counts").blur(function(){
-				var sum = 0;
-				$(".counts").each(function(){
-					if(isNaN(parseInt($(this).val()))){
-					}else{
-						sum = sum + parseInt($(this).val());
-					}
-					
-				})
-				
-				$(".counts").last().parent().next().next().text(sum);
-			});
+		/* 样式 */
+		$("#gourpManage").addClass("open");
+		$("#gourpManage").children("ul").attr("style","display:block");
+		$("#localTourManage").addClass("active");
+		$("#create").find("input").attr("style","width:100%;");
+		$("#create").find("select").attr("style","width:100%;");
+		$(".modal-dialog").attr("style","width:70%;");
+		/* 提示 */
+		$("#edit").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#delete").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#recover").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#addCost").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#auditing").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#unAuditing").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#finance").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		$("#balance").tooltip({
+			show: null,
+			position: {
+				my: "left top",
+				at: "left bottom"
+			},
+			open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			}
+		});
+		/* 日历初始化 */
+		$("#datepickerStart").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
 			
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			}  */
+		});
+		$("#datepickerEnd").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			} */
+		});
+		$("#arrTime").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			} */
+		});
+		$("#departTime").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			//isRTL:true,
+			/* changeMonth: true,
+			changeYear: true,
+			showButtonPanel: true,
+			beforeShow: function() {
+				//change button colors
+				var datepicker = $(this).datepicker( "widget" );
+				setTimeout(function(){
+					var buttons = datepicker.find('.ui-datepicker-buttonpane')
+					.find('button');
+					buttons.eq(0).addClass('btn btn-xs');
+					buttons.eq(1).addClass('btn btn-xs btn-success');
+					buttons.wrapInner('<span class="bigger-110" />');
+				}, 0);
+			} */
+		});
+		/* 初始化选项 */
+		$("#createTour").click(function(){
+			var selects = $("#create").find("select");
+			$.ajax({  
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/getCreateInfo",
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	selects.html('<option value="">&nbsp;</option>');
+		        	$.each(data.businessTypes,function(){
+		        		selects.eq(0).append('<option value="'+this.id+'">'+this.businessTypeName+'</option>');
+		        	});
+		        	$.each(data.tourTypes,function(){
+		        		selects.eq(1).append('<option value="'+this.id+'">'+this.tourTypeName+'</option>');
+		        	});
+		        	$.each(data.regions,function(){
+		        		selects.eq(2).append('<option value="'+this.id+'">'+this.regionName+'</option>');
+		        	});
+		        	$.each(data.visitorTypes,function(){
+		        		selects.eq(3).append('<option value="'+this.id+'">'+this.visitorTypeName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(4).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	selects.eq(0).chosen();
+		        	selects.eq(1).chosen();
+		        	selects.eq(2).chosen();
+		        	selects.eq(3).chosen();
+		        	selects.eq(4).chosen();
+		        	selects.eq(5).chosen();
+					$(".chosen-select").next().attr("style","width:100%;");
+					$(".chosen-select").next().find("input").attr("style","height:100%;");
+		        }  
+			});
+		});
+		/* 人数计算 */
+		$(".counts").blur(function(){
+			var sum = 0;
+			$(".counts").each(function(){
+				if(isNaN(parseInt($(this).val()))){
+				}else{
+					sum = sum + parseInt($(this).val());
+				}
+			})
+			
+			$(".counts").last().parent().next().next().text(sum);
+		});
+		/* 导游空闲查询 */
+		$("#create").delegate("#guide","click",function(){
+			var td = $(this).parents("td");
+			td.html("");
+			td.html('<select style="display: none;" multiple="multiple" class="width-80 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">'+
+					'<option value="">&nbsp;</option>'+
+					'</select>');
+			var select = $("#create").find("select").eq(5);
+			var myData = {startTime:$("#datepickerStart").val(),endTime:$("#datepickerEnd").val()};
+			$.ajax({  
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/guideTimeManage/checkTime",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+	        		$.each(data,function(){
+		        		select.append('<option value="'+this.guideTable.id+'">'+this.userTable.realName+'</option>');
+		        	});
+		        },
+		        error:function(){
+		        	alert("团期选择错误，无法匹配导游");
+		        }
+			});
+			select.chosen();
+    		select.next().attr("style","width:100%;");
+    		select.next().find("input").attr("style","height:100%;");
+    		td.find("input").focus().select();
+		});
+		
+		$("#datepickerStart").click(function(){
+			$("#guideTd").html('<input id="guide" type="text" placeholder="可选多个" style="width:100%;">');
+		});
+		$("#datepickerEnd").click(function(){
+			$("#guideTd").html('<input id="guide" type="text" placeholder="可选多个" style="width:100%;">');
+		});
 	/* 删除 */
 		$("#table").delegate("#delete","click",function(){
 			var obj = $(this);

@@ -10,6 +10,7 @@ import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.viewModel.GuideTimeViewModel;
+import com.cts.localtour.viewModel.GuideViewModel;
 
 @SuppressWarnings("rawtypes")
 @Service
@@ -33,7 +34,7 @@ public class GuideTimeService extends BaseService{
 					if(gTimes.get(j).getRemark()==null||"".equals(gTimes.get(j).getRemark())){
 						tourInfo.put(j+"", gTimes.get(j));
 					}else{
-						tourInfo.put(gTimes.get(j).getRemark(), gTimes.get(j));
+						tourInfo.put("备注："+gTimes.get(j).getRemark(), gTimes.get(j));
 					}
 				}
 			}
@@ -44,17 +45,42 @@ public class GuideTimeService extends BaseService{
 		}
 		return guideTimes;
 	}
-
+/*新增检查*/
 	@SuppressWarnings("unchecked")
 	public boolean checkTime(int guideId, Date startTime, Date endTime) {
 		ArrayList<GuideTimeTable> guideTimeTables = ((ArrayList<GuideTimeTable>) this.getAllByStringOrderByLimit("GuideTimeTable", "guideId=? and ((startTime>=? and startTime<=?) or (endTime>=? and endTime<=?))", "startTime asc",  1, guideId, startTime, endTime, startTime, endTime));
 		if(guideTimeTables.size()==0){
 			return true;
 		}else{
-			System.out.println(guideTimeTables.get(0).getGuideId());
 			return false;
 		}
 		
 	}
-
+/*更新检查*/
+	@SuppressWarnings("unchecked")
+	public boolean checkTime(int id, int guideId, Date startTime, Date endTime) {
+		ArrayList<GuideTimeTable> guideTimeTables = ((ArrayList<GuideTimeTable>) this.getAllByStringOrderByLimit("GuideTimeTable", "id<>? and guideId=? and ((startTime>=? and startTime<=?) or (endTime>=? and endTime<=?))", "startTime asc",  1, id, guideId, startTime, endTime, startTime, endTime));
+		if(guideTimeTables.size()==0){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+/*空闲检查*/
+	@SuppressWarnings("unchecked")
+	public ArrayList<GuideViewModel> checkTime(Date startTime, Date endTime) {
+		ArrayList<GuideTable> guides = (ArrayList<GuideTable>) this.getAllByString("GuideTable", "enable=?", true);
+		ArrayList<GuideViewModel> guideViewModels = new ArrayList<GuideViewModel>();
+		for (int i = 0; i < guides.size(); i++) {
+			ArrayList<GuideTimeTable> guideTimeTables = ((ArrayList<GuideTimeTable>) this.getAllByStringOrderByLimit("GuideTimeTable", "guideId=? and ((startTime>=? and startTime<=?) or (endTime>=? and endTime<=?))", "startTime asc",  1, guides.get(i).getId(), startTime, endTime, startTime, endTime));
+			if(guideTimeTables.size()==0){
+				GuideViewModel guideViewModel = new GuideViewModel();
+				guideViewModel.setGuideTable(guides.get(i));
+				guideViewModel.setUserTable((UserTable) this.getById("UserTable", guides.get(i).getUserId()));
+				guideViewModels.add(guideViewModel);
+			}
+		}
+		return guideViewModels;
+	}
 }
