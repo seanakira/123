@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-6-21 13:43:44 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-6-24 18:43:01 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -22,6 +22,7 @@ public class LocalTourTable implements java.io.Serializable {
 	private Integer id;
 	private String tourNo;
 	private String tourName;
+	private String guideIds;
 	private int userId;
 	private int deptId;
 	private int businessTypeId;
@@ -38,14 +39,13 @@ public class LocalTourTable implements java.io.Serializable {
 	private String remark;
 	private int status;
 	private boolean enable;
-	private String customerAgency;
 
 	public LocalTourTable() {
 	}
 
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
 			int regionId, int visitorTypeId, int adultNo, String organizor, int customerAgencyId, Date startTime,
-			Date endTime, int status, boolean enable, String customerAgency) {
+			Date endTime, int status, boolean enable) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -61,15 +61,15 @@ public class LocalTourTable implements java.io.Serializable {
 		this.endTime = endTime;
 		this.status = status;
 		this.enable = enable;
-		this.customerAgency = customerAgency;
 	}
 
-	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
-			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
-			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
-			String customerAgency) {
+	public LocalTourTable(String tourNo, String tourName, String guideIds, int userId, int deptId, int businessTypeId,
+			int tourTypeId, int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo,
+			String organizor, int customerAgencyId, Date startTime, Date endTime, String remark, int status,
+			boolean enable) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
+		this.guideIds = guideIds;
 		this.userId = userId;
 		this.deptId = deptId;
 		this.businessTypeId = businessTypeId;
@@ -86,7 +86,6 @@ public class LocalTourTable implements java.io.Serializable {
 		this.remark = remark;
 		this.status = status;
 		this.enable = enable;
-		this.customerAgency = customerAgency;
 	}
 
 	@Id
@@ -117,6 +116,15 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setTourName(String tourName) {
 		this.tourName = tourName;
+	}
+
+	@Column(name = "guideIDs", length = 50)
+	public String getGuideIds() {
+		return this.guideIds;
+	}
+
+	public void setGuideIds(String guideIds) {
+		this.guideIds = guideIds;
 	}
 
 	@Column(name = "userID", nullable = false)
@@ -263,15 +271,6 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
-	}
-
-	@Column(name = "customerAgency", nullable = false, length = 20)
-	public String getCustomerAgency() {
-		return this.customerAgency;
-	}
-
-	public void setCustomerAgency(String customerAgency) {
-		this.customerAgency = customerAgency;
 	}
 
 }

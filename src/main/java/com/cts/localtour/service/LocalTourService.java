@@ -104,9 +104,9 @@ public class LocalTourService extends BaseService{
 			return ((LocalTourTable)localTourDAO.add(supplier)).getId();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return 0;
 		}
-		return 0;
+		
 	}
 	
 	@SuppressWarnings("unchecked")

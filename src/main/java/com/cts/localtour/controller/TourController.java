@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.SupplierScopeTable;
@@ -20,6 +21,7 @@ import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.TourTypeTable;
 import com.cts.localtour.entity.VisitorTypeTable;
 import com.cts.localtour.service.RegionService;
+import com.cts.localtour.service.GuideTimeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.SupplierScopeService;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
@@ -30,7 +32,8 @@ import com.cts.localtour.viewModel.SupplierInfoViewModel;
 public class TourController {
 	@Autowired
 	private LocalTourService localTourService;
-	
+	@Autowired
+	private GuideTimeService guideTimeService;
 	@RequestMapping("/localTourManage")
 	public String getSupplierAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -58,10 +61,26 @@ public class TourController {
 		return localTourService.getCreateInfo();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/save")
 	public @ResponseBody int save(@RequestBody LocalTourTable localTour){
-		localTour.setEnable(true);
-		return localTourService.add(localTour);
+		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
+			return 0;
+		}else{
+			int tourId = localTourService.add(localTour);
+			if(!localTour.getGuideIds().equals("undefined")){
+				String[] guideIds = localTour.getGuideIds().split(",");
+				for (int i = 0; i < guideIds.length; i++) {
+					GuideTimeTable guideTime = new GuideTimeTable();
+					guideTime.setEndTime(localTour.getEndTime());
+					guideTime.setGuideId(Integer.parseInt(guideIds[i]));
+					guideTime.setStartTime(localTour.getStartTime());
+					guideTime.setTourId(tourId);
+					guideTimeService.add(guideTime);
+				}
+			}
+			return tourId;
+		}
 	}
 	
 /*	@RequestMapping("/supplierBusiness/save")
@@ -71,7 +90,6 @@ public class TourController {
 	
 	@RequestMapping("/localTourManage/del")
 	public @ResponseBody boolean delLocalTour(@RequestParam int id){
-		System.out.println(id);
 		localTourService.del(id);
 		return true;
 	}

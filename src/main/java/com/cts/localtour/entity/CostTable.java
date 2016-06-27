@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-6-21 13:43:44 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-6-24 18:43:01 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -31,12 +31,13 @@ public class CostTable implements java.io.Serializable {
 	private int days;
 	private int supplierScopeId;
 	private String remark;
+	private float price;
 
 	public CostTable() {
 	}
 
 	public CostTable(String tourNo, Date costDate, int contentId, int supplierId, float cost, int count,
-			boolean canBorrow, float lendAmount, int days, int supplierScopeId, String remark) {
+			boolean canBorrow, float lendAmount, int days, int supplierScopeId, String remark, float price) {
 		this.tourNo = tourNo;
 		this.costDate = costDate;
 		this.contentId = contentId;
@@ -48,10 +49,11 @@ public class CostTable implements java.io.Serializable {
 		this.days = days;
 		this.supplierScopeId = supplierScopeId;
 		this.remark = remark;
+		this.price = price;
 	}
 
 	public CostTable(String tourNo, Integer borrowUserId, Date costDate, int contentId, int supplierId, float cost,
-			int count, boolean canBorrow, float lendAmount, int days, int supplierScopeId, String remark) {
+			int count, boolean canBorrow, float lendAmount, int days, int supplierScopeId, String remark, float price) {
 		this.tourNo = tourNo;
 		this.borrowUserId = borrowUserId;
 		this.costDate = costDate;
@@ -64,6 +66,7 @@ public class CostTable implements java.io.Serializable {
 		this.days = days;
 		this.supplierScopeId = supplierScopeId;
 		this.remark = remark;
+		this.price = price;
 	}
 
 	@Id
@@ -185,6 +188,15 @@ public class CostTable implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Column(name = "price", nullable = false, precision = 12, scale = 0)
+	public float getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
 	}
 
 }

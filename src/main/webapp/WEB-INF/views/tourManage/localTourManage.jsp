@@ -245,11 +245,11 @@
 
 									<tbody id="">
 										<tr>
-											<td>团号</td>
+											<td>团号*</td>
 											<td><input type="text"></td>
-											<td>团名</td>
+											<td>团名*</td>
 											<td><input type="text"></td>
-											<td>业务类型</td>
+											<td>业务类型*</td>
 											<td>
 												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
 													<option value="">&nbsp;</option>
@@ -257,19 +257,19 @@
 											</td>
 										</tr>
 										<tr>
-											<td>团队类型</td>
+											<td>团队类型*</td>
 											<td>
 												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
 													<option value="">&nbsp;</option>
 												</select>
 											</td>
-											<td>国家/地区</td>
+											<td>国家/地区*</td>
 											<td>
 												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
 													<option value="">&nbsp;</option>
 												</select>
 											</td>
-											<td>游客类型</td>
+											<td>游客类型*</td>
 											<td>
 												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
 													<option value="">&nbsp;</option>
@@ -277,19 +277,19 @@
 											</td>
 										</tr>
 										<tr>
-											<td>组团社</td>
+											<td>组团社*</td>
 											<td>
 												<select style="display: none;" class="width-80 chosen-select" data-placeholder="Choose a Country...">
 													<option value="">&nbsp;</option>
 												</select>
 											</td>
-											<td>组团人</td>
+											<td>组团人*</td>
 											<td><input type="text"></td>
 											<td>全陪人数</td>
 											<td><input class="counts" type="text"></td>
 										</tr>
 										<tr>
-											<td>成人数</td>
+											<td>成人数*</td>
 											<td><input class="counts" type="text"></td>
 											<td>儿童数</td>
 											<td><input class="counts" type="text"></td>
@@ -297,9 +297,9 @@
 											<td></td>
 										</tr>
 										<tr>
-											<td>开始日期</td>
+											<td>开始日期*</td>
 											<td><input id="datepickerStart" class="form-control" type="text"></td>
-											<td>结束日期</td>
+											<td>结束日期*</td>
 											<td><input id="datepickerEnd" class="form-control" type="text"></td>
 											<td>导游</td>
 											<td id="guideTd">
@@ -308,7 +308,11 @@
 													<option value="">&nbsp;</option>
 												</select> -->
 											</td>
-										</tr>			
+										</tr>
+										<tr>
+											<td>备注</td>
+											<td><input type="text"></td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -318,7 +322,7 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 									<i class="icon-save"></i>
 									保存
 								</button>
@@ -863,7 +867,6 @@
 
 <script type="text/javascript">
 	$(function(){
-		
 	/* 初始化 */
 		/* 样式 */
 		$("#gourpManage").addClass("open");
@@ -1032,8 +1035,7 @@
 			} */
 		});
 		/* 初始化选项 */
-		$("#createTour").click(function(){
-			var selects = $("#create").find("select");
+		var selects = $("#create").find("select");
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
@@ -1067,7 +1069,6 @@
 					$(".chosen-select").next().find("input").attr("style","height:100%;");
 		        }  
 			});
-		});
 		/* 人数计算 */
 		$(".counts").blur(function(){
 			var sum = 0;
@@ -1174,6 +1175,78 @@
 		        	window.location.reload();
 		        }  
 			});
+		});
+	/* 保存 */
+		$("#saveNew").click(function(){
+			var inputs = $("#create").find("input");
+			var selects = $("#create").find("select");
+			var tourNo = inputs.eq(0).val();
+			var tourName = inputs.eq(1).val();
+			var businessTypeId = selects.eq(0).val();
+			var tourTypeId = selects.eq(1).val();
+			var regionId = selects.eq(2).val();
+			var visitorTypeId = selects.eq(3).val();
+			var customerAgencyId = selects.eq(4).val();
+			var organizor = inputs.eq(7).val();
+			var qpGuideNo = inputs.eq(8).val();
+			var adultNo = inputs.eq(9).val();
+			var childrenNo = inputs.eq(10).val();
+			var startTime = new Date(inputs.eq(11).val());
+			var endTime = new Date(inputs.eq(12).val());
+			var guideIds  = selects.eq(5).val()+"";
+			var remark = inputs.eq(14).val();
+			var userId = 1;
+			var deptId = 1;
+			var status = 0;
+			var enable = true;
+			var days = (endTime-startTime)/1000/60/60/24;
+			var localTour={tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
+						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
+						   endTime:endTime,guideIds:guideIds,remark:remark,userId:userId,deptId:deptId,status:status,enable:enable};
+			var myData = JSON.stringify(localTour);
+			$.ajax({  
+		        type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/save",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(data>0){
+		        		$("#table").prepend('<tr>'+
+						        				'<td class="center  sorting_1">'+
+													'<label>'+
+														'<input class="ace" type="checkbox">'+
+														'<span class="lbl"></span>'+
+													'</label>'+
+												'</td>'+
+												'<td><a id="" role="button" data-toggle="modal" href="#modify">'+tourNo+'</a></td>'+
+												'<td>'+tourName+'</td>'+
+												'<td>'+adultNo+'</td>'+
+												'<td>'+childrenNo+'</td>'+
+												'<td>'+days+'</td>'+
+												'<td>'+startTime.getFullYear()+'/'+startTime.getMonth()+'/'+startTime.getDate()+'</td>'+
+												'<td>'+endTime.getFullYear()+'/'+endTime.getMonth()+'/'+endTime.getDate()+'</td>'+
+												'<td>新建</td>'+
+												'<td>session.userName</td>'+
+												'<td id="'+data+'">'+
+													'<a id="edit" class="green" href="#" title="编辑">'+
+														'<i class="icon-pencil bigger-130"></i>'+
+													'</a>'+
+													'<a class="pink action" id="auditing" href="#" title="提交审核" style="margin-left:3px;">'+
+														'<i id="1" class="icon-hand-right bigger-130"></i>'+
+													'</a>'+
+													'<a title="取消团队" class="red" id="delete" href="#" style="margin-left:3px;">'+
+														'<i class="icon-trash bigger-130"></i>'+
+														
+													'</a>'+
+												'</td>'+
+		        							'</tr>');
+		        	}else{
+		        		alert("请检查团号是否重复，*号为必填项");
+		        	}
+		        }  
+			 }); 
 		});
 	/* 编辑 */
 		
