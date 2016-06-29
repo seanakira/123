@@ -211,7 +211,7 @@
 								<img class="nav-user-photo" src="resources/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>操作人</small>
-									Jason
+									${sessionScope.user.realName }
 								</span>
 
 								<i class="icon-caret-down"></i>
@@ -235,7 +235,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="#">
+									<a href="admin/logout">
 										<i class="icon-off"></i>
 										退出
 									</a>

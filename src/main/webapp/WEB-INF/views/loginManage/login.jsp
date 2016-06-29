@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<% String path = request.getContextPath()+"/"; %>
 <!DOCTYPE html>
 <html lang="zh">
 	<head>
@@ -12,26 +12,26 @@
 
 		<!-- basic styles -->
 
-		<link href="resources/assets/css/bootstrap.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="resources/assets/css/font-awesome.min.css" />
+		<link href="<%=path %>resources/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<%=path %>resources/assets/css/font-awesome.min.css" />
 
 		<!--[if IE 7]>
-		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		  <link rel="stylesheet" href="<%=path %>assets/css/font-awesome-ie7.min.css" />
 		<![endif]-->
 
 		<!-- page specific plugin styles -->
 
 		<!-- fonts -->
 
-		<link rel="stylesheet" href="resources/assets/css/fontsfromgoogle.css" />
+		<link rel="stylesheet" href="<%=path %>resources/assets/css/fontsfromgoogle.css" />
 
 		<!-- ace styles -->
 
-		<link rel="stylesheet" href="resources/assets/css/ace.min.css" />
-		<link rel="stylesheet" href="resources/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="<%=path %>resources/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="<%=path %>resources/assets/css/ace-rtl.min.css" />
 
 		<!--[if lte IE 8]>
-		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="<%=path %>assets/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -42,7 +42,7 @@
 		<script src="assets/js/html5shiv.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-        <link rel="stylesheet" href="resources/assets/css/localCSS.css" />
+        <link rel="stylesheet" href="<%=path %>resources/assets/css/localCSS.css" />
 	</head>
 
 	<body class="login-layout">
@@ -53,7 +53,7 @@
 						<div class="login-container">
 							<div class="center">
 							  <h1> <em class="icon-leaf green"></em> <span class="grey">CTS</span> <span class="grey">业务系统</span> </h1>
-							  <h4 class="blue">&copy; 港中旅国际（山东）旅行社有限公司</h4>
+							  <h4 class="blue">&copy; 港中旅国际（山东）旅行社有限公司 </h4>
 							</div>
 
 							<div class="space-6"></div>
@@ -62,10 +62,11 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-										  <h4 class="header blue lighter bigger"> <em class="icon-coffee green"></em> 登录 </h4>
+										  <h4 class="header blue lighter bigger" style="display: inline-block;"> <em class="icon-coffee green"></em> 登录 </h4>
+										  <span class="lbl red pull-right" style="margin-top: 25px;">${msg }</span>
 										  <div class="space-6"></div>
-
-											<form action="admin/login" method="post">
+										 
+											<form action="<%=path %>admin/login" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -248,19 +249,19 @@
 		<!--[if !IE]> -->
 
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='resources/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='<%=path %>resources/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='<%=path %>assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 
 		<script type="text/javascript">
-			if("ontouchend" in document) document.write("<script src='resources/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if("ontouchend" in document) document.write("<script src='<%=path %>resources/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- inline scripts related to this page -->

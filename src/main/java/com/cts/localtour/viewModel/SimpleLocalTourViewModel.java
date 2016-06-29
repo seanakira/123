@@ -4,7 +4,7 @@ import com.cts.localtour.entity.LocalTourTable;
 
 public class SimpleLocalTourViewModel {
 	private LocalTourTable localTourTable;
-	private String userName;
+	private String realName;
 	private String status;
 	private int days;
 	public LocalTourTable getLocalTourTable() {
@@ -13,11 +13,11 @@ public class SimpleLocalTourViewModel {
 	public void setLocalTourTable(LocalTourTable localTourTable) {
 		this.localTourTable = localTourTable;
 	}
-	public String getUserName() {
-		return userName;
+	public String getRealName() {
+		return realName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 	public String getStatus() {
 		return status;

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
-
+<%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String path = request.getContextPath()+"/"; %>
 
@@ -116,10 +116,10 @@
 											</c:otherwise>
 										</c:choose>
 									</td>
-									<td>${localTour.userName }</td>
+									<td>${localTour.realName }</td>
 									<td id="${localTour.localTourTable.id }">
 										<c:if test="${localTour.localTourTable.status==0 }">
-											<a id="edit" class="green" href="#" title="编辑">
+											<a id="edit" class="green"  data-toggle="modal" href="#modify" title="编辑">
 												<i class="icon-pencil bigger-130"></i>
 											</a>
 										</c:if>
@@ -210,15 +210,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/supplierInfoManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="/localtour/localTourManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/supplierInfoManage?page=${page }&key=${key }">${page }</a>
+												<a href="/localtour/localTourManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/supplierInfoManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="/localtour/localTourManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -1034,6 +1034,7 @@
 				}, 0);
 			} */
 		});
+		
 		/* 初始化选项 */
 		var selects = $("#create").find("select");
 			$.ajax({  
@@ -1195,8 +1196,8 @@
 			var endTime = new Date(inputs.eq(12).val());
 			var guideIds  = selects.eq(5).val()+"";
 			var remark = inputs.eq(14).val();
-			var userId = 1;
-			var deptId = 1;
+			var userId = '<%=((UserTable)session.getAttribute("user")).getId()%>';
+			var deptId = '<%=((UserTable)session.getAttribute("user")).getDeptId()%>';
 			var status = 0;
 			var enable = true;
 			var days = (endTime-startTime)/1000/60/60/24;
@@ -1204,6 +1205,7 @@
 						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
 						   endTime:endTime,guideIds:guideIds,remark:remark,userId:userId,deptId:deptId,status:status,enable:enable};
 			var myData = JSON.stringify(localTour);
+			alert(userId);
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
@@ -1225,10 +1227,10 @@
 												'<td>'+adultNo+'</td>'+
 												'<td>'+childrenNo+'</td>'+
 												'<td>'+days+'</td>'+
-												'<td>'+startTime.getFullYear()+'/'+startTime.getMonth()+'/'+startTime.getDate()+'</td>'+
-												'<td>'+endTime.getFullYear()+'/'+endTime.getMonth()+'/'+endTime.getDate()+'</td>'+
+												'<td>'+startTime.getFullYear()+'-'+startTime.getMonth()+'-'+startTime.getDate()+'</td>'+
+												'<td>'+endTime.getFullYear()+'-'+endTime.getMonth()+'-'+endTime.getDate()+'</td>'+
 												'<td>新建</td>'+
-												'<td>session.userName</td>'+
+												'<td>'+'<%=((UserTable)session.getAttribute("user")).getRealName()%>'+'</td>'+
 												'<td id="'+data+'">'+
 													'<a id="edit" class="green" href="#" title="编辑">'+
 														'<i class="icon-pencil bigger-130"></i>'+
@@ -1246,7 +1248,7 @@
 		        		alert("请检查团号是否重复，*号为必填项");
 		        	}
 		        }  
-			 }); 
+			 });
 		});
 	/* 编辑 */
 		

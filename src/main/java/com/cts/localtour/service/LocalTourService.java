@@ -41,12 +41,12 @@ public class LocalTourService extends BaseService{
 		for (int i = 0; i < localTours.size(); i++) {
 			SimpleLocalTourViewModel simpleLocalTourViewModel = new SimpleLocalTourViewModel();
 //			String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", localTours.get(i).getRegionId()+"")).get(0).getRegionName();
-			String userName = ((UserTable)this.getById("UserTable", localTours.get(i).getUserId())).getUserName();
+			String realName = ((UserTable)this.getById("UserTable", localTours.get(i).getUserId())).getRealName();
 			
 			simpleLocalTourViewModel.setLocalTourTable(localTours.get(i));
 			int days = (int) ((localTours.get(i).getEndTime().getTime()-localTours.get(i).getStartTime().getTime())/1000/60/60/24)+1;
 			simpleLocalTourViewModel.setDays(days);
-			simpleLocalTourViewModel.setUserName(userName);
+			simpleLocalTourViewModel.setRealName(realName);
 			if(localTours.get(i).getStatus()       ==0){
 				simpleLocalTourViewModel.setStatus("ÐÂ½¨");
 			}else if (localTours.get(i).getStatus()==1) {
