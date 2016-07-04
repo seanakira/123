@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-6-24 18:43:01 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-6-30 17:22:00 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -19,54 +19,54 @@ import javax.persistence.TemporalType;
 public class CostTable implements java.io.Serializable {
 
 	private Integer id;
-	private String tourNo;
-	private Integer borrowUserId;
+	private int tourId;
+	private int borrowUserId;
 	private Date costDate;
+	private int supplierScopeId;
 	private int contentId;
 	private int supplierId;
 	private float cost;
 	private int count;
-	private boolean canBorrow;
+	private Float realCost;
 	private float lendAmount;
 	private int days;
-	private int supplierScopeId;
+	private boolean isBorrow;
 	private String remark;
-	private float price;
 
 	public CostTable() {
 	}
 
-	public CostTable(String tourNo, Date costDate, int contentId, int supplierId, float cost, int count,
-			boolean canBorrow, float lendAmount, int days, int supplierScopeId, String remark, float price) {
-		this.tourNo = tourNo;
-		this.costDate = costDate;
-		this.contentId = contentId;
-		this.supplierId = supplierId;
-		this.cost = cost;
-		this.count = count;
-		this.canBorrow = canBorrow;
-		this.lendAmount = lendAmount;
-		this.days = days;
-		this.supplierScopeId = supplierScopeId;
-		this.remark = remark;
-		this.price = price;
-	}
-
-	public CostTable(String tourNo, Integer borrowUserId, Date costDate, int contentId, int supplierId, float cost,
-			int count, boolean canBorrow, float lendAmount, int days, int supplierScopeId, String remark, float price) {
-		this.tourNo = tourNo;
+	public CostTable(int tourId, int borrowUserId, Date costDate, int supplierScopeId, int contentId, int supplierId,
+			float cost, int count, float lendAmount, int days, boolean isBorrow, String remark) {
+		this.tourId = tourId;
 		this.borrowUserId = borrowUserId;
 		this.costDate = costDate;
+		this.supplierScopeId = supplierScopeId;
 		this.contentId = contentId;
 		this.supplierId = supplierId;
 		this.cost = cost;
 		this.count = count;
-		this.canBorrow = canBorrow;
 		this.lendAmount = lendAmount;
 		this.days = days;
-		this.supplierScopeId = supplierScopeId;
+		this.isBorrow = isBorrow;
 		this.remark = remark;
-		this.price = price;
+	}
+
+	public CostTable(int tourId, int borrowUserId, Date costDate, int supplierScopeId, int contentId, int supplierId,
+			float cost, int count, Float realCost, float lendAmount, int days, boolean isBorrow, String remark) {
+		this.tourId = tourId;
+		this.borrowUserId = borrowUserId;
+		this.costDate = costDate;
+		this.supplierScopeId = supplierScopeId;
+		this.contentId = contentId;
+		this.supplierId = supplierId;
+		this.cost = cost;
+		this.count = count;
+		this.realCost = realCost;
+		this.lendAmount = lendAmount;
+		this.days = days;
+		this.isBorrow = isBorrow;
+		this.remark = remark;
 	}
 
 	@Id
@@ -81,21 +81,21 @@ public class CostTable implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "tourNO", nullable = false, length = 16)
-	public String getTourNo() {
-		return this.tourNo;
+	@Column(name = "tourID", nullable = false)
+	public int getTourId() {
+		return this.tourId;
 	}
 
-	public void setTourNo(String tourNo) {
-		this.tourNo = tourNo;
+	public void setTourId(int tourId) {
+		this.tourId = tourId;
 	}
 
-	@Column(name = "BorrowUserID")
-	public Integer getBorrowUserId() {
+	@Column(name = "BorrowUserID", nullable = false)
+	public int getBorrowUserId() {
 		return this.borrowUserId;
 	}
 
-	public void setBorrowUserId(Integer borrowUserId) {
+	public void setBorrowUserId(int borrowUserId) {
 		this.borrowUserId = borrowUserId;
 	}
 
@@ -107,6 +107,15 @@ public class CostTable implements java.io.Serializable {
 
 	public void setCostDate(Date costDate) {
 		this.costDate = costDate;
+	}
+
+	@Column(name = "supplierScopeID", nullable = false)
+	public int getSupplierScopeId() {
+		return this.supplierScopeId;
+	}
+
+	public void setSupplierScopeId(int supplierScopeId) {
+		this.supplierScopeId = supplierScopeId;
 	}
 
 	@Column(name = "contentID", nullable = false)
@@ -145,13 +154,13 @@ public class CostTable implements java.io.Serializable {
 		this.count = count;
 	}
 
-	@Column(name = "canBorrow", nullable = false)
-	public boolean isCanBorrow() {
-		return this.canBorrow;
+	@Column(name = "realCost", precision = 12, scale = 0)
+	public Float getRealCost() {
+		return this.realCost;
 	}
 
-	public void setCanBorrow(boolean canBorrow) {
-		this.canBorrow = canBorrow;
+	public void setRealCost(Float realCost) {
+		this.realCost = realCost;
 	}
 
 	@Column(name = "lendAmount", nullable = false, precision = 12, scale = 0)
@@ -172,13 +181,13 @@ public class CostTable implements java.io.Serializable {
 		this.days = days;
 	}
 
-	@Column(name = "supplierScopeID", nullable = false)
-	public int getSupplierScopeId() {
-		return this.supplierScopeId;
+	@Column(name = "isBorrow", nullable = false)
+	public boolean isIsBorrow() {
+		return this.isBorrow;
 	}
 
-	public void setSupplierScopeId(int supplierScopeId) {
-		this.supplierScopeId = supplierScopeId;
+	public void setIsBorrow(boolean isBorrow) {
+		this.isBorrow = isBorrow;
 	}
 
 	@Column(name = "remark", nullable = false, length = 65535)
@@ -188,15 +197,6 @@ public class CostTable implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	@Column(name = "price", nullable = false, precision = 12, scale = 0)
-	public float getPrice() {
-		return this.price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
 	}
 
 }
