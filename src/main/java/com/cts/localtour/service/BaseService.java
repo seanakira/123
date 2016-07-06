@@ -143,4 +143,9 @@ public class BaseService<T> {
 		}
 		return baseDAO.getById(clzz, id);
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getByHql(String hql){
+		return baseDAO.findHql(hql);
+	}
 }

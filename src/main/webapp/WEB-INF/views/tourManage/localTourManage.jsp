@@ -233,7 +233,7 @@
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
-								<div id="headerName" class="table-header">
+								<div class="table-header">
 									团队信息
 						 		</div>
 						  	</div>
@@ -249,7 +249,7 @@
 					
 					
 										<li>
-											<a data-toggle="tab" href="#tour-tab-3">
+											<a class="trips" data-toggle="tab" href="#tour-tab-3">
 												<i class="orange icon-calendar bigger-120"></i>
 												行程
 											</a>
@@ -299,7 +299,7 @@
 													</td>
 													<td>国家/地区*</td>
 													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -332,9 +332,9 @@
 												</tr>
 												<tr>
 													<td>开始日期*</td>
-													<td><input id="datepickerStart" class="form-control" type="text"></td>
+													<td><input id="datepickerStart" class="form-control datepicker" type="text"></td>
 													<td>结束日期*</td>
-													<td><input id="datepickerEnd" class="form-control" type="text"></td>
+													<td><input id="datepickerEnd" class="form-control datepicker" type="text"></td>
 													<td>导游</td>
 													<td id="guideTd">
 														<input id="guide" type="text" placeholder="可选多个">
@@ -350,12 +350,12 @@
 											</tbody>
 										</table>
 										<div class="modal-header no-padding">
-											<div id="headerName" class="table-header">
+											<div class="table-header">
 												抵离信息
-												<a class="white" href="#"><i class="icon-plus bigger-100"></i></a>
+												<a class="white addArrDep" href="#"><i class="icon-plus bigger-100"></i></a>
 											</div>
 										</div>
-										<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 											<thead>
 												<tr>
 													<th>出发地</th>
@@ -369,19 +369,22 @@
 												</tr>
 											</thead>
 		
-											<tbody id="">
-												<tr>
+											<tbody class="arrInfo">
+												<tr id="arrModel" style="display: none;" >
 													<td>
 														<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 													<td>
-														<select>
+														<select class="traffic">
 															<option>飞机</option>
+															<option>火车</option>
+															<option>轮船</option>
+															<option>大巴</option>
 														</select>
 													</td>
-													<td><input id="arrTime" class="form-control" type="text"></td>
+													<td><input id="arrTime" class="form-control datepicker" type="text"></td>
 													<td><input type="text"></td>
 													<td>
 														<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
@@ -389,8 +392,8 @@
 														</select>
 													</td>
 													<td>
-														<a class="red" href="#">
-																<i class="icon-trash bigger-130"></i>
+														<a class="red delArrDep" href="#">
+															<i class="icon-trash bigger-130"></i>
 														</a>
 													</td>
 												</tr>
@@ -407,19 +410,22 @@
 													</th>
 												</tr>
 											</thead>
-											<tbody id="">
-												<tr>
+											<tbody class="departInfo">
+												<tr id="departModel"  style="display: none;">
 													<td>
 														<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 													<td>
-														<select>
+														<select class="traffic">
 															<option>飞机</option>
+															<option>火车</option>
+															<option>轮船</option>
+															<option>大巴</option>
 														</select>
 													</td>
-													<td><input id="departTime" class="form-control" type="text"></td>
+													<td><input id="departTime" class="form-control datepicker" type="text"></td>
 													<td><input type="text"></td>
 													<td>
 														<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
@@ -427,7 +433,7 @@
 														</select>
 													</td>
 													<td>
-														<a class="red" href="#">
+														<a class="red delArrDep" href="#">
 															<i class="icon-trash bigger-130"></i>
 														</a>
 													</td>
@@ -487,13 +493,9 @@
 												</a>
 											</li>
 										</ul>
-										<div class="tab-content no-padding">
+										<div class="tab-content no-padding" style="z-index: 1400;">
 											<div id="flight" class="tab-pane in active">
-												<table></table>
-											</div>
-											
-											<div id="hotel" class="tab-pane">
-												<table class="table table-striped table-bordered table-hover">
+												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
 															<th>日期</th>
@@ -503,45 +505,177 @@
 															<th>数量</th>
 															<th>天数</th>
 															<th>成本小计</th>
-															<!-- <th>已借金额</th> -->
 															<th>借款人</th>
 														</tr>
 													</thead>
-									            	<tr>
-									            		<td>2016/05/27</td>
-									            		<td>标准间(不含早)</td>
-									            		<td>青岛香格里拉大酒店</td>
-									            		<td>500</td>
-									            		<td>10</td>
-									            		<td>2</td>
-									            		<td>10000</td>
-									            		<td>15000</td>
-									            	</tr>
+													<tbody>
+													</tbody>
 									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
+											</div>
+											
+											<div id="hotel" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+										            		<td>
+										            			<input id="costTime" class="form-control datepicker" type="text">
+										            		</td>
+										            		<td>
+										            			<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+																	<option value="">&nbsp;</option>
+																</select>
+															</td>
+										            		<td>
+										            			<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+																	<option value="">&nbsp;</option>
+																</select>
+										            		</td>
+										            		<td><input class="form-control" type="text"></td>
+										            		<td><input class="form-control" type="text"></td>
+										            		<td><input class="form-control" type="text"></td>
+										            		<td></td>
+										            		<td>
+										            			<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
+																	<option value="">&nbsp;</option>
+																</select>
+															</td>
+										            	</tr>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="meal" class="tab-pane">
-												<table></table>
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th>成本</th>
+															<th>数量</th>
+															<th>天数</th>
+															<th>成本小计</th>
+															<th>借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="ticket" class="tab-pane">
-												<table></table>
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th>成本</th>
+															<th>数量</th>
+															<th>天数</th>
+															<th>成本小计</th>
+															<th>借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="shuttle" class="tab-pane">
-												<table></table>
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th>成本</th>
+															<th>数量</th>
+															<th>天数</th>
+															<th>成本小计</th>
+															<th>借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="tickets" class="tab-pane">
-												<table></table>
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th>成本</th>
+															<th>数量</th>
+															<th>天数</th>
+															<th>成本小计</th>
+															<th>借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="comprehensive" class="tab-pane">
-												<table></table>
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th>成本</th>
+															<th>数量</th>
+															<th>天数</th>
+															<th>成本小计</th>
+															<th>借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="other" class="tab-pane">
-												<table></table>
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th>日期</th>
+															<th>内容</th>
+															<th>供应商</th>
+															<th>成本</th>
+															<th>数量</th>
+															<th>天数</th>
+															<th>成本小计</th>
+															<th>借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											         			
 					         			</div><!-- tab content 结束 -->
@@ -550,59 +684,23 @@
 					         		
 					         		<div id="tour-tab-3" class="tab-pane fade">
 					         			<div class="tabbable tabs-left">
-					         			<ul class="nav nav-tabs" id="myTab3">
-											<li class="active">
-												<a data-toggle="tab" href="#day1">
-													2016.05.27
-												</a>
-											</li>
-											<li>
-												<a data-toggle="tab" href="#day2">
-													2016.05.28
-												</a>
-											</li>
-											<li>
-												<a data-toggle="tab" href="#day3">
-													2016.05.29
-												</a>
-											</li>
-											<li>
-												<a data-toggle="tab" href="#day4">
-													2016.05.30
-												</a>
-											</li>
-										</ul>
-										<div class="tab-content no-padding">
-											<div id="day1" class="tab-pane in active">
-												<div class="modal-header no-padding">
-													<div id="headerName" class="table-header">
-														日序：1
-											 		</div>
-											  	 </div>
-												<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-													<tr>
-														<td>行程：</td>
-														<td><textarea class="form-control" id="form-field-8" placeholder="Default Text" rows="8"></textarea></td>
-													</tr>
-													<tr><td>餐食：</td><td><input type="text" id="form-field-1" placeholder="餐食" class="col-xs-30"></td></tr>
-													<tr><td>住宿：</td><td><input type="text" id="form-field-1" placeholder="住宿" class="col-xs-30"></td></tr>
-													<tr><td>交通：</td><td><input type="text" id="form-field-1" placeholder="交通" class="col-xs-30"></td></tr>
-													<tr><td>备注：</td><td><textarea class="form-control" id="form-field-8" placeholder="Default Text" rows="1"></textarea></td></tr>
-												</table>
-											</div>
-											
-											<div id="day2" class="tab-pane">
-												<table></table>
-											</div>
-											
-											<div id="day3" class="tab-pane">
-												<table></table>
-											</div>
-											
-											<div id="day4" class="tab-pane">
-												<table></table>
-											</div>
-					         			</div><!-- tab content 结束 -->
+						         			<ul class="nav nav-tabs" id="myTab3">
+												
+											</ul>
+											<div class="tab-content no-padding">
+												<div id="tripModel" class="tab-pane in active" style="display:none;">
+													<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+														<tr>
+															<td>行程：</td>
+															<td><textarea class="form-control" id="form-field-8" rows="8"></textarea></td>
+														</tr>
+														<tr><td>餐食：</td><td><input type="text" id="form-field-1" class="col-xs-30"></td></tr>
+														<tr><td>住宿：</td><td><input type="text" id="form-field-1" class="col-xs-30"></td></tr>
+														<tr><td>交通：</td><td><input type="text" id="form-field-1" class="col-xs-30"></td></tr>
+														<tr><td>备注：</td><td><textarea class="form-control" id="form-field-8" rows="1"></textarea></td></tr>
+													</table>
+												</div>
+						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab结束 -->
 					         		</div><!-- 行程tab结束 -->
 					         		
@@ -659,7 +757,7 @@
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
-								<div id="headerName" class="table-header">
+								<div class="table-header">
 									团队信息
 						 		</div>
 						  	</div>
@@ -776,7 +874,7 @@
 											</tbody>
 										</table>
 										<div class="modal-header no-padding">
-											<div id="headerName" class="table-header">
+											<div class="table-header">
 												抵离信息
 												<a class="white" href="#"><i class="icon-plus bigger-100"></i></a>
 											</div>
@@ -1007,7 +1105,7 @@
 										<div class="tab-content no-padding">
 											<div id="day1" class="tab-pane in active">
 												<div class="modal-header no-padding">
-													<div id="headerName" class="table-header">
+													<div class="table-header">
 														日序：1
 											 		</div>
 											  	 </div>
@@ -1117,7 +1215,7 @@
 		});
 		
 		/* 日历初始化 */
-		$(".form-control,.hasDatepicker").datepicker({
+		$(".datepicker").not("#arrTime,#departTime").datepicker({
 			showOtherMonths: true,
 			selectOtherMonths: false,
 			//isRTL:true,
@@ -1147,7 +1245,7 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	selects.html('<option value="">&nbsp;</option>');
+		        	selects.not(".traffic").html('<option value="">&nbsp;</option>');
 		        	$.each(data.businessTypes,function(){
 		        		selects.eq(0).append('<option value="'+this.id+'">'+this.businessTypeName+'</option>');
 		        	});
@@ -1155,7 +1253,7 @@
 		        		selects.eq(1).append('<option value="'+this.id+'">'+this.tourTypeName+'</option>');
 		        	});
 		        	$.each(data.regions,function(){
-		        		selects.eq(2).append('<option value="'+this.id+'">'+this.regionName+'</option>');
+		        		$(".region").append('<option value="'+this.id+'">'+this.regionName+'</option>');
 		        	});
 		        	$.each(data.visitorTypes,function(){
 		        		selects.eq(3).append('<option value="'+this.id+'">'+this.visitorTypeName+'</option>');
@@ -1163,12 +1261,62 @@
 		        	$.each(data.customerAgencys,function(){
 		        		selects.eq(4).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
 		        	});
+		        	$.each(data.flightContents,function(){
+		        		selects.eq(11).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+		        	});
+		        	$.each(data.flightSuppliers,function(){
+		        		selects.eq(12).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(14).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(15).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(17).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(18).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(20).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(21).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(23).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(24).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(25).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(26).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(28).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(29).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(31).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		selects.eq(32).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	
 		        	selects.eq(0).chosen();
 		        	selects.eq(1).chosen();
 		        	selects.eq(2).chosen();
 		        	selects.eq(3).chosen();
 		        	selects.eq(4).chosen();
-		        	/* selects.eq(5).chosen(); */
+		        	selects.eq(11).chosen();
+		        	selects.eq(12).chosen();
 					$(".chosen-select").next().attr("style","width:100%;");
 					$(".chosen-select").next().find("input").attr("style","height:100%;");
 		        }  
@@ -1222,16 +1370,67 @@
 		$("#datepickerEnd").click(function(){
 			$("#guideTd").html('<input id="guide" type="text" placeholder="可选多个" style="width:100%;">');
 		});
+	/* 抵离信息*/
+		/* 增加 */
+		$(".addArrDep").click(function(){
+			var arr = $(".arrInfo");
+			var dep = $(".departInfo");
+			arr.append("<tr>"+$("#arrModel").html()+"</tr>");
+			dep.append("<tr>"+$("#departModel").html()+"</tr>");
+			arr.find("tr:last").find("select").chosen();
+			dep.find("tr:last").find("select").chosen();
+			arr.find("tr:last").find("#arrTime").attr("id","").datepicker({
+				showOtherMonths: true,
+				selectOtherMonths: false,
+			});
+			dep.find("tr:last").find("#departTime").attr("id","").datepicker({
+				showOtherMonths: true,
+				selectOtherMonths: false,
+			});
+		});
+		/* 删除 */
+		$("#arrDepTable").delegate(".delArrDep","click",function(){
+			$(this).parents("tr").remove();
+		});
+	/* 行程初始化 */
+		var tripModel = $("#tripModel").html();
+		$(".trips").click(function(){
+			var startTime = new Date($(this).parents("div").next().find("#datepickerStart").val());
+			var endTime = new Date($(this).parents("div").next().find("#datepickerEnd").val());
+			var days = (endTime-startTime)/1000/60/60/24+1;
+			var ul = $(this).parent().parent().parent().next().find("#myTab3");
+			var div = ul.parent().children("div");
+			ul.html("");
+			div.html("");
+			for (var int = 0; int < days; int++) {
+				var date = new Date(startTime.getTime()+1000*60*60*24*int);
+				if(int==0){
+					ul.append('<li class="active">'+
+								'<a data-toggle="tab" href="#day'+int+'">'+
+									date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+								'</a>'+
+						  	  '</li>');
+					div.append('<div id="day'+int+'" class="tab-pane in active">'+tripModel+'</div>');
+				}else{
+					ul.append('<li>'+
+							'<a data-toggle="tab" href="#day'+int+'">'+
+								date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+							'</a>'+
+					  	  '</li>');
+					div.append('<div id="day'+int+'" class="tab-pane">'+tripModel+'</div>');
+				}
+			}
+		});
 	/* 删除 */
 		$("#table").delegate("#delete","click",function(){
 			var obj = $(this);
 			var td = obj.parent();
 			var myData = {id:td.attr("id")};
 			$.ajax({  
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/del",  
-		        data:myData,  
+		        type: "GET",
+		        contentType:"application/json;charset=utf-8",
+		        url:"/localtour/localTourManage/del",
+		        data:myData,
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
@@ -1303,12 +1502,11 @@
 			var deptId = '<%=((UserTable)session.getAttribute("user")).getDeptId()%>';
 			var status = 0;
 			var enable = true;
-			var days = (endTime-startTime)/1000/60/60/24;
+			var days = (endTime-startTime)/1000/60/60/24+1;
 			var localTour={tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
 						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
 						   endTime:endTime,guideIds:guideIds,remark:remark,userId:userId,deptId:deptId,status:status,enable:enable};
 			var myData = JSON.stringify(localTour);
-			alert(userId);
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  

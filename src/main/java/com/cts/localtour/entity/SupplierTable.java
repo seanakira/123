@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-6-30 17:22:00 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-7-6 15:38:39 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,27 +21,23 @@ public class SupplierTable implements java.io.Serializable {
 	private String supplierContact;
 	private String phone;
 	private boolean enable;
-	private int supplierScopeId;
 
 	public SupplierTable() {
 	}
 
-	public SupplierTable(String supplierName, int regionId, String phone, boolean enable, int supplierScopeId) {
+	public SupplierTable(String supplierName, int regionId, String phone, boolean enable) {
 		this.supplierName = supplierName;
 		this.regionId = regionId;
 		this.phone = phone;
 		this.enable = enable;
-		this.supplierScopeId = supplierScopeId;
 	}
 
-	public SupplierTable(String supplierName, int regionId, String supplierContact, String phone, boolean enable,
-			int supplierScopeId) {
+	public SupplierTable(String supplierName, int regionId, String supplierContact, String phone, boolean enable) {
 		this.supplierName = supplierName;
 		this.regionId = regionId;
 		this.supplierContact = supplierContact;
 		this.phone = phone;
 		this.enable = enable;
-		this.supplierScopeId = supplierScopeId;
 	}
 
 	@Id
@@ -99,15 +95,6 @@ public class SupplierTable implements java.io.Serializable {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
-	}
-
-	@Column(name = "supplierScopeID", nullable = false)
-	public int getSupplierScopeId() {
-		return this.supplierScopeId;
-	}
-
-	public void setSupplierScopeId(int supplierScopeId) {
-		this.supplierScopeId = supplierScopeId;
 	}
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.BusinessTypeTable;
-import com.cts.localtour.entity.ContentTable;
+import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.SupplierScopeTable;
 import com.cts.localtour.entity.TourTypeTable;
@@ -338,7 +338,7 @@ public class DataManageController {
 		
 		@SuppressWarnings("unchecked")
 		@RequestMapping("/contentManage/save")
-		public @ResponseBody boolean save(@RequestBody ContentTable content){
+		public @ResponseBody boolean save(@RequestBody SupplierContentTable content){
 			content.setEnable(true);
 			contentService.add(content);
 			return true;
@@ -358,7 +358,7 @@ public class DataManageController {
 		
 		@SuppressWarnings("unchecked")
 		@RequestMapping("/contentManage/update")
-		public @ResponseBody boolean updata(@RequestBody ContentTable content){
+		public @ResponseBody boolean updata(@RequestBody SupplierContentTable content){
 			contentService.update(content);
 			return true;
 		}

@@ -6,8 +6,11 @@ import java.util.Hashtable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cts.localtour.DAO.BaseDAO;
 import com.cts.localtour.DAO.LocalTourDAO;
 import com.cts.localtour.entity.SupplierBusinessTable;
+import com.cts.localtour.entity.SupplierContentTable;
+import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.TourTypeTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.entity.VisitorTypeTable;
@@ -136,7 +139,18 @@ public class LocalTourService extends BaseService{
 		createInfoViewModel.setRegions((ArrayList<RegionTable>) this.getAllByString("RegionTable", "enable=?", true));
 		createInfoViewModel.setVisitorTypes((ArrayList<VisitorTypeTable>) this.getAllByString("VisitorTypeTable", "enable=?", true));
 		createInfoViewModel.setCustomerAgencys((ArrayList<CustomerAgencyTable>) this.getAllByString("CustomerAgencyTable", "enable=?", true));
+		createInfoViewModel.setFlightContents(this.getContents(1));
+		createInfoViewModel.setFlightSuppliers(this.getSuppliers(1));
 		return createInfoViewModel;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ArrayList<SupplierContentTable> getContents(int supplierScopeId){
+		return (ArrayList<SupplierContentTable>) this.getAllByString("SupplierContentTable", "supplierScopeId=? and enable=true", supplierScopeId);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<SupplierTable> getSuppliers(int supplierScopeID){
+		return (ArrayList<SupplierTable>) this.getByHql("FROM SupplierTable a,SupplierBusinessTable b WHERE a.id=b.supplierId and b.supplierScopeId='"+supplierScopeID+"'");
+	}
 }
