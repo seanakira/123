@@ -141,6 +141,20 @@ public class LocalTourService extends BaseService{
 		createInfoViewModel.setCustomerAgencys((ArrayList<CustomerAgencyTable>) this.getAllByString("CustomerAgencyTable", "enable=?", true));
 		createInfoViewModel.setFlightContents(this.getContents(1));
 		createInfoViewModel.setFlightSuppliers(this.getSuppliers(1));
+		createInfoViewModel.setHotelContents(this.getContents(2));
+		createInfoViewModel.setHotelSuppliers(this.getSuppliers(2));
+		createInfoViewModel.setMealContents(this.getContents(3));
+		createInfoViewModel.setMealSuppliers(this.getSuppliers(3));
+		createInfoViewModel.setTicketContents(this.getContents(4));
+		createInfoViewModel.setTicketSuppliers(this.getSuppliers(4));
+		createInfoViewModel.setShuttleContents(this.getContents(5));
+		createInfoViewModel.setShuttleSuppliers(this.getSuppliers(5));
+		createInfoViewModel.setTicketsContents(this.getContents(6));
+		createInfoViewModel.setTicketsSuppliers(this.getSuppliers(6));
+		createInfoViewModel.setComprehensiveContents(this.getContents(7));
+		createInfoViewModel.setComprehensiveSuppliers(this.getSuppliers(7));
+		createInfoViewModel.setOtherContents(this.getContents(8));
+		createInfoViewModel.setOtherSuppliers(this.getSuppliers(8));
 		return createInfoViewModel;
 	}
 	
@@ -151,6 +165,7 @@ public class LocalTourService extends BaseService{
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<SupplierTable> getSuppliers(int supplierScopeID){
-		return (ArrayList<SupplierTable>) this.getByHql("FROM SupplierTable a,SupplierBusinessTable b WHERE a.id=b.supplierId and b.supplierScopeId='"+supplierScopeID+"'");
+		ArrayList<SupplierTable> list = (ArrayList<SupplierTable>) this.getByHql("SELECT a FROM SupplierTable a,SupplierBusinessTable b WHERE a.id=b.supplierId and b.supplierScopeId='"+supplierScopeID+"'");
+		return list;
 	}
 }

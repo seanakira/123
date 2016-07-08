@@ -139,7 +139,7 @@
 											</a>
 										</c:if>
 										<c:if test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
-											<a class="grey" id="addCost" href="#" title="成本收入变更">
+											<a class="grey" id="chanageCost" href="#" title="成本收入变更">
 												<i class="icon-tasks bigger-130"></i>
 											</a>
 										</c:if>
@@ -328,7 +328,7 @@
 													<td>儿童数</td>
 													<td><input class="counts" type="text"></td>
 													<td>人数合计</td>
-													<td></td>
+													<td style="vertical-align: middle;"></td>
 												</tr>
 												<tr>
 													<td>开始日期*</td>
@@ -392,7 +392,7 @@
 														</select>
 													</td>
 													<td>
-														<a class="red delArrDep" href="#">
+														<a class="red delLine" href="#">
 															<i class="icon-trash bigger-130"></i>
 														</a>
 													</td>
@@ -433,7 +433,7 @@
 														</select>
 													</td>
 													<td>
-														<a class="red delArrDep" href="#">
+														<a class="red delLine" href="#">
 															<i class="icon-trash bigger-130"></i>
 														</a>
 													</td>
@@ -441,9 +441,9 @@
 											</tbody>
 										</table>
 					         		</div><!-- 修改tab结束 -->
-					         		<div id="tour-tab-2" class="tab-pane fade">
+					         		<div id="tour-tab-2" class="tab-pane fade costTable">
 					         			<div class="tabbable tabs-left">
-					         			<ul class="nav nav-tabs">
+					         			<ul class="nav nav-tabs" style="width: 10%;text-align: center;">
 											<li class="active">
 												<a data-toggle="tab" href="#flight">
 													<i class="red icon-large icon-plane"></i>
@@ -493,43 +493,28 @@
 												</a>
 											</li>
 										</ul>
-										<div class="tab-content no-padding" style="z-index: 1400;">
+										<div class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
 											<div id="flight" class="tab-pane in active">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
-														</tr>
-													</thead>
-													<tbody>
-													</tbody>
-									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
-											</div>
-											
-											<div id="hotel" class="tab-pane">
-												<table class="table table-striped table-bordered table-hover no-margin">
-													<thead>
-														<tr>
 															<th style="width: 15%;">日期</th>
-															<th>内容</th>
-															<th>供应商</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
+														<tr id="costModel" style="display:none;">
 										            		<td>
 										            			<input id="costTime" class="form-control datepicker" type="text">
 										            		</td>
@@ -543,139 +528,191 @@
 																	<option value="">&nbsp;</option>
 																</select>
 										            		</td>
-										            		<td><input class="form-control" type="text"></td>
-										            		<td><input class="form-control" type="text"></td>
-										            		<td><input class="form-control" type="text"></td>
-										            		<td></td>
+										            		<td><input class="form-control costPlus" type="text"></td>
+										            		<td><input class="form-control costPlus" type="text"></td>
+										            		<td><input class="form-control costPlus" type="text"></td>
+										            		<td style="vertical-align: middle;"></td>
 										            		<td>
-										            			<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
+										            			<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
 																	<option value="">&nbsp;</option>
 																</select>
+															</td>
+															<td style="vertical-align: middle;">
+																<a class="red delLine" href="#">
+																	<i class="icon-trash bigger-130"></i>
+																</a>
 															</td>
 										            	</tr>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
+											</div>
+											
+											<div id="hotel" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											
 											<div id="meal" class="tab-pane">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="ticket" class="tab-pane">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="shuttle" class="tab-pane">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="tickets" class="tab-pane">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="comprehensive" class="tab-pane">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											
 											<div id="other" class="tab-pane">
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-									            <button class="btn btn-minier btn-primary pull-right" style="margin: 5px;">增加</button>
 											</div>
 											         			
 					         			</div><!-- tab content 结束 -->
@@ -1215,7 +1252,7 @@
 		});
 		
 		/* 日历初始化 */
-		$(".datepicker").not("#arrTime,#departTime").datepicker({
+		$(".datepicker").not("#arrTime,#departTime,#costTime").datepicker({
 			showOtherMonths: true,
 			selectOtherMonths: false,
 			//isRTL:true,
@@ -1235,8 +1272,10 @@
 				}, 0);
 			}  */
 		});
-		
-		/* 初始化选项 */
+	/* 初始化选项 */
+		/* 全局 */
+		var selectInfo;
+		/* 新建初始化 */
 		var selects = $("#create").find("select");
 			$.ajax({  
 		        type: "GET",  
@@ -1261,62 +1300,27 @@
 		        	$.each(data.customerAgencys,function(){
 		        		selects.eq(4).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
 		        	});
-		        	$.each(data.flightContents,function(){
-		        		selects.eq(11).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-		        	});
-		        	$.each(data.flightSuppliers,function(){
-		        		selects.eq(12).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(14).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(15).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(17).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(18).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(20).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(21).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(23).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(24).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(25).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(26).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(28).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(29).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(31).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	$.each(data.customerAgencys,function(){
-		        		selects.eq(32).append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
-		        	});
-		        	
+		        	selectInfo = {flightContents : data.flightContents,
+									flightSuppliers : data.flightSuppliers,
+									hotelContents : data.hotelContents,
+									hotelSuppliers : data.hotelSuppliers,
+									mealContents : data.mealContents,
+									mealSuppliers : data.mealSuppliers,
+									ticketContents : data.ticketContents,
+									ticketSuppliers : data.ticketSuppliers,
+									shuttleContents : data.shuttleContents,
+									shuttleSuppliers : data.shuttleSuppliers,
+									ticketsContents : data.ticketsContents,
+									ticketsSuppliers : data.ticketsSuppliers,
+									comprehensiveContents : data.comprehensiveContents,
+									comprehensiveSuppliers : data.comprehensiveSuppliers,
+									otherContents : data.otherContents,
+									otherSuppliers : data.otherSuppliers};
 		        	selects.eq(0).chosen();
 		        	selects.eq(1).chosen();
 		        	selects.eq(2).chosen();
 		        	selects.eq(3).chosen();
 		        	selects.eq(4).chosen();
-		        	selects.eq(11).chosen();
-		        	selects.eq(12).chosen();
 					$(".chosen-select").next().attr("style","width:100%;");
 					$(".chosen-select").next().find("input").attr("style","height:100%;");
 		        }  
@@ -1324,20 +1328,20 @@
 		/* 人数计算 */
 		$(".counts").blur(function(){
 			var sum = 0;
-			$(".counts").each(function(){
+			var counts = $(this).parents("tbody").find(".counts");
+			counts.each(function(){
 				if(isNaN(parseInt($(this).val()))){
 				}else{
 					sum = sum + parseInt($(this).val());
 				}
-			})
-			
-			$(".counts").last().parent().next().next().text(sum);
+			});
+			counts.last().parent().next().next().text(sum);
 		});
 		/* 导游空闲查询 */
 		$("#create").delegate("#guide","click",function(){
 			var td = $(this).parents("td");
 			td.html("");
-			td.html('<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">'+
+			td.html('<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="guides" data-placeholder="可选多个...">'+
 					'<option value="">&nbsp;</option>'+
 					'</select>');
 			var select = $("#create").find("select").eq(5);
@@ -1388,8 +1392,8 @@
 				selectOtherMonths: false,
 			});
 		});
-		/* 删除 */
-		$("#arrDepTable").delegate(".delArrDep","click",function(){
+		/* 删除一行 */
+		$("table").delegate(".delLine","click",function(){
 			$(this).parents("tr").remove();
 		});
 	/* 行程初始化 */
@@ -1420,6 +1424,98 @@
 					div.append('<div id="day'+int+'" class="tab-pane">'+tripModel+'</div>');
 				}
 			}
+		});
+	/* 成本计算 */
+		/* 成本小计 */
+		$(".costTable").delegate(".costPlus","blur",function(){
+			var product = 1;
+			var costPlus = $(this).parents("tr").find(".costPlus");
+			costPlus.each(function(){
+				if(isNaN(parseInt($(this).val()))){
+					product = product * 0;
+				}else{
+					product = product * parseInt($(this).val());
+				}
+			})
+			costPlus.last().parent().next().text(product);
+		});
+		/* 成本增加 */
+		$(".addCost").click(function(){
+			var tbody = $(this).parents("table").children("tbody");
+			tbody.append("<tr>"+$("#costModel").html()+"</tr>");
+			var tr = tbody.children("tr").not("#costModel").last();
+			tr.find("#costTime").attr("id","").datepicker({
+				showOtherMonths: true,
+				selectOtherMonths: false,
+			});
+			var selects = tr.find("select");
+			if($(this).parents("div").attr("id")=="flight"){
+				$.each(selectInfo.flightContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.flightSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="hotel"){
+				$.each(selectInfo.hotelContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.hotelSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="meal"){
+				$.each(selectInfo.mealContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.mealSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="ticket"){
+				$.each(selectInfo.ticketContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.ticketSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="shuttle"){
+				$.each(selectInfo.shuttleContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.shuttleSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="tickets"){
+				$.each(selectInfo.ticketsContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.ticketsSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="comprehensive"){
+				$.each(selectInfo.comprehensiveContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.comprehensiveSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if($(this).parents("div").attr("id")=="other"){
+				$.each(selectInfo.otherContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.otherSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}
+			var guides = $("#guides");
+			var names = guides.find("option:selected");
+			if(guides.val()!=undefined){
+				for (var int = 0; int < guides.val().length; int++) {
+					selects.eq(2).append('<option value="'+guides.val()[int]+'">'+names.eq(int).text()+'</option>');
+				} 
+			}
+			selects.eq(2).append('<option value="'+'<%=((UserTable)session.getAttribute("user")).getId()%>'+'">'+'<%=((UserTable)session.getAttribute("user")).getRealName()%>'+'</option>');
+			selects.chosen();
+			selects.next().attr("style","width:100%;");
 		});
 	/* 删除 */
 		$("#table").delegate("#delete","click",function(){
