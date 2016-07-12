@@ -6,7 +6,6 @@ import java.util.Hashtable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.DAO.BaseDAO;
 import com.cts.localtour.DAO.LocalTourDAO;
 import com.cts.localtour.entity.SupplierBusinessTable;
 import com.cts.localtour.entity.SupplierContentTable;

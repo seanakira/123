@@ -11,22 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cts.localtour.entity.BusinessTypeTable;
-import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.ArrTable;
+import com.cts.localtour.entity.CostTable;
+import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.GuideTimeTable;
+import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
-import com.cts.localtour.entity.RegionTable;
-import com.cts.localtour.entity.SupplierScopeTable;
 import com.cts.localtour.entity.SupplierTable;
-import com.cts.localtour.entity.TourTypeTable;
-import com.cts.localtour.entity.VisitorTypeTable;
-import com.cts.localtour.service.RegionService;
+import com.cts.localtour.entity.TripTable;
+import com.cts.localtour.service.ArrService;
+import com.cts.localtour.service.CostService;
+import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.GuideTimeService;
+import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
-import com.cts.localtour.service.SupplierScopeService;
+import com.cts.localtour.service.TripService;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
+import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
-import com.cts.localtour.viewModel.SupplierInfoViewModel;
 
 @Controller
 public class TourController {
@@ -34,6 +36,16 @@ public class TourController {
 	private LocalTourService localTourService;
 	@Autowired
 	private GuideTimeService guideTimeService;
+	@Autowired
+	private ArrService arrService;
+	@Autowired
+	private DepartService departService;
+	@Autowired
+	private TripService tripService;
+	@Autowired
+	private CostService costService;
+	@Autowired
+	private IncomeService incomeService;
 	@RequestMapping("/localTourManage")
 	public String getSupplierAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -63,11 +75,28 @@ public class TourController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/save")
-	public @ResponseBody int save(@RequestBody LocalTourTable localTour){
+	public @ResponseBody int save(@RequestBody FullLocalTourViewModel full){
+		LocalTourTable localTour = full.getLocalTourTable();
+		ArrayList<ArrTable> arrTables = full.getArrTables();
+		ArrayList<DepartTable> departTable = full.getDepartTables();
+		ArrayList<TripTable> tripTables = full.getTripTables();
+		ArrayList<CostTable> costTables = full.getCostTables();
+		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
 			return 0;
 		}else{
+			for (int i = 0; i < costTables.size(); i++) {
+				if(costTables.get(i).getSupplierId()==0){
+					return 0;
+				}
+			}
+			for (int i = 0; i < incomeTables.size(); i++) {
+				if(incomeTables.get(i).getCustomerAgencyId()==0){
+					return 0;
+				}
+			}
 			int tourId = localTourService.add(localTour);
+			/*保存排团信息*/
 			if(!localTour.getGuideIds().equals("undefined")){
 				String[] guideIds = localTour.getGuideIds().split(",");
 				for (int i = 0; i < guideIds.length; i++) {
@@ -77,6 +106,40 @@ public class TourController {
 					guideTime.setStartTime(localTour.getStartTime());
 					guideTime.setTourId(tourId);
 					guideTimeService.add(guideTime);
+				}
+			}
+			/*保存抵达离开信息*/
+			if(!arrTables.isEmpty()){
+				for (int i = 0; i < arrTables.size(); i++) {
+					arrTables.get(i).setTourId(tourId);
+					arrService.add(arrTables.get(i));
+				}
+			}
+			if(!departTable.isEmpty()){
+				for (int i = 0; i < departTable.size(); i++) {
+					departTable.get(i).setTourId(tourId);
+					departService.add(departTable.get(i));
+				}
+			}
+			/*保存行程*/
+			if(!tripTables.isEmpty()){
+				for (int i = 0; i < tripTables.size(); i++) {
+					tripTables.get(i).setTourId(tourId);
+					tripService.add(tripTables.get(i));
+				}
+			}
+			/*保存成本*/
+			if(!costTables.isEmpty()){
+				for (int i = 0; i < costTables.size(); i++) {
+					tripTables.get(i).setTourId(tourId);
+					costService.add(tripTables.get(i));
+				}
+			}
+			/*保存收入*/
+			if(!incomeTables.isEmpty()){
+				for (int i = 0; i < incomeTables.size(); i++) {
+					incomeTables.get(i).setTourId(tourId);
+					incomeService.add(incomeTables.get(i));
 				}
 			}
 			return tourId;
