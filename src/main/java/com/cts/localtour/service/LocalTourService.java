@@ -11,14 +11,24 @@ import com.cts.localtour.entity.SupplierBusinessTable;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.TourTypeTable;
+import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.entity.VisitorTypeTable;
+import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.DepartTable;
+import com.cts.localtour.entity.IncomeTable;
+import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
+import com.cts.localtour.viewModel.ArrDepViewModel;
+import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
+import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
+import com.cts.localtour.viewModel.incomeViewModel;
 
 @SuppressWarnings("rawtypes")
 @Service
@@ -101,9 +111,9 @@ public class LocalTourService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public int add(LocalTourTable supplier){
+	public int add(LocalTourTable localTour){
 		try {
-			return ((LocalTourTable)localTourDAO.add(supplier)).getId();
+			return ((LocalTourTable)localTourDAO.add(localTour)).getId();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			return 0;
@@ -166,5 +176,76 @@ public class LocalTourService extends BaseService{
 	public ArrayList<SupplierTable> getSuppliers(int supplierScopeID){
 		ArrayList<SupplierTable> list = (ArrayList<SupplierTable>) this.getByHql("SELECT a FROM SupplierTable a,SupplierBusinessTable b WHERE a.id=b.supplierId and b.supplierScopeId='"+supplierScopeID+"'");
 		return list;
+	}
+	@SuppressWarnings("unchecked")
+	public FullLocalTourViewModel find(int id) {
+		FullLocalTourViewModel full = new FullLocalTourViewModel();
+		LocalTourTable localTour = (LocalTourTable) this.getById("LocalTourTable", id);
+		full.setLocalTourTable(localTour);
+		Hashtable<String, String> tourInfo = new Hashtable<String, String>();
+		tourInfo.put("businessTypeName", ((BusinessTypeTable)this.getById("BusinessTypeTable", localTour.getBusinessTypeId())).getBusinessTypeName());
+		tourInfo.put("tourTypeName", ((TourTypeTable)this.getById("TourTypeTable", localTour.getTourTypeId())).getTourTypeName());
+		tourInfo.put("regionName", ((RegionTable)this.getById("RegionTable", localTour.getRegionId())).getRegionName());
+		tourInfo.put("visitorTypeName", ((VisitorTypeTable)this.getById("VisitorTypeTable", localTour.getVisitorTypeId())).getVisitorTypeName());
+		tourInfo.put("customerAgencyName", ((CustomerAgencyTable)this.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
+		if(!localTour.getGuideIds().equals("undefined")&&!localTour.getGuideIds().equals("")){
+			String[] guideIds = localTour.getGuideIds().split(",");
+			String guideNames = ((UserTable)this.getById("UserTable", Integer.parseInt(guideIds[0]))).getRealName();
+			for (int i = 1; i < guideIds.length; i++) {
+				guideNames = guideNames+","+((UserTable)this.getById("UserTable", Integer.parseInt(guideIds[i]))).getRealName();
+			}
+			tourInfo.put("guideNames", guideNames);
+		}else{
+			tourInfo.put("guideNames", "");
+		}
+		full.setTourInfo(tourInfo);
+		ArrayList<ArrTable> arrTables = (ArrayList<ArrTable>) this.getAllByString("ArrTable", "tourId=?", id);
+		ArrayList<ArrDepViewModel> arrs = new ArrayList<ArrDepViewModel>();
+		for (int i = 0; i < arrTables.size(); i++) {
+			ArrDepViewModel arr = new ArrDepViewModel();
+			arr.setArrTable(arrTables.get(i));
+			arr.setRegion1(((RegionTable)this.getById("RegionTable", arrTables.get(i).getOriginId())).getRegionName());
+			arr.setRegion2(((RegionTable)this.getById("RegionTable", arrTables.get(i).getArrRegionId())).getRegionName());
+			arrs.add(arr);
+		}
+		full.setArrs(arrs);
+		ArrayList<DepartTable> departTables = (ArrayList<DepartTable>) this.getAllByString("DepartTable", "tourId=?", id);
+		ArrayList<ArrDepViewModel> departs = new ArrayList<ArrDepViewModel>();
+		for (int i = 0; i < departTables.size(); i++) {
+			ArrDepViewModel depart = new ArrDepViewModel();
+			depart.setDepartTable(departTables.get(i));
+			depart.setRegion1(((RegionTable)this.getById("RegionTable", departTables.get(i).getDestId())).getRegionName());
+			depart.setRegion2(((RegionTable)this.getById("RegionTable", departTables.get(i).getDepartRegionId())).getRegionName());
+			departs.add(depart);
+		}
+		full.setDeparts(departs);
+		full.setTripTables((ArrayList<TripTable>) this.getAllByString("TripTable", "tourId=?", id));
+		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=?", id);
+		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
+		for (int i = 0; i < costTables.size(); i++) {
+			CostViewModel cost = new CostViewModel();
+			cost.setCostTable(costTables.get(i));
+			cost.setContentName(((SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
+			cost.setSupplierName(((SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
+			cost.setBorrowUserName(((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
+			costs.add(cost);
+		}
+		full.setCosts(costs);
+		ArrayList<IncomeTable> incomeTables = (ArrayList<IncomeTable>) this.getAllByString("IncomeTable", "tourId=?", id);
+		ArrayList<incomeViewModel> incomes = new ArrayList<incomeViewModel>();
+		for (int i = 0; i < incomeTables.size(); i++) {
+			incomeViewModel income = new incomeViewModel();
+			income.setIncomeTable(incomeTables.get(i));
+			income.setCustomerAgencyName(((CustomerAgencyTable)this.getById("CustomerAgencyTable", incomeTables.get(i).getCustomerAgencyId())).getCustomerAgencyName());
+			float invoiceAmount = 0;
+			ArrayList<InvoiceTable> invoiceTables =  (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "incomeId=?", incomeTables.get(i).getId());
+			for (int j = 0; j < invoiceTables.size(); j++) {
+				invoiceAmount = invoiceAmount+invoiceTables.get(i).getInvoiceAmount();
+			}
+			income.setInvoiceAmount(invoiceAmount);
+			incomes.add(income);
+		}
+		full.setIncomes(incomes);
+		return full;
 	}
 }

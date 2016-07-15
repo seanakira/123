@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-7-12 12:02:55 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-7-15 14:45:42 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ public class TripTable implements java.io.Serializable {
 
 	private Integer id;
 	private int tourId;
-	private int order;
+	private int number;
 	private String trip;
 	private String meal;
 	private String stay;
@@ -27,14 +27,14 @@ public class TripTable implements java.io.Serializable {
 	public TripTable() {
 	}
 
-	public TripTable(int tourId, int order) {
+	public TripTable(int tourId, int number) {
 		this.tourId = tourId;
-		this.order = order;
+		this.number = number;
 	}
 
-	public TripTable(int tourId, int order, String trip, String meal, String stay, String traffic, String remark) {
+	public TripTable(int tourId, int number, String trip, String meal, String stay, String traffic, String remark) {
 		this.tourId = tourId;
-		this.order = order;
+		this.number = number;
 		this.trip = trip;
 		this.meal = meal;
 		this.stay = stay;
@@ -63,13 +63,13 @@ public class TripTable implements java.io.Serializable {
 		this.tourId = tourId;
 	}
 
-	@Column(name = "order", nullable = false)
-	public int getOrder() {
-		return this.order;
+	@Column(name = "number", nullable = false)
+	public int getNumber() {
+		return this.number;
 	}
 
-	public void setOrder(int order) {
-		this.order = order;
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	@Column(name = "trip", length = 65535)

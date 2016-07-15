@@ -17,7 +17,6 @@ import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
-import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.CostService;
@@ -78,10 +77,11 @@ public class TourController {
 	public @ResponseBody int save(@RequestBody FullLocalTourViewModel full){
 		LocalTourTable localTour = full.getLocalTourTable();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
-		ArrayList<DepartTable> departTable = full.getDepartTables();
+		ArrayList<DepartTable> departTables = full.getDepartTables();
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
+		
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
 			return 0;
 		}else{
@@ -96,50 +96,52 @@ public class TourController {
 				}
 			}
 			int tourId = localTourService.add(localTour);
-			/*保存排团信息*/
-			if(!localTour.getGuideIds().equals("undefined")){
-				String[] guideIds = localTour.getGuideIds().split(",");
-				for (int i = 0; i < guideIds.length; i++) {
-					GuideTimeTable guideTime = new GuideTimeTable();
-					guideTime.setEndTime(localTour.getEndTime());
-					guideTime.setGuideId(Integer.parseInt(guideIds[i]));
-					guideTime.setStartTime(localTour.getStartTime());
-					guideTime.setTourId(tourId);
-					guideTimeService.add(guideTime);
+			if(tourId!=0){
+				/*保存排团信息*/
+				if(!localTour.getGuideIds().equals("undefined")&&!localTour.getGuideIds().equals("")){
+					String[] guideIds = localTour.getGuideIds().split(",");
+					for (int i = 0; i < guideIds.length; i++) {
+						GuideTimeTable guideTime = new GuideTimeTable();
+						guideTime.setEndTime(localTour.getEndTime());
+						guideTime.setGuideId(Integer.parseInt(guideIds[i]));
+						guideTime.setStartTime(localTour.getStartTime());
+						guideTime.setTourId(tourId);
+						guideTimeService.add(guideTime);
+					}
 				}
-			}
-			/*保存抵达离开信息*/
-			if(!arrTables.isEmpty()){
-				for (int i = 0; i < arrTables.size(); i++) {
-					arrTables.get(i).setTourId(tourId);
-					arrService.add(arrTables.get(i));
+				/*保存抵达离开信息*/
+				if(!arrTables.isEmpty()){
+					for (int i = 0; i < arrTables.size(); i++) {
+						arrTables.get(i).setTourId(tourId);
+						arrService.add(arrTables.get(i));
+					}
 				}
-			}
-			if(!departTable.isEmpty()){
-				for (int i = 0; i < departTable.size(); i++) {
-					departTable.get(i).setTourId(tourId);
-					departService.add(departTable.get(i));
+				if(!departTables.isEmpty()){
+					for (int i = 0; i < departTables.size(); i++) {
+						departTables.get(i).setTourId(tourId);
+						departService.add(departTables.get(i));
+					}
 				}
-			}
-			/*保存行程*/
-			if(!tripTables.isEmpty()){
-				for (int i = 0; i < tripTables.size(); i++) {
-					tripTables.get(i).setTourId(tourId);
-					tripService.add(tripTables.get(i));
+				/*保存行程*/
+				if(!tripTables.isEmpty()){
+					for (int i = 0; i < tripTables.size(); i++) {
+						tripTables.get(i).setTourId(tourId);
+						tripService.add(tripTables.get(i));
+					}
 				}
-			}
-			/*保存成本*/
-			if(!costTables.isEmpty()){
-				for (int i = 0; i < costTables.size(); i++) {
-					tripTables.get(i).setTourId(tourId);
-					costService.add(tripTables.get(i));
+				/*保存成本*/
+				if(!costTables.isEmpty()){
+					for (int i = 0; i < costTables.size(); i++) {
+						costTables.get(i).setTourId(tourId);
+						costService.add(costTables.get(i));
+					}
 				}
-			}
-			/*保存收入*/
-			if(!incomeTables.isEmpty()){
-				for (int i = 0; i < incomeTables.size(); i++) {
-					incomeTables.get(i).setTourId(tourId);
-					incomeService.add(incomeTables.get(i));
+				/*保存收入*/
+				if(!incomeTables.isEmpty()){
+					for (int i = 0; i < incomeTables.size(); i++) {
+						incomeTables.get(i).setTourId(tourId);
+						incomeService.add(incomeTables.get(i));
+					}
 				}
 			}
 			return tourId;
@@ -169,11 +171,9 @@ public class TourController {
 		return true;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@RequestMapping("/localTourManage/update")
-	public @ResponseBody boolean updata(@RequestBody SupplierTable supplier){
-		localTourService.update(supplier);
-		return true;
+	@RequestMapping("/localTourManage/find")
+	public @ResponseBody FullLocalTourViewModel find(@RequestParam int tourId){
+		return localTourService.find(tourId);
 	}
 	
 /*	@RequestMapping("/supplierBusiness/update")

@@ -1,9 +1,11 @@
 package com.cts.localtour.entity;
-// Generated 2016-7-12 12:02:55 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-7-15 14:45:42 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,7 +18,7 @@ import javax.persistence.TemporalType;
 @Table(name = "departTable", catalog = "localtour")
 public class DepartTable implements java.io.Serializable {
 
-	private int id;
+	private Integer id;
 	private int tourId;
 	private int destId;
 	private String departTraffic;
@@ -27,9 +29,8 @@ public class DepartTable implements java.io.Serializable {
 	public DepartTable() {
 	}
 
-	public DepartTable(int id, int tourId, int destId, String departTraffic, Date departTime, String departTrafficNo,
+	public DepartTable(int tourId, int destId, String departTraffic, Date departTime, String departTrafficNo,
 			int departRegionId) {
-		this.id = id;
 		this.tourId = tourId;
 		this.destId = destId;
 		this.departTraffic = departTraffic;
@@ -39,13 +40,14 @@ public class DepartTable implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "Id", unique = true, nullable = false)
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
