@@ -507,7 +507,7 @@
 	/* 初始化 */
 			$("#statementManage").addClass("open");
 			$("#statementManage").children("ul").attr("style","display:block");
-			$("#actualPayManage").addClass("active");
+			$("#actualCollectManage").addClass("active");
 			$("#addModel").children("td").eq(3).html($("#select").html());
 			$("#addModel").children("td").eq(4).html($("#multiple").html());
 			$("#datepickerStart").datepicker({

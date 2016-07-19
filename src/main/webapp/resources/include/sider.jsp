@@ -106,82 +106,46 @@
 							</a>
 
 							<ul class="submenu">
-								<li id="loanManage">
-									<a href="<%=path %>loanManage">
+								<li id="lendManage">
+									<a href="<%=path %>lendManage">
 										<i class="icon-double-angle-right"></i>
 										借款管理
 									</a>
 								</li>
 
-								<li>
-									<a href="buttons.html">
+								<li id="needCollectManage">
+									<a href="<%=path %>needCollectManage">
 										<i class="icon-double-angle-right"></i>
 										应收款项
 									</a>
 								</li>
 
-								<li id="lendManage">
-									<a href="lendManage">
+								<li id="needPayManage">
+									<a href="<%=path %>needPayManage">
 										<i class="icon-double-angle-right"></i>
 										应付款项
 									</a>
 								</li>
 
-								<li>
-									<a href="jquery-ui.html">
+								<li id="actualCollectManage">
+									<a href="<%=path %>actualCollectManage">
 										<i class="icon-double-angle-right"></i>
 										实收款项
 									</a>
 								</li>
 
-								<li id="actualLendManage">
-									<a href="actualLendManage">
+								<li id="actualPayManage">
+									<a href="<%=path %>actualPayManage">
 										<i class="icon-double-angle-right"></i>
 										实付款项
 									</a>
 								</li>
 
-								<li>
-									<a href="#" class="dropdown-toggle">
+								<li id="tourBalanceManage">
+									<a href="<%=path %>tourBalanceManage">
 										<i class="icon-double-angle-right"></i>
-
 										团队结算
-										<b class="arrow icon-angle-down"></b>
 									</a>
-
-									<ul class="submenu">
-										<li>
-											<a href="#">
-												<i class="icon-leaf"></i>
-												第一级
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="dropdown-toggle">
-												<i class="icon-pencil"></i>
-
-												第四级
-												<b class="arrow icon-angle-down"></b>
-											</a>
-
-											<ul class="submenu">
-												<li>
-													<a href="#">
-														<i class="icon-plus"></i>
-														添加产品
-													</a>
-												</li>
-
-												<li>
-													<a href="#">
-														<i class="icon-eye-open"></i>
-														查看商品
-													</a>
-												</li>
-											</ul>
-										</li>
-									</ul>
 								</li>
 							</ul>
 						</li>
