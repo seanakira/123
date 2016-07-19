@@ -119,7 +119,7 @@
 									<td>${localTour.realName }</td>
 									<td id="${localTour.localTourTable.id }">
 										<c:if test="${localTour.localTourTable.status==0 }">
-											<a id="edit" class="green"  data-toggle="modal" href="#modify" title="编辑">
+											<a id="editTour" class="green"  data-toggle="modal" href="#edit" title="编辑">
 												<i class="icon-pencil bigger-130"></i>
 											</a>
 										</c:if>
@@ -280,12 +280,12 @@
 											<tbody>
 												<tr>
 													<td>团号*</td>
-													<td><input type="text"></td>
+													<td><input class="form-control" type="text"></td>
 													<td>团名*</td>
-													<td><input type="text"></td>
+													<td><input class="form-control" type="text"></td>
 													<td>业务类型*</td>
 													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -293,7 +293,7 @@
 												<tr>
 													<td>团队类型*</td>
 													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -318,15 +318,15 @@
 														</select>
 													</td>
 													<td>组团人*</td>
-													<td><input type="text"></td>
+													<td><input class="form-control" type="text"></td>
 													<td>全陪人数</td>
-													<td><input class="counts" type="text"></td>
+													<td><input class="counts form-control" type="text"></td>
 												</tr>
 												<tr>
 													<td>成人数*</td>
-													<td><input class="counts" type="text"></td>
+													<td><input class="counts form-control" type="text"></td>
 													<td>儿童数</td>
-													<td><input class="counts" type="text"></td>
+													<td><input class="counts form-control" type="text"></td>
 													<td>人数合计</td>
 													<td style="vertical-align: middle;"></td>
 												</tr>
@@ -337,7 +337,7 @@
 													<td><input id="datepickerEnd" class="form-control datepicker" type="text"></td>
 													<td>导游</td>
 													<td id="guideTd">
-														<input id="guide" type="text" placeholder="可选多个">
+														<input id="guide" class="form-control" type="text" placeholder="可选多个">
 														<!-- <select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
 															<option value="">&nbsp;</option>
 														</select> -->
@@ -345,7 +345,7 @@
 												</tr>
 												<tr>
 													<td>备注</td>
-													<td><input type="text"></td>
+													<td><input class="form-control" type="text"></td>
 												</tr>
 											</tbody>
 										</table>
@@ -1196,7 +1196,7 @@
 				</div>
 <!-- 查看结束 -->
 <!-- 编辑模板 -->
-				<div aria-hidden="true" style="display: none;" id="modify" class="modal fade" tabindex="-1">
+				<div aria-hidden="true" style="display: none;" id="edit" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
@@ -1208,7 +1208,7 @@
 					         	<div class="tabbable">
 					         		<ul class="nav nav-tabs padding-18" id="myTab">
 										<li class="active">
-											<a data-toggle="tab" href="#tourInfo">
+											<a data-toggle="tab" href="#tourInfo2">
 												<i class="blue icon-laptop bigger-120"></i>
 												基本信息
 											</a>
@@ -1216,7 +1216,7 @@
 					
 					
 										<li>
-											<a data-toggle="tab" href="#trips">
+											<a data-toggle="tab" href="#trips2">
 												<i class="orange icon-calendar bigger-120"></i>
 												行程
 											</a>
@@ -1224,13 +1224,13 @@
 										
 										
 										<li>
-											<a data-toggle="tab" href="#costs">
+											<a data-toggle="tab" href="#costs2">
 												<i class="green icon-credit-card bigger-120"></i>
 												成本
 											</a>
 										</li>
 										<li>
-											<a data-toggle="tab" href="#incomes">
+											<a data-toggle="tab" href="#incomes2">
 												<i class="pink icon-briefcase bigger-120"></i>
 												收入
 											</a>
@@ -1239,90 +1239,85 @@
 					         	</div>
 					         	
 					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
-					         		<div id="tourInfo" class="tab-pane fade in active">
+					         		<div id="tourInfo2" class="tab-pane fade in active">
 					         			<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 											<thead>
 											</thead>
 		
-											<tbody id="">
+											<tbody>
 												<tr>
 													<td>团号*</td>
-													<td><input type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 													<td>团名*</td>
-													<td><input type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 													<td>业务类型*</td>
-													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+													<td class="tourInfo">
+														<select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 												</tr>
 												<tr>
 													<td>团队类型*</td>
-													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+													<td class="tourInfo">
+														<select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 													<td>国家/地区*</td>
-													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+													<td class="tourInfo">
+														<select style="display: none;" class="width-20 chosen-select form-control region" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 													<td>游客类型*</td>
-													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+													<td class="tourInfo">
+														<select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 												</tr>
 												<tr>
 													<td>组团社*</td>
-													<td>
-														<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
-															<option value="">&nbsp;</option>
-														</select>
-													</td>
+													<td class="tourInfo"></td>
 													<td>组团人*</td>
-													<td><input type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 													<td>全陪人数</td>
-													<td><input class="counts" type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 												</tr>
 												<tr>
 													<td>成人数*</td>
-													<td><input class="counts" type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 													<td>儿童数</td>
-													<td><input class="counts" type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 													<td>人数合计</td>
-													<td></td>
+													<td class="tourInfo"></td>
 												</tr>
 												<tr>
 													<td>开始日期*</td>
-													<td><input id="datepickerStart" class="form-control" type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control datepicker" /></td>
 													<td>结束日期*</td>
-													<td><input id="datepickerEnd" class="form-control" type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control datepicker" /></td>
 													<td>导游</td>
-													<td id="guideTd">
-														<input id="guide" type="text" placeholder="可选多个">
-														<!-- <select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
+													<td class="tourInfo">
+														<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
 															<option value="">&nbsp;</option>
-														</select> -->
+														</select>
 													</td>
 												</tr>
 												<tr>
 													<td>备注</td>
-													<td><input type="text"></td>
+													<td class="tourInfo"><input type="text" class="form-control" /></td>
 												</tr>
 											</tbody>
 										</table>
 										<div class="modal-header no-padding">
 											<div class="table-header">
 												抵离信息
-												<a class="white" href="#"><i class="icon-plus bigger-100"></i></a>
+												<a class="white addArrDep" href="#"><i class="icon-plus bigger-100"></i></a>
 											</div>
 										</div>
-										<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 											<thead>
 												<tr>
 													<th>出发地</th>
@@ -1330,282 +1325,270 @@
 													<th>抵达时间</th>
 													<th>抵达班次</th>
 													<th>抵达地</th>
-													<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
-														操作
-													</th>
 												</tr>
 											</thead>
 		
-											<tbody id="">
-												<tr>
-													<td>
-														<select>
-															<option>广州</option>
-														</select>
-													</td>
-													<td>
-														<select>
-															<option>飞机</option>
-														</select>
-													</td>
-													<td><input id="arrTime" class="form-control" type="text"></td>
-													<td><input type="text"></td>
-													<td>
-														<select>
-															<option>烟台</option>
-														</select>
-													</td>
-													<td>
-														<a id="edit" class="green" href="#">
-																<i class="icon-pencil bigger-130"></i>
-														</a>
-														<a class="red" href="#">
-																<i class="icon-trash bigger-130"></i>
-														</a>
-													</td>
-												</tr>
+											<tbody class="arrInfo">
 											</tbody>
 											<thead>
 												<tr>
-													<th>前往地</th>
-													<th>离开交通</th>
-													<th>离开时间</th>
-													<th>离开班次</th>
-													<th>离开地</th>
-													<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
-														操作
-													</th>
+													<th style="width: 19%;">前往地</th>
+													<th style="width: 19%;">离开交通</th>
+													<th style="width: 19%;">离开时间</th>
+													<th style="width: 19%;">离开班次</th>
+													<th style="width: 19%;">离开地</th>
 												</tr>
 											</thead>
-											<tbody id="">
-												<tr>
-													<td>
-														<select>
-															<option>广州</option>
-														</select>
-													</td>
-													<td>
-														<select>
-															<option>飞机</option>
-														</select>
-													</td>
-													<td><input id="departTime" class="form-control" type="text"></td>
-													<td><input type="text"></td>
-													<td>
-														<select>
-															<option>青岛</option>
-														</select>
-													</td>
-													<td>
-														<a id="edit" class="green" href="#">
-															<i class="icon-pencil bigger-130"></i>
-														</a>
-														<a class="red" href="#">
-															<i class="icon-trash bigger-130"></i>
-														</a>
-													</td>
-												</tr>
+											<tbody class="departInfo">
 											</tbody>
 										</table>
 					         		</div><!-- 修改tab结束 -->
-					         		<div id="costs" class="tab-pane fade">
+					         		<div id="costs2" class="tab-pane fade costTable">
 					         			<div class="tabbable tabs-left">
-					         			<ul class="nav nav-tabs">
+					         			<ul class="nav nav-tabs" style="width: 10%;text-align: center;">
 											<li class="active">
-												<a data-toggle="tab" href="#flight">
+												<a data-toggle="tab" href="#flight2">
 													<i class="red icon-large icon-plane"></i>
 													机票
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#hotel">
+												<a data-toggle="tab" href="#hotel2">
 													<i class="pink icon-large icon-building"></i>
 													订房
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#meal">
+												<a data-toggle="tab" href="#meal2">
 													<i class="orange icon-large icon-food"></i>
 													订餐
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#ticket">
+												<a data-toggle="tab" href="#ticket2">
 													<i class="green icon-large icon-hdd"></i>
 													门票
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#shuttle">
+												<a data-toggle="tab" href="#shuttle2">
 													<i class="dark icon-large icon-truck"></i>
 													订车
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#tickets">
+												<a data-toggle="tab" href="#tickets2">
 													<i class="blue icon-large icon-list-alt"></i>
 													票务
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#comprehensive">
+												<a data-toggle="tab" href="#comprehensive2">
 													<i class="purple icon-large icon-money"></i>
 													综费
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#other">
+												<a data-toggle="tab" href="#other2">
 													<i class="black icon-large icon-leaf"></i>
 													其他
 												</a>
 											</li>
 										</ul>
-										<div class="tab-content no-padding">
-											<div id="flight" class="tab-pane in active">
-												<table></table>
-											</div>
-											
-											<div id="hotel" class="tab-pane">
-												<table class="table table-striped table-bordered table-hover">
+										<div class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
+											<div id="flight2" class="tab-pane in active">
+												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th>日期</th>
-															<th>内容</th>
-															<th>供应商</th>
-															<th>成本</th>
-															<th>数量</th>
-															<th>天数</th>
-															<th>成本小计</th>
-															<!-- <th>已借金额</th> -->
-															<th>借款人</th>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
 														</tr>
 													</thead>
-									            	<tr>
-									            		<td>2016/05/27</td>
-									            		<td>标准间(不含早)</td>
-									            		<td>青岛香格里拉大酒店</td>
-									            		<td>500</td>
-									            		<td>10</td>
-									            		<td>2</td>
-									            		<td>10000</td>
-									            		<td>15000</td>
-									            	</tr>
+													<tbody>
+													</tbody>
 									            </table>
 											</div>
 											
-											<div id="meal" class="tab-pane">
-												<table></table>
+											<div id="hotel2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											
-											<div id="ticket" class="tab-pane">
-												<table></table>
+											<div id="meal2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											
-											<div id="shuttle" class="tab-pane">
-												<table></table>
+											<div id="ticket2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											
-											<div id="tickets" class="tab-pane">
-												<table></table>
+											<div id="shuttle2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											
-											<div id="comprehensive" class="tab-pane">
-												<table></table>
+											<div id="tickets2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											
-											<div id="other" class="tab-pane">
-												<table></table>
+											<div id="comprehensive2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="other2" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 15%;">日期</th>
+															<th style="width: 17.5%;">内容</th>
+															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
 											</div>
 											         			
 					         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
 					         		
-					         		<div id="trips" class="tab-pane fade">
+					         		<div id="trips2" class="tab-pane fade">
 					         			<div class="tabbable tabs-left">
-					         			<ul class="nav nav-tabs" id="myTab3">
-											<li class="active">
-												<a data-toggle="tab" href="#day1">
-													2016.05.27
-												</a>
-											</li>
-											<li>
-												<a data-toggle="tab" href="#day2">
-													2016.05.28
-												</a>
-											</li>
-											<li>
-												<a data-toggle="tab" href="#day3">
-													2016.05.29
-												</a>
-											</li>
-											<li>
-												<a data-toggle="tab" href="#day4">
-													2016.05.30
-												</a>
-											</li>
-										</ul>
-										<div class="tab-content no-padding">
-											<div id="day1" class="tab-pane in active">
-												<div class="modal-header no-padding">
-													<div class="table-header">
-														日序：1
-											 		</div>
-											  	 </div>
-												<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-													<tr>
-														<td>行程：</td>
-														<td><textarea class="form-control" id="form-field-8" placeholder="Default Text" rows="8"></textarea></td>
-													</tr>
-													<tr><td>餐食：</td><td><input type="text" id="form-field-1" placeholder="餐食" class="col-xs-30"></td></tr>
-													<tr><td>住宿：</td><td><input type="text" id="form-field-1" placeholder="住宿" class="col-xs-30"></td></tr>
-													<tr><td>交通：</td><td><input type="text" id="form-field-1" placeholder="交通" class="col-xs-30"></td></tr>
-													<tr><td>备注：</td><td><textarea class="form-control" id="form-field-8" placeholder="Default Text" rows="1"></textarea></td></tr>
-												</table>
-											</div>
-											
-											<div id="day2" class="tab-pane">
-												<table></table>
-											</div>
-											
-											<div id="day3" class="tab-pane">
-												<table></table>
-											</div>
-											
-											<div id="day4" class="tab-pane">
-												<table></table>
-											</div>
-					         			</div><!-- tab content 结束 -->
+						         			<ul class="nav nav-tabs" id="myTab3">
+											</ul>
+											<div class="tab-content no-padding">
+												<div id="tripModel" class="tab-pane in active" style="display:none;">
+													<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+														<tr><td style="width: 60px;">行程：</td><td class="tourInfo"></td></tr>
+														<tr><td>餐食：</td><td class="tourInfo"></td></tr>
+														<tr><td>住宿：</td><td class="tourInfo"></td></tr>
+														<tr><td>交通：</td><td class="tourInfo"></td></tr>
+														<tr><td>备注：</td><td class="tourInfo"></td></tr>
+													</table>
+												</div>
+						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab结束 -->
 					         		</div><!-- 行程tab结束 -->
 					         		
-					         		<div id="incomes" class="tab-pane fade">
+					         		<div id="incomes2" class="tab-pane fade">
 					         			<div class="tabbable tabs-left">
-										<div class="tab-content no-padding">
-											
-											
-												<table class="table table-striped table-bordered table-hover">
-													<thead>
-														<tr>
-															<th style="width: 10%">日期</th>
-															<th>客户</th>
-															<th style="width: 10%">收入</th>
-															<th style="width: 10%">实收</th>
-															<th style="width: 10%">已开发票金额</th>
-															<th>内容</th>
-														</tr>
-													</thead>
-									            	<tr>
-									            		<td>2016/05/27</td>
-									            		<td>标准间(不含早)</td>
-									            		<td>青岛香格里拉大酒店</td>
-									            		<td>500</td>
-									            		<td>750</td>
-									            		<td><i class="green icon-ok bigger-130"></i></td>
-									            	</tr>
-									            </table>
-											         			
-					         			</div><!-- tab content 结束 -->
+											<div class="tab-content no-padding" style="z-index: 1400;">
+												<table class="table table-striped table-bordered table-hover incomeTable">
+														<thead>
+															<tr>
+																<th style="width: 15%">日期</th>
+																<th>客户*</th>
+																<th style="width: 10%">收入</th>
+																<th style="width: 10%">实收</th>
+																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 20%">备注</th>
+															</tr>
+														</thead>
+														<tbody>
+											            </tbody>
+										            </table>
+												         			
+						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 收入tab结束 -->
 					         		
@@ -1614,14 +1597,7 @@
 					            
 					         </div>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
-									<i class="icon-remove"></i>
-									取消
-								</button>
-								<button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									保存
-								</button>
+								
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2374,7 +2350,263 @@
 			});
 		});
 	/* 编辑 */
-		
+ 		$("#table").delegate("#editTour","click",function(){
+			var myData = {tourId:$(this).parent().attr("id")};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/find",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	var td = $("#edit").find(".tourInfo");
+		        	td.eq(0).children("input").val(data.localTourTable.tourNo);
+		        	td.eq(1).children("input").val(data.localTourTable.tourName);
+		        	td.eq(2).children("select").val(data.localTourTable.businessTypeId);
+		        	td.eq(7).children("input").val(data.localTourTable.organizor);
+		        	td.eq(8).children("input").val(data.localTourTable.qpGuideNo);
+		        	td.eq(9).children("input").val(data.localTourTable.adultNo);
+		        	td.eq(10).children("input").val(data.localTourTable.childrenNo);
+		        	td.eq(11).text(data.localTourTable.qpGuideNo*data.localTourTable.adultNo*data.localTourTable.childrenNo);
+		        	td.eq(12).children("input").val((data.localTourTable.startTime).replace(/-/g,"/"));
+		        	td.eq(13).children("input").val((data.localTourTable.endTime).replace(/-/g,"/"));
+		        	td.eq(15).children("input").val(data.localTourTable.remark);
+		        	$("#edit").find(".datepicker").datepicker({
+		    			showOtherMonths: true,
+		    			selectOtherMonths: false,
+		    		});
+		        	var select = $("#edit").find("select").eq(5);
+					var myData = {startTime:$("#datepickerStart").val(),endTime:$("#datepickerEnd").val()};
+					$.ajax({  
+				        type: "GET",  
+				        contentType:"application/json;charset=utf-8",  
+				        url:"/localtour/guideTimeManage/checkTime",  
+				        data:myData,  
+				        dataType: "json",  
+				        async: false,  
+				        success:function(data){
+			        		$.each(data,function(){
+				        		select.append('<option value="'+this.guideTable.id+'">'+this.userTable.realName+'</option>');
+				        	});
+				        },
+				        error:function(){
+				        	alert("团期选择错误，无法匹配导游");
+				        }
+					});
+					select.chosen();
+		    		select.next().attr("style","width:100%;");
+		    		select.next().find("input").attr("style","height:100%;");
+		    		td.find("input").focus().select();
+		        	/* var arrInfo = $("#find").find(".arrInfo");
+		        	arrInfo.html("");
+		        	$.each(data.arrs,function(){
+		        		arrInfo.append('<tr>'+
+		        							'<td>'+this.region1+'</td>'+
+		        							'<td>'+this.arrTable.arrTraffic+'</td>'+
+		        							'<td>'+this.arrTable.arrTime+'</td>'+
+		        							'<td>'+this.arrTable.arrTrafficNo+'</td>'+
+		        							'<td>'+this.region2+'</td>'+
+		        						'</tr>');
+		        	});
+		        	var departInfo = $("#find").find(".departInfo");
+		        	departInfo.html("");
+		        	$.each(data.departs,function(){
+		        		departInfo.append('<tr>'+
+		        							'<td>'+this.region1+'</td>'+
+		        							'<td>'+this.departTable.departTraffic+'</td>'+
+		        							'<td>'+this.departTable.departTime+'</td>'+
+		        							'<td>'+this.departTable.departTrafficNo+'</td>'+
+		        							'<td>'+this.region2+'</td>'+
+		        						'</tr>');
+		        	});
+		        	var startTime = new Date(data.localTourTable.startTime);
+					var endTime = new Date(data.localTourTable.endTime);
+					var days = (endTime-startTime)/1000/60/60/24+1;
+					var ul = $("#find").find("#myTab3");
+					var div = ul.parent().children("div");
+					var tripModel = $("#find").find("#tripModel");
+					ul.html("");
+					div.html("");
+					div.append('<div id="tripModel" style="display:none;">'+tripModel.html()+'</div>');
+		        	for (var int = 0; int < days; int++) {
+						var date = new Date(startTime.getTime()+1000*60*60*24*int);
+						if(int==0){
+							ul.append('<li class="active">'+
+										'<a data-toggle="tab" href="#day'+int+'">'+
+											date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+										'</a>'+
+								  	  '</li>');
+							var flag = false;
+							$.each(data.tripTables,function(){
+								if(this.number==int){
+									td.eq(16).text(this.trip);
+					        		td.eq(17).text(this.meal);
+					        		td.eq(18).text(this.stay);
+					        		td.eq(19).text(this.traffic);
+					        		td.eq(20).text(this.remark);
+					        		div.append('<div id="day'+this.number+'" class="tab-pane in active">'+tripModel.html()+'</div>');
+					        		flag=true;
+								}
+							});
+							if(flag==false){
+								td.eq(16).text("");
+				        		td.eq(17).text("");
+				        		td.eq(18).text("");
+				        		td.eq(19).text("");
+				        		td.eq(20).text("");
+				        		div.append('<div id="day'+int+'" class="tab-pane in active">'+tripModel.html()+'</div>');
+							}
+						}else{
+							ul.append('<li>'+
+									'<a data-toggle="tab" href="#day'+int+'">'+
+										date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+									'</a>'+
+							  	  '</li>');
+							var flag = false;
+							$.each(data.tripTables,function(){
+								if(this.number==int){
+									td.eq(16).text(this.trip);
+					        		td.eq(17).text(this.meal);
+					        		td.eq(18).text(this.stay);
+					        		td.eq(19).text(this.traffic);
+					        		td.eq(20).text(this.remark);
+					        		div.append('<div id="day'+this.number+'" class="tab-pane">'+tripModel.html()+'</div>');
+					        		flag=true;
+								}
+							});
+							if(flag==false){
+								td.eq(16).text("");
+				        		td.eq(17).text("");
+				        		td.eq(18).text("");
+				        		td.eq(19).text("");
+				        		td.eq(20).text("");
+				        		div.append('<div id="day'+int+'" class="tab-pane">'+tripModel.html()+'</div>');
+							}
+						}
+					}
+		        	var flight = $("#flight2").find("tbody");
+		        	var hotel = $("#hotel2").find("tbody");
+		        	var meal = $("#meal2").find("tbody");
+		        	var ticket = $("#ticket2").find("tbody");
+		        	var shuttle = $("#shuttle2").find("tbody");
+		        	var tickets = $("#tickets2").find("tbody");
+		        	var comprehensive = $("#comprehensive2").find("tbody");
+		        	var other = $("#other2").find("tbody");
+		        	flight.html("");
+		        	hotel.html("");
+		        	meal.html("");
+		        	ticket.html("");
+		        	shuttle.html("");
+		        	tickets.html("");
+		        	comprehensive.html("");
+		        	other.html("");
+		        	$.each(data.costs,function(){
+		        		if(this.costTable.supplierScopeId==1){
+		        			flight.append('<tr>'+
+		        								'<td>'+this.costTable.costDate+'</td>'+
+		        								'<td>'+this.contentName+'</td>'+
+		        								'<td>'+this.supplierName+'</td>'+
+		        								'<td>'+this.costTable.cost+'</td>'+
+		        								'<td>'+this.costTable.count+'</td>'+
+		        								'<td>'+this.costTable.days+'</td>'+
+		        								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+		        								'<td>'+this.borrowUserName+'</td>'+
+		        					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			hotel.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==3){
+		        			meal.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');		        			
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			ticket.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');		        			
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			shuttle.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');	
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tickets.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			comprehensive.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			other.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    					'</tr>');
+		        		}
+		        	});
+		        	var tbody = $("#incomes2").find("tbody");
+		        	tbody.html("");
+		        	$.each(data.incomes,function(){
+		        		tbody.append('<tr>'+
+		        							'<td>'+this.incomeTable.incomeDate+'</td>'+
+		        							'<td>'+this.customerAgencyName+'</td>'+
+		        							'<td>'+this.incomeTable.income+'</td>'+
+		        							'<td>'+this.incomeTable.realIncome+'</td>'+
+		        							'<td>'+this.invoiceAmount+'</td>'+
+		        							'<td>'+this.incomeTable.remark+'</td>'+
+		        					'</tr>');
+		        	}); */
+		        }  
+			});
+		});
 	/*回车更新 */		
 		/* $("#table").delegate("#update","keydown",function(event){
 			if(event.keyCode==13){
