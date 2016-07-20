@@ -7,9 +7,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class StatementController {
-	@RequestMapping("/lendManage")
-	public String getLendAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/lendManage";
+	@RequestMapping("/needLendManage")
+	public String getNeedLendAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		return "/statementManage/needLendManage";
+	}
+	
+	@RequestMapping("/actualLendManage")
+	public String getActualLendAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		return "/statementManage/actualLendManage";
 	}
 	
 	@RequestMapping("/needCollectManage")

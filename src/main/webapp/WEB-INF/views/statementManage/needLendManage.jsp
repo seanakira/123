@@ -48,40 +48,37 @@
 										<span class="lbl"></span>
 									</label>
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									团号
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									项目
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									供应商
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									单价
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									天数
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									人数
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									预估成本
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									借款金额
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+									借款日期
+								</th>
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+									核销金额
+								</th>
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									核销日期
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									团控人
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									借款人
 								</th>
-								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+								<th style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
 								</th>
 							</tr>
@@ -221,20 +218,20 @@
 								<td><a id="" role="button" data-toggle="modal" href="#modal-table">JRT1606016D-30</a></td>
 								<td>标准间(含西早)</td>
 								<td>大酒店</td>
-								<td>500</td>
-								<td>1</td>
-								<td>10</td>
 								<td>5000</td>
-								<td>5000</td>
+								<td>1000</td>
 								<td>05/28/2016</td>
+								<td>未核销</td>
+								<td>未核销</td>
 								<td>张三</td>
 								<td>李四</td>
 								<td>
 									<a id="edit" class="green" href="#">
-												<i class="icon-pencil bigger-130"></i>
+												<i class="icon-thumbs-up bigger-130"></i>
 									</a>
+									<span>&nbsp;&nbsp;</span>
 									<a  class="red" href="#">
-											<i class="icon-trash bigger-130"></i>
+											<i class="icon-thumbs-down bigger-130"></i>
 									</a>
 								</td>
 								
@@ -275,7 +272,7 @@
 						<div class="modal-content">
 							<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
-									新增团队
+									新增借款
 								</div>
 							</div>
 
@@ -491,7 +488,7 @@
 	/* 初始化 */
 			$("#statementManage").addClass("open");
 			$("#statementManage").children("ul").attr("style","display:block");
-			$("#lendManage").addClass("active");
+			$("#needLendManage").addClass("active");
 			$("#addModel").children("td").eq(3).html($("#select").html());
 			$("#addModel").children("td").eq(4).html($("#multiple").html());
 			$("#datepickerStart").datepicker({

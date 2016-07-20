@@ -51,35 +51,17 @@
 								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									团号
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									项目
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									供应商
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									实付金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									单价
+									实收金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									天数
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									人数
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									预估成本
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									付款金额
+									毛利
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									现付
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									汇款
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									挂账
+									毛利率
 								</th>
 								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
@@ -219,37 +201,19 @@
 									</label>
 								</td>
 								<td><a id="" role="button" data-toggle="modal" href="#modal-table">JRT1606016D-30</a></td>
-								<td>标准间(含西早)</td>
-								<td><a>大酒店</a></td>
+								<td>5000</td>
+								<td>5500</td>
 								<td>500</td>
-								<td>1</td>
-								<td>10</td>
-								<td>5000</td>
-								<td>5000</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox" checked="checked">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
+								<td>9.1%</td>
 								<td>
 									<a id="edit" class="green" href="#">
-												<i class="icon-pencil bigger-130"></i>
+												<i class="icon-ok bigger-130"></i>
 									</a>
+									<span>
+										&nbsp;&nbsp;
+									</span>
 									<a  class="red" href="#">
-											<i class="icon-trash bigger-130"></i>
+											<i class="icon-ban-circle bigger-130"></i>
 									</a>
 								</td>
 								

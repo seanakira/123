@@ -67,10 +67,7 @@
 									人数
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									预估成本
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									付款金额
+									应付金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									现付
@@ -228,7 +225,6 @@
 								<td>1</td>
 								<td>10</td>
 								<td>5000</td>
-								<td>0</td>
 								<td class="center  sorting_1">
 									<label>
 										<input class="ace" type="checkbox">

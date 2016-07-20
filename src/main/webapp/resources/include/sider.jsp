@@ -106,40 +106,48 @@
 							</a>
 
 							<ul class="submenu">
-								<li id="lendManage">
-									<a href="<%=path %>lendManage">
+								<li id="needLendManage">
+									<a href="<%=path %>needLendManage">
 										<i class="icon-double-angle-right"></i>
-										借款管理
+										应借款项(对导游)
 									</a>
 								</li>
-
-								<li id="needCollectManage">
-									<a href="<%=path %>needCollectManage">
+							
+								<li id="actualLendManage">
+									<a href="<%=path %>actualLendManage">
 										<i class="icon-double-angle-right"></i>
-										应收款项
+										实借款项(对导游)
 									</a>
 								</li>
-
+								
 								<li id="needPayManage">
 									<a href="<%=path %>needPayManage">
 										<i class="icon-double-angle-right"></i>
-										应付款项
-									</a>
-								</li>
-
-								<li id="actualCollectManage">
-									<a href="<%=path %>actualCollectManage">
-										<i class="icon-double-angle-right"></i>
-										实收款项
+										应付款项(对供应商)
 									</a>
 								</li>
 
 								<li id="actualPayManage">
 									<a href="<%=path %>actualPayManage">
 										<i class="icon-double-angle-right"></i>
-										实付款项
+										实付款项(对供应商)
 									</a>
 								</li>
+
+								<li id="needCollectManage">
+									<a href="<%=path %>needCollectManage">
+										<i class="icon-double-angle-right"></i>
+										应收款项(对客户)
+									</a>
+								</li>
+								
+								<li id="actualCollectManage">
+									<a href="<%=path %>actualCollectManage">
+										<i class="icon-double-angle-right"></i>
+										实收款项(对客户)
+									</a>
+								</li>
+
 
 								<li id="tourBalanceManage">
 									<a href="<%=path %>tourBalanceManage">

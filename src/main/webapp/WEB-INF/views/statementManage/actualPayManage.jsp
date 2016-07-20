@@ -67,10 +67,10 @@
 									人数
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									预估成本
+									应付金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									付款金额
+									实付金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									现付
@@ -80,6 +80,9 @@
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									挂账
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									借款
 								</th>
 								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
@@ -225,7 +228,19 @@
 								<td>1</td>
 								<td>10</td>
 								<td>5000</td>
-								<td>5000</td>
+								<td>3000</td>
+								<td class="center  sorting_1">
+									<label>
+										<input class="ace" type="checkbox">
+										<span class="lbl"></span>
+									</label>
+								</td>
+								<td class="center  sorting_1">
+									<label>
+										<input class="ace" type="checkbox">
+										<span class="lbl"></span>
+									</label>
+								</td>
 								<td class="center  sorting_1">
 									<label>
 										<input class="ace" type="checkbox">
@@ -235,12 +250,6 @@
 								<td class="center  sorting_1">
 									<label>
 										<input class="ace" type="checkbox" checked="checked">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
 										<span class="lbl"></span>
 									</label>
 								</td>

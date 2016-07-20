@@ -55,22 +55,16 @@
 									项目
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									供应商
+									客户
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									单价
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									天数
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									人数
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									预估成本
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									付款金额
+									应收金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									现付
@@ -219,12 +213,10 @@
 									</label>
 								</td>
 								<td><a id="" role="button" data-toggle="modal" href="#modal-table">JRT1606016D-30</a></td>
-								<td>标准间(含西早)</td>
-								<td><a>大酒店</a></td>
+								<td>团费</td>
+								<td><a>xxx旅行社</a></td>
 								<td>500</td>
-								<td>1</td>
 								<td>10</td>
-								<td>5000</td>
 								<td>5000</td>
 								<td class="center  sorting_1">
 									<label>
@@ -290,7 +282,7 @@
 						<div class="modal-content">
 							<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
-									新增团队
+									新增收款
 								</div>
 							</div>
 
