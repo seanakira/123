@@ -109,42 +109,42 @@
 								<li id="needLendManage">
 									<a href="<%=path %>needLendManage">
 										<i class="icon-double-angle-right"></i>
-										应借款项(对导游)
+										预算借款(对导游)
 									</a>
 								</li>
 							
 								<li id="actualLendManage">
 									<a href="<%=path %>actualLendManage">
 										<i class="icon-double-angle-right"></i>
-										实借款项(对导游)
+										实际借款(对导游)
 									</a>
 								</li>
 								
 								<li id="needPayManage">
 									<a href="<%=path %>needPayManage">
 										<i class="icon-double-angle-right"></i>
-										应付款项(对供应商)
+										预算付款(对供应商)
 									</a>
 								</li>
 
 								<li id="actualPayManage">
 									<a href="<%=path %>actualPayManage">
 										<i class="icon-double-angle-right"></i>
-										实付款项(对供应商)
+										实际付款(对供应商)
 									</a>
 								</li>
 
 								<li id="needCollectManage">
 									<a href="<%=path %>needCollectManage">
 										<i class="icon-double-angle-right"></i>
-										应收款项(对客户)
+										预算收款(对客户)
 									</a>
 								</li>
 								
 								<li id="actualCollectManage">
 									<a href="<%=path %>actualCollectManage">
 										<i class="icon-double-angle-right"></i>
-										实收款项(对客户)
+										实际收款(对客户)
 									</a>
 								</li>
 
@@ -201,17 +201,40 @@
 							</ul>
 						</li>
 						
-						<li>
-							<a href="calendar.html">
+						<li id="statisticalAnalysis">
+							<a href="#" class="dropdown-toggle">
 								<i class="icon-bar-chart"></i>
+								<span class="menu-text"> 统计分析 </span>
 
-								<span class="menu-text">
-									统计分析
-									<span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
-										<i class="icon-warning-sign red bigger-130"></i>
-									</span>
-								</span>
+								<b class="arrow icon-angle-down"></b>
 							</a>
+
+							<ul class="submenu">
+								<li id="compreStat">
+									<a href="<%=path %>supplierInfoManage">
+										<i class="icon-double-angle-right"></i>
+										综合业务统计
+									</a>
+								</li>
+								<li id="orderStat">
+									<a href="<%=path %>supplierInfoManage">
+										<i class="icon-double-angle-right"></i>
+										订单收支明细统计
+									</a>
+								</li>
+								<li id="customerCompanyStat">
+									<a href="<%=path %>supplierInfoManage">
+										<i class="icon-double-angle-right"></i>
+										公司客户业务统计
+									</a>
+								</li>
+								<li id="customerPersonStat">
+									<a href="<%=path %>supplierInfoManage">
+										<i class="icon-double-angle-right"></i>
+										个人客户业务统计
+									</a>
+								</li>
+							</ul>
 						</li>
 
 						<li id="dataManage">

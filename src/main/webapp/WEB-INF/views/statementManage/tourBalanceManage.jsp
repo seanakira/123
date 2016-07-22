@@ -52,6 +52,9 @@
 									团号
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									实借款项
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									实付金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
@@ -201,9 +204,10 @@
 									</label>
 								</td>
 								<td><a id="" role="button" data-toggle="modal" href="#modal-table">JRT1606016D-30</a></td>
+								<td>1000</td>
 								<td>5000</td>
-								<td>5500</td>
-								<td>500</td>
+								<td>11000</td>
+								<td>1000</td>
 								<td>9.1%</td>
 								<td>
 									<a id="edit" class="green" href="#">

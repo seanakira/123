@@ -69,14 +69,11 @@
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									实收金额
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									现付
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									开票金额
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									汇款
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									挂账
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									开票日期
 								</th>
 								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
@@ -221,25 +218,16 @@
 								<td>500</td>
 								<td>10</td>
 								<td>5000</td>
-								<td>5100</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
+								<td>
+									<a id="" class="blue" data-toggle="modal" href="#addActualCollect">
+										<i class="icon-list-ol bigger-130"></i>
+										5100
+									</a>
 								</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox" checked="checked">
-										<span class="lbl"></span>
-									</label>
+								<td>
+									<span><font color=red>5100</font></span>
 								</td>
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
+								<td>06/03/16</td>
 								<td>
 									<a id="edit" class="green" href="#">
 												<i class="icon-pencil bigger-130"></i>
@@ -279,7 +267,93 @@
 <!-- 分页查询结束 -->							
 					</div>
 				</div>
-<!-- 正文结束 -->	
+<!-- 正文结束 -->
+<!-- 新增实收模板 -->
+				<div aria-hidden="true" style="display: none;" id="addActualCollect" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width:40%;">
+						<div class="modal-content">
+							<div class="modal-header no-padding">
+								<div id="headerName" class="table-header">
+									分批实付
+								</div>
+							</div>
+
+							<div class="modal-body no-padding">
+								<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+									<thead>
+										<tr>
+											<td>分批实收金额</td>
+											<td>现付</td>
+											<td>汇款</td>
+											<td>挂账</td>
+											<td>日期</td>
+										</tr>
+									</thead>
+
+									<tbody id="">
+										<tr>
+											<td>3500</td>
+											<td class="center  sorting_1">
+												<label>
+													<input class="ace" type="checkbox">
+													<span class="lbl"></span>
+												</label>
+											</td>
+											<td class="center  sorting_1">
+												<label>
+													<input class="ace" type="checkbox">
+													<span class="lbl"></span>
+												</label>
+											</td>
+											<td class="center  sorting_1">
+												<label>
+													<input class="ace" type="checkbox">
+													<span class="lbl"></span>
+												</label>
+											</td>
+											<td>05/29/2016</td>
+										</tr>
+										
+										<tr>
+											<td>1600</td>
+											<td class="center  sorting_1">
+												<label>
+													<input class="ace" type="checkbox">
+													<span class="lbl"></span>
+												</label>
+											</td>
+											<td class="center  sorting_1">
+												<label>
+													<input class="ace" type="checkbox">
+													<span class="lbl"></span>
+												</label>
+											</td>
+											<td class="center  sorting_1">
+												<label>
+													<input class="ace" type="checkbox">
+													<span class="lbl"></span>
+												</label>
+											</td>
+											<td>06/02/2016</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div>	
 <!-- 新增模板 -->
 				<div aria-hidden="true" style="display: none;" id="create" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:60%;">

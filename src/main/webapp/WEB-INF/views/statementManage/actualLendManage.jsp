@@ -61,6 +61,18 @@
 									预估成本
 								</th>
 								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+									借款金额
+								</th>
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+									借款日期
+								</th>
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+									核销金额
+								</th>
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+									核销日期
+								</th>
+								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
 									团控人
 								</th>
 								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
@@ -207,6 +219,10 @@
 								<td>标准间(含西早)</td>
 								<td>大酒店</td>
 								<td>5000</td>
+								<td>1000</td>
+								<td>05/28/2016</td>
+								<td>未核销</td>
+								<td>未核销</td>
 								<td>张三</td>
 								<td>李四</td>
 								<td>
@@ -472,7 +488,7 @@
 	/* 初始化 */
 			$("#statementManage").addClass("open");
 			$("#statementManage").children("ul").attr("style","display:block");
-			$("#needLendManage").addClass("active");
+			$("#actualLendManage").addClass("active");
 			$("#addModel").children("td").eq(3).html($("#select").html());
 			$("#addModel").children("td").eq(4).html($("#multiple").html());
 			$("#datepickerStart").datepicker({
