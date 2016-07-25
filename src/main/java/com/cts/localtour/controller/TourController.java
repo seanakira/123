@@ -76,6 +76,7 @@ public class TourController {
 	@RequestMapping("/localTourManage/save")
 	public @ResponseBody int save(@RequestBody FullLocalTourViewModel full){
 		LocalTourTable localTour = full.getLocalTourTable();
+		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
 		ArrayList<DepartTable> departTables = full.getDepartTables();
 		ArrayList<TripTable> tripTables = full.getTripTables();
@@ -98,15 +99,10 @@ public class TourController {
 			int tourId = localTourService.add(localTour);
 			if(tourId!=0){
 				/*保存排团信息*/
-				if(!localTour.getGuideIds().equals("undefined")&&!localTour.getGuideIds().equals("")){
-					String[] guideIds = localTour.getGuideIds().split(",");
-					for (int i = 0; i < guideIds.length; i++) {
-						GuideTimeTable guideTime = new GuideTimeTable();
-						guideTime.setEndTime(localTour.getEndTime());
-						guideTime.setGuideId(Integer.parseInt(guideIds[i]));
-						guideTime.setStartTime(localTour.getStartTime());
-						guideTime.setTourId(tourId);
-						guideTimeService.add(guideTime);
+				if(!guideTimeTables.isEmpty()){
+					for (int i = 0; i < guideTimeTables.size(); i++) {
+						guideTimeTables.get(i).setTourId(tourId);
+						guideTimeService.add(guideTimeTables.get(i));
 					}
 				}
 				/*保存抵达离开信息*/
