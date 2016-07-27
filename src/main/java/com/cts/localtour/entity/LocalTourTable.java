@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-7-15 14:45:42 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-7-25 10:27:26 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -22,7 +22,6 @@ public class LocalTourTable implements java.io.Serializable {
 	private Integer id;
 	private String tourNo;
 	private String tourName;
-	private String guideIds;
 	private int userId;
 	private int deptId;
 	private int businessTypeId;
@@ -39,6 +38,7 @@ public class LocalTourTable implements java.io.Serializable {
 	private String remark;
 	private int status;
 	private boolean enable;
+	private String guideIds;
 
 	public LocalTourTable() {
 	}
@@ -63,13 +63,12 @@ public class LocalTourTable implements java.io.Serializable {
 		this.enable = enable;
 	}
 
-	public LocalTourTable(String tourNo, String tourName, String guideIds, int userId, int deptId, int businessTypeId,
-			int tourTypeId, int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo,
-			String organizor, int customerAgencyId, Date startTime, Date endTime, String remark, int status,
-			boolean enable) {
+	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
+			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
+			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
+			String guideIds) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
-		this.guideIds = guideIds;
 		this.userId = userId;
 		this.deptId = deptId;
 		this.businessTypeId = businessTypeId;
@@ -86,6 +85,7 @@ public class LocalTourTable implements java.io.Serializable {
 		this.remark = remark;
 		this.status = status;
 		this.enable = enable;
+		this.guideIds = guideIds;
 	}
 
 	@Id
@@ -116,15 +116,6 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setTourName(String tourName) {
 		this.tourName = tourName;
-	}
-
-	@Column(name = "guideIDs", length = 50)
-	public String getGuideIds() {
-		return this.guideIds;
-	}
-
-	public void setGuideIds(String guideIds) {
-		this.guideIds = guideIds;
 	}
 
 	@Column(name = "userID", nullable = false)
@@ -271,6 +262,15 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+
+	@Column(name = "guideIDs", length = 50)
+	public String getGuideIds() {
+		return this.guideIds;
+	}
+
+	public void setGuideIds(String guideIds) {
+		this.guideIds = guideIds;
 	}
 
 }

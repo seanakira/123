@@ -6,12 +6,15 @@ import java.util.Hashtable;
 import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
+import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.TripTable;
 
 public class FullLocalTourViewModel {
 	private LocalTourTable localTourTable;
+	private ArrayList<GuideTimeTable> guideTimeTables;
+	private ArrayList<GuideTimeViewModel> guideTimes;
 	private ArrayList<ArrTable> arrTables;
 	private ArrayList<DepartTable> departTables;
 	private ArrayList<ArrDepViewModel> arrs;
@@ -22,6 +25,7 @@ public class FullLocalTourViewModel {
 	private ArrayList<IncomeTable> incomeTables;
 	private ArrayList<incomeViewModel> incomes;
 	private Hashtable<String, String> tourInfo;
+	private Hashtable<String, ArrayList> updateIds;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -87,5 +91,23 @@ public class FullLocalTourViewModel {
 	}
 	public void setIncomes(ArrayList<incomeViewModel> incomes) {
 		this.incomes = incomes;
+	}
+	public ArrayList<GuideTimeTable> getGuideTimeTables() {
+		return guideTimeTables;
+	}
+	public void setGuideTimeTables(ArrayList<GuideTimeTable> guideTimeTables) {
+		this.guideTimeTables = guideTimeTables;
+	}
+	public ArrayList<GuideTimeViewModel> getGuideTimes() {
+		return guideTimes;
+	}
+	public void setGuideTimes(ArrayList<GuideTimeViewModel> guideTimes) {
+		this.guideTimes = guideTimes;
+	}
+	public Hashtable<String, ArrayList> getUpdateIds() {
+		return updateIds;
+	}
+	public void setUpdateIds(Hashtable<String, ArrayList> updateIds) {
+		this.updateIds = updateIds;
 	}
 }

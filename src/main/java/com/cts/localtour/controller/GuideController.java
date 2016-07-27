@@ -83,6 +83,13 @@ public class GuideController {
 			return true;
 		}
 	}
+	
+	@RequestMapping("/guideTimeManage/delete")
+	public @ResponseBody boolean deleteGuideTime(@RequestParam int tourId){
+		guideTimeService.deleteByString("GuideTimeTable", "tourId=?", tourId);
+		return true;
+	}
+	
 	@RequestMapping("/guideTimeManage/checkTime")
 	public @ResponseBody ArrayList<GuideViewModel> checkTime(@RequestParam Date startTime, @RequestParam Date endTime){
 		if(startTime==null&&endTime==null){

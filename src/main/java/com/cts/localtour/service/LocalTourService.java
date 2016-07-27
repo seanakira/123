@@ -19,6 +19,8 @@ import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DepartTable;
+import com.cts.localtour.entity.GuideTable;
+import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
@@ -27,6 +29,7 @@ import com.cts.localtour.viewModel.ArrDepViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
+import com.cts.localtour.viewModel.GuideTimeViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.incomeViewModel;
 
@@ -104,10 +107,6 @@ public class LocalTourService extends BaseService{
 	
 	public void changeStatus(int id, int status) {
 		this.updateByParam("LocalTourTable", "status=?", "id="+id, status);
-	}
-
-	public void update(LocalTourTable supplier) {
-//		this.updateByParam("LocalTourTable", "supplierName=?,regionId=?,phone=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -188,7 +187,8 @@ public class LocalTourService extends BaseService{
 		tourInfo.put("regionName", ((RegionTable)this.getById("RegionTable", localTour.getRegionId())).getRegionName());
 		tourInfo.put("visitorTypeName", ((VisitorTypeTable)this.getById("VisitorTypeTable", localTour.getVisitorTypeId())).getVisitorTypeName());
 		tourInfo.put("customerAgencyName", ((CustomerAgencyTable)this.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
-		if(!localTour.getGuideIds().equals("undefined")&&!localTour.getGuideIds().equals("")){
+		full.setTourInfo(tourInfo);
+		/*if(!localTour.getGuideIds().equals("undefined")&&!localTour.getGuideIds().equals("")){
 			String[] guideIds = localTour.getGuideIds().split(",");
 			String guideNames = ((UserTable)this.getById("UserTable", Integer.parseInt(guideIds[0]))).getRealName();
 			for (int i = 1; i < guideIds.length; i++) {
@@ -197,8 +197,17 @@ public class LocalTourService extends BaseService{
 			tourInfo.put("guideNames", guideNames);
 		}else{
 			tourInfo.put("guideNames", "");
+		}*/
+		ArrayList<GuideTimeTable> guideTimeTables = (ArrayList<GuideTimeTable>)this.getAllByString("GuideTimeTable", "tourId=?", id);
+		ArrayList<GuideTimeViewModel> guideTimes = new ArrayList<GuideTimeViewModel>();
+		for (int i = 0; i < guideTimeTables.size(); i++) {
+			GuideTimeViewModel guideTime = new GuideTimeViewModel();
+			guideTime.setRealName(((UserTable)this.getById("UserTable", ((GuideTable)this.getById("GuideTable", guideTimeTables.get(i).getGuideId())).getUserId())).getRealName());
+			guideTime.setGuideId(guideTimeTables.get(i).getGuideId());
+			guideTimes.add(guideTime);
 		}
-		full.setTourInfo(tourInfo);
+		full.setGuideTimes(guideTimes);
+		
 		ArrayList<ArrTable> arrTables = (ArrayList<ArrTable>) this.getAllByString("ArrTable", "tourId=?", id);
 		ArrayList<ArrDepViewModel> arrs = new ArrayList<ArrDepViewModel>();
 		for (int i = 0; i < arrTables.size(); i++) {
@@ -208,6 +217,7 @@ public class LocalTourService extends BaseService{
 			arr.setRegion2(((RegionTable)this.getById("RegionTable", arrTables.get(i).getArrRegionId())).getRegionName());
 			arrs.add(arr);
 		}
+		full.setArrTables(arrTables);
 		full.setArrs(arrs);
 		ArrayList<DepartTable> departTables = (ArrayList<DepartTable>) this.getAllByString("DepartTable", "tourId=?", id);
 		ArrayList<ArrDepViewModel> departs = new ArrayList<ArrDepViewModel>();
@@ -218,6 +228,7 @@ public class LocalTourService extends BaseService{
 			depart.setRegion2(((RegionTable)this.getById("RegionTable", departTables.get(i).getDepartRegionId())).getRegionName());
 			departs.add(depart);
 		}
+		full.setDepartTables(departTables);
 		full.setDeparts(departs);
 		full.setTripTables((ArrayList<TripTable>) this.getAllByString("TripTable", "tourId=?", id));
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=?", id);
@@ -247,5 +258,10 @@ public class LocalTourService extends BaseService{
 		}
 		full.setIncomes(incomes);
 		return full;
+	}
+	@SuppressWarnings("unchecked")
+	public boolean updateFull(FullLocalTourViewModel full) {
+		this.update(full.getLocalTourTable());
+		return false;
 	}
 }
