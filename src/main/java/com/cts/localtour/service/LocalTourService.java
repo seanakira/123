@@ -108,10 +108,6 @@ public class LocalTourService extends BaseService{
 	public void changeStatus(int id, int status) {
 		this.updateByParam("LocalTourTable", "status=?", "id="+id, status);
 	}
-
-	public void update(LocalTourTable supplier) {
-//		this.updateByParam("LocalTourTable", "supplierName=?,regionId=?,phone=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone());
-	}
 	
 	@SuppressWarnings("unchecked")
 	public int add(LocalTourTable localTour){
@@ -262,5 +258,10 @@ public class LocalTourService extends BaseService{
 		}
 		full.setIncomes(incomes);
 		return full;
+	}
+	@SuppressWarnings("unchecked")
+	public boolean updateFull(FullLocalTourViewModel full) {
+		this.update(full.getLocalTourTable());
+		return false;
 	}
 }

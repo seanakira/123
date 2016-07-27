@@ -86,7 +86,6 @@ public class GuideController {
 	
 	@RequestMapping("/guideTimeManage/delete")
 	public @ResponseBody boolean deleteGuideTime(@RequestParam int tourId){
-		System.out.println(tourId);
 		guideTimeService.deleteByString("GuideTimeTable", "tourId=?", tourId);
 		return true;
 	}
