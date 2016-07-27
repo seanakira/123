@@ -172,9 +172,8 @@ public class TourController {
 		return localTourService.find(tourId);
 	}
 	
-/*	@RequestMapping("/supplierBusiness/update")
-	public void updateSupplierBusiness(@RequestParam int supplierId, @RequestParam String supplierScopeIds){
-		localTourService.deleteSupplierBusiness(supplierId);
-		localTourService.addSupplierBusiness(supplierId,supplierScopeIds);
-	}*/
+	@RequestMapping("/localTourManage/update")
+	public @ResponseBody boolean updateSupplierBusiness(@RequestBody FullLocalTourViewModel full){
+		return localTourService.updateFull(full);
+	}
 }

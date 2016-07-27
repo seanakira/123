@@ -74,7 +74,6 @@ public class SysManageController {
 	
 	@RequestMapping("/userManage/update")
 	public @ResponseBody boolean update(@RequestBody UserTable user){
-		System.out.println(user.getId());
 		userService.update(user);
 		return true;
 	}
@@ -120,7 +119,6 @@ public class SysManageController {
 	
 	@RequestMapping("/deptManage/del")
 	public @ResponseBody boolean del(@RequestBody DeptTable deptTable){
-		System.out.println(123);
 		return deptService.update(deptTable, true);
 	}
 	

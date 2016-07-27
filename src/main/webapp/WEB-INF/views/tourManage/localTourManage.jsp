@@ -1216,7 +1216,7 @@
 					
 					
 										<li>
-											<a data-toggle="tab" href="#trips3">
+											<a id="editTrip" data-toggle="tab" href="#trips3">
 												<i class="orange icon-calendar bigger-120"></i>
 												行程
 											</a>
@@ -1280,7 +1280,7 @@
 												<tr>
 													<td>组团社*</td>
 													<td class="tourInfo">
-														<select style="display: none;" class="width-20 chosen-select form-control customerAgency" data-placeholder="Choose a Country...">
+														<select id="customer" style="display: none;" class="width-20 chosen-select form-control customerAgency" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -1418,6 +1418,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1437,6 +1442,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1456,6 +1466,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1475,6 +1490,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1494,6 +1514,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1513,6 +1538,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1532,6 +1562,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1551,6 +1586,11 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1592,6 +1632,11 @@
 																<th style="width: 10%">实收</th>
 																<th style="width: 10%">已开发票金额</th>
 																<th style="width: 20%">备注</th>
+																<th style="width: 5%">
+																	<a class="blue addIncome" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -1913,7 +1958,7 @@
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
 			}
-			var guides = $("#guides");
+			var guides = $("#create").find("#guides");
 			var names = guides.find("option:selected");
 			if(guides.val()!=undefined){
 				for (var int = 0; int < guides.val().length; int++) {
@@ -1933,7 +1978,7 @@
 				showOtherMonths: true,
 				selectOtherMonths: false,
 			});
-			tr.children("td").eq(1).text($("#customer").find("option:selected").text());
+			tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text());
 			
 		});
 	/* 删除 */
@@ -2091,7 +2136,7 @@
 			
 			var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
 			var myData = JSON.stringify(fullLocalTourViewModel);
-			$.ajax({  
+			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/localTourManage/save",  
@@ -2428,6 +2473,7 @@
  		$("#table").delegate("#editTour","click",function(){
 			var myData = {tourId:$(this).parent().attr("id")};
 			$("#saveEdit").parent().attr("id",myData.tourId);
+			var tourUserName = $(this).parent().prev().text();
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
@@ -2436,6 +2482,7 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
+		        	editInfo = data;
 		        	var selects = $("#edit").find("select");
 		        	var td = $("#edit").find(".tourInfo");
 		        	td.eq(0).children("input").val(data.localTourTable.tourNo);
@@ -2517,82 +2564,9 @@
 		        		departIds[index] = this.id;
 		        	});
 		        	departInfo.attr("ids",departIds);
+					
+					
 		        	
-		        	$("#edit").find(".datepicker").datepicker({
-		    			showOtherMonths: true,
-		    			selectOtherMonths: false,
-		    		});
-		        	$("#edit").find("select").chosen();
-		        	$(".chosen-select").next().attr("style","width:100%;");
-					$(".chosen-select").next().find("input").attr("style","height:100%;");
-					$(".traffic").next().attr("style","width:100%;");
-					$(".traffic").next().find("input").attr("style","height:100%;");
-					
-					
-		        	var startTime = new Date(data.localTourTable.startTime);
-					var endTime = new Date(data.localTourTable.endTime);
-					var days = (endTime-startTime)/1000/60/60/24+1;
-					var ul = $("#edit").find("#myTab3");
-					var div = ul.parent().children("div");
-					var editTripModel = $("#editTripModel");
-					ul.html("");
-					div.html('<div id="editTripModel" style="display:none;">'+editTripModel.html()+'</div>');
-		        	for (var int = 0; int < days; int++) {
-						var date = new Date(startTime.getTime()+1000*60*60*24*int);
-						if(int==0){
-							ul.append('<li class="active">'+
-										'<a data-toggle="tab" href="#editDay'+int+'">'+
-											date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
-										'</a>'+
-								  	  '</li>');
-							var flag = false;
-							$.each(data.tripTables,function(){
-								if(this.number==int){
-									editTripModel.find("textarea").eq(0).text(this.trip);
-									editTripModel.find("input").eq(0).attr("value",this.meal);
-									editTripModel.find("input").eq(1).attr("value",this.stay);
-									editTripModel.find("input").eq(2).attr("value",this.traffic);
-									editTripModel.find("textarea").eq(1).text(this.remark);
-					        		div.append('<div id="editDay'+this.number+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
-					        		flag=true;
-								}
-							});
-							if(flag==false){
-								editTripModel.find("textarea").eq(0).text("");
-								editTripModel.find("input").eq(0).val("");
-								editTripModel.find("input").eq(1).val("");
-								editTripModel.find("input").eq(2).val("");
-								editTripModel.find("textarea").eq(1).text("");
-				        		div.append('<div id="editDay'+int+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
-							}
-						}else{
-							ul.append('<li>'+
-									'<a data-toggle="tab" href="#editDay'+int+'">'+
-										date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
-									'</a>'+
-							  	  '</li>');
-							var flag = false;
-							$.each(data.tripTables,function(){
-								if(this.number==int){
-									editTripModel.find("textarea").eq(0).text(this.trip);
-									editTripModel.find("input").eq(0).attr("value",this.meal);
-									editTripModel.find("input").eq(1).attr("value",this.stay);
-									editTripModel.find("input").eq(2).attr("value",this.traffic);
-									editTripModel.find("textarea").eq(1).text(this.remark);
-					        		div.append('<div id="editDay'+this.number+'" class="tab-pane">'+editTripModel.html()+'</div>');
-					        		flag=true;
-								}
-							});
-							if(flag==false){
-								editTripModel.find("textarea").eq(0).text("");
-								editTripModel.find("input").eq(0).val("");
-								editTripModel.find("input").eq(1).val("");
-								editTripModel.find("input").eq(2).val("");
-								editTripModel.find("textarea").eq(1).text("");
-				        		div.append('<div id="editDay'+int+'" class="tab-pane">'+editTripModel.html()+'</div>');
-							}
-						}
-					}
 		        	
 		        	
 		        	var flight = $("#flight3").find("tbody");
@@ -2612,203 +2586,317 @@
 		        	comprehensive.html("");
 		        	other.html("");
 		        	$.each(data.costs,function(){
+		        		var guides = $("#edit").find("#guides");
+	    				var names = guides.find("option:selected");
+	    				var borrowUser = $('<select style="width:100%;" class="width-20 chosen-select"><option value="">&nbsp;</option></select>');
+	    				if(guides.val()!=undefined){
+	    					for (var int = 0; int < guides.val().length; int++) {
+	    						borrowUser.append('<option value="'+guides.val()[int]+'">'+names.eq(int).text()+'</option>');
+	    					} 
+	    				}
+	    				borrowUser.append('<option value="'+data.localTourTable.userId+'">'+tourUserName+'</option>');
 		        		if(this.costTable.supplierScopeId==1){
 		        			flight.append('<tr>'+
-		        								'<td>'+this.costTable.costDate+'</td>'+
-		        								'<td>'+this.contentName+'</td>'+
-		        								'<td>'+this.supplierName+'</td>'+
-		        								'<td>'+this.costTable.cost+'</td>'+
-		        								'<td>'+this.costTable.count+'</td>'+
-		        								'<td>'+this.costTable.days+'</td>'+
-		        								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-		        								'<td>'+this.borrowUserName+'</td>'+
-		        					'</tr>');
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    					'</tr>');
+			    			flight.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = flight.find("tr").last().find("select");
+							$.each(selectInfo.flightContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.flightSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==2){
 		        			hotel.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
+		        			hotel.find("tr").last().children("td").eq(7).append(borrowUser);
+    						var selects = hotel.find("tr").last().find("select");
+    						$.each(selectInfo.hotelContents,function(){
+		    	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+		    	        	});
+		    	        	$.each(selectInfo.hotelSuppliers,function(){
+		    	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		    	        	});
+		    	        	selects.eq(0).val(this.costTable.contentId);
+		    	        	selects.eq(1).val(this.costTable.supplierId);
+		    	        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==3){
 		        			meal.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    					'</tr>');		        			
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    					'</tr>');
+			    			meal.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = meal.find("tr").last().find("select");
+							$.each(selectInfo.mealContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.mealSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==4){
 		        			ticket.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    					'</tr>');		        			
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    					'</tr>');
+			    			ticket.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = ticket.find("tr").last().find("select");
+							$.each(selectInfo.ticketContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.ticketSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==5){
 		        			shuttle.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    					'</tr>');	
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    					'</tr>');
+			    			shuttle.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = shuttle.find("tr").last().find("select");
+							$.each(selectInfo.shuttleContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.shuttleSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==6){
 		        			tickets.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
+			    			tickets.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = tickets.find("tr").last().find("select");
+							$.each(selectInfo.ticketsContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.ticketsSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==7){
 		        			comprehensive.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
+			    			comprehensive.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = comprehensive.find("tr").last().find("select");
+							$.each(selectInfo.comprehensiveContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.comprehensiveSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			other.append('<tr>'+
-			    								'<td>'+this.costTable.costDate+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost+'</td>'+
-			    								'<td>'+this.costTable.count+'</td>'+
-			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td></td>'+
+			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
+			    			other.find("tr").last().children("td").eq(7).append(borrowUser);
+							var selects = other.find("tr").last().find("select");
+							$.each(selectInfo.otherContents,function(){
+				        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+				        	});
+				        	$.each(selectInfo.otherSuppliers,function(){
+				        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+				        	});
+				        	selects.eq(0).val(this.costTable.contentId);
+				        	selects.eq(1).val(this.costTable.supplierId);
+				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}
 		        	});
+		        	
+		        	
+		        	
 		        	var tbody = $("#incomes3").find("tbody");
 		        	tbody.html("");
 		        	$.each(data.incomes,function(){
 		        		tbody.append('<tr>'+
-		        							'<td>'+this.incomeTable.incomeDate+'</td>'+
-		        							'<td>'+this.customerAgencyName+'</td>'+
-		        							'<td>'+this.incomeTable.income+'</td>'+
+		        							'<td><input value="'+this.incomeTable.incomeDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+		        							'<td>'+$("#edit").find(".customerAgency").children("option:selected").text()+'</td>'+
+		        							'<td><input value="'+this.incomeTable.income+'" style="width:100%;" class="form-control" type="text" /></td>'+
 		        							'<td>'+this.incomeTable.realIncome+'</td>'+
 		        							'<td>'+this.invoiceAmount+'</td>'+
-		        							'<td>'+this.incomeTable.remark+'</td>'+
+		        							'<td><input value="'+this.incomeTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
+		        							'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 		        					'</tr>');
 		        	});
+		        	
+		        	$("#edit").find(".datepicker").datepicker({
+		    			showOtherMonths: true,
+		    			selectOtherMonths: false,
+		    		});
+		        	$("#edit").find("select").chosen();
+		        	$(".chosen-select").next().attr("style","width:100%;");
+					$(".chosen-select").next().find("input").attr("style","height:100%;");
+					$(".traffic").next().attr("style","width:100%;");
+					$(".traffic").next().find("input").attr("style","height:100%;");
 		        }  
 			});
 		});
-	/*回车更新 */		
-		/* $("#table").delegate("#update","keydown",function(event){
-			if(event.keyCode==13){
-				var obj = $(this).parents("tr");
-				var td = $(this).parents("td").siblings();
-				var params = $(this).parents("tr").find("input");
-		 		var supplierName = params.eq(1).val();
-				var id = obj.find(".red").attr("id");
-				var regionId = obj.find("select").val();
-				var regionName = obj.find("select").eq(0).find("option:selected").text();
-				var supplierScopeIds =obj.find("select").eq(1).val().toString();
-				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-				var phone = td.eq(5).children("input").val();
-				var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone};
-				var myData = JSON.stringify(supplier);
-				var supplierId = id;
-				$.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/update",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	td.eq(2).parent().html(supplierName);
-			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
-			        	td.eq(5).html(phone);
-			        }  
-				 }); 
-				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-			  	$.ajax({  
-			        type: "GET",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/update",  
-			        data:ids,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	
-			        }  
-				});
-				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
-				obj.next().find("input").eq(1).focus().select();
+ 		var editInfo;
+ 		$("#editTrip").click(function(){
+ 			var startTime = new Date($("#edit").find(".datepicker").eq(0).val());
+			var endTime = new Date($("#edit").find(".datepicker").eq(1).val());
+			var days = (endTime-startTime)/1000/60/60/24+1;
+			var ul = $("#edit").find("#myTab3");
+			var div = ul.parent().children("div");
+			var editTripModel = $("#editTripModel");
+			ul.html("");
+			div.html('<div id="editTripModel" style="display:none;">'+editTripModel.html()+'</div>');
+        	for (var int = 0; int < days; int++) {
+				var date = new Date(startTime.getTime()+1000*60*60*24*int);
+				if(int==0){
+					ul.append('<li class="active">'+
+								'<a data-toggle="tab" href="#editDay'+int+'">'+
+									date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+								'</a>'+
+						  	  '</li>');
+					var flag = false;
+					$.each(editInfo.tripTables,function(){
+						if(this.number==int){
+							div.append('<div id="editDay'+this.number+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
+							var divLast = div.children("div:last");
+							divLast.find("textarea").eq(0).text(this.trip);
+							divLast.find("input").eq(0).attr("value",this.meal);
+							divLast.find("input").eq(1).attr("value",this.stay);
+							divLast.find("input").eq(2).attr("value",this.traffic);
+							divLast.find("textarea").eq(1).text(this.remark);
+			        		flag=true;
+						}
+					});
+					if(flag==false){
+						div.append('<div id="editDay'+int+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
+						var divLast = div.children("div:last");
+						divLast.find("textarea").eq(0).text("");
+						divLast.find("input").eq(0).val("");
+						divLast.find("input").eq(1).val("");
+						divLast.find("input").eq(2).val("");
+						divLast.find("textarea").eq(1).text("");
+					}
+				}else{
+					ul.append('<li>'+
+							'<a data-toggle="tab" href="#editDay'+int+'">'+
+								date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+							'</a>'+
+					  	  '</li>');
+					var flag = false;
+					$.each(editInfo.tripTables,function(){
+						if(this.number==int){
+							div.append('<div id="editDay'+this.number+'" class="tab-pane">'+editTripModel.html()+'</div>');
+							var divLast = div.children("div:last");
+							divLast.find("textarea").eq(0).text(this.trip);
+							divLast.find("input").eq(0).attr("value",this.meal);
+							divLast.find("input").eq(1).attr("value",this.stay);
+							divLast.find("input").eq(2).attr("value",this.traffic);
+							divLast.find("textarea").eq(1).text(this.remark);
+			        		flag=true;
+						}
+					});
+					if(flag==false){
+						div.append('<div id="editDay'+int+'" class="tab-pane">'+editTripModel.html()+'</div>');
+						var divLast = div.children("div:last");
+						divLast.find("textarea").eq(0).text("");
+						divLast.find("input").eq(0).val("");
+						divLast.find("input").eq(1).val("");
+						divLast.find("input").eq(2).val("");
+						divLast.find("textarea").eq(1).text("");
+					}
+				}
 			}
-		}); */
-		/* 按钮更新 */
-		/* $("#table").delegate("#save","click",function(){
-			var obj = $(this).parents("tr");
-			var td = $(this).parents("td").siblings();
-			var params = $(this).parents("tr").find("input");
-	 		var supplierName = params.eq(1).val();
-			var id = obj.find(".red").attr("id");
-			var regionId = obj.find("select").val();
-			var regionName = obj.find("select").eq(0).find("option:selected").text();
-			var supplierScopeIds =obj.find("select").eq(1).val().toString();
-			var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-			var phone = td.eq(5).children("input").val();
-			var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone};
-			var myData = JSON.stringify(supplier);
-			var supplierId = id;
-			$.ajax({  
+ 		});
+	/*更新 */
+		$("#saveEdit").click(function(){
+			myData = full.stringify();
+			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/update",  
+		        url:"/localtour/localTourManage/update",  
 		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	td.eq(2).html(supplierName);
-		        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-		        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
-		        	td.eq(5).html(phone);
-		        }  
-			 }); 
-			var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-		  	$.ajax({  
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierBusiness/update",  
-		        data:ids,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
 		        	
 		        }  
-			});
-			obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
-			obj.next().find("input").eq(1).focus().select();
-		}); */
-			
-	
+			 });
+		});
+		
 	});
 	
 </script>
