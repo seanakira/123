@@ -55,28 +55,25 @@
 									项目
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									供应商
+									客户
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									单价
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									天数
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									人数
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									应付金额
+									应收金额
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									实付金额
+									实收金额
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									发票金额
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									开票金额
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									发票日期
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									开票日期
 								</th>
 								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
@@ -216,24 +213,21 @@
 									</label>
 								</td>
 								<td><a id="" role="button" data-toggle="modal" href="#modal-table">JRT1606016D-30</a></td>
-								<td>标准间(含西早)</td>
-								<td><a>大酒店</a></td>
+								<td>团费</td>
+								<td><a>xxx旅行社</a></td>
 								<td>500</td>
-								<td>1</td>
 								<td>10</td>
 								<td>5000</td>
 								<td>
-									<a id="" class="blue" data-toggle="modal" href="#addActualPay">
+									<a id="" class="blue" data-toggle="modal" href="#addActualCollect">
 										<i class="icon-list-ol bigger-130"></i>
-										4000
+										5100
 									</a>
 								</td>
 								<td>
-									未开
+									<span><font color=red>5100</font></span>
 								</td>
-								<td>
-									未开
-								</td>
+								<td>06/03/16</td>
 								<td>
 									<a id="edit" class="green" href="#">
 												<i class="icon-pencil bigger-130"></i>
@@ -273,10 +267,9 @@
 <!-- 分页查询结束 -->							
 					</div>
 				</div>
-<!-- 正文结束 -->	
-
-<!-- 新增实付模板 -->
-				<div aria-hidden="true" style="display: none;" id="addActualPay" class="modal fade" tabindex="-1">
+<!-- 正文结束 -->
+<!-- 新增实收模板 -->
+				<div aria-hidden="true" style="display: none;" id="addActualCollect" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:40%;">
 						<div class="modal-content">
 							<div class="modal-header no-padding">
@@ -289,7 +282,7 @@
 								<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 									<thead>
 										<tr>
-											<td>分批实付金额</td>
+											<td>分批实收金额</td>
 											<td>现付</td>
 											<td>汇款</td>
 											<td>挂账</td>
@@ -299,7 +292,7 @@
 
 									<tbody id="">
 										<tr>
-											<td>1500</td>
+											<td>3500</td>
 											<td class="center  sorting_1">
 												<label>
 													<input class="ace" type="checkbox">
@@ -322,7 +315,7 @@
 										</tr>
 										
 										<tr>
-											<td>2500</td>
+											<td>1600</td>
 											<td class="center  sorting_1">
 												<label>
 													<input class="ace" type="checkbox">
@@ -360,7 +353,7 @@
 							</div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal-dialog -->
-				</div>
+				</div>	
 <!-- 新增模板 -->
 				<div aria-hidden="true" style="display: none;" id="create" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:60%;">
@@ -584,7 +577,7 @@
 	/* 初始化 */
 			$("#statementManage").addClass("open");
 			$("#statementManage").children("ul").attr("style","display:block");
-			$("#actualPayManage").addClass("active");
+			$("#collectManage").addClass("active");
 			$("#addModel").children("td").eq(3).html($("#select").html());
 			$("#addModel").children("td").eq(4).html($("#multiple").html());
 			$("#datepickerStart").datepicker({

@@ -7,37 +7,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class StatementController {
-	@RequestMapping("/needLendManage")
-	public String getNeedLendAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/needLendManage";
+	@RequestMapping("/payManage")
+	public String getPayManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		return "/statementManage/payManage";
 	}
 	
-	@RequestMapping("/actualLendManage")
-	public String getActualLendAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/actualLendManage";
+	@RequestMapping("/collectManage")
+	public String getCollectManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		return "/statementManage/collectManage";
 	}
 	
-	@RequestMapping("/needCollectManage")
-	public String getNeedCollectAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/needCollectManage";
-	}
-	
-	
-	@RequestMapping("/needPayManage")
-	public String getNeedPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/needPayManage";
-	}
-	
-	
-	@RequestMapping("/actualCollectManage")
-	public String getActualCollectAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/actualCollectManage";
-	}
-	
-	
-	@RequestMapping("/actualPayManage")
-	public String getActualPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		return "/statementManage/actualPayManage";
+	@RequestMapping("/tourVerifyManage")
+	public String getTourVerifyAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		return "/statementManage/tourVerifyManage";
 	}
 	
 	@RequestMapping("/tourBalanceManage")
