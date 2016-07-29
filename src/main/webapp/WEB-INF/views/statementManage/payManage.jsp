@@ -258,7 +258,15 @@
 							<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
 									团队成本管理
+								
+								<a href="" style="color: #FFFFFF">	
+									<span class="pull-right">
+												<i class="icon-plus bigger-100"></i>
+												新增成本
+									</span>
+								</a>
 								</div>
+								
 							</div>
 							
 							<div class="modal-body no-padding">
@@ -272,7 +280,6 @@
 															<th style="width: 5%;">是否借款</th>
 															<th style="width: 10%;">已付金额</th>
 															<th style="width: 10%;">未付金额</th>
-															<th style="width: 10%;">开票金额</th>
 															<th style="width: 15%;">操作</th>
 														</tr>
 													</thead>
@@ -283,7 +290,6 @@
 															<td>青岛小饭店</td>
 															<td>6000</td>
 															<td><input type="checkbox" checked="checked"></td>
-															<td></td>
 															<td></td>
 															<td></td>
 															<td></td>
@@ -300,7 +306,6 @@
 															</td>
 															<td>10000</td>
 															<td>2000</td>
-															<td></td>
 															<td></td>
 														</tr>
 													</tbody>
