@@ -42,34 +42,31 @@
 										<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
 							<tr role="row">
-								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
+								<th aria-label="" style="width: 2%;" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
+									<label>
+										<input class="ace" type="checkbox">
+										<span class="lbl"></span>
+									</label>
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									团号
 								</th>
-								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									团名
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									实借款项
 								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									借款金额
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									实付金额
 								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									打款金额
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									实收金额
 								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									出账金额
+								<th aria-label="Price: activate to sort column ascending" style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									毛利
 								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									预估成本
+								<th aria-label="Price: activate to sort column ascending" style="width: 2%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									毛利率
 								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									提交日期
-								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									出团日期
-								</th>
-								<th style="width: 3%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
-									团控人
-								</th>
-								<th style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
 								</th>
 							</tr>
@@ -200,22 +197,27 @@
 								</tr>
 							</c:forEach> --%>
 							<tr>
-								<td><a id="" role="button" data-toggle="modal" href="#view">JRT1606016D-30</a></td>
-								<td>青岛3日游</td>
-								<td>4000</td>
-								<td>10000</td>
-								<td>14000</td>
-								<td>18000</td>
-								<td>05/28/2016</td>
-								<td>06/28/2016</td>
-								<td>张三</td>
+								<td class="center  sorting_1">
+									<label>
+										<input class="ace" type="checkbox">
+										<span class="lbl"></span>
+									</label>
+								</td>
+								<td><a id="" role="button" data-toggle="modal" href="#modal-table">JRT1606016D-30</a></td>
+								<td>1000</td>
+								<td>5000</td>
+								<td>11000</td>
+								<td>1000</td>
+								<td>9.1%</td>
 								<td>
 									<a id="edit" class="green" href="#">
-												<i class="icon-thumbs-up bigger-130"></i>
+												<i class="icon-ok bigger-130"></i>
 									</a>
-									<span>&nbsp;&nbsp;</span>
+									<span>
+										&nbsp;&nbsp;
+									</span>
 									<a  class="red" href="#">
-											<i class="icon-thumbs-down bigger-130"></i>
+											<i class="icon-ban-circle bigger-130"></i>
 									</a>
 								</td>
 								
@@ -250,106 +252,196 @@
 					</div>
 				</div>
 <!-- 正文结束 -->	
-<!-- 团队付款查看开始 -->	
-				<div aria-hidden="true" style="display: none;" id="view" class="modal fade" tabindex="-1">
-					<div class="modal-dialog" style="width:80%;">
+<!-- 新增模板 -->
+				<div aria-hidden="true" style="display: none;" id="create" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width:60%;">
 						<div class="modal-content">
-							
 							<div class="modal-header no-padding">
 								<div id="headerName" class="table-header">
-									团队成本管理
+									新增团队
 								</div>
 							</div>
-							
+
 							<div class="modal-body no-padding">
-								<table class="table table-striped table-bordered table-hover no-margin">
-													<thead>
-														<tr>
-															<th style="width: 15%;">成本编号</th>
-															<th style="width: 15%;">类别</th>
-															<th style="width: 15%;">名称</th>
-															<th style="width: 10%;">预算成本</th>
-															<th style="width: 5%;">是否借款</th>
-															<th style="width: 10%;">已付金额</th>
-															<th style="width: 10%;">未付金额</th>
-															<th style="width: 10%;">开票金额</th>
-															<th style="width: 15%;">操作</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td>JRT1606016D-30-C1</td>
-															<td>餐费</td>
-															<td>青岛小饭店</td>
-															<td>6000</td>
-															<td><input type="checkbox" checked="checked"></td>
-															<td></td>
-															<td></td>
-															<td></td>
-															<td></td>
-														</tr>
-														
-														<tr>
-															<td>JRT1606016D-30-C2</td>
-															<td>房费</td>
-															<td>青岛大酒店</td>
-															<td>12000</td>
-															<td>
-																<input type="checkbox">
-																<span class="lbl"></span>
-															</td>
-															<td>10000</td>
-															<td>2000</td>
-															<td></td>
-															<td></td>
-														</tr>
-													</tbody>
-									            </table>
+								<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+									<thead>
+									</thead>
+
+									<tbody id="">
+										<tr>
+											<td>团号</td>
+											<td><input type="text"></td>
+											<td>团名</td>
+											<td><input type="text"></td>
+											<td>导游</td>
+											<td>
+												<select>
+													<option>李四</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>业务类型</td>
+											<td>
+												<select>
+													<option>地接</option>
+												</select>
+											</td>
+											<td>团队类型</td>
+											<td>
+												<select>
+													<option>横向地接</option>
+												</select>
+											</td>
+											<td>国家/地区</td>
+											<td>
+												<select>
+													<option>广州</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>游客类型</td>
+											<td>
+												<select>
+													<option>外国人</option>
+												</select>
+											</td>
+											<td>组团社</td>
+											<td>
+												<select>
+													<option>广州旅行社</option>
+												</select>
+											</td>
+											<td>组团人</td>
+											<td><input type="text"></td>
+										</tr>
+										<tr>
+											<td>成人数</td>
+											<td><input type="text"></td>
+											<td>儿童数</td>
+											<td><input type="text"></td>
+											<td>全陪人数</td>
+											<td><input type="text"></td>
+										</tr>
+										<tr>
+											<td>开始日期</td>
+											<td><input id="datepickerStart" class="form-control" type="text"></td>
+											<td>结束日期</td>
+											<td><input id="datepickerEnd" class="form-control" type="text"></td>
+											<td>人数合计</td>
+											<td></td>
+										</tr>			
+									</tbody>
+								</table>
 								<div class="modal-header no-padding">
-									<div id="headerName" class="table-header">
-										<span style="text-align:left;display:inline">
-											团队借款管理
-										</span> 
-										&nbsp;
-										<span class="pull-mid">借款预算总额：6000	可借款额度：2000</span>
-										<a href="" style="color: #FFFFFF">
-											<span class="pull-right">
-											<i class="icon-plus bigger-100"></i>
-											新增借款
-											</span>
-										</a>
-									</div>
+								<div id="headerName" class="table-header">
+									抵离信息
+									<a class="white" href="#"><i class="icon-plus bigger-100"></i></a>
 								</div>
-								<table class="table table-striped table-bordered table-hover no-margin">
+							</div>
+								<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 									<thead>
 										<tr>
-											<th>
-												借款编号
-											</th>
-											<th>
-												借款金额
-											</th>
-											<th>
-												借款日期
-											</th>
-											<th>
-												借款人备注(不填为团控)
+											<th>出发地</th>
+											<th>抵达交通</th>
+											<th>抵达时间</th>
+											<th>抵达班次</th>
+											<th>抵达地</th>
+											<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+												操作
 											</th>
 										</tr>
 									</thead>
-									<tr>
-										<td>JRT1606016D-30-J1</td>
-										<td>4000</td>
-										<td>06/01/2016</td>
-										<td>李四</td>
-									</tr>
+
+									<tbody id="">
+										<tr>
+											<td>
+												<select>
+													<option>广州</option>
+												</select>
+											</td>
+											<td>
+												<select>
+													<option>飞机</option>
+												</select>
+											</td>
+											<td><input id="arrTime" class="form-control" type="text"></td>
+											<td><input type="text"></td>
+											<td>
+												<select>
+													<option>烟台</option>
+												</select>
+											</td>
+											<td>
+												<a id="edit" class="green" href="#">
+														<i class="icon-pencil bigger-130"></i>
+												</a>
+												<a class="red" href="#">
+														<i class="icon-trash bigger-130"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+									<thead>
+										<tr>
+											<th>前往地</th>
+											<th>离开交通</th>
+											<th>离开时间</th>
+											<th>离开班次</th>
+											<th>离开地</th>
+											<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+												操作
+											</th>
+										</tr>
+									</thead>
+									<tbody id="">
+										<tr>
+											<td>
+												<select>
+													<option>广州</option>
+												</select>
+											</td>
+											<td>
+												<select>
+													<option>飞机</option>
+												</select>
+											</td>
+											<td><input id="departTime" class="form-control" type="text"></td>
+											<td><input type="text"></td>
+											<td>
+												<select>
+													<option>青岛</option>
+												</select>
+											</td>
+											<td>
+												<a id="edit" class="green" href="#">
+													<i class="icon-pencil bigger-130"></i>
+												</a>
+												<a class="red" href="#">
+													<i class="icon-trash bigger-130"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
 								</table>
 							</div>
+
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
 							</div>
-						</div>
-					</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
 				</div>
-<!-- 团队付款查看开始 -->	
+<!-- 新增结束 -->
+
 <!-- 下拉搜索开始 -->
 <link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
 				<div id="select">
@@ -383,7 +475,7 @@
 	/* 初始化 */
 			$("#statementManage").addClass("open");
 			$("#statementManage").children("ul").attr("style","display:block");
-			$("#payManage").addClass("active");
+			$("#tourVerifyManage").addClass("active");
 			$("#addModel").children("td").eq(3).html($("#select").html());
 			$("#addModel").children("td").eq(4).html($("#multiple").html());
 			$("#datepickerStart").datepicker({
