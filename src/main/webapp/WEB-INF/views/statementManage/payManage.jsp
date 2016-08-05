@@ -353,8 +353,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
-<!-- 团队付款查看开始 -->	
+<!-- 团队付款查看结束 -->	
 <!-- 下拉搜索开始 -->
 <link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
 				<div id="select">
