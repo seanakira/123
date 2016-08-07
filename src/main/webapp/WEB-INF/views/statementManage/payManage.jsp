@@ -280,7 +280,7 @@
 															<th style="width: 5%;">是否借款</th>
 															<th style="width: 10%;">已付金额</th>
 															<th style="width: 10%;">未付金额</th>
-															<th style="width: 15%;">操作</th>
+															<th style="width: 5%;">操作</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -302,11 +302,10 @@
 															<td>12000</td>
 															<td>
 																<input type="checkbox">
-																<span class="lbl"></span>
 															</td>
 															<td>10000</td>
 															<td>2000</td>
-															<td></td>
+															<td><i class="icon-signout bigger-100"></i></td>
 														</tr>
 													</tbody>
 									            </table>
