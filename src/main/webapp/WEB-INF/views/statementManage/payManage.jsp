@@ -200,10 +200,10 @@
 								</tr>
 							</c:forEach> --%>
 							<tr>
-								<td><a id="" role="button" data-toggle="modal" href="#view">JRT1606016D-30</a></td>
+								<td><a id="" role="button" data-toggle="modal" href="#view" data-backdrop="static">JRT1606016D-30</a></td>
 								<td>青岛3日游</td>
-								<td>4000</td>
-								<td>10000</td>
+								<td><a id="" role="button" data-toggle="modal" href="#lend" data-backdrop="static">4000</a></td>
+								<td><a id="" role="button" data-toggle="modal" href="#pay" data-backdrop="static">10000</a></td>
 								<td>14000</td>
 								<td>18000</td>
 								<td>05/28/2016</td>
@@ -250,7 +250,7 @@
 					</div>
 				</div>
 <!-- 正文结束 -->	
-<!-- 团队付款查看开始 -->	
+<!-- 团队成本管理开始 -->	
 				<div aria-hidden="true" style="display: none;" id="view" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:80%;">
 						<div class="modal-content">
@@ -278,20 +278,16 @@
 															<th style="width: 15%;">名称</th>
 															<th style="width: 10%;">预算成本</th>
 															<th style="width: 5%;">是否借款</th>
-															<th style="width: 10%;">已付金额</th>
-															<th style="width: 10%;">未付金额</th>
 															<th style="width: 5%;">操作</th>
 														</tr>
 													</thead>
 													<tbody>
 														<tr>
-															<td>JRT1606016D-30-C1</td>
+															<td><a id="" role="button" data-toggle="modal" href="#test">JRT1606016D-30-C1</a></td>
 															<td>餐费</td>
 															<td>青岛小饭店</td>
 															<td>6000</td>
-															<td><input type="checkbox" checked="checked"></td>
-															<td></td>
-															<td></td>
+															<td><input type="checkbox" checked="checked" class="lend"></td>
 															<td></td>
 														</tr>
 														
@@ -301,14 +297,31 @@
 															<td>青岛大酒店</td>
 															<td>12000</td>
 															<td>
-																<input type="checkbox">
+																<input type="checkbox" class="lend">
 															</td>
-															<td>10000</td>
-															<td>2000</td>
 															<td><i class="icon-signout bigger-100"></i></td>
 														</tr>
 													</tbody>
 									            </table>
+							</div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+						 	 </div>
+						</div>
+					</div>
+					</div>
+<!-- 团队成本管理结束 -->	
+<!-- 团队借款查看开始 -->
+					<div aria-hidden="true" style="display: none;" id="lend" class="modal fade" tabindex="-1">
+						<div class="modal-dialog" style="width:80%;">
+							<div class="modal-content">
 								<div class="modal-header no-padding">
 									<div id="headerName" class="table-header">
 										<span style="text-align:left;display:inline">
@@ -348,11 +361,120 @@
 										<td>李四</td>
 									</tr>
 								</table>
-							</div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+						 	 </div>
 							</div>
 						</div>
 					</div>
-<!-- 团队付款查看结束 -->	
+<!-- 团队借款查看结束 -->
+<!-- 团队打款查看开始 -->
+					<div aria-hidden="true" style="display: none;" id="pay" class="modal fade" tabindex="-1">
+						<div class="modal-dialog" style="width:80%;">
+							<div class="modal-content">
+								<div class="modal-header no-padding">
+									<div id="headerName" class="table-header">
+										<span style="text-align:left;display:inline">
+											团队打款管理
+										</span> 
+										&nbsp;
+										<a href="" style="color: #FFFFFF">
+											<span class="pull-right">
+											<i class="icon-plus bigger-100"></i>
+											新增打款
+											</span>
+										</a>
+									</div>
+								</div>
+								<table class="table table-striped table-bordered table-hover no-margin">
+									<tr>
+										<th style="width: 15%;">成本编号</th>
+										<th style="width: 15%;">类别</th>
+										<th style="width: 15%;">名称</th>
+										<th style="width: 10%;">预算成本</th>
+										<th style="width: 10%;">已付金额</th>
+										<th style="width: 10%;">未付金额</th>
+										<th style="width: 10%;">操作日期</th>
+										<th style="width: 5%;">操作</th>
+									</tr>
+										
+									<tr>
+										<td>JRT1606016D-30-C2</td>
+										<td>房费</td>
+										<td>青岛大酒店</td>
+										<td>12000</td>
+										<td>10000</td>
+										<td>2000</td>
+										<td>06/01/2016</td>
+										<td>修改</td>
+									</tr>
+								</table>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+						 	 </div>
+							</div>
+						</div>
+					</div>
+<!-- 团队打款查看结束 -->
+					<div aria-hidden="true" style="display: none;" id="test" class="modal fade" tabindex="-1">
+						<div class="modal-dialog" style="width:80%;">
+							<div class="modal-content">
+								<div class="modal-header no-padding">
+									<div id="headerName" class="table-header">
+										<span style="text-align:left;display:inline">
+											团队打款管理
+										</span> 
+										&nbsp;
+										<a href="" style="color: #FFFFFF">
+											<span class="pull-right">
+											<i class="icon-plus bigger-100"></i>
+											新增打款
+											</span>
+										</a>
+									</div>
+								</div>
+								<table class="table table-striped table-bordered table-hover no-margin">
+									<tr>
+										<th style="width: 15%;">成本编号</th>
+										<th style="width: 15%;">类别</th>
+										<th style="width: 15%;">名称</th>
+										<th style="width: 10%;">预算成本</th>
+										<th style="width: 10%;">已付金额</th>
+										<th style="width: 10%;">未付金额</th>
+										<th style="width: 10%;">操作日期</th>
+										<th style="width: 5%;">操作</th>
+									</tr>
+										
+									<tr>
+										<td>JRT1606016D-30-C2</td>
+										<td>房费</td>
+										<td>青岛大酒店</td>
+										<td>12000</td>
+										<td>10000</td>
+										<td>2000</td>
+										<td>06/01/2016</td>
+										<td>修改</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+
 <!-- 下拉搜索开始 -->
 <link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
 				<div id="select">
