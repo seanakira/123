@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-7-25 10:27:26 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-8-12 11:12:23 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -31,7 +31,6 @@ public class CostTable implements java.io.Serializable {
 	private Integer days;
 	private boolean isBorrow;
 	private String remark;
-	private Float lendAmount;
 
 	public CostTable() {
 	}
@@ -44,8 +43,7 @@ public class CostTable implements java.io.Serializable {
 	}
 
 	public CostTable(int tourId, Integer borrowUserId, Date costDate, int supplierScopeId, Integer contentId,
-			int supplierId, Float cost, Integer count, Float realCost, Integer days, boolean isBorrow, String remark,
-			Float lendAmount) {
+			int supplierId, Float cost, Integer count, Float realCost, Integer days, boolean isBorrow, String remark) {
 		this.tourId = tourId;
 		this.borrowUserId = borrowUserId;
 		this.costDate = costDate;
@@ -58,7 +56,6 @@ public class CostTable implements java.io.Serializable {
 		this.days = days;
 		this.isBorrow = isBorrow;
 		this.remark = remark;
-		this.lendAmount = lendAmount;
 	}
 
 	@Id
@@ -180,15 +177,6 @@ public class CostTable implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	@Column(name = "lendAmount", precision = 12, scale = 0)
-	public Float getLendAmount() {
-		return this.lendAmount;
-	}
-
-	public void setLendAmount(Float lendAmount) {
-		this.lendAmount = lendAmount;
 	}
 
 }

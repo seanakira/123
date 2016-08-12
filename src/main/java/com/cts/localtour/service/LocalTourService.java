@@ -259,9 +259,24 @@ public class LocalTourService extends BaseService{
 		full.setIncomes(incomes);
 		return full;
 	}
-	@SuppressWarnings("unchecked")
-	public boolean updateFull(FullLocalTourViewModel full) {
-		this.update(full.getLocalTourTable());
-		return false;
-	}
+//	@SuppressWarnings("unchecked")
+//	public boolean updateFull(FullLocalTourViewModel full) {
+//		LocalTourTable localTour = (LocalTourTable) this.getById("LocalTourTable", full.getLocalTourTable().getId());
+//		localTourTable.setAdultNo(adultNo);
+//		localTourTable.setBusinessTypeId(businessTypeId);
+//		localTourTable.setChildrenNo(childrenNo);
+//		localTourTable.setCustomerAgencyId(customerAgencyId);
+//		localTourTable.setEndTime(endTime);
+//		localTourTable.setOrganizor(organizor);
+//		localTourTable.setQpGuideNo(qpGuideNo);
+//		localTourTable.setRegionId(regionId);
+//		localTourTable.setRemark(remark);
+//		localTourTable.setStartTime(startTime);
+//		localTourTable.setTourName(tourName);
+//		localTourTable.setTourNo(tourNo);
+//		localTourTable.setTourTypeId(tourTypeId);
+//		localTourTable.setVisitorTypeId(visitorTypeId);
+//		this.update(full.getLocalTourTable());
+//		return false;
+//	}
 }

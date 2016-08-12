@@ -500,14 +500,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -539,6 +540,7 @@
 																	<option value="">&nbsp;</option>
 																</select>
 															</td>
+															<td><input class="form-control" placeholder="如:明细" type="text"></td>
 															<td style="vertical-align: middle;">
 																<a class="red delLine" href="#">
 																	<i class="icon-trash bigger-130"></i>
@@ -553,14 +555,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -577,14 +580,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -601,14 +605,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -625,14 +630,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -649,14 +655,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -673,14 +680,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -697,14 +705,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -745,7 +754,7 @@
 					         		
 					         		<div id="incomes" class="tab-pane fade">
 					         			<div class="tabbable tabs-left">
-											<div class="tab-content no-padding" style="z-index: 1400;">
+											<div class="tab-content no-padding" style="z-index: 1400;overflow: visible;">
 												<table class="table table-striped table-bordered table-hover incomeTable">
 														<thead>
 															<tr>
@@ -768,7 +777,7 @@
 											            			<input id="incomeTime" class="form-control datepicker" type="text">
 											            		</td>
 											            		<td>
-											            			<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">
+											            			<select style="display: none;" class="width-20 chosen-select customerAgency" data-placeholder="Choose a Country...">
 																		<option value="">&nbsp;</option>
 																	</select>
 																</td>
@@ -992,14 +1001,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1011,14 +1021,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1030,14 +1041,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1049,14 +1061,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1068,14 +1081,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1087,14 +1101,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1106,14 +1121,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1125,14 +1141,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1410,14 +1427,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1434,14 +1452,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1458,14 +1477,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1482,14 +1502,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1506,14 +1527,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1530,14 +1552,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1554,14 +1577,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1578,14 +1602,15 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 15%;">日期</th>
-															<th style="width: 17.5%;">内容</th>
-															<th style="width: 17.5%;">供应商*</th>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
 															<th style="width: 10%;">成本</th>
 															<th style="width: 10%;">数量</th>
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1622,7 +1647,7 @@
 					         		
 					         		<div id="incomes3" class="tab-pane fade">
 					         			<div class="tabbable tabs-left">
-											<div class="tab-content no-padding" style="z-index: 1400;">
+											<div class="tab-content no-padding" style="z-index: 1400;overflow: visible;">
 												<table class="table table-striped table-bordered table-hover incomeTable">
 														<thead>
 															<tr>
@@ -1978,8 +2003,12 @@
 				showOtherMonths: true,
 				selectOtherMonths: false,
 			});
-			tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text());
-			
+			/* tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text()); */
+			var select = tr.children("td").eq(1).children("select");
+			select.val($(this).parents(".tab-pane").siblings().first().find("#customer").val());
+			select.chosen();
+			select.next().attr("style","width:100%;");
+			select.next().find("input").attr("style","height:100%;");
 		});
 	/* 删除 */
 		$("#table").delegate("#delete","click",function(){
@@ -2041,7 +2070,6 @@
 		});
 	/* 保存 */
 		$("#saveNew").click(function(){
-			
 			var inputs = $("#create").find("#tourInfo").find("input");
 			var selects = $("#create").find("#tourInfo").find("select");
 			var tourNo = inputs.eq(0).val();
@@ -2066,13 +2094,15 @@
 			var days = (endTime-startTime)/1000/60/60/24+1;
 			var localTourTable={tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
 						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
-						   endTime:endTime,guideIds:guideIds,remark:remark,userId:userId,deptId:deptId,status:status,enable:enable};
+						   endTime:endTime,remark:remark,userId:userId,deptId:deptId,status:status,enable:enable};
 			var guideTimeTables = new Array();
-			for (var int = 0; int < guideIds.length; int++) {
-				guideTimeTables[int]={
-						guideId:guideIds[int],
-						startTime:startTime,
-						endTime:endTime};
+			if(guideIds!=null){
+				for (var int = 0; int < guideIds.length; int++) {
+					guideTimeTables[int]={
+							guideId:guideIds[int],
+							startTime:startTime,
+							endTime:endTime};
+				}
 			}
 			var arrTrs = $("#create").find(".arrInfo").children("tr").not("#arrModel");
 			var arrTables = new Array();
@@ -2106,9 +2136,9 @@
 			var tripsTbody = $("#create").find("#trips").find("div").not("#tripModel").children("table").children("tbody");
 			for (var int = 0; int < tripsTbody.length; int++) {
 				var tripInputs =  tripsTbody.eq(int).find("input");
-				var tripTextareas =  tripsTbody.eq(int).find("textarea");
-				if(tripTextareas.eq(0).val()!=""||tripInputs.eq(0).val()!=""||tripInputs.eq(1).val()!=""||tripInputs.eq(2).val()!=""||tripTextareas.eq(1).val()!=""){
-					tripTables[int] = {number:int,trip:tripTextareas.eq(0).val(),meal:tripInputs.eq(0).val(),stay:tripInputs.eq(1).val(),traffic:tripInputs.eq(2).val(),remark:tripTextareas.eq(1).val()};
+				var tripTextAreas =  tripsTbody.eq(int).find("textarea");
+				if(tripTextAreas.eq(0).val()!=""||tripInputs.eq(0).val()!=""||tripInputs.eq(1).val()!=""||tripInputs.eq(2).val()!=""||tripTextAreas.eq(1).val()!=""){
+					tripTables[int] = {number:int,trip:tripTextAreas.eq(0).val(),meal:tripInputs.eq(0).val(),stay:tripInputs.eq(1).val(),traffic:tripInputs.eq(2).val(),remark:tripTextAreas.eq(1).val()};
 				}
 			}
 			
@@ -2124,7 +2154,8 @@
 						count:costInputs.eq(4).val(),
 						days:costInputs.eq(5).val(),
 						borrowUserId:costSelects.eq(2).val(),
-						supplierScopeId:costInputs.eq(6).val()};
+						supplierScopeId:costInputs.last().val(),
+						remark:costInputs.eq(7).val()};
 			}
 			
 			var incomeTables = new Array();
@@ -2134,7 +2165,7 @@
 				incomeTables[int] = {incomeDate:new Date(incomeInputs.eq(0).val()),customerAgencyId:customerAgencyId,income:incomeInputs.eq(1).val(),remark:incomeInputs.eq(2).val()};
 			}
 			
-			var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
+			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
 			var myData = JSON.stringify(fullLocalTourViewModel);
 			$.ajax({
 		        type: "POST",  
@@ -2152,7 +2183,7 @@
 														'<span class="lbl"></span>'+
 													'</label>'+
 												'</td>'+
-												'<td><a id="" role="button" data-toggle="modal" href="#modify">'+tourNo+'</a></td>'+
+												'<td><a id="findTour" role="button" data-toggle="modal" href="#find">'+tourNo+'</a></td>'+
 												'<td>'+tourName+'</td>'+
 												'<td>'+adultNo+'</td>'+
 												'<td>'+childrenNo+'</td>'+
@@ -2162,7 +2193,7 @@
 												'<td>新建</td>'+
 												'<td>'+'<%=((UserTable)session.getAttribute("user")).getRealName()%>'+'</td>'+
 												'<td id="'+data+'">'+
-													'<a id="edit" class="green" href="#" title="编辑">'+
+													'<a id="editTour" class="green" data-toggle="modal" href="#edit" title="编辑">'+
 														'<i class="icon-pencil bigger-130"></i>'+
 													'</a>'+
 													'<a class="pink action" id="auditing" href="#" title="提交审核" style="margin-left:3px;">'+
@@ -2328,6 +2359,7 @@
 		        								'<td>'+this.costTable.days+'</td>'+
 		        								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 		        								'<td>'+this.borrowUserName+'</td>'+
+		        								'<td>'+this.costTable.remark+'</td>'+
 		        					'</tr>');
 		        		}else if(this.costTable.supplierScopeId==2){
 		        			hotel.append('<tr>'+
@@ -2339,6 +2371,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
 		        		}else if(this.costTable.supplierScopeId==3){
 		        			meal.append('<tr>'+
@@ -2350,6 +2383,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');		        			
 		        		}else if(this.costTable.supplierScopeId==4){
 		        			ticket.append('<tr>'+
@@ -2361,6 +2395,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');		        			
 		        		}else if(this.costTable.supplierScopeId==5){
 		        			shuttle.append('<tr>'+
@@ -2372,6 +2407,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');	
 		        		}else if(this.costTable.supplierScopeId==6){
 		        			tickets.append('<tr>'+
@@ -2383,6 +2419,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
 		        		}else if(this.costTable.supplierScopeId==7){
 		        			comprehensive.append('<tr>'+
@@ -2394,6 +2431,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			other.append('<tr>'+
@@ -2405,6 +2443,7 @@
 			    								'<td>'+this.costTable.days+'</td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
 		        		}
 		        	});
@@ -2424,6 +2463,7 @@
 			});
 		});
 	/* 编辑 */
+		/* 点击日期删除导游 */
 		$("#edit").find(".datepicker").click(function(){
 			$("#edit").find("#guideTd").html('<input id="guide" type="text" class="form-control" placeholder="可选多个" style="width:100%;">');
 			var myData = {tourId:$("#saveEdit").parent().attr("id")};
@@ -2439,6 +2479,7 @@
 		        }
 			});
 		});
+		/* 选择导游 */
 		$("#edit").delegate("#guide","click",function(){
 			var td = $(this).parents("td");
 			td.html("");
@@ -2470,6 +2511,7 @@
     		select.next().find("input").attr("style","height:100%;");
     		td.find("input").focus().select();
 		});
+		/* 编辑读取 */
  		$("#table").delegate("#editTour","click",function(){
 			var myData = {tourId:$(this).parent().attr("id")};
 			$("#saveEdit").parent().attr("id",myData.tourId);
@@ -2482,7 +2524,9 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
+		        	/* 全局数据 */
 		        	editInfo = data;
+		        	/* 设置团队 */
 		        	var selects = $("#edit").find("select");
 		        	var td = $("#edit").find(".tourInfo");
 		        	td.eq(0).children("input").val(data.localTourTable.tourNo);
@@ -2501,7 +2545,7 @@
 		        	td.eq(13).children("input").val((data.localTourTable.endTime).replace(/-/g,"/"));
 		        	td.eq(14).html('<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个..."><option value="">&nbsp;</option></select>');
 		        	td.eq(15).children("input").val(data.localTourTable.remark);
-		        	
+		        	/* 设置导游 */
 		        	var select = td.eq(14).children("select");
 					var myData = {startTime:(data.localTourTable.startTime).replace(/-/g,"/"),endTime:(data.localTourTable.endTime).replace(/-/g,"/")};
 					$.ajax({
@@ -2526,7 +2570,7 @@
 				        	alert("团期选择错误，无法匹配导游");
 				        }
 					});
-					
+					/* 设置抵离信息 */
 		        	var arrInfo = $("#edit").find(".arrInfo");
 		        	arrInfo.html("");
 		        	var arrIds = new Array();
@@ -2565,10 +2609,7 @@
 		        	});
 		        	departInfo.attr("ids",departIds);
 					
-					
-		        	
-		        	
-		        	
+					/* 设置成本 */
 		        	var flight = $("#flight3").find("tbody");
 		        	var hotel = $("#hotel3").find("tbody");
 		        	var meal = $("#meal3").find("tbody");
@@ -2605,6 +2646,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			flight.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2628,6 +2670,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 		        			hotel.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2651,6 +2694,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			meal.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2674,6 +2718,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			ticket.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2697,6 +2742,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			shuttle.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2720,6 +2766,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			tickets.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2743,6 +2790,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			comprehensive.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2766,6 +2814,7 @@
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
+			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 			    					'</tr>');
 			    			other.find("tr").last().children("td").eq(7).append(borrowUser);
@@ -2782,12 +2831,11 @@
 		        		}
 		        	});
 		        	
-		        	
-		        	
+		        	/* 设置收入 */
 		        	var tbody = $("#incomes3").find("tbody");
 		        	tbody.html("");
 		        	$.each(data.incomes,function(){
-		        		tbody.append('<tr>'+
+		        		/* tbody.append('<tr>'+
 		        							'<td><input value="'+this.incomeTable.incomeDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 		        							'<td>'+$("#edit").find(".customerAgency").children("option:selected").text()+'</td>'+
 		        							'<td><input value="'+this.incomeTable.income+'" style="width:100%;" class="form-control" type="text" /></td>'+
@@ -2795,7 +2843,17 @@
 		        							'<td>'+this.invoiceAmount+'</td>'+
 		        							'<td><input value="'+this.incomeTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 		        							'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
-		        					'</tr>');
+		        					'</tr>'); */
+		    			tbody.append("<tr>"+$("#incomeModel").html()+"</tr>");
+		    			var tr = tbody.children("tr").last();
+		    			var inputs = tr.find("input");
+		    			var td = tr.children("td");
+		    			inputs.eq(0).val(this.incomeTable.incomeDate.replace(/-/g,'/'));
+		    			tr.find("select").eq(0).val($("#tourInfo3").find("#customer").val());
+		    			inputs.eq(1).val(this.incomeTable.income);
+		    			td.eq(3).html(this.incomeTable.realIncome);
+		    			td.eq(4).html(this.invoiceAmount);
+		    			inputs.eq(2).val(this.incomeTable.remark);
 		        	});
 		        	
 		        	$("#edit").find(".datepicker").datepicker({
@@ -2810,6 +2868,7 @@
 		        }  
 			});
 		});
+		/* 设置行程 */
  		var editInfo;
  		$("#editTrip").click(function(){
  			var startTime = new Date($("#edit").find(".datepicker").eq(0).val());
@@ -2883,6 +2942,31 @@
  		});
 	/*更新 */
 		$("#saveEdit").click(function(){
+			var inputs = $("#edit").find("#tourInfo").find("input");
+			var selects = $("#edit").find("#tourInfo").find("select");
+
+			var id = $(this).parent().attr("id");
+			var tourNo = inputs.eq(0).val();
+			var tourName = inputs.eq(1).val();
+			var businessTypeId = selects.eq(0).val();
+			var tourTypeId = selects.eq(1).val();
+			var regionId = selects.eq(2).val();
+			var visitorTypeId = selects.eq(3).val();
+			var customerAgencyId = selects.eq(4).val();
+			var organizor = inputs.eq(7).val();
+			var qpGuideNo = inputs.eq(8).val();
+			var adultNo = inputs.eq(9).val();
+			var childrenNo = inputs.eq(10).val();
+			var startTime = new Date(inputs.eq(11).val());
+			var endTime = new Date(inputs.eq(12).val());
+			var guideIds  = selects.eq(5).val();
+			var remark = inputs.eq(14).val();
+			var days = (endTime-startTime)/1000/60/60/24+1;
+			var localTourTable={id:id,tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
+						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
+						   endTime:endTime,guideIds:guideIds,remark:remark};
+			var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
+			var myData = JSON.stringify(fullLocalTourViewModel);
 			myData = full.stringify();
 			$.ajax({
 		        type: "POST",  
@@ -2893,10 +2977,10 @@
 		        async: false,  
 		        success:function(data){
 		        	
-		        }  
+		        }
 			 });
 		});
-		
+	
 	});
 	
 </script>

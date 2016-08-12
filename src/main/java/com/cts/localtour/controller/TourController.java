@@ -82,7 +82,6 @@ public class TourController {
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
-		
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
 			return 0;
 		}else{
@@ -172,8 +171,8 @@ public class TourController {
 		return localTourService.find(tourId);
 	}
 	
-	@RequestMapping("/localTourManage/update")
-	public @ResponseBody boolean updateSupplierBusiness(@RequestBody FullLocalTourViewModel full){
-		return localTourService.updateFull(full);
-	}
+//	@RequestMapping("/localTourManage/update")
+//	public @ResponseBody boolean updateSupplierBusiness(@RequestBody FullLocalTourViewModel full){
+//		return localTourService.updateFull(full);
+//	}
 }

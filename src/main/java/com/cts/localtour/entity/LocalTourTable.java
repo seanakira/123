@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-7-25 10:27:26 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-8-12 11:12:23 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -38,7 +38,6 @@ public class LocalTourTable implements java.io.Serializable {
 	private String remark;
 	private int status;
 	private boolean enable;
-	private String guideIds;
 
 	public LocalTourTable() {
 	}
@@ -65,8 +64,7 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
 			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
-			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
-			String guideIds) {
+			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -85,7 +83,6 @@ public class LocalTourTable implements java.io.Serializable {
 		this.remark = remark;
 		this.status = status;
 		this.enable = enable;
-		this.guideIds = guideIds;
 	}
 
 	@Id
@@ -262,15 +259,6 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
-	}
-
-	@Column(name = "guideIDs", length = 50)
-	public String getGuideIds() {
-		return this.guideIds;
-	}
-
-	public void setGuideIds(String guideIds) {
-		this.guideIds = guideIds;
 	}
 
 }
