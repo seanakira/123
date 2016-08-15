@@ -71,33 +71,15 @@
 
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 <!-- 		增加模板			 -->
-							<tr id="addModel" hidden="">
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="">
-									
-								</td>
-								<td class="">
+							<tr id="addCollectModel" hidden="">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td  class="">
 									<input type="text">
-								</td>
-								<td  class="">
-									
-								</td>	
-								<td  class="">
-									
-								</td>
-								<td  class="">
-									<input id="submit" type="text">
-								</td>
-								<td class="hidden-480 ">
-										<span class="label label-sm label-success">有效</span>
-								</td>
-								<td class="">
-									
 								</td>
 							</tr>
 <!-- 增加模板结束 -->		
@@ -194,7 +176,7 @@
 								</tr>
 							</c:forEach> --%>
 							<tr>
-								<td><a id="" role="button" data-toggle="modal" href="#view">JRT1606016D-30</a></td>
+								<td><a id="" role="button" data-toggle="modal" href="#view" data-backdrop="static">JRT1606016D-30</a></td>
 								<td>青岛3日游</td>
 								<td>10600</td>
 								<td>14000</td>
@@ -215,7 +197,7 @@
 <!-- 列表循环结束 -->								
 						</tbody>
 					</table>
-<!-- 团队付款查看开始 -->	
+<!-- 团队收款查看开始 -->	
 				<div aria-hidden="true" style="display: none;" id="view" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:80%;">
 						<div class="modal-content">
@@ -224,18 +206,18 @@
 								<div id="headerName" class="table-header">
 									团队收入管理
 								
-								<a href="" style="color: #FFFFFF">	
-									<span class="pull-right">
+									<span id="addCollect" class="pull-right">
+										<a href="#" style="color: #FFFFFF">	
 												<i class="icon-plus bigger-100"></i>
 												新增收入
+										</a>
 									</span>
-								</a>
 								</div>
 								
 							</div>
 							
 							<div class="modal-body no-padding">
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tableCollect" class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
 															<th style="width: 15%;">收入编号</th>
@@ -283,7 +265,7 @@
 							</div>
 						</div>
 					</div>
-<!-- 团队付款查看开始 -->	
+<!-- 团队收款查看结束 -->	
 <!-- 分页查询开始 -->					
 						<div class="row">
 							<div class="col-sm-6">
@@ -437,300 +419,11 @@
 			$("#datepickerStart").datepicker({
 				showOtherMonths: true,
 				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				}  */
 			});
-			$("#datepickerEnd").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				} */
+			/* 新增收入 */		
+			$("#addCollect").click(function(){
+				$("#tableCollect").append("<tr class='collectModel'>"+$("#addCollectModel").html()+"</tr>");
 			});
-			$("#arrTime").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				} */
-			});
-			$("#departTime").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-				//isRTL:true,
-				/* changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				beforeShow: function() {
-					//change button colors
-					var datepicker = $(this).datepicker( "widget" );
-					setTimeout(function(){
-						var buttons = datepicker.find('.ui-datepicker-buttonpane')
-						.find('button');
-						buttons.eq(0).addClass('btn btn-xs');
-						buttons.eq(1).addClass('btn btn-xs btn-success');
-						buttons.wrapInner('<span class="bigger-110" />');
-					}, 0);
-				} */
-			});
-	/* 新增 */		
-			$("#add").click(function(){
-				var isChange = false;
-				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
-				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
-				$("#table").find("select").eq(1).attr("class","width-20 chosen-select");
-				$(".chosen-select").chosen();
-				$("#table").find("select").eq(0).next().attr("style","width:150px;");
-				$("#table").find("select").eq(1).next().attr("style","width:410px;");
-				$("#table").find("select").next().find("input").attr("style","height:25px;");
-				$("#table").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13&&isChange||event.keyCode==13&&$("#table").find("input").index($(this))==1){
-						$(this).parents("td").next().find("input").focus().select();
-						isChange = false;
-					}
-				});
-				$("#table").find("select").change(function(){isChange = true;});
-			});
-	/* 回车保存 */		
-		$("#table").delegate("#submit","keydown",function(event){
-			if(event.keyCode==13){
-				var obj = $(this).parents("tr");
-				var input = $(this);
-				var td = obj.children("td");
-				var supplierName = obj.find("input").eq(1).val();
-				var regionId = obj.find("select").eq(0).val();
-				var supplierScopeIds =obj.find("select").eq(1).val().toString();
-				var regionName = obj.find("select").eq(0).find("option:selected").text();
-				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-				var phone = obj.find("input").eq(-1).val();
-				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone};
-				var myData = JSON.stringify(supplier);
-				var supplierId;
-				
-			 	$.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/save",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	supplierId = data;
-			        	td.eq(2).html(supplierName);
-			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	td.eq(4).html(supplierScopeName);
-			        	input.parent().html(phone);
-			        }  
-				 });
-				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-			  	$.ajax({  
-			        type: "GET",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/save",  
-			        data:ids,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	
-			        }  
-				});
-				obj.next().find("input").eq(1).focus().select();
-			}
-		});
-	
-	
-	/* 删除 */
-		$("#table").delegate(".red","click",function(){
-			var obj = $(this);
-			var myData = {id:obj.attr("id")};
-			$.ajax({  
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/del",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	obj.attr("class","green");
-		        	obj.children("i").attr("class","icon-undo bigger-130");
-		        	var span = obj.parents("td").prev().children("span");
-		        	span.attr("class","label label-sm label-warning");
-		        	span.text("无效");
-		        }  
-			}); 
-		});
-	/* 恢复 */
-		$("#table").delegate("span .green","click",function(){
-			var obj = $(this);
-			var myData = {id:obj.attr("id")};
-			$.ajax({  
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/recover",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	obj.attr("class","red");
-		        	obj.children("i").attr("class","icon-trash bigger-130");
-		        	var span = obj.parents("td").prev().children("span");
-		        	span.attr("class","label label-sm label-success");
-		        	span.text("有效");
-		        }  
-			}); 
-		});
-	/* 编辑 */
-		$("#table").delegate("#edit","click",function(){
-			var obj = $(this);
-			var td = obj.parents("td").siblings();
-			var info = {id:td.eq(-1).children("a").attr("id"),
-						supplierName:td.eq(2).text(),
-						regionId:td.eq(3).children("span").text(),
-						phone:td.eq(5).text(),
-						supplierScopeIds:td.eq(4).find("span").text().split("")};
-			td.eq(2).html("<input id='update' type='text' value='"+info.supplierName+"' style='width:150px' />");
-			td.eq(3).html($("#select").html());
-			td.eq(3).children("select").attr("class","width-20 chosen-select");
-			td.eq(3).children("select").val(info.regionId);
-			td.eq(4).html($("#multiple").html());
-			td.eq(4).children("select").attr("class","width-20 chosen-select");
-			td.eq(4).children("select").val(info.supplierScopeIds);
-			$(".chosen-select").chosen();
-			td.eq(3).find("select").next().attr("style","width:150px;");
-			td.eq(4).find("input").attr("style","height:25px;");
-			td.eq(5).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");
-			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
-		});
-	/*回车更新 */		
-		$("#table").delegate("#update","keydown",function(event){
-			if(event.keyCode==13){
-				var obj = $(this).parents("tr");
-				var td = $(this).parents("td").siblings();
-				var params = $(this).parents("tr").find("input");
-		 		var supplierName = params.eq(1).val();
-				var id = obj.find(".red").attr("id");
-				var regionId = obj.find("select").val();
-				var regionName = obj.find("select").eq(0).find("option:selected").text();
-				var supplierScopeIds =obj.find("select").eq(1).val().toString();
-				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-				var phone = td.eq(5).children("input").val();
-				var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone};
-				var myData = JSON.stringify(supplier);
-				var supplierId = id;
-				$.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/update",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	td.eq(2).parent().html(supplierName);
-			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
-			        	td.eq(5).html(phone);
-			        }  
-				 }); 
-				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-			  	$.ajax({  
-			        type: "GET",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/update",  
-			        data:ids,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	
-			        }  
-				});
-				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
-				obj.next().find("input").eq(1).focus().select();
-			}
-		});
-		/* 按钮更新 */
-		$("#table").delegate("#save","click",function(){
-			var obj = $(this).parents("tr");
-			var td = $(this).parents("td").siblings();
-			var params = $(this).parents("tr").find("input");
-	 		var supplierName = params.eq(1).val();
-			var id = obj.find(".red").attr("id");
-			var regionId = obj.find("select").val();
-			var regionName = obj.find("select").eq(0).find("option:selected").text();
-			var supplierScopeIds =obj.find("select").eq(1).val().toString();
-			var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-			var phone = td.eq(5).children("input").val();
-			var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone};
-			var myData = JSON.stringify(supplier);
-			var supplierId = id;
-			$.ajax({  
-		        type: "POST",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/update",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	td.eq(2).html(supplierName);
-		        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-		        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
-		        	td.eq(5).html(phone);
-		        }  
-			 }); 
-			var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-		  	$.ajax({  
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierBusiness/update",  
-		        data:ids,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	
-		        }  
-			});
-			obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
-			obj.next().find("input").eq(1).focus().select();
-		});
-			
-	
 	});
 	
 </script>
