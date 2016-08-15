@@ -39,7 +39,8 @@
 						</div><!-- #nav-search -->
 					</div>
 					
-										<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
+					<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
 							<tr role="row">
 								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
@@ -115,6 +116,22 @@
 								<td></td>	
 							</tr>
 <!-- 新增借款模板结束 -->		
+<!-- 新增打款模板开始 -->
+							<tr id="addPayModel" hidden="">
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>	
+							</tr>
+<!-- 新增打款模板结束 -->		
 <!-- 列表循环 -->								
 							<%-- <c:forEach var="supplier" items="${suppliers }" varStatus="status">
 								<tr>
@@ -313,7 +330,7 @@
 									            </table>
 							</div>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+								<button class="btn btn-dismiss-cost btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
 									取消
 								</button>
@@ -374,7 +391,7 @@
 									</tr>
 								</table>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+								<button class="btn btn-dismiss-lend btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
 									取消
 								</button>
@@ -397,15 +414,15 @@
 											团队打款管理
 										</span> 
 										&nbsp;
-										<a href="" style="color: #FFFFFF">
-											<span class="pull-right">
-											<i class="icon-plus bigger-100"></i>
-											新增打款
+											<span id="addPay" class="pull-right">
+												<a href="#" style="color: #FFFFFF">
+												<i class="icon-plus bigger-100"></i>
+												新增打款
+												</a>
 											</span>
-										</a>
 									</div>
 								</div>
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tablePay" class="table table-striped table-bordered table-hover no-margin">
 									<tr>
 										<th style="width: 15%;">成本编号</th>
 										<th style="width: 15%;">类别</th>
@@ -429,7 +446,7 @@
 									</tr>
 								</table>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+								<button class="btn btn-dismiss-pay btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
 									取消
 								</button>
@@ -530,28 +547,27 @@
 			
 				/* 新增成本 */		
 			$("#addCost").click(function(){
-				$("#tableCost").append("<tr>"+$("#addCostModel").html()+"</tr>");
-				$("#tableCost").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13){
-						if($(this).parent().next().children("input").attr("id")=="deptId"){
-							$(this).parent().next().next().children("input").focus().select();
-						}else{
-							$(this).parent().next().children("input").focus().select();
-						}
-					}
-				});
+				$("#tableCost").append("<tr class='costModel'>"+$("#addCostModel").html()+"</tr>");
 			});
+			/* 新增借款 */	
 			$("#addLend").click(function(){
-				$("#tableLend").append("<tr>"+$("#addLendModel").html()+"</tr>");
-				$("#tableLend").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13){
-						if($(this).parent().next().children("input").attr("id")=="deptId"){
-							$(this).parent().next().next().children("input").focus().select();
-						}else{
-							$(this).parent().next().children("input").focus().select();
-						}
-					}
-				});
+				$("#tableLend").append("<tr class='lendModel'>"+$("#addLendModel").html()+"</tr>");
+			});
+			/* 新增打款 */	
+			$("#addPay").click(function(){
+				$("#tablePay").append("<tr class='payModel'>"+$("#addPayModel").html()+"</tr>");
+			});
+			/* 点击取消删除所有新增成本模板 */	
+			$(".btn-dismiss-cost").click(function(){
+				$(".costModel").remove();
+			});
+			/* 点击取消删除所有新增借款模板*/	
+			$(".btn-dismiss-lend").click(function(){
+				$(".lendModel").remove();
+			});
+			/* 点击取消删除所有新增成本模板 */	
+			$(".btn-dismiss-pay").click(function(){
+				$(".payModel").remove();
 			});
 		});
 </script>
