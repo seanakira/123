@@ -76,37 +76,45 @@
 						</thead>
 
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-<!-- 		增加模板			 -->
-							<tr id="addModel" hidden="">
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="">
+<!-- 		新增成本模板开始			 -->
+							<tr id="addCostModel" hidden="">
+								<td></td>
+								<td>
+									<%-- <select>
+										<!-- 暂时无 -->
+										<c:forEach var="supplierScope" items="${supplierScopes }" varStatus="status">
+											<option>${supplierScope.supplierScopes.id }</option>
+										</c:forEach>
+									</select> --%>
 									
 								</td>
 								<td class="">
 									<input type="text">
 								</td>
-								<td  class="">
-									
+								<td>
+									<input type="text">
 								</td>	
 								<td  class="">
-									
-								</td>
-								<td  class="">
-									<input id="submit" type="text">
+									<input type="checkbox">
 								</td>
 								<td class="hidden-480 ">
 										<span class="label label-sm label-success">有效</span>
 								</td>
-								<td class="">
-									
-								</td>
 							</tr>
-<!-- 增加模板结束 -->		
+<!-- 新增成本模板结束 -->	
+<!-- 新增借款模板开始 -->
+							<tr id="addLendModel" hidden="">
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>	
+							</tr>
+<!-- 新增借款模板结束 -->		
 <!-- 列表循环 -->								
 							<%-- <c:forEach var="supplier" items="${suppliers }" varStatus="status">
 								<tr>
@@ -259,18 +267,18 @@
 								<div id="headerName" class="table-header">
 									团队成本管理
 								
-								<a href="" style="color: #FFFFFF">	
-									<span class="pull-right">
+									<span id="addCost" class="pull-right">
+										<a href="#" style="color: #FFFFFF">	
 												<i class="icon-plus bigger-100"></i>
 												新增成本
+										</a>
 									</span>
-								</a>
 								</div>
 								
 							</div>
 							
 							<div class="modal-body no-padding">
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tableCost" class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
 															<th style="width: 15%;">成本编号</th>
@@ -329,15 +337,15 @@
 										</span> 
 										&nbsp;
 										<span class="pull-mid">借款预算总额：6000	可借款额度：2000</span>
-										<a href="" style="color: #FFFFFF">
-											<span class="pull-right">
-											<i class="icon-plus bigger-100"></i>
-											新增借款
-											</span>
+										<span id="addLend" class="pull-right">
+										<a href="#" style="color: #FFFFFF">	
+												<i class="icon-plus bigger-100"></i>
+												新增借款
 										</a>
+									</span>
 									</div>
 								</div>
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tableLend" class="table table-striped table-bordered table-hover no-margin">
 									<thead>
 										<tr>
 											<th>
@@ -352,6 +360,9 @@
 											<th>
 												借款人备注(不填为团控)
 											</th>
+											<th>
+												操作
+											</th>
 										</tr>
 									</thead>
 									<tr>
@@ -359,6 +370,7 @@
 										<td>4000</td>
 										<td>06/01/2016</td>
 										<td>李四</td>
+										<td>修改</td>
 									</tr>
 								</table>
 							<div class="modal-footer no-margin-top">
@@ -516,10 +528,22 @@
 				selectOtherMonths: false,
 			})
 			
-				/* 新增 */		
+				/* 新增成本 */		
 			$("#addCost").click(function(){
-				$("#tableCost").prepend("<tr>"+$("#addModel").html()+"</tr>");
-				$("#table").find("input").not("#submit").keydown(function(event){
+				$("#tableCost").append("<tr>"+$("#addCostModel").html()+"</tr>");
+				$("#tableCost").find("input").not("#submit").keydown(function(event){
+					if(event.keyCode==13){
+						if($(this).parent().next().children("input").attr("id")=="deptId"){
+							$(this).parent().next().next().children("input").focus().select();
+						}else{
+							$(this).parent().next().children("input").focus().select();
+						}
+					}
+				});
+			});
+			$("#addLend").click(function(){
+				$("#tableLend").append("<tr>"+$("#addLendModel").html()+"</tr>");
+				$("#tableLend").find("input").not("#submit").keydown(function(event){
 					if(event.keyCode==13){
 						if($(this).parent().next().children("input").attr("id")=="deptId"){
 							$(this).parent().next().next().children("input").focus().select();
