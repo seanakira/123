@@ -2594,7 +2594,6 @@
 					/* 设置抵离信息 */
 		        	var arrInfo = $("#edit").find(".arrInfo");
 		        	arrInfo.html("");
-		        	var arrIds = new Array();
 		        	$.each(data.arrTables,function(index){
 		        		var tr = $("<tr></tr>");
 		        		tr.html($("#arrModel").html());
@@ -2607,13 +2606,11 @@
 		        		selects.eq(2).val(this.arrRegionId);
 		        		tr.children("td").last().attr("id",this.id);
 		        		arrInfo.append(tr);
-		        		arrIds[index] = this.id;
+		        		$("#edit").find("#arrTime").attr("id","");
 		        	});
-		        	arrInfo.attr("ids",arrIds);
 		        	
 		        	var departInfo = $("#edit").find(".departInfo");
 		        	departInfo.html("");
-		        	var departIds = new Array();
 		        	$.each(data.departTables,function(index){
 		        		var tr = $("<tr></tr>");
 		        		tr.html($("#departModel").html());
@@ -2626,9 +2623,19 @@
 		        		selects.eq(2).val(this.departRegionId);
 		        		tr.children("td").last().attr("id",this.id);
 		        		departInfo.append(tr);
-		        		departIds[index] = this.id;
+		        		$("#edit").find("#departTime").attr("id","");
 		        	});
-		        	departInfo.attr("ids",departIds);
+		        	
+					/* 要删除的ID */
+		        	$("#edit").find(".delLine").click(function(){
+		        		var parent = $(this).parent().parent().parent();
+		        		if(parent.attr("delIds")==undefined){
+		        			parent.attr("delIds",$(this).parent().attr("id"));
+		        		}else{
+		        			parent.attr("delIds",parent.attr("delIds")+","+$(this).parent().attr("id"));
+		        		}
+		        		
+		        	});
 					
 					/* 设置成本 */
 		        	var flight = $("#flight3").find("tbody");
