@@ -39,7 +39,8 @@
 						</div><!-- #nav-search -->
 					</div>
 					
-										<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
+					<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
 							<tr role="row">
 								<th style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader">
@@ -76,37 +77,61 @@
 						</thead>
 
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-<!-- 		增加模板			 -->
-							<tr id="addModel" hidden="">
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
-								<td class="">
+<!-- 		新增成本模板开始			 -->
+							<tr id="addCostModel" hidden="">
+								<td></td>
+								<td>
+									<%-- <select>
+										<!-- 暂时无 -->
+										<c:forEach var="supplierScope" items="${supplierScopes }" varStatus="status">
+											<option>${supplierScope.supplierScopes.id }</option>
+										</c:forEach>
+									</select> --%>
 									
 								</td>
 								<td class="">
 									<input type="text">
 								</td>
-								<td  class="">
-									
+								<td>
+									<input type="text">
 								</td>	
 								<td  class="">
-									
-								</td>
-								<td  class="">
-									<input id="submit" type="text">
+									<input type="checkbox">
 								</td>
 								<td class="hidden-480 ">
 										<span class="label label-sm label-success">有效</span>
 								</td>
-								<td class="">
-									
-								</td>
 							</tr>
-<!-- 增加模板结束 -->		
+<!-- 新增成本模板结束 -->	
+<!-- 新增借款模板开始 -->
+							<tr id="addLendModel" hidden="">
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>	
+							</tr>
+<!-- 新增借款模板结束 -->		
+<!-- 新增打款模板开始 -->
+							<tr id="addPayModel" hidden="">
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>
+								<td>
+									<input type="text">
+								</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>	
+							</tr>
+<!-- 新增打款模板结束 -->		
 <!-- 列表循环 -->								
 							<%-- <c:forEach var="supplier" items="${suppliers }" varStatus="status">
 								<tr>
@@ -259,18 +284,18 @@
 								<div id="headerName" class="table-header">
 									团队成本管理
 								
-								<a href="" style="color: #FFFFFF">	
-									<span class="pull-right">
+									<span id="addCost" class="pull-right">
+										<a href="#" style="color: #FFFFFF">	
 												<i class="icon-plus bigger-100"></i>
 												新增成本
+										</a>
 									</span>
-								</a>
 								</div>
 								
 							</div>
 							
 							<div class="modal-body no-padding">
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tableCost" class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
 															<th style="width: 15%;">成本编号</th>
@@ -305,7 +330,7 @@
 									            </table>
 							</div>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+								<button class="btn btn-dismiss-cost btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
 									取消
 								</button>
@@ -329,15 +354,15 @@
 										</span> 
 										&nbsp;
 										<span class="pull-mid">借款预算总额：6000	可借款额度：2000</span>
-										<a href="" style="color: #FFFFFF">
-											<span class="pull-right">
-											<i class="icon-plus bigger-100"></i>
-											新增借款
-											</span>
+										<span id="addLend" class="pull-right">
+										<a href="#" style="color: #FFFFFF">	
+												<i class="icon-plus bigger-100"></i>
+												新增借款
 										</a>
+									</span>
 									</div>
 								</div>
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tableLend" class="table table-striped table-bordered table-hover no-margin">
 									<thead>
 										<tr>
 											<th>
@@ -352,6 +377,9 @@
 											<th>
 												借款人备注(不填为团控)
 											</th>
+											<th>
+												操作
+											</th>
 										</tr>
 									</thead>
 									<tr>
@@ -359,10 +387,11 @@
 										<td>4000</td>
 										<td>06/01/2016</td>
 										<td>李四</td>
+										<td>修改</td>
 									</tr>
 								</table>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+								<button class="btn btn-dismiss-lend btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
 									取消
 								</button>
@@ -385,15 +414,15 @@
 											团队打款管理
 										</span> 
 										&nbsp;
-										<a href="" style="color: #FFFFFF">
-											<span class="pull-right">
-											<i class="icon-plus bigger-100"></i>
-											新增打款
+											<span id="addPay" class="pull-right">
+												<a href="#" style="color: #FFFFFF">
+												<i class="icon-plus bigger-100"></i>
+												新增打款
+												</a>
 											</span>
-										</a>
 									</div>
 								</div>
-								<table class="table table-striped table-bordered table-hover no-margin">
+								<table id="tablePay" class="table table-striped table-bordered table-hover no-margin">
 									<tr>
 										<th style="width: 15%;">成本编号</th>
 										<th style="width: 15%;">类别</th>
@@ -417,7 +446,7 @@
 									</tr>
 								</table>
 							<div class="modal-footer no-margin-top">
-								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+								<button class="btn btn-dismiss-pay btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
 									取消
 								</button>
@@ -516,18 +545,29 @@
 				selectOtherMonths: false,
 			})
 			
-				/* 新增 */		
+				/* 新增成本 */		
 			$("#addCost").click(function(){
-				$("#tableCost").prepend("<tr>"+$("#addModel").html()+"</tr>");
-				$("#table").find("input").not("#submit").keydown(function(event){
-					if(event.keyCode==13){
-						if($(this).parent().next().children("input").attr("id")=="deptId"){
-							$(this).parent().next().next().children("input").focus().select();
-						}else{
-							$(this).parent().next().children("input").focus().select();
-						}
-					}
-				});
+				$("#tableCost").append("<tr class='costModel'>"+$("#addCostModel").html()+"</tr>");
+			});
+			/* 新增借款 */	
+			$("#addLend").click(function(){
+				$("#tableLend").append("<tr class='lendModel'>"+$("#addLendModel").html()+"</tr>");
+			});
+			/* 新增打款 */	
+			$("#addPay").click(function(){
+				$("#tablePay").append("<tr class='payModel'>"+$("#addPayModel").html()+"</tr>");
+			});
+			/* 点击取消删除所有新增成本模板 */	
+			$(".btn-dismiss-cost").click(function(){
+				$(".costModel").remove();
+			});
+			/* 点击取消删除所有新增借款模板*/	
+			$(".btn-dismiss-lend").click(function(){
+				$(".lendModel").remove();
+			});
+			/* 点击取消删除所有新增成本模板 */	
+			$(".btn-dismiss-pay").click(function(){
+				$(".payModel").remove();
 			});
 		});
 </script>
