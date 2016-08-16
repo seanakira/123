@@ -428,7 +428,7 @@
 														</select>
 													</td>
 													<td><input id="departTime" class="form-control datepicker" type="text"></td>
-													<td><input type="text"></td>
+													<td><input class="form-control" type="text"></td>
 													<td>
 														<select style="display: none;" class="width-20 chosen-select region" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
@@ -1269,7 +1269,7 @@
 													<td class="tourInfo"><input type="text" class="form-control" /></td>
 													<td>业务类型*</td>
 													<td style="width: 23%;" class="tourInfo">
-														<select style="display: none;" class="width-20 chosen-select form-control businessType" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="businessType" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -1277,19 +1277,19 @@
 												<tr>
 													<td>团队类型*</td>
 													<td class="tourInfo">
-														<select style="display: none;" class="width-20 chosen-select form-control tourType" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="tourType" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 													<td>国家/地区*</td>
 													<td class="tourInfo">
-														<select style="display: none;" class="width-20 chosen-select form-control region" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="region" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
 													<td>游客类型*</td>
 													<td class="tourInfo">
-														<select style="display: none;" class="width-20 chosen-select form-control visitorType" data-placeholder="Choose a Country...">
+														<select style="display: none;" class="visitorType" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -1297,7 +1297,7 @@
 												<tr>
 													<td>组团社*</td>
 													<td class="tourInfo">
-														<select id="customer" style="display: none;" class="width-20 chosen-select form-control customerAgency" data-placeholder="Choose a Country...">
+														<select id="customer" style="display: none;" class="customerAgency" data-placeholder="Choose a Country...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -2109,7 +2109,7 @@
 			for (var int = 0; int < arrTrs.length; int++) {
 				var arrSelects = arrTrs.eq(int).find("select");
 				var arrInputs = arrTrs.eq(int).find("input");
-				if(arrSelects.eq(0).val()!=""||arrSelects.eq(1).children("option:selected").text()!=""||arrInputs.eq(2).val()!=""||arrInputs.eq(3).val()!=""||arrSelects.eq(2).val()!=""){
+				if(arrSelects.eq(0).val()!=""||arrSelects.eq(1).children("option:selected").html()!="&nbsp;"||arrInputs.eq(2).val()!=""||arrInputs.eq(3).val()!=""||arrSelects.eq(2).val()!=""){
 					arrTables[int]={originId:arrSelects.eq(0).val(),
 							arrTraffic:arrSelects.eq(1).children("option:selected").text(),
 							arrTime:new Date(arrInputs.eq(2).val()),
@@ -2123,7 +2123,7 @@
 			for (var int = 0; int < departTrs.length; int++) {
 				var departSelects = departTrs.eq(int).find("select");
 				var departInputs = departTrs.eq(int).find("input");
-				if(departSelects.eq(0).val()!=""||departSelects.eq(1).children("option:selected").text()!=""||departInputs.eq(2).val()!=""||departInputs.eq(3).val()!=""||departSelects.eq(2).val()!=""){
+				if(departSelects.eq(0).val()!=""||departSelects.eq(1).children("option:selected").html()!="&nbsp;"||departInputs.eq(2).val()!=""||departInputs.eq(3).val()!=""||departSelects.eq(2).val()!=""){
 					departTables[int] = {destId:departSelects.eq(0).val(),
 							departTraffic:departSelects.eq(1).children("option:selected").text(),
 							departTime:new Date(departInputs.eq(2).val()),
@@ -2531,11 +2531,32 @@
 		        	var td = $("#edit").find(".tourInfo");
 		        	td.eq(0).children("input").val(data.localTourTable.tourNo);
 		        	td.eq(1).children("input").val(data.localTourTable.tourName);
-		        	td.eq(2).children("select").val(data.localTourTable.businessTypeId);
-		        	td.eq(3).children("select").val(data.localTourTable.tourTypeId);
-		        	td.eq(4).children("select").val(data.localTourTable.regionId);
-		        	td.eq(5).children("select").val(data.localTourTable.visitorTypeId);
-		        	td.eq(6).children("select").val(data.localTourTable.customerAgencyId);
+		        	
+		        	var businessType = $("<select></select>");
+		        	businessType.html(td.eq(2).children("select").html());
+		        	businessType.attr({"style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
+		        	td.eq(2).html("").append(businessType.val(data.localTourTable.businessTypeId));
+		        	
+		        	var tourType = $("<select></select>");
+		        	tourType.html(td.eq(3).children("select").html());
+		        	tourType.attr({"style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
+		        	td.eq(3).html("").append(tourType.val(data.localTourTable.tourTypeId));
+		        	
+		        	var region = $("<select></select>");
+		        	region.html(td.eq(4).children("select").html());
+		        	region.attr({"style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
+		        	td.eq(4).html("").append(region.val(data.localTourTable.regionId));
+		        	
+		        	var visitorType = $("<select></select>");
+		        	visitorType.html(td.eq(5).children("select").html());
+		        	visitorType.attr({"style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
+		        	td.eq(5).html("").append(visitorType.val(data.localTourTable.visitorTypeId));
+		        	
+		        	var customerAgency = $("<select></select>");
+		        	customerAgency.html(td.eq(6).children("select").html());
+		        	customerAgency.attr({"style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
+		        	td.eq(6).html("").append(customerAgency.val(data.localTourTable.customerAgencyId));
+		        	
 		        	td.eq(7).children("input").val(data.localTourTable.organizor);
 		        	td.eq(8).children("input").val(data.localTourTable.qpGuideNo);
 		        	td.eq(9).children("input").val(data.localTourTable.adultNo);
@@ -2942,9 +2963,8 @@
  		});
 	/*更新 */
 		$("#saveEdit").click(function(){
-			var inputs = $("#edit").find("#tourInfo").find("input");
-			var selects = $("#edit").find("#tourInfo").find("select");
-
+			var inputs = $("#edit").find("#tourInfo3").find("input");
+			var selects = $("#edit").find("#tourInfo3").find("select");
 			var id = $(this).parent().attr("id");
 			var tourNo = inputs.eq(0).val();
 			var tourName = inputs.eq(1).val();
@@ -2964,10 +2984,56 @@
 			var days = (endTime-startTime)/1000/60/60/24+1;
 			var localTourTable={id:id,tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
 						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
-						   endTime:endTime,guideIds:guideIds,remark:remark};
-			var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
+						   endTime:endTime,remark:remark};
+			
+			var guideTimeTables = new Array();
+			if(guideIds!=null){
+				for (var int = 0; int < guideIds.length; int++) {
+					guideTimeTables[int]={
+							tourId:id,
+							guideId:guideIds[int],
+							startTime:startTime,
+							endTime:endTime};
+				}
+			}
+			
+			var arrTrs = $("#edit").find(".arrInfo").children("tr").not("#arrModel");
+			var arrTables = new Array();
+			for (var int = 0; int < arrTrs.length; int++) {
+				var arrSelects = arrTrs.eq(int).find("select");
+				var arrInputs = arrTrs.eq(int).find("input");
+				if(arrSelects.eq(0).val()!=""||arrSelects.eq(1).children("option:selected").html()!="&nbsp;"||arrInputs.eq(2).val()!=""||arrInputs.eq(3).val()!=""||arrSelects.eq(2).val()!=""){
+					arrTables[int]={
+						id:arrTrs.eq(int).find("td").last().attr("id"),
+						tourId:id,
+						originId:arrSelects.eq(0).val(),
+						arrTraffic:arrSelects.eq(1).children("option:selected").text(),
+						arrTime:new Date(arrInputs.eq(2).val()),
+						arrTrafficNo:arrInputs.eq(3).val(),
+						arrRegionId:arrSelects.eq(2).val()};	
+				}
+			}
+			
+			var departTrs = $("#edit").find(".departInfo").children("tr").not("#departModel");
+			var departTables = new Array();
+			for (var int = 0; int < departTrs.length; int++) {
+				var departSelects = departTrs.eq(int).find("select");
+				var departInputs = departTrs.eq(int).find("input");
+				if(departSelects.eq(0).val()!=""||departSelects.eq(1).children("option:selected").html()!="&nbsp;"||departInputs.eq(2).val()!=""||departInputs.eq(3).val()!=""||departSelects.eq(2).val()!=""){
+					departTables[int] = {
+							id:arrTrs.eq(int).find("td").last().attr("id"),
+							tourId:id,
+							destId:departSelects.eq(0).val(),
+							departTraffic:departSelects.eq(1).children("option:selected").text(),
+							departTime:new Date(departInputs.eq(2).val()),
+							departTrafficNo:departInputs.eq(3).val(),
+							departRegionId:departSelects.eq(2).val()};
+				}
+			}
+			
+			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables};
+			/* var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables}; */
 			var myData = JSON.stringify(fullLocalTourViewModel);
-			myData = full.stringify();
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
@@ -2976,7 +3042,9 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	
+		        	if(data==1){
+		        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整");
+		        	}
 		        }
 			 });
 		});

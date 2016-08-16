@@ -30,14 +30,21 @@ public class BaseService<T> {
 		return list;
 	}
 
-	public boolean add(T t) {
+	public void add(T t) {
 		try {
 			baseDAO.add(t);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
-		return true;
+	}
+	
+	public void merge(T t){
+		try {
+			baseDAO.merge(t);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getCountsByParam(String tableName, String where, Map<String, Object> param) {
@@ -81,7 +88,6 @@ public class BaseService<T> {
 		try {
 			baseDAO.update(t);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
