@@ -110,35 +110,15 @@ public class LocalTourService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public int add(LocalTourTable localTour){
+	public int addLocalTour(LocalTourTable localTour){
 		try {
 			return ((LocalTourTable)localTourDAO.add(localTour)).getId();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			//Õ≈∫≈÷ÿ∏¥			
 			return 0;
 		}
-		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void addSupplierBusiness(int supplierId, String supplierScopeIds){
-		try {
-			String ids[] = supplierScopeIds.split(",");
-			for (int i = 0; i < ids.length; i++) {
-				SupplierBusinessTable supplierBusinessTable = new SupplierBusinessTable();
-				supplierBusinessTable.setSupplierId(supplierId);
-				supplierBusinessTable.setSupplierScopeId(Integer.parseInt(ids[i]));
-				this.add(supplierBusinessTable);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteSupplierBusiness(int supplierId) {
-		this.deleteByString("SupplierBusinessTable", "supplierId=?", supplierId);
-	}
 	@SuppressWarnings("unchecked")
 	public CreateInfoViewModel getCreateInfo() {
 		CreateInfoViewModel createInfoViewModel = new CreateInfoViewModel();
@@ -188,16 +168,6 @@ public class LocalTourService extends BaseService{
 		tourInfo.put("visitorTypeName", ((VisitorTypeTable)this.getById("VisitorTypeTable", localTour.getVisitorTypeId())).getVisitorTypeName());
 		tourInfo.put("customerAgencyName", ((CustomerAgencyTable)this.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
 		full.setTourInfo(tourInfo);
-		/*if(!localTour.getGuideIds().equals("undefined")&&!localTour.getGuideIds().equals("")){
-			String[] guideIds = localTour.getGuideIds().split(",");
-			String guideNames = ((UserTable)this.getById("UserTable", Integer.parseInt(guideIds[0]))).getRealName();
-			for (int i = 1; i < guideIds.length; i++) {
-				guideNames = guideNames+","+((UserTable)this.getById("UserTable", Integer.parseInt(guideIds[i]))).getRealName();
-			}
-			tourInfo.put("guideNames", guideNames);
-		}else{
-			tourInfo.put("guideNames", "");
-		}*/
 		ArrayList<GuideTimeTable> guideTimeTables = (ArrayList<GuideTimeTable>)this.getAllByString("GuideTimeTable", "tourId=?", id);
 		ArrayList<GuideTimeViewModel> guideTimes = new ArrayList<GuideTimeViewModel>();
 		for (int i = 0; i < guideTimeTables.size(); i++) {
@@ -259,24 +229,28 @@ public class LocalTourService extends BaseService{
 		full.setIncomes(incomes);
 		return full;
 	}
-//	@SuppressWarnings("unchecked")
-//	public boolean updateFull(FullLocalTourViewModel full) {
-//		LocalTourTable localTour = (LocalTourTable) this.getById("LocalTourTable", full.getLocalTourTable().getId());
-//		localTourTable.setAdultNo(adultNo);
-//		localTourTable.setBusinessTypeId(businessTypeId);
-//		localTourTable.setChildrenNo(childrenNo);
-//		localTourTable.setCustomerAgencyId(customerAgencyId);
-//		localTourTable.setEndTime(endTime);
-//		localTourTable.setOrganizor(organizor);
-//		localTourTable.setQpGuideNo(qpGuideNo);
-//		localTourTable.setRegionId(regionId);
-//		localTourTable.setRemark(remark);
-//		localTourTable.setStartTime(startTime);
-//		localTourTable.setTourName(tourName);
-//		localTourTable.setTourNo(tourNo);
-//		localTourTable.setTourTypeId(tourTypeId);
-//		localTourTable.setVisitorTypeId(visitorTypeId);
-//		this.update(full.getLocalTourTable());
-//		return false;
-//	}
+	@SuppressWarnings("unchecked")
+	public boolean updateLocalTour(LocalTourTable localTourTable) {
+		LocalTourTable localTour = (LocalTourTable) this.getById("LocalTourTable", localTourTable.getId());
+		localTour.setAdultNo(localTourTable.getAdultNo());
+		localTour.setBusinessTypeId(localTourTable.getBusinessTypeId());
+		localTour.setChildrenNo(localTourTable.getChildrenNo());
+		localTour.setCustomerAgencyId(localTourTable.getCustomerAgencyId());
+		localTour.setEndTime(localTourTable.getEndTime());
+		localTour.setOrganizor(localTourTable.getOrganizor());
+		localTour.setQpGuideNo(localTourTable.getQpGuideNo());
+		localTour.setRegionId(localTourTable.getRegionId());
+		localTour.setRemark(localTourTable.getRemark());
+		localTour.setStartTime(localTourTable.getStartTime());
+		localTour.setTourName(localTourTable.getTourName());
+		localTour.setTourNo(localTourTable.getTourNo());
+		localTour.setTourTypeId(localTourTable.getTourTypeId());
+		localTour.setVisitorTypeId(localTourTable.getVisitorTypeId());
+		try {
+			localTourDAO.update(localTour);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 }

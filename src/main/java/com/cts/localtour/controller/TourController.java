@@ -95,7 +95,7 @@ public class TourController {
 					return 0;
 				}
 			}
-			int tourId = localTourService.add(localTour);
+			int tourId = localTourService.addLocalTour(localTour);
 			if(tourId!=0){
 				/*保存排团信息*/
 				if(!guideTimeTables.isEmpty()){
@@ -143,11 +143,6 @@ public class TourController {
 		}
 	}
 	
-/*	@RequestMapping("/supplierBusiness/save")
-	public void saveSupplierBusiness(@RequestParam int supplierId, @RequestParam String supplierScopeIds){
-		localTourService.addSupplierBusiness(supplierId,supplierScopeIds);
-	}*/
-	
 	@RequestMapping("/localTourManage/del")
 	public @ResponseBody boolean delLocalTour(@RequestParam int id){
 		localTourService.del(id);
@@ -171,8 +166,41 @@ public class TourController {
 		return localTourService.find(tourId);
 	}
 	
-//	@RequestMapping("/localTourManage/update")
-//	public @ResponseBody boolean updateSupplierBusiness(@RequestBody FullLocalTourViewModel full){
-//		return localTourService.updateFull(full);
-//	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/localTourManage/update")
+	public @ResponseBody Integer update(@RequestBody FullLocalTourViewModel full){
+		LocalTourTable localTour = full.getLocalTourTable();
+		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
+		ArrayList<ArrTable> arrTables = full.getArrTables();
+		ArrayList<DepartTable> departTables = full.getDepartTables();
+		ArrayList<TripTable> tripTables = full.getTripTables();
+		ArrayList<CostTable> costTables = full.getCostTables();
+		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
+		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
+			return 1;
+		}else{
+			if(!localTourService.updateLocalTour(localTour)){
+				return 1;
+			}
+			/*保存排团信息*/
+			guideTimeService.deleteByString("GuideTimeTable", "tourId=?", localTour.getId());
+			if(!guideTimeTables.isEmpty()){
+				for (int i = 0; i < guideTimeTables.size(); i++) {
+					guideTimeService.add(guideTimeTables.get(i));
+				}
+			}
+			/*保存抵达离开信息*/
+			if(!arrTables.isEmpty()){
+				for (int i = 0; i < arrTables.size(); i++) {
+					arrService.merge(arrTables.get(i));
+				}
+			}
+			if(!departTables.isEmpty()){
+				for (int i = 0; i < departTables.size(); i++) {
+					departService.merge(departTables.get(i));
+				}
+			}
+		}
+		return 0;
+	}
 }
