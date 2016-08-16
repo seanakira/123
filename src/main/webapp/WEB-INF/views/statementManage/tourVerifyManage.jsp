@@ -236,7 +236,7 @@
 					</div>
 				</div>
 <!-- 正文结束 -->	
-<!-- 团队付款查看开始 -->	
+<!-- 团队核销查看开始 -->	
 				<div aria-hidden="true" style="display: none;" id="view" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:80%;">
 						<div class="modal-content">
@@ -280,10 +280,20 @@
 													</tbody>
 									            </table>
 							</div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-dismiss-cost btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+						 	 </div>
 							</div>
 						</div>
 					</div>
-<!-- 团队付款查看结束 -->	
+<!-- 团队核销查看结束 -->	
 
 <!-- 下拉搜索开始 -->
 <link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
