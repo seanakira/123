@@ -262,6 +262,16 @@
 													</tbody>
 									            </table>
 							</div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-dismiss-collect btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+						 	 </div>
 							</div>
 						</div>
 					</div>
@@ -423,6 +433,10 @@
 			/* 新增收入 */		
 			$("#addCollect").click(function(){
 				$("#tableCollect").append("<tr class='collectModel'>"+$("#addCollectModel").html()+"</tr>");
+			});
+			/* 点击取消删除所有新增收入模板 */	
+			$(".btn-dismiss-collect").click(function(){
+				$(".collectModel").remove();
 			});
 	});
 	

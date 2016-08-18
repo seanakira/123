@@ -225,10 +225,10 @@
 								</tr>
 							</c:forEach> --%>
 							<tr>
-								<td><a id="" role="button" data-toggle="modal" href="#view" data-backdrop="static">JRT1606016D-30</a></td>
+								<td><a id="" role="button" data-toggle="modal" href="#view" data-backdrop="static" data-keyboard="false">JRT1606016D-30</a></td>
 								<td>青岛3日游</td>
-								<td><a id="" role="button" data-toggle="modal" href="#lend" data-backdrop="static">4000</a></td>
-								<td><a id="" role="button" data-toggle="modal" href="#pay" data-backdrop="static">10000</a></td>
+								<td><a id="" role="button" data-toggle="modal" href="#lend" data-backdrop="static" data-keyboard="false">4000</a></td>
+								<td><a id="" role="button" data-toggle="modal" href="#pay" data-backdrop="static" data-keyboard="false">10000</a></td>
 								<td>14000</td>
 								<td>18000</td>
 								<td>05/28/2016</td>
