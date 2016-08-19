@@ -69,6 +69,7 @@ public class BaseDAO<T>{
 		}
 	}
 	
+	
 //	@Override
 //	public List<T> findAll() throws Exception {
 //		String hql = "from "+this.getEntityClassName();

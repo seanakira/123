@@ -25,7 +25,7 @@ public class FullLocalTourViewModel {
 	private ArrayList<IncomeTable> incomeTables;
 	private ArrayList<incomeViewModel> incomes;
 	private Hashtable<String, String> tourInfo;
-	private Hashtable<String, ArrayList> updateIds;
+	private Hashtable<String, String> delIds;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -104,10 +104,10 @@ public class FullLocalTourViewModel {
 	public void setGuideTimes(ArrayList<GuideTimeViewModel> guideTimes) {
 		this.guideTimes = guideTimes;
 	}
-	public Hashtable<String, ArrayList> getUpdateIds() {
-		return updateIds;
+	public Hashtable<String, String> getDelIds() {
+		return delIds;
 	}
-	public void setUpdateIds(Hashtable<String, ArrayList> updateIds) {
-		this.updateIds = updateIds;
+	public void setDelIds(Hashtable<String, String> delIds) {
+		this.delIds = delIds;
 	}
 }

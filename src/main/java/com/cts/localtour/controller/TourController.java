@@ -1,6 +1,8 @@
 package com.cts.localtour.controller;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -173,6 +175,7 @@ public class TourController {
 		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
 		ArrayList<DepartTable> departTables = full.getDepartTables();
+		Hashtable<String, String> delIds = full.getDelIds();
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
@@ -182,14 +185,14 @@ public class TourController {
 			if(!localTourService.updateLocalTour(localTour)){
 				return 1;
 			}
-			/*保存排团信息*/
+			/*更新排团信息*/
 			guideTimeService.deleteByString("GuideTimeTable", "tourId=?", localTour.getId());
 			if(!guideTimeTables.isEmpty()){
 				for (int i = 0; i < guideTimeTables.size(); i++) {
 					guideTimeService.add(guideTimeTables.get(i));
 				}
 			}
-			/*保存抵达离开信息*/
+			/*更新抵达离开信息*/
 			if(!arrTables.isEmpty()){
 				for (int i = 0; i < arrTables.size(); i++) {
 					arrService.merge(arrTables.get(i));
@@ -198,6 +201,19 @@ public class TourController {
 			if(!departTables.isEmpty()){
 				for (int i = 0; i < departTables.size(); i++) {
 					departService.merge(departTables.get(i));
+				}
+			}
+			/*更新行程*/
+			if(!tripTables.isEmpty()){
+				for (int i = 0; i < tripTables.size(); i++) {
+					tripService.merge(tripTables.get(i));
+				}
+			}
+			if(!delIds.isEmpty()){
+				for (String tableName : delIds.keySet()) {
+					if(!delIds.get(tableName).equals("")){
+						localTourService.delByIds(tableName, delIds.get(tableName));
+					}
 				}
 			}
 		}

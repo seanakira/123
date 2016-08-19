@@ -2098,10 +2098,10 @@
 			var guideTimeTables = new Array();
 			if(guideIds!=null){
 				for (var int = 0; int < guideIds.length; int++) {
-					guideTimeTables[int]={
+					guideTimeTables.push({
 							guideId:guideIds[int],
 							startTime:startTime,
-							endTime:endTime};
+							endTime:endTime});
 				}
 			}
 			var arrTrs = $("#create").find(".arrInfo").children("tr").not("#arrModel");
@@ -2110,11 +2110,12 @@
 				var arrSelects = arrTrs.eq(int).find("select");
 				var arrInputs = arrTrs.eq(int).find("input");
 				if(arrSelects.eq(0).val()!=""||arrSelects.eq(1).children("option:selected").html()!="&nbsp;"||arrInputs.eq(2).val()!=""||arrInputs.eq(3).val()!=""||arrSelects.eq(2).val()!=""){
-					arrTables[int]={originId:arrSelects.eq(0).val(),
+					arrTables.push({
+							originId:arrSelects.eq(0).val(),
 							arrTraffic:arrSelects.eq(1).children("option:selected").text(),
 							arrTime:new Date(arrInputs.eq(2).val()),
 							arrTrafficNo:arrInputs.eq(3).val(),
-							arrRegionId:arrSelects.eq(2).val()};	
+							arrRegionId:arrSelects.eq(2).val()});	
 					}
 				}
 			
@@ -2124,11 +2125,12 @@
 				var departSelects = departTrs.eq(int).find("select");
 				var departInputs = departTrs.eq(int).find("input");
 				if(departSelects.eq(0).val()!=""||departSelects.eq(1).children("option:selected").html()!="&nbsp;"||departInputs.eq(2).val()!=""||departInputs.eq(3).val()!=""||departSelects.eq(2).val()!=""){
-					departTables[int] = {destId:departSelects.eq(0).val(),
+					departTables.push(
+							{destId:departSelects.eq(0).val(),
 							departTraffic:departSelects.eq(1).children("option:selected").text(),
 							departTime:new Date(departInputs.eq(2).val()),
 							departTrafficNo:departInputs.eq(3).val(),
-							departRegionId:departSelects.eq(2).val()};
+							departRegionId:departSelects.eq(2).val()});
 				}
 			}
 			
@@ -2138,7 +2140,13 @@
 				var tripInputs =  tripsTbody.eq(int).find("input");
 				var tripTextAreas =  tripsTbody.eq(int).find("textarea");
 				if(tripTextAreas.eq(0).val()!=""||tripInputs.eq(0).val()!=""||tripInputs.eq(1).val()!=""||tripInputs.eq(2).val()!=""||tripTextAreas.eq(1).val()!=""){
-					tripTables[int] = {number:int,trip:tripTextAreas.eq(0).val(),meal:tripInputs.eq(0).val(),stay:tripInputs.eq(1).val(),traffic:tripInputs.eq(2).val(),remark:tripTextAreas.eq(1).val()};
+					tripTables.push({
+						number:int,
+						trip:tripTextAreas.eq(0).val(),
+						meal:tripInputs.eq(0).val(),
+						stay:tripInputs.eq(1).val(),
+						traffic:tripInputs.eq(2).val(),
+						remark:tripTextAreas.eq(1).val()});
 				}
 			}
 			
@@ -2147,7 +2155,7 @@
 			for (var int = 0; int < costTrs.length; int++) {
 				var costInputs = costTrs.eq(int).find("input");
 				var costSelects = costTrs.eq(int).find("select");
-				costTables[int] = {costDate:new Date(costInputs.eq(0).val()),
+				costTables.push({costDate:new Date(costInputs.eq(0).val()),
 						contentId:costSelects.eq(0).val(),
 						supplierId:costSelects.eq(1).val(),
 						cost:costInputs.eq(3).val(),
@@ -2155,14 +2163,18 @@
 						days:costInputs.eq(5).val(),
 						borrowUserId:costSelects.eq(2).val(),
 						supplierScopeId:costInputs.last().val(),
-						remark:costInputs.eq(7).val()};
+						remark:costInputs.eq(7).val()});
 			}
 			
 			var incomeTables = new Array();
 			var incomeTrs = $("#create").find("#incomes").find("tbody").find("tr").not("#incomeModel");
 			for (var int = 0; int < incomeTrs.length; int++) {
 				var incomeInputs = incomeTrs.eq(int).find("input");
-				incomeTables[int] = {incomeDate:new Date(incomeInputs.eq(0).val()),customerAgencyId:customerAgencyId,income:incomeInputs.eq(1).val(),remark:incomeInputs.eq(2).val()};
+				incomeTables.push({
+					incomeDate:new Date(incomeInputs.eq(0).val()),
+					customerAgencyId:customerAgencyId,
+					income:incomeInputs.eq(1).val(),
+					remark:incomeInputs.eq(2).val()});
 			}
 			
 			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
@@ -2884,6 +2896,81 @@
 		    			inputs.eq(2).val(this.incomeTable.remark);
 		        	});
 		        	
+		        	/* 点击编辑设置行程 */
+		        	var startTime = new Date(data.localTourTable.startTime);
+					var endTime = new Date(data.localTourTable.endTime);
+					var days = (endTime-startTime)/1000/60/60/24+1;
+					var ul = $("#edit").find("#myTab3");
+					var div = ul.parent().children("div");
+					var editTripModel = $("#editTripModel");
+					ul.html("");
+					tripDelIds = [];
+					div.html('<div id="editTripModel" style="display:none;">'+editTripModel.html()+'</div>');
+		        	for (var int = 0; int < days; int++) {
+						var date = new Date(startTime.getTime()+1000*60*60*24*int);
+						if(int==0){
+							ul.append('<li class="active">'+
+										'<a data-toggle="tab" href="#editDay'+int+'">'+
+											date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+										'</a>'+
+								  	  '</li>');
+							var flag = false;
+							$.each(editInfo.tripTables,function(){
+								if(this.number==int){
+									div.append('<div id="editDay'+this.number+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
+									tripDelIds.push(this.id);
+									var divLast = div.children("div:last");
+									divLast.find("tbody").attr("id",this.id);
+									divLast.find("textarea").eq(0).text(this.trip);
+									divLast.find("input").eq(0).attr("value",this.meal);
+									divLast.find("input").eq(1).attr("value",this.stay);
+									divLast.find("input").eq(2).attr("value",this.traffic);
+									divLast.find("textarea").eq(1).text(this.remark);
+					        		flag=true;
+								}
+							});
+							if(flag==false){
+								div.append('<div id="editDay'+int+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
+								var divLast = div.children("div:last");
+								divLast.find("textarea").eq(0).text("");
+								divLast.find("input").eq(0).val("");
+								divLast.find("input").eq(1).val("");
+								divLast.find("input").eq(2).val("");
+								divLast.find("textarea").eq(1).text("");
+							}
+						}else{
+							ul.append('<li>'+
+									'<a data-toggle="tab" href="#editDay'+int+'">'+
+										date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+									'</a>'+
+							  	  '</li>');
+							var flag = false;
+							$.each(editInfo.tripTables,function(){
+								if(this.number==int){
+									div.append('<div id="editDay'+this.number+'" class="tab-pane">'+editTripModel.html()+'</div>');
+									tripDelIds.push(this.id);
+									var divLast = div.children("div:last");
+									divLast.find("tbody").attr("id",this.id);
+									divLast.find("textarea").eq(0).text(this.trip);
+									divLast.find("input").eq(0).attr("value",this.meal);
+									divLast.find("input").eq(1).attr("value",this.stay);
+									divLast.find("input").eq(2).attr("value",this.traffic);
+									divLast.find("textarea").eq(1).text(this.remark);
+					        		flag=true;
+								}
+							});
+							if(flag==false){
+								div.append('<div id="editDay'+int+'" class="tab-pane">'+editTripModel.html()+'</div>');
+								var divLast = div.children("div:last");
+								divLast.find("textarea").eq(0).text("");
+								divLast.find("input").eq(0).val("");
+								divLast.find("input").eq(1).val("");
+								divLast.find("input").eq(2).val("");
+								divLast.find("textarea").eq(1).text("");
+							}
+						}
+					}
+		        	
 		        	$("#edit").find(".datepicker").datepicker({
 		    			showOtherMonths: true,
 		    			selectOtherMonths: false,
@@ -2896,9 +2983,16 @@
 		        }  
 			});
 		});
-		/* 设置行程 */
+		/* 点击行程设置行程 */
  		var editInfo;
  		$("#editTrip").click(function(){
+ 			tripInitialize();
+ 		});
+ 		/* 编辑点击时间设置行程 */
+ 		$("#tourInfo3").find("tbody").eq(0).find(".datepicker").change(function(){
+ 			tripInitialize();
+ 		});
+ 		function tripInitialize(){
  			var startTime = new Date($("#edit").find(".datepicker").eq(0).val());
 			var endTime = new Date($("#edit").find(".datepicker").eq(1).val());
 			var days = (endTime-startTime)/1000/60/60/24+1;
@@ -2920,6 +3014,7 @@
 						if(this.number==int){
 							div.append('<div id="editDay'+this.number+'" class="tab-pane in active">'+editTripModel.html()+'</div>');
 							var divLast = div.children("div:last");
+							divLast.find("tbody").attr("id",this.id);
 							divLast.find("textarea").eq(0).text(this.trip);
 							divLast.find("input").eq(0).attr("value",this.meal);
 							divLast.find("input").eq(1).attr("value",this.stay);
@@ -2948,6 +3043,7 @@
 						if(this.number==int){
 							div.append('<div id="editDay'+this.number+'" class="tab-pane">'+editTripModel.html()+'</div>');
 							var divLast = div.children("div:last");
+							divLast.find("tbody").attr("id",this.id);
 							divLast.find("textarea").eq(0).text(this.trip);
 							divLast.find("input").eq(0).attr("value",this.meal);
 							divLast.find("input").eq(1).attr("value",this.stay);
@@ -2967,8 +3063,10 @@
 					}
 				}
 			}
- 		});
+ 		}
 	/*更新 */
+		/* 全局行程删除id */
+		var tripDelIds = new Array();
 		$("#saveEdit").click(function(){
 			var inputs = $("#edit").find("#tourInfo3").find("input");
 			var selects = $("#edit").find("#tourInfo3").find("select");
@@ -2996,11 +3094,11 @@
 			var guideTimeTables = new Array();
 			if(guideIds!=null){
 				for (var int = 0; int < guideIds.length; int++) {
-					guideTimeTables[int]={
+					guideTimeTables.push({
 							tourId:id,
 							guideId:guideIds[int],
 							startTime:startTime,
-							endTime:endTime};
+							endTime:endTime});
 				}
 			}
 			
@@ -3010,14 +3108,14 @@
 				var arrSelects = arrTrs.eq(int).find("select");
 				var arrInputs = arrTrs.eq(int).find("input");
 				if(arrSelects.eq(0).val()!=""||arrSelects.eq(1).children("option:selected").html()!="&nbsp;"||arrInputs.eq(2).val()!=""||arrInputs.eq(3).val()!=""||arrSelects.eq(2).val()!=""){
-					arrTables[int]={
+					arrTables.push({
 						id:arrTrs.eq(int).find("td").last().attr("id"),
 						tourId:id,
 						originId:arrSelects.eq(0).val(),
 						arrTraffic:arrSelects.eq(1).children("option:selected").text(),
 						arrTime:new Date(arrInputs.eq(2).val()),
 						arrTrafficNo:arrInputs.eq(3).val(),
-						arrRegionId:arrSelects.eq(2).val()};	
+						arrRegionId:arrSelects.eq(2).val()});	
 				}
 			}
 			
@@ -3027,18 +3125,44 @@
 				var departSelects = departTrs.eq(int).find("select");
 				var departInputs = departTrs.eq(int).find("input");
 				if(departSelects.eq(0).val()!=""||departSelects.eq(1).children("option:selected").html()!="&nbsp;"||departInputs.eq(2).val()!=""||departInputs.eq(3).val()!=""||departSelects.eq(2).val()!=""){
-					departTables[int] = {
-							id:arrTrs.eq(int).find("td").last().attr("id"),
+					departTables.push({
+							id:departTrs.eq(int).find("td").last().attr("id"),
 							tourId:id,
 							destId:departSelects.eq(0).val(),
 							departTraffic:departSelects.eq(1).children("option:selected").text(),
 							departTime:new Date(departInputs.eq(2).val()),
 							departTrafficNo:departInputs.eq(3).val(),
-							departRegionId:departSelects.eq(2).val()};
+							departRegionId:departSelects.eq(2).val()});
 				}
 			}
 			
-			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables};
+			var tripTables = new Array();
+			var tripsTbody = $("#trips3").find("div").not("#editTripModel").children("table").children("tbody");
+			for (var int = 0; int < tripsTbody.length; int++) {
+				var tripInputs =  tripsTbody.eq(int).find("input");
+				var tripTextAreas =  tripsTbody.eq(int).find("textarea");
+				if(tripsTbody.eq(int).attr("id")!=undefined||tripTextAreas.eq(0).val()!=""||tripInputs.eq(0).val()!=""||tripInputs.eq(1).val()!=""||tripInputs.eq(2).val()!=""||tripTextAreas.eq(1).val()!=""){
+					tripTables.push({
+							id:tripsTbody.eq(int).attr("id"),
+							tourId:id,
+							number:int,
+							trip:tripTextAreas.eq(0).val(),
+							meal:tripInputs.eq(0).val(),
+							stay:tripInputs.eq(1).val(),
+							traffic:tripInputs.eq(2).val(),
+							remark:tripTextAreas.eq(1).val()});
+					if(tripsTbody.eq(int).attr("id")!=undefined){
+						tripDelIds.shift();
+						alert(tripDelIds);
+					}
+					if(tripTextAreas.eq(0).val()==""&&tripInputs.eq(0).val()==""&&tripInputs.eq(1).val()==""&&tripInputs.eq(2).val()==""&&tripTextAreas.eq(1).val()==""){
+						tripDelIds.push(tripsTbody.eq(int).attr("id"));
+					}
+				}
+			}
+			
+			var delIds = {"ArrTable":$("#edit").find(".arrInfo").attr("delids"),"DepartTable":$("#edit").find(".departInfo").attr("delids"),"TripTable":tripDelIds.toString()};
+			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,delIds:delIds};
 			/* var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables}; */
 			var myData = JSON.stringify(fullLocalTourViewModel);
 			$.ajax({

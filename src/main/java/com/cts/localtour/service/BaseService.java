@@ -138,6 +138,11 @@ public class BaseService<T> {
 		baseDAO.deleteByString(hql , objects);
 	}
 	
+	public void delByIds(String tableName,String ids){
+		String hql = "delete "+tableName+" where id in ("+ids+")";
+		baseDAO.deleteByString(hql , null);
+	}
+	
 	public Object getById(String tableName,int id){
 		String className = "com.cts.localtour.entity."+tableName;
 		Class<?> clzz = null;
