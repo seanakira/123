@@ -508,7 +508,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -540,7 +540,7 @@
 																	<option value="">&nbsp;</option>
 																</select>
 															</td>
-															<td><input class="form-control" placeholder="如:明细" type="text"></td>
+															<td><input class="form-control" placeholder="" type="text"></td>
 															<td style="vertical-align: middle;">
 																<a class="red delLine" href="#">
 																	<i class="icon-trash bigger-130"></i>
@@ -563,7 +563,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -588,7 +588,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -613,7 +613,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -638,7 +638,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -663,7 +663,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -688,7 +688,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -713,7 +713,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1009,7 +1009,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1029,7 +1029,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1049,7 +1049,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1069,7 +1069,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1089,7 +1089,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1109,7 +1109,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1129,7 +1129,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1149,7 +1149,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -1321,7 +1321,7 @@
 													<td class="tourInfo"><input type="text" class="form-control datepicker" /></td>
 													<td>导游</td>
 													<td id="guideTd" class="tourInfo">
-														<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个...">
+														<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="guides" data-placeholder="可选多个...">
 															<option value="">&nbsp;</option>
 														</select>
 													</td>
@@ -1435,7 +1435,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1460,7 +1460,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1485,7 +1485,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1510,7 +1510,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1535,7 +1535,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1560,7 +1560,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1585,7 +1585,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1610,7 +1610,7 @@
 															<th style="width: 10%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">备注</th>
+															<th style="width: 10%;">明细备注</th>
 															<th style="width: 5%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
@@ -1918,7 +1918,7 @@
 				selectOtherMonths: false,
 			});
 			var selects = tr.find("select");
-			if($(this).parents("div").attr("id")=="flight"){
+			if($(this).parents("div").attr("id")=="flight"||$(this).parents("div").attr("id")=="flight3"){
 				tr.children("td").last().append('<input type="hidden" value="1" />');
 				$.each(selectInfo.flightContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1926,7 +1926,7 @@
 	        	$.each(selectInfo.flightSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="hotel"){
+			}else if($(this).parents("div").attr("id")=="hotel"||$(this).parents("div").attr("id")=="hotel3"){
 				tr.children("td").last().append('<input type="hidden" value="2" />');
 				$.each(selectInfo.hotelContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1934,7 +1934,7 @@
 	        	$.each(selectInfo.hotelSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="meal"){
+			}else if($(this).parents("div").attr("id")=="meal"||$(this).parents("div").attr("id")=="meal3"){
 				tr.children("td").last().append('<input type="hidden" value="3" />');
 				$.each(selectInfo.mealContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1942,7 +1942,7 @@
 	        	$.each(selectInfo.mealSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="ticket"){
+			}else if($(this).parents("div").attr("id")=="ticket"||$(this).parents("div").attr("id")=="ticket3"){
 				tr.children("td").last().append('<input type="hidden" value="4" />');
 				$.each(selectInfo.ticketContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1950,7 +1950,7 @@
 	        	$.each(selectInfo.ticketSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="shuttle"){
+			}else if($(this).parents("div").attr("id")=="shuttle"||$(this).parents("div").attr("id")=="shuttle3"){
 				tr.children("td").last().append('<input type="hidden" value="5" />');
 				$.each(selectInfo.shuttleContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1958,7 +1958,7 @@
 	        	$.each(selectInfo.shuttleSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="tickets"){
+			}else if($(this).parents("div").attr("id")=="tickets"||$(this).parents("div").attr("id")=="tickets3"){
 				tr.children("td").last().append('<input type="hidden" value="6" />');
 				$.each(selectInfo.ticketsContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1966,7 +1966,7 @@
 	        	$.each(selectInfo.ticketsSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="comprehensive"){
+			}else if($(this).parents("div").attr("id")=="comprehensive"||$(this).parents("div").attr("id")=="comprehensive3"){
 				tr.children("td").last().append('<input type="hidden" value="7" />');
 				$.each(selectInfo.comprehensiveContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1974,7 +1974,7 @@
 	        	$.each(selectInfo.comprehensiveSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="other"){
+			}else if($(this).parents("div").attr("id")=="other"||$(this).parents("div").attr("id")=="other3"){
 				tr.children("td").last().append('<input type="hidden" value="8" />');
 				$.each(selectInfo.otherContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1983,7 +1983,7 @@
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
 			}
-			var guides = $("#create").find("#guides");
+			var guides = $(this).parents(".costTable").prev().find("#guides");
 			var names = guides.find("option:selected");
 			if(guides.val()!=undefined){
 				for (var int = 0; int < guides.val().length; int++) {
@@ -2172,7 +2172,7 @@
 				var incomeInputs = incomeTrs.eq(int).find("input");
 				incomeTables.push({
 					incomeDate:new Date(incomeInputs.eq(0).val()),
-					customerAgencyId:customerAgencyId,
+					customerAgencyId:incomeTrs.eq(int).find("select").val(),
 					income:incomeInputs.eq(1).val(),
 					remark:incomeInputs.eq(2).val()});
 			}
@@ -2499,9 +2499,7 @@
 						'<option value="">&nbsp;</option>'+
 					'</select>');
 			var select = $("#edit").find("select").eq(5);
-			var myData = {startTime:td.siblings().eq(1
-					
-			).children("input").val(),endTime:td.siblings().eq(3).children("input").val()};
+			var myData = {startTime:td.siblings().eq(1).children("input").val(),endTime:td.siblings().eq(3).children("input").val()};
 			$.ajax({
 		        type: "GET",
 		        contentType:"application/json;charset=utf-8",  
@@ -2566,7 +2564,7 @@
 		        	
 		        	var customerAgency = $("<select></select>");
 		        	customerAgency.html(td.eq(6).children("select").html());
-		        	customerAgency.attr({"style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
+		        	customerAgency.attr({"id":"customer","style":"display: none;","class":"width-20 chosen-select form-control visitorType","data-placeholder":"Choose a Country..."});
 		        	td.eq(6).html("").append(customerAgency.val(data.localTourTable.customerAgencyId));
 		        	
 		        	td.eq(7).children("input").val(data.localTourTable.organizor);
@@ -2576,7 +2574,6 @@
 		        	td.eq(11).text(data.localTourTable.qpGuideNo+data.localTourTable.adultNo+data.localTourTable.childrenNo);
 		        	td.eq(12).children("input").val((data.localTourTable.startTime).replace(/-/g,"/"));
 		        	td.eq(13).children("input").val((data.localTourTable.endTime).replace(/-/g,"/"));
-		        	td.eq(14).html('<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个..."><option value="">&nbsp;</option></select>');
 		        	td.eq(15).children("input").val(data.localTourTable.remark);
 		        	/* 设置导游 */
 		        	var select = td.eq(14).children("select");
@@ -2637,17 +2634,6 @@
 		        		departInfo.append(tr);
 		        		$("#edit").find("#departTime").attr("id","");
 		        	});
-		        	
-					/* 要删除的ID */
-		        	$("#edit").find(".delLine").click(function(){
-		        		var parent = $(this).parent().parent().parent();
-		        		if(parent.attr("delIds")==undefined){
-		        			parent.attr("delIds",$(this).parent().attr("id"));
-		        		}else{
-		        			parent.attr("delIds",parent.attr("delIds")+","+$(this).parent().attr("id"));
-		        		}
-		        		
-		        	});
 					
 					/* 设置成本 */
 		        	var flight = $("#flight3").find("tbody");
@@ -2681,13 +2667,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="1" /></td>'+
 			    					'</tr>');
 			    			flight.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = flight.find("tr").last().find("select");
@@ -2705,13 +2691,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="2" /></td>'+
 			    					'</tr>');
 		        			hotel.find("tr").last().children("td").eq(7).append(borrowUser);
     						var selects = hotel.find("tr").last().find("select");
@@ -2729,13 +2715,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="3" /></td>'+
 			    					'</tr>');
 			    			meal.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = meal.find("tr").last().find("select");
@@ -2753,13 +2739,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="4" /></td>'+
 			    					'</tr>');
 			    			ticket.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = ticket.find("tr").last().find("select");
@@ -2777,13 +2763,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="5" /></td>'+
 			    					'</tr>');
 			    			shuttle.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = shuttle.find("tr").last().find("select");
@@ -2801,13 +2787,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="6" /></td>'+
 			    					'</tr>');
 			    			tickets.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = tickets.find("tr").last().find("select");
@@ -2825,13 +2811,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="7" /></td>'+
 			    					'</tr>');
 			    			comprehensive.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = comprehensive.find("tr").last().find("select");
@@ -2849,13 +2835,13 @@
 			    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
 			    								'<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>'+
-			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
+			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="8" /></td>'+
 			    					'</tr>');
 			    			other.find("tr").last().children("td").eq(7).append(borrowUser);
 							var selects = other.find("tr").last().find("select");
@@ -2870,30 +2856,25 @@
 				        	selects.eq(2).val(this.costTable.borrowUserId);
 		        		}
 		        	});
+		        	$("#costs3").find("tbody").removeAttr("delIds");
 		        	
 		        	/* 设置收入 */
 		        	var tbody = $("#incomes3").find("tbody");
 		        	tbody.html("");
 		        	$.each(data.incomes,function(){
-		        		/* tbody.append('<tr>'+
-		        							'<td><input value="'+this.incomeTable.incomeDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
-		        							'<td>'+$("#edit").find(".customerAgency").children("option:selected").text()+'</td>'+
-		        							'<td><input value="'+this.incomeTable.income+'" style="width:100%;" class="form-control" type="text" /></td>'+
-		        							'<td>'+this.incomeTable.realIncome+'</td>'+
-		        							'<td>'+this.invoiceAmount+'</td>'+
-		        							'<td><input value="'+this.incomeTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
-		        							'<td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
-		        					'</tr>'); */
-		    			tbody.append("<tr>"+$("#incomeModel").html()+"</tr>");
-		    			var tr = tbody.children("tr").last();
+		        		var tr = $("<tr></tr>");
+		        		tr.html($("#incomeModel").html());
+		    			tbody.append(tr);
 		    			var inputs = tr.find("input");
 		    			var td = tr.children("td");
 		    			inputs.eq(0).val(this.incomeTable.incomeDate.replace(/-/g,'/'));
-		    			tr.find("select").eq(0).val($("#tourInfo3").find("#customer").val());
+		    			tr.find("select").eq(0).val(this.incomeTable.customerAgencyId);
 		    			inputs.eq(1).val(this.incomeTable.income);
 		    			td.eq(3).html(this.incomeTable.realIncome);
 		    			td.eq(4).html(this.invoiceAmount);
 		    			inputs.eq(2).val(this.incomeTable.remark);
+		    			td.last().attr("id",this.incomeTable.id);
+		    			tr.find("#incomeTime").attr("id","")
 		        	});
 		        	
 		        	/* 点击编辑设置行程 */
@@ -2970,6 +2951,17 @@
 							}
 						}
 					}
+		        	
+					/* 要删除的ID */
+		        	$("#edit").find(".delLine").click(function(){
+		        		var parent = $(this).parent().parent().parent();
+		        		if(parent.attr("delIds")==undefined){
+		        			parent.attr("delIds",$(this).parent().attr("id"));
+		        		}else{
+		        			parent.attr("delIds",parent.attr("delIds")+","+$(this).parent().attr("id"));
+		        		}
+		        		
+		        	});
 		        	
 		        	$("#edit").find(".datepicker").datepicker({
 		    			showOtherMonths: true,
@@ -3153,7 +3145,6 @@
 							remark:tripTextAreas.eq(1).val()});
 					if(tripsTbody.eq(int).attr("id")!=undefined){
 						tripDelIds.shift();
-						alert(tripDelIds);
 					}
 					if(tripTextAreas.eq(0).val()==""&&tripInputs.eq(0).val()==""&&tripInputs.eq(1).val()==""&&tripInputs.eq(2).val()==""&&tripTextAreas.eq(1).val()==""){
 						tripDelIds.push(tripsTbody.eq(int).attr("id"));
@@ -3161,9 +3152,60 @@
 				}
 			}
 			
-			var delIds = {"ArrTable":$("#edit").find(".arrInfo").attr("delids"),"DepartTable":$("#edit").find(".departInfo").attr("delids"),"TripTable":tripDelIds.toString()};
-			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,delIds:delIds};
-			/* var fullLocalTourViewModel = {localTourTable:localTourTable,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables}; */
+			var costTables = new Array();
+			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not("#costModel");
+			for (var int = 0; int < costTrs.length; int++) {
+				var costInputs = costTrs.eq(int).find("input");
+				var costSelects = costTrs.eq(int).find("select");
+				costTables.push({
+						id:costTrs.eq(int).children("td").last().attr("id"),
+						tourId:id,
+						costDate:new Date(costInputs.eq(0).val()),
+						contentId:costSelects.eq(0).val(),
+						supplierId:costSelects.eq(1).val(),
+						cost:costInputs.eq(3).val(),
+						count:costInputs.eq(4).val(),
+						days:costInputs.eq(5).val(),
+						borrowUserId:costSelects.eq(2).val(),
+						supplierScopeId:costInputs.last().val(),
+						remark:costInputs.eq(7).val()});
+			}
+			
+			var incomeTables = new Array();
+			var incomeTrs = $("#edit").find("#incomes3").find("tbody").find("tr").not("#incomeModel");
+			for (var int = 0; int < incomeTrs.length; int++) {
+				var incomeInputs = incomeTrs.eq(int).find("input");
+				incomeTables.push({
+					id:incomeTrs.eq(int).children("td").last().attr("id"),
+					tourId:id,
+					incomeDate:new Date(incomeInputs.eq(0).val()),
+					customerAgencyId:incomeTrs.eq(int).find("select").val(),
+					income:incomeInputs.eq(2).val(),
+					remark:incomeInputs.eq(3).val()});
+			}
+			
+			/* 成本删除ID拼装 */
+			var costTbodys = $("#costs3").find("tbody");
+			var costDelIds = "";
+			var firstCost = true;
+			$.each(costTbodys,function(){
+				if($(this).attr("delIds")!=undefined){
+					if(firstCost==true){
+						costDelIds = $(this).attr("delIds");
+						firstCost = false;
+					}else{
+						costDelIds = costDelIds+","+$(this).attr("delIds");
+					}
+				} 
+			});
+			var delIds = {
+					"ArrTable":$("#edit").find(".arrInfo").attr("delids"),
+					"DepartTable":$("#edit").find(".departInfo").attr("delids"),
+					"TripTable":tripDelIds.toString(),
+					"CostTable":costDelIds,
+					"IncomeTable":$("#incomes3").find("tbody").attr("delids")};
+			
+			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables,delIds:delIds};
 			var myData = JSON.stringify(fullLocalTourViewModel);
 			$.ajax({
 		        type: "POST",  
@@ -3173,8 +3215,16 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	if(data==1){
+		        	if(data==-1){
 		        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整");
+		        	}else if(data==-2){
+		        		alert("保存失败，请填写出发地或抵达地");
+		        	}else if(data==-3){
+		        		alert("保存失败，请填写前往地或离开");
+		        	}else if(data==-4){
+		        		alert("保存失败，请填写供应商或内容");
+		        	}else if(data==-5){
+		        		alert("保存失败，请填写客户");
 		        	}
 		        }
 			 });

@@ -180,11 +180,12 @@ public class TourController {
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
-			return 1;
+			return -1;
 		}else{
 			if(!localTourService.updateLocalTour(localTour)){
-				return 1;
+				return -1;
 			}
+			
 			/*更新排团信息*/
 			guideTimeService.deleteByString("GuideTimeTable", "tourId=?", localTour.getId());
 			if(!guideTimeTables.isEmpty()){
@@ -195,18 +196,47 @@ public class TourController {
 			/*更新抵达离开信息*/
 			if(!arrTables.isEmpty()){
 				for (int i = 0; i < arrTables.size(); i++) {
-					arrService.merge(arrTables.get(i));
+					if(arrTables.get(i).getArrRegionId()==0||arrTables.get(i).getOriginId()==0){
+						return -2;
+					}else{
+						arrService.merge(arrTables.get(i));
+					}
 				}
 			}
 			if(!departTables.isEmpty()){
 				for (int i = 0; i < departTables.size(); i++) {
-					departService.merge(departTables.get(i));
+					if(departTables.get(i).getDepartRegionId()==0||departTables.get(i).getDestId()==0){
+						return -3;
+					}else{
+						departService.merge(departTables.get(i));
+					}
 				}
 			}
 			/*更新行程*/
 			if(!tripTables.isEmpty()){
 				for (int i = 0; i < tripTables.size(); i++) {
 					tripService.merge(tripTables.get(i));
+				}
+			}
+			/*更新成本*/
+			if(!costTables.isEmpty()){
+				for (int i = 0; i < costTables.size(); i++) {
+					if(costTables.get(i).getContentId()==null||costTables.get(i).getSupplierId()==0){
+						return -4;
+					}else{
+						costService.merge(costTables.get(i));
+					}
+				}
+			}
+			/*更新收入*/
+			System.out.println(incomeTables.get(0).getCustomerAgencyId());
+			if(!incomeTables.isEmpty()){
+				for (int i = 0; i < incomeTables.size(); i++) {
+					if(incomeTables.get(i).getCustomerAgencyId()==0){
+						return -5;
+					}else{
+						incomeService.merge(incomeTables.get(i));
+					}
 				}
 			}
 			if(!delIds.isEmpty()){
