@@ -208,7 +208,7 @@
 
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="resources/assets/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="<%=path %>resources/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>操作人</small>
 									${sessionScope.user.realName }
@@ -235,7 +235,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="admin/logout">
+									<a href="<%=path %>admin/logout">
 										<i class="icon-off"></i>
 										退出
 									</a>

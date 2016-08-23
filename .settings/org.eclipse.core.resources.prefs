@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/cts/localtour/util/SessionFilter.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/blank.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/loginManage/login.jsp=UTF-8
 encoding//src/main/webapp/resources/include/header.jsp=UTF-8
