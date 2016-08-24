@@ -3216,7 +3216,7 @@
 		        async: false,  
 		        success:function(data){
 		        	if(data==-1){
-		        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整");
+		        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整，开始日期是否大于结束日期");
 		        	}else if(data==-2){
 		        		alert("保存失败，请填写出发地或抵达地");
 		        	}else if(data==-3){

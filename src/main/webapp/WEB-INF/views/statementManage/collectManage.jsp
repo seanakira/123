@@ -20,10 +20,7 @@
 						</script>
 
 						<ul class="breadcrumb">
-							<li>
-								<i class="icon-user"></i>
-								<a id="" role="button" data-toggle="modal" href="#create">新增团队</a>
-							</li>
+							
 
 							
 							

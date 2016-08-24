@@ -179,7 +179,7 @@ public class TourController {
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
-		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
+		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0||localTour.getStartTime().getTime()>localTour.getEndTime().getTime()){
 			return -1;
 		}else{
 			if(!localTourService.updateLocalTour(localTour)){
@@ -229,7 +229,6 @@ public class TourController {
 				}
 			}
 			/*更新收入*/
-			System.out.println(incomeTables.get(0).getCustomerAgencyId());
 			if(!incomeTables.isEmpty()){
 				for (int i = 0; i < incomeTables.size(); i++) {
 					if(incomeTables.get(i).getCustomerAgencyId()==0){
