@@ -12,6 +12,7 @@
   <table-filter match-catalog="localtour" match-name="guideTimeTable"/>
   <table-filter match-catalog="localtour" match-name="incomeTable"/>
   <table-filter match-catalog="localtour" match-name="invoiceTable"/>
+  <table-filter match-catalog="localtour" match-name="loanTable"/>
   <table-filter match-catalog="localtour" match-name="localTourTable"/>
   <table-filter match-catalog="localtour" match-name="notificationTable"/>
   <table-filter match-catalog="localtour" match-name="previlegeTable"/>

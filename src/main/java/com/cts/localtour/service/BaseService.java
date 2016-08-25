@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.DAO.BaseDAO;
 import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 @Service
 public class BaseService<T> {
 	@Autowired
 	private BaseDAO<T> baseDAO;
-	
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<T> getAllByTableName(String tableName,int pageNo, int pageSize) {
@@ -158,5 +161,11 @@ public class BaseService<T> {
 	@SuppressWarnings("rawtypes")
 	public List getByHql(String hql){
 		return baseDAO.findHql(hql);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getSumByColumnName(String tableName, String columnName,String as,String where, Object... objects){
+		String hql = "select sum("+columnName+") as "+as+" from "+tableName+" where "+where;
+		return baseDAO.getAllByString(hql, objects);
 	}
 }

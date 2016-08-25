@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-8-16 11:30:27 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-8-25 17:12:52 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -99,7 +99,7 @@ public class TripTable implements java.io.Serializable {
 		this.stay = stay;
 	}
 
-	@Column(name = "traffic", length = 4)
+	@Column(name = "traffic", length = 16)
 	public String getTraffic() {
 		return this.traffic;
 	}
