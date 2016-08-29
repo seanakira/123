@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.CostTable;
+import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.viewModel.SimplPayViewModel;
@@ -20,7 +21,7 @@ public class PayService extends BaseService{
 			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "status>=2 and status<=5", null, page, maxResults);
 			return setMd(localTours);
 		}else{
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "tourNO like %"+key+"% or tourName like %"+key+"% and status>=2 and status<=5", null, page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=5", null, page, maxResults);
 			return setMd(localTours);
 		}
 	}
@@ -33,16 +34,29 @@ public class PayService extends BaseService{
 			ArrayList<CostTable> costs = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=?", localTours.get(i).getId());
 			float costSum = 0;
 			float remittanceSum = 0;
+			float realRemittanceSum = 0;
 			for (int j = 0; j < costs.size(); j++) {
 				costSum =  costSum + (float)(costs.get(j).getCost()*costs.get(j).getCount()*costs.get(j).getDays());
 				remittanceSum = remittanceSum + costs.get(j).getRealCost();
+				if(costs.get(i).isIsRemittance()){
+					realRemittanceSum = realRemittanceSum + costs.get(j).getRealCost();
+				}
 			}
 			simplPayViewModel.setCost(costSum);
 			simplPayViewModel.setLocalTourTable(localTours.get(i));
-			ArrayList<SimplPayViewModel> loanTables = (ArrayList<SimplPayViewModel>) this.getSumByColumnName("LoanTable", "loanAmount", "sumCache","tourId=?", localTours.get(i).getId());
-			simplPayViewModel.setLoan(loanTables.get(0)==null?0:loanTables.get(0).getSumCache());
+			ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=?", localTours.get(i).getId());
+			float loan = 0;
+			float realLoan = 0;
+			for (int j = 0; j < loanTables.size(); j++) {
+				loan = loan + loanTables.get(i).getLoanAmount();
+				if(loanTables.get(i).isIsLend()){
+					realLoan = realLoan + loanTables.get(i).getLoanAmount();
+				}
+			}
+			simplPayViewModel.setLoan(loan);
 			simplPayViewModel.setRemittance(remittanceSum);
 			simplPayViewModel.setRealName(((UserTable) this.getById("UserTable", localTours.get(i).getUserId())).getRealName());
+			simplPayViewModel.setRealPay(realRemittanceSum+realLoan);
 			if(localTours.get(i).getStatus()==2){
 				simplPayViewModel.setStatus("ÒÑ±¨ËÍ");
 			}else if(localTours.get(i).getStatus()==3){
@@ -56,19 +70,5 @@ public class PayService extends BaseService{
 		}
 		return simplPayViewModels;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public int getCounts(String key) {
-		if(key.equals("")){
-			return this.getCountsAll("LocalTourTable");
-		}else{
-			String where = "tourNO like :tourNO or tourName like :tourName";
-			Hashtable<String, String> param = new Hashtable<String, String>();
-			param.put("tourNO", "%"+key+"%");
-			param.put("tourName", "%"+key+"%");
-			return this.getCountsByParam("LocalTourTable", where, param);
-		}
-	}
-
 	
 }

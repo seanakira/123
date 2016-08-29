@@ -7,6 +7,7 @@ public class SimplPayViewModel {
 	private float loan;
 	private float remittance;
 	private float cost;
+	private float realPay;
 	private String realName;
 	private float sumCache;
 	private String status;
@@ -52,4 +53,11 @@ public class SimplPayViewModel {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public float getRealPay() {
+		return realPay;
+	}
+	public void setRealPay(float realPay) {
+		this.realPay = realPay;
+	}
+	
 }

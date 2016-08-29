@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cts.localtour.service.PayService;
 import com.cts.localtour.viewModel.SimplPayViewModel;
-import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
 @Controller
 public class StatementController {
@@ -18,10 +17,10 @@ public class StatementController {
 	private PayService payService;
 	
 	/*∏∂øÓπ‹¿Ì*/
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/payManage")
 	public String getPayManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		int counts = payService.getCounts(key);
+		ArrayList<SimplPayViewModel> pays = payService.getAll(key,page,maxResults);
+		int counts = pays.size();
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
 			pageMax++;
@@ -32,7 +31,6 @@ public class StatementController {
 		if(page<1){
 			page=1;
 		}
-		ArrayList<SimplPayViewModel> pays = payService.getAll(key,page,maxResults);
 		md.addAttribute("pays", pays);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
