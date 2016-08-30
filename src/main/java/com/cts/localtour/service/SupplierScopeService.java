@@ -36,11 +36,11 @@ public class SupplierScopeService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("SupplierScopeTable", false, id);
+		this.changeValue("SupplierScopeTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("SupplierScopeTable", true, id);
+		this.changeValue("SupplierScopeTable", "enable", "true", id);
 	}
 
 	public void update(SupplierScopeTable supplierScope) {

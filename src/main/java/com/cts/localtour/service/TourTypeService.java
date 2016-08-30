@@ -39,11 +39,11 @@ public class TourTypeService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("TourTypeTable", false, id);
+		this.changeValue("TourTypeTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("TourTypeTable", true, id);
+		this.changeValue("TourTypeTable", "enable", "true", id);
 	}
 
 	public void update(TourTypeTable tourType) {

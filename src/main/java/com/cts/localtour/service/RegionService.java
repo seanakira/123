@@ -36,11 +36,11 @@ public class RegionService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("RegionTable", false, id);
+		this.changeValue("RegionTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("RegionTable", true, id);
+		this.changeValue("RegionTable", "enable", "true", id);
 	}
 
 	public void update(RegionTable region) {

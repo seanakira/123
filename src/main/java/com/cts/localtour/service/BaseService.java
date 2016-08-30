@@ -77,8 +77,8 @@ public class BaseService<T> {
 		return list;
 	}
 	
-	public void changeEnable(String tableName , boolean enable , int id){
-		String hql = "update "+tableName+" set enable="+enable+" where id="+id;
+	public void changeValue(String tableName ,String columnName ,String value , int id){
+		String hql = "update "+tableName+" set "+columnName+"="+value+" where id="+id;
 		baseDAO.updateHql(hql);
 	}
 	

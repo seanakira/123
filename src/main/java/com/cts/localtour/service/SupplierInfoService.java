@@ -82,11 +82,11 @@ public class SupplierInfoService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("SupplierTable", false, id);
+		this.changeValue("SupplierTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("SupplierTable", true, id);
+		this.changeValue("SupplierTable", "enable", "true", id);
 	}
 
 	public void update(SupplierTable supplier) {

@@ -28,11 +28,11 @@ public class BusinessTypeService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("BusinessTypeTable", false, id);
+		this.changeValue("BusinessTypeTable","enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("BusinessTypeTable", true, id);
+		this.changeValue("BusinessTypeTable","enable", "true", id);
 	}
 
 	public void update(BusinessTypeTable businessType) {

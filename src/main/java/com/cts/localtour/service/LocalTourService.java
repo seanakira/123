@@ -98,11 +98,11 @@ public class LocalTourService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("LocalTourTable", false, id);
+		this.changeValue("LocalTourTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("LocalTourTable", true, id);
+		this.changeValue("LocalTourTable", "enable", "true", id);
 	}
 	
 	public void changeStatus(int id, int status) {

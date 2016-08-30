@@ -54,11 +54,11 @@ public class ContentService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("SupplierContentTable", false, id);
+		this.changeValue("SupplierContentTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("SupplierContentTable", true, id);
+		this.changeValue("SupplierContentTable", "enable", "true", id);
 	}
 
 	public void update(SupplierContentTable content) {

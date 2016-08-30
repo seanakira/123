@@ -55,6 +55,7 @@ public class PayService extends BaseService{
 			}
 			simplPayViewModel.setLoan(loan);
 			simplPayViewModel.setRemittance(remittanceSum);
+			simplPayViewModel.setWillPay(loan+remittanceSum);
 			simplPayViewModel.setRealName(((UserTable) this.getById("UserTable", localTours.get(i).getUserId())).getRealName());
 			simplPayViewModel.setRealPay(realRemittanceSum+realLoan);
 			if(localTours.get(i).getStatus()==2){
@@ -69,6 +70,15 @@ public class PayService extends BaseService{
 			simplPayViewModels.add(simplPayViewModel);
 		}
 		return simplPayViewModels;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public int getCounts(String key) {
+		if(key.equals("")){
+			return this.getCountsByParam("LocalTourTable", "status>=2 and status<=5", null);
+		}else{
+			return this.getCountsByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=5", null);
+		}
 	}
 	
 }

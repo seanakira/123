@@ -64,11 +64,11 @@ public class UserService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("UserTable", false, id);
+		this.changeValue("UserTable", "enable", "false", id);
 	}
 
 	public void recover(int id) {
-		this.changeEnable("UserTable", true, id);
+		this.changeValue("UserTable", "enable", "true", id);
 	}
 
 	@SuppressWarnings("unchecked")

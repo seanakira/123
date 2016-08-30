@@ -37,11 +37,11 @@ public class VisitorTypeService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("VisitorTypeTable", false, id);
+		this.changeValue("VisitorTypeTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("VisitorTypeTable", true, id);
+		this.changeValue("VisitorTypeTable", "enable", "true", id);
 	}
 
 	public void update(VisitorTypeTable visitorType) {

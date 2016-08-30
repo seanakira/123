@@ -54,11 +54,11 @@ public class CustomerAgencyService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("CustomerAgencyTable", false, id);
+		this.changeValue("CustomerAgencyTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("CustomerAgencyTable", true, id);
+		this.changeValue("CustomerAgencyTable", "enable", "true", id);
 	}
 
 	public void update(CustomerAgencyTable customerAgency) {

@@ -93,19 +93,19 @@
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 	<!-- 列表循环 -->				
 								<c:forEach var="pay" items="${pays }" varStatus="status">
-									<tr">
+									<tr>
 										<td class="center  sorting_1">
 												<label>
 													<input class="ace" type="checkbox">
 													<span class="lbl"></span>
 												</label>
 										</td>
-										<td id="${pay.localTourTable.id }"><a id="editTour" role="button" data-toggle="modal" href="#edit">${pay.localTourTable.tourNo }</a></td>
+										<td><a id="editTour" role="button" data-toggle="modal" href="#edit">${pay.localTourTable.tourNo }</a></td>
 										<td>${pay.localTourTable.tourName }</td>
 										<td>${pay.loan }</td>
 										<td>${pay.remittance }</td>
 										<td>${pay.realPay }</td>
-										<td>${pay.loan+pay.remittance }</td>
+										<td>${pay.willPay }</td>
 										<td>${pay.cost }</td>
 										<td>${pay.localTourTable.startTime }</td>
 										<td>
@@ -131,6 +131,7 @@
 	<!-- 列表循环结束 -->								
 							</tbody>
 						</table>
+						
 <!-- 分页查询开始 -->					
 						<div class="row">
 							<div class="col-sm-6">
@@ -179,7 +180,6 @@
 										</li>
 									</ul>
 					         	</div>
-					         	
 					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
 					         		<div id="costs3" class="tab-pane fade in active costTable">
 					         			<div class="tabbable tabs-left">
@@ -246,11 +246,7 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+																<th style="width: 6%;">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -429,6 +425,40 @@
 					         		</div><!-- 成本tab结束 -->
 					         	</div>
 					         </div>
+					         <div class="modal-header no-padding">
+								<div class="table-header">
+									导游借款
+						 		</div>
+						  	</div>
+						  	<div class="modal-body no-padding">
+					         	<table class="table table-striped table-bordered table-hover no-margin">
+									<thead>
+										<tr>
+											<th style="width: 10%;">日期</th>
+											<th style="width: 15%;">借款额</th>
+											<th style="width: 40%;">明细备注</th>
+											<th style="width: 10%;">借款操作人</th>
+											<th style="width: 2%;">
+												<a class="blue addLoan" href="#">
+													<i class="icon-plus bigger-130"></i>
+												</a>
+											</th>
+										</tr>
+									</thead>
+									<tbody id="loanTable">
+									</tbody>
+					            </table>
+					            <table class="table table-striped table-bordered table-hover no-margin" style="width: 64.8%;">
+									<tbody>
+										<tr>
+											<td style="width: 20%;">借款总计</td>
+											<td id="total" style="width: 30%;">0</td>
+											<td style="width: 20%;">最大借款额</td>
+											<td id="maxLoan" style="width: 30%;">0</td>
+										</tr>
+									</tbody>
+					            </table>
+					        </div>
 							<div class="modal-footer no-margin-top">
 								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
@@ -472,37 +502,6 @@
 				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
 			}
 		});
-		
-	/* 初始化选项 */
-		/* 全局 */
-		var selectInfo;
-		/* 新建初始化 */
-		var selects = $("#create").find("select");
-		$.ajax({  
-	        type: "GET",  
-	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/getCreateInfo",
-	        dataType: "json",  
-	        async: false,  
-	        success:function(data){
-	        	selectInfo = {flightContents : data.flightContents,
-								flightSuppliers : data.flightSuppliers,
-								hotelContents : data.hotelContents,
-								hotelSuppliers : data.hotelSuppliers,
-								mealContents : data.mealContents,
-								mealSuppliers : data.mealSuppliers,
-								ticketContents : data.ticketContents,
-								ticketSuppliers : data.ticketSuppliers,
-								shuttleContents : data.shuttleContents,
-								shuttleSuppliers : data.shuttleSuppliers,
-								ticketsContents : data.ticketsContents,
-								ticketsSuppliers : data.ticketsSuppliers,
-								comprehensiveContents : data.comprehensiveContents,
-								comprehensiveSuppliers : data.comprehensiveSuppliers,
-								otherContents : data.otherContents,
-								otherSuppliers : data.otherSuppliers};
-	        }  
-		});
 	
 	/* 成本 */
 		/* 成本小计 */
@@ -517,92 +516,6 @@
 				}
 			})
 			costPlus.last().parent().next().text(product);
-		});
-		/* 成本增加 */
-		$(".addCost").click(function(){
-			var tbody = $(this).parents("table").children("tbody");
-			tbody.append("<tr>"+$("#costModel").html()+"</tr>");
-			var tr = tbody.children("tr").not("#costModel").last();
-			tr.find("#costTime").attr("id","").datepicker({
-				showOtherMonths: true,
-				selectOtherMonths: false,
-			});
-			var selects = tr.find("select");
-			if($(this).parents("div").attr("id")=="flight"||$(this).parents("div").attr("id")=="flight3"){
-				tr.children("td").last().append('<input type="hidden" value="1" />');
-				$.each(selectInfo.flightContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.flightSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="hotel"||$(this).parents("div").attr("id")=="hotel3"){
-				tr.children("td").last().append('<input type="hidden" value="2" />');
-				$.each(selectInfo.hotelContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.hotelSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="meal"||$(this).parents("div").attr("id")=="meal3"){
-				tr.children("td").last().append('<input type="hidden" value="3" />');
-				$.each(selectInfo.mealContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.mealSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="ticket"||$(this).parents("div").attr("id")=="ticket3"){
-				tr.children("td").last().append('<input type="hidden" value="4" />');
-				$.each(selectInfo.ticketContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.ticketSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="shuttle"||$(this).parents("div").attr("id")=="shuttle3"){
-				tr.children("td").last().append('<input type="hidden" value="5" />');
-				$.each(selectInfo.shuttleContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.shuttleSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="tickets"||$(this).parents("div").attr("id")=="tickets3"){
-				tr.children("td").last().append('<input type="hidden" value="6" />');
-				$.each(selectInfo.ticketsContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.ticketsSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="comprehensive"||$(this).parents("div").attr("id")=="comprehensive3"){
-				tr.children("td").last().append('<input type="hidden" value="7" />');
-				$.each(selectInfo.comprehensiveContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.comprehensiveSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}else if($(this).parents("div").attr("id")=="other"||$(this).parents("div").attr("id")=="other3"){
-				tr.children("td").last().append('<input type="hidden" value="8" />');
-				$.each(selectInfo.otherContents,function(){
-	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
-	        	});
-	        	$.each(selectInfo.otherSuppliers,function(){
-	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
-	        	});
-			}
-			var guides = $(this).parents(".costTable").prev().find("#guides");
-			var names = guides.find("option:selected");
-			if(guides.val()!=undefined){
-				for (var int = 0; int < guides.val().length; int++) {
-					selects.eq(2).append('<option value="'+guides.val()[int]+'">'+names.eq(int).text()+'</option>');
-				} 
-			}
-			selects.eq(2).append('<option value="'+'<%=((UserTable)session.getAttribute("user")).getId()%>'+'">'+'<%=((UserTable)session.getAttribute("user")).getRealName()%>'+'</option>');
-			selects.chosen();
-			selects.next().attr("style","width:100%;");
 		});
 	
 	/* 改状态 */
@@ -628,7 +541,7 @@
 	/* 编辑 */
 		/* 编辑读取 */
  		$("#table").delegate("#editTour","click",function(){
-			var myData = {tourId:$(this).parent().attr("id")};
+			var myData = {tourId:$(this).parent().siblings().last().attr("id")};
 			$("#saveEdit").parent().attr("id",myData.tourId);
 			var tourUserName = $(this).parent().prev().text();
 			$.ajax({
@@ -657,113 +570,52 @@
 		        	comprehensive.html("");
 		        	other.html("");
 		        	$.each(data.costs,function(){
-		        		var realCost = $("<td>/td<>");
+		        		var realCost = $("<td></td>");
+		        		var remittanceOk = $("<td></td>");
+		        		var remark = $("<td></td>");
 		        		if(this.costTable.isRemittance){
 		        			realCost.html(this.costTable.realCost);
+		        			remark.html(this.costTable.remark);
 		        		}else{
 		        			realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+		        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+		        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
 		        		}
 		        		var guideLoan = $("<td></td>");
 		        		if(this.costTable.realCost==0){
 		        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
 		        		}
+		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
-		        			flight.append('<tr>'+
-			    								'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td>'+guideLoan.html()+'</td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = flight;
 		        		}else if(this.costTable.supplierScopeId==2){
-		        			hotel.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = hotel;
 		        		}else if(this.costTable.supplierScopeId==3){
-		        			meal.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = meal;
 		        		}else if(this.costTable.supplierScopeId==4){
-		        			ticket.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = ticket;
 		        		}else if(this.costTable.supplierScopeId==5){
-		        			shuttle.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = shuttle;
 		        		}else if(this.costTable.supplierScopeId==6){
-		        			tickets.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = tickets;
 		        		}else if(this.costTable.supplierScopeId==7){
-		        			comprehensive.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = comprehensive;
 		        		}else if(this.costTable.supplierScopeId==8){
-		        			other.append('<tr>'+
-					        					'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-			    								'<td>'+this.contentName+'</td>'+
-			    								'<td>'+this.supplierName+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-			    								'<td>'+realCost.html()+'</td>'+
-			    								'<td>'+this.borrowUserName+'</td>'+
-			    								'<td><input class="form-control" type="text" value="'+this.costTable.remark+'" /></td>'+
-			    								'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a><input type="hidden" value="1" /></td>'+
-			    					'</tr>');
+		        			tbody = other;
 		        		}
+		        		var tr = $('<tr>'+
+								'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+								'<td>'+this.contentName+'</td>'+
+								'<td>'+this.supplierName+'</td>'+
+								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+								'<td>'+realCost.html()+'</td>'+
+								'<td>'+this.borrowUserName+'</td>'+
+								'<td>'+remark.html()+'</td>'+
+								'<td>'+guideLoan.html()+'</td>'+
+								'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+remittanceOk.html()+'<input type="hidden" value="1" /></td>'+
+								'</tr>');
+		        		tbody.append(tr);
+		        		
 		        	});
 		        	/* 提示 */
 		        	$("#edit").find("a").tooltip({
@@ -776,38 +628,8 @@
 	        				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
 	        			}
 	        		});
-		        	/* 点击电汇金额判断0 */
-		        	$("#costs3").delegate("#remittance","blur",function(){
-		        		if($(this).val()!=0){
-		        			$(this).parent().siblings().eq(-2).html("");
-		        		}else{
-		        			$(this).parent().siblings().eq(-2).html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
-		        			
-		        		}
-		        	});
-		        	/* 勾选导游借款 */
-		        	$("#costs3").delegate(".ace","click",function(){
-		        		if($(this).prop("checked")){
-		        			$(this).parent().parent().siblings().last().children("a").remove();
-		        			$(this).parent().parent().siblings().eq(4).html("");
-		        		}else{
-		        			$(this).parent().parent().siblings().eq(4).html('<input id="remittance" class="form-control" value="0" type="text">');
-		        			var a = $('<a class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a>');
-		        			a.tooltip({
-			        			show: null,
-			        			position: {
-			        				my: "left top",
-			        				at: "left bottom"
-			        			},
-			        			open: function( event, ui ) {
-			        				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-			        			}
-			        		});
-		        			$(this).parent().parent().siblings().last().prepend(a);
-		        		}
-		        	});
+		        	
 		        	$("#costs3").find("tbody").removeAttr("delIds");
-		        	/* 电汇金额失去焦点事件 */
 					/* 要删除的ID */
 		        	$("#edit").find(".delLine").click(function(){
 		        		var parent = $(this).parent().parent().parent();
@@ -831,7 +653,136 @@
 		        }  
 			});
 		});
-		
+ 		/* 点击电汇金额判断0 判断是否大于成本 */
+    	$("#costs3").delegate("#remittance","blur",function(){
+    		if($(this).val()>parseFloat($(this).parent().prev().text())){
+    			$(this).val("");
+    			alert("电汇金额不能大于成本金额");
+    		}
+    		if($(this).val()!=0){
+    			$(this).parent().siblings().eq(-2).html("");
+    		}else{
+    			$(this).parent().siblings().eq(-2).html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+    			
+    		}
+    	});
+ 		/* 双击自动填充 */
+    	$("#costs3").delegate("#remittance","dblclick",function(){
+    		$(this).val($(this).parent().prev().text());
+    	});
+    	/* 勾选导游借款 */
+    	$("#costs3").delegate(".ace","click",function(){
+    		if($(this).prop("checked")){
+    			$(this).parent().parent().siblings().last().children("a").remove();
+    			$(this).parent().parent().siblings().eq(4).html("");
+    			$(this).parent().parent().siblings().eq(6).html($(this).parent().parent().siblings().eq(6).children("input").val());
+    			$("#maxLoan").html((parseFloat($("#maxLoan").html())+parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
+    		}else{
+    			$(this).parent().parent().siblings().eq(4).html('<input id="remittance" class="form-control" value="0" type="text">');
+    			var a = $('<a id="remittanceOk" class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a>');
+    			a.tooltip({
+        			show: null,
+        			position: {
+        				my: "left top",
+        				at: "left bottom"
+        			},
+        			open: function( event, ui ) {
+        				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+        			}
+        		});
+    			$(this).parent().parent().siblings().last().prepend(a);
+    			$(this).parent().parent().siblings().eq(6).html('<input class="form-control" value="'+$(this).parent().parent().siblings().eq(6).text()+'" type="text">');
+    			$("#maxLoan").html((parseFloat($("#maxLoan").html())-parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
+    		}
+    	});
+    	/* 确认汇款 */
+    	$("#costs3").delegate("#remittanceOk","click",function(){
+    		var a = $(this);
+    		var td = a.parent();
+    		a.remove();
+    		/* var myData = {id:td.attr("id"),realCost:td.parent().find("#remittance").val()};
+   			$.ajax({
+   		        type: "GET",  
+   		        contentType:"application/json;charset=utf-8",  
+   		        url:"/localtour/payManage/isRemittance/",  
+   		        data:myData,  
+   		        dataType: "json",  
+   		        async: false,  
+   		        success:function(data){
+   		        	if(data){ */
+   		        		td.prev().html("");
+   		        		var inputs = td.parent().find("input");
+   		        		var value = inputs.eq(0).val();
+   		        		inputs.eq(0).parent().html(value);
+   		        		inputs.eq(1).parent().html(inputs.eq(1).val());
+   		        		var realCostTd = $("#table").find("#"+$("#saveEdit").parent().attr("id")).siblings().eq(5);
+   		        		var realCost = parseFloat(realCostTd.html());
+   		        		realCostTd.html(parseFloat(realCost+value));
+   		         	/* }
+   		        }
+    		}); */
+    	});
+    	/* 增加借款 */
+    	$(".addLoan").click(function(){
+    		var date = (new Date()).toLocaleDateString();
+    		var tr = $('<tr>'+
+							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
+							'<td><input style="width:100%;" class="form-control loanAmount" type="text"></td>'+
+							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %></td>'+
+							'<td><a title="借款确认" href="#" class="green" id="loanOk"><i class="icon-ok bigger-130"></i></a></td>'+
+						'</tr>');
+    		tr.find(".datepicker").datepicker({
+    			showOtherMonths: true,
+    			selectOtherMonths: false,
+    		});
+    		tr.find("a").tooltip({
+    			show: null,
+    			position: {
+    				my: "left top",
+    				at: "left bottom"
+    			},
+    			open: function( event, ui ) {
+    				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+    			}
+    		});
+    		$("#loanTable").append(tr);
+    	});
+    	/* 借款总计计算 */
+		$("#loanTable").delegate(".loanAmount","keyup",function(){
+			var total = 0;
+			var inputs = $("#loanTable").find(".loanAmount");
+			$.each(inputs,function(){
+				total = (parseFloat(total)+(isNaN(parseFloat($(this).val()))?0:parseFloat($(this).val()))).toFixed(2);
+			});
+			if(total>parseFloat($("#maxLoan").text())){
+				alert("借款总计不能大于最大借款额");
+				inputs.val(0);
+				$("#total").html(0);
+			}else{
+				$("#total").html(total);
+			}
+		});
+    	/* 借款确认 */
+    	$("#loanTable").delegate("#loanOk","click",function(){
+    		var total = 0;
+			var inputs = $("#loanTable").find(".loanAmount");
+			$.each(inputs,function(){
+				total = (parseFloat(total)+(isNaN(parseFloat($(this).val()))?0:parseFloat($(this).val()))).toFixed(2);
+			});
+			if(total>parseFloat($("#maxLoan").text())){
+				alert("借款总计不能大于最大借款额");
+				inputs.val(0);
+				$("#total").html(0);
+			}else{
+				$("#total").html(total);
+				var inputs = $(this).parent().parent().find("input");
+				inputs.eq(0).parent().html(inputs.eq(0).val());
+				inputs.eq(1).parent().html(inputs.eq(1).val());
+				inputs.eq(2).parent().html(inputs.eq(2).val());
+				$(this).parent().html('<input type="hidden" value="true">');
+			}
+    	});
 	/*更新 */
 		/* 全局行程删除id */
 		var tripDelIds = new Array();

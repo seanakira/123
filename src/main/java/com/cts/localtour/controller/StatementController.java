@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.service.PayService;
 import com.cts.localtour.viewModel.SimplPayViewModel;
@@ -19,8 +21,7 @@ public class StatementController {
 	/*∏∂øÓπ‹¿Ì*/
 	@RequestMapping("/payManage")
 	public String getPayManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		ArrayList<SimplPayViewModel> pays = payService.getAll(key,page,maxResults);
-		int counts = pays.size();
+		int counts = payService.getCounts(key);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
 			pageMax++;
@@ -31,6 +32,7 @@ public class StatementController {
 		if(page<1){
 			page=1;
 		}
+		ArrayList<SimplPayViewModel> pays = payService.getAll(key,page,maxResults);
 		md.addAttribute("pays", pays);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
@@ -39,6 +41,11 @@ public class StatementController {
 		return "/statementManage/payManage";
 	}
 	
+	@RequestMapping("/payManage/isRemittance")
+	public @ResponseBody boolean chanageIsRemittance(@RequestParam int id, @RequestParam float realCost){
+		payService.updateByParam("CostTable", "isRemittance=?,realCost=?", "id=?", true,realCost,id);
+		return true;
+	}
 	
 	@RequestMapping("/collectManage")
 	public String getCollectManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){

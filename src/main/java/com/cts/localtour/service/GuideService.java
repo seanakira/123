@@ -56,11 +56,11 @@ public class GuideService extends BaseService{
 	}
 
 	public void del(int id) {
-		this.changeEnable("GuideTable", false, id);
+		this.changeValue("GuideTable", "enable", "false", id);
 	}
 	
 	public void recover(int id){
-		this.changeEnable("GuideTable", true, id);
+		this.changeValue("GuideTable", "enable", "true", id);
 	}
 
 	public void update(GuideTable guide) {
