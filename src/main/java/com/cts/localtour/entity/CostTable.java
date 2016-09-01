@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-8-26 13:59:42 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-8-31 15:05:02 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -30,15 +30,14 @@ public class CostTable implements java.io.Serializable {
 	private float realCost;
 	private int days;
 	private boolean isRemittance;
-	private boolean isBorrow;
+	private boolean isLend;
 	private String remark;
-	private Float lendAmount;
 
 	public CostTable() {
 	}
 
 	public CostTable(int tourId, int supplierScopeId, int supplierId, float cost, int count, float realCost, int days,
-			boolean isRemittance, boolean isBorrow) {
+			boolean isRemittance, boolean isLend) {
 		this.tourId = tourId;
 		this.supplierScopeId = supplierScopeId;
 		this.supplierId = supplierId;
@@ -47,12 +46,12 @@ public class CostTable implements java.io.Serializable {
 		this.realCost = realCost;
 		this.days = days;
 		this.isRemittance = isRemittance;
-		this.isBorrow = isBorrow;
+		this.isLend = isLend;
 	}
 
 	public CostTable(int tourId, Integer borrowUserId, Date costDate, int supplierScopeId, Integer contentId,
-			int supplierId, float cost, int count, float realCost, int days, boolean isRemittance, boolean isBorrow,
-			String remark, Float lendAmount) {
+			int supplierId, float cost, int count, float realCost, int days, boolean isRemittance, boolean isLend,
+			String remark) {
 		this.tourId = tourId;
 		this.borrowUserId = borrowUserId;
 		this.costDate = costDate;
@@ -64,9 +63,8 @@ public class CostTable implements java.io.Serializable {
 		this.realCost = realCost;
 		this.days = days;
 		this.isRemittance = isRemittance;
-		this.isBorrow = isBorrow;
+		this.isLend = isLend;
 		this.remark = remark;
-		this.lendAmount = lendAmount;
 	}
 
 	@Id
@@ -181,13 +179,13 @@ public class CostTable implements java.io.Serializable {
 		this.isRemittance = isRemittance;
 	}
 
-	@Column(name = "isBorrow", nullable = false)
-	public boolean isIsBorrow() {
-		return this.isBorrow;
+	@Column(name = "isLend", nullable = false)
+	public boolean isIsLend() {
+		return this.isLend;
 	}
 
-	public void setIsBorrow(boolean isBorrow) {
-		this.isBorrow = isBorrow;
+	public void setIsLend(boolean isLend) {
+		this.isLend = isLend;
 	}
 
 	@Column(name = "remark", length = 65535)
@@ -197,15 +195,6 @@ public class CostTable implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	@Column(name = "lendAmount", precision = 12, scale = 0)
-	public Float getLendAmount() {
-		return this.lendAmount;
-	}
-
-	public void setLendAmount(Float lendAmount) {
-		this.lendAmount = lendAmount;
 	}
 
 }

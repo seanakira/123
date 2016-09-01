@@ -547,7 +547,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/find",  
+		        url:"/localtour/payManage/find",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -573,17 +573,20 @@
 		        		var realCost = $("<td></td>");
 		        		var remittanceOk = $("<td></td>");
 		        		var remark = $("<td></td>");
+		        		var guideLoan = $("<td></td>");
 		        		if(this.costTable.isRemittance){
 		        			realCost.html(this.costTable.realCost);
 		        			remark.html(this.costTable.remark);
 		        		}else{
-		        			realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-		        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-		        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-		        		}
-		        		var guideLoan = $("<td></td>");
-		        		if(this.costTable.realCost==0){
-		        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        			if(this.costTable.isLend){
+		        				remark.html(this.costTable.remark);
+		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+		        			}else{
+		        				realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+			        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        			}
 		        		}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
@@ -604,18 +607,17 @@
 		        			tbody = other;
 		        		}
 		        		var tr = $('<tr>'+
-								'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
-								'<td>'+this.contentName+'</td>'+
-								'<td>'+this.supplierName+'</td>'+
-								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
-								'<td>'+realCost.html()+'</td>'+
-								'<td>'+this.borrowUserName+'</td>'+
-								'<td>'+remark.html()+'</td>'+
-								'<td>'+guideLoan.html()+'</td>'+
-								'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+remittanceOk.html()+'<input type="hidden" value="1" /></td>'+
-								'</tr>');
+										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+this.contentName+'</td>'+
+										'<td>'+this.supplierName+'</td>'+
+										'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+										'<td>'+realCost.html()+'</td>'+
+										'<td>'+this.borrowUserName+'</td>'+
+										'<td>'+remark.html()+'</td>'+
+										'<td>'+guideLoan.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+remittanceOk.html()+'</td>'+
+									'</tr>');
 		        		tbody.append(tr);
-		        		
 		        	});
 		        	/* 提示 */
 		        	$("#edit").find("a").tooltip({
@@ -677,7 +679,8 @@
     			$(this).parent().parent().siblings().eq(4).html("");
     			$(this).parent().parent().siblings().eq(6).html($(this).parent().parent().siblings().eq(6).children("input").val());
     			$("#maxLoan").html((parseFloat($("#maxLoan").html())+parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
-    		}else{
+    			$(this).parent().parent().html('<i class="icon-ok bigger-130"></i>');
+    		}/* else{
     			$(this).parent().parent().siblings().eq(4).html('<input id="remittance" class="form-control" value="0" type="text">');
     			var a = $('<a id="remittanceOk" class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a>');
     			a.tooltip({
@@ -693,7 +696,7 @@
     			$(this).parent().parent().siblings().last().prepend(a);
     			$(this).parent().parent().siblings().eq(6).html('<input class="form-control" value="'+$(this).parent().parent().siblings().eq(6).text()+'" type="text">');
     			$("#maxLoan").html((parseFloat($("#maxLoan").html())-parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
-    		}
+    		} */
     	});
     	/* 确认汇款 */
     	$("#costs3").delegate("#remittanceOk","click",function(){
@@ -729,7 +732,7 @@
 							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
 							'<td><input style="width:100%;" class="form-control loanAmount" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
-							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %></td>'+
+							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %><input type="hidden" value="<%=((UserTable)session.getAttribute("user")).getId() %>"></td>'+
 							'<td><a title="借款确认" href="#" class="green" id="loanOk"><i class="icon-ok bigger-130"></i></a></td>'+
 						'</tr>');
     		tr.find(".datepicker").datepicker({
@@ -752,8 +755,13 @@
 		$("#loanTable").delegate(".loanAmount","keyup",function(){
 			var total = 0;
 			var inputs = $("#loanTable").find(".loanAmount");
-			$.each(inputs,function(){
-				total = (parseFloat(total)+(isNaN(parseFloat($(this).val()))?0:parseFloat($(this).val()))).toFixed(2);
+			var trs = $("#loanTable").children("tr");
+			$.each(trs,function(){
+				if($(this).children("td").eq(1).children("input").length==0){
+					total = (parseFloat(total)+(isNaN(parseFloat($(this).children("td").eq(1).text()))?0:parseFloat($(this).children("td").eq(1).text()))).toFixed(2);
+				}else{
+					total = (parseFloat(total)+(isNaN(parseFloat($(this).children("td").eq(1).children("input").val()))?0:parseFloat($(this).children("td").eq(1).children("input").val()))).toFixed(2);
+				}
 			});
 			if(total>parseFloat($("#maxLoan").text())){
 				alert("借款总计不能大于最大借款额");
@@ -780,181 +788,87 @@
 				inputs.eq(0).parent().html(inputs.eq(0).val());
 				inputs.eq(1).parent().html(inputs.eq(1).val());
 				inputs.eq(2).parent().html(inputs.eq(2).val());
-				$(this).parent().html('<input type="hidden" value="true">');
+				$(this).remove();
 			}
     	});
 	/*更新 */
-		/* 全局行程删除id */
-		var tripDelIds = new Array();
 		$("#saveEdit").click(function(){
-			var inputs = $("#edit").find("#tourInfo3").find("input");
-			var selects = $("#edit").find("#tourInfo3").find("select");
 			var id = $(this).parent().attr("id");
-			var tourNo = inputs.eq(0).val();
-			var tourName = inputs.eq(1).val();
-			var businessTypeId = selects.eq(0).val();
-			var tourTypeId = selects.eq(1).val();
-			var regionId = selects.eq(2).val();
-			var visitorTypeId = selects.eq(3).val();
-			var customerAgencyId = selects.eq(4).val();
-			var organizor = inputs.eq(7).val();
-			var qpGuideNo = inputs.eq(8).val();
-			var adultNo = inputs.eq(9).val();
-			var childrenNo = inputs.eq(10).val();
-			var startTime = new Date(inputs.eq(11).val());
-			var endTime = new Date(inputs.eq(12).val());
-			var guideIds  = selects.eq(5).val();
-			var remark = inputs.eq(14).val();
-			var days = (endTime-startTime)/1000/60/60/24+1;
-			var localTourTable={id:id,tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
-						   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
-						   endTime:endTime,remark:remark};
-			
-			var guideTimeTables = new Array();
-			if(guideIds!=null){
-				for (var int = 0; int < guideIds.length; int++) {
-					guideTimeTables.push({
-							tourId:id,
-							guideId:guideIds[int],
-							startTime:startTime,
-							endTime:endTime});
-				}
-			}
-			
-			var arrTrs = $("#edit").find(".arrInfo").children("tr").not("#arrModel");
-			var arrTables = new Array();
-			for (var int = 0; int < arrTrs.length; int++) {
-				var arrSelects = arrTrs.eq(int).find("select");
-				var arrInputs = arrTrs.eq(int).find("input");
-				if(arrSelects.eq(0).val()!=""||arrSelects.eq(1).children("option:selected").html()!="&nbsp;"||arrInputs.eq(2).val()!=""||arrInputs.eq(3).val()!=""||arrSelects.eq(2).val()!=""){
-					arrTables.push({
-						id:arrTrs.eq(int).find("td").last().attr("id"),
-						tourId:id,
-						originId:arrSelects.eq(0).val(),
-						arrTraffic:arrSelects.eq(1).children("option:selected").text(),
-						arrTime:new Date(arrInputs.eq(2).val()),
-						arrTrafficNo:arrInputs.eq(3).val(),
-						arrRegionId:arrSelects.eq(2).val()});	
-				}
-			}
-			
-			var departTrs = $("#edit").find(".departInfo").children("tr").not("#departModel");
-			var departTables = new Array();
-			for (var int = 0; int < departTrs.length; int++) {
-				var departSelects = departTrs.eq(int).find("select");
-				var departInputs = departTrs.eq(int).find("input");
-				if(departSelects.eq(0).val()!=""||departSelects.eq(1).children("option:selected").html()!="&nbsp;"||departInputs.eq(2).val()!=""||departInputs.eq(3).val()!=""||departSelects.eq(2).val()!=""){
-					departTables.push({
-							id:departTrs.eq(int).find("td").last().attr("id"),
-							tourId:id,
-							destId:departSelects.eq(0).val(),
-							departTraffic:departSelects.eq(1).children("option:selected").text(),
-							departTime:new Date(departInputs.eq(2).val()),
-							departTrafficNo:departInputs.eq(3).val(),
-							departRegionId:departSelects.eq(2).val()});
-				}
-			}
-			
-			var tripTables = new Array();
-			var tripsTbody = $("#trips3").find("div").not("#editTripModel").children("table").children("tbody");
-			for (var int = 0; int < tripsTbody.length; int++) {
-				var tripInputs =  tripsTbody.eq(int).find("input");
-				var tripTextAreas =  tripsTbody.eq(int).find("textarea");
-				if(tripsTbody.eq(int).attr("id")!=undefined||tripTextAreas.eq(0).val()!=""||tripInputs.eq(0).val()!=""||tripInputs.eq(1).val()!=""||tripInputs.eq(2).val()!=""||tripTextAreas.eq(1).val()!=""){
-					tripTables.push({
-							id:tripsTbody.eq(int).attr("id"),
-							tourId:id,
-							number:int,
-							trip:tripTextAreas.eq(0).val(),
-							meal:tripInputs.eq(0).val(),
-							stay:tripInputs.eq(1).val(),
-							traffic:tripInputs.eq(2).val(),
-							remark:tripTextAreas.eq(1).val()});
-					if(tripsTbody.eq(int).attr("id")!=undefined){
-						tripDelIds.shift();
-					}
-					if(tripTextAreas.eq(0).val()==""&&tripInputs.eq(0).val()==""&&tripInputs.eq(1).val()==""&&tripInputs.eq(2).val()==""&&tripTextAreas.eq(1).val()==""){
-						tripDelIds.push(tripsTbody.eq(int).attr("id"));
-					}
-				}
-			}
-			
 			var costTables = new Array();
 			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not("#costModel");
 			for (var int = 0; int < costTrs.length; int++) {
-				var costInputs = costTrs.eq(int).find("input");
-				var costSelects = costTrs.eq(int).find("select");
-				costTables.push({
-						id:costTrs.eq(int).children("td").last().attr("id"),
-						tourId:id,
-						costDate:new Date(costInputs.eq(0).val()),
-						contentId:costSelects.eq(0).val(),
-						supplierId:costSelects.eq(1).val(),
-						cost:costInputs.eq(3).val(),
-						count:costInputs.eq(4).val(),
-						days:costInputs.eq(5).val(),
-						borrowUserId:costSelects.eq(2).val(),
-						supplierScopeId:costInputs.last().val(),
-						remark:costInputs.eq(7).val()});
-			}
-			
-			var incomeTables = new Array();
-			var incomeTrs = $("#edit").find("#incomes3").find("tbody").find("tr").not("#incomeModel");
-			for (var int = 0; int < incomeTrs.length; int++) {
-				var incomeInputs = incomeTrs.eq(int).find("input");
-				incomeTables.push({
-					id:incomeTrs.eq(int).children("td").last().attr("id"),
-					tourId:id,
-					incomeDate:new Date(incomeInputs.eq(0).val()),
-					customerAgencyId:incomeTrs.eq(int).find("select").val(),
-					income:incomeInputs.eq(2).val(),
-					remark:incomeInputs.eq(3).val()});
-			}
-			
-			/* 成本删除ID拼装 */
-			var costTbodys = $("#costs3").find("tbody");
-			var costDelIds = "";
-			var firstCost = true;
-			$.each(costTbodys,function(){
-				if($(this).attr("delIds")!=undefined){
-					if(firstCost==true){
-						costDelIds = $(this).attr("delIds");
-						firstCost = false;
+				var tds = costTrs.eq(int).children("td");
+				if(tds.eq(-2).find("input").length==0){
+					if(tds.eq(-2).children("i").length==0){
+						costTables.push({
+							id:tds.last().attr("id"),
+							remark:tds.eq(-3).text(),
+							realCost:tds.eq(-5).text(),
+							isRemittance:true,
+							isLend:false});
 					}else{
-						costDelIds = costDelIds+","+$(this).attr("delIds");
+						costTables.push({
+							id:tds.last().attr("id"),
+							remark:tds.eq(-3).text(),
+							isRemittance:false,
+							isLend:true});
 					}
-				} 
-			});
-			var delIds = {
-					"ArrTable":$("#edit").find(".arrInfo").attr("delids"),
-					"DepartTable":$("#edit").find(".departInfo").attr("delids"),
-					"TripTable":tripDelIds.toString(),
-					"CostTable":costDelIds,
-					"IncomeTable":$("#incomes3").find("tbody").attr("delids")};
+				}else{
+					var costInputs = costTrs.eq(int).find("input");
+					costTables.push({
+						id:tds.last().attr("id"),
+						realCost:costInputs.eq(0).val(),
+						remark:costInputs.eq(1).val(),
+						isRemittance:false,
+						isLend:false});
+				}
+			}
 			
-			var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables,delIds:delIds};
-			var myData = JSON.stringify(fullLocalTourViewModel);
-			$.ajax({
+			var loanTables = new Array();
+			var loanTrs = $("#loanTable").children("tr");
+			$.each(loanTrs,function(){
+				var inputs = $(this).find("input");
+				var tds = $(this).children("td");
+				if(tds.last().children("a").length==0){
+					loanTables.push({
+							id:tds.last().attr("id"),
+							tourId:id,
+							loanDate:new Date(tds.eq(0).text()),
+							loanAmount:tds.eq(1).text(),
+							remark:tds.eq(2).text(),
+							lender:inputs.eq(3).val(),
+							isLend:true});
+				}else{
+					loanTables.push({
+							id:tds.last().attr("id"),
+							tourId:id,
+							loanDate:new Date(inputs.eq(0).val()),
+							loanAmount:inputs.eq(1).val(),
+							remark:inputs.eq(2).val(),
+							lender:inputs.eq(3).val(),
+							isLend:false});
+				}
+			});
+			var fullPayViewModel = {costTables:costTables,loanTables:loanTables};
+			var myData = JSON.stringify(fullPayViewModel);
+			alert(myData);
+			/* $.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/update",  
+		        url:"/localtour/payManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
 		        	if(data==-1){
-		        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整，开始日期是否大于结束日期");
+		        		alert("保存失败，提交数据异常，借款和汇款同时为true");
 		        	}else if(data==-2){
-		        		alert("保存失败，请填写出发地或抵达地");
+		        		alert("保存失败，电汇金额不能大于成本小计");
 		        	}else if(data==-3){
-		        		alert("保存失败，请填写前往地或离开");
-		        	}else if(data==-4){
-		        		alert("保存失败，请填写供应商或内容");
-		        	}else if(data==-5){
-		        		alert("保存失败，请填写客户");
+		        		alert("保存失败，借款总计大于最大借款额");
 		        	}
 		        }
-			 });
+			 }); */
 		});
 	
 	});

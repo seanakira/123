@@ -1,14 +1,18 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.SupplierContentTable;
+import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.viewModel.CostViewModel;
+import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.LoanViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 
 @SuppressWarnings("rawtypes")
@@ -79,6 +83,80 @@ public class PayService extends BaseService{
 		}else{
 			return this.getCountsByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=5", null);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public int updatePay(FullPayViewModel full) {
+		ArrayList<CostTable> costTables = full.getCostTables();
+		ArrayList<LoanTable> loanTables = full.getLoanTables();
+		ArrayList<CostTable> costCache =new ArrayList<CostTable>();
+		float maxLoan = 0;
+		float total = 0;
+		for (int i = 0; i < costTables.size(); i++) {
+			if(costTables.get(i).isIsLend()&&costTables.get(i).isIsRemittance()){
+				return -1;
+			}else{
+				CostTable costTable = (CostTable) this.getById("CostTable", costTables.get(i).getId());
+				if(!costTables.get(i).isIsLend()){
+					if(costTables.get(i).getRealCost()>costTable.getCost()*costTable.getCount()*costTable.getDays()){
+						return -2;
+					}else{
+						costTable.setRealCost(costTables.get(i).getRealCost());
+						costTable.setRemark(costTables.get(i).getRemark());
+						if(costTables.get(i).isIsRemittance()){
+							costTable.setIsRemittance(true);
+						}
+						this.update(costTable);
+					}
+				}else{
+					maxLoan = maxLoan + costTable.getCost()*costTable.getCount()*costTable.getDays();
+					costCache.add(costTable);
+					costCache.add(costTables.get(i));
+				}
+			}
+		}
+		for (int i = 0; i < loanTables.size(); i++) {
+			total = total + loanTables.get(i).getLoanAmount();
+		}
+		if(total>maxLoan){
+			return -3;
+		}else{
+			for (int j = 0; j < costCache.size(); j+=2) {
+				costCache.get(j).setRealCost(costCache.get(j+1).getRealCost());
+				costCache.get(j).setRemark(costCache.get(j+1).getRemark());
+				costCache.get(j).setIsLend(true);
+				this.update(costCache.get(j));
+			}
+			for (int i = 0; i < loanTables.size(); i++) {
+				this.merge(loanTables.get(i));
+			}
+		}
+		return 1;
+	}
+
+	@SuppressWarnings("unchecked")
+	public FullPayViewModel findPay(int tourId) {
+		FullPayViewModel full = new FullPayViewModel();
+		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=?", tourId);
+		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
+		for (int i = 0; i < costTables.size(); i++) {
+			CostViewModel cost = new CostViewModel();
+			cost.setCostTable(costTables.get(i));
+			cost.setContentName(((SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
+			cost.setSupplierName(((SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
+			cost.setBorrowUserName(((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
+			costs.add(cost);
+		}
+		full.setCosts(costs);
+		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=?", tourId);
+		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
+		for (int i = 0; i < loanTables.size(); i++) {
+			LoanViewModel loan = new LoanViewModel();
+			loan.setLoanTable(loanTables.get(i));
+			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLender())).getRealName());
+		}
+		full.setLoans(loans);
+		return full;
 	}
 	
 }

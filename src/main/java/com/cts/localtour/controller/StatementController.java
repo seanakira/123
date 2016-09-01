@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.service.PayService;
+import com.cts.localtour.viewModel.CostViewModel;
+import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 
 @Controller
@@ -20,7 +22,7 @@ public class StatementController {
 	
 	/*付款管理*/
 	@RequestMapping("/payManage")
-	public String getPayManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = payService.getCounts(key);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
@@ -40,13 +42,20 @@ public class StatementController {
 		md.addAttribute("key", key);
 		return "/statementManage/payManage";
 	}
-	
-	@RequestMapping("/payManage/isRemittance")
-	public @ResponseBody boolean chanageIsRemittance(@RequestParam int id, @RequestParam float realCost){
-		payService.updateByParam("CostTable", "isRemittance=?,realCost=?", "id=?", true,realCost,id);
-		return true;
+
+	@RequestMapping("/payManage/find")
+	public @ResponseBody FullPayViewModel findPay(@RequestParam int tourId){
+		return payService.findPay(tourId);
 	}
 	
+	@RequestMapping("/payManage/update")
+	public @ResponseBody int updatePay(@RequestBody FullPayViewModel full){
+		System.out.println(full);
+		return payService.updatePay(full);
+	}
+	
+	
+	/*收款管理*/
 	@RequestMapping("/collectManage")
 	public String getCollectManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		return "/statementManage/collectManage";
