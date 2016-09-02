@@ -154,6 +154,7 @@ public class PayService extends BaseService{
 			LoanViewModel loan = new LoanViewModel();
 			loan.setLoanTable(loanTables.get(i));
 			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLender())).getRealName());
+			loans.add(loan);
 		}
 		full.setLoans(loans);
 		return full;

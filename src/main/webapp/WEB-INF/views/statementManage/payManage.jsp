@@ -452,9 +452,9 @@
 									<tbody>
 										<tr>
 											<td style="width: 20%;">借款总计</td>
-											<td id="total" style="width: 30%;">0</td>
+											<td id="total" style="width: 30%;"></td>
 											<td style="width: 20%;">最大借款额</td>
-											<td id="maxLoan" style="width: 30%;">0</td>
+											<td id="maxLoan" style="width: 30%;"></td>
 										</tr>
 									</tbody>
 					            </table>
@@ -561,6 +561,8 @@
 		        	var tickets = $("#tickets3").find("tbody");
 		        	var comprehensive = $("#comprehensive3").find("tbody");
 		        	var other = $("#other3").find("tbody");
+		        	var total = 0;
+		        	var maxLoan = 0;
 		        	flight.html("");
 		        	hotel.html("");
 		        	meal.html("");
@@ -581,11 +583,18 @@
 		        			if(this.costTable.isLend){
 		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+		        				maxLoan = maxLoan + this.costTable.cost*this.costTable.count*this.costTable.days;
 		        			}else{
-		        				realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-			        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-			        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        				if(this.costTable.realCost==0){
+		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+				        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        				}else{
+		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+		        				}
 		        			}
 		        		}
 		        		var tbody;
@@ -619,6 +628,35 @@
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
+		        	
+		        	/* 设置借款 */
+		        	$("#loanTable").html("");
+		        	$.each(data.loans,function(){
+		        		var tr
+		        		if(this.loanTable.isLend){
+		        			tr = $('<tr>'+
+		        						'<td>'+this.loanTable.loanDate+'</td>'+
+		        						'<td>'+this.loanTable.loanAmount+'</td>'+
+		        						'<td>'+this.loanTable.remark+'</td>'+
+		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
+		        						'<td id="'+this.loanTable.id+'"></td>'+
+		        					'</tr>');
+		        			total = total + this.loanTable.loanAmount;
+		        		}else{
+		        			tr = $('<tr>'+
+	        						'<td><input class="form-control datepicker" value="'+this.loanTable.loanDate+'" type="text"></td>'+
+	        						'<td><input class="form-control loanAmount" value="'+this.loanTable.loanAmount+'" type="text"></td>'+
+	        						'<td><input class="form-control" value="'+this.loanTable.remark+'" type="text"></td>'+
+	        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
+	        						'<td id="'+this.loanTable.id+'"><a title="借款确认" href="#" class="green" id="loanOk"><i class="icon-ok bigger-130"></i></a></td>'+
+	        					'</tr>');
+		        			total = total + this.loanTable.loanAmount;
+		        		}
+		        		$("#loanTable").append(tr);
+		        	});
+		        	/* 设置借款总计、最大借款额 */
+		        	$("#total").text(total);
+		        	$("#maxLoan").text(maxLoan)
 		        	/* 提示 */
 		        	$("#edit").find("a").tooltip({
 	        			show: null,
@@ -630,18 +668,6 @@
 	        				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
 	        			}
 	        		});
-		        	
-		        	$("#costs3").find("tbody").removeAttr("delIds");
-					/* 要删除的ID */
-		        	$("#edit").find(".delLine").click(function(){
-		        		var parent = $(this).parent().parent().parent();
-		        		if(parent.attr("delIds")==undefined){
-		        			parent.attr("delIds",$(this).parent().attr("id"));
-		        		}else{
-		        			parent.attr("delIds",parent.attr("delIds")+","+$(this).parent().attr("id"));
-		        		}
-		        		
-		        	});
 		        	
 		        	$("#edit").find(".datepicker").datepicker({
 		    			showOtherMonths: true,
@@ -800,12 +826,22 @@
 				var tds = costTrs.eq(int).children("td");
 				if(tds.eq(-2).find("input").length==0){
 					if(tds.eq(-2).children("i").length==0){
-						costTables.push({
-							id:tds.last().attr("id"),
-							remark:tds.eq(-3).text(),
-							realCost:tds.eq(-5).text(),
-							isRemittance:true,
-							isLend:false});
+						if(tds.last().find("a").length==0){
+							costTables.push({
+								id:tds.last().attr("id"),
+								remark:tds.eq(-3).text(),
+								realCost:tds.eq(-5).text(),
+								isRemittance:true,
+								isLend:false});
+						}else{
+							var costInputs = costTrs.eq(int).find("input");
+							costTables.push({
+								id:tds.last().attr("id"),
+								realCost:costInputs.eq(0).val(),
+								remark:costInputs.eq(1).val(),
+								isRemittance:false,
+								isLend:false});
+						}
 					}else{
 						costTables.push({
 							id:tds.last().attr("id"),
@@ -836,7 +872,7 @@
 							loanDate:new Date(tds.eq(0).text()),
 							loanAmount:tds.eq(1).text(),
 							remark:tds.eq(2).text(),
-							lender:inputs.eq(3).val(),
+							lender:inputs.eq(0).val(),
 							isLend:true});
 				}else{
 					loanTables.push({
@@ -851,8 +887,7 @@
 			});
 			var fullPayViewModel = {costTables:costTables,loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
-			alert(myData);
-			/* $.ajax({
+			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/payManage/update",  
@@ -868,7 +903,7 @@
 		        		alert("保存失败，借款总计大于最大借款额");
 		        	}
 		        }
-			 }); */
+			 });
 		});
 	
 	});

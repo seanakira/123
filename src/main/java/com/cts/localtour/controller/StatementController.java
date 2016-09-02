@@ -50,7 +50,6 @@ public class StatementController {
 	
 	@RequestMapping("/payManage/update")
 	public @ResponseBody int updatePay(@RequestBody FullPayViewModel full){
-		System.out.println(full);
 		return payService.updatePay(full);
 	}
 	
