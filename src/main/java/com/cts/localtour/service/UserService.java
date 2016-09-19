@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.cts.localtour.DAO.UserTableDAO;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.UserViewModel;
+
+import net.sf.json.JSONObject;
 
 @SuppressWarnings("rawtypes")
 @Service
@@ -115,7 +118,29 @@ public class UserService extends BaseService{
 		user.setDeptName(deptTemp.get(0).getDeptName());
 		return user;
 	}
+
+	public void addToWeiXin(UserTable user) {
+		if(user.getPhone().equals("")||user.getPhone()==null){
+			user.setPhone("0000000000000");
+		}
+		JSONObject error = WeiXinUtil.addUser(user.getUserName(), user.getRealName(), "1", user.getPhone());
+		if(!error.getString("errmsg").equals("created")){
+			System.out.println(error.toString());
+		}
+	}
+
+	public void updateToWeiXin(UserTable user) {
+		JSONObject error = WeiXinUtil.updateUser(user.getUserName(),user.getRealName(), user.getPosition(), user.getPhone(), user.getEmail(), user.getWeiXinId());
+		if(!error.getString("errmsg").equals("updated")){
+			System.out.println(error.toString());
+		}
+	}
 	
-	
+	public void changWeiXinEnable(String userName, String enable){
+		JSONObject error = WeiXinUtil.changEnable(userName, enable);
+		if(!error.getString("errmsg").equals("updated")){
+			System.out.println(error.toString());
+		}
+	}
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.service.PayService;
-import com.cts.localtour.viewModel.CostViewModel;
+import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 
@@ -19,7 +19,6 @@ import com.cts.localtour.viewModel.SimplPayViewModel;
 public class StatementController {
 	@Autowired
 	private PayService payService;
-	
 	/*∏∂øÓπ‹¿Ì*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){

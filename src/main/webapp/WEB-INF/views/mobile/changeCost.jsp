@@ -6,6 +6,32 @@
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
+<style type="text/css">
+	@media only screen and (max-width:460px) {
+		.menu-toggler{
+			display: none;
+		}
+		.ace-nav{
+			position: absolute;
+			right: 0px;
+			top: -1px;
+		}
+		.ace-settings-container{
+			display: none;
+		}
+		.breadcrumb{
+			position: absolute;
+			left: -80px;
+			top: 10px;
+		}
+		.nav-search{
+			display: none;
+		}
+		.row{
+			display: none;
+		}
+	}
+</style>
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 
@@ -36,81 +62,20 @@
 						</div><!-- #nav-search -->
 					</div>
 					
-										<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
 							<tr role="row">
-								<th aria-label="" style="width: 98px;" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</th>
-								<th aria-label="Domain: activate to sort column ascending" style="width: 256px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									用户名
-								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 187px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									姓名
-								</th>
-								<th aria-label="Clicks: activate to sort column ascending" style="width: 204px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
-									部门
-								</th>
 								
-								<th aria-label="Status: activate to sort column ascending" style="width: 100px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
-									职位
-								</th>
-								<th aria-label="Status: activate to sort column ascending" style="width: 100px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
-									电话
-								</th>
-								<th aria-label="Status: activate to sort column ascending" style="width: 100px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
-									qq
-								</th>
-								<th aria-label="Status: activate to sort column ascending" style="width: 100px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
-									状态
-								</th>
-								<th aria-label="" style="width: 100px;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
-									操作
-								</th>
 							</tr>
 						</thead>
 
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-<!-- 		增加模板			 -->
-							<tr id="addModel" hidden="">
-								<td class="center  sorting_1">
-									<label>
-										<input class="ace" type="checkbox">
-										<span class="lbl"></span>
-									</label>
-								</td>
-
-								<td class="">
-									<input type="text" />
-								</td>
-								<td  class="">
-									<input type="text" />
-								</td>
-								<td class="">
-									部门
-									<input id="deptId" type="hidden" value="1" />
-								</td>
-								<td  class="">
-									<input type="text" />
-								</td>
-								<td  class="">
-									<input type="text" />
-								</td>
-								<td  class="">
-									<input id="submit" type="text" />
-								</td>
-								<td class="hidden-480 ">
-										<span class="label label-sm label-success">有效</span>
-								</td>
-								<td class="">
-									
-								</td>
-							</tr>
-<!-- 增加模板结束 -->		
-<!-- 列表循环 -->								
+<!-- 列表循环 -->					<tr>
+									<td style="width: 20%">日期</td>
+									<td style="width: 30%"></td>
+									<td style="width: 20%">内容</td>
+									<td style="width: 30%"></td>
+								</tr>			
 							<c:forEach var="user" items="${users }" varStatus="status">
 								<tr id="" <%-- <c:if test="${status.index%2!=0 }"> --%>class="style:{background-color:#f9f9f9;}"<%-- </c:if> --%>>
 									<td class="center  sorting_1">
@@ -232,17 +197,7 @@
 <!-- 分页查询结束 -->							
 					</div>
 				</div>
-<!--部门树模板开始 -->
-				<div id="treeView" hidden="">
-				  <div id="" class="widget-body" style="position: absolute;width: 300px;margin-left: -9px;margin-top: 20px;display:none;" > 
-				   <div class="widget-main padding-8"> 
-				    <div id="tree0" class="tree tree-selectable"> 
-				  
-				    </div> 
-				   </div> 
-				  </div>
-				</div>
-<!--部门树模板结束 -->
+
 <!-- 正文结束 -->	
 
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>

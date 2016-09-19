@@ -139,7 +139,7 @@
 											</a>
 										</c:if>
 										<c:if test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
-											<a class="grey" id="chanageCost" href="#" title="成本收入变更">
+											<a class="grey" id="chanageCost" data-toggle="modal" href="#cost" title="成本收入变更">
 												<i class="icon-tasks bigger-130"></i>
 											</a>
 										</c:if>
@@ -1212,6 +1212,7 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 查看结束 -->
+
 <!-- 编辑模板 -->
 				<div aria-hidden="true" style="display: none;" id="edit" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
@@ -1689,8 +1690,303 @@
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
 				</div>
-<!-- 编辑结束 -->
-	
+<!-- 编辑结束 -->	
+<!-- 成本变更模板-->
+				<div aria-hidden="true" style="display: none;" id="cost" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									成本变更
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tabbable">
+					         		<ul class="nav nav-tabs padding-18" id="myTab">
+										<li class="active">
+											<a data-toggle="tab" href="#costs4">
+												<i class="green icon-credit-card bigger-120"></i>
+												成本
+											</a>
+										</li>
+									</ul>
+					         	</div>
+					         	
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div id="costs4" class="tab-pane fade in active costTable">
+					         			<div class="tabbable tabs-left">
+					         			<ul class="nav nav-tabs" style="width: 10%;text-align: center;">
+											<li class="active">
+												<a data-toggle="tab" href="#flight4">
+													<i class="red icon-large icon-plane"></i>
+													机票
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#hotel4">
+													<i class="pink icon-large icon-building"></i>
+													订房
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#meal4">
+													<i class="orange icon-large icon-food"></i>
+													订餐
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#ticket4">
+													<i class="green icon-large icon-hdd"></i>
+													门票
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#shuttle4">
+													<i class="dark icon-large icon-truck"></i>
+													订车
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#tickets4">
+													<i class="blue icon-large icon-list-alt"></i>
+													票务
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#comprehensive4">
+													<i class="purple icon-large icon-money"></i>
+													综费
+												</a>
+											</li>
+											<li>
+												<a data-toggle="tab" href="#other4">
+													<i class="black icon-large icon-leaf"></i>
+													其他
+												</a>
+											</li>
+										</ul>
+										<div class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
+											<div id="flight4" class="tab-pane in active">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="hotel4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="meal4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="ticket4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="shuttle4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="tickets4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="comprehensive4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											
+											<div id="other4" class="tab-pane">
+												<table class="table table-striped table-bordered table-hover no-margin">
+													<thead>
+														<tr>
+															<th style="width: 10%;">日期</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本</th>
+															<th style="width: 10%;">数量</th>
+															<th style="width: 10%;">天数</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 5%;">
+																<a class="blue addCost" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+									            </table>
+											</div>
+											         			
+					         			</div><!-- tab content 结束 -->
+					         			</div><!-- 左tab 结束 -->
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         	
+					            
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="saveChange" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									提交待审
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 成本变更结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -1918,7 +2214,8 @@
 				selectOtherMonths: false,
 			});
 			var selects = tr.find("select");
-			if($(this).parents("div").attr("id")=="flight"||$(this).parents("div").attr("id")=="flight3"){
+			var type = $(this).parents("div").attr("id");
+			if(type.substr(0,type.length-1)=="flight"){
 				tr.children("td").last().append('<input type="hidden" value="1" />');
 				$.each(selectInfo.flightContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1926,7 +2223,7 @@
 	        	$.each(selectInfo.flightSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="hotel"||$(this).parents("div").attr("id")=="hotel3"){
+			}else if(type.substr(0,type.length-1)=="hotel"){
 				tr.children("td").last().append('<input type="hidden" value="2" />');
 				$.each(selectInfo.hotelContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1934,7 +2231,7 @@
 	        	$.each(selectInfo.hotelSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="meal"||$(this).parents("div").attr("id")=="meal3"){
+			}else if(type.substr(0,type.length-1)=="meal"){
 				tr.children("td").last().append('<input type="hidden" value="3" />');
 				$.each(selectInfo.mealContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1942,7 +2239,7 @@
 	        	$.each(selectInfo.mealSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="ticket"||$(this).parents("div").attr("id")=="ticket3"){
+			}else if(type.substr(0,type.length-1)=="ticket"){
 				tr.children("td").last().append('<input type="hidden" value="4" />');
 				$.each(selectInfo.ticketContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1950,7 +2247,7 @@
 	        	$.each(selectInfo.ticketSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="shuttle"||$(this).parents("div").attr("id")=="shuttle3"){
+			}else if(type.substr(0,type.length-1)=="shuttle"){
 				tr.children("td").last().append('<input type="hidden" value="5" />');
 				$.each(selectInfo.shuttleContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1958,7 +2255,7 @@
 	        	$.each(selectInfo.shuttleSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="tickets"||$(this).parents("div").attr("id")=="tickets3"){
+			}else if(type.substr(0,type.length-1)=="tickets"){
 				tr.children("td").last().append('<input type="hidden" value="6" />');
 				$.each(selectInfo.ticketsContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1966,7 +2263,7 @@
 	        	$.each(selectInfo.ticketsSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="comprehensive"||$(this).parents("div").attr("id")=="comprehensive3"){
+			}else if(type.substr(0,type.length-1)=="comprehensive"){
 				tr.children("td").last().append('<input type="hidden" value="7" />');
 				$.each(selectInfo.comprehensiveContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -1974,7 +2271,7 @@
 	        	$.each(selectInfo.comprehensiveSuppliers,function(){
 	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
 	        	});
-			}else if($(this).parents("div").attr("id")=="other"||$(this).parents("div").attr("id")=="other3"){
+			}else if(type.substr(0,type.length-1)=="other"){
 				tr.children("td").last().append('<input type="hidden" value="8" />');
 				$.each(selectInfo.otherContents,function(){
 	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
@@ -3229,7 +3526,110 @@
 		        }
 			 });
 		});
-	
+		
+		/* 成本变更 */
+		$("#table").delegate("#chanageCost","click",function(){
+			$("#saveChange").parent().attr("id",$(this).parent().attr("id"));
+			var myData = {tourId:$(this).parent().attr("id")};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/findChangeCost",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	var flight = $("#flight4").find("tbody");
+		        	var hotel = $("#hotel4").find("tbody");
+		        	var meal = $("#meal4").find("tbody");
+		        	var ticket = $("#ticket4").find("tbody");
+		        	var shuttle = $("#shuttle4").find("tbody");
+		        	var tickets = $("#tickets4").find("tbody");
+		        	var comprehensive = $("#comprehensive4").find("tbody");
+		        	var other = $("#other4").find("tbody");
+		        	flight.html("");
+		        	hotel.html("");
+		        	meal.html("");
+		        	ticket.html("");
+		        	shuttle.html("");
+		        	tickets.html("");
+		        	comprehensive.html("");
+		        	other.html("");
+		        	$.each(data,function(){
+		        		var tr = $('<tr class="look">'+
+										'<td>'+this.costTable.costDate+'</td>'+
+										'<td>'+this.contentName+'</td>'+
+										'<td>'+this.supplierName+'</td>'+
+										'<td>'+this.costTable.cost+'</td>'+
+										'<td>'+this.costTable.count+'</td>'+
+										'<td>'+this.costTable.days+'</td>'+
+										'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+										'<td>'+this.borrowUserName+'</td>'+
+										'<td>'+this.costTable.remark+'</td>'+
+								'</tr>');
+		        		if(this.costTable.status==0){
+		        			tr.append('<td>新</td>')
+		        		}else if(this.costTable.status==1){
+		        			tr.append('<td>待</td>')
+		        		}else if(this.costTable.status==2){
+		        			tr.append('<td>审</td>')
+		        		}else if(this.costTable.status==2){
+		        			tr.append('<td>完</td>')
+		        		}
+		        		if(this.costTable.supplierScopeId==1){
+		        			flight.append(tr);
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			hotel.append(tr);
+		        		}else if(this.costTable.supplierScopeId==3){
+		        			meal.append(tr);   			
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			ticket.append(tr);        			
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			shuttle.append(tr);
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tickets.append(tr);
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			comprehensive.append(tr);
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			other.append(tr);
+		        		}
+		        	});
+		        }  
+			});
+		});
+		/* 提交待审 */
+		$("#cost").delegate("#saveChange","click",function(){
+			var costTables = new Array();
+			var tourId = $(this).parent().attr("id");
+			var costTrs = $("#cost").find("#costs4").find("tbody").find("tr").not(".look");
+			for (var int = 0; int < costTrs.length; int++) {
+				var costInputs = costTrs.eq(int).find("input");
+				var costSelects = costTrs.eq(int).find("select");
+				costTables.push({
+						tourId:tourId,
+						costDate:new Date(costInputs.eq(0).val()),
+						contentId:costSelects.eq(0).val(),
+						supplierId:costSelects.eq(1).val(),
+						cost:costInputs.eq(3).val(),
+						count:costInputs.eq(4).val(),
+						days:costInputs.eq(5).val(),
+						borrowUserId:costSelects.eq(2).val(),
+						supplierScopeId:costInputs.last().val(),
+						remark:costInputs.eq(7).val()});
+			}
+			var myData = JSON.stringify(costTables);
+			alert(myData);
+			$.ajax({
+		        type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/saveChangeCost",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }  
+			 });
+		});
 	});
 	
 </script>

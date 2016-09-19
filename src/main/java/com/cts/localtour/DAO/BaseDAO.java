@@ -48,8 +48,9 @@ public class BaseDAO<T>{
 	}
 
 	
-	public void merge(T t) throws Exception {
+	public T merge(T t) throws Exception {
 		hibernateTemplate.merge(t);
+		return t;
 	}
 	
 	public void delete(T t) throws Exception {

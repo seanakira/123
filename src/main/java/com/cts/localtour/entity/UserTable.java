@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-8-31 15:05:02 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-9-13 14:18:09 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,21 +23,26 @@ public class UserTable implements java.io.Serializable {
 	private String position;
 	private String phone;
 	private String qq;
+	private String email;
+	private String weiXinId;
+	private boolean weiXinMessageSwitch;
 	private boolean enable;
 
 	public UserTable() {
 	}
 
-	public UserTable(String userName, String realName, String pwd, int deptId, boolean enable) {
+	public UserTable(String userName, String realName, String pwd, int deptId, boolean weiXinMessageSwitch,
+			boolean enable) {
 		this.userName = userName;
 		this.realName = realName;
 		this.pwd = pwd;
 		this.deptId = deptId;
+		this.weiXinMessageSwitch = weiXinMessageSwitch;
 		this.enable = enable;
 	}
 
 	public UserTable(String userName, String realName, String pwd, int deptId, String position, String phone, String qq,
-			boolean enable) {
+			String email, String weiXinId, boolean weiXinMessageSwitch, boolean enable) {
 		this.userName = userName;
 		this.realName = realName;
 		this.pwd = pwd;
@@ -45,6 +50,9 @@ public class UserTable implements java.io.Serializable {
 		this.position = position;
 		this.phone = phone;
 		this.qq = qq;
+		this.email = email;
+		this.weiXinId = weiXinId;
+		this.weiXinMessageSwitch = weiXinMessageSwitch;
 		this.enable = enable;
 	}
 
@@ -121,6 +129,33 @@ public class UserTable implements java.io.Serializable {
 
 	public void setQq(String qq) {
 		this.qq = qq;
+	}
+
+	@Column(name = "email", length = 30)
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Column(name = "weiXinId", length = 30)
+	public String getWeiXinId() {
+		return this.weiXinId;
+	}
+
+	public void setWeiXinId(String weiXinId) {
+		this.weiXinId = weiXinId;
+	}
+
+	@Column(name = "weiXinMessageSwitch", nullable = false)
+	public boolean isWeiXinMessageSwitch() {
+		return this.weiXinMessageSwitch;
+	}
+
+	public void setWeiXinMessageSwitch(boolean weiXinMessageSwitch) {
+		this.weiXinMessageSwitch = weiXinMessageSwitch;
 	}
 
 	@Column(name = "enable", nullable = false)

@@ -4,11 +4,17 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Max;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,15 +39,24 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/admin/login")
-	public String login(@RequestParam String userName, @RequestParam String pwd, Model md){
+	public String login(@RequestParam String userName, @RequestParam String pwd, Model md, HttpServletRequest request, HttpServletResponse response){
 		if(userName.equals("")||pwd.equals("")){
 			md.addAttribute("msg","用户名或密码错误");
 			return "/loginManage/login";
 		}
 		UserTable user = loginService.check(userName,pwd);
 		if(user!=null){
-			md.addAttribute("user", user);
-			return "operatingStatus/operatingStatus";
+			if(request.getHeader("user-agent").indexOf("MicroMessenger")>=0){
+				md.addAttribute("user", user);
+				Cookie cookie = new Cookie("userId", user.getUserName());
+				cookie.setMaxAge(Integer.MAX_VALUE);
+				response.addCookie(cookie);
+				String servletPath = request.getServletPath();
+				return servletPath;
+			}else{
+				md.addAttribute("user", user);
+				return "operatingStatus/operatingStatus";
+			}
 		}else{
 			md.addAttribute("msg","用户名或密码错误");
 			return "/loginManage/login";
@@ -49,7 +64,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/admin/logout")
-	public String logout(SessionStatus s){
+	public String logout(SessionStatus s, HttpServletRequest request, HttpServletResponse response){
 		s.setComplete();
 		return "/loginManage/login";
 	}

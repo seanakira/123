@@ -11,18 +11,19 @@ import com.cts.localtour.DAO.DeptTableDAO;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.viewModel.DeptViewModel;
+@SuppressWarnings("rawtypes")
 @Service
-public class DeptTableService {
+public class DeptTableService extends BaseService{
 	@Autowired
 	private DeptTableDAO deptTableDAO;
 	
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "null" })
 	public ArrayList<DeptViewModel> getAll(String hql,Hashtable<String, String> param,int pageNo, int pageSize) {
 		if(hql==null){
 			hql = "from DeptTable order by id desc";
 		}
-		ArrayList<Object> depts = (ArrayList<Object>) deptTableDAO.find(hql, param, pageNo, pageSize);
+		ArrayList<DeptTable> depts = (ArrayList<DeptTable>) deptTableDAO.find(hql, param, pageNo, pageSize);
 		ArrayList<DeptViewModel> deptViewModes = new ArrayList<DeptViewModel>();
 		
 			for (int i = 0; i < depts.size(); i++) {
@@ -30,16 +31,34 @@ public class DeptTableService {
 				if(null==((DeptTable) depts.get(i)).getUpperDeptId()){
 					deptViewMode.setUpperDeptName("");
 					deptViewMode.setDeptTable((DeptTable)depts.get(i));
+					if(!"".equals(depts.get(i).getManagerIds())&&depts.get(i).getManagerIds()!=null){
+						String[] managerIds = depts.get(i).getManagerIds().split(",");
+						StringBuffer managerName = null;
+						for (int j = 0; j < managerIds.length; j++) {
+							UserTable user = (UserTable) this.getById("UserTable", Integer.parseInt(managerIds[j]));
+							managerName.append(user.getRealName());
+							managerName.append("  ");
+							managerName.append(user.getUserName());
+							managerName.append("    ");
+						}
+						deptViewMode.setManagerName(managerName.toString());
+					}
 					deptViewModes.add(deptViewMode);
 				}else{
-					try {
-						DeptTable dept = (DeptTable) deptTableDAO.getById(DeptTable.class, ((DeptTable) depts.get(i)).getUpperDeptId());
-						deptViewMode.setUpperDeptName(dept.getDeptName());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					deptViewMode.setUpperDeptName(((DeptTable)this.getById("DeptTable", depts.get(i).getUpperDeptId())).getDeptName());
 					deptViewMode.setDeptTable((DeptTable)depts.get(i));
+					if(!"".equals(depts.get(i).getManagerIds())&&depts.get(i).getManagerIds()!=null){
+						String[] managerIds = depts.get(i).getManagerIds().split(",");
+						StringBuffer managerName = new StringBuffer();
+						for (int j = 0; j < managerIds.length; j++) {
+							UserTable user = (UserTable) this.getById("UserTable", Integer.parseInt(managerIds[j]));
+							managerName.append(user.getRealName());
+							managerName.append("  ");
+							managerName.append(user.getUserName());
+							managerName.append("    ");
+						}
+						deptViewMode.setManagerName(managerName.toString());
+					}
 					deptViewModes.add(deptViewMode);
 				}
 			}
@@ -48,15 +67,14 @@ public class DeptTableService {
 	
 
 	@SuppressWarnings("unchecked")
-	public boolean add(DeptTable deptTable) {
+	public int add(DeptTable deptTable) {
 		try {
-			deptTableDAO.add(deptTable);
+			return ((DeptTable) deptTableDAO.add(deptTable)).getId();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			return 0;
 		}
-		return true;
 	}
 
 
@@ -84,7 +102,11 @@ public class DeptTableService {
 		}
 		return false;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public int mergeDept(DeptTable deptTable){
+		return ((DeptTable)this.merge(deptTable)).getId();
+	}
 
 	public int getCounts(String hql,Hashtable<String,String> params) {
 		if(hql==null){

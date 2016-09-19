@@ -33,20 +33,22 @@ public class BaseService<T> {
 		return list;
 	}
 
-	public void add(T t) {
+	public T add(T t) {
 		try {
-			baseDAO.add(t);
+			return baseDAO.add(t);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
-	public void merge(T t){
+	public T merge(T t){
 		try {
-			baseDAO.merge(t);
+			return baseDAO.merge(t);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 	}
 

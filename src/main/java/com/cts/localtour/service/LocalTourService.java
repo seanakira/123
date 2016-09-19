@@ -14,8 +14,11 @@ import com.cts.localtour.entity.TourTypeTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.entity.VisitorTypeTable;
+import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.ChangeCostTable;
+import com.cts.localtour.entity.ContentTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DepartTable;
@@ -26,6 +29,7 @@ import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.viewModel.ArrDepViewModel;
+import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
@@ -252,5 +256,30 @@ public class LocalTourService extends BaseService{
 			return false;
 		}
 		return true;
+	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<ChangeCostViewModel> chanageCostFind(int tourId) {
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "tourId=?", tourId);
+		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
+		for (int i = 0; i < costTables.size(); i++) {
+			ChangeCostViewModel cost = new ChangeCostViewModel();
+			cost.setCostTable(costTables.get(i));
+			UserTable user = (UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId());
+			cost.setBorrowUserName(user==null?"":user.getRealName());
+			SupplierContentTable supplierContentTable = (SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId());
+			cost.setContentName(supplierContentTable==null?"":supplierContentTable.getContentName());
+			SupplierTable supplierTable = (SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierScopeId());
+			cost.setSupplierName(supplierTable==null?"":supplierTable.getSupplierName());
+			costs.add(cost);
+		}
+		return costs;
+	}
+	@SuppressWarnings("unchecked")
+	public void addChangeCost(ArrayList<ChangeCostTable> costTables) {
+		for (int i = 0; i < costTables.size(); i++) {
+			costTables.get(i).setStatus(1);
+			this.add(costTables.get(i));
+		}
+		String url = "http://www.ctsjinan.com/localtour/weixin/test";
 	}
 }

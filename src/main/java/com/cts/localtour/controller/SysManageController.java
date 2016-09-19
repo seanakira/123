@@ -57,24 +57,28 @@ public class SysManageController {
 		user.setPwd("123456");
 		user.setEnable(true);
 		userService.add(user);
+		userService.addToWeiXin(user);
 		return true;
 	}
 	
 	@RequestMapping("/userManage/del")
-	public @ResponseBody boolean del(@RequestParam int id){
+	public @ResponseBody boolean del(@RequestParam int id,@RequestParam String userName){
 		userService.del(id);
+		userService.changWeiXinEnable(userName, "0");
 		return true;
 	}
 	
 	@RequestMapping("/userManage/recover")
-	public @ResponseBody boolean recover(@RequestParam int id){
+	public @ResponseBody boolean recover(@RequestParam int id,@RequestParam String userName){
 		userService.recover(id);
+		userService.changWeiXinEnable(userName, "1");
 		return true;
 	}
 	
 	@RequestMapping("/userManage/update")
 	public @ResponseBody boolean update(@RequestBody UserTable user){
 		userService.update(user);
+		userService.updateToWeiXin(user);
 		return true;
 	}
 	
@@ -83,6 +87,13 @@ public class SysManageController {
 		userService.reset(id);
 		return true;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/userManage/getCreateInfo")
+	public @ResponseBody ArrayList<UserTable> getCreateInfo(){
+		return (ArrayList<UserTable>) userService.getAllByString("UserTable", "enable=?", true);
+	}
+	
 /*
  * 
  * 部门管理
@@ -110,21 +121,13 @@ public class SysManageController {
 	}
 	
 	@RequestMapping("/deptManage/save")
-	public @ResponseBody boolean save(@RequestBody DeptTable[] deptTables){
-		for (int i = 0; i < deptTables.length; i++) {
-			deptService.add(deptTables[i]);
-		}
-		return true;
+	public @ResponseBody int save(@RequestBody DeptTable deptTable){
+		return deptService.mergeDept(deptTable);
 	}
 	
 	@RequestMapping("/deptManage/del")
 	public @ResponseBody boolean del(@RequestBody DeptTable deptTable){
 		return deptService.update(deptTable, true);
-	}
-	
-	@RequestMapping("/deptManage/update")
-	public @ResponseBody boolean  update(@RequestBody DeptTable deptTable){
-		return deptService.update(deptTable, false);
 	}
 	
 	@RequestMapping("/deptManage/getUserByDept")

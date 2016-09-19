@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.ArrTable;
+import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.GuideTimeTable;
@@ -27,6 +28,7 @@ import com.cts.localtour.service.GuideTimeService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.TripService;
+import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
@@ -247,5 +249,13 @@ public class TourController {
 			}
 		}
 		return 0;
+	}
+	@RequestMapping("/localTourManage/findChangeCost")
+	public @ResponseBody ArrayList<ChangeCostViewModel> findChangeCost(@RequestParam int tourId){
+		return localTourService.chanageCostFind(tourId);
+	}
+	@RequestMapping("/localTourManage/saveChangeCost")
+	public void saveChangeCost(@RequestBody ArrayList<ChangeCostTable> costTables){
+		localTourService.addChangeCost(costTables);
 	}
 }

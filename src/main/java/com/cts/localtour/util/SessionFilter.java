@@ -1,14 +1,12 @@
 package com.cts.localtour.util;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.regex.Pattern;
  
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
  
 
 import org.apache.commons.lang.StringUtils;
+
+import com.cts.localtour.service.UserService;
  
 /**
  * 用于检查用户是否登录了系统的过滤器<br>
@@ -33,7 +33,7 @@ public class SessionFilter implements Filter {
      
     /** 检查不通过时，转发的URL */
     private String forwardUrl;
- 
+    private UserService userService;
     @Override
     public void init(FilterConfig cfg) throws ServletException {
         sessionKey = cfg.getInitParameter("sessionKey");
@@ -46,7 +46,8 @@ public class SessionFilter implements Filter {
         forwardUrl = cfg.getInitParameter("forwardUrl");
     }
  
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         // 如果 sessionKey 为空，则直接放行
         if (StringUtils.isBlank(sessionKey)) {
@@ -63,18 +64,30 @@ public class SessionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();
+       
         // 如果请求的路径与forwardUrl相同，或请求的路径是排除的URL时，则直接放行
         if (servletPath.equals(forwardUrl) || excepUrlPattern.matcher(servletPath).matches()) {
             chain.doFilter(req, res);
             return;
         }
- 
+        //如果是微信客户端请求跳转到微信controller
+        /*if(request.getServletPath().length()>1){
+        	if(request.getHeader("user-agent").indexOf("MicroMessenger")>=0&&"/weixin".equals(request.getServletPath().substring(0, 7))){
+            	request.getRequestDispatcher("/weixin").forward(request, response);
+            	return;
+            }else if("/weixin".equals(request.getServletPath().substring(0, 7))){
+            	request.setAttribute("errorMsg", "此功能仅限于使用微信操作");
+                request.getRequestDispatcher("/error/noPermissions").forward(request, response);
+            	return;
+            }
+        }*/
+        
         Object sessionObj = request.getSession().getAttribute(sessionKey);
         // 如果Session为空，则跳转到指定页面
         if (sessionObj == null) {
-            String contextPath = request.getContextPath();
-            String redirect = servletPath + "?" + StringUtils.defaultString(request.getQueryString());
-            /*
+        	/*String contextPath = request.getContextPath();
+             String redirect = servletPath + "?" + StringUtils.defaultString(request.getQueryString());
+           
              * login.jsp 的 <form> 表单中新增一个隐藏表单域：
              * <input type="hidden" name="redirect" value="${param.redirect }">
              * 

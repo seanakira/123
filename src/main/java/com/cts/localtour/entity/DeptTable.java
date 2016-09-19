@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-8-31 15:05:02 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-9-13 14:18:09 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +18,7 @@ public class DeptTable implements java.io.Serializable {
 	private Integer id;
 	private String deptName;
 	private Integer upperDeptId;
+	private String managerIds;
 	private Integer deptLevel;
 	private boolean enable;
 
@@ -29,9 +30,10 @@ public class DeptTable implements java.io.Serializable {
 		this.enable = enable;
 	}
 
-	public DeptTable(String deptName, Integer upperDeptId, Integer deptLevel, boolean enable) {
+	public DeptTable(String deptName, Integer upperDeptId, String managerIds, Integer deptLevel, boolean enable) {
 		this.deptName = deptName;
 		this.upperDeptId = upperDeptId;
+		this.managerIds = managerIds;
 		this.deptLevel = deptLevel;
 		this.enable = enable;
 	}
@@ -64,6 +66,15 @@ public class DeptTable implements java.io.Serializable {
 
 	public void setUpperDeptId(Integer upperDeptId) {
 		this.upperDeptId = upperDeptId;
+	}
+
+	@Column(name = "managerIds", length = 20)
+	public String getManagerIds() {
+		return this.managerIds;
+	}
+
+	public void setManagerIds(String managerIds) {
+		this.managerIds = managerIds;
 	}
 
 	@Column(name = "deptLevel")

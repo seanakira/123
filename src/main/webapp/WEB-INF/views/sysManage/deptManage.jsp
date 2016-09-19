@@ -6,6 +6,10 @@
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
+
+<link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
+<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
+
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 	
@@ -37,7 +41,8 @@
 					</div>
 
 					<!-- /.page-content -->
-					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
+					<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
 							<tr role="row">
 								<th aria-label="" style="width: 98px;" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
@@ -53,7 +58,7 @@
 									上级部门
 								</th>
 								<th aria-label="Clicks: activate to sort column ascending" style="width: 204px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
-									部门等级
+									主管领导
 								</th>
 								
 								<th aria-label="Status: activate to sort column ascending" style="width: 246px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
@@ -66,38 +71,9 @@
 						</thead>
 
 							<tbody id="deptTable" aria-relevant="all" aria-live="polite" role="alert">
-<!-- 		增加模板			 -->		
-								<tr id="addDeptTr" hidden="">
-									<td class="center  sorting_1">
-										<label>
-											<input class="ace" type="checkbox">
-											<span class="lbl"></span>
-										</label>
-									</td>
-	
-									<td  class=" ">
-										<input name="deptName" type="text" />
-									</td>
-									<td class=" ">
-										上级部门
-										<input type="hidden" name="upperDeptID" value="1" />
-									</td>
-									<td class="hidden-480 ">
-										等级
-										<input type="hidden" name="deptLevel" value="2" />
-									</td>
-	
-									<td class="hidden-480 " id="">
-											<span class="label label-sm label-success">有效</span>
-									</td>
-	
-									<td class=" ">
-										
-									</td>
-								</tr>
 								
 							<c:forEach var="deptViewMode" items="${deptViewModes }" varStatus="status">
-								<tr id="deptTr${status.index }" <%-- <c:if test="${status.index%2!=0 }"> --%>class="style:{background-color:#f9f9f9;}"<%-- </c:if> --%>>
+								<tr>
 									<td class="center  sorting_1">
 										<label>
 											<input class="ace" type="checkbox">
@@ -105,19 +81,19 @@
 										</label>
 									</td>
 	
-									<td id="dept${deptViewMode.deptTable.id }" class=" ">
-										<a id="name${deptViewMode.deptTable.id }" role="button" data-toggle="modal" href="#modal-table" onclick="getUser('${deptViewMode.deptTable.id }','${deptViewMode.deptTable.deptName }')">${deptViewMode.deptTable.deptName }</a>
+									<td>
+										<a class="findUser" role="button" data-toggle="modal" href="#modal-table">${deptViewMode.deptTable.deptName }</a>
 									</td>
 									<td class="">
 										${deptViewMode.upperDeptName }
+										<input type="hidden" value="${deptViewMode.deptTable.upperDeptId }" />
+										<input type="hidden" value="${deptViewMode.deptTable.deptLevel }" />
 									</td>
 									<td class="hidden-480 ">
-										${deptViewMode.deptTable.deptLevel }
-										<input id="upperDeptId${deptViewMode.deptTable.id }" type="hidden" value="${deptViewMode.deptTable.upperDeptId }" />
-										<input id="deptLevel${deptViewMode.deptTable.id }" type="hidden" value="${deptViewMode.deptTable.deptLevel }" />
+										${deptViewMode.managerName }
 									</td>
 	
-									<td class="hidden-480 " id="enable${deptViewMode.deptTable.id }">
+									<td class="hidden-480">
 									<c:choose>
 										<c:when test="${deptViewMode.deptTable.enable }">
 											<span class="label label-sm label-success">有效</span>
@@ -128,64 +104,22 @@
 									</c:choose>
 									</td>
 	
-									<td class=" ">
-										<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-											<a id="apply" class="blue" href="#" onclick="apply('${deptViewMode.deptTable.id }')">
-												<i class="icon-zoom-in bigger-130"></i>
-											</a>
-	
-											<a id="edit" class="green" href="#" onclick="edit('${deptViewMode.deptTable.id }')">
-												<i class="icon-pencil bigger-130"></i>
-											</a>
-											<span id="del${deptViewMode.deptTable.id }">
-												<c:choose>
-													<c:when test='${deptViewMode.deptTable.enable }'>
-														<a class="red" href="#" onclick="del('${deptViewMode.deptTable.id }',false)">
-															<i class="icon-trash bigger-130"></i>
-														</a>
-													</c:when>
-													<c:otherwise>
-														<a class="green" href="#" onclick="del('${deptViewMode.deptTable.id }',true)">
-															<i class="icon-undo bigger-130"></i>
-														</a>
-													</c:otherwise>
-												</c:choose>
-											</span>
-										</div>
-	
-										<div class="visible-xs visible-sm hidden-md hidden-lg">
-											<div class="inline position-relative">
-												<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-													<i class="icon-caret-down icon-only bigger-120"></i>
-												</button>
-	
-												<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-													<li>
-														<a data-original-title="View" href="#" class="tooltip-info" data-rel="tooltip" title="">
-															<span class="blue">
-																<i class="icon-zoom-in bigger-120"></i>
-															</span>
-														</a>
-													</li>
-	
-													<li>
-														<a data-original-title="Edit" href="#" class="tooltip-success" data-rel="tooltip" title="">
-															<span class="green">
-																<i class="icon-edit bigger-120"></i>
-															</span>
-														</a>
-													</li>
-	
-													<li>
-														<a data-original-title="Delete" href="#" class="tooltip-error" data-rel="tooltip" title="">
-															<span class="red">
-																<i class="icon-trash bigger-120"></i>
-															</span>
-														</a>
-													</li>
-												</ul>
-											</div>
-										</div>
+									<td id="${deptViewMode.deptTable.id }">
+										<a id="edit" class="green" href="#">
+											<i class="icon-pencil bigger-130"></i>
+										</a>
+										<c:choose>
+											<c:when test='${deptViewMode.deptTable.enable }'>
+												<a class="red" href="#">
+													<i class="icon-trash bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a class="green undo" href="#">
+													<i class="icon-undo bigger-130"></i>
+												</a>
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 								</c:forEach>
@@ -278,39 +212,247 @@
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal-dialog -->
 				</div>
-<!--       部门树    -->
-				<div id="treeView" hidden="">
-				  <div id="" class="widget-body" style="position: absolute;width: 300px;margin-left: -9px;margin-top: 20px;display:none;" > 
-				   <div class="widget-main padding-8"> 
-				    <div id="tree0" class="tree tree-selectable"> 
-				  
-				    </div> 
-				   </div> 
-				  </div>
-				</div>
 
 
 
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
+<!-- 下拉搜索依赖 -->
+<script src="${path }resources/assets/js/chosen.jquery.min.js"></script>
 <script type="text/javascript">
 
-/* 新增 */
-	var addID = 1;
 	$(function(){
-		$("#addDept").click(function(){
-			$("#deptTable").prepend("<tr id='add"+addID+"'>"+$("#addDeptTr").html()+"</tr>");
-			if(addID==1){
-				$("#menu").append("<a class='blue' href='#' onclick='save()'><i class='icon-save bigger-130'></i>  保存</a>");
-			}
-			addID++;
-		});
+		/* 初始化 */
 		$(".nav-list").children("li").attr('class','');
 	    $("#systemManage").addClass("open");
 	    $("#systemManage").children("ul").attr("style","display:block");
 	    $("#deptManage").addClass("active");
+	    var user;
+	    $.ajax({  
+	        type: "GET",  
+	        contentType:"application/json;charset=utf-8",  
+	        url:"/localtour/userManage/getCreateInfo",
+	        dataType: "json",  
+	        async: false,  
+	        success:function(data){
+	        	user = data;
+	        }  
+		});
+	    /* 新增部门 */
+	    $("#addDept").click(function(){
+	    	var tr = $('<tr id="addDeptTr">'+
+							'<td class="center sorting_1">'+
+								'<label>'+
+									'<input class="ace" type="checkbox">'+
+									'<span class="lbl"></span>'+
+								'</label>'+
+							'</td>'+
+							'<td>'+
+								'<input type="text" />'+
+							'</td>'+
+							'<td>'+
+								'<a href="#" class="showTree">点击选择</a>'+
+								'<input type="hidden" value="" />'+
+								'<input type="hidden" value="" />'+
+							'</td>'+
+							'<td>'+
+								'<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个..."><option value="">&nbsp;</option></select>'+
+							'</td>'+
+							'<td>'+
+									'<span class="label label-sm label-success">有效</span>'+
+							'</td>'+
+							'<td>'+
+								'<a id="save" class="grey" href="#"><i class="icon-save bigger-130"></i></a>'+
+							'</td>'+
+						'</tr>');
+	    	$.each(user,function(){
+	    		tr.find("select").append('<option value="'+this.id+'">'+this.realName+'&nbsp;&nbsp;&nbsp;&nbsp;'+this.userName+'&nbsp;&nbsp;&nbsp;&nbsp;</option>');
+	    	});
+	    	tr.find("select").chosen();
+	    	tr.find("select").next().attr("style","width:100%;");
+	    	tr.find("select").next().find("input").attr("style","height:100%;");
+			$("#deptTable").prepend(tr);
+		});
+	    /* 显示部门树 */
+	    $("#deptTable").delegate(".showTree","click",function(){
+			var tree = $('<div id="deptTree" class="widget-body" style="position: absolute;width: 300px;margin-left: -9px;margin-top: 20px;display:none;">'+
+							'<div class="widget-main padding-8">'+
+								'<div id="tree0" class="tree tree-selectable">'+
+								'</div>'+
+							'</div>'+
+						'</div>');
+			$("#deptTree").remove();
+			$(this).parent().append(tree);
+			$.ajax({
+				type: "POST",  
+				contentType:"application/json;charset=utf-8",  
+				url:"/localtour/deptManage/getTree", 
+				dataType: "json",  
+				async: false,  
+				success:function(data){
+					var maxLevel = 0;
+					for (var int = 0; int < data.length; int++) {
+						if(data[int].deptLevel>maxLevel){
+							maxLevel=data[int].deptLevel;
+						}
+					}
+			       	for (var level = 1; level <= maxLevel; level++) {             /* 等级循环  */
+			       		for (var index = 0; index < data.length; index++) {
+			        		if(data[index].deptLevel==level){					/* 寻找当前等级的部门 */
+								if(level==1){
+									$("#tree0").append("<div class='tree-folder' style='display: block;'>"+
+															"<div class='tree-folder-header'>"+
+																"<i class='icon-minus'></i>"+
+																"<div class='tree-folder-name' level='"+data[index].deptLevel+"'>"+data[index].deptName+"</div>"+
+															"</div>"+
+															"<div id='tree"+data[index].id+"' style='display: block;' class='tree-folder-content'></div>"+
+															"<div class='tree-loader' style='display: none;'>"+
+																"<div class='tree-loading'>"+
+																	"<i class='icon-refresh icon-spin blue'></i>"+
+																"</div>"+
+															"</div>"+
+														"</div>");
+								}else{
+									$("#tree"+data[index].upperDeptId).append("<div class='tree-folder' style='display: block;'>"+
+																					"<div class='tree-folder-header'>"+
+																						"<i class='icon-minus'></i>"+
+																						"<div class='tree-folder-name' level='"+data[index].deptLevel+"'>"+data[index].deptName+"</div>"+
+																					"</div>"+
+																					"<div id='tree"+data[index].id+"' style='display: block;' class='tree-folder-content'></div>"+
+																					"<div class='tree-loader' style='display: none;'>"+
+																						"<div class='tree-loading'>"+
+																							"<i class='icon-refresh icon-spin blue'></i>"+
+																						"</div>"+
+																					"</div>"+
+																				"</div>");
+								}
+			        		}
+			        	}
+					}
+				}  
+			});
+			$("#deptTree").slideDown();
+	    });
+	    /* 部门展开收缩 */
+	    $("#deptTable").delegate(".icon-minus","click",function(){
+	    	$(this).attr("class","icon-plus");
+	    	$(this).parent().next().slideToggle();
+	    });
+	    $("#deptTable").delegate(".icon-plus","click",function(){
+	    	$(this).attr("class","icon-minus");
+	    	$(this).parent().next().slideToggle();
+	    });
+	    /* 点击设置上级部门 */
+	    $("#deptTable").delegate(".tree-folder-header","click",function(){
+	    	$(this).parents("td").children("a").text($(this).children(".tree-folder-name").text());
+	    	$(this).parents("td").children("input").eq(0).val($(this).next().attr("id").substr(4));
+	    	$(this).parents("td").children("input").eq(1).val(parseInt($(this).children(".tree-folder-name").attr("level"))+1);
+	    	$("#deptTree").remove();
+	    });
+	    /* 保存 */
+	    $("#deptTable").delegate("#save","click",function(){
+	    	var tr = $(this).parent().parent();
+	    	var inputs = tr.find("input");
+	    	var select = tr.find("select");
+			if(inputs.eq(2).val()==""){
+	    		alert("请选择上级部门");
+	    	}else{
+	    		var dept = {id:tr.children("td").last().attr("id"),deptName:inputs.eq(1).val(),upperDeptId:inputs.eq(2).val(),deptLevel:inputs.eq(3).val(),managerIds:select.val()==null?"":select.val().toString(),enable:tr.children("td").eq(-2).children("span").attr("class")=="label label-sm label-success"?true:false};
+	    		var myData = JSON.stringify(dept);
+		    	$.ajax({
+			        type: "POST",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"/localtour/deptManage/save",  
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){  
+			        	var tds = tr.children("td");
+			        	tds.eq(1).html('<a id="name'+data+'" role="button" data-toggle="modal" href="#modal-table">'+dept.deptName+'</a>');
+			        	tds.eq(2).html(tds.eq(2).children("a").text());
+			        	tds.eq(3).html(select.find('option:selected').text());
+			        	tds.last().attr("id",data);
+			        	tds.last().html('<a id="edit" class="green" href="#"><i class="icon-pencil bigger-130"></i></a><a class="red" href="#"><i class="icon-trash bigger-130" style="padding-left: 3px;"></i></a>');
+			        }  
+			 	}); 
+	    	}
+	    });
+	    /* 删除 */
+	    $("#deptTable").delegate(".red","click",function(){
+	    	var a = $(this);
+	    	var td = $(this).parent();
+	    	var dept={id:td.attr("id"),enable:false};
+	    	var myData = JSON.stringify(dept);
+    		$.ajax({  
+   		        type: "POST",  
+   		        contentType:"application/json;charset=utf-8",  
+   		        url:"/localtour/deptManage/del",  
+   		        data:myData,  
+   		        dataType: "json",  
+   		        async: false,  
+   		        success:function(data){
+	        		td.prev().html("<span class='label label-sm label-warning'>无效</span>");
+	        		a.html('<i class="icon-undo bigger-130"></i>');
+	        		a.attr("class","green undo");
+   		        }  
+   		 	});  
+	    });
+	    /* 恢复 */
+	    $("#deptTable").delegate(".undo","click",function(){
+	    	var a = $(this);
+	    	var td = $(this).parent();
+	    	var dept={id:td.attr("id"),enable:true};
+	    	var myData = JSON.stringify(dept);
+    		$.ajax({  
+   		        type: "POST",  
+   		        contentType:"application/json;charset=utf-8",  
+   		        url:"/localtour/deptManage/del",  
+   		        data:myData,  
+   		        dataType: "json",  
+   		        async: false,  
+   		        success:function(data){
+	        		td.prev().html("<span class='label label-sm label-success'>有效</span>");
+	        		a.html('<i class="icon-trash bigger-130"></i>');
+	        		a.attr("class","red");
+   		        }  
+   		 	});  
+	    });
+	    /* 编辑 */
+	    $("#deptTable").delegate("#edit","click",function(){
+	    	var tds = $(this).parent().siblings();
+	    	$(this).parent().prepend('<a id="save" class="grey" href="#"><i class="icon-save bigger-130"></i></a>');
+	    	$(this).remove();
+	    	tds.eq(1).html('<input type="text" value="'+tds.eq(1).children("a").text()+'" class="form-control" />');
+	    	tds.eq(2).html('<a href="#" class="showTree">'+tds.eq(2).text()+'</a><input value="'+tds.eq(2).children("input").eq(0).val()+'" type="hidden"><input value="'+tds.eq(2).children("input").eq(1).val()+'" type="hidden">');
+	    	tds.eq(3).html('<select style="display: none;" multiple="multiple" class="width-20 chosen-select" id="form-field-select-4" data-placeholder="可选多个..."><option value="">&nbsp;</option></select>');
+	    	$.each(user,function(){
+	    		tds.eq(3).children("select").append('<option value="'+this.id+'">'+this.realName+'&nbsp'+this.userName+'&nbsp;&nbsp;&nbsp;&nbsp;</option>');
+	    	});
+	    	tds.eq(3).children("select").chosen();
+	    	tds.eq(3).children("select").next().attr("style","width:100%;");
+	    	tds.eq(3).children("select").next().find("input").attr("style","height:100%;");
+	    });
+	    /* 查看部门员工 */
+	    $("#deptTable").delegate(".findUser","click",function(){
+		    $("#headerName").html("<button type='button' class='close' data-dismiss='modal' aria-hidden='true'><span class='white'>×</span></button>"+$(this).text());
+			var myData={id:$(this).parent().siblings().last().attr("id")};
+			$.ajax({  
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/deptManage/getUserByDept",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	$("#userTable").empty();
+		        	$(data).each(function(i,user){
+		        		$("#userTable").append("<tr><th>"+user.userName+"</th><th>"+user.realName+"</th><th>"+user.position+"</th><th>"+user.phone+"</th><th>"+user.qq+"</th><th>"+user.enable+"</th></tr>");
+		        	});
+		        }  
+			});  
+	    });
 	});
-	
-	function save(){
+	/* 批量保存 */
+	/* function save(){
 		var depts = [];
 		for (var int = 1; int < addID; int++) {
 			deptName = $("#add"+int).find("input[name='deptName']").val();
@@ -331,151 +473,5 @@
 			        	location.reload();
 			        }  
 			 });  
-	}
-	
-	function apply(id){
-		alert(id);
-	}
-/* 	删除 */
-	function del(id,enable){
-	var dept={id:id,enable:enable};
-	var myData = JSON.stringify(dept);
-		 $.ajax({  
-		        type: "POST",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/deptManage/del",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){  
-		        	if(enable){
-		        		$("#enable"+id).html("<span class='label label-sm label-success'>有效</span>");
-		        		$("#del"+id).html("<a class='red' href='#' onclick='del("+id+",false)'><i class='icon-trash bigger-130'></i></a>");
-		        	}else{
-		        		$("#enable"+id).html("<span class='label label-sm label-warning'>无效</span>");
-		        		$("#del"+id).html("<a class='green' href='#' onclick='del("+id+",true)'><i class='icon-undo bigger-130'></i></a>");
-		        	}
-		        }  
-		 });  
-	}
-	/* 编辑 */
-	function edit(id){
-		if($("#name"+id).html()!=""){
-			var deptName = $("#name"+id).html();
-		}
-		$("#dept"+id).html("<input id='name"+id+"' type='text' value='"+deptName+"' onblur='update("+id+")' onkeydown='if(event.keyCode==13){update("+id+")}'  />");
-		var html = $("#dept"+id).next().html();
-		$("#dept"+id).next().html("<a herf='#' style='cursor:pointer;' onclick='showTree(this)' >"+html+"</a>");
-	}
-	
-	function update(id){
-		var deptName = $("#name"+id).val();
-		var upperDeptId = $("#upperDeptId"+id).val();
-		var deptLevel = $("#deptLevel"+id).val();
-		var dept={id:id,deptName:deptName,upperDeptId:upperDeptId,deptLevel:deptLevel};
-		var myData = JSON.stringify(dept);
-			 $.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/deptManage/update",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	$("#dept"+id).html("<a id='name"+id+"' role='button' data-toggle='modal' href='#modal-table' onclick='getUser('"+id+"','"+deptName+"')'>"+deptName+"</a>");
-			        }  
-			 });  
-	}
-	
-	function getUser(id,deptName){
-		$("#headerName").html("<button type='button' class='close' data-dismiss='modal' aria-hidden='true'><span class='white'>×</span></button>"+deptName);
-		var deptID={id:id};
-		$.ajax({  
-	        type: "GET",  
-	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/deptManage/getUserByDept",  
-	        data:deptID,  
-	        dataType: "json",  
-	        async: false,  
-	        success:function(data){
-	        	$("#userTable").empty();
-	        	$(data).each(function(i,user){
-	        		$("#userTable").append("<tr><th>"+user.userName+"</th><th>"+user.realName+"</th><th>"+user.position+"</th><th>"+user.phone+"</th><th>"+user.qq+"</th><th>"+user.enable+"</th></tr>");
-	        	});
-	        }  
-		});  
-	}
-	
-	function showTree(obj){
-		var html = $("#treeView").html();
-		$(obj).parent().append(html);
-		$(obj).next().attr("id","deptTree");
-		$("#tree0").empty();
- 			 $.ajax({  
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/deptManage/getTree", 
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	var maxLevel = 0;
-			        	for (var int = 0; int < data.length; int++) {
-			        		if(data[int].deptLevel>maxLevel){
-			        			maxLevel=data[int].deptLevel;
-			        		}
-			        	}
-			        	for (var level = 1; level <= maxLevel; level++) {            /* 等级循环 */
-			        		for (var index = 0; index < data.length; index++) {       
-				        		if(data[index].deptLevel==level){					 /*寻找当前等级的部门 */
-									if(level==1){
-										$("#tree0").append("<div class='tree-folder' style='display: block;'><div class='tree-folder-header'><i class='icon-minus' onclick='sildeDept(this)'></i><div class='tree-folder-name' onclick='setUpperDept(this,"+data[index].id+","+data[index].deptLevel+")'>"+data[index].deptName+"</div></div><div id='tree"+data[index].id+"' style='display: block;' class='tree-folder-content'></div><div class='tree-loader' style='display: none;'><div class='tree-loading'><i class='icon-refresh icon-spin blue'></i></div></div></div>");
-										
-									}else{
-										$("#tree"+data[index].upperDeptId).append("<div class='tree-folder' style='display: block;'><div class='tree-folder-header'><i class='icon-minus' onclick='sildeDept(this)'></i><div class='tree-folder-name' onclick='setUpperDept(this,"+data[index].id+","+data[index].deptLevel+")'>"+data[index].deptName+"</div></div><div id='tree"+data[index].id+"' style='display: block;' class='tree-folder-content'></div><div class='tree-loader' style='display: none;'><div class='tree-loading'><i class='icon-refresh icon-spin blue'></i></div></div></div>");
-										
-									}
-				        		}
-				        	}
-						}
-
-			 			$("#deptTree").slideDown();
-			        }  
-			 }); 
- 		var text = $(obj).text();
- 	 	$(obj).parent().parent().siblings().click(function(){
- 	 		$("#deptTree").remove();
- 	 		$(obj).parent().parent().siblings().unbind();
- 	 		$(obj).parent().html(text);
- 		});
- 		$(obj).parent().siblings().click(function(){
- 	 		$("#deptTree").remove();
- 	 		$(obj).parent().siblings().unbind();
- 	 		$(obj).parent().parent().siblings().unbind();
- 	 		$(obj).parent().html(text);
- 		});
- 		
-	}
-	
-	function setUpperDept(obj,upid,level){
-		var id = $(obj).parents("td").prev().attr("id").substr(4);
-		$("#upperDeptId"+id).val(upid);
-		$("#deptLevel"+id).val(level+1);
-		update(id);
-		var parent = $(obj).parents("td");
-		$("#deptTree").remove();
-		var text = $(obj).text();
-		parent.html(text);
-		parent.siblings().unbind();
-		parent.parent().siblings().unbind();
-		$("#deptTree").remove();
-	}
-	
-	function sildeDept(obj){
-		if($(obj).attr("class")=="icon-minus"){
-			$(obj).attr("class","icon-plus");
-		}else{
-			$(obj).attr("class","icon-minus");
-		}
-		$(obj).parent().next().slideToggle();
-	}
+	} */
 </script>
