@@ -55,7 +55,8 @@ public class LoginController {
 				return servletPath;
 			}else{
 				md.addAttribute("user", user);
-				return "operatingStatus/operatingStatus";
+				System.out.println(123);
+				return "/operatingStatus/operatingStatus";
 			}
 		}else{
 			md.addAttribute("msg","用户名或密码错误");

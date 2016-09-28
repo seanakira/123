@@ -13,6 +13,30 @@
 	#ui-datepicker-div span{
 		text-align: center;
 	}
+	@media only screen and (max-width:460px) {
+		.menu-toggler{
+			display: none;
+		}
+		.ace-nav{
+			position: absolute;
+			right: 0px;
+			top: -1px;
+		}
+		.ace-settings-container{
+			display: none;
+		}
+		.breadcrumb{
+			position: absolute;
+			left: -80px;
+			top: 10px;
+		}
+		.nav-search{
+			display: none;
+		}
+		.row{
+			display: none;
+		}
+	}
 </style>
 
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
@@ -3618,7 +3642,6 @@
 						remark:costInputs.eq(7).val()});
 			}
 			var myData = JSON.stringify(costTables);
-			alert(myData);
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  

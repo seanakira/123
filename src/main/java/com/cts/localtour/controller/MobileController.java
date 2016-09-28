@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cts.localtour.entity.ChangeCostTable;
+import com.cts.localtour.entity.ContentTable;
+import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.SupplierScopeTable;
+import com.cts.localtour.entity.SupplierTable;
+import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.MobileService;
-
-import net.sf.json.JSONObject;
+import com.cts.localtour.viewModel.ChangeCostViewModel;
 
 @Controller
 public class MobileController {
@@ -20,9 +24,22 @@ public class MobileController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/mobile/changeCostApproval")
-	public String changeCostApproval(@RequestParam(defaultValue="{tourId:76}")String parm,Model md){
-		JSONObject json = JSONObject.fromObject(parm);
-		md.addAttribute("changeCosts", (ArrayList<ChangeCostTable>)mobileService.getAllByString("ChangeCostTable", "tourId=?", json.getInt("tourId")));
+	public String changeCostApproval(@RequestParam int tourId,Model md){
+		ArrayList<ChangeCostViewModel> costViewModels = new ArrayList<ChangeCostViewModel>();
+		ArrayList<ChangeCostTable> costs = (ArrayList<ChangeCostTable>)mobileService.getAllByString("ChangeCostTable", "tourId=?", tourId);
+		for (int i = 0; i < costs.size(); i++) {
+			ChangeCostViewModel costViewModel = new ChangeCostViewModel();
+			costViewModel.setCostTable(costs.get(i));
+			UserTable user = (UserTable)mobileService.getById("UserTable", costs.get(i).getBorrowUserId());
+			costViewModel.setBorrowUserName(user==null?"":user.getRealName());
+			ContentTable content = (ContentTable)mobileService.getById("ContentTable", costs.get(i).getContentId());
+			costViewModel.setContentName(content==null?"":content.getContentName());
+			costViewModel.setSupplierName(((SupplierTable)mobileService.getById("SupplierTable", costs.get(i).getSupplierId())).getSupplierName());
+			costViewModel.setStatus(costs.get(i).getStatus()==0?"新建":costs.get(i).getStatus()==1?"已提交":costs.get(i).getStatus()==2?"已审核":costs.get(i).getStatus()==3?"已确认":"");
+			costViewModels.add(costViewModel);
+		}
+		md.addAttribute("changeCosts", costViewModels);
+		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", tourId));
 		return "/mobile/changeCost";
 	}
 }

@@ -61,6 +61,9 @@ public class SessionFilter implements Filter {
 //         * request.getServletPath()：/home.jsp
 //         * request.getRequestURI()： /webApp/home.jsp
 //         * request.getQueryString()：a=1&b=2
+//        带部署环境http://127.0.0.1:8080/webApp/
+//        StringBuffer url = request.getRequestURL();  
+//		String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();

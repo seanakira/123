@@ -7,8 +7,8 @@
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 
-<link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
-<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
+<link rel="stylesheet" href="<%=path %>resources/assets/css/jquery-ui-1.10.3.full.min.css">
+<link rel="stylesheet" href="<%=path %>resources/assets/css/chosen.css" />
 
 <jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
 <jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
@@ -217,7 +217,7 @@
 
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 <!-- 下拉搜索依赖 -->
-<script src="${path }resources/assets/js/chosen.jquery.min.js"></script>
+<script src="<%=path %>resources/assets/js/chosen.jquery.min.js"></script>
 <script type="text/javascript">
 
 	$(function(){
@@ -430,12 +430,13 @@
 	    	tds.eq(3).children("select").chosen();
 	    	tds.eq(3).children("select").next().attr("style","width:100%;");
 	    	tds.eq(3).children("select").next().find("input").attr("style","height:100%;");
+	    	
 	    });
 	    /* 查看部门员工 */
 	    $("#deptTable").delegate(".findUser","click",function(){
 		    $("#headerName").html("<button type='button' class='close' data-dismiss='modal' aria-hidden='true'><span class='white'>×</span></button>"+$(this).text());
 			var myData={id:$(this).parent().siblings().last().attr("id")};
-			$.ajax({  
+			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/deptManage/getUserByDept",  

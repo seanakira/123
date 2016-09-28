@@ -3,6 +3,7 @@
 
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -45,7 +46,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="add" href="#">新增用户</a>
+								<a id="add" href="<%=path %>localTourManage?key=${tour.tourNo }">${tour.tourNo }  ${tour.tourName }</a>
 							</li>
 
 							
@@ -62,22 +63,48 @@
 						</div><!-- #nav-search -->
 					</div>
 					
-					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
-						<thead>
-							<tr role="row">
-								
-							</tr>
-						</thead>
+					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
+<!-- 列表循环 -->		<c:forEach var="changeCost" items="${changeCosts }">
+						<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+							<thead>
+								<tr role="row">
+									
+								</tr>
+							</thead>
 
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-<!-- 列表循环 -->					<tr>
+								<tr>
 									<td style="width: 20%">日期</td>
-									<td style="width: 30%"></td>
+									<td style="width: 30%">${changeCost.costTable.costDate }</td>
 									<td style="width: 20%">内容</td>
-									<td style="width: 30%"></td>
-								</tr>			
-							<c:forEach var="user" items="${users }" varStatus="status">
-								<tr id="" <%-- <c:if test="${status.index%2!=0 }"> --%>class="style:{background-color:#f9f9f9;}"<%-- </c:if> --%>>
+									<td style="width: 30%">${changeCost.contentName }</td>
+								</tr>
+								<tr>
+									<td style="width: 20%">供应商</td>
+									<td style="width: 30%">${changeCost.supplierName }</td>
+									<td style="width: 20%">成本单价</td>
+									<td style="width: 30%">${changeCost.costTable.cost }</td>
+								</tr>
+								<tr>
+									<td style="width: 20%">数量</td>
+									<td style="width: 30%">${changeCost.costTable.count }</td>
+									<td style="width: 20%">天数</td>
+									<td style="width: 30%">${changeCost.costTable.days }</td>
+								</tr>
+								<tr>
+									<td style="width: 20%">合计</td>
+									<td style="width: 30%" class="red"><fmt:formatNumber value="${changeCost.costTable.cost*changeCost.costTable.count*changeCost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+									<td style="width: 20%">借款人</td>
+									<td style="width: 30%">${changeCost.borrowUserName }</td>
+								</tr>
+								<tr>
+									<td style="width: 20%">备注</td>
+									<td style="width: 30%">${changeCost.costTable.remark }</td>
+									<td style="width: 20%">状态</td>
+									<td style="width: 30%">${changeCost.status }</td>
+								</tr>
+							<%-- <c:forEach var="user" items="${users }" varStatus="status">
+								<tr id="" <c:if test="${status.index%2!=0 }">class="style:{background-color:#f9f9f9;}"</c:if>>
 									<td class="center  sorting_1">
 										<label>
 											<input class="ace" type="checkbox">
@@ -167,10 +194,14 @@
 										</div>
 									</td>
 								</tr>
-							</c:forEach>
-<!-- 列表循环结束 -->								
+							</c:forEach> --%>
+							
 						</tbody>
 					</table>
+					<div style="margin: 5px;"><button class="btn btn-sm btn-danger">驳回</button><button class="btn btn-sm btn-success pull-right">同意</button></div>
+					<HR style="margin-top: 0px;">
+					</c:forEach>
+<!-- 列表循环结束 -->	
 <!-- 分页查询开始 -->					
 						<div class="row">
 							<div class="col-sm-6">

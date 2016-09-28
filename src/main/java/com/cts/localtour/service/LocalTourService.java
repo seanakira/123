@@ -3,6 +3,9 @@ package com.cts.localtour.service;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ import com.cts.localtour.entity.ContentTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DepartTable;
+import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.GuideTable;
 import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
@@ -275,11 +279,24 @@ public class LocalTourService extends BaseService{
 		return costs;
 	}
 	@SuppressWarnings("unchecked")
-	public void addChangeCost(ArrayList<ChangeCostTable> costTables) {
+	public void addChangeCost(ArrayList<ChangeCostTable> costTables, HttpServletRequest request, HttpSession session) {
 		for (int i = 0; i < costTables.size(); i++) {
 			costTables.get(i).setStatus(1);
 			this.add(costTables.get(i));
 		}
-		String url = "http://www.ctsjinan.com/localtour/weixin/test";
+		if(!costTables.isEmpty()){
+			StringBuffer path = request.getRequestURL();  
+			String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+		    String url = tempContextUrl+"mobile/changeCostApproval?tourId="+costTables.get(0).getTourId();
+		    System.out.println(url);
+		    UserTable user = (UserTable) session.getAttribute("user");
+		    DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
+		    String managerIds = dept.getManagerIds();
+		    String[] ids = managerIds.split(",");
+		    for (int i = 0; i < ids.length; i++) {
+		    	UserTable manager = (UserTable)super.getById("UserTable", Integer.parseInt(ids[i]));
+		    	WeiXinUtil.sendTextMessage(manager.getUserName(), url, "您有待审核的新增成本收入，点击进行审核", "0");
+			}
+		}
 	}
 }

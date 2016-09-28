@@ -42,7 +42,22 @@
 		<script src="assets/js/html5shiv.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-        <link rel="stylesheet" href="<%=path %>resources/assets/css/localCSS.css" />
+        <style type="text/css">
+        	.main-container{
+				padding-top:100px;
+			}
+			.login-layout {
+			    background-color: #dedede;
+			}
+			
+			.login-layout .widget-box {
+			    background-color: #CECECE;
+			}
+			
+			.grey{
+				color: #6f6f6f !important;
+			}
+        </style>
 	</head>
 
 	<body class="login-layout">

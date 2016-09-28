@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,84 +31,101 @@ public class WeiXinValidationController {
 	@Autowired
 	private UserService userService;
 	@RequestMapping("/weixin")
-	public String test(){
-		return "/sysManage/userManage";
-	}
-	/*@SuppressWarnings("unchecked")
-	@RequestMapping("/weixin")
-	public void redirect(@RequestParam(defaultValue="") String controller, @RequestParam(defaultValue="") String parm, HttpSession session,  HttpServletRequest request, HttpServletResponse response, @CookieValue("userId") String userId, @RequestParam(defaultValue="") String code, @RequestParam(defaultValue="") String state, Model md){
-		判断session是否为空
-		if(!"".equals(controller)&&!"".equals(parm)&&"".equals(code)&&"".equals(state)){
-			UserTable user = (UserTable) session.getAttribute("user");
-			if(user==null){
-				判断是否有cookie
-				if("".equals(userId)||userId==null){
-					StringBuffer url = request.getRequestURL();  
-					String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-					String redirect = tempContextUrl+"weixin/autoLogin";
-					JSONObject json = new JSONObject();
-					json.element("controller", controller);
-					json.element("parm", parm);
-					WeiXinUtil.getCode(response, redirect, json.toString());
-					return;
-				}else{
-					ArrayList<UserTable> users = (ArrayList<UserTable>) userService.getAllByString("UserTable", "userName=?", userId);
-					if(users.size()==0){
-						try {
-							response.sendRedirect("/localtour/admin");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}else{
-						user = users.get(0);
-						session.setAttribute("user", user);
-						try {
-							response.sendRedirect(controller+"?parm="+parm);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}else{
-					try {
-						response.sendRedirect(controller+"?parm="+parm);
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-			}
-		}else if("".equals(controller)&&"".equals(parm)&&!"".equals(code)&&!"".equals(state)){
-			userId = WeiXinUtil.getUserId(code);
-			ArrayList<UserTable> users = (ArrayList<UserTable>) userService.getAllByString("UserTable", "userName=?", userId);
-			if(users.size()==0){
-				try {
-					response.sendRedirect("/admin");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else{
-				UserTable user = users.get(0);
-				md.addAttribute("user", user);
-				Cookie cookie = new Cookie("userId", userId);
-				cookie.setMaxAge(Integer.MAX_VALUE);
-				cookie.setPath("/");
-				response.addCookie(cookie);
-				JSONObject json = JSONObject.fromObject(state);
-				try {
-					response.sendRedirect(request.getContextPath()+"/"+json.getString("controller")+"?parm="+json.getString("parm"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+	public void test(){
 		
-	}*/
+	}
+//	@SuppressWarnings("unchecked")
+//	@RequestMapping("/weixin")
+//	public void redirect(@RequestParam(defaultValue="") String controller, @RequestParam(defaultValue="") String parm, HttpSession session,  HttpServletRequest request, HttpServletResponse response, @CookieValue("userId") String userId, @RequestParam(defaultValue="") String code, @RequestParam(defaultValue="") String state, Model md){
+//		/*判断session是否为空*/
+//		System.out.println(controller+"  "+parm+"  "+code+" "+state);
+//		if(!"".equals(controller)&&!"".equals(parm)&&"".equals(code)&&"".equals(state)){
+//			UserTable user = (UserTable) session.getAttribute("user");
+//			if(user==null){
+//				/*判断是否有cookie*/
+//				if("".equals(userId)||userId==null){
+//					StringBuffer url = request.getRequestURL();  
+//					String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+//					String redirect = tempContextUrl+"weixin/autoLogin";
+//					JSONObject json = new JSONObject();
+//					json.element("controller", controller);
+//					json.element("parm", parm);
+//					WeiXinUtil.getCode(response, redirect, json.toString());
+//					return;
+//				}else{
+//					ArrayList<UserTable> users = (ArrayList<UserTable>) userService.getAllByString("UserTable", "userName=?", userId);
+//					if(users.size()==0){
+//						try {
+//							response.sendRedirect("/localtour/admin");
+//							return;
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}else{
+//						user = users.get(0);
+//						session.setAttribute("user", user);
+//						try {
+//							response.sendRedirect(controller+"?parm="+parm);
+//							return;
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//			}else{
+//					try {
+//						response.sendRedirect(controller+"?parm="+parm);
+//						return;
+//					} catch (UnsupportedEncodingException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				
+//			}
+//		}else if("".equals(controller)&&"".equals(parm)&&!"".equals(code)&&!"".equals(state)){
+//			userId = WeiXinUtil.getUserId(code);
+//			ArrayList<UserTable> users = (ArrayList<UserTable>) userService.getAllByString("UserTable", "userName=?", userId);
+//			if(users.size()==0){
+//				try {
+//					response.sendRedirect("/localtour/admin");
+//					return;
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}else{
+//				UserTable user = users.get(0);
+//				md.addAttribute("user", user);
+//				Cookie cookie = new Cookie("userId", userId);
+//				cookie.setMaxAge(Integer.MAX_VALUE);
+//				cookie.setPath("/");
+//				response.addCookie(cookie);
+//				JSONObject json = JSONObject.fromObject(state);
+//				try {
+//					response.sendRedirect(request.getContextPath()+"/"+json.getString("controller")+"?parm="+json.getString("parm"));
+//					return;
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}else{
+//			request.setAttribute("errorMsg", "不能打开此页");
+//            try {
+//				request.getRequestDispatcher("/error/noPermissions").forward(request, response);
+//			} catch (ServletException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//        	return;
+//		}
+//	}
 }

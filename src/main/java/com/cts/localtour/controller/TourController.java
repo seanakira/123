@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -255,7 +258,7 @@ public class TourController {
 		return localTourService.chanageCostFind(tourId);
 	}
 	@RequestMapping("/localTourManage/saveChangeCost")
-	public void saveChangeCost(@RequestBody ArrayList<ChangeCostTable> costTables){
-		localTourService.addChangeCost(costTables);
+	public void saveChangeCost(@RequestBody ArrayList<ChangeCostTable> costTables, HttpServletRequest request, HttpSession session){
+		localTourService.addChangeCost(costTables, request, session);
 	}
 }

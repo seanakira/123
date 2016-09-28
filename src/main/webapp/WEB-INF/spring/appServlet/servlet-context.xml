@@ -29,6 +29,7 @@
 	</context:component-scan>
 	
 	<context:annotation-config />  
+	<!-- controller层aop -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	
 </beans:beans>
