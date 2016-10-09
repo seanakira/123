@@ -1,15 +1,15 @@
 package com.cts.localtour.viewModel;
 
-import com.cts.localtour.entity.IncomeTable;
+import com.cts.localtour.entity.ChangeIncomeTable;
 
-public class incomeViewModel {
-	private IncomeTable incomeTable;
+public class ChangeIncomeViewModel {
+	private ChangeIncomeTable incomeTable;
 	private String customerAgencyName;
 	private float invoiceAmount;
-	public IncomeTable getIncomeTable() {
+	public ChangeIncomeTable getIncomeTable() {
 		return incomeTable;
 	}
-	public void setIncomeTable(IncomeTable incomeTable) {
+	public void setIncomeTable(ChangeIncomeTable incomeTable) {
 		this.incomeTable = incomeTable;
 	}
 	public String getCustomerAgencyName() {

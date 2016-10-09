@@ -31,6 +31,7 @@ import com.cts.localtour.service.GuideTimeService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.TripService;
+import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
@@ -254,11 +255,38 @@ public class TourController {
 		return 0;
 	}
 	@RequestMapping("/localTourManage/findChangeCost")
-	public @ResponseBody ArrayList<ChangeCostViewModel> findChangeCost(@RequestParam int tourId){
-		return localTourService.chanageCostFind(tourId);
+	public @ResponseBody ChangeCostIncomeViewModel findChangeCost(@RequestParam int tourId){
+		return localTourService.chanageCostIncomeFind(tourId);
 	}
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/saveChangeCost")
-	public void saveChangeCost(@RequestBody ArrayList<ChangeCostTable> costTables, HttpServletRequest request, HttpSession session){
-		localTourService.addChangeCost(costTables, request, session);
+	public @ResponseBody int saveChangeCost(@RequestBody ChangeCostIncomeViewModel changeCostIncomeViewModel, HttpServletRequest request, HttpSession session){
+		/*添加成本*/
+		if(!changeCostIncomeViewModel.getCostTables().isEmpty()){
+			for (int i = 0; i < changeCostIncomeViewModel.getCostTables().size(); i++) {
+				if(changeCostIncomeViewModel.getCostTables().get(i).getContentId()==null||changeCostIncomeViewModel.getCostTables().get(i).getSupplierId()==0){
+					return -4;
+				}else{
+					changeCostIncomeViewModel.getCostTables().get(i).setStatus(1);
+					costService.add(changeCostIncomeViewModel.getCostTables().get(i));
+				}
+			}
+		}
+		/*添加收入*/
+		if(!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
+			for (int i = 0; i < changeCostIncomeViewModel.getIncomeTables().size(); i++) {
+				if(changeCostIncomeViewModel.getIncomeTables().get(i).getCustomerAgencyId()==0){
+					return -5;
+				}else{
+					changeCostIncomeViewModel.getIncomeTables().get(i).setStatus(1);
+					incomeService.add(changeCostIncomeViewModel.getIncomeTables().get(i));
+				}
+			}
+		}
+		if(!changeCostIncomeViewModel.getCostTables().isEmpty()&&!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
+			/*这里或许需要判断用户权限*/
+			localTourService.sendMassage(changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, request, session);
+		}
+		return 0;
 	}
 }

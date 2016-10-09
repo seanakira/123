@@ -55,7 +55,6 @@ public class LoginController {
 				return servletPath;
 			}else{
 				md.addAttribute("user", user);
-				System.out.println(123);
 				return "/operatingStatus/operatingStatus";
 			}
 		}else{

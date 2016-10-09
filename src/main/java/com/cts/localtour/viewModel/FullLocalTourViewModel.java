@@ -22,8 +22,10 @@ public class FullLocalTourViewModel {
 	private ArrayList<TripTable> tripTables;
 	private ArrayList<CostTable> costTables;
 	private ArrayList<CostViewModel> costs;
+	private ArrayList<ChangeCostViewModel> changeCosts;
 	private ArrayList<IncomeTable> incomeTables;
-	private ArrayList<incomeViewModel> incomes;
+	private ArrayList<IncomeViewModel> incomes;
+	private ArrayList<ChangeIncomeViewModel> changeIncomes;
 	private Hashtable<String, String> tourInfo;
 	private Hashtable<String, String> delIds;
 	public LocalTourTable getLocalTourTable() {
@@ -86,10 +88,10 @@ public class FullLocalTourViewModel {
 	public void setCosts(ArrayList<CostViewModel> costs) {
 		this.costs = costs;
 	}
-	public ArrayList<incomeViewModel> getIncomes() {
+	public ArrayList<IncomeViewModel> getIncomes() {
 		return incomes;
 	}
-	public void setIncomes(ArrayList<incomeViewModel> incomes) {
+	public void setIncomes(ArrayList<IncomeViewModel> incomes) {
 		this.incomes = incomes;
 	}
 	public ArrayList<GuideTimeTable> getGuideTimeTables() {
@@ -109,5 +111,17 @@ public class FullLocalTourViewModel {
 	}
 	public void setDelIds(Hashtable<String, String> delIds) {
 		this.delIds = delIds;
+	}
+	public ArrayList<ChangeCostViewModel> getChangeCosts() {
+		return changeCosts;
+	}
+	public void setChangeCosts(ArrayList<ChangeCostViewModel> changeCosts) {
+		this.changeCosts = changeCosts;
+	}
+	public ArrayList<ChangeIncomeViewModel> getChangeIncomes() {
+		return changeIncomes;
+	}
+	public void setChangeIncomes(ArrayList<ChangeIncomeViewModel> changeIncomes) {
+		this.changeIncomes = changeIncomes;
 	}
 }

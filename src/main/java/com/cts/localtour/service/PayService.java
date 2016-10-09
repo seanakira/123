@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
@@ -36,17 +37,18 @@ public class PayService extends BaseService{
 		for (int i = 0; i < localTours.size(); i++) {
 			SimplPayViewModel simplPayViewModel = new SimplPayViewModel();
 			ArrayList<CostTable> costs = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=?", localTours.get(i).getId());
-			float costSum = 0;
+			BigDecimal costSum = new BigDecimal(0.00);
 			float remittanceSum = 0;
 			float realRemittanceSum = 0;
 			for (int j = 0; j < costs.size(); j++) {
-				costSum =  costSum + (float)(costs.get(j).getCost()*costs.get(j).getCount()*costs.get(j).getDays());
+				BigDecimal cost = new BigDecimal(costs.get(j).getCost());
+				costSum =  costSum.add((cost.multiply(new BigDecimal(costs.get(j).getCount())).multiply(new BigDecimal(costs.get(j).getDays()))));
 				remittanceSum = remittanceSum + costs.get(j).getRealCost();
 				if(costs.get(i).isIsRemittance()){
 					realRemittanceSum = realRemittanceSum + costs.get(j).getRealCost();
 				}
 			}
-			simplPayViewModel.setCost(costSum);
+			simplPayViewModel.setCost(costSum.floatValue());
 			simplPayViewModel.setLocalTourTable(localTours.get(i));
 			ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=?", localTours.get(i).getId());
 			float loan = 0;

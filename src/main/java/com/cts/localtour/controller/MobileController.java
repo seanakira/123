@@ -2,6 +2,9 @@ package com.cts.localtour.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +26,10 @@ public class MobileController {
 	private MobileService mobileService;
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/mobile/changeCostApproval")
-	public String changeCostApproval(@RequestParam int tourId,Model md){
+	@RequestMapping("/mobile/changeCostIncomeApproval")
+	public String changeCostApproval(@RequestParam int tourId, @RequestParam int status, Model md){
 		ArrayList<ChangeCostViewModel> costViewModels = new ArrayList<ChangeCostViewModel>();
-		ArrayList<ChangeCostTable> costs = (ArrayList<ChangeCostTable>)mobileService.getAllByString("ChangeCostTable", "tourId=?", tourId);
+		ArrayList<ChangeCostTable> costs = (ArrayList<ChangeCostTable>)mobileService.getAllByString("ChangeCostTable", "tourId=? and status=?", tourId, status);
 		for (int i = 0; i < costs.size(); i++) {
 			ChangeCostViewModel costViewModel = new ChangeCostViewModel();
 			costViewModel.setCostTable(costs.get(i));
@@ -40,6 +43,13 @@ public class MobileController {
 		}
 		md.addAttribute("changeCosts", costViewModels);
 		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", tourId));
-		return "/mobile/changeCost";
+		return "/mobile/changeCostIncome";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/moblie/changeCostOk")
+	public void changeCostOk(HttpServletRequest request, HttpSession session, @RequestParam int id){
+		System.out.println(id);
+		mobileService.updateChangeCost(request, session, id);
 	}
 }

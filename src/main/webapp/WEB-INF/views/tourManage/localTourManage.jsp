@@ -1733,6 +1733,12 @@
 												成本
 											</a>
 										</li>
+										<li>
+											<a data-toggle="tab" href="#incomes4">
+												<i class="pink icon-briefcase bigger-120"></i>
+												收入
+											</a>
+										</li>
 									</ul>
 					         	</div>
 					         	
@@ -1993,6 +1999,32 @@
 					         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
+					         		<div id="incomes4" class="tab-pane fade">
+					         			<div class="tabbable tabs-left">
+											<div class="tab-content no-padding" style="z-index: 1400;overflow: visible;">
+												<table class="table table-striped table-bordered table-hover incomeTable">
+														<thead>
+															<tr>
+																<th style="width: 15%">日期</th>
+																<th>客户*</th>
+																<th style="width: 10%">收入</th>
+																<th style="width: 10%">实收</th>
+																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 20%">备注</th>
+																<th style="width: 5%">
+																	<a class="blue addIncome" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+											            </tbody>
+										            </table>
+												         			
+						         			</div><!-- tab content 结束 -->
+					         			</div><!-- 左tab 结束 -->
+					         		</div><!-- 收入tab结束 -->
 					         	</div>
 					         	
 					            
@@ -2690,7 +2722,7 @@
 		        								'<td>'+this.costTable.cost+'</td>'+
 		        								'<td>'+this.costTable.count+'</td>'+
 		        								'<td>'+this.costTable.days+'</td>'+
-		        								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+		        								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 		        								'<td>'+this.borrowUserName+'</td>'+
 		        								'<td>'+this.costTable.remark+'</td>'+
 		        					'</tr>');
@@ -2702,7 +2734,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
@@ -2714,7 +2746,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');		        			
@@ -2726,7 +2758,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');		        			
@@ -2738,7 +2770,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');	
@@ -2750,7 +2782,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
@@ -2762,7 +2794,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
@@ -2774,7 +2806,7 @@
 			    								'<td>'+this.costTable.cost+'</td>'+
 			    								'<td>'+this.costTable.count+'</td>'+
 			    								'<td>'+this.costTable.days+'</td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td>'+this.borrowUserName+'</td>'+
 			    								'<td>'+this.costTable.remark+'</td>'+
 			    					'</tr>');
@@ -2783,11 +2815,12 @@
 		        	var tbody = $("#incomes2").find("tbody");
 		        	tbody.html("");
 		        	$.each(data.incomes,function(){
+		        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 		        		tbody.append('<tr>'+
 		        							'<td>'+this.incomeTable.incomeDate+'</td>'+
 		        							'<td>'+this.customerAgencyName+'</td>'+
 		        							'<td>'+this.incomeTable.income+'</td>'+
-		        							'<td>'+this.incomeTable.realIncome+'</td>'+
+		        							'<td>'+realIncome+'</td>'+
 		        							'<td>'+this.invoiceAmount+'</td>'+
 		        							'<td>'+this.incomeTable.remark+'</td>'+
 		        					'</tr>');
@@ -2991,7 +3024,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="1" /></td>'+
@@ -3015,7 +3048,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="2" /></td>'+
@@ -3039,7 +3072,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="3" /></td>'+
@@ -3063,7 +3096,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="4" /></td>'+
@@ -3087,7 +3120,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="5" /></td>'+
@@ -3111,7 +3144,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="6" /></td>'+
@@ -3135,7 +3168,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="7" /></td>'+
@@ -3159,7 +3192,7 @@
 			    								'<td><input value="'+this.costTable.cost+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.count+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td><input value="'+this.costTable.days+'" style="width:100%;" class="form-control" type="text" /></td>'+
-			    								'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			    								'<td></td>'+
 			    								'<td><input value="'+this.costTable.remark+'" style="width:100%;" class="form-control" type="text" /></td>'+
 			    								'<td id="'+this.costTable.id+'"style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a><input type="hidden" value="8" /></td>'+
@@ -3579,7 +3612,7 @@
 		        	tickets.html("");
 		        	comprehensive.html("");
 		        	other.html("");
-		        	$.each(data,function(){
+		        	$.each(data.costs,function(){
 		        		var tr = $('<tr class="look">'+
 										'<td>'+this.costTable.costDate+'</td>'+
 										'<td>'+this.contentName+'</td>'+
@@ -3587,7 +3620,7 @@
 										'<td>'+this.costTable.cost+'</td>'+
 										'<td>'+this.costTable.count+'</td>'+
 										'<td>'+this.costTable.days+'</td>'+
-										'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 								'</tr>');
@@ -3597,7 +3630,7 @@
 		        			tr.append('<td>待</td>')
 		        		}else if(this.costTable.status==2){
 		        			tr.append('<td>审</td>')
-		        		}else if(this.costTable.status==2){
+		        		}else if(this.costTable.status==3){
 		        			tr.append('<td>完</td>')
 		        		}
 		        		if(this.costTable.supplierScopeId==1){
@@ -3618,6 +3651,29 @@
 		        			other.append(tr);
 		        		}
 		        	});
+		        	var incomes = $("#incomes4").find("tbody");
+		        	incomes.html("");
+		        	$.each(data.incomes,function(){
+		        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
+		        		var tr = $('<tr class="look">'+
+		        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+		        						'<td>'+this.customerAgencyName+'</td>'+
+		        						'<td>'+this.incomeTable.income+'</td>'+
+		        						'<td>'+realIncome+'</td>'+
+		        						'<td>'+this.invoiceAmount+'</td>'+
+		        						'<td>'+this.incomeTable.remark+'</td>'+
+		        					'</tr>');
+		        		if(this.incomeTable.status==0){
+		        			tr.append('<td>新</td>')
+		        		}else if(this.incomeTable.status==1){
+		        			tr.append('<td>待</td>')
+		        		}else if(this.incomeTable.status==2){
+		        			tr.append('<td>审</td>')
+		        		}else if(this.incomeTable.status==3){
+		        			tr.append('<td>完</td>')
+		        		}
+		        		incomes.append(tr);
+		        	});
 		        }  
 			});
 		});
@@ -3630,18 +3686,33 @@
 				var costInputs = costTrs.eq(int).find("input");
 				var costSelects = costTrs.eq(int).find("select");
 				costTables.push({
-						tourId:tourId,
-						costDate:new Date(costInputs.eq(0).val()),
-						contentId:costSelects.eq(0).val(),
-						supplierId:costSelects.eq(1).val(),
-						cost:costInputs.eq(3).val(),
-						count:costInputs.eq(4).val(),
-						days:costInputs.eq(5).val(),
-						borrowUserId:costSelects.eq(2).val(),
-						supplierScopeId:costInputs.last().val(),
-						remark:costInputs.eq(7).val()});
+					tourId:tourId,
+					costDate:new Date(costInputs.eq(0).val()),
+					contentId:costSelects.eq(0).val(),
+					supplierId:costSelects.eq(1).val(),
+					cost:costInputs.eq(3).val(),
+					count:costInputs.eq(4).val(),
+					days:costInputs.eq(5).val(),
+					borrowUserId:costSelects.eq(2).val(),
+					supplierScopeId:costInputs.last().val(),
+					remark:costInputs.eq(7).val()});
 			}
-			var myData = JSON.stringify(costTables);
+			var incomeTables = new Array();
+			var incomeTrs = $("#cost").find("#incomes4").find("tbody").find("tr").not(".look");
+			for (var int = 0; int < incomeTrs.length; int++) {
+				var incomeInputs = incomeTrs.eq(int).find("input");
+				var incomeSelects = incomeTrs.eq(int).find("select");
+				incomeTables.push({
+					tourId:tourId,
+					incomeDate:new Date(incomeInputs.eq(0).val()),
+					customerAgencyId:incomeSelects.eq(0).val(),
+					income:incomeInputs.eq(2).val(),
+					remark:incomeInputs.eq(3).val()
+				});
+			}
+			var changeCostIncomeViewModel = {costTables:costTables,incomeTables:incomeTables};
+			var myData = JSON.stringify(changeCostIncomeViewModel);
+			alert(myData);
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
@@ -3650,6 +3721,17 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
+		        	if(data==-1){
+		        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整，开始日期是否大于结束日期");
+		        	}else if(data==-2){
+		        		alert("保存失败，请填写出发地或抵达地");
+		        	}else if(data==-3){
+		        		alert("保存失败，请填写前往地或离开");
+		        	}else if(data==-4){
+		        		alert("保存失败，请填写供应商或内容");
+		        	}else if(data==-5){
+		        		alert("保存失败，请填写客户");
+		        	}
 		        }  
 			 });
 		});

@@ -583,7 +583,7 @@
 		        			if(this.costTable.isLend){
 		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-		        				maxLoan = maxLoan + this.costTable.cost*this.costTable.count*this.costTable.days;
+		        				maxLoan = maxLoan + (this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
 		        			}else{
 		        				if(this.costTable.realCost==0){
 		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
@@ -619,7 +619,7 @@
 										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
-										'<td>'+this.costTable.cost*this.costTable.count*this.costTable.days+'</td>'+
+										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+realCost.html()+'</td>'+
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+remark.html()+'</td>'+
