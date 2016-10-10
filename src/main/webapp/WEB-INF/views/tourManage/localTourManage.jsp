@@ -1180,8 +1180,8 @@
 													</tbody>
 									            </table>
 											</div>
-											         			
-					         			</div><!-- tab content 结束 -->
+											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>
+										</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
 					         		
@@ -1222,6 +1222,7 @@
 										            </table>
 												         			
 						         			</div><!-- tab content 结束 -->
+						         			<span id="changeIncomeBlue" class="blue">*蓝色为成本收入变更</span>
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 收入tab结束 -->
 					         		
@@ -2812,11 +2813,132 @@
 			    					'</tr>');
 		        		}
 		        	});
+		        	
+		        	if(data.changeCosts.length > 0){
+		        		$("#changeCostBlue").attr("style","");
+		        	}else{
+		        		$("#changeCostBlue").attr("style","display:none");
+		        	}
+		        	if(data.changeIncomes.length > 0){
+		        		$("#changeIncomeBlue").attr("style","");
+		        	}else{
+		        		$("#changeIncomeBlue").attr("style","display:none");
+		        	}
+		        	$.each(data.changeCosts,function(){
+		        		if(this.costTable.supplierScopeId==1){
+		        			flight.append('<tr class="blue">'+
+		        								'<td>'+this.costTable.costDate+'</td>'+
+		        								'<td>'+this.contentName+'</td>'+
+		        								'<td>'+this.supplierName+'</td>'+
+		        								'<td>'+this.costTable.cost+'</td>'+
+		        								'<td>'+this.costTable.count+'</td>'+
+		        								'<td>'+this.costTable.days+'</td>'+
+		        								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+		        								'<td>'+this.borrowUserName+'</td>'+
+		        								'<td>'+this.costTable.remark+'</td>'+
+		        					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			hotel.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==3){
+		        			meal.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');		        			
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			ticket.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');		        			
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			shuttle.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');	
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tickets.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			comprehensive.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			other.append('<tr>'+
+			    								'<td>'+this.costTable.costDate+'</td>'+
+			    								'<td>'+this.contentName+'</td>'+
+			    								'<td>'+this.supplierName+'</td>'+
+			    								'<td>'+this.costTable.cost+'</td>'+
+			    								'<td>'+this.costTable.count+'</td>'+
+			    								'<td>'+this.costTable.days+'</td>'+
+			    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+			    								'<td>'+this.borrowUserName+'</td>'+
+			    								'<td>'+this.costTable.remark+'</td>'+
+			    					'</tr>');
+		        		}
+		        	});
 		        	var tbody = $("#incomes2").find("tbody");
 		        	tbody.html("");
 		        	$.each(data.incomes,function(){
 		        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 		        		tbody.append('<tr>'+
+		        							'<td>'+this.incomeTable.incomeDate+'</td>'+
+		        							'<td>'+this.customerAgencyName+'</td>'+
+		        							'<td>'+this.incomeTable.income+'</td>'+
+		        							'<td>'+realIncome+'</td>'+
+		        							'<td>'+this.invoiceAmount+'</td>'+
+		        							'<td>'+this.incomeTable.remark+'</td>'+
+		        					'</tr>');
+		        	});
+		        	$.each(data.changeIncomes,function(){
+		        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
+		        		tbody.append('<tr class="blue">'+
 		        							'<td>'+this.incomeTable.incomeDate+'</td>'+
 		        							'<td>'+this.customerAgencyName+'</td>'+
 		        							'<td>'+this.incomeTable.income+'</td>'+

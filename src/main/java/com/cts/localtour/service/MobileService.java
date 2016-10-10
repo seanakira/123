@@ -17,7 +17,7 @@ public class MobileService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public void updateChangeCost(HttpServletRequest request, HttpSession session, int id) {
 		ChangeCostTable cost = (ChangeCostTable)this.getById("ChangeCostTable", id);
-		/*这里需要权限判断*/
+		/*这里需要权限判断  如果是中心经理*/
 		cost.setStatus(2);
 		this.update(cost);
 		StringBuffer path = request.getRequestURL();  
@@ -31,5 +31,8 @@ public class MobileService extends BaseService{
 	    	UserTable manager = (UserTable)super.getById("UserTable", Integer.parseInt(ids[i]));
 	    	WeiXinUtil.sendTextMessage(manager.getUserName(), url, "您有待审核的新增成本收入，点击进行审核", "0");
 		}
+	    /*如果是总经理*/
+	    /*cost.setStatus(3);
+		this.update(cost);*/
 	}
 }

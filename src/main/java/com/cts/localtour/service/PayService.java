@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
@@ -91,7 +93,9 @@ public class PayService extends BaseService{
 	public int updatePay(FullPayViewModel full) {
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<LoanTable> loanTables = full.getLoanTables();
+		ArrayList<ChangeCostTable> changeCostTables = full.getChangeCostTables();
 		ArrayList<CostTable> costCache =new ArrayList<CostTable>();
+		ArrayList<ChangeCostTable> changeCostCache = new ArrayList<ChangeCostTable>();
 		float maxLoan = 0;
 		float total = 0;
 		for (int i = 0; i < costTables.size(); i++) {
@@ -117,6 +121,29 @@ public class PayService extends BaseService{
 				}
 			}
 		}
+		for (int i = 0; i < changeCostTables.size(); i++) {
+			if(changeCostTables.get(i).isIsLend()&&changeCostTables.get(i).isIsRemittance()){
+				return -1;
+			}else{
+				ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
+				if(!changeCostTables.get(i).isIsLend()){
+					if(changeCostTables.get(i).getRealCost()>changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()){
+						return -2;
+					}else{
+						changeCostTable.setRealCost(changeCostTables.get(i).getRealCost());
+						changeCostTable.setRemark(changeCostTables.get(i).getRemark());
+						if(changeCostTables.get(i).isIsRemittance()){
+							changeCostTable.setIsRemittance(true);
+						}
+						this.update(changeCostTable);
+					}
+				}else{
+					maxLoan = maxLoan + changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays();
+					changeCostCache.add(changeCostTable);
+					changeCostCache.add(changeCostTables.get(i));
+				}
+			}
+		}
 		for (int i = 0; i < loanTables.size(); i++) {
 			total = total + loanTables.get(i).getLoanAmount();
 		}
@@ -128,6 +155,12 @@ public class PayService extends BaseService{
 				costCache.get(j).setRemark(costCache.get(j+1).getRemark());
 				costCache.get(j).setIsLend(true);
 				this.update(costCache.get(j));
+			}
+			for (int j = 0; j < changeCostCache.size(); j+=2) {
+				changeCostCache.get(j).setRealCost(changeCostCache.get(j+1).getRealCost());
+				changeCostCache.get(j).setRemark(changeCostCache.get(j+1).getRemark());
+				changeCostCache.get(j).setIsLend(true);
+				this.update(changeCostCache.get(j));
 			}
 			for (int i = 0; i < loanTables.size(); i++) {
 				this.merge(loanTables.get(i));
@@ -144,12 +177,25 @@ public class PayService extends BaseService{
 		for (int i = 0; i < costTables.size(); i++) {
 			CostViewModel cost = new CostViewModel();
 			cost.setCostTable(costTables.get(i));
-			cost.setContentName(((SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
+			cost.setContentName(costTables.get(i).getContentId()==null||costTables.get(i).getContentId()==0?"":((SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
 			cost.setSupplierName(((SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
-			cost.setBorrowUserName(((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
+			cost.setBorrowUserName(costTables.get(i).getBorrowUserId()==null||costTables.get(i).getBorrowUserId()==0?"":((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
 			costs.add(cost);
 		}
 		full.setCosts(costs);
+		
+		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "tourId=? and status=3", tourId);
+		ArrayList<ChangeCostViewModel> changeCosts = new ArrayList<ChangeCostViewModel>();
+		for (int i = 0; i < changeCostTables.size(); i++) {
+			ChangeCostViewModel changeCost = new ChangeCostViewModel();
+			changeCost.setCostTable(changeCostTables.get(i));
+			changeCost.setContentName(changeCostTables.get(i).getContentId()==null||changeCostTables.get(i).getContentId()==0?"":((SupplierContentTable)this.getById("SupplierContentTable", changeCostTables.get(i).getContentId())).getContentName());
+			changeCost.setSupplierName(((SupplierTable)this.getById("SupplierTable", changeCostTables.get(i).getSupplierId())).getSupplierName());
+			changeCost.setBorrowUserName(changeCostTables.get(i).getBorrowUserId()==null||changeCostTables.get(i).getBorrowUserId()==0?"":((UserTable)this.getById("UserTable", changeCostTables.get(i).getBorrowUserId())).getRealName());
+			changeCosts.add(changeCost);
+		}
+		full.setChangeCosts(changeCosts);
+		
 		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=?", tourId);
 		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
 		for (int i = 0; i < loanTables.size(); i++) {

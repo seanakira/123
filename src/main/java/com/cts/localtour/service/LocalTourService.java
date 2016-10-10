@@ -267,6 +267,7 @@ public class LocalTourService extends BaseService{
 				invoiceAmount = invoiceAmount.add(new BigDecimal(invoiceTables.get(i).getInvoiceAmount()));
 			}
 			changeIncome.setInvoiceAmount(invoiceAmount.floatValue());
+			changeIncomes.add(changeIncome);
 		}
 		full.setChangeIncomes(changeIncomes);
 		

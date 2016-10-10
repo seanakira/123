@@ -266,11 +266,7 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+																<th style="width: 6%;">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -290,11 +286,7 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+																<th style="width: 6%;">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -314,11 +306,7 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+																<th style="width: 6%;">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -338,11 +326,7 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+																<th style="width: 6%;">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -362,11 +346,7 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+																<th style="width: 6%;">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -378,18 +358,14 @@
 													<thead>
 														<tr>
 															<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">电汇金额</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 10%;">导游借款</th>
+															<th style="width: 6%;">操作</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -402,24 +378,21 @@
 													<thead>
 														<tr>
 															<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 2%;">
-																	<a class="blue addCost" href="#">
-																		<i class="icon-plus bigger-130"></i>
-																	</a>
-																</th>
+															<th style="width: 15%;">内容</th>
+															<th style="width: 15%;">供应商*</th>
+															<th style="width: 10%;">成本小计</th>
+															<th style="width: 10%;">电汇金额</th>
+															<th style="width: 10%;">借款人</th>
+															<th style="width: 10%;">明细备注</th>
+															<th style="width: 10%;">导游借款</th>
+															<th style="width: 6%;">操作</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
-											</div>		
+											</div>
+											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>		
 						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
@@ -583,7 +556,7 @@
 		        			if(this.costTable.isLend){
 		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-		        				maxLoan = maxLoan + (this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
 		        			}else{
 		        				if(this.costTable.realCost==0){
 		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
@@ -616,6 +589,70 @@
 		        			tbody = other;
 		        		}
 		        		var tr = $('<tr>'+
+										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+this.contentName+'</td>'+
+										'<td>'+this.supplierName+'</td>'+
+										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+										'<td>'+realCost.html()+'</td>'+
+										'<td>'+this.borrowUserName+'</td>'+
+										'<td>'+remark.html()+'</td>'+
+										'<td>'+guideLoan.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+remittanceOk.html()+'</td>'+
+									'</tr>');
+		        		tbody.append(tr);
+		        	});
+		        	
+		        	/* 设置成本变更 */
+		        	if(data.changeCosts.length > 0){
+		        		$("#changeCostBlue").attr("style","");
+		        	}else{
+		        		$("#changeCostBlue").attr("style","display:none");
+		        	}
+		        	$.each(data.changeCosts,function(){
+		        		var realCost = $("<td></td>");
+		        		var remittanceOk = $("<td></td>");
+		        		var remark = $("<td></td>");
+		        		var guideLoan = $("<td></td>");
+		        		if(this.costTable.isRemittance){
+		        			realCost.html(this.costTable.realCost);
+		        			remark.html(this.costTable.remark);
+		        		}else{
+		        			if(this.costTable.isLend){
+		        				remark.html(this.costTable.remark);
+		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+		        			}else{
+		        				if(this.costTable.realCost==0){
+		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+				        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        				}else{
+		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+		        				}
+		        			}
+		        		}
+		        		var tbody;
+		        		if(this.costTable.supplierScopeId==1){
+		        			tbody = flight;
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			tbody = hotel;
+		        		}else if(this.costTable.supplierScopeId==3){
+		        			tbody = meal;
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			tbody = ticket;
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			tbody = shuttle;
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tbody = tickets;
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			tbody = comprehensive;
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			tbody = other;
+		        		}
+		        		var tr = $('<tr class="blue">'+
 										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
@@ -821,7 +858,7 @@
 		$("#saveEdit").click(function(){
 			var id = $(this).parent().attr("id");
 			var costTables = new Array();
-			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not("#costModel");
+			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not(".blue");
 			for (var int = 0; int < costTrs.length; int++) {
 				var tds = costTrs.eq(int).children("td");
 				if(tds.eq(-2).find("input").length==0){
@@ -859,6 +896,45 @@
 						isLend:false});
 				}
 			}
+			var changeCostTables = new Array();
+			var changeCostTrs = $("#edit").find("#costs3").find("tbody").find("tr.blue");
+			for (var int = 0; int < changeCostTrs.length; int++) {
+				var tds = changeCostTrs.eq(int).children("td");
+				if(tds.eq(-2).find("input").length==0){
+					if(tds.eq(-2).children("i").length==0){
+						if(tds.last().find("a").length==0){
+							changeCostTables.push({
+								id:tds.last().attr("id"),
+								remark:tds.eq(-3).text(),
+								realCost:tds.eq(-5).text(),
+								isRemittance:true,
+								isLend:false});
+						}else{
+							var costInputs = changeCostTrs.eq(int).find("input");
+							changeCostTables.push({
+								id:tds.last().attr("id"),
+								realCost:costInputs.eq(0).val(),
+								remark:costInputs.eq(1).val(),
+								isRemittance:false,
+								isLend:false});
+						}
+					}else{
+						changeCostTables.push({
+							id:tds.last().attr("id"),
+							remark:tds.eq(-3).text(),
+							isRemittance:false,
+							isLend:true});
+					}
+				}else{
+					var costInputs = changeCostTrs.eq(int).find("input");
+					changeCostTables.push({
+						id:tds.last().attr("id"),
+						realCost:costInputs.eq(0).val(),
+						remark:costInputs.eq(1).val(),
+						isRemittance:false,
+						isLend:false});
+				}
+			}
 			
 			var loanTables = new Array();
 			var loanTrs = $("#loanTable").children("tr");
@@ -885,7 +961,7 @@
 							isLend:false});
 				}
 			});
-			var fullPayViewModel = {costTables:costTables,loanTables:loanTables};
+			var fullPayViewModel = {costTables:costTables,changeCostTables:changeCostTables,loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
 			$.ajax({
 		        type: "POST",  

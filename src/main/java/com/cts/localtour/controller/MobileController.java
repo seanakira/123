@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.ContentTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierScopeTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
@@ -33,10 +34,9 @@ public class MobileController {
 		for (int i = 0; i < costs.size(); i++) {
 			ChangeCostViewModel costViewModel = new ChangeCostViewModel();
 			costViewModel.setCostTable(costs.get(i));
-			UserTable user = (UserTable)mobileService.getById("UserTable", costs.get(i).getBorrowUserId());
-			costViewModel.setBorrowUserName(user==null?"":user.getRealName());
-			ContentTable content = (ContentTable)mobileService.getById("ContentTable", costs.get(i).getContentId());
-			costViewModel.setContentName(content==null?"":content.getContentName());
+			costViewModel.setBorrowUserName(costs.get(i).getBorrowUserId()==null||costs.get(i).getBorrowUserId()==0?"":((UserTable)mobileService.getById("UserTable", costs.get(i).getBorrowUserId())).getRealName());
+			System.out.println(costs.get(i).getContentId());
+			costViewModel.setContentName(costs.get(i).getContentId()==null||costs.get(i).getContentId()==0?"":((SupplierContentTable)mobileService.getById("SupplierContentTable", costs.get(i).getContentId())).getContentName());
 			costViewModel.setSupplierName(((SupplierTable)mobileService.getById("SupplierTable", costs.get(i).getSupplierId())).getSupplierName());
 			costViewModel.setStatus(costs.get(i).getStatus()==0?"新建":costs.get(i).getStatus()==1?"已提交":costs.get(i).getStatus()==2?"已审核":costs.get(i).getStatus()==3?"已确认":"");
 			costViewModels.add(costViewModel);
@@ -46,10 +46,8 @@ public class MobileController {
 		return "/mobile/changeCostIncome";
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/moblie/changeCostOk")
 	public void changeCostOk(HttpServletRequest request, HttpSession session, @RequestParam int id){
-		System.out.println(id);
 		mobileService.updateChangeCost(request, session, id);
 	}
 }

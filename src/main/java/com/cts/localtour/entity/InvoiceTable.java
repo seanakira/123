@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-8 10:52:07 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-10-10 10:01:17 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -17,7 +17,8 @@ import javax.persistence.TemporalType;
 public class InvoiceTable implements java.io.Serializable {
 
 	private int id;
-	private int incomeId;
+	private Integer incomeId;
+	private Integer changeIncomeId;
 	private String invoiceName;
 	private String invoiceContent;
 	private int invoiceNo;
@@ -30,10 +31,24 @@ public class InvoiceTable implements java.io.Serializable {
 	public InvoiceTable() {
 	}
 
-	public InvoiceTable(int id, int incomeId, String invoiceName, String invoiceContent, int invoiceNo,
-			int requestUserId, float invoiceAmount, Date openDate, int openUserId, int isLend) {
+	public InvoiceTable(int id, String invoiceName, String invoiceContent, int invoiceNo, int requestUserId,
+			float invoiceAmount, Date openDate, int openUserId, int isLend) {
+		this.id = id;
+		this.invoiceName = invoiceName;
+		this.invoiceContent = invoiceContent;
+		this.invoiceNo = invoiceNo;
+		this.requestUserId = requestUserId;
+		this.invoiceAmount = invoiceAmount;
+		this.openDate = openDate;
+		this.openUserId = openUserId;
+		this.isLend = isLend;
+	}
+
+	public InvoiceTable(int id, Integer incomeId, Integer changeIncomeId, String invoiceName, String invoiceContent,
+			int invoiceNo, int requestUserId, float invoiceAmount, Date openDate, int openUserId, int isLend) {
 		this.id = id;
 		this.incomeId = incomeId;
+		this.changeIncomeId = changeIncomeId;
 		this.invoiceName = invoiceName;
 		this.invoiceContent = invoiceContent;
 		this.invoiceNo = invoiceNo;
@@ -55,13 +70,22 @@ public class InvoiceTable implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "incomeId", nullable = false)
-	public int getIncomeId() {
+	@Column(name = "incomeId")
+	public Integer getIncomeId() {
 		return this.incomeId;
 	}
 
-	public void setIncomeId(int incomeId) {
+	public void setIncomeId(Integer incomeId) {
 		this.incomeId = incomeId;
+	}
+
+	@Column(name = "changeIncomeId")
+	public Integer getChangeIncomeId() {
+		return this.changeIncomeId;
+	}
+
+	public void setChangeIncomeId(Integer changeIncomeId) {
+		this.changeIncomeId = changeIncomeId;
 	}
 
 	@Column(name = "invoiceName", nullable = false, length = 40)
