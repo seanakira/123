@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-10 10:01:17 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-10-14 16:41:15 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -24,6 +24,7 @@ public class IncomeTable implements java.io.Serializable {
 	private int customerAgencyId;
 	private float income;
 	private Float realIncome;
+	private Boolean incomed;
 	private String remark;
 
 	public IncomeTable() {
@@ -36,12 +37,13 @@ public class IncomeTable implements java.io.Serializable {
 	}
 
 	public IncomeTable(int tourId, Date incomeDate, int customerAgencyId, float income, Float realIncome,
-			String remark) {
+			Boolean incomed, String remark) {
 		this.tourId = tourId;
 		this.incomeDate = incomeDate;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
 		this.realIncome = realIncome;
+		this.incomed = incomed;
 		this.remark = remark;
 	}
 
@@ -101,6 +103,15 @@ public class IncomeTable implements java.io.Serializable {
 
 	public void setRealIncome(Float realIncome) {
 		this.realIncome = realIncome;
+	}
+
+	@Column(name = "incomed")
+	public Boolean getIncomed() {
+		return this.incomed;
+	}
+
+	public void setIncomed(Boolean incomed) {
+		this.incomed = incomed;
 	}
 
 	@Column(name = "remark", length = 65535)

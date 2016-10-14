@@ -7,6 +7,7 @@ public class ChangeCostViewModel {
 	private String contentName;
 	private String supplierName;
 	private String borrowUserName;
+	private String applicationerRealName;
 	private String status;
 	public ChangeCostTable getCostTable() {
 		return costTable;
@@ -37,6 +38,12 @@ public class ChangeCostViewModel {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getApplicationerRealName() {
+		return applicationerRealName;
+	}
+	public void setApplicationerRealName(String applicationerRealName) {
+		this.applicationerRealName = applicationerRealName;
 	}
 	
 }

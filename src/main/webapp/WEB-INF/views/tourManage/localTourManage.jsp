@@ -13,27 +13,8 @@
 	#ui-datepicker-div span{
 		text-align: center;
 	}
-	@media only screen and (max-width:460px) {
-		.menu-toggler{
-			display: none;
-		}
-		.ace-nav{
-			position: absolute;
-			right: 0px;
-			top: -1px;
-		}
-		.ace-settings-container{
-			display: none;
-		}
-		.breadcrumb{
-			position: absolute;
-			left: -80px;
-			top: 10px;
-		}
-		.nav-search{
-			display: none;
-		}
-		.row{
+	@media only screen and (max-width:1280px) {
+		.gainsboro{
 			display: none;
 		}
 	}
@@ -142,71 +123,117 @@
 									</td>
 									<td>${localTour.realName }</td>
 									<td id="${localTour.localTourTable.id }">
-										<c:if test="${localTour.localTourTable.status==0 }">
-											<a id="editTour" class="green"  data-toggle="modal" href="#edit" title="编辑">
-												<i class="icon-pencil bigger-130"></i>
-											</a>
-										</c:if>
-										<c:if test="${localTour.localTourTable.status==0 }">
-											<a class="pink action" id="auditing" href="#" title="提交审核">
-												<i id="1" class="icon-hand-right bigger-130"></i>
-											</a>
-										</c:if>
-										<c:if test="${localTour.localTourTable.status==1 }">
-											<a class="pink action" id="unAuditing" href="#" title="退回编辑">
-												<i id="0" class="icon-hand-left bigger-130"></i>
-											</a>
-										</c:if>
-										<c:if test="${localTour.localTourTable.status==1 }">
-											<a class="orange action" id="finance" href="#" title="报送财务">
-												<i id="2" class="icon-share-alt bigger-130"></i>
-											</a>
-										</c:if>
-										<c:if test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
-											<a class="grey" id="chanageCost" data-toggle="modal" href="#cost" title="成本收入变更">
-												<i class="icon-tasks bigger-130"></i>
-											</a>
-										</c:if>
-										<c:if test="${localTour.localTourTable.status==5 }">
-											<a class="blue action" id="balance" href="#" title="申请结算">
-												<i id="6" class="icon-table bigger-130"></i>
-											</a>
-										</c:if>
-										<c:if test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
-											<div class="btn-group" style="top: -3px;">
-												<button data-toggle="dropdown" class="" style="border-width: 0px;background-color: rgba(255,255,255,0);">
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==0 }">
+												<a id="editTour" class="green"  data-toggle="modal" href="#edit" title="编辑">
+													<i class="icon-pencil bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-pencil bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==0 }">
+												<a class="pink action" id="auditing" href="#" title="提交审核">
+													<i class="icon-hand-right bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-hand-right bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==1 }">
+												<a class="pink action" id="unAuditing" href="#" title="退回编辑">
+													<i class="icon-hand-left bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-hand-left bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==1 }">
+												<a class="orange action" id="finance" href="#" title="报送财务">
+													<i class="icon-share-alt bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-share-alt bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==3||localTour.localTourTable.status==4 }">
+												<a class="purple" id="lend" data-toggle="modal" href="#lendModel" title="导游借款">
+													<i class="icon-user bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-user bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
+												<a class="grey" id="chanageCost" data-toggle="modal" href="#cost" title="成本收入变更">
+													<i class="icon-tasks bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-tasks bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==5 }">
+												<a class="blue action" id="balance" href="#" title="申请结算">
+													<i class="icon-table bigger-130"></i>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-table bigger-130 gainsboro" style="color:gainsboro;"></i>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${localTour.localTourTable.status==1||localTour.localTourTable.status==2||localTour.localTourTable.status==3||localTour.localTourTable.status==4||localTour.localTourTable.status==5 }">
+												<div class="btn-group" style="top: -3px;left: -7px;">
+													<button data-toggle="dropdown" class="" style="border-width: 0px;background-color: rgba(255,255,255,0);">
 														<i class="icon-print bigger-130"></i>
-													<span class="icon-caret-down icon-on-right"></span>
-												</button>
-		
-												<ul class="dropdown-menu dropdown-default" style="left: -120px;">
-													<li>
-														<a href="#">打印借款单</a>
-													</li>
-		
-													<li>
-														<a href="#">打印行程确认单</a>
-													</li>
-		
-													<li>
-														<a href="#">打印出团通知书</a>
-													</li>
-		
-													<li class="divider"></li>
-		
-													<li>
-														<a href="#">打印订房单</a>
-													</li>
-													<li>
-														<a href="#">打印预借发票申请</a>
-													</li>
-												</ul>
-											</div>
-										</c:if>
+														<span class="icon-caret-down icon-on-right"></span>
+													</button>
+			
+													<ul class="dropdown-menu dropdown-default" style="left: -120px;">
+														<li>
+															<a href="#">打印借款单</a>
+														</li>
+			
+														<li>
+															<a href="#">打印行程确认单</a>
+														</li>
+			
+														<li>
+															<a href="#">打印出团通知书</a>
+														</li>
+			
+														<li class="divider"></li>
+			
+														<li>
+															<a href="#">打印订房单</a>
+														</li>
+														<li>
+															<a href="#">打印预借发票申请</a>
+														</li>
+													</ul>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<i class="icon-print bigger-130 gainsboro" style="color:gainsboro;"></i>
+												<span class="icon-caret-down icon-on-right gainsboro" style="color:gainsboro;"></span>
+											</c:otherwise>
+										</c:choose>
 										<c:if test="${localTour.localTourTable.status==0 }">
 											<c:choose>
 												<c:when test="${localTour.localTourTable.enable }">
-													<a  class="red" id="delete" href="#" title="取消团队">
+													<a class="red" id="delete" href="#" title="取消团队">
 														<i class="icon-trash bigger-130"></i>
 													</a>
 												</c:when>
@@ -216,7 +243,6 @@
 													</a>
 												</c:otherwise>
 											</c:choose>
-											
 										</c:if>
 									</td>
 									
@@ -1804,13 +1830,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1829,13 +1855,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1854,13 +1880,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1879,13 +1905,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1904,13 +1930,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1929,13 +1955,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1954,13 +1980,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1979,13 +2005,13 @@
 															<th style="width: 10%;">日期</th>
 															<th style="width: 15%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本</th>
-															<th style="width: 10%;">数量</th>
-															<th style="width: 10%;">天数</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 5%;">
+															<th style="width: 10%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -2012,7 +2038,7 @@
 																<th style="width: 10%">实收</th>
 																<th style="width: 10%">已开发票金额</th>
 																<th style="width: 20%">备注</th>
-																<th style="width: 5%">
+																<th style="width: 10%">
 																	<a class="blue addIncome" href="#">
 																		<i class="icon-plus bigger-130"></i>
 																	</a>
@@ -2044,6 +2070,63 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 成本变更结束 -->
+<!-- 导游借款模板-->
+				<div aria-hidden="true" style="display: none;" id="lendModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									导游借款
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div class="tab-pane fade in active costTable">
+					         			<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">可借款项</div>
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 10%;">借款额</th>
+													<th style="width: 20%;">明细备注</th>
+													<th style="width: 10%;">财务操作人</th>
+													<th style="width: 10%;">状态</th>
+												</tr>
+											</thead>
+											<tbody id="canLoans">
+											</tbody>
+							            </table>
+							            <div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">借款记录</div>
+							            <table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 10%;">借款额</th>
+													<th style="width: 20%;">明细备注</th>
+													<th style="width: 10%;">财务操作人</th>
+													<th style="width: 10%;">状态</th>
+												</tr>
+											</thead>
+											<tbody id="isLoans">
+											</tbody>
+							            </table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="loanApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									借款申请
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 导游借款结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -2060,7 +2143,7 @@
 		$("#localTourManage").addClass("active");
 		$("#create").find("input").attr("style","width:100%;");
 		$("#create").find("select").attr("style","width:100%;");
-		$(".modal-dialog").attr("style","width:70%;");
+		$(".modal-dialog").attr("style","width:80%;");
 		/* 提示 */
 		$("a").tooltip({
 			show: null,
@@ -3746,14 +3829,18 @@
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 								'</tr>');
-		        		if(this.costTable.status==0){
-		        			tr.append('<td>新</td>')
-		        		}else if(this.costTable.status==1){
-		        			tr.append('<td>待</td>')
-		        		}else if(this.costTable.status==2){
-		        			tr.append('<td>审</td>')
-		        		}else if(this.costTable.status==3){
-		        			tr.append('<td>完</td>')
+		        		if(this.costTable.remittanced){
+		        			tr.append('<td>已汇款</td>')
+		        		}else{
+		        			if(this.costTable.status==0){
+			        			tr.append('<td>新建</td>')
+			        		}else if(this.costTable.status==1){
+			        			tr.append('<td>待审核</td>')
+			        		}else if(this.costTable.status==2){
+			        			tr.append('<td>已审核</td>')
+			        		}else if(this.costTable.status==3){
+			        			tr.append('<td>已批准</td>')
+			        		}
 		        		}
 		        		if(this.costTable.supplierScopeId==1){
 		        			flight.append(tr);
@@ -3785,14 +3872,18 @@
 		        						'<td>'+this.invoiceAmount+'</td>'+
 		        						'<td>'+this.incomeTable.remark+'</td>'+
 		        					'</tr>');
-		        		if(this.incomeTable.status==0){
-		        			tr.append('<td>新</td>')
-		        		}else if(this.incomeTable.status==1){
-		        			tr.append('<td>待</td>')
-		        		}else if(this.incomeTable.status==2){
-		        			tr.append('<td>审</td>')
-		        		}else if(this.incomeTable.status==3){
-		        			tr.append('<td>完</td>')
+		        		if(this.incomeTable.incomed){
+		        			tr.append('<td>已收款</td>')
+		        		}else{
+		        			if(this.incomeTable.status==0){
+			        			tr.append('<td>新建</td>')
+			        		}else if(this.incomeTable.status==1){
+			        			tr.append('<td>待审核</td>')
+			        		}else if(this.incomeTable.status==2){
+			        			tr.append('<td>已审核</td>')
+			        		}else if(this.incomeTable.status==3){
+			        			tr.append('<td>已批准</td>')
+			        		}
 		        		}
 		        		incomes.append(tr);
 		        	});
@@ -3834,7 +3925,6 @@
 			}
 			var changeCostIncomeViewModel = {costTables:costTables,incomeTables:incomeTables};
 			var myData = JSON.stringify(changeCostIncomeViewModel);
-			alert(myData);
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
@@ -3854,6 +3944,76 @@
 		        	}else if(data==-5){
 		        		alert("保存失败，请填写客户");
 		        	}
+		        }  
+			 });
+		});
+		
+		/* 导游借款 */
+		$("#table").delegate("#lend","click",function(){
+			var tourId = $(this).parent().attr("id");
+			$("#loanApplication").parent().attr("id",tourId);
+			var myData = {tourId:tourId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/findLend",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	var canLoans = $('<tbody></tbody>');
+		        	var isLoans = $('<tbody></tbody>');
+		        	$.each(data,function(){
+		        		if(this.loanTable.status>1){
+		        			var tr = $('<tr>'+
+	        						'<td>'+this.loanTable.loanDate+'</td>'+
+	        						'<td>'+this.loanTable.loanAmount+'</td>'+
+	        						'<td>'+this.loanTable.remark+'</td>'+
+	        						'<td>'+this.lenderRealName+'</td>'+
+	        						'<td>'+this.status+'</td>'+
+	        					'</tr>');
+		        			isLoans.append(tr);
+		        		}else{
+		        			var tr = $('<tr id="'+this.loanTable.id+'">'+
+	        						'<td>'+this.loanTable.loanDate+'</td>'+
+	        						'<td>'+this.loanTable.loanAmount+'</td>'+
+	        						'<td>'+this.loanTable.remark+'</td>'+
+	        						'<td>'+this.lenderRealName+'</td>'+
+	        						'<td>'+this.status+'</td>'+
+	        					'</tr>');
+		        			canLoans.append(tr);
+		        		}
+		        	});
+		        	if(canLoans.html()==""){
+	        			$("#canLoans").parent().html('<span class="red">无可借款项</span>');
+	        		}else {
+	        			$("#canLoans").html(canLoans.html());
+	        		}
+					if(isLoans.html()==""){
+						$("#isLoans").parent().html('<span class="red">无借款记录</span>');
+	        		}else{
+	        			$("#isLoans").html(isLoans.html());
+	        		}
+		        }
+			 });
+		});
+		$("#loanApplication").click(function(){
+			var tourId = $(this).parent().attr("id");
+			var ids = [];
+			var trs = $("#canLoans").children("tr");
+			$.each(trs,function(index){
+				ids[index] = $(this).attr("id");
+			});
+			var myData = {tourId:tourId,ids:ids.toString()};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/loanApplication",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	
 		        }  
 			 });
 		});

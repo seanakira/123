@@ -46,7 +46,7 @@ public class PayService extends BaseService{
 				BigDecimal cost = new BigDecimal(costs.get(j).getCost());
 				costSum =  costSum.add((cost.multiply(new BigDecimal(costs.get(j).getCount())).multiply(new BigDecimal(costs.get(j).getDays()))));
 				remittanceSum = remittanceSum + costs.get(j).getRealCost();
-				if(costs.get(i).isIsRemittance()){
+				if(costs.get(j).isRemittanced()){
 					realRemittanceSum = realRemittanceSum + costs.get(j).getRealCost();
 				}
 			}
@@ -56,9 +56,9 @@ public class PayService extends BaseService{
 			float loan = 0;
 			float realLoan = 0;
 			for (int j = 0; j < loanTables.size(); j++) {
-				loan = loan + loanTables.get(i).getLoanAmount();
-				if(loanTables.get(i).isIsLend()){
-					realLoan = realLoan + loanTables.get(i).getLoanAmount();
+				loan = loan + loanTables.get(j).getLoanAmount();
+				if(loanTables.get(j).getLended()){
+					realLoan = realLoan + loanTables.get(j).getLoanAmount();
 				}
 			}
 			simplPayViewModel.setLoan(loan);
@@ -99,18 +99,18 @@ public class PayService extends BaseService{
 		float maxLoan = 0;
 		float total = 0;
 		for (int i = 0; i < costTables.size(); i++) {
-			if(costTables.get(i).isIsLend()&&costTables.get(i).isIsRemittance()){
+			if(costTables.get(i).isLend()&&costTables.get(i).isRemittanced()){
 				return -1;
 			}else{
 				CostTable costTable = (CostTable) this.getById("CostTable", costTables.get(i).getId());
-				if(!costTables.get(i).isIsLend()){
+				if(!costTables.get(i).isLend()){
 					if(costTables.get(i).getRealCost()>costTable.getCost()*costTable.getCount()*costTable.getDays()){
 						return -2;
 					}else{
 						costTable.setRealCost(costTables.get(i).getRealCost());
 						costTable.setRemark(costTables.get(i).getRemark());
-						if(costTables.get(i).isIsRemittance()){
-							costTable.setIsRemittance(true);
+						if(costTables.get(i).isRemittanced()){
+							costTable.setRemittanced(true);
 						}
 						this.update(costTable);
 					}
@@ -122,18 +122,18 @@ public class PayService extends BaseService{
 			}
 		}
 		for (int i = 0; i < changeCostTables.size(); i++) {
-			if(changeCostTables.get(i).isIsLend()&&changeCostTables.get(i).isIsRemittance()){
+			if(changeCostTables.get(i).isLend()&&changeCostTables.get(i).isRemittanced()){
 				return -1;
 			}else{
 				ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
-				if(!changeCostTables.get(i).isIsLend()){
+				if(!changeCostTables.get(i).isLend()){
 					if(changeCostTables.get(i).getRealCost()>changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()){
 						return -2;
 					}else{
 						changeCostTable.setRealCost(changeCostTables.get(i).getRealCost());
 						changeCostTable.setRemark(changeCostTables.get(i).getRemark());
-						if(changeCostTables.get(i).isIsRemittance()){
-							changeCostTable.setIsRemittance(true);
+						if(changeCostTables.get(i).isRemittanced()){
+							changeCostTable.setRemittanced(true);
 						}
 						this.update(changeCostTable);
 					}
@@ -153,16 +153,19 @@ public class PayService extends BaseService{
 			for (int j = 0; j < costCache.size(); j+=2) {
 				costCache.get(j).setRealCost(costCache.get(j+1).getRealCost());
 				costCache.get(j).setRemark(costCache.get(j+1).getRemark());
-				costCache.get(j).setIsLend(true);
+				costCache.get(j).setLend(true);
 				this.update(costCache.get(j));
 			}
 			for (int j = 0; j < changeCostCache.size(); j+=2) {
 				changeCostCache.get(j).setRealCost(changeCostCache.get(j+1).getRealCost());
 				changeCostCache.get(j).setRemark(changeCostCache.get(j+1).getRemark());
-				changeCostCache.get(j).setIsLend(true);
+				changeCostCache.get(j).setLend(true);
 				this.update(changeCostCache.get(j));
 			}
 			for (int i = 0; i < loanTables.size(); i++) {
+				if(loanTables.get(i).getLended()){
+					loanTables.get(i).setStatus(5);
+				}
 				this.merge(loanTables.get(i));
 			}
 		}
@@ -201,11 +204,23 @@ public class PayService extends BaseService{
 		for (int i = 0; i < loanTables.size(); i++) {
 			LoanViewModel loan = new LoanViewModel();
 			loan.setLoanTable(loanTables.get(i));
-			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLender())).getRealName());
+			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLenderId())).getRealName());
+			if(loanTables.get(i).getStatus()==0){
+				loan.setStatus("新建");
+			}else if(loanTables.get(i).getStatus()==1){
+				loan.setStatus("可借");
+			}else if(loanTables.get(i).getStatus()==2){
+				loan.setStatus("已提交");
+			}else if(loanTables.get(i).getStatus()==3){
+				loan.setStatus("已审核");
+			}else if(loanTables.get(i).getStatus()==4){
+				loan.setStatus("已批准");
+			}else if(loanTables.get(i).getStatus()==5){
+				loan.setStatus("已借出");
+			}
 			loans.add(loan);
 		}
 		full.setLoans(loans);
 		return full;
 	}
-	
 }

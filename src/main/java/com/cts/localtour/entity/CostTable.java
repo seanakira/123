@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-10 10:01:17 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-10-14 16:41:15 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -29,15 +29,15 @@ public class CostTable implements java.io.Serializable {
 	private int count;
 	private float realCost;
 	private int days;
-	private boolean isRemittance;
-	private boolean isLend;
+	private boolean remittanced;
+	private boolean lend;
 	private String remark;
 
 	public CostTable() {
 	}
 
 	public CostTable(int tourId, int supplierScopeId, int supplierId, float cost, int count, float realCost, int days,
-			boolean isRemittance, boolean isLend) {
+			boolean remittanced, boolean lend) {
 		this.tourId = tourId;
 		this.supplierScopeId = supplierScopeId;
 		this.supplierId = supplierId;
@@ -45,12 +45,12 @@ public class CostTable implements java.io.Serializable {
 		this.count = count;
 		this.realCost = realCost;
 		this.days = days;
-		this.isRemittance = isRemittance;
-		this.isLend = isLend;
+		this.remittanced = remittanced;
+		this.lend = lend;
 	}
 
 	public CostTable(int tourId, Integer borrowUserId, Date costDate, int supplierScopeId, Integer contentId,
-			int supplierId, float cost, int count, float realCost, int days, boolean isRemittance, boolean isLend,
+			int supplierId, float cost, int count, float realCost, int days, boolean remittanced, boolean lend,
 			String remark) {
 		this.tourId = tourId;
 		this.borrowUserId = borrowUserId;
@@ -62,8 +62,8 @@ public class CostTable implements java.io.Serializable {
 		this.count = count;
 		this.realCost = realCost;
 		this.days = days;
-		this.isRemittance = isRemittance;
-		this.isLend = isLend;
+		this.remittanced = remittanced;
+		this.lend = lend;
 		this.remark = remark;
 	}
 
@@ -170,22 +170,22 @@ public class CostTable implements java.io.Serializable {
 		this.days = days;
 	}
 
-	@Column(name = "isRemittance", nullable = false)
-	public boolean isIsRemittance() {
-		return this.isRemittance;
+	@Column(name = "remittanced", nullable = false)
+	public boolean isRemittanced() {
+		return this.remittanced;
 	}
 
-	public void setIsRemittance(boolean isRemittance) {
-		this.isRemittance = isRemittance;
+	public void setRemittanced(boolean remittanced) {
+		this.remittanced = remittanced;
 	}
 
-	@Column(name = "isLend", nullable = false)
-	public boolean isIsLend() {
-		return this.isLend;
+	@Column(name = "lend", nullable = false)
+	public boolean isLend() {
+		return this.lend;
 	}
 
-	public void setIsLend(boolean isLend) {
-		this.isLend = isLend;
+	public void setLend(boolean lend) {
+		this.lend = lend;
 	}
 
 	@Column(name = "remark", length = 65535)

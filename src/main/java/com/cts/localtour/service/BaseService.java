@@ -63,8 +63,13 @@ public class BaseService<T> {
 		Integer counts = baseDAO.getCounts(hql,null);
 		return counts.intValue();
 	}
-
-
+	
+	@SuppressWarnings("unchecked")
+	public Integer getCountsByString(String tableName, String where ,Object... objects){
+		String hql = "select count(*) from "+tableName+" where "+where;
+		return baseDAO.getCountsByString(hql, objects);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<T> getByWhere(String tableName, String where,  String param) {
 		String hql = "from "+tableName+" t where t."+where+"="+param+" order by t.id desc ";

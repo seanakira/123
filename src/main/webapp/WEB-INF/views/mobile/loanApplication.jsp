@@ -64,11 +64,12 @@
 					</div>
 					
 					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
-					<div class="table-header">成本变更</div>
-					<c:if test="${changes.costs.size()==0 }">
-						<div style="margin-left: 10px;"><span class="red">没有查询到成本变更记录</span></div>
+					<c:if test="${loans.size()==0 }">
+						<c:if test="${changes.costs.size()==0 }">
+							<div style="margin-left: 10px;"><span class="red">没有查询到借款记录</span></div>
+						</c:if>
 					</c:if>
-<!-- 列表循环 -->		<c:forEach var="changeCost" items="${changes.costs }">
+<!-- 列表循环 -->		<c:forEach var="loan" items="${loans }">
 						<div>
 							<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 								<thead>
@@ -80,81 +81,30 @@
 								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 									<tr>
 										<td style="width: 20%">日期</td>
-										<td style="width: 30%">${changeCost.costTable.costDate }</td>
-										<td style="width: 20%">内容</td>
-										<td style="width: 30%">${changeCost.contentName }</td>
+										<td style="width: 30%">${loan.loanTable.loanDate }</td>
+										<td style="width: 20%">金额</td>
+										<td style="width: 30%">${loan.loanTable.loanAmount }</td>
 									</tr>
 									<tr>
-										<td style="width: 20%">供应商</td>
-										<td style="width: 30%">${changeCost.supplierName }</td>
-										<td style="width: 20%">成本单价</td>
-										<td style="width: 30%">${changeCost.costTable.cost }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">数量</td>
-										<td style="width: 30%">${changeCost.costTable.count }</td>
-										<td style="width: 20%">天数</td>
-										<td style="width: 30%">${changeCost.costTable.days }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">合计</td>
-										<td style="width: 30%" class="red"><fmt:formatNumber value="${changeCost.costTable.cost*changeCost.costTable.count*changeCost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
 										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${changeCost.applicationerRealName }</td>
+										<td style="width: 30%">${loan.applicationerRealName }</td>
+										<td style="width: 20%">状态</td>
+										<td style="width: 30%">${loan.status }</td>
 									</tr>
 									<tr>
 										<td style="width: 20%">备注</td>
-										<td style="width: 30%">${changeCost.costTable.remark }</td>
-										<td style="width: 20%">状态</td>
-										<td style="width: 30%">${changeCost.status }</td>
+										<td style="width: 30%">${loan.loanTable.remark }</td>
 									</tr>
+									
 							</tbody>
 						</table>
-						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger">驳回</button><button class="btn btn-sm btn-success pull-right">同意</button></div>
+						<div id="${loan.loanTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger">驳回</button><button class="btn btn-sm btn-success pull-right">同意</button></div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>
 <!-- 列表循环结束 -->	
-					<div class="table-header">收入变更</div>
-					<c:if test="${changes.incomes.size()==0 }">
-						<div style="margin-left: 10px;"><span class="red">没有查询到收入变更记录</span></div>
-					</c:if>
-					<c:forEach var="changeIncome" items="${changes.incomes }">
-						<div>
-							<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
-								<thead>
-									<tr role="row">
-										
-									</tr>
-								</thead>
-	
-								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-									<tr>
-										<td style="width: 20%">日期</td>
-										<td style="width: 30%">${changeIncome.incomeTable.incomeDate }</td>
-										<td style="width: 20%">客户</td>
-										<td style="width: 30%">${changeIncome.customerAgencyName }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">收入</td>
-										<td style="width: 30%">${changeIncome.incomeTable.income }</td>
-										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${changeIncome.applicationerRealName }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">备注</td>
-										<td style="width: 30%">${changeIncome.incomeTable.remark }</td>
-										<td style="width: 20%">状态</td>
-										<td style="width: 30%">${changeIncome.status }</td>
-									</tr>
-								</tbody>
-							</table>
-						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger">驳回</button><button class="btn btn-sm btn-success pull-right">同意</button></div>
-						<HR style="margin-top: 0px;">
-					</div>
-					</c:forEach>
 					<div style="text-align: center;">
-						<a id="changed" href="<%=path %>mobile/changeCostIncomeApproval?tourId=${tour.id }&status=-1">点击查看本团成本收入变更记录</a>
+						<a id="lended" href="<%=path %>mobile/loanApplication?tourId=${tour.id }&status=-1">点击查看本团借款申请记录</a>
 					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">
@@ -191,10 +141,10 @@
 	$(function(){
 		/* 获取url参数 */
         if(getUrlParam("status")==-1){//参数值
-        	$("#changed").remove();
+        	$("#lended").remove();
         	$(".action").remove();
         }
-		
+        
 		$(".btn-success").click(function(){
 			var id = $(this).parent().attr("id");
 			var myData = {id:id};
@@ -202,7 +152,7 @@
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/changeCostOk",  
+		        url:"/localtour/mobile/loanApplicationOk",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

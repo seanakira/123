@@ -312,6 +312,16 @@ public class BaseDAO<T>{
 		});
 	}
 	
+	public Integer getCountsByString(final String hql,final Object...objects){
+		return (Integer) hibernateTemplate.execute(new HibernateCallback<Integer>() {
+			@Override
+			public Integer doInHibernate(Session session) throws HibernateException {
+				Query query = createQuery(session, hql, objects);
+				return Integer.parseInt(query.uniqueResult().toString());
+			}
+		});
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<T> find(final String hql,final Map<String, Object> param) {
 		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();

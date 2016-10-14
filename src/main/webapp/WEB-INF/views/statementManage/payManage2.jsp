@@ -410,7 +410,7 @@
 											<th style="width: 10%;">日期</th>
 											<th style="width: 15%;">借款额</th>
 											<th style="width: 40%;">明细备注</th>
-											<th style="width: 10%;">财务操作人</th>
+											<th style="width: 10%;">借款操作人</th>
 											<th style="width: 10%;">状态</th>
 											<th style="width: 2%;">
 												<a class="blue addLoan" href="#">
@@ -681,8 +681,8 @@
 		        						'<td class="loanAmountTd">'+this.loanTable.loanAmount+'</td>'+
 		        						'<td>'+this.loanTable.remark+'</td>'+
 		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
-		        						'<td>'+this.status+'<input type="hidden" value="'+this.loanTable.status+'"></td>'+
-		        						'<td id="'+this.loanTable.id+'"><input type="hidden" value="true"/></td>'+
+		        						'<td>'+this.status+'</td>'+
+		        						'<td id="'+this.loanTable.id+'"></td>'+
 		        					'</tr>');
 		        			total = total + this.loanTable.loanAmount;
 		        		}else{
@@ -692,8 +692,8 @@
 		        						'<td class="loanAmountTd">'+this.loanTable.loanAmount+'</td>'+
 		        						'<td>'+this.loanTable.remark+'</td>'+
 		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
-		        						'<td>'+this.status+'<input type="hidden" value="'+this.loanTable.status+'"></td>'+
-		        						'<td id="'+this.loanTable.id+'">'+ok.html()+'<input type="hidden" value="false"/></td>'+
+		        						'<td>'+this.status+'</td>'+
+		        						'<td id="'+this.loanTable.id+'">'+ok.html()+'</td>'+
 		        					'</tr>');
 		        			}else{
 		        				tr = $('<tr>'+
@@ -701,8 +701,8 @@
 		        						'<td><input class="form-control loanAmountInput" value="'+this.loanTable.loanAmount+'" type="text"></td>'+
 		        						'<td><input class="form-control" value="'+this.loanTable.remark+'" type="text"></td>'+
 		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
-		        						'<td>'+this.status+'<input type="hidden" value="'+this.loanTable.status+'"></td>'+
-		        						'<td id="'+this.loanTable.id+'"><input type="hidden" value="false"/></td>'+
+		        						'<td>'+this.status+'</td>'+
+		        						'<td id="'+this.loanTable.id+'"></td>'+
 		        					'</tr>');
 		        			}
 		        			total = total + this.loanTable.loanAmount;
@@ -814,19 +814,29 @@
 							'<td><input style="width:100%;" class="form-control loanAmountInput" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %><input type="hidden" value="<%=((UserTable)session.getAttribute("user")).getId() %>"></td>'+
-							'<td>可借<input type="hidden" value="1"/></td>'+
-							'<td><input type="hidden" value="false"/></td>'+
+							'<td>可借</td>'+
+							'<td><a title="借款确认" href="#" class="green" id="loanOk" hidden=""><i class="icon-ok bigger-130"></i></a></td>'+
 						'</tr>');
     		tr.find(".datepicker").datepicker({
     			showOtherMonths: true,
     			selectOtherMonths: false,
     		});
+    		tr.find("a").tooltip({
+    			show: null,
+    			position: {
+    				my: "left top",
+    				at: "left bottom"
+    			},
+    			open: function( event, ui ) {
+    				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+    			}
+    		});
     		$("#loanTable").append(tr);
     	});
     	/* 借款总计计算 */
-		$("#loanTable").delegate(".loanAmountInput","keyup",function(){
+		$("#loanTable").delegate(".loanAmount","keyup",function(){
 			var total = 0;
-			var inputs = $("#loanTable").find(".loanAmountInput");
+			var inputs = $("#loanTable").find(".loanAmount");
 			var trs = $("#loanTable").children("tr");
 			$.each(trs,function(){
 				if($(this).children("td").eq(1).children("input").length==0){
@@ -858,8 +868,8 @@
 				alert("借款总计不能大于最大借款额");
 				inputs.val(0);
 			}else{
-				$(this).parent().html('<input type="hidden" value="true"/>');
-				$(this).parent().prev().html('已借出');
+				$("#total").html(total);
+				$(this).remove();
 			}
     	});
 	/*更新 */
@@ -948,34 +958,29 @@
 			$.each(loanTrs,function(){
 				var inputs = $(this).find("input");
 				var tds = $(this).children("td");
-				if(inputs.length>3){
-					if(inputs.eq(1).val()!=""&&inputs.eq(2).val()!=""){
-						loanTables.push({
+				if(tds.last().children("a").length==0){
+					loanTables.push({
+							id:tds.last().attr("id"),
+							tourId:id,
+							loanDate:new Date(tds.eq(0).text()),
+							loanAmount:tds.eq(1).text(),
+							remark:tds.eq(2).text(),
+							lender:inputs.eq(0).val(),
+							isLend:true});
+				}else{
+					loanTables.push({
 							id:tds.last().attr("id"),
 							tourId:id,
 							loanDate:new Date(inputs.eq(0).val()),
 							loanAmount:inputs.eq(1).val(),
 							remark:inputs.eq(2).val(),
 							lender:inputs.eq(3).val(),
-							status:inputs.eq(4).val(),
-							isLend:inputs.last().val()});
-					}
-				}else{
-					loanTables.push({
-						id:tds.last().attr("id"),
-						tourId:id,
-						loanDate:new Date(tds.eq(0).text()),
-						loanAmount:tds.eq(1).text(),
-						remark:tds.eq(2).text(),
-						lender:inputs.eq(0).val(),
-						status:inputs.eq(1).val(),
-						isLend:inputs.last().val()});
+							isLend:false});
 				}
 			});
-			
 			var fullPayViewModel = {costTables:costTables,changeCostTables:changeCostTables,loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
-			alert(myData);
+			alert(myData)
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  

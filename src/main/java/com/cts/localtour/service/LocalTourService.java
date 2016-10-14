@@ -30,6 +30,7 @@ import com.cts.localtour.entity.GuideTable;
 import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.InvoiceTable;
+import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.viewModel.ArrDepViewModel;
@@ -42,12 +43,15 @@ import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.GuideTimeViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.IncomeViewModel;
+import com.cts.localtour.viewModel.LoanViewModel;
 
 @SuppressWarnings("rawtypes")
 @Service
 public class LocalTourService extends BaseService{
 	@Autowired
 	private LocalTourDAO localTourDAO;
+	@Autowired
+	private MobileService mobileService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -87,6 +91,8 @@ public class LocalTourService extends BaseService{
 			}else if (localTours.get(i).getStatus()==6) {
 				simpleLocalTourViewModel.setStatus("结算中");
 			}else if (localTours.get(i).getStatus()==7) {
+				simpleLocalTourViewModel.setStatus("已核销");
+			}else if (localTours.get(i).getStatus()==8) {
 				simpleLocalTourViewModel.setStatus("已结算");
 			}
 			simpleLocalTourViewModels.add(simpleLocalTourViewModel);
@@ -264,7 +270,7 @@ public class LocalTourService extends BaseService{
 			BigDecimal invoiceAmount = new BigDecimal(0);
 			ArrayList<InvoiceTable> invoiceTables =  (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "changeIncomeId=?", changeIncomeTables.get(i).getId());
 			for (int j = 0; j < invoiceTables.size(); j++) {
-				invoiceAmount = invoiceAmount.add(new BigDecimal(invoiceTables.get(i).getInvoiceAmount()));
+				invoiceAmount = invoiceAmount.add(new BigDecimal(invoiceTables.get(j).getInvoiceAmount()));
 			}
 			changeIncome.setInvoiceAmount(invoiceAmount.floatValue());
 			changeIncomes.add(changeIncome);
@@ -331,18 +337,34 @@ public class LocalTourService extends BaseService{
 		return changeCostIncomeViewModel;
 	}
 	
-	public void sendMassage(int tourId, int status, HttpServletRequest request, HttpSession session){
-		StringBuffer path = request.getRequestURL();  
-		String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-	    /*URL需要做权限判断*/
-		String url = tempContextUrl+"mobile/changeCostIncomeApproval?tourId="+tourId+"&status="+status;
-	    UserTable user = (UserTable) session.getAttribute("user");
-	    DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
-	    String managerIds = dept.getManagerIds();
-	    String[] ids = managerIds.split(",");
-	    for (int i = 0; i < ids.length; i++) {
-	    	UserTable manager = (UserTable)super.getById("UserTable", Integer.parseInt(ids[i]));
-	    	WeiXinUtil.sendTextMessage(manager.getUserName(), url, "您有待审核的新增成本收入，点击进行审核", "0");
+	public void sendMassage(String mobileControllerMapping, int tourId, int status, String message, HttpServletRequest request, HttpSession session){
+		mobileService.sendMessage(mobileControllerMapping, tourId, status, message, request, session);
+	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<LoanViewModel> findLend(int tourId) {
+		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=?", tourId);
+		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
+		for (int i = 0; i < loanTables.size(); i++) {
+			LoanViewModel loan = new LoanViewModel();
+			loan.setLoanTable(loanTables.get(i));
+			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLenderId())).getRealName());
+			if(loanTables.get(i).getLended()){
+				loan.setStatus("已借出");
+			}else{
+				if(loanTables.get(i).getStatus()==0){
+					loan.setStatus("新建");
+				}else if(loanTables.get(i).getStatus()==1){
+					loan.setStatus("可借");
+				}else if(loanTables.get(i).getStatus()==2){
+					loan.setStatus("已提交");
+				}else if(loanTables.get(i).getStatus()==3){
+					loan.setStatus("已审核");
+				}else if(loanTables.get(i).getStatus()==4){
+					loan.setStatus("已批准");
+				}
+			}
+			loans.add(loan);
 		}
+		return loans;
 	}
 }

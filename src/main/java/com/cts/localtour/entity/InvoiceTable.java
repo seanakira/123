@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-10 10:01:17 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-10-14 16:41:15 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -26,13 +26,14 @@ public class InvoiceTable implements java.io.Serializable {
 	private float invoiceAmount;
 	private Date openDate;
 	private int openUserId;
+	private int lend;
 	private int isLend;
 
 	public InvoiceTable() {
 	}
 
 	public InvoiceTable(int id, String invoiceName, String invoiceContent, int invoiceNo, int requestUserId,
-			float invoiceAmount, Date openDate, int openUserId, int isLend) {
+			float invoiceAmount, Date openDate, int openUserId, int lend, int isLend) {
 		this.id = id;
 		this.invoiceName = invoiceName;
 		this.invoiceContent = invoiceContent;
@@ -41,11 +42,13 @@ public class InvoiceTable implements java.io.Serializable {
 		this.invoiceAmount = invoiceAmount;
 		this.openDate = openDate;
 		this.openUserId = openUserId;
+		this.lend = lend;
 		this.isLend = isLend;
 	}
 
 	public InvoiceTable(int id, Integer incomeId, Integer changeIncomeId, String invoiceName, String invoiceContent,
-			int invoiceNo, int requestUserId, float invoiceAmount, Date openDate, int openUserId, int isLend) {
+			int invoiceNo, int requestUserId, float invoiceAmount, Date openDate, int openUserId, int lend,
+			int isLend) {
 		this.id = id;
 		this.incomeId = incomeId;
 		this.changeIncomeId = changeIncomeId;
@@ -56,6 +59,7 @@ public class InvoiceTable implements java.io.Serializable {
 		this.invoiceAmount = invoiceAmount;
 		this.openDate = openDate;
 		this.openUserId = openUserId;
+		this.lend = lend;
 		this.isLend = isLend;
 	}
 
@@ -150,6 +154,15 @@ public class InvoiceTable implements java.io.Serializable {
 
 	public void setOpenUserId(int openUserId) {
 		this.openUserId = openUserId;
+	}
+
+	@Column(name = "lend", nullable = false)
+	public int getLend() {
+		return this.lend;
+	}
+
+	public void setLend(int lend) {
+		this.lend = lend;
 	}
 
 	@Column(name = "isLend", nullable = false)

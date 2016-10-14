@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.TripTable;
+import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DepartService;
@@ -35,6 +37,7 @@ import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
+import com.cts.localtour.viewModel.LoanViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
 @Controller
@@ -285,8 +288,23 @@ public class TourController {
 		}
 		if(!changeCostIncomeViewModel.getCostTables().isEmpty()&&!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
 			/*这里或许需要判断用户权限*/
-			localTourService.sendMassage(changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, request, session);
+			localTourService.sendMassage("changeCostIncomeApproval", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有待审核的<变更成本收入>，点击进行审核", request, session);
 		}
 		return 0;
+	}
+	@RequestMapping("localTourManage/findLend")
+	public @ResponseBody ArrayList<LoanViewModel> findLend(@RequestParam int tourId){
+		return localTourService.findLend(tourId);
+	}
+	@RequestMapping("localTourManage/loanApplication")
+	public void loanApplication(@RequestParam int tourId, @RequestParam String ids, HttpServletRequest request, HttpSession session){
+		if(!"".equals(ids)){
+			String[] idset = ids.split(",");
+			for (int i = 0; i < idset.length; i++) {
+				/*session相关*/
+				localTourService.updateByParam("LoanTable", "status=2,applicationer=?", "id=?",((UserTable)session.getAttribute("user")).getId(), Integer.parseInt(idset[i]));
+			}
+			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<付款申请>，点击进行审核", request, session);
+		}
 	}
 }
