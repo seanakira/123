@@ -57,7 +57,7 @@ public class PayService extends BaseService{
 			float realLoan = 0;
 			for (int j = 0; j < loanTables.size(); j++) {
 				loan = loan + loanTables.get(j).getLoanAmount();
-				if(loanTables.get(j).getLended()){
+				if(loanTables.get(j).isLended()){
 					realLoan = realLoan + loanTables.get(j).getLoanAmount();
 				}
 			}
@@ -163,9 +163,7 @@ public class PayService extends BaseService{
 				this.update(changeCostCache.get(j));
 			}
 			for (int i = 0; i < loanTables.size(); i++) {
-				if(loanTables.get(i).getLended()){
-					loanTables.get(i).setStatus(5);
-				}
+				System.out.println(loanTables.get(i).isLended());
 				this.merge(loanTables.get(i));
 			}
 		}
@@ -205,18 +203,20 @@ public class PayService extends BaseService{
 			LoanViewModel loan = new LoanViewModel();
 			loan.setLoanTable(loanTables.get(i));
 			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLenderId())).getRealName());
-			if(loanTables.get(i).getStatus()==0){
-				loan.setStatus("新建");
-			}else if(loanTables.get(i).getStatus()==1){
-				loan.setStatus("可借");
-			}else if(loanTables.get(i).getStatus()==2){
-				loan.setStatus("已提交");
-			}else if(loanTables.get(i).getStatus()==3){
-				loan.setStatus("已审核");
-			}else if(loanTables.get(i).getStatus()==4){
-				loan.setStatus("已批准");
-			}else if(loanTables.get(i).getStatus()==5){
+			if(loanTables.get(i).isLended()){
 				loan.setStatus("已借出");
+			}else{
+				if(loanTables.get(i).getStatus()==0){
+					loan.setStatus("新建");
+				}else if(loanTables.get(i).getStatus()==1){
+					loan.setStatus("可借");
+				}else if(loanTables.get(i).getStatus()==2){
+					loan.setStatus("待审核");
+				}else if(loanTables.get(i).getStatus()==3){
+					loan.setStatus("待批准");
+				}else if(loanTables.get(i).getStatus()==4){
+					loan.setStatus("已批准");
+				}
 			}
 			loans.add(loan);
 		}

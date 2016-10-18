@@ -1,7 +1,5 @@
 package com.cts.localtour.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,15 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cts.localtour.entity.ChangeCostTable;
-import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
-import com.cts.localtour.entity.SupplierContentTable;
-import com.cts.localtour.entity.SupplierTable;
-import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.MobileService;
-import com.cts.localtour.viewModel.ChangeCostViewModel;
-import com.cts.localtour.viewModel.LoanViewModel;
 
 @Controller
 public class MobileController {
@@ -37,6 +28,23 @@ public class MobileController {
 	public void changeCostOk(HttpServletRequest request, HttpSession session, @RequestParam int id){
 		mobileService.updateChangeCost(request, session, id);
 	}
+	
+	@RequestMapping("/mobile/cancalCost")
+	public void cancalCost(HttpServletRequest request, HttpSession session, @RequestParam int id){
+		mobileService.cancalChangeCost(request, session, id);
+	}
+	
+	@RequestMapping("/mobile/changeIcomeOk")
+	public void changeIcomeOkOk(HttpServletRequest request, HttpSession session, @RequestParam int id){
+		mobileService.updateChangeIcome(request, session, id);
+	}
+	
+	@RequestMapping("/mobile/cancalIncome")
+	public void cancalIncome(HttpServletRequest request, HttpSession session, @RequestParam int id){
+		mobileService.cancalChangeIncome(request, session, id);
+	}
+	
+	
 	/*ΩËøÓ…Í«Î*/
 	@RequestMapping("/mobile/loanApplication")
 	public String loanApplication(@RequestParam int tourId, @RequestParam int status, Model md){
@@ -47,6 +55,11 @@ public class MobileController {
 	
 	@RequestMapping("/mobile/loanApplicationOk")
 	public void loanApplicationOk(HttpServletRequest request, HttpSession session, @RequestParam int id){
-		mobileService.updateLoanTable(request, session, id);
+		mobileService.loanApplicationOk(request, session, id);
+	}
+	
+	@RequestMapping("/mobile/loanApplicationCancel")
+	public void loanApplicationCancel(HttpServletRequest request, HttpSession session, @RequestParam int id){
+		mobileService.loanApplicationCancel(request, session, id);
 	}
 }

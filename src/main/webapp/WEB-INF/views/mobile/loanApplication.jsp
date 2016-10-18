@@ -147,12 +147,28 @@
         
 		$(".btn-success").click(function(){
 			var id = $(this).parent().attr("id");
-			var myData = {id:id};
 			$(this).parent().parent().remove();
+			var myData = {id:id};
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/mobile/loanApplicationOk",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			 });
+		});
+		
+		$(".btn-danger").click(function(){
+			var id = $(this).parent().attr("id");
+			$(this).parent().parent().remove();
+			var myData = {id:id};
+			 $.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/mobile/loanApplicationCancel",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

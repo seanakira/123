@@ -2127,6 +2127,69 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 导游借款结束 -->
+<!-- 付款申请模板-->
+				<div aria-hidden="true" style="display: none;" id="payModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									付款申请
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div class="tab-pane fade in active costTable">
+					         			<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">可借款项</div>
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 20%;">内容</th>
+													<th style="width: 20%;">供应商</th>
+													<th style="width: 10%;">成本</th>
+													<th style="width: 10%;">数量</th>
+													<th style="width: 10%;">天数</th>
+													<th style="width: 10%;">借款人</th>
+													<th style="width: 10%;">明细备注</th>
+												</tr>
+											</thead>
+											<tbody id="canPays">
+											</tbody>
+							            </table>
+							            <div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">借款记录</div>
+							            <table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 20%;">内容</th>
+													<th style="width: 20%;">供应商</th>
+													<th style="width: 10%;">成本</th>
+													<th style="width: 10%;">数量</th>
+													<th style="width: 10%;">天数</th>
+													<th style="width: 10%;">借款人</th>
+													<th style="width: 10%;">明细备注</th>
+												</tr>
+											</thead>
+											<tbody id="isPays">
+											</tbody>
+							            </table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="payApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									付款申请
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 付款申请结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->

@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-14 16:41:15 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-10-18 12:14:38 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -24,23 +24,25 @@ public class LoanTable implements java.io.Serializable {
 	private Date loanDate;
 	private Integer applicationerId;
 	private int lenderId;
-	private Boolean lended;
+	private boolean lended;
 	private String remark;
 	private int status;
 
 	public LoanTable() {
 	}
 
-	public LoanTable(int tourId, float loanAmount, Date loanDate, int lenderId, String remark, int status) {
+	public LoanTable(int tourId, float loanAmount, Date loanDate, int lenderId, boolean lended, String remark,
+			int status) {
 		this.tourId = tourId;
 		this.loanAmount = loanAmount;
 		this.loanDate = loanDate;
 		this.lenderId = lenderId;
+		this.lended = lended;
 		this.remark = remark;
 		this.status = status;
 	}
 
-	public LoanTable(int tourId, float loanAmount, Date loanDate, Integer applicationerId, int lenderId, Boolean lended,
+	public LoanTable(int tourId, float loanAmount, Date loanDate, Integer applicationerId, int lenderId, boolean lended,
 			String remark, int status) {
 		this.tourId = tourId;
 		this.loanAmount = loanAmount;
@@ -110,12 +112,12 @@ public class LoanTable implements java.io.Serializable {
 		this.lenderId = lenderId;
 	}
 
-	@Column(name = "lended")
-	public Boolean getLended() {
+	@Column(name = "lended", nullable = false)
+	public boolean isLended() {
 		return this.lended;
 	}
 
-	public void setLended(Boolean lended) {
+	public void setLended(boolean lended) {
 		this.lended = lended;
 	}
 

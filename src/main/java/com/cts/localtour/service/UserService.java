@@ -142,5 +142,10 @@ public class UserService extends BaseService{
 			System.out.println(error.toString());
 		}
 	}
+	
+	public String getUserName(int id){
+		UserTable user = (UserTable)this.getById("UserTable", id);
+		return user.getUserName();
+	}
 
 }

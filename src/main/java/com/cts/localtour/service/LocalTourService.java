@@ -348,7 +348,7 @@ public class LocalTourService extends BaseService{
 			LoanViewModel loan = new LoanViewModel();
 			loan.setLoanTable(loanTables.get(i));
 			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLenderId())).getRealName());
-			if(loanTables.get(i).getLended()){
+			if(loanTables.get(i).isLended()){
 				loan.setStatus("ря╫ХЁЖ");
 			}else{
 				if(loanTables.get(i).getStatus()==0){
@@ -366,5 +366,10 @@ public class LocalTourService extends BaseService{
 			loans.add(loan);
 		}
 		return loans;
+	}
+	
+	public String getTourNoAndTourName(int id){
+		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", id);
+		return tour.getTourNo()+" "+tour.getTourName();
 	}
 }

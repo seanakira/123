@@ -550,11 +550,11 @@
 		        		var remittanceOk = $("<td></td>");
 		        		var remark = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
-		        		if(this.costTable.isRemittance){
+		        		if(this.costTable.remittanced){
 		        			realCost.html(this.costTable.realCost);
 		        			remark.html(this.costTable.remark);
 		        		}else{
-		        			if(this.costTable.isLend){
+		        			if(this.costTable.lend){
 		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
 		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
@@ -614,11 +614,11 @@
 		        		var remittanceOk = $("<td></td>");
 		        		var remark = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
-		        		if(this.costTable.isRemittance){
+		        		if(this.costTable.remittanced){
 		        			realCost.html(this.costTable.realCost);
 		        			remark.html(this.costTable.remark);
 		        		}else{
-		        			if(this.costTable.isLend){
+		        			if(this.costTable.lend){
 		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
 		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
@@ -675,12 +675,12 @@
 		        		if(this.loanTable.status==4){
 		        			ok.html('<a title="借款确认" href="#" class="green" id="loanOk"><i class="icon-ok bigger-130"></i></a>');
 		        		}
-		        		if(this.loanTable.isLend){
+		        		if(this.loanTable.lended){
 		        			tr = $('<tr>'+
 		        						'<td>'+this.loanTable.loanDate+'</td>'+
 		        						'<td class="loanAmountTd">'+this.loanTable.loanAmount+'</td>'+
 		        						'<td>'+this.loanTable.remark+'</td>'+
-		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
+		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lenderId+'" type="hidden"></td>'+
 		        						'<td>'+this.status+'<input type="hidden" value="'+this.loanTable.status+'"></td>'+
 		        						'<td id="'+this.loanTable.id+'"><input type="hidden" value="true"/></td>'+
 		        					'</tr>');
@@ -691,7 +691,7 @@
 		        						'<td>'+this.loanTable.loanDate+'</td>'+
 		        						'<td class="loanAmountTd">'+this.loanTable.loanAmount+'</td>'+
 		        						'<td>'+this.loanTable.remark+'</td>'+
-		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
+		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lenderId+'" type="hidden"></td>'+
 		        						'<td>'+this.status+'<input type="hidden" value="'+this.loanTable.status+'"></td>'+
 		        						'<td id="'+this.loanTable.id+'">'+ok.html()+'<input type="hidden" value="false"/></td>'+
 		        					'</tr>');
@@ -700,7 +700,7 @@
 		        						'<td><input class="form-control datepicker" value="'+this.loanTable.loanDate+'" type="text"></td>'+
 		        						'<td><input class="form-control loanAmountInput" value="'+this.loanTable.loanAmount+'" type="text"></td>'+
 		        						'<td><input class="form-control" value="'+this.loanTable.remark+'" type="text"></td>'+
-		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lender+'" type="hidden"></td>'+
+		        						'<td>'+this.lenderRealName+'<input value="'+this.loanTable.lenderId+'" type="hidden"></td>'+
 		        						'<td>'+this.status+'<input type="hidden" value="'+this.loanTable.status+'"></td>'+
 		        						'<td id="'+this.loanTable.id+'"><input type="hidden" value="false"/></td>'+
 		        					'</tr>');
@@ -788,7 +788,7 @@
    			$.ajax({
    		        type: "GET",  
    		        contentType:"application/json;charset=utf-8",  
-   		        url:"/localtour/payManage/isRemittance/",  
+   		        url:"/localtour/payManage/remittanced/",  
    		        data:myData,  
    		        dataType: "json",  
    		        async: false,  
@@ -858,8 +858,8 @@
 				alert("借款总计不能大于最大借款额");
 				inputs.val(0);
 			}else{
+				$(this).parent().prev().html('已借出<input value="4" type="hidden">');
 				$(this).parent().html('<input type="hidden" value="true"/>');
-				$(this).parent().prev().html('已借出');
 			}
     	});
 	/*更新 */
@@ -876,23 +876,23 @@
 								id:tds.last().attr("id"),
 								remark:tds.eq(-3).text(),
 								realCost:tds.eq(-5).text(),
-								isRemittance:true,
-								isLend:false});
+								remittanced:true,
+								lend:false});
 						}else{
 							var costInputs = costTrs.eq(int).find("input");
 							costTables.push({
 								id:tds.last().attr("id"),
 								realCost:costInputs.eq(0).val(),
 								remark:costInputs.eq(1).val(),
-								isRemittance:false,
-								isLend:false});
+								remittanced:false,
+								lend:false});
 						}
 					}else{
 						costTables.push({
 							id:tds.last().attr("id"),
 							remark:tds.eq(-3).text(),
-							isRemittance:false,
-							isLend:true});
+							remittanced:false,
+							lend:true});
 					}
 				}else{
 					var costInputs = costTrs.eq(int).find("input");
@@ -900,8 +900,8 @@
 						id:tds.last().attr("id"),
 						realCost:costInputs.eq(0).val(),
 						remark:costInputs.eq(1).val(),
-						isRemittance:false,
-						isLend:false});
+						remittanced:false,
+						lend:false});
 				}
 			}
 			var changeCostTables = new Array();
@@ -915,23 +915,23 @@
 								id:tds.last().attr("id"),
 								remark:tds.eq(-3).text(),
 								realCost:tds.eq(-5).text(),
-								isRemittance:true,
-								isLend:false});
+								remittanced:true,
+								lend:false});
 						}else{
 							var costInputs = changeCostTrs.eq(int).find("input");
 							changeCostTables.push({
 								id:tds.last().attr("id"),
 								realCost:costInputs.eq(0).val(),
 								remark:costInputs.eq(1).val(),
-								isRemittance:false,
-								isLend:false});
+								remittanced:false,
+								lend:false});
 						}
 					}else{
 						changeCostTables.push({
 							id:tds.last().attr("id"),
 							remark:tds.eq(-3).text(),
-							isRemittance:false,
-							isLend:true});
+							remittanced:false,
+							lend:true});
 					}
 				}else{
 					var costInputs = changeCostTrs.eq(int).find("input");
@@ -939,8 +939,8 @@
 						id:tds.last().attr("id"),
 						realCost:costInputs.eq(0).val(),
 						remark:costInputs.eq(1).val(),
-						isRemittance:false,
-						isLend:false});
+						remittanced:false,
+						lend:false});
 				}
 			}
 			var loanTables = new Array();
@@ -956,9 +956,9 @@
 							loanDate:new Date(inputs.eq(0).val()),
 							loanAmount:inputs.eq(1).val(),
 							remark:inputs.eq(2).val(),
-							lender:inputs.eq(3).val(),
+							lenderId:inputs.eq(3).val(),
 							status:inputs.eq(4).val(),
-							isLend:inputs.last().val()});
+							lended:inputs.last().val()});
 					}
 				}else{
 					loanTables.push({
@@ -967,15 +967,14 @@
 						loanDate:new Date(tds.eq(0).text()),
 						loanAmount:tds.eq(1).text(),
 						remark:tds.eq(2).text(),
-						lender:inputs.eq(0).val(),
+						lenderId:inputs.eq(0).val(),
 						status:inputs.eq(1).val(),
-						isLend:inputs.last().val()});
+						lended:inputs.last().val()});
 				}
 			});
 			
-			var fullPayViewModel = {costTables:costTables,changeCostTables:changeCostTables,loanTables:loanTables};
+			var fullPayViewModel = {costTables:costTables, changeCostTables:changeCostTables, loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
-			alert(myData);
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  

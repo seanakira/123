@@ -282,11 +282,12 @@ public class TourController {
 					return -5;
 				}else{
 					changeCostIncomeViewModel.getIncomeTables().get(i).setStatus(1);
+					changeCostIncomeViewModel.getIncomeTables().get(i).setIncomed(false);
 					incomeService.add(changeCostIncomeViewModel.getIncomeTables().get(i));
 				}
 			}
 		}
-		if(!changeCostIncomeViewModel.getCostTables().isEmpty()&&!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
+		if(!changeCostIncomeViewModel.getCostTables().isEmpty()||!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
 			/*这里或许需要判断用户权限*/
 			localTourService.sendMassage("changeCostIncomeApproval", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有待审核的<变更成本收入>，点击进行审核", request, session);
 		}
@@ -302,9 +303,9 @@ public class TourController {
 			String[] idset = ids.split(",");
 			for (int i = 0; i < idset.length; i++) {
 				/*session相关*/
-				localTourService.updateByParam("LoanTable", "status=2,applicationer=?", "id=?",((UserTable)session.getAttribute("user")).getId(), Integer.parseInt(idset[i]));
+				localTourService.updateByParam("LoanTable", "status=2,applicationerId=?", "id=?",((UserTable)session.getAttribute("user")).getId(), Integer.parseInt(idset[i]));
 			}
-			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<付款申请>，点击进行审核", request, session);
+			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<导游借款>，点击进行审核", request, session);
 		}
 	}
 }

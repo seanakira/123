@@ -110,7 +110,7 @@
 									</tr>
 							</tbody>
 						</table>
-						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger">驳回</button><button class="btn btn-sm btn-success pull-right">同意</button></div>
+						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>
@@ -149,7 +149,7 @@
 									</tr>
 								</tbody>
 							</table>
-						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger">驳回</button><button class="btn btn-sm btn-success pull-right">同意</button></div>
+						<div id="${changeIncome.incomeTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalIncome">驳回</button><button class="btn btn-sm btn-success pull-right changeIcome">同意</button></div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>
@@ -195,14 +195,60 @@
         	$(".action").remove();
         }
 		
-		$(".btn-success").click(function(){
+		$(".changeCost").click(function(){
 			var id = $(this).parent().attr("id");
-			var myData = {id:id};
 			$(this).parent().parent().remove();
+			var myData = {id:id};
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/mobile/changeCostOk",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			 });
+		});
+		$(".changeIcome").click(function(){
+			var id = $(this).parent().attr("id");
+			$(this).parent().parent().remove();
+			var myData = {id:id};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/mobile/changeIcomeOk",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			 });
+		});
+		
+		$(".cancalCost").click(function(){
+			var id = $(this).parent().attr("id");
+			$(this).parent().parent().remove();
+			var myData = {id:id};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/mobile/cancalCost",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			 });
+		});
+		$(".cancalIncome").click(function(){
+			var id = $(this).parent().attr("id");
+			$(this).parent().parent().remove();
+			var myData = {id:id};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/mobile/cancalIncome",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

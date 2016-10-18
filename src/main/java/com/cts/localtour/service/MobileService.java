@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.ChangeCostTable;
@@ -14,6 +15,7 @@ import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanTable;
+import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
@@ -26,6 +28,10 @@ import com.cts.localtour.viewModel.LoanViewModel;
 @SuppressWarnings("rawtypes")
 @Service
 public class MobileService extends BaseService{
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private LocalTourService localTourService;
 	@SuppressWarnings("unchecked")
 	public ChangeCostIncomeViewModel getAllChangCostIncome(int tourId, int status) {
 		/*这里需要权限判断  如果是总经理*/
@@ -49,7 +55,7 @@ public class MobileService extends BaseService{
 			if(costTables.get(i).isRemittanced()){
 				cost.setStatus("已电汇");
 			}else{
-				cost.setStatus(costTables.get(i).getStatus()==0?"新建":costTables.get(i).getStatus()==1?"已提交":costTables.get(i).getStatus()==2?"已审核":costTables.get(i).getStatus()==3?"已批准":"");
+				cost.setStatus(costTables.get(i).getStatus()==0?"新建":costTables.get(i).getStatus()==1?"待审核":costTables.get(i).getStatus()==2?"待批准":costTables.get(i).getStatus()==3?"已批准":"");
 			}
 			costs.add(cost);
 		}
@@ -59,10 +65,10 @@ public class MobileService extends BaseService{
 			income.setIncomeTable(incomeTable);
 			income.setCustomerAgencyName(((CustomerAgencyTable)this.getById("CustomerAgencyTable", incomeTable.getCustomerAgencyId())).getCustomerAgencyName());
 			income.setApplicationerRealName(incomeTable.getApplicationerId()==null||incomeTable.getApplicationerId()==0?"":((UserTable)this.getById("UserTable", incomeTable.getApplicationerId())).getRealName());
-			if(incomeTable.getIncomed()){
+			if(incomeTable.isIncomed()){
 				income.setStatus("已收款");
 			}else{
-				income.setStatus(incomeTable.getStatus()==0?"新建":incomeTable.getStatus()==1?"已提交":incomeTable.getStatus()==2?"已审核":incomeTable.getStatus()==3?"已批准":"");
+				income.setStatus(incomeTable.getStatus()==0?"新建":incomeTable.getStatus()==1?"待审核":incomeTable.getStatus()==2?"待批准":incomeTable.getStatus()==3?"已批准":"");
 			}
 			BigDecimal invoiceAmount = new BigDecimal(0);
 			ArrayList<InvoiceTable> invoiceTables =  (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "changeIncomeId=?", incomeTable.getId());
@@ -83,20 +89,37 @@ public class MobileService extends BaseService{
 		/*这里需要权限判断  如果是中心经理*/
 		cost.setStatus(2);
 		this.update(cost);
-		StringBuffer path = request.getRequestURL();  
-		String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-		String url = tempContextUrl+"mobile/changeCostIncomeApproval?tourId="+cost.getTourId()+"&status=2";
-	    UserTable user = (UserTable) session.getAttribute("user");
-	    DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
-	    String managerIds = dept.getManagerIds();
-	    String[] ids = managerIds.split(",");
-	    for (int i = 0; i < ids.length; i++) {
-	    	UserTable manager = (UserTable)super.getById("UserTable", Integer.parseInt(ids[i]));
-	    	WeiXinUtil.sendTextMessage(manager.getUserName(), url, "您有待审核的<新增成本收入>，点击进行审核", "0");
-		}
+		this.sendMessage("changeCostIncomeApproval", cost.getTourId(), 2, "您有待审核的<变更成本收入>，点击进行审核", request, session);
 	    /*如果是总经理*/
 	    /*cost.setStatus(3);
 		this.update(cost);*/
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void updateChangeIcome(HttpServletRequest request, HttpSession session, int id) {
+		ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", id);
+		/*这里需要权限判断  如果是中心经理*/
+		income.setStatus(2);
+		this.update(income);
+	    this.sendMessage("changeCostIncomeApproval", income.getTourId(), 2, "您有待审核的<变更成本收入>，点击进行审核", request, session);
+	    /*如果是总经理*/
+	    /*cost.setStatus(3);
+		this.update(cost);*/
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void cancalChangeCost(HttpServletRequest request, HttpSession session, int id) {
+		ChangeCostTable cost = (ChangeCostTable)this.getById("ChangeCostTable", id);
+		this.delete(cost);
+		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", cost.getApplicationerId())).getUserName(), null, "您的<"+localTourService.getTourNoAndTourName(cost.getTourId())+">团，申请的成本变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
+	}
+
+	@SuppressWarnings("unchecked")
+	public void cancalChangeIncome(HttpServletRequest request, HttpSession session, int id) {
+		ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", id);
+		this.delete(income);
+		LocalTourTable tour = (LocalTourTable) this.getById("LocalTourTable", income.getTourId());
+		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", income.getApplicationerId())).getUserName(), null, "您的"+tour.getTourNo()+"  "+tour.getTourName()+"团，申请的收入变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -112,8 +135,8 @@ public class MobileService extends BaseService{
 		for (int i = 0; i < loanTables.size(); i++) {
 			LoanViewModel loan = new LoanViewModel();
 			loan.setLoanTable(loanTables.get(i));
-			loan.setApplicationerRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getApplicationerId())).getRealName());
-			if(loanTables.get(i).getLended()){
+			loan.setApplicationerRealName(loanTables.get(i).getApplicationerId()==null?"":((UserTable)this.getById("UserTable", loanTables.get(i).getApplicationerId())).getRealName());
+			if(loanTables.get(i).isLended()){
 				loan.setStatus("已借出");
 			}else{
 				if(loanTables.get(i).getStatus()==0){
@@ -121,9 +144,9 @@ public class MobileService extends BaseService{
 				}else if(loanTables.get(i).getStatus()==1){
 					loan.setStatus("可借");
 				}else if(loanTables.get(i).getStatus()==2){
-					loan.setStatus("已提交");
+					loan.setStatus("待审核");
 				}else if(loanTables.get(i).getStatus()==3){
-					loan.setStatus("已审核");
+					loan.setStatus("待批准");
 				}else if(loanTables.get(i).getStatus()==4){
 					loan.setStatus("已批准");
 				}
@@ -134,7 +157,7 @@ public class MobileService extends BaseService{
 	}
 
 	@SuppressWarnings("unchecked")
-	public void updateLoanTable(HttpServletRequest request, HttpSession session, int id) {
+	public void loanApplicationOk(HttpServletRequest request, HttpSession session, int id) {
 		/*这里需要权限判断 如果是中心经理*/
 		LoanTable loan = (LoanTable) this.getById("LoanTable", id);
 		loan.setStatus(3);
@@ -146,6 +169,14 @@ public class MobileService extends BaseService{
 		this.update(loan);*/
 	}
 
+	@SuppressWarnings("unchecked")
+	public void loanApplicationCancel(HttpServletRequest request, HttpSession session, int id) {
+		LoanTable loan = (LoanTable) this.getById("LoanTable", id);
+		loan.setStatus(1);
+		this.update(loan);
+		WeiXinUtil.sendTextMessage(userService.getUserName(loan.getApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(loan.getTourId())+">申请的导游借款已经被驳回，如需再次申请，请联系财务修改借款内容后，再次提交", "0");
+	}
+	
 	public void sendMessage(String mobileControllerMapping, int tourId, int status, String message, HttpServletRequest request, HttpSession session){
 		StringBuffer path = request.getRequestURL();  
 		String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
