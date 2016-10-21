@@ -1,6 +1,5 @@
 package com.cts.localtour.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -14,35 +13,22 @@ import com.cts.localtour.DAO.LocalTourDAO;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.TourTypeTable;
-import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.entity.VisitorTypeTable;
-import com.cts.localtour.util.WeiXinUtil;
-import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.ChangeCostTable;
-import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
-import com.cts.localtour.entity.DepartTable;
-import com.cts.localtour.entity.DeptTable;
-import com.cts.localtour.entity.GuideTable;
-import com.cts.localtour.entity.GuideTimeTable;
-import com.cts.localtour.entity.IncomeTable;
-import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
-import com.cts.localtour.viewModel.ArrDepViewModel;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
-import com.cts.localtour.viewModel.ChangeIncomeViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
-import com.cts.localtour.viewModel.GuideTimeViewModel;
+import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
-import com.cts.localtour.viewModel.IncomeViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 
 @SuppressWarnings("rawtypes")
@@ -52,6 +38,16 @@ public class LocalTourService extends BaseService{
 	private LocalTourDAO localTourDAO;
 	@Autowired
 	private MobileService mobileService;
+	@Autowired
+	private CostViewModel costViewModel;
+	@Autowired
+	private ChangeCostViewModel changeCostViewModel;
+	@Autowired
+	private LoanViewModel loanViewModel;
+	@Autowired
+	private ChangeCostIncomeViewModel changeCostIncomeViewModel;
+	@Autowired
+	private FullLocalTourViewModel fullLocalTourViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -122,7 +118,7 @@ public class LocalTourService extends BaseService{
 	}
 	
 	public void changeStatus(int id, int status) {
-		this.updateByParam("LocalTourTable", "status=?", "id="+id, status);
+		this.updateByString("LocalTourTable", "status=?", "id="+id, status);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -169,115 +165,11 @@ public class LocalTourService extends BaseService{
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<SupplierTable> getSuppliers(int supplierScopeID){
-		ArrayList<SupplierTable> list = (ArrayList<SupplierTable>) this.getByHql("SELECT a FROM SupplierTable a,SupplierBusinessTable b WHERE a.id=b.supplierId and b.supplierScopeId='"+supplierScopeID+"'");
-		return list;
+		return (ArrayList<SupplierTable>) this.getByHql("SELECT a FROM SupplierTable a,SupplierBusinessTable b WHERE a.id=b.supplierId and b.supplierScopeId='"+supplierScopeID+"'");
 	}
-	@SuppressWarnings("unchecked")
+	
 	public FullLocalTourViewModel find(int id) {
-		FullLocalTourViewModel full = new FullLocalTourViewModel();
-		LocalTourTable localTour = (LocalTourTable) this.getById("LocalTourTable", id);
-		full.setLocalTourTable(localTour);
-		
-		Hashtable<String, String> tourInfo = new Hashtable<String, String>();
-		tourInfo.put("businessTypeName", ((BusinessTypeTable)this.getById("BusinessTypeTable", localTour.getBusinessTypeId())).getBusinessTypeName());
-		tourInfo.put("tourTypeName", ((TourTypeTable)this.getById("TourTypeTable", localTour.getTourTypeId())).getTourTypeName());
-		tourInfo.put("regionName", ((RegionTable)this.getById("RegionTable", localTour.getRegionId())).getRegionName());
-		tourInfo.put("visitorTypeName", ((VisitorTypeTable)this.getById("VisitorTypeTable", localTour.getVisitorTypeId())).getVisitorTypeName());
-		tourInfo.put("customerAgencyName", ((CustomerAgencyTable)this.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
-		full.setTourInfo(tourInfo);
-		
-		ArrayList<GuideTimeTable> guideTimeTables = (ArrayList<GuideTimeTable>)this.getAllByString("GuideTimeTable", "tourId=?", id);
-		ArrayList<GuideTimeViewModel> guideTimes = new ArrayList<GuideTimeViewModel>();
-		for (int i = 0; i < guideTimeTables.size(); i++) {
-			GuideTimeViewModel guideTime = new GuideTimeViewModel();
-			guideTime.setRealName(((UserTable)this.getById("UserTable", ((GuideTable)this.getById("GuideTable", guideTimeTables.get(i).getGuideId())).getUserId())).getRealName());
-			guideTime.setGuideId(guideTimeTables.get(i).getGuideId());
-			guideTimes.add(guideTime);
-		}
-		full.setGuideTimes(guideTimes);
-		
-		ArrayList<ArrTable> arrTables = (ArrayList<ArrTable>) this.getAllByString("ArrTable", "tourId=?", id);
-		ArrayList<ArrDepViewModel> arrs = new ArrayList<ArrDepViewModel>();
-		for (int i = 0; i < arrTables.size(); i++) {
-			ArrDepViewModel arr = new ArrDepViewModel();
-			arr.setArrTable(arrTables.get(i));
-			arr.setRegion1(((RegionTable)this.getById("RegionTable", arrTables.get(i).getOriginId())).getRegionName());
-			arr.setRegion2(((RegionTable)this.getById("RegionTable", arrTables.get(i).getArrRegionId())).getRegionName());
-			arrs.add(arr);
-		}
-		full.setArrTables(arrTables);
-		full.setArrs(arrs);
-		
-		ArrayList<DepartTable> departTables = (ArrayList<DepartTable>) this.getAllByString("DepartTable", "tourId=?", id);
-		ArrayList<ArrDepViewModel> departs = new ArrayList<ArrDepViewModel>();
-		for (int i = 0; i < departTables.size(); i++) {
-			ArrDepViewModel depart = new ArrDepViewModel();
-			depart.setDepartTable(departTables.get(i));
-			depart.setRegion1(((RegionTable)this.getById("RegionTable", departTables.get(i).getDestId())).getRegionName());
-			depart.setRegion2(((RegionTable)this.getById("RegionTable", departTables.get(i).getDepartRegionId())).getRegionName());
-			departs.add(depart);
-		}
-		full.setDepartTables(departTables);
-		full.setDeparts(departs);
-		full.setTripTables((ArrayList<TripTable>) this.getAllByString("TripTable", "tourId=?", id));
-		
-		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=?", id);
-		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
-		for (int i = 0; i < costTables.size(); i++) {
-			CostViewModel cost = new CostViewModel();
-			cost.setCostTable(costTables.get(i));
-			cost.setContentName((costTables.get(i).getContentId()==null||costTables.get(i).getContentId()==0)?"":((SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
-			cost.setSupplierName(((SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
-			cost.setBorrowUserName((costTables.get(i).getBorrowUserId()==null||costTables.get(i).getBorrowUserId()==0)?"":((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
-			costs.add(cost);
-		}
-		full.setCosts(costs);
-		
-		ArrayList<IncomeTable> incomeTables = (ArrayList<IncomeTable>) this.getAllByString("IncomeTable", "tourId=?", id);
-		ArrayList<IncomeViewModel> incomes = new ArrayList<IncomeViewModel>();
-		for (int i = 0; i < incomeTables.size(); i++) {
-			IncomeViewModel income = new IncomeViewModel();
-			income.setIncomeTable(incomeTables.get(i));
-			income.setCustomerAgencyName(((CustomerAgencyTable)this.getById("CustomerAgencyTable", incomeTables.get(i).getCustomerAgencyId())).getCustomerAgencyName());
-			BigDecimal invoiceAmount = new BigDecimal(0);
-			ArrayList<InvoiceTable> invoiceTables =  (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "incomeId=?", incomeTables.get(i).getId());
-			for (int j = 0; j < invoiceTables.size(); j++) {
-				invoiceAmount = invoiceAmount.add(new BigDecimal(invoiceTables.get(i).getInvoiceAmount()));
-			}
-			income.setInvoiceAmount(invoiceAmount.floatValue());
-			incomes.add(income);
-		}
-		full.setIncomes(incomes);
-		
-		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "tourId=? and status=3", id);
-		ArrayList<ChangeCostViewModel> changeCosts = new ArrayList<ChangeCostViewModel>();
-		for (int i = 0; i < changeCostTables.size(); i++) {
-			ChangeCostViewModel changeCost = new ChangeCostViewModel();
-			changeCost.setBorrowUserName((changeCostTables.get(i).getBorrowUserId()==null||changeCostTables.get(i).getBorrowUserId()==0)?"":((UserTable)this.getById("UserTable", changeCostTables.get(i).getBorrowUserId())).getRealName());
-			changeCost.setContentName((changeCostTables.get(i).getContentId()==null||changeCostTables.get(i).getContentId()==0)?"":((SupplierContentTable)this.getById("SupplierContentTable", changeCostTables.get(i).getContentId())).getContentName());
-			changeCost.setCostTable(changeCostTables.get(i));
-			changeCost.setSupplierName(((SupplierTable)this.getById("SupplierTable", changeCostTables.get(i).getSupplierId())).getSupplierName());
-			changeCosts.add(changeCost);
-		}
-		full.setChangeCosts(changeCosts);
-		
-		ArrayList<ChangeIncomeTable> changeIncomeTables = (ArrayList<ChangeIncomeTable>) this.getAllByString("ChangeIncomeTable", "tourId=? and status=3", id);
-		ArrayList<ChangeIncomeViewModel> changeIncomes = new ArrayList<ChangeIncomeViewModel>();
-		for (int i = 0; i < changeIncomeTables.size(); i++) {
-			ChangeIncomeViewModel changeIncome = new ChangeIncomeViewModel();
-			changeIncome.setCustomerAgencyName(((CustomerAgencyTable)this.getById("CustomerAgencyTable", changeIncomeTables.get(i).getCustomerAgencyId())).getCustomerAgencyName());
-			changeIncome.setIncomeTable(changeIncomeTables.get(i));
-			BigDecimal invoiceAmount = new BigDecimal(0);
-			ArrayList<InvoiceTable> invoiceTables =  (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "changeIncomeId=?", changeIncomeTables.get(i).getId());
-			for (int j = 0; j < invoiceTables.size(); j++) {
-				invoiceAmount = invoiceAmount.add(new BigDecimal(invoiceTables.get(j).getInvoiceAmount()));
-			}
-			changeIncome.setInvoiceAmount(invoiceAmount.floatValue());
-			changeIncomes.add(changeIncome);
-		}
-		full.setChangeIncomes(changeIncomes);
-		
-		return full;
+		return fullLocalTourViewModel.getFullLocalTourViewModel(id);
 	}
 	@SuppressWarnings("unchecked")
 	public boolean updateLocalTour(LocalTourTable localTourTable) {
@@ -303,73 +195,58 @@ public class LocalTourService extends BaseService{
 		}
 		return true;
 	}
-	@SuppressWarnings("unchecked")
+	
 	public ChangeCostIncomeViewModel chanageCostIncomeFind(int tourId) {
-		ChangeCostIncomeViewModel changeCostIncomeViewModel = new ChangeCostIncomeViewModel();
-		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "tourId=? and status<3", tourId);
-		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
-		for (int i = 0; i < costTables.size(); i++) {
-			ChangeCostViewModel cost = new ChangeCostViewModel();
-			cost.setCostTable(costTables.get(i));
-			cost.setBorrowUserName((costTables.get(i).getBorrowUserId()==null||costTables.get(i).getBorrowUserId()==0)?"":((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
-			SupplierContentTable supplierContentTable = (SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId());
-			cost.setContentName(supplierContentTable==null?"":supplierContentTable.getContentName());
-			SupplierTable supplierTable = (SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierScopeId());
-			cost.setSupplierName(supplierTable==null?"":supplierTable.getSupplierName());
-			costs.add(cost);
-		}
-		ArrayList<ChangeIncomeTable> incomeTables = (ArrayList<ChangeIncomeTable>) this.getAllByString("ChangeIncomeTable", "tourId=? and status<3", tourId);
-		ArrayList<ChangeIncomeViewModel> incomes = new ArrayList<ChangeIncomeViewModel>();
-		for (int i = 0; i < incomeTables.size(); i++) {
-			ChangeIncomeViewModel income = new ChangeIncomeViewModel();
-			income.setIncomeTable(incomeTables.get(i));
-			income.setCustomerAgencyName(((CustomerAgencyTable)this.getById("CustomerAgencyTable", incomeTables.get(i).getCustomerAgencyId())).getCustomerAgencyName());
-			BigDecimal invoiceAmount = new BigDecimal(0);
-			ArrayList<InvoiceTable> invoiceTables =  (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "incomeId=?", incomeTables.get(i).getId());
-			for (int j = 0; j < invoiceTables.size(); j++) {
-				invoiceAmount = invoiceAmount.add(new BigDecimal(invoiceTables.get(i).getInvoiceAmount()));
-			}
-			income.setInvoiceAmount(invoiceAmount.floatValue());
-			incomes.add(income);
-		}
-		changeCostIncomeViewModel.setCosts(costs);
-		changeCostIncomeViewModel.setIncomes(incomes);
-		return changeCostIncomeViewModel;
+		return changeCostIncomeViewModel.getAllChangeCostIncomeViewModel(tourId);
 	}
 	
 	public void sendMassage(String mobileControllerMapping, int tourId, int status, String message, HttpServletRequest request, HttpSession session){
 		mobileService.sendMessage(mobileControllerMapping, tourId, status, message, request, session);
 	}
-	@SuppressWarnings("unchecked")
+	
 	public ArrayList<LoanViewModel> findLend(int tourId) {
-		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=?", tourId);
-		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
-		for (int i = 0; i < loanTables.size(); i++) {
-			LoanViewModel loan = new LoanViewModel();
-			loan.setLoanTable(loanTables.get(i));
-			loan.setLenderRealName(((UserTable)this.getById("UserTable", loanTables.get(i).getLenderId())).getRealName());
-			if(loanTables.get(i).isLended()){
-				loan.setStatus("已借出");
-			}else{
-				if(loanTables.get(i).getStatus()==0){
-					loan.setStatus("新建");
-				}else if(loanTables.get(i).getStatus()==1){
-					loan.setStatus("可借");
-				}else if(loanTables.get(i).getStatus()==2){
-					loan.setStatus("已提交");
-				}else if(loanTables.get(i).getStatus()==3){
-					loan.setStatus("已审核");
-				}else if(loanTables.get(i).getStatus()==4){
-					loan.setStatus("已批准");
-				}
-			}
-			loans.add(loan);
-		}
-		return loans;
+		return loanViewModel.getAllLoanViewModel(tourId);
 	}
 	
 	public String getTourNoAndTourName(int id){
 		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", id);
 		return tour.getTourNo()+" "+tour.getTourName();
+	}
+	
+	public FullPayViewModel findPay(int tourId) {
+		FullPayViewModel pay = new FullPayViewModel();
+		pay.setCosts(costViewModel.getAllCostViewModel(tourId));
+		pay.setChangeCosts(changeCostViewModel.getAllChangeCostViewModell(tourId));
+		return pay;
+	}
+	@SuppressWarnings("unchecked")
+	public void payApplication(String costIds, String changeCostIds) {
+		String[] ids = costIds.split(",");
+		for (String id : ids) {
+			CostTable costTable = (CostTable)this.getById("CostTable", Integer.parseInt(id));
+			if(costTable.getPayStatus()==0){
+				costTable.setPayStatus(1);
+				this.update(costTable);
+			}
+		}
+		ids = changeCostIds.split(",");
+		for (String id : ids) {
+			ChangeCostTable cost = (ChangeCostTable)this.getById("ChangeCostTable", Integer.parseInt(id));
+			if(cost.getPayStatus()==0){
+				cost.setPayStatus(1);
+				this.update(cost);
+			}
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public void loanApplication(String ids) {
+		String[] idss = ids.split(",");
+		for (String id : idss) {
+			LoanTable loanTable = (LoanTable)this.getById("LoanTable", Integer.parseInt(id));
+			if(loanTable.getStatus()==1){
+				loanTable.setStatus(2);
+				this.update(loanTable);
+			}
+		}
 	}
 }

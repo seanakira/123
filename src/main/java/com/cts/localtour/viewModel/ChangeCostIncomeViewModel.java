@@ -2,14 +2,21 @@ package com.cts.localtour.viewModel;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.ChangeIncomeTable;
-
+@Component
 public class ChangeCostIncomeViewModel {
 	private ArrayList<ChangeCostTable> costTables;
 	private ArrayList<ChangeIncomeTable> incomeTables;
 	private ArrayList<ChangeCostViewModel> costs;
 	private ArrayList<ChangeIncomeViewModel> incomes;
+	@Autowired
+	private ChangeCostViewModel changeCostViewModel;
+	@Autowired
+	private ChangeIncomeViewModel changeIncomeViewModel;
 	public ArrayList<ChangeCostTable> getCostTables() {
 		return costTables;
 	}
@@ -33,5 +40,11 @@ public class ChangeCostIncomeViewModel {
 	}
 	public void setIncomes(ArrayList<ChangeIncomeViewModel> incomes) {
 		this.incomes = incomes;
+	}
+	public ChangeCostIncomeViewModel getAllChangeCostIncomeViewModel(int tourId){
+		ChangeCostIncomeViewModel changeCostIncomeViewModel = new ChangeCostIncomeViewModel();
+		changeCostIncomeViewModel.setCosts(changeCostViewModel.getAllChangeCostViewModell(tourId));
+		changeCostIncomeViewModel.setIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId));
+		return changeCostIncomeViewModel;
 	}
 }

@@ -22,7 +22,7 @@ public class TourStatusStartOrEnd {
 	@Scheduled(cron="0 0 0 * * *")  
 	public void firstTask(){  
 //		System.out.println("==============it is first task!ʱ�䣺"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		localTourService.updateByParam("LocalTourTable", "status=?", "startTime=? and status=?", 4, new Date() ,3);
-		localTourService.updateByParam("LocalTourTable", "status=?", "endTime=? and status=?", 5, new Date() ,4);
+		localTourService.updateByString("LocalTourTable", "status=?", "startTime=? and status=?", 4, new Date() ,3);
+		localTourService.updateByString("LocalTourTable", "status=?", "endTime=? and status=?", 5, new Date() ,4);
 	}
 }

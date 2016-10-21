@@ -44,6 +44,6 @@ public class RegionService extends BaseService{
 	}
 
 	public void update(RegionTable region) {
-		this.updateByParam("RegionTable", "regionName=?", "id="+region.getId(), region.getRegionName());
+		this.updateByString("RegionTable", "regionName=?", "id="+region.getId(), region.getRegionName());
 	}
 }

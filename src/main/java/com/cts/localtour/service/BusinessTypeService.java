@@ -36,7 +36,7 @@ public class BusinessTypeService extends BaseService{
 	}
 
 	public void update(BusinessTypeTable businessType) {
-		this.updateByParam("BusinessTypeTable", "businessTypeName=?", "id="+businessType.getId(), businessType.getBusinessTypeName());
+		this.updateByString("BusinessTypeTable", "businessTypeName=?", "id="+businessType.getId(), businessType.getBusinessTypeName());
 	}
 
 	@SuppressWarnings("unchecked")

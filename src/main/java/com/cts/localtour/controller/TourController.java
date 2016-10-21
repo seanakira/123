@@ -37,6 +37,7 @@ import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
+import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
@@ -293,19 +294,29 @@ public class TourController {
 		}
 		return 0;
 	}
-	@RequestMapping("localTourManage/findLend")
+	/*借款管理*/
+	@RequestMapping("/localTourManage/findLend")
 	public @ResponseBody ArrayList<LoanViewModel> findLend(@RequestParam int tourId){
 		return localTourService.findLend(tourId);
 	}
-	@RequestMapping("localTourManage/loanApplication")
+	@RequestMapping("/localTourManage/loanApplication")
 	public void loanApplication(@RequestParam int tourId, @RequestParam String ids, HttpServletRequest request, HttpSession session){
 		if(!"".equals(ids)){
-			String[] idset = ids.split(",");
-			for (int i = 0; i < idset.length; i++) {
-				/*session相关*/
-				localTourService.updateByParam("LoanTable", "status=2,applicationerId=?", "id=?",((UserTable)session.getAttribute("user")).getId(), Integer.parseInt(idset[i]));
-			}
+			localTourService.loanApplication(ids);
 			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<导游借款>，点击进行审核", request, session);
 		}
+	}
+	/*付款管理*/
+	@RequestMapping("/localTourManage/findPay")
+	public @ResponseBody FullPayViewModel findPay(@RequestParam int tourId){
+		return localTourService.findPay(tourId);
+	}
+	@RequestMapping("/localTourManage/payApplication")
+	public void payApplication(@RequestParam int tourId, @RequestParam String costIds, @RequestParam String changeCostIds, HttpServletRequest request, HttpSession session){
+		if(!"".equals(costIds)||!"".equals(changeCostIds)){
+			localTourService.payApplication(costIds, changeCostIds);
+			localTourService.sendMassage("payApplication", tourId, 1, "您有待审核的<付款申请>，点击进行审核", request, session);
+		}
+		
 	}
 }

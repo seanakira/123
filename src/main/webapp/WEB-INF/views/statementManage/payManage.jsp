@@ -243,10 +243,11 @@
 																<th style="width: 15%;">供应商*</th>
 																<th style="width: 10%;">成本小计</th>
 																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
+																<th style="width: 8%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">操作</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -263,10 +264,11 @@
 																<th style="width: 15%;">供应商*</th>
 																<th style="width: 10%;">成本小计</th>
 																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
+																<th style="width: 8%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">操作</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -286,7 +288,8 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">操作</th>
+																<th style="width: 6%;">挂账</th>
+																<th style="width: 6%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -306,7 +309,8 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">操作</th>
+																<th style="width: 6%;">挂账</th>
+																<th style="width: 6%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -326,7 +330,8 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">操作</th>
+																<th style="width: 6%;">挂账</th>
+																<th style="width: 6%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -346,7 +351,8 @@
 																<th style="width: 10%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
 																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">操作</th>
+																<th style="width: 6%;">挂账</th>
+																<th style="width: 6%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -365,7 +371,8 @@
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
 															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">操作</th>
+															<th style="width: 6%;">挂账</th>
+															<th style="width: 6%;">状态</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -385,7 +392,8 @@
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
 															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">操作</th>
+															<th style="width: 6%;">挂账</th>
+															<th style="width: 6%;">状态</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -462,9 +470,7 @@
 		$("#statementManage").addClass("open");
 		$("#statementManage").children("ul").attr("style","display:block");
 		$("#payManage").addClass("active");
-		$("#create").find("input").attr("style","width:100%;");
-		$("#create").find("select").attr("style","width:100%;");
-		$(".modal-dialog").attr("style","width:70%;");
+		$(".modal-dialog").attr("style","width:80%;");
 		/* 提示 */
 		$("a").tooltip({
 			show: null,
@@ -547,29 +553,44 @@
 		        	other.html("");
 		        	$.each(data.costs,function(){
 		        		var realCost = $("<td></td>");
-		        		var remittanceOk = $("<td></td>");
+		        		var payStatus = $("<td></td>");
 		        		var remark = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
-		        		if(this.costTable.remittanced){
-		        			realCost.html(this.costTable.realCost);
-		        			remark.html(this.costTable.remark);
+		        		var bill = $("<td></td>");
+		        		if(this.costTable.payStatus==0){
+		        			if(this.costTable.realCost==0){
+	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+			        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
+	        				}else{
+	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+			        			realCost.html(this.costTable.realCost);
+	        				}
+		        			if(this.costTable.bill){
+		        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+		        			}else{
+		        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        			}
+		        			payStatus.html(this.payStatus);
 		        		}else{
+		        			if(this.costTable.bill){
+		        				bill.html('<i class="icon-ok bigger-130"></i>');
+		        			}
 		        			if(this.costTable.lend){
-		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
 		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
-		        			}else{
-		        				if(this.costTable.realCost==0){
-		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-				        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
-		        				}else{
-		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-		        				}
 		        			}
+		        			if(this.costTable.remittanced){
+			        			realCost.html(this.costTable.realCost);
+		        			}
+		        			if(this.costTable.payStatus==3){
+		        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+		        			}else{
+		        				payStatus.html(this.payStatus);
+		        			}
+		        			remark.html(this.costTable.remark);
+		        			realCost.html(this.costTable.realCost);
 		        		}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
@@ -598,7 +619,8 @@
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+remark.html()+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
-										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+remittanceOk.html()+'</td>'+
+										'<td>'+bill.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+'</td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
@@ -611,29 +633,44 @@
 		        	}
 		        	$.each(data.changeCosts,function(){
 		        		var realCost = $("<td></td>");
-		        		var remittanceOk = $("<td></td>");
+		        		var payStatus = $("<td></td>");
 		        		var remark = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
-		        		if(this.costTable.remittanced){
-		        			realCost.html(this.costTable.realCost);
-		        			remark.html(this.costTable.remark);
+		        		var bill = $("<td></td>");
+		        		if(this.costTable.payStatus==0){
+		        			if(this.costTable.realCost==0){
+	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+			        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
+	        				}else{
+	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
+			        			realCost.html(this.costTable.realCost);
+	        				}
+		        			if(this.costTable.bill){
+		        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+		        			}else{
+		        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        			}
+		        			payStatus.html(this.payStatus);
 		        		}else{
+		        			if(this.costTable.bill){
+		        				bill.html('<i class="icon-ok bigger-130"></i>');
+		        			}
 		        			if(this.costTable.lend){
-		        				remark.html(this.costTable.remark);
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
 		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
-		        			}else{
-		        				if(this.costTable.realCost==0){
-		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-				        			guideLoan.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
-		        				}else{
-		        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-				        			remittanceOk.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-				        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-		        				}
 		        			}
+		        			if(this.costTable.remittanced){
+			        			realCost.html(this.costTable.realCost);
+		        			}
+		        			if(this.costTable.payStatus==3){
+		        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
+		        			}else{
+		        				payStatus.html(this.payStatus);
+		        			}
+		        			remark.html(this.costTable.remark);
+		        			realCost.html(this.costTable.realCost);
 		        		}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
@@ -662,7 +699,8 @@
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+remark.html()+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
-										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+remittanceOk.html()+'</td>'+
+										'<td>'+bill.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+'</td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
@@ -754,57 +792,23 @@
     		$(this).val($(this).parent().prev().text());
     	});
     	/* 勾选导游借款 */
-    	$("#costs3").delegate(".ace","click",function(){
+    	$("#costs3").delegate(".lend","click",function(){
     		if($(this).prop("checked")){
-    			$(this).parent().parent().siblings().last().children("a").remove();
     			$(this).parent().parent().siblings().eq(4).html("");
     			$(this).parent().parent().siblings().eq(6).html($(this).parent().parent().siblings().eq(6).children("input").val());
     			$("#maxLoan").html((parseFloat($("#maxLoan").html())+parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
     			$(this).parent().parent().html('<i class="icon-ok bigger-130"></i>');
-    		}/* else{
-    			$(this).parent().parent().siblings().eq(4).html('<input id="remittance" class="form-control" value="0" type="text">');
-    			var a = $('<a id="remittanceOk" class="green" href="#" title="汇款确认"><i class="icon-ok bigger-130"></i></a>');
-    			a.tooltip({
-        			show: null,
-        			position: {
-        				my: "left top",
-        				at: "left bottom"
-        			},
-        			open: function( event, ui ) {
-        				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-        			}
-        		});
-    			$(this).parent().parent().siblings().last().prepend(a);
-    			$(this).parent().parent().siblings().eq(6).html('<input class="form-control" value="'+$(this).parent().parent().siblings().eq(6).text()+'" type="text">');
-    			$("#maxLoan").html((parseFloat($("#maxLoan").html())-parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
-    		} */
+    		}
     	});
     	/* 确认汇款 */
     	$("#costs3").delegate("#remittanceOk","click",function(){
     		var a = $(this);
     		var td = a.parent();
+    		var value = parseFloat(td.siblings().eq(4).text());
     		a.remove();
-    		/* var myData = {id:td.attr("id"),realCost:td.parent().find("#remittance").val()};
-   			$.ajax({
-   		        type: "GET",  
-   		        contentType:"application/json;charset=utf-8",  
-   		        url:"/localtour/payManage/remittanced/",  
-   		        data:myData,  
-   		        dataType: "json",  
-   		        async: false,  
-   		        success:function(data){
-   		        	if(data){ */
-   		        		td.prev().html("");
-   		        		var inputs = td.parent().find("input");
-   		        		var value = inputs.eq(0).val();
-   		        		inputs.eq(0).parent().html(value);
-   		        		inputs.eq(1).parent().html(inputs.eq(1).val());
-   		        		var realCostTd = $("#table").find("#"+$("#saveEdit").parent().attr("id")).siblings().eq(5);
-   		        		var realCost = parseFloat(realCostTd.html());
-   		        		realCostTd.html(parseFloat(realCost+value));
-   		         	/* }
-   		        }
-    		}); */
+       		var realCostTd = $("#table").find("#"+$("#saveEdit").parent().attr("id")).siblings().eq(5);
+       		var realCost = parseFloat(realCostTd.html());
+       		realCostTd.html((realCost+value).toFixed(2));
     	});
     	/* 增加借款 */
     	$(".addLoan").click(function(){
@@ -869,14 +873,25 @@
 			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not(".blue");
 			for (var int = 0; int < costTrs.length; int++) {
 				var tds = costTrs.eq(int).children("td");
-				if(tds.eq(-2).find("input").length==0){
-					if(tds.eq(-2).children("i").length==0){
+				var bill = false;
+				if(tds.eq(8).find("input").length==0){
+					if(tds.eq(8).find("i").length==1){
+						bill = true;
+					}
+				}else{
+					if(tds.eq(8).find("input").prop("checked")){
+						bill = true;
+					}
+				}
+				if(tds.eq(7).find("input").length==0){
+					if(tds.eq(7).children("i").length==0){
 						if(tds.last().find("a").length==0){
 							costTables.push({
 								id:tds.last().attr("id"),
-								remark:tds.eq(-3).text(),
+								remark:tds.eq(6).text(),
 								realCost:tds.eq(-5).text(),
 								remittanced:true,
+								bill:bill,
 								lend:false});
 						}else{
 							var costInputs = costTrs.eq(int).find("input");
@@ -885,13 +900,15 @@
 								realCost:costInputs.eq(0).val(),
 								remark:costInputs.eq(1).val(),
 								remittanced:false,
+								bill:bill,
 								lend:false});
 						}
 					}else{
 						costTables.push({
 							id:tds.last().attr("id"),
-							remark:tds.eq(-3).text(),
+							remark:tds.eq(6).text(),
 							remittanced:false,
+							bill:bill,
 							lend:true});
 					}
 				}else{
@@ -901,6 +918,7 @@
 						realCost:costInputs.eq(0).val(),
 						remark:costInputs.eq(1).val(),
 						remittanced:false,
+						bill:bill,
 						lend:false});
 				}
 			}
@@ -908,14 +926,25 @@
 			var changeCostTrs = $("#edit").find("#costs3").find("tbody").find("tr.blue");
 			for (var int = 0; int < changeCostTrs.length; int++) {
 				var tds = changeCostTrs.eq(int).children("td");
+				var bill = false;
+				if(tds.eq(8).find("input").length==0){
+					if(tds.eq(8).find("i").length==1){
+						bill = true;
+					}
+				}else{
+					if(tds.eq(8).find("input").prop("checked")){
+						bill = true;
+					}
+				}
 				if(tds.eq(-2).find("input").length==0){
 					if(tds.eq(-2).children("i").length==0){
 						if(tds.last().find("a").length==0){
 							changeCostTables.push({
 								id:tds.last().attr("id"),
-								remark:tds.eq(-3).text(),
+								remark:tds.eq(6).text(),
 								realCost:tds.eq(-5).text(),
 								remittanced:true,
+								bill:bill,
 								lend:false});
 						}else{
 							var costInputs = changeCostTrs.eq(int).find("input");
@@ -924,13 +953,15 @@
 								realCost:costInputs.eq(0).val(),
 								remark:costInputs.eq(1).val(),
 								remittanced:false,
+								bill:bill,
 								lend:false});
 						}
 					}else{
 						changeCostTables.push({
 							id:tds.last().attr("id"),
-							remark:tds.eq(-3).text(),
+							remark:tds.eq(6).text(),
 							remittanced:false,
+							bill:bill,
 							lend:true});
 					}
 				}else{
@@ -940,6 +971,7 @@
 						realCost:costInputs.eq(0).val(),
 						remark:costInputs.eq(1).val(),
 						remittanced:false,
+						bill:bill,
 						lend:false});
 				}
 			}

@@ -44,6 +44,6 @@ public class SupplierScopeService extends BaseService{
 	}
 
 	public void update(SupplierScopeTable supplierScope) {
-		this.updateByParam("SupplierScopeTable", "supplierScopeName=?", "id="+supplierScope.getId(), supplierScope.getSupplierScopeName());
+		this.updateByString("SupplierScopeTable", "supplierScopeName=?", "id="+supplierScope.getId(), supplierScope.getSupplierScopeName());
 	}
 }

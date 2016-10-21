@@ -64,7 +64,7 @@ public class GuideService extends BaseService{
 	}
 
 	public void update(GuideTable guide) {
-		this.updateByParam("GuideTable", "userId=?", "id=?", guide.getUserId(), guide.getId());
+		this.updateByString("GuideTable", "userId=?", "id=?", guide.getUserId(), guide.getId());
 	}
 
 	public boolean exist(int userId) {

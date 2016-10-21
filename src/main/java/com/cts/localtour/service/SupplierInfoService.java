@@ -90,7 +90,7 @@ public class SupplierInfoService extends BaseService{
 	}
 
 	public void update(SupplierTable supplier) {
-		this.updateByParam("SupplierTable", "supplierName=?,regionId=?,phone=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone());
+		this.updateByString("SupplierTable", "supplierName=?,regionId=?,phone=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone());
 	}
 	
 	@SuppressWarnings("unchecked")

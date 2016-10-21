@@ -3,6 +3,7 @@ package com.cts.localtour.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.ChangeCostTable;
@@ -21,7 +22,8 @@ import com.cts.localtour.viewModel.SimplPayViewModel;
 @SuppressWarnings("rawtypes")
 @Service
 public class PayService extends BaseService{
-	
+	@Autowired
+	private UserService userService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimplPayViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -109,6 +111,7 @@ public class PayService extends BaseService{
 					}else{
 						costTable.setRealCost(costTables.get(i).getRealCost());
 						costTable.setRemark(costTables.get(i).getRemark());
+						costTable.setBill(costTables.get(i).isBill());
 						if(costTables.get(i).isRemittanced()){
 							costTable.setRemittanced(true);
 						}
@@ -132,6 +135,7 @@ public class PayService extends BaseService{
 					}else{
 						changeCostTable.setRealCost(changeCostTables.get(i).getRealCost());
 						changeCostTable.setRemark(changeCostTables.get(i).getRemark());
+						changeCostTable.setBill(changeCostTables.get(i).isBill());
 						if(changeCostTables.get(i).isRemittanced()){
 							changeCostTable.setRemittanced(true);
 						}
@@ -163,7 +167,6 @@ public class PayService extends BaseService{
 				this.update(changeCostCache.get(j));
 			}
 			for (int i = 0; i < loanTables.size(); i++) {
-				System.out.println(loanTables.get(i).isLended());
 				this.merge(loanTables.get(i));
 			}
 		}
@@ -181,6 +184,11 @@ public class PayService extends BaseService{
 			cost.setContentName(costTables.get(i).getContentId()==null||costTables.get(i).getContentId()==0?"":((SupplierContentTable)this.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
 			cost.setSupplierName(((SupplierTable)this.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
 			cost.setBorrowUserName(costTables.get(i).getBorrowUserId()==null||costTables.get(i).getBorrowUserId()==0?"":((UserTable)this.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
+			if(costTables.get(i).isRemittanced()){
+				cost.setPayStatus("已汇");
+			}else{
+				cost.setPayStatus(costTables.get(i).getPayStatus()==0?"可付":costTables.get(i).getPayStatus()==1?"待审":costTables.get(i).getPayStatus()==2?"待批":costTables.get(i).getPayStatus()==3?"已批准":"");
+			}
 			costs.add(cost);
 		}
 		full.setCosts(costs);
@@ -193,6 +201,11 @@ public class PayService extends BaseService{
 			changeCost.setContentName(changeCostTables.get(i).getContentId()==null||changeCostTables.get(i).getContentId()==0?"":((SupplierContentTable)this.getById("SupplierContentTable", changeCostTables.get(i).getContentId())).getContentName());
 			changeCost.setSupplierName(((SupplierTable)this.getById("SupplierTable", changeCostTables.get(i).getSupplierId())).getSupplierName());
 			changeCost.setBorrowUserName(changeCostTables.get(i).getBorrowUserId()==null||changeCostTables.get(i).getBorrowUserId()==0?"":((UserTable)this.getById("UserTable", changeCostTables.get(i).getBorrowUserId())).getRealName());
+			if(changeCostTables.get(i).isRemittanced()){
+				changeCost.setPayStatus("已汇");
+			}else{
+				changeCost.setPayStatus(changeCostTables.get(i).getPayStatus()==0?"可付":changeCostTables.get(i).getPayStatus()==1?"待审":changeCostTables.get(i).getPayStatus()==2?"待批":changeCostTables.get(i).getPayStatus()==3?"已批准":"");
+			}
 			changeCosts.add(changeCost);
 		}
 		full.setChangeCosts(changeCosts);

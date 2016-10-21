@@ -143,9 +143,13 @@ public class UserService extends BaseService{
 		}
 	}
 	
-	public String getUserName(int id){
-		UserTable user = (UserTable)this.getById("UserTable", id);
-		return user.getUserName();
-	}
+	public String getUserName(Integer id){
+		if(id==null||id==0){
+			return "";
+		}else{
+			UserTable user = (UserTable)this.getById("UserTable", id);
+			return user.getUserName();
+			}
+		}
 
 }

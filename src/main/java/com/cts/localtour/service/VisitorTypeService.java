@@ -45,7 +45,7 @@ public class VisitorTypeService extends BaseService{
 	}
 
 	public void update(VisitorTypeTable visitorType) {
-		this.updateByParam("VisitorTypeTable", "visitorTypeName=?", "id="+visitorType.getId(), visitorType.getVisitorTypeName());
+		this.updateByString("VisitorTypeTable", "visitorTypeName=?", "id="+visitorType.getId(), visitorType.getVisitorTypeName());
 	}
 
 }

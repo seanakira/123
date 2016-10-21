@@ -47,7 +47,7 @@ public class TourTypeService extends BaseService{
 	}
 
 	public void update(TourTypeTable tourType) {
-		this.updateByParam("TourTypeTable", "tourTypeName=?", "id="+tourType.getId(), tourType.getTourTypeName());
+		this.updateByString("TourTypeTable", "tourTypeName=?", "id="+tourType.getId(), tourType.getTourTypeName());
 	}
 
 }

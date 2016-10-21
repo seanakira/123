@@ -89,7 +89,7 @@ public class BaseService<T> {
 		baseDAO.updateHql(hql);
 	}
 	
-	public void updateByParam(String tableName, String set, String where, Object... objects){
+	public void updateByString(String tableName, String set, String where, Object... objects){
 		String hql = "update "+tableName+" set "+set+" where "+where;
 		baseDAO.updateByParam(hql, objects);
 	}
