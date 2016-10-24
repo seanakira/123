@@ -314,7 +314,7 @@ public class TourController {
 	@RequestMapping("/localTourManage/payApplication")
 	public void payApplication(@RequestParam int tourId, @RequestParam String costIds, @RequestParam String changeCostIds, HttpServletRequest request, HttpSession session){
 		if(!"".equals(costIds)||!"".equals(changeCostIds)){
-			localTourService.payApplication(costIds, changeCostIds);
+			localTourService.payApplication(costIds, changeCostIds,session);
 			localTourService.sendMassage("payApplication", tourId, 1, "您有待审核的<付款申请>，点击进行审核", request, session);
 		}
 		

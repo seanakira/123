@@ -68,4 +68,37 @@ public class LoanViewModel {
 		}
 		return loans;
 	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<LoanViewModel> getAllLoanViewModel(int tourId, int status){
+		ArrayList<LoanTable> loanTables;
+		/*这里需要权限判断 如果是总经理 status》3*/
+		if(status==-1){
+			loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=? and status>2", tourId);
+		}else{
+			loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=? and status=?", tourId, status);
+		}
+		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
+		for (int i = 0; i < loanTables.size(); i++) {
+			LoanViewModel loan = new LoanViewModel();
+			loan.setLoanTable(loanTables.get(i));
+			loan.setApplicationerRealName(loanTables.get(i).getApplicationerId()==null?"":((UserTable)baseService.getById("UserTable", loanTables.get(i).getApplicationerId())).getRealName());
+			if(loanTables.get(i).isLended()){
+				loan.setStatus("已借出");
+			}else{
+				if(loanTables.get(i).getStatus()==0){
+					loan.setStatus("新建");
+				}else if(loanTables.get(i).getStatus()==1){
+					loan.setStatus("可借");
+				}else if(loanTables.get(i).getStatus()==2){
+					loan.setStatus("待审核");
+				}else if(loanTables.get(i).getStatus()==3){
+					loan.setStatus("待批准");
+				}else if(loanTables.get(i).getStatus()==4){
+					loan.setStatus("已批准");
+				}
+			}
+			loans.add(loan);
+		}
+		return loans;
+	}
 }

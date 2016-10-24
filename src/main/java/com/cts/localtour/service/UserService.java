@@ -149,7 +149,14 @@ public class UserService extends BaseService{
 		}else{
 			UserTable user = (UserTable)this.getById("UserTable", id);
 			return user.getUserName();
-			}
 		}
-
+	}
+	public String getUserRealName(Integer id){
+		if(id==null||id==0){
+			return "";
+		}else{
+			UserTable user = (UserTable)this.getById("UserTable", id);
+			return user.getRealName();
+		}
+	}
 }

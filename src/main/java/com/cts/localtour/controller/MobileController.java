@@ -62,4 +62,22 @@ public class MobileController {
 	public void loanApplicationCancel(HttpServletRequest request, HttpSession session, @RequestParam int id){
 		mobileService.loanApplicationCancel(request, session, id);
 	}
+	
+	/*∏∂øÓ…Í«Î*/
+	@RequestMapping("/mobile/payApplication")
+	public String payApplication(@RequestParam int tourId, @RequestParam int status, Model md){
+		md.addAttribute("full", mobileService.getAllPayApplication(tourId, status));
+		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", tourId));
+		return "/mobile/payApplication";
+	}
+	
+	@RequestMapping("/mobile/payApplicationOk")
+	public void payApplicationOk(HttpServletRequest request, HttpSession session, @RequestParam int id, @RequestParam boolean change){
+		mobileService.payApplicationOk(request, session, id, change);
+	}
+	
+	@RequestMapping("/mobile/payApplicationCancel")
+	public void payApplicationCancel(HttpServletRequest request, HttpSession session, @RequestParam int id){
+		mobileService.payApplicationCancel(request, session, id);
+	}
 }

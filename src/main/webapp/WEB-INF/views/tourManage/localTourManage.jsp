@@ -2179,32 +2179,24 @@
 											<tbody id="canPays">
 											</tbody>
 							            </table>
-							            <span id="changeCostBlueUp" class="blue" style="">*蓝色为成本收入变更</span>
 							            <div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">借款记录</div>
 							            <table class="table table-striped table-bordered table-hover no-margin">
 											<thead>
 												<tr>
-													<th aria-label="" style="width: 2%;" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
-														<label>
-															<input class="ace" type="checkbox">
-															<span class="lbl"></span>
-														</label>
-													</th>
 													<th style="width: 10%;">日期</th>
 													<th style="width: 20%;">内容</th>
 													<th style="width: 20%;">供应商</th>
-													<th style="width: 10%;">成本</th>
-													<th style="width: 10%;">数量</th>
-													<th style="width: 10%;">天数</th>
-													<th style="width: 10%;">借款人</th>
-													<th style="width: 10%;">明细备注</th>
-													<th style="width: 10%;">状态</th>
+													<th style="width: 9%;">成本</th>
+													<th style="width: 9%;">数量</th>
+													<th style="width: 9%;">天数</th>
+													<th style="width: 9%;">借款人</th>
+													<th style="width: 9%;">明细备注</th>
+													<th style="width: 5%;">状态</th>
 												</tr>
 											</thead>
 											<tbody id="isPays">
 											</tbody>
 							            </table>
-							            <span id="changeCostBlueDown" class="blue" style="">*蓝色为成本收入变更</span>
 					         		</div><!-- 成本tab结束 -->
 					         	</div>
 					         </div>

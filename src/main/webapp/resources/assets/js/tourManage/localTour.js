@@ -1899,7 +1899,32 @@ $(function(){
 			 });
 		});
 		/* 付款申请 */
+		var canPaysP = $("#canPays").parent();
+		var isPaysP = $("#isPays").parent();
+		var canPaysH = canPaysP.html();
+		var isPaysH = isPaysP.html();
+		var changeCostBlueDown = $("#changeCostBlueDown");
+		var changeCostBlueUp = $("#changeCostBlueUp");
 		$("#pay").click(function(){
+			canPaysP.html(canPaysH);
+			isPaysP.html(isPaysH);
+			/*付款全选*/
+			$("#payModel").find(".selectAllPay").click(function(){
+				if($(this).prop("checked")){
+					var checkbox = $("#canPays").find("input").prop("checked",true);
+				}else{
+					var checkbox = $("#canPays").find("input").prop("checked",false);
+				}
+			});
+			/*点击本行选择*/
+			$("#canPays").delegate("tr td:not(.center)","click",function(){
+				var checkbox = $(this).parent().find("input");
+				if(checkbox.prop("checked")){
+					checkbox.prop("checked",false);
+				}else{
+					checkbox.prop("checked",true);
+				}
+			});
 			$(".selectAllPay").prop("checked",false);
 			var checkbox = $("#table").find("input:checked");
 			if(checkbox.length==0){
@@ -1918,8 +1943,8 @@ $(function(){
 			        contentType:"application/json;charset=utf-8",  
 			        url:"/localtour/localTourManage/findPay",  
 			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
+			        dataType: "json",
+			        async: false,
 			        success:function(data){
 			        	var canPays = $('<tbody></tbody>');
 			        	var isPays = $('<tbody></tbody>');
@@ -1940,7 +1965,6 @@ $(function(){
 			        			canPays.append(tr);
 			        		}else if(!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill){
 			        			var tr = $('<tr>'+
-			        							'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
 				        						'<td>'+this.costTable.costDate+'</td>'+
 				        						'<td>'+this.contentName+'</td>'+
 				        						'<td>'+this.supplierName+'</td>'+
@@ -1973,8 +1997,7 @@ $(function(){
 			        			canPays.append(tr);
 			        			canPaysChangeCount++;
 			        		}else if(!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
-			        			var tr = $('<tr>'+
-			        							'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+			        			var tr = $('<tr class="blue">'+
 				        						'<td>'+this.costTable.costDate+'</td>'+
 				        						'<td>'+this.contentName+'</td>'+
 				        						'<td>'+this.supplierName+'</td>'+
@@ -1989,22 +2012,22 @@ $(function(){
 			        			isPaysChangeCount++;
 			        		}
 			        	});
+			        	var span = $('<span id="changeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>');
+			        	$("#changeCostBlue").remove()
 			        	if(canPays.html()==""){
 		        			$("#canPays").parent().html('<span class="red">无可付款项</span>');
-		        			$("#changeCostBlueUp").remove();
 		        		}else {
 		        			$("#canPays").html(canPays.html());
-		        			if(canPaysChangeCount==0){
-		        				$("#changeCostBlueUp").remove();
+		        			if(canPaysChangeCount!=0){
+		        				canPaysP.after(span);
 		        			}
 		        		}
 						if(isPays.html()==""){
 							$("#isPays").parent().html('<span class="red">无付款记录</span>');
-							$("#changeCostBlueDown").remove();
 		        		}else{
 		        			$("#isPays").html(isPays.html());
-		        			if(isPaysChangeCount==0){
-		        				$("#changeCostBlueDown").remove();
+		        			if(isPaysChangeCount!=0){
+		        				isPaysP.after(span);
 		        			}
 		        		}
 			        }
@@ -2028,7 +2051,7 @@ $(function(){
 						costIds.push(tr.attr("id"));
 					}
 				});
-				var myData = {tourId:tourId,costIds:ids.toString(),changeCostIds:changeCostIds.totoString()};
+				var myData = {tourId:tourId,costIds:costIds.toString(),changeCostIds:changeCostIds.toString()};
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
@@ -2043,22 +2066,6 @@ $(function(){
 			}
 		});
 		
-		/*付款全选*/
-		$("#payModel").find(".selectAllPay").click(function(){
-			if($(this).prop("checked")){
-				var checkbox = $("#canPays").find("input").prop("checked",true);
-			}else{
-				var checkbox = $("#canPays").find("input").prop("checked",false);
-			}
-		});
-		/*点击本行选择*/
-		$("#canPays").delegate("tr td:not(.center)","click",function(){
-			var checkbox = $(this).parent().find("input");
-			if(checkbox.prop("checked")){
-				checkbox.prop("checked",false);
-			}else{
-				checkbox.prop("checked",true);
-			}
-		});
+		
 	});
 	

@@ -220,21 +220,27 @@ public class LocalTourService extends BaseService{
 		return pay;
 	}
 	@SuppressWarnings("unchecked")
-	public void payApplication(String costIds, String changeCostIds) {
-		String[] ids = costIds.split(",");
-		for (String id : ids) {
-			CostTable costTable = (CostTable)this.getById("CostTable", Integer.parseInt(id));
-			if(costTable.getPayStatus()==0){
-				costTable.setPayStatus(1);
-				this.update(costTable);
+	public void payApplication(String costIds, String changeCostIds, HttpSession session) {
+		if(!"".equals(costIds)){
+			String[] ids = costIds.split(",");
+			for (String id : ids) {
+				CostTable costTable = (CostTable)this.getById("CostTable", Integer.parseInt(id));
+				if(costTable.getPayStatus()==0){
+					costTable.setPayStatus(1);
+					costTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
+					this.update(costTable);
+				}
 			}
 		}
-		ids = changeCostIds.split(",");
-		for (String id : ids) {
-			ChangeCostTable cost = (ChangeCostTable)this.getById("ChangeCostTable", Integer.parseInt(id));
-			if(cost.getPayStatus()==0){
-				cost.setPayStatus(1);
-				this.update(cost);
+		if(!"".equals(changeCostIds)){
+			String[] ids = changeCostIds.split(",");
+			for (String id : ids) {
+				ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", Integer.parseInt(id));
+				if(changeCostTable.getPayStatus()==0){
+					changeCostTable.setPayStatus(1);
+					changeCostTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
+					this.update(changeCostTable);
+				}
 			}
 		}
 	}
