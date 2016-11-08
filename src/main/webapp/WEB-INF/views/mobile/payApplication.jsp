@@ -228,8 +228,12 @@
 		
 		$(".btn-danger").click(function(){
 			var id = $(this).parent().attr("id");
+			var change = false;
+			if($(this).parent().prev().children("tbody").attr("class")=="blue"){
+				change = true;
+			}
 			$(this).parent().parent().remove();
-			var myData = {id:id};
+			var myData = {id:id,change:change};
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  

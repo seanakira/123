@@ -1,6 +1,5 @@
 package com.cts.localtour.viewModel;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.ChangeIncomeTable;
-import com.cts.localtour.entity.CustomerAgencyTable;
-import com.cts.localtour.entity.InvoiceTable;
-import com.cts.localtour.entity.SupplierContentTable;
-import com.cts.localtour.entity.SupplierTable;
-import com.cts.localtour.entity.UserTable;
 @Component
 public class ChangeCostIncomeViewModel {
 	private ArrayList<ChangeCostTable> costTables;
@@ -49,7 +43,7 @@ public class ChangeCostIncomeViewModel {
 	}
 	public ChangeCostIncomeViewModel getAllChangeCostIncomeViewModel(int tourId){
 		ChangeCostIncomeViewModel changeCostIncomeViewModel = new ChangeCostIncomeViewModel();
-		changeCostIncomeViewModel.setCosts(changeCostViewModel.getAllChangeCostViewModell(tourId));
+		changeCostIncomeViewModel.setCosts(changeCostViewModel.getAllChangeCostViewModel(tourId));
 		changeCostIncomeViewModel.setIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId));
 		return changeCostIncomeViewModel;
 	}

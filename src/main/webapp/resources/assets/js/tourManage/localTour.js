@@ -542,6 +542,11 @@ $(function(){
 		});
 	/* 查看 */
 		$("#table").delegate("#findTour","click",function(){
+			if($(this).parent().prev().find("input").prop("checked")){
+ 				$(this).parent().prev().find("input").prop("checked",false);
+ 			}else{
+ 				$(this).parent().prev().find("input").prop("checked",true);
+ 			}
 			var myData = {tourId:$(this).parent().siblings().last().attr("id")};
 			$.ajax({
 		        type: "GET",  
@@ -1898,6 +1903,7 @@ $(function(){
 		        }  
 			 });
 		});
+		
 		/* 付款申请 */
 		var canPaysP = $("#canPays").parent();
 		var isPaysP = $("#isPays").parent();
@@ -1917,7 +1923,7 @@ $(function(){
 				}
 			});
 			/*点击本行选择*/
-			$("#canPays").delegate("tr td:not(.center)","click",function(){
+			$("#canPays").delegate("tr td:not(.center):not(tr td:nth-child(9))","click",function(){
 				var checkbox = $(this).parent().find("input");
 				if(checkbox.prop("checked")){
 					checkbox.prop("checked",false);
@@ -1958,6 +1964,8 @@ $(function(){
 				        						'<td>'+this.costTable.cost+'</td>'+
 				        						'<td>'+this.costTable.count+'</td>'+
 				        						'<td>'+this.costTable.days+'</td>'+
+				        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+				        						'<td><input style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
 				        						'<td>'+this.borrowUserName+'</td>'+
 				        						'<td>'+this.costTable.remark+'</td>'+
 				        						'<td>'+this.payStatus+'</td>'+
@@ -1971,6 +1979,8 @@ $(function(){
 				        						'<td>'+this.costTable.cost+'</td>'+
 				        						'<td>'+this.costTable.count+'</td>'+
 				        						'<td>'+this.costTable.days+'</td>'+
+				        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+				        						'<td>'+this.costTable.realCost+'</td>'+
 				        						'<td>'+this.borrowUserName+'</td>'+
 				        						'<td>'+this.costTable.remark+'</td>'+
 				        						'<td>'+this.payStatus+'</td>'+
@@ -1990,6 +2000,8 @@ $(function(){
 				        						'<td>'+this.costTable.cost+'</td>'+
 				        						'<td>'+this.costTable.count+'</td>'+
 				        						'<td>'+this.costTable.days+'</td>'+
+				        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+				        						'<td><input style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
 				        						'<td>'+this.borrowUserName+'</td>'+
 				        						'<td>'+this.costTable.remark+'</td>'+
 				        						'<td>'+this.payStatus+'</td>'+
@@ -2004,6 +2016,8 @@ $(function(){
 				        						'<td>'+this.costTable.cost+'</td>'+
 				        						'<td>'+this.costTable.count+'</td>'+
 				        						'<td>'+this.costTable.days+'</td>'+
+				        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+				        						'<td>'+this.costTable.realCost+'</td>'+
 				        						'<td>'+this.borrowUserName+'</td>'+
 				        						'<td>'+this.costTable.remark+'</td>'+
 				        						'<td>'+this.payStatus+'</td>'+
@@ -2041,19 +2055,25 @@ $(function(){
 			if(checkbox.length==0){
 				alert("没有选择要申请的付款项");
 			}else{
-				var costIds = new Array();
-				var changeCostIds = new Array();
+				var costTables = new Array();
+				var changeCostTables = new Array();
 				$.each(checkbox,function(){
 					var tr = $(this).parent().parent().parent();
 					if(tr.attr("class")=="blue"){
-						changeCostIds.push(tr.attr("id"));
+						changeCostTables.push({id:tr.attr("id"),
+											tourId:tourId,
+											realCost:tr.children("td").eq(8).children("input").val()});
 					}else{
-						costIds.push(tr.attr("id"));
+						costTables.push({id:tr.attr("id"),
+									tourId:tourId,
+									realCost:tr.children("td").eq(8).children("input").val()});
 					}
 				});
-				var myData = {tourId:tourId,costIds:costIds.toString(),changeCostIds:changeCostIds.toString()};
+				var full = {costTables:costTables,changeCostTables:changeCostTables};
+				var myData = JSON.stringify(full);
+				alert(myData)
 				$.ajax({
-			        type: "GET",  
+			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
 			        url:"/localtour/localTourManage/payApplication",  
 			        data:myData,  
@@ -2065,7 +2085,80 @@ $(function(){
 				 });
 			}
 		});
+		/*点击付款input金额自动填充*/
+		$("#payModel").delegate("input:not(.ace)","click",function(){
+			$(this).val(parseFloat($(this).parent().prev().text()));
+		});
 		
 		
+		/*预借发票*/
+		$("#borrowInvoice").click(function(){
+			var checkbox = $("#table").find("input:checked");
+			if(checkbox.length==0){
+				alert("请选择一个团队");
+				$(this).attr("href","#");
+			}else if(checkbox.length>1){
+				alert("只能选择一个团队");
+				$(this).attr("href","#");
+			}else{
+				$("#borrowInvoices").html("");
+				$(this).attr("href","#borrowInvoiceModel");
+				var tourId = checkbox.parent().parent().siblings().last().attr("id");
+				$("#borrowInvoiceApplication").parent().attr("id",tourId);
+				var myData = {tourId:tourId};
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"/localtour/localTourManage/findBorrowInvoice",  
+			        data:myData,  
+			        dataType: "json",
+			        async: false,
+			        success:function(data){
+			        	$("#borrowInvoices").append('<tr class="borrowInvoice">'+
+			        									'<td>'+this.invoiceTable.issueDate+'</td>'+
+			        									'<td>'+this.invoiceTable.invoiceName+'</td>'+
+			        									'<td>'+this.invoiceTable.invoiceContent+'</td>'+
+			        									'<td>'+this.invoiceTable.invoiceAmount+'</td>'+
+			        									'<td>'+this.invoiceTable.remark+'</td>'+
+			        								'</tr>');
+			        }
+				});
+			}
+		});
+		/*新增预借发票*/
+		$(".addBorrowInvoice").click(function(){
+			var date = (new Date()).toLocaleDateString();
+			var tr = $('<tr>'+
+							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
+							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+						'</tr>');
+			tr.find(".datepicker").datepicker({
+    			showOtherMonths: true,
+    			selectOtherMonths: false,
+    		});
+			$("#borrowInvoices").append(tr);
+		});
+		/*预借发票申请*/
+		$("#borrowInvoiceApplication").click(function(){
+			var tourId = $(this).parent().attr("id");
+			var borrowInvoices = new Array();
+			var trs = $("#borrowInvoices").children("tr").not(".borrowInvoice");
+			$.each(trs,function(){
+				var inputs = $(this).find("input");
+				borrowInvoices.push({
+					tourId:tourId,
+					issueDate:inputs.eq(0).val(),
+					invoiceName:inputs.eq(1).val(),
+					invoiceContent:inputs.eq(2).val(),
+					invoiceAmount:inputs.eq(3).val(),
+					remark:inputs.eq(4).val()
+				});
+			});
+			
+		});
 	});
 	

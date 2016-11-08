@@ -28,6 +28,7 @@ import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 
@@ -48,6 +49,8 @@ public class LocalTourService extends BaseService{
 	private ChangeCostIncomeViewModel changeCostIncomeViewModel;
 	@Autowired
 	private FullLocalTourViewModel fullLocalTourViewModel;
+	@Autowired
+	private LoanInvoiceViewModel loanInvoiceViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -216,31 +219,27 @@ public class LocalTourService extends BaseService{
 	public FullPayViewModel findPay(int tourId) {
 		FullPayViewModel pay = new FullPayViewModel();
 		pay.setCosts(costViewModel.getAllCostViewModel(tourId));
-		pay.setChangeCosts(changeCostViewModel.getAllChangeCostViewModell(tourId));
+		pay.setChangeCosts(changeCostViewModel.getAllChangeCostViewModel(tourId,3));
 		return pay;
 	}
 	@SuppressWarnings("unchecked")
-	public void payApplication(String costIds, String changeCostIds, HttpSession session) {
-		if(!"".equals(costIds)){
-			String[] ids = costIds.split(",");
-			for (String id : ids) {
-				CostTable costTable = (CostTable)this.getById("CostTable", Integer.parseInt(id));
-				if(costTable.getPayStatus()==0){
-					costTable.setPayStatus(1);
-					costTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
-					this.update(costTable);
-				}
+	public void payApplication(ArrayList<CostTable> costTables, ArrayList<ChangeCostTable> changeCostTables, HttpSession session) {
+		for (CostTable cost : costTables) {
+			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
+			if(costTable.getPayStatus()==0){
+				costTable.setPayStatus(1);
+				costTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
+				costTable.setRealCost(cost.getRealCost());
+				this.update(costTable);
 			}
 		}
-		if(!"".equals(changeCostIds)){
-			String[] ids = changeCostIds.split(",");
-			for (String id : ids) {
-				ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", Integer.parseInt(id));
-				if(changeCostTable.getPayStatus()==0){
-					changeCostTable.setPayStatus(1);
-					changeCostTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
-					this.update(changeCostTable);
-				}
+		for (ChangeCostTable changeCost : changeCostTables) {
+			ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
+			if(changeCostTable.getPayStatus()==0){
+				changeCostTable.setPayStatus(1);
+				changeCostTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
+				changeCostTable.setRealCost(changeCost.getRealCost());
+				this.update(changeCostTable);
 			}
 		}
 	}
@@ -254,5 +253,8 @@ public class LocalTourService extends BaseService{
 				this.update(loanTable);
 			}
 		}
+	}
+	public ArrayList<LoanInvoiceViewModel> findBorrowInvoice(int tourId) {
+		return loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId);
 	}
 }

@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-21 12:34:27 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-11-8 16:41:17 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -24,24 +24,27 @@ public class ChangeIncomeTable implements java.io.Serializable {
 	private Integer applicationerId;
 	private int customerAgencyId;
 	private float income;
-	private Float realIncome;
+	private float realIncome;
 	private boolean incomed;
+	private Integer handlerId;
 	private String remark;
 	private int status;
 
 	public ChangeIncomeTable() {
 	}
 
-	public ChangeIncomeTable(int tourId, int customerAgencyId, float income, boolean incomed, int status) {
+	public ChangeIncomeTable(int tourId, int customerAgencyId, float income, float realIncome, boolean incomed,
+			int status) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
+		this.realIncome = realIncome;
 		this.incomed = incomed;
 		this.status = status;
 	}
 
 	public ChangeIncomeTable(int tourId, Date incomeDate, Integer applicationerId, int customerAgencyId, float income,
-			Float realIncome, boolean incomed, String remark, int status) {
+			float realIncome, boolean incomed, Integer handlerId, String remark, int status) {
 		this.tourId = tourId;
 		this.incomeDate = incomeDate;
 		this.applicationerId = applicationerId;
@@ -49,6 +52,7 @@ public class ChangeIncomeTable implements java.io.Serializable {
 		this.income = income;
 		this.realIncome = realIncome;
 		this.incomed = incomed;
+		this.handlerId = handlerId;
 		this.remark = remark;
 		this.status = status;
 	}
@@ -111,12 +115,12 @@ public class ChangeIncomeTable implements java.io.Serializable {
 		this.income = income;
 	}
 
-	@Column(name = "realIncome", precision = 12, scale = 0)
-	public Float getRealIncome() {
+	@Column(name = "realIncome", nullable = false, precision = 12, scale = 0)
+	public float getRealIncome() {
 		return this.realIncome;
 	}
 
-	public void setRealIncome(Float realIncome) {
+	public void setRealIncome(float realIncome) {
 		this.realIncome = realIncome;
 	}
 
@@ -127,6 +131,15 @@ public class ChangeIncomeTable implements java.io.Serializable {
 
 	public void setIncomed(boolean incomed) {
 		this.incomed = incomed;
+	}
+
+	@Column(name = "handlerId")
+	public Integer getHandlerId() {
+		return this.handlerId;
+	}
+
+	public void setHandlerId(Integer handlerId) {
+		this.handlerId = handlerId;
 	}
 
 	@Column(name = "remark", length = 65535)

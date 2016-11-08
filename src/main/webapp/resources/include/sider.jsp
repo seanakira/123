@@ -97,7 +97,7 @@
 							</ul>
 						</li>
 
-						<li id="statementManage">
+						<li id="financeManage">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-desktop"></i>
 								<span class="menu-text"> 结算管理</span>
@@ -113,22 +113,22 @@
 									</a>
 								</li>
 							
-								<li id="collectManage">
-									<a href="<%=path %>collectManage">
+								<li id="revenueManage">
+									<a href="<%=path %>revenueManage">
 										<i class="icon-double-angle-right"></i>
 										收款管理
 									</a>
 								</li>
 								
-								<li id="tourVerifyManage">
-									<a href="<%=path %>tourVerifyManage">
+								<li id="balanceManage">
+									<a href="<%=path %>balanceManage">
 										<i class="icon-double-angle-right"></i>
 										核销管理
 									</a>
 								</li>
 								
-								<li id="tourBalanceManage">
-									<a href="<%=path %>tourBalanceManage">
+								<li id="settlementManage">
+									<a href="<%=path %>settlementManage">
 										<i class="icon-double-angle-right"></i>
 										结算管理
 									</a>

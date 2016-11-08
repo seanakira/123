@@ -2,13 +2,11 @@ package com.cts.localtour.controller;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.ArrTable;
-import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.TripTable;
-import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DepartService;
@@ -34,10 +30,10 @@ import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.TripService;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
-import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
@@ -312,11 +308,18 @@ public class TourController {
 		return localTourService.findPay(tourId);
 	}
 	@RequestMapping("/localTourManage/payApplication")
-	public void payApplication(@RequestParam int tourId, @RequestParam String costIds, @RequestParam String changeCostIds, HttpServletRequest request, HttpSession session){
-		if(!"".equals(costIds)||!"".equals(changeCostIds)){
-			localTourService.payApplication(costIds, changeCostIds,session);
-			localTourService.sendMassage("payApplication", tourId, 1, "ÄúÓÐ´ýÉóºËµÄ<¸¶¿îÉêÇë>£¬µã»÷½øÐÐÉóºË", request, session);
+	public void payApplication(@RequestBody FullPayViewModel full, HttpServletRequest request, HttpSession session){
+		System.out.println(full.getClass());
+		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
+			localTourService.payApplication(full.getCostTables(), full.getChangeCostTables(),session);
+			localTourService.sendMassage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "ÄúÓÐ´ýÉóºËµÄ<¸¶¿îÉêÇë>£¬µã»÷½øÐÐÉóºË", request, session);
 		}
 		
+	}
+	
+	/*Ô¤½è·¢Æ±*/
+	@RequestMapping("/localTourManage/findBorrowInvoice")
+	public @ResponseBody ArrayList<LoanInvoiceViewModel> findBorrowInvoice(@RequestParam int tourId){
+		return localTourService.findBorrowInvoice(tourId);
 	}
 }

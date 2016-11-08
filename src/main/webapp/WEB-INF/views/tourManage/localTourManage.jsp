@@ -49,13 +49,13 @@
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar">
-							<a class="brown" id="pay" data-toggle="modal" href="#" title="付款申请">
+							<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
 								<i class="icon-file-alt bigger-100"></i>
 								付款申请
 							</a>   
-							<a class="purple" id="lend" data-toggle="modal" href="#lendModel" title="付款申请">
+							<a class="blue" id="borrowInvoice" data-toggle="modal" href="#" title="预借发票">
 								<i class="icon-user bigger-100"></i>
-								付款申请
+								预借发票
 							</a>
 						</div>
 						<div class="nav-search" id="nav-search">
@@ -120,7 +120,7 @@
 												<span class="lbl"></span>
 											</label>
 										</td>
-									<td class="sorting_1"><a id="findTour" role="button" data-toggle="modal" href="#find">${localTour.localTourTable.tourNo }</a></td>
+									<td><a id="findTour" role="button" data-toggle="modal" href="#find">${localTour.localTourTable.tourNo }</a></td>
 									<td>${localTour.localTourTable.tourName }</td>
 									<td>${localTour.localTourTable.adultNo }</td>
 									<td>${localTour.localTourTable.childrenNo }</td>
@@ -2166,14 +2166,16 @@
 														</label>
 													</th>
 													<th style="width: 10%;">日期</th>
-													<th style="width: 20%;">内容</th>
-													<th style="width: 20%;">供应商</th>
-													<th style="width: 9%;">成本</th>
-													<th style="width: 9%;">数量</th>
-													<th style="width: 9%;">天数</th>
-													<th style="width: 9%;">借款人</th>
-													<th style="width: 9%;">明细备注</th>
-													<th style="width: 5%;">状态</th>
+													<th style="width: 15%;">内容</th>
+													<th style="width: 15%;">供应商</th>
+													<th style="width: 7%;">成本</th>
+													<th style="width: 7%;">数量</th>
+													<th style="width: 7%;">天数</th>
+													<th style="width: 7%;">成本小计</th>
+													<th style="width: 7%;">申请金额</th>
+													<th style="width: 7%;">借款人</th>
+													<th style="width: 10%;">明细备注</th>
+													<th style="width: 7%;">状态</th>
 												</tr>
 											</thead>
 											<tbody id="canPays">
@@ -2184,14 +2186,16 @@
 											<thead>
 												<tr>
 													<th style="width: 10%;">日期</th>
-													<th style="width: 20%;">内容</th>
-													<th style="width: 20%;">供应商</th>
-													<th style="width: 9%;">成本</th>
-													<th style="width: 9%;">数量</th>
-													<th style="width: 9%;">天数</th>
-													<th style="width: 9%;">借款人</th>
-													<th style="width: 9%;">明细备注</th>
-													<th style="width: 5%;">状态</th>
+													<th style="width: 15%;">内容</th>
+													<th style="width: 15%;">供应商</th>
+													<th style="width: 7%;">成本</th>
+													<th style="width: 7%;">数量</th>
+													<th style="width: 7%;">天数</th>
+													<th style="width: 7%;">成本小计</th>
+													<th style="width: 7%;">申请金额</th>
+													<th style="width: 7%;">借款人</th>
+													<th style="width: 10%;">明细备注</th>
+													<th style="width: 7%;">状态</th>
 												</tr>
 											</thead>
 											<tbody id="isPays">
@@ -2214,6 +2218,53 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 付款申请结束 -->
+<!-- 预借发票模板-->
+				<div aria-hidden="true" style="display: none;" id="borrowInvoiceModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									预借发票申请
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div class="tab-pane fade in active costTable">
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 20%;">抬头</th>
+													<th style="width: 10%;">内容</th>
+													<th style="width: 10%;">金额*</th>
+													<th style="width: 45%;">发票信息*</th>
+													<th style="width: 5%;">
+														<a class="blue addBorrowInvoice" href="#">
+															<i class="icon-plus bigger-130"></i>
+														</a>
+													</th>
+												</tr>
+											</thead>
+											<tbody id="borrowInvoices">
+											</tbody>
+							            </table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="borrowInvoiceApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									申请
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 预借发票结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->

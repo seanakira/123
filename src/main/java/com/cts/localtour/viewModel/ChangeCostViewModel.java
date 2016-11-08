@@ -76,7 +76,7 @@ public class ChangeCostViewModel {
 		this.payApplicationerRealName = payApplicationerRealName;
 	}
 	@SuppressWarnings("unchecked")
-	public ArrayList<ChangeCostViewModel> getAllChangeCostViewModell(int tourId){
+	public ArrayList<ChangeCostViewModel> getAllChangeCostViewModel(int tourId){
 		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "tourId=?", tourId);
 		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
 		for (ChangeCostTable changeCostTable : changeCostTables) {

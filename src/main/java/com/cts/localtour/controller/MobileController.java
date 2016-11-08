@@ -77,7 +77,7 @@ public class MobileController {
 	}
 	
 	@RequestMapping("/mobile/payApplicationCancel")
-	public void payApplicationCancel(HttpServletRequest request, HttpSession session, @RequestParam int id){
-		mobileService.payApplicationCancel(request, session, id);
+	public void payApplicationCancel(HttpServletRequest request, HttpSession session, @RequestParam int id, @RequestParam boolean change){
+		mobileService.payApplicationCancel(request, session, id, change);
 	}
 }

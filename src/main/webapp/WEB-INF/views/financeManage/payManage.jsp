@@ -48,7 +48,7 @@
 						<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 								<tr role="row">
-									<th aria-label="" style="width: 2%;" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
+									<th aria-label="" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
 										<label>
 											<input class="ace" type="checkbox">
 											<span class="lbl"></span>
@@ -60,28 +60,28 @@
 									<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										线路
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										导游借款
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+										导游应借款
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										供应商电汇
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+										供应商应付
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+										应付总计
+									</th>
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										实付总计
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										应付金额
-									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										预估成本
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										出团日期
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										状态
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										团控人
 									</th>
 									<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
@@ -104,8 +104,8 @@
 										<td>${pay.localTourTable.tourName }</td>
 										<td>${pay.loan }</td>
 										<td>${pay.remittance }</td>
-										<td>${pay.realPay }</td>
 										<td>${pay.willPay }</td>
+										<td>${pay.realPay }</td>
 										<td>${pay.cost }</td>
 										<td>${pay.localTourTable.startTime }</td>
 										<td>
@@ -467,8 +467,8 @@
 	$(function(){
 	/* 初始化 */
 		/* 样式 */
-		$("#statementManage").addClass("open");
-		$("#statementManage").children("ul").attr("style","display:block");
+		$("#financeManage").addClass("open");
+		$("#financeManage").children("ul").attr("style","display:block");
 		$("#payManage").addClass("active");
 		$(".modal-dialog").attr("style","width:80%;");
 		/* 提示 */
@@ -551,26 +551,27 @@
 		        	tickets.html("");
 		        	comprehensive.html("");
 		        	other.html("");
+		        	/* 设置成本 */
 		        	$.each(data.costs,function(){
 		        		var realCost = $("<td></td>");
 		        		var payStatus = $("<td></td>");
 		        		var remark = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
 		        		var bill = $("<td></td>");
+		        		var remittanced = $("<td></td>");
 		        		if(this.costTable.payStatus==0){
-		        			if(this.costTable.realCost==0){
-	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-			        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
-	        				}else{
-	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-			        			realCost.html(this.costTable.realCost);
-	        				}
-		        			if(this.costTable.bill){
-		        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+		        			if(this.costTable.lend){
+		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
 		        			}else{
-		        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        				if(this.costTable.bill){
+			        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+			        			}else{
+			        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+			        			}
+			        			realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
 		        			}
 		        			payStatus.html(this.payStatus);
 		        		}else{
@@ -579,18 +580,22 @@
 		        			}
 		        			if(this.costTable.lend){
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
 		        			}
 		        			if(this.costTable.remittanced){
 			        			realCost.html(this.costTable.realCost);
 		        			}
-		        			if(this.costTable.payStatus==3){
+		        			if(this.costTable.payStatus==3&&!this.costTable.bill&&!this.costTable.remittanced&&!this.costTable.lend){
 		        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
 		        			}else{
 		        				payStatus.html(this.payStatus);
 		        			}
 		        			remark.html(this.costTable.remark);
 		        			realCost.html(this.costTable.realCost);
+		        		}
+		        		if(this.costTable.remittanced){
+		        			remittanced.html('<input type="hidden" value="true">');
+		        		}else{
+		        			remittanced.html('<input type="hidden" value="false">');
 		        		}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
@@ -620,7 +625,7 @@
 										'<td>'+remark.html()+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
-										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+remittanced.html()+'</td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
@@ -637,20 +642,20 @@
 		        		var remark = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
 		        		var bill = $("<td></td>");
+		        		var remittanced = $("<td></td>");
 		        		if(this.costTable.payStatus==0){
-		        			if(this.costTable.realCost==0){
-	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-			        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
-	        				}else{
-	        					realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-			        			realCost.html(this.costTable.realCost);
-	        				}
-		        			if(this.costTable.bill){
-		        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+		        			if(this.costTable.lend){
+		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
 		        			}else{
-		        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+		        				if(this.costTable.bill){
+			        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+			        			}else{
+			        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+			        			}
+			        			realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
+			        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
+			        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
 		        			}
 		        			payStatus.html(this.payStatus);
 		        		}else{
@@ -659,18 +664,22 @@
 		        			}
 		        			if(this.costTable.lend){
 		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-		        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
 		        			}
 		        			if(this.costTable.remittanced){
 			        			realCost.html(this.costTable.realCost);
 		        			}
-		        			if(this.costTable.payStatus==3){
+		        			if(this.costTable.payStatus==3&&!this.costTable.bill&&!this.costTable.remittanced&&!this.costTable.lend){
 		        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
 		        			}else{
 		        				payStatus.html(this.payStatus);
 		        			}
 		        			remark.html(this.costTable.remark);
 		        			realCost.html(this.costTable.realCost);
+		        		}
+		        		if(this.costTable.remittanced){
+		        			remittanced.html('<input type="hidden" value="true">');
+		        		}else{
+		        			remittanced.html('<input type="hidden" value="false">');
 		        		}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
@@ -700,7 +709,7 @@
 										'<td>'+remark.html()+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
-										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+remittanced.html()+'</td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
@@ -781,9 +790,9 @@
     			alert("电汇金额不能大于成本金额");
     		}
     		if($(this).val()!=0){
-    			$(this).parent().siblings().eq(-2).html("");
+    			$(this).parent().siblings().eq(6).html("");
     		}else{
-    			$(this).parent().siblings().eq(-2).html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
+    			$(this).parent().siblings().eq(6).html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
     			
     		}
     	});
@@ -797,6 +806,8 @@
     			$(this).parent().parent().siblings().eq(4).html("");
     			$(this).parent().parent().siblings().eq(6).html($(this).parent().parent().siblings().eq(6).children("input").val());
     			$("#maxLoan").html((parseFloat($("#maxLoan").html())+parseFloat($(this).parent().parent().siblings().eq(3).text())).toFixed(2));
+    			$(this).parent().parent().siblings().eq(7).html("");
+    			$(this).parent().parent().siblings().eq(8).html("借款");
     			$(this).parent().parent().html('<i class="icon-ok bigger-130"></i>');
     		}
     	});
@@ -805,10 +816,9 @@
     		var a = $(this);
     		var td = a.parent();
     		var value = parseFloat(td.siblings().eq(4).text());
+    		a.next().val(true);
+    		a.after("已汇");
     		a.remove();
-       		var realCostTd = $("#table").find("#"+$("#saveEdit").parent().attr("id")).siblings().eq(5);
-       		var realCost = parseFloat(realCostTd.html());
-       		realCostTd.html((realCost+value).toFixed(2));
     	});
     	/* 增加借款 */
     	$(".addLoan").click(function(){
@@ -868,12 +878,17 @@
     	});
 	/*更新 */
 		$("#saveEdit").click(function(){
-			var id = $(this).parent().attr("id");
+			var tourId = $(this).parent().attr("id");
 			var costTables = new Array();
 			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not(".blue");
 			for (var int = 0; int < costTrs.length; int++) {
 				var tds = costTrs.eq(int).children("td");
+				var id = tds.last().attr("id");
+				var remittanced = tds.last().children("input").val();
 				var bill = false;
+				var lend = false;
+				var remark;
+				var realCost;
 				if(tds.eq(8).find("input").length==0){
 					if(tds.eq(8).find("i").length==1){
 						bill = true;
@@ -884,49 +899,42 @@
 					}
 				}
 				if(tds.eq(7).find("input").length==0){
-					if(tds.eq(7).children("i").length==0){
-						if(tds.last().find("a").length==0){
-							costTables.push({
-								id:tds.last().attr("id"),
-								remark:tds.eq(6).text(),
-								realCost:tds.eq(-5).text(),
-								remittanced:true,
-								bill:bill,
-								lend:false});
-						}else{
-							var costInputs = costTrs.eq(int).find("input");
-							costTables.push({
-								id:tds.last().attr("id"),
-								realCost:costInputs.eq(0).val(),
-								remark:costInputs.eq(1).val(),
-								remittanced:false,
-								bill:bill,
-								lend:false});
-						}
-					}else{
-						costTables.push({
-							id:tds.last().attr("id"),
-							remark:tds.eq(6).text(),
-							remittanced:false,
-							bill:bill,
-							lend:true});
+					if(tds.eq(7).find("i").length==1){
+						lend = true;
 					}
 				}else{
-					var costInputs = costTrs.eq(int).find("input");
-					costTables.push({
-						id:tds.last().attr("id"),
-						realCost:costInputs.eq(0).val(),
-						remark:costInputs.eq(1).val(),
-						remittanced:false,
-						bill:bill,
-						lend:false});
+					if(tds.eq(7).find("input").prop("checked")){
+						lend = true;
+					}
 				}
+				if(tds.eq(4).find("input").length==0){
+					realCost = tds.eq(4).text()==""?0:tds.eq(4).text();
+				}else{
+					realCost = tds.eq(4).find("input").val();
+				}
+				if(tds.eq(6).find("input").length==0){
+					remark = tds.eq(6).text();
+				}else{
+					remark = tds.eq(6).find("input").val();
+				}
+				costTables.push({
+					id:id,
+					realCost:realCost,
+					remark:remark,
+					remittanced:remittanced,
+					bill:bill,
+					lend:lend});
 			}
 			var changeCostTables = new Array();
 			var changeCostTrs = $("#edit").find("#costs3").find("tbody").find("tr.blue");
 			for (var int = 0; int < changeCostTrs.length; int++) {
 				var tds = changeCostTrs.eq(int).children("td");
+				var id = tds.last().attr("id");
+				var remittanced = tds.last().children("input").val();
 				var bill = false;
+				var lend = false;
+				var remark;
+				var realCost;
 				if(tds.eq(8).find("input").length==0){
 					if(tds.eq(8).find("i").length==1){
 						bill = true;
@@ -936,44 +944,32 @@
 						bill = true;
 					}
 				}
-				if(tds.eq(-2).find("input").length==0){
-					if(tds.eq(-2).children("i").length==0){
-						if(tds.last().find("a").length==0){
-							changeCostTables.push({
-								id:tds.last().attr("id"),
-								remark:tds.eq(6).text(),
-								realCost:tds.eq(-5).text(),
-								remittanced:true,
-								bill:bill,
-								lend:false});
-						}else{
-							var costInputs = changeCostTrs.eq(int).find("input");
-							changeCostTables.push({
-								id:tds.last().attr("id"),
-								realCost:costInputs.eq(0).val(),
-								remark:costInputs.eq(1).val(),
-								remittanced:false,
-								bill:bill,
-								lend:false});
-						}
-					}else{
-						changeCostTables.push({
-							id:tds.last().attr("id"),
-							remark:tds.eq(6).text(),
-							remittanced:false,
-							bill:bill,
-							lend:true});
+				if(tds.eq(7).find("input").length==0){
+					if(tds.eq(7).find("i").length==1){
+						lend = true;
 					}
 				}else{
-					var costInputs = changeCostTrs.eq(int).find("input");
-					changeCostTables.push({
-						id:tds.last().attr("id"),
-						realCost:costInputs.eq(0).val(),
-						remark:costInputs.eq(1).val(),
-						remittanced:false,
-						bill:bill,
-						lend:false});
+					if(tds.eq(7).find("input").prop("checked")){
+						lend = true;
+					}
 				}
+				if(tds.eq(4).find("input").length==0){
+					realCost = tds.eq(4).text()==""?0:tds.eq(4).text();
+				}else{
+					realCost = tds.eq(4).find("input").val();
+				}
+				if(tds.eq(6).find("input").length==0){
+					remark = tds.eq(6).text();
+				}else{
+					remark = tds.eq(6).find("input").val();
+				}
+				changeCostTables.push({
+					id:id,
+					realCost:realCost,
+					remark:remark,
+					remittanced:remittanced,
+					bill:bill,
+					lend:lend});
 			}
 			var loanTables = new Array();
 			var loanTrs = $("#loanTable").children("tr");
@@ -984,7 +980,7 @@
 					if(inputs.eq(1).val()!=""&&inputs.eq(2).val()!=""){
 						loanTables.push({
 							id:tds.last().attr("id"),
-							tourId:id,
+							tourId:tourId,
 							loanDate:new Date(inputs.eq(0).val()),
 							loanAmount:inputs.eq(1).val(),
 							remark:inputs.eq(2).val(),
@@ -995,7 +991,7 @@
 				}else{
 					loanTables.push({
 						id:tds.last().attr("id"),
-						tourId:id,
+						tourId:tourId,
 						loanDate:new Date(tds.eq(0).text()),
 						loanAmount:tds.eq(1).text(),
 						remark:tds.eq(2).text(),
@@ -1024,8 +1020,36 @@
 		        	}
 		        }
 			 });
+			/* 设置列表数字 */
+			var total = parseFloat($("#total").text());
+			$("#table").find("#"+tourId).siblings().eq(3).text(total);
+			var remittanceSum = 0;
+			var realCostSum = 0;
+			$.each($("#costs3").find("tbody").children("tr"),function(){
+				var td = $(this).children("td").eq(4)
+				if(td.html()!=""&&td.html()!=undefined){
+					var remittance = td.children("input").val()
+					if(remittance==undefined){
+						remittanceSum = (parseFloat(remittanceSum) + parseFloat(td.text())).toFixed(2);
+					}else{
+						remittanceSum = (parseFloat(remittanceSum) + parseFloat(remittance)).toFixed(2);
+					}
+				}
+				if($(this).find("input").last().val()=="true"){
+					realCostSum = (parseFloat(realCostSum) + parseFloat(td.text())).toFixed(2);
+				}
+				
+			});
+			$.each($("#loanTable").children("tr"),function(){
+				
+				if($(this).find("input").last().val()=="true"){
+					realCostSum = (parseFloat(realCostSum) + parseFloat($(this).children("td").eq(1).text())).toFixed(2);
+				}
+			});
+			$("#table").find("#"+tourId).siblings().eq(4).text(remittanceSum);
+			$("#table").find("#"+tourId).siblings().eq(5).text((parseFloat(total)+parseFloat(remittanceSum)).toFixed(2));
+			$("#table").find("#"+tourId).siblings().eq(5).text(realCostSum);
 		});
-	
 	});
 	
 </script>

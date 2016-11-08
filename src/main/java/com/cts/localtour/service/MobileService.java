@@ -110,32 +110,53 @@ public class MobileService extends BaseService{
 		if(!change){
 			/*这里需要权限判断 如果是中心经理*/
 			CostTable costTable = (CostTable) this.getById("CostTable", id);
-			costTable.setPayStatus(2);
-			this.update(costTable);
-		    this.sendMessage("payApplication", costTable.getTourId(), 2, "您有待审核的<付款申请>，点击进行审核", request, session);
+			if(costTable.getPayStatus()==1){
+				costTable.setPayStatus(2);
+				this.update(costTable);
+			    this.sendMessage("payApplication", costTable.getTourId(), 2, "您有待审核的<付款申请>，点击进行审核", request, session);
+			}
 			/*如果是总经理*/
-		    /*CostTable costTable = (CostTable) this.getById("CostTable", id);
-			costTable.setPayStatus(3);
-			this.update(costTable);*/
+		    /*
+			if(costTable.getPayStatus()==2){
+				costTable.setPayStatus(3);
+				this.update(costTable);
+			}
+			*/
 		}else{
 			/*这里需要权限判断 如果是中心经理*/
 			ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", id);
-			changeCostTable.setPayStatus(2);
-			this.update(changeCostTable);
-		    this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有待审核的<付款申请>，点击进行审核", request, session);
+			if(changeCostTable.getPayStatus()==1){
+				changeCostTable.setPayStatus(2);
+				this.update(changeCostTable);
+			    this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有待审核的<付款申请>，点击进行审核", request, session);
+			}
 			/*如果是总经理*/
-		    /*CostTable costTable = (CostTable) this.getById("CostTable", id);
-			costTable.setPayStatus(3);
-			this.update(costTable);*/
+		    /*
+			if(changeCostTable.getPayStatus()==2){
+				costTable.setPayStatus(3);
+				this.update(costTable);
+			}
+			*/
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public void payApplicationCancel(HttpServletRequest request, HttpSession session, int id) {
-		CostTable costTable = (CostTable) this.getById("CostTable", id);
-		costTable.setPayStatus(0);
-		this.update(costTable);
-		WeiXinUtil.sendTextMessage(userService.getUserName(costTable.getPayApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(costTable.getTourId())+">申请的导游借款已经被驳回，如需再次申请，请联系财务修改借款内容后，再次提交", "0");
+	public void payApplicationCancel(HttpServletRequest request, HttpSession session, int id, boolean change) {
+		if(!change){
+			CostTable costTable = (CostTable) this.getById("CostTable", id);
+			if(costTable.getPayStatus()!=3){
+				costTable.setPayStatus(0);
+				this.update(costTable);
+				WeiXinUtil.sendTextMessage(userService.getUserName(costTable.getPayApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(costTable.getTourId())+">申请的付款已经被驳回，如需再次申请，请再次提交", "0");
+			}
+			}else{
+			ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", id);
+			if(changeCostTable.getPayStatus()!=3){
+				changeCostTable.setPayStatus(0);
+				this.update(changeCostTable);
+				WeiXinUtil.sendTextMessage(userService.getUserName(changeCostTable.getPayApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+">申请的付款已经被驳回，如需再次申请，请再次提交", "0");
+			}
+		}
 	}
 	
 	public void sendMessage(String mobileControllerMapping, int tourId, int status, String message, HttpServletRequest request, HttpSession session){

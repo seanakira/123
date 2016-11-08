@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-10-21 12:34:27 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-11-8 16:41:17 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,28 +23,31 @@ public class IncomeTable implements java.io.Serializable {
 	private Date incomeDate;
 	private int customerAgencyId;
 	private float income;
-	private Float realIncome;
+	private float realIncome;
 	private boolean incomed;
+	private Integer handlerId;
 	private String remark;
 
 	public IncomeTable() {
 	}
 
-	public IncomeTable(int tourId, int customerAgencyId, float income, boolean incomed) {
+	public IncomeTable(int tourId, int customerAgencyId, float income, float realIncome, boolean incomed) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
+		this.realIncome = realIncome;
 		this.incomed = incomed;
 	}
 
-	public IncomeTable(int tourId, Date incomeDate, int customerAgencyId, float income, Float realIncome,
-			boolean incomed, String remark) {
+	public IncomeTable(int tourId, Date incomeDate, int customerAgencyId, float income, float realIncome,
+			boolean incomed, Integer handlerId, String remark) {
 		this.tourId = tourId;
 		this.incomeDate = incomeDate;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
 		this.realIncome = realIncome;
 		this.incomed = incomed;
+		this.handlerId = handlerId;
 		this.remark = remark;
 	}
 
@@ -97,12 +100,12 @@ public class IncomeTable implements java.io.Serializable {
 		this.income = income;
 	}
 
-	@Column(name = "realIncome", precision = 12, scale = 0)
-	public Float getRealIncome() {
+	@Column(name = "realIncome", nullable = false, precision = 12, scale = 0)
+	public float getRealIncome() {
 		return this.realIncome;
 	}
 
-	public void setRealIncome(Float realIncome) {
+	public void setRealIncome(float realIncome) {
 		this.realIncome = realIncome;
 	}
 
@@ -113,6 +116,15 @@ public class IncomeTable implements java.io.Serializable {
 
 	public void setIncomed(boolean incomed) {
 		this.incomed = incomed;
+	}
+
+	@Column(name = "handlerId")
+	public Integer getHandlerId() {
+		return this.handlerId;
+	}
+
+	public void setHandlerId(Integer handlerId) {
+		this.handlerId = handlerId;
 	}
 
 	@Column(name = "remark", length = 65535)

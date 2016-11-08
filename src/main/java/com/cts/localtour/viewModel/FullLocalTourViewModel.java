@@ -178,9 +178,9 @@ public class FullLocalTourViewModel {
 		
 		full.setIncomes(incomeViewModel.getAllIncomeViewModel(id));
 		
-		full.setChangeCosts(changeCostViewModel.getAllChangeCostViewModell(id));
+		full.setChangeCosts(changeCostViewModel.getAllChangeCostViewModel(id,3));
 		
-		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(id));
+		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(id,3));
 		
 		return full;
 	}
