@@ -12,12 +12,14 @@ import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DeptTable;
+import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 
 @SuppressWarnings("rawtypes")
@@ -33,6 +35,8 @@ public class MobileService extends BaseService{
 	private LoanViewModel loanViewModel;
 	@Autowired
 	private ChangeCostIncomeViewModel changeCostIncomeViewModel;
+	@Autowired
+	private LoanInvoiceViewModel loanInvoiceViewModel;
 	public ChangeCostIncomeViewModel getAllChangCostIncome(int tourId, int status) {
 		return changeCostIncomeViewModel.getAllChangeCostIncomeViewModel(tourId, status);
 	}
@@ -173,4 +177,20 @@ public class MobileService extends BaseService{
 	    	WeiXinUtil.sendTextMessage(manager.getUserName(), url, message, "0");
 		}
 	}
+
+	public ArrayList<LoanInvoiceViewModel> getAllLoanInvoiceApplication(int tourId, int status) {
+		return loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, status);
+	}
+
+	public void loanInvoiceApplicationOk(int id) {
+		this.updateByString("LoanInvoiceTable", "status=2", "id=?", id);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void loanInvoiceApplicationCancel(int id) {
+		LoanInvoiceTable loanInvoiceTable = (LoanInvoiceTable)this.getById("LoanInvoiceTable", id);
+		this.delete(loanInvoiceTable);
+		WeiXinUtil.sendTextMessage(userService.getUserName(loanInvoiceTable.getApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(loanInvoiceTable.getTourId())+">申请的预借发票已经被驳回，如需再次申请，请再次提交", "0");
+	}
+	
 }

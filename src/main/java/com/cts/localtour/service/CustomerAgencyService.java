@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.viewModel.CustomerAgencyViewModel;
 
@@ -63,5 +64,9 @@ public class CustomerAgencyService extends BaseService{
 
 	public void update(CustomerAgencyTable customerAgency) {
 		this.updateByString("CustomerAgencyTable", "customerAgencyName=?,regionId=?,phone=?", "id="+customerAgency.getId(), customerAgency.getCustomerAgencyName(),customerAgency.getRegionId(),customerAgency.getPhone());
+	}
+	
+	public String getCustomerAgencyName(int tourId){
+		return ((CustomerAgencyTable)this.getById("CustomerAgencyTable", ((LocalTourTable)this.getById("LocalTourTable", tourId)).getCustomerAgencyId())).getCustomerAgencyName();
 	}
 }

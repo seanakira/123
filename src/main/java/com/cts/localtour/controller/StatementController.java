@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.InvoiceTable;
+import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.service.InvoiceService;
+import com.cts.localtour.service.LoanInvoiceService;
 import com.cts.localtour.service.PayService;
 import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullRevenueViewModel;
 import com.cts.localtour.viewModel.InvoiceViewModel;
+import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 import com.cts.localtour.viewModel.SimpleRevenueViewModel;
 
@@ -31,6 +34,8 @@ public class StatementController {
 	private RevenueService revenueService;
 	@Autowired
 	private InvoiceService invoiceService;
+	@Autowired
+	private LoanInvoiceService loanInvoiceService;
 	/*付款管理*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -106,26 +111,57 @@ public class StatementController {
 	@RequestMapping("/invoiceManage/save")
 	public @ResponseBody int saveInvoice(@RequestBody ArrayList<InvoiceTable> invoiceTables){
 		int errorCode = 0;
+		float invoice = 0;
 		ArrayList<InvoiceTable> invoices = new ArrayList<InvoiceTable>();
 		for (InvoiceTable invoiceTable : invoiceTables) {
-			if("".equals(invoiceTable.getInvoiceNo())||"".equals(invoiceTable.getInvoiceName())||"".equals(invoiceTable.getInvoiceAmount())){
+			if("".equals(invoiceTable.getInvoiceNo())||"".equals(invoiceTable.getInvoiceName())||invoiceTable.getInvoiceAmount()==0){
 				errorCode = -1;
+				break;
 			}else{
+				invoice = invoice + invoiceTable.getInvoiceAmount();
 				invoices.add(invoiceTable);
 			}
 		}
-		if(errorCode!=-1){
-			try {
-				invoiceService.saveInvoice(invoices);
-			} catch (Exception e) {
-				if(e instanceof DataIntegrityViolationException){
-					errorCode = -2;
+		if(!invoices.isEmpty()){
+			if(revenueService.InvoiceGreaterThanIncome(invoice, invoices.get(0).getTourId())){
+				errorCode = -3;
+			}else if(errorCode==0){
+				try {
+					invoiceService.saveInvoice(invoices);
+				} catch (Exception e) {
+					if(e instanceof DataIntegrityViolationException){
+						errorCode = -2;
+					}
 				}
 			}
 		}
 		return errorCode;
 	}
 	
+	/*预借发票管理*/
+	@RequestMapping("/loanInvoiceManage/find")
+	public @ResponseBody ArrayList<LoanInvoiceViewModel> findLoanInvoice(@RequestParam int tourId){
+		return loanInvoiceService.findInvoice(tourId);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/loanInvoiceManage/save")
+	public @ResponseBody int saveLoanInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables){
+		int errorCode = 0;
+		float newInvoiceSum = 0;
+		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
+			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "tourId=? and status=3", loanInvoiceTable.getId());
+			newInvoiceSum = newInvoiceSum + (loanInvoiceTables2.isEmpty()?0:loanInvoiceTables2.get(0).getInvoiceAmount());
+		}
+		if(!loanInvoiceTables.isEmpty()){
+			if(revenueService.InvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
+				errorCode = -1;
+			}else if(errorCode==0){
+				loanInvoiceService.saveLoanInvoice(loanInvoiceTables);
+			}
+		}
+		return errorCode;
+	}
 	/*核销管理*/
 	@RequestMapping("/balanceManage")
 	public String getTourVerifyAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){

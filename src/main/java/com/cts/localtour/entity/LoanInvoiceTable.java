@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-11-8 16:41:17 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-11-9 10:58:35 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	private int tourId;
 	private String invoiceName;
 	private String invoiceContent;
-	private int invoiceNo;
+	private Integer invoiceNo;
 	private float invoiceAmount;
 	private Date issueDate;
 	private int issueUserId;
@@ -34,20 +34,16 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	public LoanInvoiceTable() {
 	}
 
-	public LoanInvoiceTable(int tourId, String invoiceName, String invoiceContent, int invoiceNo, float invoiceAmount,
-			Date issueDate, int issueUserId, int status) {
+	public LoanInvoiceTable(int tourId, float invoiceAmount, Date issueDate, int issueUserId, int status) {
 		this.tourId = tourId;
-		this.invoiceName = invoiceName;
-		this.invoiceContent = invoiceContent;
-		this.invoiceNo = invoiceNo;
 		this.invoiceAmount = invoiceAmount;
 		this.issueDate = issueDate;
 		this.issueUserId = issueUserId;
 		this.status = status;
 	}
 
-	public LoanInvoiceTable(int tourId, String invoiceName, String invoiceContent, int invoiceNo, float invoiceAmount,
-			Date issueDate, int issueUserId, Integer applicationerId, String remark, int status) {
+	public LoanInvoiceTable(int tourId, String invoiceName, String invoiceContent, Integer invoiceNo,
+			float invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, String remark, int status) {
 		this.tourId = tourId;
 		this.invoiceName = invoiceName;
 		this.invoiceContent = invoiceContent;
@@ -81,7 +77,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.tourId = tourId;
 	}
 
-	@Column(name = "invoiceName", nullable = false, length = 40)
+	@Column(name = "invoiceName", length = 40)
 	public String getInvoiceName() {
 		return this.invoiceName;
 	}
@@ -90,7 +86,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.invoiceName = invoiceName;
 	}
 
-	@Column(name = "invoiceContent", nullable = false, length = 65535)
+	@Column(name = "invoiceContent", length = 65535)
 	public String getInvoiceContent() {
 		return this.invoiceContent;
 	}
@@ -99,12 +95,12 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.invoiceContent = invoiceContent;
 	}
 
-	@Column(name = "invoiceNo", unique = true, nullable = false)
-	public int getInvoiceNo() {
+	@Column(name = "invoiceNo", unique = true)
+	public Integer getInvoiceNo() {
 		return this.invoiceNo;
 	}
 
-	public void setInvoiceNo(int invoiceNo) {
+	public void setInvoiceNo(Integer invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
 

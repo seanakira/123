@@ -7,24 +7,28 @@ import org.springframework.stereotype.Component;
 
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.service.BaseService;
+import com.cts.localtour.service.CustomerAgencyService;
 import com.cts.localtour.service.UserService;
 
 @Component
 public class LoanInvoiceViewModel {
-	private LoanInvoiceTable invoiceTable;
+	private LoanInvoiceTable loanInvoiceTable;
 	private String issueUserRealName;
 	private String applicationerRealName;
 	private String status;
+	private String customerAgencyName;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
 	@Autowired
 	private UserService userService;
-	public LoanInvoiceTable getInvoiceTable() {
-		return invoiceTable;
+	@Autowired
+	private CustomerAgencyService customerAgencyService;
+	public LoanInvoiceTable getLoanInvoiceTable() {
+		return loanInvoiceTable;
 	}
-	public void setInvoiceTable(LoanInvoiceTable invoiceTable) {
-		this.invoiceTable = invoiceTable;
+	public void setLoanInvoiceTable(LoanInvoiceTable loanInvoiceTable) {
+		this.loanInvoiceTable = loanInvoiceTable;
 	}
 	public String getIssueUserRealName() {
 		return issueUserRealName;
@@ -44,15 +48,47 @@ public class LoanInvoiceViewModel {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getCustomerAgencyName() {
+		return customerAgencyName;
+	}
+	public void setCustomerAgencyName(String customerAgencyName) {
+		this.customerAgencyName = customerAgencyName;
+	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<LoanInvoiceViewModel> getAllLoanInvoiceViewModel(int tourId){
 		ArrayList<LoanInvoiceViewModel> loanInvoiceViewModels = new ArrayList<LoanInvoiceViewModel>();
 		ArrayList<LoanInvoiceTable> invoiceTables = (ArrayList<LoanInvoiceTable>) baseService.getAllByString("LoanInvoiceTable", "tourId=?", tourId);
 		for (LoanInvoiceTable loanInvoiceTable : invoiceTables) {
 			LoanInvoiceViewModel invoiceViewModel = new LoanInvoiceViewModel();
-			invoiceViewModel.setInvoiceTable(loanInvoiceTable);
+			invoiceViewModel.setLoanInvoiceTable(loanInvoiceTable);
 			invoiceViewModel.setApplicationerRealName(userService.getUserRealName(loanInvoiceTable.getApplicationerId()));
 			invoiceViewModel.setIssueUserRealName(userService.getUserRealName(loanInvoiceTable.getIssueUserId()));
+			if(loanInvoiceTable.getStatus()==0){
+				invoiceViewModel.setStatus("新建");
+			}else if(loanInvoiceTable.getStatus()==1){
+				invoiceViewModel.setStatus("待审核");
+			}else if(loanInvoiceTable.getStatus()==2){
+				invoiceViewModel.setStatus("已审核");
+			}
+			loanInvoiceViewModels.add(invoiceViewModel);
+		}
+		return loanInvoiceViewModels;
+	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<LoanInvoiceViewModel> getAllLoanInvoiceViewModel(int tourId, int status) {
+		ArrayList<LoanInvoiceTable> invoiceTables;
+		if(status==-1){
+			invoiceTables = (ArrayList<LoanInvoiceTable>) baseService.getAllByString("LoanInvoiceTable", "tourId=? and status>1", tourId);
+		}else{
+			invoiceTables = (ArrayList<LoanInvoiceTable>) baseService.getAllByString("LoanInvoiceTable", "tourId=? and status=?", tourId, status);
+		}
+		ArrayList<LoanInvoiceViewModel> loanInvoiceViewModels = new ArrayList<LoanInvoiceViewModel>();
+		for (LoanInvoiceTable loanInvoiceTable : invoiceTables) {
+			LoanInvoiceViewModel invoiceViewModel = new LoanInvoiceViewModel();
+			invoiceViewModel.setLoanInvoiceTable(loanInvoiceTable);
+			invoiceViewModel.setApplicationerRealName(userService.getUserRealName(loanInvoiceTable.getApplicationerId()));
+			invoiceViewModel.setIssueUserRealName(userService.getUserRealName(loanInvoiceTable.getIssueUserId()));
+			invoiceViewModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(tourId));
 			if(loanInvoiceTable.getStatus()==0){
 				invoiceViewModel.setStatus("新建");
 			}else if(loanInvoiceTable.getStatus()==1){

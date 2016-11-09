@@ -19,6 +19,7 @@ import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
@@ -256,5 +257,12 @@ public class LocalTourService extends BaseService{
 	}
 	public ArrayList<LoanInvoiceViewModel> findBorrowInvoice(int tourId) {
 		return loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId);
+	}
+	@SuppressWarnings("unchecked")
+	public void saveBorrowInvoice(ArrayList<LoanInvoiceTable> loanInvoiceTables) {
+		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
+			loanInvoiceTable.setStatus(1);
+			this.add(loanInvoiceTable);
+		}
 	}
 }

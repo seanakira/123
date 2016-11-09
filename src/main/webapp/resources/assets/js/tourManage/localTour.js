@@ -2092,7 +2092,7 @@ $(function(){
 		
 		
 		/*预借发票*/
-		$("#borrowInvoice").click(function(){
+		$("#loanInvoice").click(function(){
 			var checkbox = $("#table").find("input:checked");
 			if(checkbox.length==0){
 				alert("请选择一个团队");
@@ -2101,10 +2101,10 @@ $(function(){
 				alert("只能选择一个团队");
 				$(this).attr("href","#");
 			}else{
-				$("#borrowInvoices").html("");
-				$(this).attr("href","#borrowInvoiceModel");
+				$("#loanInvoices").html("");
+				$(this).attr("href","#loanInvoiceModel");
 				var tourId = checkbox.parent().parent().siblings().last().attr("id");
-				$("#borrowInvoiceApplication").parent().attr("id",tourId);
+				$("#loanInvoiceApplication").parent().attr("id",tourId);
 				var myData = {tourId:tourId};
 				$.ajax({
 			        type: "GET",  
@@ -2114,51 +2114,70 @@ $(function(){
 			        dataType: "json",
 			        async: false,
 			        success:function(data){
-			        	$("#borrowInvoices").append('<tr class="borrowInvoice">'+
-			        									'<td>'+this.invoiceTable.issueDate+'</td>'+
-			        									'<td>'+this.invoiceTable.invoiceName+'</td>'+
-			        									'<td>'+this.invoiceTable.invoiceContent+'</td>'+
-			        									'<td>'+this.invoiceTable.invoiceAmount+'</td>'+
-			        									'<td>'+this.invoiceTable.remark+'</td>'+
-			        								'</tr>');
+			        	$.each(data,function(){
+			        		$("#loanInvoices").append('<tr class="loanInvoice">'+
+															'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
+															'<td>'+this.loanInvoiceTable.invoiceName+'</td>'+
+															'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
+															'<td>'+this.loanInvoiceTable.invoiceAmount+'</td>'+
+															'<td>'+this.loanInvoiceTable.remark+'</td>'+
+															'<td>'+this.status+'</td>'+
+														'</tr>');
+			        	});
 			        }
 				});
 			}
 		});
 		/*新增预借发票*/
-		$(".addBorrowInvoice").click(function(){
+		$(".addLoanInvoice").click(function(){
 			var date = (new Date()).toLocaleDateString();
 			var tr = $('<tr>'+
 							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
-							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td><textarea style="width:100%;" class="form-control" rows="1"></textarea></td>'+
 							'<td><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 						'</tr>');
 			tr.find(".datepicker").datepicker({
     			showOtherMonths: true,
     			selectOtherMonths: false,
     		});
-			$("#borrowInvoices").append(tr);
+			$("#loanInvoices").append(tr);
 		});
 		/*预借发票申请*/
-		$("#borrowInvoiceApplication").click(function(){
+		$("#loanInvoiceApplication").click(function(){
 			var tourId = $(this).parent().attr("id");
-			var borrowInvoices = new Array();
-			var trs = $("#borrowInvoices").children("tr").not(".borrowInvoice");
+			var loanInvoices = new Array();
+			var trs = $("#loanInvoices").children("tr").not(".loanInvoice");
 			$.each(trs,function(){
 				var inputs = $(this).find("input");
-				borrowInvoices.push({
+				loanInvoices.push({
 					tourId:tourId,
-					issueDate:inputs.eq(0).val(),
+					issueDate:new Date(inputs.eq(0).val()),
 					invoiceName:inputs.eq(1).val(),
 					invoiceContent:inputs.eq(2).val(),
 					invoiceAmount:inputs.eq(3).val(),
-					remark:inputs.eq(4).val()
+					remark:$(this).find("textarea").val()
 				});
 			});
-			
+			var myData = JSON.stringify(loanInvoices);
+			$.ajax({
+				type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/localTourManage/saveBorrowInvoice",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	if(data==-1){
+		        		$("#loanInvoiceApplication").attr("data-dismiss","");
+		        		alert("*号为必填项");
+		        	}else{
+		        		$("#loanInvoiceApplication").attr("data-dismiss","modal");
+		        	}
+		        }
+			});
 		});
 	});
 	

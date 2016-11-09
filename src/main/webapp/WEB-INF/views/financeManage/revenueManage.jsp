@@ -38,6 +38,10 @@
 								<i class="icon-file-alt bigger-100"></i>
 								开发票
 							</a>
+							<a class="blue" id="loanInvoice" data-toggle="modal" href="#" title="预借发票" style="padding-left: 10px;">
+								<i class="icon-building bigger-100"></i>
+								预借发票
+							</a>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }revenueManage" method="get">
@@ -204,10 +208,6 @@
 					         <div class="modal-header no-padding">
 								<div class="table-header">
 									发票信息
-									<a id="addInvoice" class="white" style="position: absolute;left: 80px;" href="#">
-										<i class="icon-plus bigger-100"></i>
-										新增
-									</a>
 						 		</div>
 						  	</div>
 						  	<div class="modal-body no-padding">
@@ -220,6 +220,10 @@
 											<th style="width: 15%;">内容</th>
 											<th style="width: 15%;">金额*</th>
 											<th style="width: 15%;">开票人</th>
+											<th style="width: 2%;">
+												<a id="addInvoice" href="#">
+													<i class="icon-plus bigger-100"></i>
+												</a></th>
 										</tr>
 									</thead>
 									<tbody id="invoiceTable">
@@ -241,7 +245,7 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveInvoice" class="btn btn-sm btn-success pull-right" >
+								<button id="saveInvoice" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 									<i class="icon-save"></i>
 									开票
 								</button>
@@ -250,7 +254,51 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 发票结束 -->
-	
+<!-- 预借发票模板-->
+				<div aria-hidden="true" style="display: none;" id="loanInvoiceModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									预借发票申请
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div class="tab-pane fade in active costTable">
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 20%;">抬头</th>
+													<th style="width: 10%;">内容</th>
+													<th style="width: 10%;">金额*</th>
+													<th style="width: 45%;">发票信息*</th>
+													<th style="width: 5%;">
+														操作
+													</th>
+												</tr>
+											</thead>
+											<tbody id="loanInvoices">
+											</tbody>
+							            </table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="loanInvoiceSave" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-save"></i>
+									保存
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 预借发票结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -478,6 +526,7 @@
 			        										'<td>'+this.invoiceTable.invoiceContent+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceAmount+'</td>'+
 			        										'<td>'+this.issueUserRealName+'</td>'+
+			        										'<td></td>'
 			        								+'</tr>');
 			        	});
 			        	$("#maxIssue").text($("#table").find("#"+tourId).children("td").eq(4).text());
@@ -486,7 +535,7 @@
 				});
 			}
 		});
-	/* 增加发票 */
+		/* 增加发票 */
 		$("#addInvoice").click(function(){
 			var date = (new Date()).toLocaleDateString();
     		var tr = $('<tr>'+
@@ -496,12 +545,17 @@
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control invoiceAmount" type="text" placeholder="双击快速添加金额"></td>'+
 							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %><input type="hidden" value="<%=((UserTable)session.getAttribute("user")).getId() %>"></td>'+
+							'<td><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 						'</tr>');
     		tr.find(".datepicker").datepicker({
     			showOtherMonths: true,
     			selectOtherMonths: false,
     		});
     		$("#invoiceTable").append(tr);
+		});
+		/* 删除一行 */
+		$("table").delegate(".delLine","click",function(){
+			$(this).parents("tr").remove();
 		});
 		/* 开票 */
 		$("#saveInvoice").click(function(){
@@ -541,6 +595,9 @@
 		        	}else if(data==-2){
 		        		$("#saveInvoice").attr("data-dismiss","");
 		        		alert("票号重复，请检查");
+		        	}else if(data==-3){
+		        		$("#saveInvoice").attr("data-dismiss","");
+		        		alert("开票金额大于实收金额");
 		        	}else{
 		        		$("#saveInvoice").attr("data-dismiss","modal");
 		        		$("#table").find("#"+tourId).children("td").eq(5).text((parseFloat($("#table").find("#"+tourId).children("td").eq(5).text())+parseFloat(total)).toFixed(2));
@@ -571,6 +628,98 @@
 				}
 			});
 			$("#total").text(total.toFixed(2));
+		});
+		
+		/*预借发票*/
+		$("#loanInvoice").click(function(){
+			var checkbox = $("#table").find("input:checked");
+			if(checkbox.length==0){
+				alert("请选择一个团队");
+				$(this).attr("href","#");
+			}else if(checkbox.length>1){
+				alert("只能选择一个团队");
+				$(this).attr("href","#");
+			}else{
+				$("#loanInvoices").html("");
+				$(this).attr("href","#loanInvoiceModel");
+				var tourId = checkbox.parent().parent().parent().attr("id");
+				$("#loanInvoiceSave").parent().attr("id",tourId);
+				var myData = {tourId:tourId};
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"/localtour/loanInvoiceManage/find",  
+			        data:myData,  
+			        dataType: "json",
+			        async: false,
+			        success:function(data){
+			        	$.each(data,function(){
+			        		var action;
+			        		if(this.loanInvoiceTable.status==3){
+			        			action = $('<td>已开</td>');
+			        		}else{
+			        			action = $('<td><a title="确认开票" href="#" class="green" id="issueOk"><i class="icon-ok bigger-130"></i></a></td>');
+			        		}
+			        		$("#loanInvoices").append('<tr id="'+this.loanInvoiceTable.id+'">'+
+															'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
+															'<td>'+this.loanInvoiceTable.invoiceName+'</td>'+
+															'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
+															'<td>'+this.loanInvoiceTable.invoiceAmount+'</td>'+
+															'<td>'+this.loanInvoiceTable.remark+'</td>'+
+															'<td>'+action.html()+'</td>'+
+														'</tr>');
+			        	});
+			        	$("#loanInvoices").find("a").tooltip({
+			    			show: null,
+			    			position: {
+			    				my: "left top",
+			    				at: "left bottom"
+			    			},
+			    			open: function( event, ui ) {
+			    				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			    			}
+			    		});
+			        }
+				});
+			}
+		});
+		/* 确认开票 */
+		$("#loanInvoices").delegate("#issueOk","click",function(){
+			$(this).parent().parent().attr("class","save");
+			$(this).parent().html('已开');
+		});
+		
+		/*预借发票保存*/
+		$("#loanInvoiceSave").click(function(){
+			var tourId = $(this).parent().attr("id");
+			var loanInvoices = new Array();
+			var trs = $("#loanInvoices").children("tr.save");
+			$.each(trs,function(){
+				var id = $(this).attr("id");
+				loanInvoices.push({
+					id:id
+				});
+			});
+			var myData = JSON.stringify(loanInvoices);
+			$.ajax({
+				type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/loanInvoiceManage/save",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	if(data==-1){
+		        		alert("开票金额大于实收金额");
+		        	}else{
+		        		var total = 0;
+		        		$.each($("#loanInvoices").find("tr.save td:nth-child(4)"),function(){
+		        			total = total +parseFloat($(this).text());
+		        		});
+		        		$("#table").find("#"+tourId).children("td").eq(5).text((parseFloat($("#table").find("#"+tourId).children("td").eq(5).text())+total).toFixed(2));
+		        	}
+		        }
+			});
 		});
 	});
 	

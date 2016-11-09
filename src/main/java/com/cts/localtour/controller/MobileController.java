@@ -80,4 +80,22 @@ public class MobileController {
 	public void payApplicationCancel(HttpServletRequest request, HttpSession session, @RequestParam int id, @RequestParam boolean change){
 		mobileService.payApplicationCancel(request, session, id, change);
 	}
+
+	/*Ԥ�跢Ʊ*/
+	@RequestMapping("/mobile/loanInvoiceApplication")
+	public String loanInvoiceApplication(@RequestParam int tourId, @RequestParam int status, Model md){
+		md.addAttribute("loanInvoices", mobileService.getAllLoanInvoiceApplication(tourId, status));
+		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", tourId));
+		return "/mobile/loanInvoiceApplication";
+	}
+	
+	@RequestMapping("/mobile/loanInvoiceApplicationOk")
+	public void loanInvoiceApplicationOk(@RequestParam int id){
+		mobileService.loanInvoiceApplicationOk(id);
+	}
+	
+	@RequestMapping("/mobile/loanInvoiceApplicationCancel")
+	public void loanInvoiceApplicationCancel(@RequestParam int id){
+		mobileService.loanInvoiceApplicationCancel(id);
+	}
 }

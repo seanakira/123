@@ -20,8 +20,10 @@ import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
+import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.TripTable;
+import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DepartService;
@@ -321,5 +323,32 @@ public class TourController {
 	@RequestMapping("/localTourManage/findBorrowInvoice")
 	public @ResponseBody ArrayList<LoanInvoiceViewModel> findBorrowInvoice(@RequestParam int tourId){
 		return localTourService.findBorrowInvoice(tourId);
+	}
+	
+	/**
+	 * @param loanInvoiceTables
+	 * @return
+	 */
+	@RequestMapping("/localTourManage/saveBorrowInvoice")
+	public @ResponseBody int saveBorrowInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables, HttpServletRequest request, HttpSession session){
+		int errorCode = 0;
+		ArrayList<LoanInvoiceTable> loanInvoices = new ArrayList<LoanInvoiceTable>();
+		int applicationerId = ((UserTable) session.getAttribute("user")).getId();
+		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
+			if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount()==0){
+				errorCode = -1;
+			}else{
+				loanInvoiceTable.setApplicationerId(applicationerId);
+				loanInvoiceTable.setRemark(loanInvoiceTable.getRemark().replaceAll("\n", "<br>"));
+				loanInvoices.add(loanInvoiceTable);
+			}
+		}
+		if(errorCode==0){
+			localTourService.saveBorrowInvoice(loanInvoices);
+			if(!loanInvoiceTables.isEmpty()){
+				localTourService.sendMassage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "ÄúÓÐ´ýÉóºËµÄ<Ô¤½è·¢Æ±>£¬µã»÷½øÐÐÉóºË", request, session);
+			}
+		}
+		return errorCode;
 	}
 }

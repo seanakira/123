@@ -11,8 +11,9 @@ import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.service.BaseService;
-import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.InvoiceService;
+import com.cts.localtour.service.LoanInvoiceService;
+import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.UserService;
 
 @Component
@@ -26,9 +27,11 @@ public class SimpleRevenueViewModel {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private BaseService baseService;
-	@Autowired
 	private InvoiceService invoiceService;
+	@Autowired
+	private LoanInvoiceService loanInvoiceService;
+	@Autowired
+	private RevenueService revenueService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -72,21 +75,10 @@ public class SimpleRevenueViewModel {
 			SimpleRevenueViewModel simpleRevenueViewModel = new SimpleRevenueViewModel();
 			simpleRevenueViewModel.setLocalTourTable(localTour);
 			simpleRevenueViewModel.setUserRealName(userService.getUserRealName(localTour.getUserId()));
-			BigDecimal willIncomeSum = new BigDecimal(0);
-			BigDecimal realIncomeSum = new BigDecimal(0);
-			ArrayList<IncomeTable> incomeTables = (ArrayList<IncomeTable>) baseService.getAllByString("IncomeTable", "tourId=?", localTour.getId());
-			for (IncomeTable incomeTable : incomeTables) {
-				willIncomeSum = willIncomeSum.add(new BigDecimal(incomeTable.getIncome()));
-				realIncomeSum = realIncomeSum.add(new BigDecimal(incomeTable.getRealIncome()));
-			}
-			ArrayList<ChangeIncomeTable> changeIncomeTables = (ArrayList<ChangeIncomeTable>) baseService.getAllByString("ChangeIncomeTable", "tourId=? and status=3", localTour.getId());
-			for (ChangeIncomeTable changeIncomeTable : changeIncomeTables) {
-				willIncomeSum = willIncomeSum.add(new BigDecimal(changeIncomeTable.getIncome()));
-				realIncomeSum = realIncomeSum.add(new BigDecimal(changeIncomeTable.getRealIncome()));
-			}
-			simpleRevenueViewModel.setRealIncome(realIncomeSum.floatValue());
-			simpleRevenueViewModel.setWillIncome(willIncomeSum.floatValue());
-			simpleRevenueViewModel.setInvoice(invoiceService.getInvoiceSum(localTour.getId()));
+			HashMap<String, Float> willAndReal = revenueService.getWillAndRealIncome(localTour.getId());
+			simpleRevenueViewModel.setRealIncome(willAndReal.get("realIncome"));
+			simpleRevenueViewModel.setWillIncome(willAndReal.get("willIncome"));
+			simpleRevenueViewModel.setInvoice((new BigDecimal(invoiceService.getInvoiceSum(localTour.getId())).add(new BigDecimal(loanInvoiceService.getLoanInvoiceSum(localTour.getId())))).floatValue());
 			if(localTour.getStatus()==0){
 				simpleRevenueViewModel.setStatus("ÐÂ½¨");
 			}else if(localTour.getStatus()==1){
@@ -109,6 +101,5 @@ public class SimpleRevenueViewModel {
 			simpleRevenueViewModels.add(simpleRevenueViewModel);
 		}
 		return simpleRevenueViewModels;
-		
-	}
+	} 
 }

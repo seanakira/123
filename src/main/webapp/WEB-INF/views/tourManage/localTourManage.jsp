@@ -53,8 +53,8 @@
 								<i class="icon-file-alt bigger-100"></i>
 								付款申请
 							</a>   
-							<a class="blue" id="borrowInvoice" data-toggle="modal" href="#" title="预借发票">
-								<i class="icon-user bigger-100"></i>
+							<a class="blue" id="loanInvoice" data-toggle="modal" href="#" title="预借发票">
+								<i class="icon-building bigger-100"></i>
 								预借发票
 							</a>
 						</div>
@@ -2219,7 +2219,7 @@
 				</div>
 <!-- 付款申请结束 -->
 <!-- 预借发票模板-->
-				<div aria-hidden="true" style="display: none;" id="borrowInvoiceModel" class="modal fade" tabindex="-1">
+				<div aria-hidden="true" style="display: none;" id="loanInvoiceModel" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
@@ -2239,13 +2239,13 @@
 													<th style="width: 10%;">金额*</th>
 													<th style="width: 45%;">发票信息*</th>
 													<th style="width: 5%;">
-														<a class="blue addBorrowInvoice" href="#">
+														<a class="blue addLoanInvoice" href="#">
 															<i class="icon-plus bigger-130"></i>
 														</a>
 													</th>
 												</tr>
 											</thead>
-											<tbody id="borrowInvoices">
+											<tbody id="loanInvoices">
 											</tbody>
 							            </table>
 					         		</div><!-- 成本tab结束 -->
@@ -2256,7 +2256,7 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="borrowInvoiceApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+								<button id="loanInvoiceApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 									<i class="icon-save"></i>
 									申请
 								</button>
