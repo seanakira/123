@@ -54,12 +54,27 @@
 								<span class="menu-text"> 经营状况 </span>
 							</a>
 						</li>
-
+						
+						<li id="toDoManage">
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-suitcase"></i>
+								<span class="menu-text"> 待办事项</span>
+								<b class="arrow icon-angle-down"></b>
+							</a>
+							<ul class="submenu">
+								<li id="toDoReimbursementApplication">
+									<a href="<%=path %>reimbursementApplication">
+										<i class="icon-double-angle-right"></i>
+										报账审核
+									</a>
+								</li>
+							</ul>
+						</li>
+						
 						<li id="gourpManage">
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-flag"></i>
 								<span class="menu-text"> 团队管理 </span>
-
 								<b class="arrow icon-angle-down"></b>
 							</a>
 
@@ -68,6 +83,12 @@
 									<a href="<%=path %>localTourManage">
 										<i class="icon-double-angle-right"></i>
 										地接团队
+									</a>
+								</li>
+								<li id="billCheckManage">
+									<a href="<%=path %>billCheckManage">
+										<i class="icon-double-angle-right"></i>
+										签单管理
 									</a>
 								</li>
 							</ul>

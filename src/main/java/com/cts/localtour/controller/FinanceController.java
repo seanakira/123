@@ -15,19 +15,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
+import com.cts.localtour.service.BalanceService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
 import com.cts.localtour.service.PayService;
+import com.cts.localtour.service.ReimbursementApplicationService;
 import com.cts.localtour.service.RevenueService;
+import com.cts.localtour.service.SettlementService;
+import com.cts.localtour.viewModel.FullBalanceViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.FullReimbursementApplicationViewModel;
 import com.cts.localtour.viewModel.FullRevenueViewModel;
 import com.cts.localtour.viewModel.InvoiceViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
+import com.cts.localtour.viewModel.SimpleBalanceViewModel;
 import com.cts.localtour.viewModel.SimpleRevenueViewModel;
+import com.cts.localtour.viewModel.SimpleSettlementViewModel;
 
 @Controller
-public class StatementController {
+public class FinanceController {
 	@Autowired
 	private PayService payService;
 	@Autowired
@@ -36,6 +43,12 @@ public class StatementController {
 	private InvoiceService invoiceService;
 	@Autowired
 	private LoanInvoiceService loanInvoiceService;
+	@Autowired
+	private BalanceService balanceService;
+	@Autowired
+	private SettlementService settlementService;
+	@Autowired
+	private ReimbursementApplicationService reimbursementApplicationService;
 	/*付款管理*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -150,10 +163,11 @@ public class StatementController {
 		int errorCode = 0;
 		float newInvoiceSum = 0;
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "tourId=? and status=3", loanInvoiceTable.getId());
+			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "id=? and status=2", loanInvoiceTable.getId());
 			newInvoiceSum = newInvoiceSum + (loanInvoiceTables2.isEmpty()?0:loanInvoiceTables2.get(0).getInvoiceAmount());
 		}
 		if(!loanInvoiceTables.isEmpty()){
+			System.out.println(loanInvoiceTables.get(0).getTourId());
 			if(revenueService.InvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
 				errorCode = -1;
 			}else if(errorCode==0){
@@ -164,13 +178,83 @@ public class StatementController {
 	}
 	/*核销管理*/
 	@RequestMapping("/balanceManage")
-	public String getTourVerifyAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+	public String getBalanceAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		int counts = balanceService.getCounts(key);
+		int pageMax = counts/maxResults;
+		if(counts%maxResults>0){
+			pageMax++;
+		}
+		if(page>pageMax){
+			page=pageMax;
+		}
+		if(page<1){
+			page=1;
+		}
+		ArrayList<SimpleBalanceViewModel> balances = balanceService.getAll(key,page,maxResults);
+		md.addAttribute("balances", balances);
+		md.addAttribute("counts", counts);
+		md.addAttribute("pageMax", pageMax);
+		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
 		return "/financeManage/balanceManage";
+	}
+	
+	@RequestMapping("/balanceManage/find")
+	public @ResponseBody FullBalanceViewModel findBalance(@RequestParam int tourId){
+		return balanceService.findBalance(tourId);
+	}
+	
+	@RequestMapping("/balanceManage/update")
+	public void updateBalance(@RequestParam int tourId){
+		balanceService.updateBalance(tourId);
+	}
+	
+	@RequestMapping("/balanceManage/cancel")
+	public void cancelBalance(@RequestParam int tourId){
+		balanceService.cancelBalance(tourId);
 	}
 	
 	/*结算管理*/
 	@RequestMapping("/settlementManage")
-	public String getTourBalanceAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+	public String getSettlementAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		int counts = settlementService.getCounts(key);
+		int pageMax = counts/maxResults;
+		if(counts%maxResults>0){
+			pageMax++;
+		}
+		if(page>pageMax){
+			page=pageMax;
+		}
+		if(page<1){
+			page=1;
+		}
+		ArrayList<SimpleSettlementViewModel> settlements = settlementService.getAll(key,page,maxResults);
+		md.addAttribute("settlements", settlements);
+		md.addAttribute("counts", counts);
+		md.addAttribute("pageMax", pageMax);
+		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
 		return "/financeManage/settlementManage";
+	}
+	
+	@RequestMapping("/settlementManage/find")
+	public @ResponseBody FullReimbursementApplicationViewModel findReimbursementApplication(@RequestParam int tourId){
+		return reimbursementApplicationService.findReimbursementApplication(tourId);
+	}
+	
+	@RequestMapping("/settlementManage/ok")
+	public String okReimbursementApplication(@RequestParam int tourId){
+		settlementService.okSettlement(tourId);
+		return "/mobile/applicationOk";
+	}
+	
+	@RequestMapping("/settlementManage/cancel")
+	public void cancelReimbursementApplication(@RequestParam int tourId){
+		settlementService.cancelSettlement(tourId);
+	}
+	
+	@RequestMapping("/settlementManage/checkStatus")
+	public @ResponseBody int checkStatusReimbursementApplication(@RequestParam int tourId){
+		return settlementService.checkStatusSettlement(tourId);
 	}
 }

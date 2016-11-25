@@ -29,6 +29,9 @@ public class BaseService<T> {
 	@SuppressWarnings("unchecked")
 	public ArrayList<T> getAllByParam(String tableName, String where, Map<String, Object> param, int pageNo, int pageSize) {
 		String hql = "from "+tableName+" where "+where+" order by id desc";
+		if(where==null||"".equals(where)){
+			hql = "from "+tableName+" order by id desc";
+		}
 		ArrayList<T> list = (ArrayList<T>) baseDAO.find(hql, param, pageNo, pageSize);	
 		return list;
 	}
@@ -54,6 +57,9 @@ public class BaseService<T> {
 
 	public int getCountsByParam(String tableName, String where, Map<String, Object> param) {
 		String hql = "select count(*) from "+tableName+" where "+where;
+		if("".equals(where)||where==null){
+			hql = "select count(*) from "+tableName;
+		}
 		Integer counts = baseDAO.getCounts(hql, param);
 		return counts.intValue();
 	}
@@ -64,7 +70,6 @@ public class BaseService<T> {
 		return counts.intValue();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Integer getCountsByString(String tableName, String where ,Object... objects){
 		String hql = "select count(*) from "+tableName+" where "+where;
 		return baseDAO.getCountsByString(hql, objects);
@@ -105,6 +110,9 @@ public class BaseService<T> {
 	@SuppressWarnings("unchecked")
 	public List<T> getAllByString(String tableName, String where ,Object... objects){
 		String hql = "from "+tableName+" where "+where;
+		if("".equals(where)||where==null){
+			hql = "from "+tableName;
+		}
 		return baseDAO.getAllByString(hql, objects);
 	}
 	

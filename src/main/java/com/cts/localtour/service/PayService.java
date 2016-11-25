@@ -117,6 +117,12 @@ public class PayService extends BaseService{
 			for (int i = 0; i < loanTables.size(); i++) {
 				this.merge(loanTables.get(i));
 			}
+			int id = !costCache.isEmpty()?costCache.get(0).getTourId():!changeCostCache.isEmpty()?changeCostCache.get(0).getTourId():!loanTables.isEmpty()?loanTables.get(0).getTourId():0;
+			if(id!=0){
+				if(((LocalTourTable)this.getById("LocalTourTable", id)).getStatus()==2){
+					this.updateByString("LocalTourTable", "status=3", "id=?", id);
+				}
+			}
 		}
 		return 1;
 	}

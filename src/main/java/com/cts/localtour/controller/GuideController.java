@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.GuideTable;
 import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.UserTable;

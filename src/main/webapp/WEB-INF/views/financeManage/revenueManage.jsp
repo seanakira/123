@@ -30,15 +30,19 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="createTour" role="button" data-toggle="modal" href="#">收款管理</a>
+								<a role="button" data-toggle="modal" href="#">收款管理</a>
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar" style="display: inline-block;">
-							<a class="" id="invoice" data-toggle="modal" href="#" title="付款申请" style="padding-left: 10px;">
+							<a id="revenue" data-toggle="modal" href="#" title="收款管理" style="padding-left: 10px;">
+								<i class="icon-envelope bigger-100"></i>
+								收款管理
+							</a>
+							<a id="invoice" data-toggle="modal" href="#" title="付款申请" style="padding-left: 10px;">
 								<i class="icon-file-alt bigger-100"></i>
 								开发票
 							</a>
-							<a class="blue" id="loanInvoice" data-toggle="modal" href="#" title="预借发票" style="padding-left: 10px;">
+							<a id="loanInvoice" data-toggle="modal" href="#" title="预借发票" style="padding-left: 10px;">
 								<i class="icon-building bigger-100"></i>
 								预借发票
 							</a>
@@ -331,6 +335,7 @@
 			if(checkbox.prop("checked")){
 				checkbox.prop("checked",false);
 			}else{
+				$("#table").find("input").prop("checked",false);
 				checkbox.prop("checked",true);
 			}
 		});
@@ -343,6 +348,21 @@
 			}
 		});
 	/* 收入 */
+		$("#revenue").click(function(){
+				var checkbox = $("#table").find("input:checked");
+				if(checkbox.length==0){
+					alert("请选择一个团队");
+					$(this).attr("href","#");
+				}else if(checkbox.length>1){
+					alert("只能选择一个团队");
+					$(this).attr("href","#");
+				}else{
+					$(this).attr("href","#edit");
+					var tourId = checkbox.parent().parent().parent().attr("id");
+					var myData = {tourId:tourId};
+					edit(myData);
+				}
+		});
 	/* 编辑 */
 		/* 编辑读取 */
  		$("#table").delegate("#editTour","click",function(){
@@ -352,14 +372,16 @@
  				$(this).parent().prev().find("input").prop("checked",true);
  			}
 			var myData = {tourId:$(this).parent().parent().attr("id")};
+			edit(myData);
+		});
+		function edit(myData){
 			$("#saveEdit").parent().attr("id",myData.tourId);
-			var tourUserName = $(this).parent().prev().text();
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"/localtour/revenueManage/find",  
 		        data:myData,  
-		        dataType: "json",  
+		        dataType: "json",
 		        async: false,  
 		        success:function(data){
 					/* 设置收入 */
@@ -433,7 +455,7 @@
 					$(".chosen-select").next().find("input").attr("style","height:100%;");
 		        }  
 			});
-		});
+		}
  		/* 双击自动填充 */
     	$("#incomes").delegate(".realIncome","dblclick",function(){
     		$(this).val($(this).parent().prev().text());
@@ -697,7 +719,8 @@
 			$.each(trs,function(){
 				var id = $(this).attr("id");
 				loanInvoices.push({
-					id:id
+					id:id,
+					tourId:tourId
 				});
 			});
 			var myData = JSON.stringify(loanInvoices);

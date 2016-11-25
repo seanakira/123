@@ -9,13 +9,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.ArrTable;
+import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.GuideTimeTable;
@@ -25,6 +25,7 @@ import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
+import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.GuideTimeService;
@@ -33,10 +34,13 @@ import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.TripService;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
+import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.FullReimbursementViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
+import com.cts.localtour.viewModel.SimpleBillCheckViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
 @Controller
@@ -55,8 +59,10 @@ public class TourController {
 	private CostService costService;
 	@Autowired
 	private IncomeService incomeService;
+	@Autowired
+	private BillService billService;
 	@RequestMapping("/localTourManage")
-	public String getSupplierAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
@@ -153,22 +159,75 @@ public class TourController {
 		}
 	}
 	
+	/*删除*/
 	@RequestMapping("/localTourManage/del")
 	public @ResponseBody boolean delLocalTour(@RequestParam int id){
-		localTourService.del(id);
-		return true;
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==0){
+			localTourService.del(id);
+			return true;
+		}
+		return false;
 	}
 	
+	/*恢复*/
 	@RequestMapping("/localTourManage/recover")
 	public @ResponseBody boolean recoverLocalTour(@RequestParam int id){
-		localTourService.recover(id);
-		return true;
+		if(!((LocalTourTable) localTourService.getById("LocalTourTable", id)).isEnable()){
+			localTourService.recover(id);
+			return true;
+		}
+		return false;
 	}
 	
-	@RequestMapping("/localTourManage/chanageStatus/{status}")
-	public @ResponseBody boolean auditingLocalTour(@RequestParam int id ,@PathVariable int status){
-		localTourService.changeStatus(id,status);
-		return true;
+	/*提交待审*/
+	@RequestMapping("/localTourManage/auditing")
+	public @ResponseBody boolean auditingLocalTour(@RequestParam int id){
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==0){
+			localTourService.changeStatus(id,1);
+			return true;
+		}
+		return false;
+	}
+	/*退回编辑*/
+	@RequestMapping("/localTourManage/unAuditing")
+	public @ResponseBody boolean unAuditingLocalTour(@RequestParam int id){
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==1){
+			localTourService.changeStatus(id,0);
+			return true;
+		}
+		return false;
+	}
+	
+	/*报送财务*/
+	@RequestMapping("/localTourManage/finance")
+	public @ResponseBody boolean financeLocalTour(@RequestParam int id){
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==1){
+			localTourService.changeStatus(id,2);
+			return true;
+		}
+		return false;
+	}
+	
+	/*取消报送*/
+	@RequestMapping("/localTourManage/cancelFinance")
+	public @ResponseBody int cancelFinance(@RequestParam int id){
+		int errorCode = 0;
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==2){
+			localTourService.changeStatus(id,0);
+		}else{
+			errorCode = -1;
+		}
+		return errorCode;
+	}
+	
+	/*申请结算*/
+	@RequestMapping("/localTourManage/balance")
+	public @ResponseBody boolean balanceLocalTour(@RequestParam int id){
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==5){
+			localTourService.changeStatus(id,6);
+			return true;
+		}
+		return false;
 	}
 	
 	@RequestMapping("/localTourManage/find")
@@ -325,10 +384,6 @@ public class TourController {
 		return localTourService.findBorrowInvoice(tourId);
 	}
 	
-	/**
-	 * @param loanInvoiceTables
-	 * @return
-	 */
 	@RequestMapping("/localTourManage/saveBorrowInvoice")
 	public @ResponseBody int saveBorrowInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables, HttpServletRequest request, HttpSession session){
 		int errorCode = 0;
@@ -350,5 +405,64 @@ public class TourController {
 			}
 		}
 		return errorCode;
+	}
+	
+	/*团队报账*/
+	@RequestMapping("/reimbursementManage/findReimbursement")
+	public @ResponseBody FullReimbursementViewModel findReimbursement(@RequestParam int tourId){
+		return localTourService.findReimbursement(tourId);
+	}
+	
+	@RequestMapping("/reimbursementManage/updateReimbursement")
+	public @ResponseBody int updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpSession sessione){
+		int errorCode = 0;
+		for (CostTable costTable : full.getCostTables()) {
+			if(((CostTable)localTourService.getById("CostTable", costTable.getId())).getReimbursement()!=null){
+				errorCode = -1;
+				return errorCode;
+			}
+		}
+		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
+			if(((ChangeCostTable)localTourService.getById("ChangeCostTable", changeCostTable.getId())).getReimbursement()!=null){
+				errorCode = -1;
+				return errorCode;
+			}
+		}
+		if(full.getReimbursementTable().getHeadAmount()==0||!localTourService.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getId()).isEmpty()){
+			errorCode = -2;
+			return errorCode;
+		}
+		if(errorCode == 0){
+			localTourService.updateReimbursement(full,sessione);
+		}
+		return errorCode;
+	}
+	
+	/*签单管理*/
+	@RequestMapping("/billCheckManage")
+	public String getBillCheckAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		int counts = billService.getCounts(key);
+		int pageMax = counts/maxResults;
+		if(counts%maxResults>0){
+			pageMax++;
+		}
+		if(page>pageMax){
+			page=pageMax;
+		}
+		if(page<1){
+			page=1;
+		}
+		ArrayList<SimpleBillCheckViewModel> bills = billService.getAll(key,page,maxResults);
+		md.addAttribute("bills", bills);
+		md.addAttribute("counts", counts);
+		md.addAttribute("pageMax", pageMax);
+		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
+		return "/tourManage/billCheckManage";
+	}
+	
+	@RequestMapping("/billCheckManage/find")
+	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId){
+		return billService.findBill(supplierId);
 	}
 }

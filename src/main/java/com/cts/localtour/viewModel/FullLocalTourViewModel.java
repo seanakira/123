@@ -163,9 +163,7 @@ public class FullLocalTourViewModel {
 		tourInfo.put("visitorTypeName", ((VisitorTypeTable)baseService.getById("VisitorTypeTable", localTour.getVisitorTypeId())).getVisitorTypeName());
 		tourInfo.put("customerAgencyName", ((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
 		full.setTourInfo(tourInfo);
-		
 		full.setGuideTimes(guideTimeViewModel.getAllGuideTimeViewModel(id));
-		
 //		full.setArrTables((ArrayList<ArrTable>) baseService.getAllByString("ArrTable", "tourId=?", id));
 		full.setArrs(arrViewModel.getAllArrDepViewModel(id));
 		
@@ -181,7 +179,6 @@ public class FullLocalTourViewModel {
 		full.setChangeCosts(changeCostViewModel.getAllChangeCostViewModel(id,3));
 		
 		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(id,3));
-		
 		return full;
 	}
 }

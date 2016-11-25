@@ -13,6 +13,12 @@
 	#ui-datepicker-div span{
 		text-align: center;
 	}
+	.accessBar{
+		display: inline-block;
+	}
+	.accessBar a{
+		padding-left: 10px;
+	}
 </style>
 
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
@@ -30,10 +36,19 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="createTour" role="button" data-toggle="modal" href="#">付款管理</a>
+								<a role="button" data-toggle="modal" href="#">付款管理</a>
 							</li>
 						</ul><!-- .breadcrumb -->
-	
+						<div class="accessBar">
+							<a id="cancelFinance" data-toggle="modal" href="#" title="付款申请">
+								<i class="icon-reply bigger-100"></i>
+								取消报送
+							</a>
+							<a id="pay" data-toggle="modal" href="#" title="付款申请">
+								<i class="icon-file-alt bigger-100"></i>
+								付款管理
+							</a>
+						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }payManage" method="get">
 								<span class="input-icon">
@@ -50,21 +65,24 @@
 								<tr role="row">
 									<th aria-label="" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
 										<label>
-											<input class="ace" type="checkbox">
+											<input class="ace selectAll" type="checkbox">
 											<span class="lbl"></span>
 										</label>
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										团号
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										线路
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										导游应借款
+										导游可申请
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										供应商应付
+										供应商可申请
+									</th>
+									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+										可申请总计
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										应付总计
@@ -73,19 +91,10 @@
 										实付总计
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										预估成本
-									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-										出团日期
-									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										状态
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										团控人
-									</th>
-									<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
-										操作
 									</th>
 								</tr>
 							</thead>
@@ -93,7 +102,7 @@
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 	<!-- 列表循环 -->				
 								<c:forEach var="pay" items="${pays }" varStatus="status">
-									<tr>
+									<tr id="${pay.localTourTable.id }">
 										<td class="center  sorting_1">
 												<label>
 													<input class="ace" type="checkbox">
@@ -103,29 +112,12 @@
 										<td><a id="editTour" role="button" data-toggle="modal" href="#edit">${pay.localTourTable.tourNo }</a></td>
 										<td>${pay.localTourTable.tourName }</td>
 										<td>${pay.loan }</td>
-										<td>${pay.remittance }</td>
+										<td>${pay.canCost }</td>
+										<td>${pay.canPay }</td>
 										<td>${pay.willPay }</td>
 										<td>${pay.realPay }</td>
-										<td>${pay.cost }</td>
-										<td>${pay.localTourTable.startTime }</td>
-										<td>
-											<c:choose>
-												<c:when test="${pay.localTourTable.enable }">
-													${pay.status }
-												</c:when>
-												<c:otherwise>
-													已取消
-												</c:otherwise>
-											</c:choose>
-										</td>
+										<td>${pay.status }</td>
 										<td>${pay.realName }</td>
-										<td id="${pay.localTourTable.id }">
-											<c:if test="${pay.localTourTable.status==2 }">
-												<a class="orange action" href="#" title="取消报送">
-													<i id="0" class="icon-reply bigger-130"></i>
-												</a>
-											</c:if>
-										</td>
 									</tr>
 								</c:forEach>
 	<!-- 列表循环结束 -->								
@@ -482,7 +474,30 @@
 				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
 			}
 		});
-	
+		/* 点击本行选中复选框 */
+		$("#table").find("td").not(".sorting_1").click(function(){
+			var checkbox = $(this).siblings().eq(0).find("input");
+			if(checkbox.prop("checked")){
+				checkbox.prop("checked",false);
+			}else{
+				$("#table").find("input").prop("checked",false);
+				checkbox.prop("checked",true);
+				/* 设置按钮 */
+				if($(this).siblings().eq(7).text()=="已报送"){
+					$("#cancelFinance").show();
+				}else{
+					$("#cancelFinance").hide();
+				}
+			}
+		});
+		/* 全选 */
+		$(".selectAll").click(function(){
+			if($(this).prop("checked")){
+				$("#table").find("input").prop("checked",true);
+			}else{
+				$("#table").find("input").prop("checked",false);
+			}
+		});
 	/* 成本 */
 		/* 成本小计 */
 		$(".costTable").delegate(".costPlus","blur",function(){
@@ -499,31 +514,63 @@
 		});
 	
 	/* 改状态 */
-		$("#table").delegate(".action","click",function(){
-			var obj = $(this);
-			var td = obj.parent();
-			var myData = {id:td.attr("id")};
-			var status = obj.children("i").attr("id");
-			td.html('<i class="icon-spinner icon-spin grey bigger-130"></i>');
-			$.ajax({
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/chanageStatus/"+status,  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	window.location.reload();
-		        }  
-			});
+		$("#cancelFinance").click(function(){
+			var checkbox = $("#table").find("input:checked");
+			if(checkbox.length==0){
+				alert("请选择一个团队");
+				$(this).attr("href","#");
+			}else if(checkbox.length>1){
+				alert("只能选择一个团队");
+				$(this).attr("href","#");
+			}else{
+				var id = checkbox.parent().parent().parent().attr("id");
+				var myData = {id:id};
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"/localtour/localTourManage/cancelFinance/",  
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        	if(data==-1){
+			        		alert("只有已报送状态的团队可以取消报送");
+			        	}else{
+			        		checkbox.parent().parent().parent().remove();
+			        	}
+			        }  
+				});
+			}
 		});
 	
 	/* 编辑 */
+		$("#pay").click(function(){
+				var checkbox = $("#table").find("input:checked");
+				if(checkbox.length==0){
+					alert("请选择一个团队");
+					$(this).attr("href","#");
+				}else if(checkbox.length>1){
+					alert("只能选择一个团队");
+					$(this).attr("href","#");
+				}else{
+					$(this).attr("href","#edit");
+					var tourId = checkbox.parent().parent().parent().attr("id");
+					var myData = {tourId:tourId};
+					edit(myData);
+				}
+		});
 		/* 编辑读取 */
  		$("#table").delegate("#editTour","click",function(){
-			var myData = {tourId:$(this).parent().siblings().last().attr("id")};
+ 			if($(this).parent().prev().find("input").prop("checked")){
+ 				$(this).parent().prev().find("input").prop("checked",false);
+ 			}else{
+ 				$(this).parent().prev().find("input").prop("checked",true);
+ 			}
+			var myData = {tourId:$(this).parent().parent().attr("id")};
+			edit(myData);
+		});
+		function edit(myData){
 			$("#saveEdit").parent().attr("id",myData.tourId);
-			var tourUserName = $(this).parent().prev().text();
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
@@ -782,7 +829,7 @@
 					$(".traffic").next().find("input").attr("style","height:100%;");
 		        }  
 			});
-		});
+		}
  		/* 点击电汇金额判断0 判断是否大于成本 */
     	$("#costs3").delegate("#remittance","blur",function(){
     		if($(this).val()>parseFloat($(this).parent().prev().text())){
@@ -1022,7 +1069,7 @@
 			 });
 			/* 设置列表数字 */
 			var total = parseFloat($("#total").text());
-			$("#table").find("#"+tourId).siblings().eq(3).text(total);
+			$("#table").find("#"+tourId).children("td").eq(3).text(total);
 			var remittanceSum = 0;
 			var realCostSum = 0;
 			$.each($("#costs3").find("tbody").children("tr"),function(){
@@ -1041,14 +1088,15 @@
 				
 			});
 			$.each($("#loanTable").children("tr"),function(){
-				
 				if($(this).find("input").last().val()=="true"){
 					realCostSum = (parseFloat(realCostSum) + parseFloat($(this).children("td").eq(1).text())).toFixed(2);
 				}
 			});
-			$("#table").find("#"+tourId).siblings().eq(4).text(remittanceSum);
-			$("#table").find("#"+tourId).siblings().eq(5).text((parseFloat(total)+parseFloat(remittanceSum)).toFixed(2));
-			$("#table").find("#"+tourId).siblings().eq(5).text(realCostSum);
+			$("#table").find("#"+tourId).children("td").eq(4).text(remittanceSum);
+			$("#table").find("#"+tourId).children("td").eq(5).text((parseFloat(total)+parseFloat(remittanceSum)).toFixed(2));
+			$("#table").find("#"+tourId).children("td").eq(7).text(realCostSum);
+			$("#table").find("#"+tourId).children("td").eq(8).text("可借款");
+			$("#cancelFinance").hide();
 		});
 	});
 	

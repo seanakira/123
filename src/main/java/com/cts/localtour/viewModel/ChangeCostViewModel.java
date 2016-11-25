@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cts.localtour.entity.ChangeCostTable;
-import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
-import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.UserService;
 @Component
@@ -82,7 +80,7 @@ public class ChangeCostViewModel {
 		for (ChangeCostTable changeCostTable : changeCostTables) {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
 			changeCost.setCostTable(changeCostTable);
-			changeCost.setBorrowUserName(userService.getUserName(changeCostTable.getBorrowUserId()));
+			changeCost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
 			changeCost.setContentName(((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
 			changeCost.setPayApplicationerRealName(userService.getUserName(changeCostTable.getPayApplicationerId()));
 			changeCost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getContentId())).getSupplierName());
@@ -101,24 +99,48 @@ public class ChangeCostViewModel {
 	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<ChangeCostViewModel> getAllChangeCostViewModel(int tourId, int status) {
-		ArrayList<ChangeCostTable> costTables;
+		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
+		ArrayList<ChangeCostTable> changeCostTables;
 		/*这里需要权限判断  如果是总经理 status>2*/
 		if(status==-1){
-			costTables = (ArrayList<ChangeCostTable>)baseService.getAllByString("ChangeCostTable", "tourId=? and status>1", tourId);
+			changeCostTables = (ArrayList<ChangeCostTable>)baseService.getAllByString("ChangeCostTable", "tourId=? and status>1", tourId);
 		}else{
-			costTables = (ArrayList<ChangeCostTable>)baseService.getAllByString("ChangeCostTable", "tourId=? and status=?", tourId, status);
+			changeCostTables = (ArrayList<ChangeCostTable>)baseService.getAllByString("ChangeCostTable", "tourId=? and status=?", tourId, status);
 		}
-		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
-		for (int i = 0; i < costTables.size(); i++) {
+		for (ChangeCostTable changeCostTable : changeCostTables) {
 			ChangeCostViewModel cost = new ChangeCostViewModel();
-			cost.setCostTable(costTables.get(i));
-			cost.setApplicationerRealName(costTables.get(i).getApplicationerId()==null||costTables.get(i).getApplicationerId()==0?"":((UserTable)baseService.getById("UserTable", costTables.get(i).getApplicationerId())).getRealName());
-			cost.setContentName(costTables.get(i).getContentId()==null||costTables.get(i).getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
-			cost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
-			if(costTables.get(i).isRemittanced()){
+			cost.setCostTable(changeCostTable);
+			cost.setApplicationerRealName(userService.getUserRealName(changeCostTable.getApplicationerId()));
+			cost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
+			cost.setContentName(changeCostTable.getContentId()==null||changeCostTable.getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
+			cost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
+			if(changeCostTable.isRemittanced()){
 				cost.setStatus("已电汇");
 			}else{
-				cost.setStatus(costTables.get(i).getStatus()==0?"新建":costTables.get(i).getStatus()==1?"待审核":costTables.get(i).getStatus()==2?"待批准":costTables.get(i).getStatus()==3?"已批准":"");
+				cost.setStatus(changeCostTable.getStatus()==0?"新建":changeCostTable.getStatus()==1?"待审核":changeCostTable.getStatus()==2?"待批准":changeCostTable.getStatus()==3?"已批准":"");
+			}
+			cost.setPayStatus(changeCostTable.getPayStatus()==0?"可付":changeCostTable.getPayStatus()==1?"待审":changeCostTable.getPayStatus()==2?"待批":changeCostTable.getPayStatus()==3?"已批":"");
+			costs.add(cost);
+		}
+		return costs;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ChangeCostViewModel> getAllBillViewModel(int supplierId){
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "supplierId=? and bill=true and remittanced=false and payStatus=0 and status=3", supplierId);
+		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
+		for (ChangeCostTable costTable : costTables) {
+			ChangeCostViewModel cost = new ChangeCostViewModel();
+			cost.setCostTable(costTable);
+			cost.setContentName(costTable.getContentId()==0?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			if(costTable.getPayStatus()==0){
+				cost.setPayStatus("可付");
+			}else if(costTable.getPayStatus()==1){
+				cost.setPayStatus("待审");
+			}else if(costTable.getPayStatus()==2){
+				cost.setPayStatus("待批");
+			}else if(costTable.getPayStatus()==3){
+				cost.setPayStatus("已批");
 			}
 			costs.add(cost);
 		}

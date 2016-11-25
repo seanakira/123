@@ -69,6 +69,8 @@ public class LoanInvoiceViewModel {
 				invoiceViewModel.setStatus("待审核");
 			}else if(loanInvoiceTable.getStatus()==2){
 				invoiceViewModel.setStatus("已审核");
+			}else if(loanInvoiceTable.getStatus()==3){
+				invoiceViewModel.setStatus("已开");
 			}
 			loanInvoiceViewModels.add(invoiceViewModel);
 		}
@@ -95,6 +97,8 @@ public class LoanInvoiceViewModel {
 				invoiceViewModel.setStatus("待审核");
 			}else if(loanInvoiceTable.getStatus()==2){
 				invoiceViewModel.setStatus("已审核");
+			}else if(loanInvoiceTable.getStatus()==3){
+				invoiceViewModel.setStatus("已开");
 			}
 			loanInvoiceViewModels.add(invoiceViewModel);
 		}

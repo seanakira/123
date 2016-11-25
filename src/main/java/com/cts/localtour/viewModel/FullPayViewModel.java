@@ -143,20 +143,20 @@ public class FullPayViewModel {
 		FullPayViewModel full = new FullPayViewModel();
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=?", tourId);
 		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
-		for (int i = 0; i < costTables.size(); i++) {
+		for (CostTable costTable : costTables) {
 			CostViewModel cost = new CostViewModel();
-			cost.setCostTable(costTables.get(i));
-			cost.setContentName(costTables.get(i).getContentId()==null||costTables.get(i).getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", costTables.get(i).getContentId())).getContentName());
-			cost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", costTables.get(i).getSupplierId())).getSupplierName());
-			cost.setBorrowUserName(costTables.get(i).getBorrowUserId()==null||costTables.get(i).getBorrowUserId()==0?"":((UserTable)baseService.getById("UserTable", costTables.get(i).getBorrowUserId())).getRealName());
-			if(costTables.get(i).isRemittanced()){
+			cost.setCostTable(costTable);
+			cost.setContentName(costTable.getContentId()==null||costTable.getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			cost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", costTable.getSupplierId())).getSupplierName());
+			cost.setBorrowUserName(userService.getUserRealName(costTable.getBorrowUserId()));
+			if(costTable.isRemittanced()){
 				cost.setPayStatus("已汇");
-			}else if(costTables.get(i).isLend()){
+			}else if(costTable.isLend()){
 				cost.setPayStatus("借款");
-			}else if(costTables.get(i).isBill()){
+			}else if(costTable.isBill()){
 				cost.setPayStatus("挂账");
 			}else{
-				cost.setPayStatus(costTables.get(i).getPayStatus()==0?"可付":costTables.get(i).getPayStatus()==1?"待审":costTables.get(i).getPayStatus()==2?"待批":costTables.get(i).getPayStatus()==3?"已批准":"");
+				cost.setPayStatus(costTable.getPayStatus()==0?"可付":costTable.getPayStatus()==1?"待审":costTable.getPayStatus()==2?"待批":costTable.getPayStatus()==3?"已批准":"");
 			}
 			costs.add(cost);
 		}

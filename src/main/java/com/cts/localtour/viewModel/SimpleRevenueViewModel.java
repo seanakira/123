@@ -2,18 +2,15 @@ package com.cts.localtour.viewModel;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cts.localtour.entity.ChangeIncomeTable;
-import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LocalTourTable;
-import com.cts.localtour.service.BaseService;
+import com.cts.localtour.service.ChangeIncomeService;
+import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
-import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.UserService;
 
 @Component
@@ -31,7 +28,9 @@ public class SimpleRevenueViewModel {
 	@Autowired
 	private LoanInvoiceService loanInvoiceService;
 	@Autowired
-	private RevenueService revenueService;
+	private IncomeService incomeService;
+	@Autowired
+	private ChangeIncomeService changeIncomeService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -68,16 +67,14 @@ public class SimpleRevenueViewModel {
 	public void setInvoice(float invoice) {
 		this.invoice = invoice;
 	}
-	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleRevenueViewModel> getAllSimpleRevenueViewModel(ArrayList<LocalTourTable> localTours){
 		ArrayList<SimpleRevenueViewModel> simpleRevenueViewModels = new ArrayList<SimpleRevenueViewModel>();
 		for (LocalTourTable localTour : localTours) {
 			SimpleRevenueViewModel simpleRevenueViewModel = new SimpleRevenueViewModel();
 			simpleRevenueViewModel.setLocalTourTable(localTour);
 			simpleRevenueViewModel.setUserRealName(userService.getUserRealName(localTour.getUserId()));
-			HashMap<String, Float> willAndReal = revenueService.getWillAndRealIncome(localTour.getId());
-			simpleRevenueViewModel.setRealIncome(willAndReal.get("realIncome"));
-			simpleRevenueViewModel.setWillIncome(willAndReal.get("willIncome"));
+			simpleRevenueViewModel.setRealIncome(incomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum()).floatValue());
+			simpleRevenueViewModel.setWillIncome(incomeService.getIncomeInfo(localTour.getId()).getIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getIncomeSum()).floatValue());
 			simpleRevenueViewModel.setInvoice((new BigDecimal(invoiceService.getInvoiceSum(localTour.getId())).add(new BigDecimal(loanInvoiceService.getLoanInvoiceSum(localTour.getId())))).floatValue());
 			if(localTour.getStatus()==0){
 				simpleRevenueViewModel.setStatus("新建");
@@ -94,8 +91,10 @@ public class SimpleRevenueViewModel {
 			}else if(localTour.getStatus()==6){
 				simpleRevenueViewModel.setStatus("结算中");
 			}else if(localTour.getStatus()==7){
-				simpleRevenueViewModel.setStatus("已核销");
+				simpleRevenueViewModel.setStatus("已报账");
 			}else if(localTour.getStatus()==8){
+				simpleRevenueViewModel.setStatus("已核销");
+			}else if(localTour.getStatus()==9){
 				simpleRevenueViewModel.setStatus("已结算");
 			}
 			simpleRevenueViewModels.add(simpleRevenueViewModel);

@@ -23,12 +23,14 @@ import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
+import com.cts.localtour.entity.ReimbursementApplicationTable;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.FullReimbursementViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
@@ -52,6 +54,8 @@ public class LocalTourService extends BaseService{
 	private FullLocalTourViewModel fullLocalTourViewModel;
 	@Autowired
 	private LoanInvoiceViewModel loanInvoiceViewModel;
+	@Autowired
+	private FullReimbursementViewModel fullReimbursementViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -91,8 +95,10 @@ public class LocalTourService extends BaseService{
 			}else if (localTours.get(i).getStatus()==6) {
 				simpleLocalTourViewModel.setStatus("结算中");
 			}else if (localTours.get(i).getStatus()==7) {
-				simpleLocalTourViewModel.setStatus("已核销");
+				simpleLocalTourViewModel.setStatus("已报账");
 			}else if (localTours.get(i).getStatus()==8) {
+				simpleLocalTourViewModel.setStatus("已核销");
+			}else if (localTours.get(i).getStatus()==9) {
 				simpleLocalTourViewModel.setStatus("已结算");
 			}
 			simpleLocalTourViewModels.add(simpleLocalTourViewModel);
@@ -122,7 +128,7 @@ public class LocalTourService extends BaseService{
 	}
 	
 	public void changeStatus(int id, int status) {
-		this.updateByString("LocalTourTable", "status=?", "id="+id, status);
+		this.updateByString("LocalTourTable", "status=?", "id=?", status, id);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -263,6 +269,25 @@ public class LocalTourService extends BaseService{
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			loanInvoiceTable.setStatus(1);
 			this.add(loanInvoiceTable);
+		}
+	}
+	public FullReimbursementViewModel findReimbursement(int tourId) {
+		return fullReimbursementViewModel.getFullReimbursementViewModel(tourId);
+	}
+	@SuppressWarnings("unchecked")
+	public void updateReimbursement(FullReimbursementViewModel full,HttpSession sessione) {
+		for (CostTable costTable : full.getCostTables()) {
+			this.updateByString("CostTable", "reimbursement=?", "id=?", costTable.getReimbursement(),costTable.getId());
+		}
+		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
+			this.updateByString("ChangeCostTable", "reimbursement=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getId());
+		}
+		this.add(full.getReimbursementTable());
+		if(this.getAllByString("ReimbursementApplicationTable", "tourId=?", full.getReimbursementTable().getTourId()).isEmpty()){
+			ReimbursementApplicationTable reimbursementApplicationTable = new ReimbursementApplicationTable();
+			reimbursementApplicationTable.setTourId(full.getReimbursementTable().getTourId());
+			reimbursementApplicationTable.setDeptId(((UserTable)sessione.getAttribute("user")).getDeptId());
+			this.add(reimbursementApplicationTable);
 		}
 	}
 }

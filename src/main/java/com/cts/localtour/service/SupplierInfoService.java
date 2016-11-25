@@ -123,4 +123,8 @@ public class SupplierInfoService extends BaseService{
 	public void deleteSupplierBusiness(int supplierId) {
 		this.deleteByString("SupplierBusinessTable", "supplierId=?", supplierId);
 	}
+	
+	public String getSupplierName(int supplierId){
+		return ((SupplierTable)this.getById("SupplierTable", supplierId)).getSupplierName();
+	}
 }

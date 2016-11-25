@@ -1,8 +1,6 @@
 package com.cts.localtour.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +25,10 @@ public class RevenueService extends BaseService{
 	private InvoiceService invoiceService;
 	@Autowired
 	private LoanInvoiceService loanInvoiceService;
+	@Autowired
+	private IncomeService incomeService;
+	@Autowired
+	private ChangeIncomeService changeIncomeService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleRevenueViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -79,28 +81,8 @@ public class RevenueService extends BaseService{
 		return errorCode;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public HashMap<String, Float> getWillAndRealIncome(int tourId){
-		HashMap<String, Float> willAndRealIncome = new HashMap<String, Float>();
-		BigDecimal willIncomeSum = new BigDecimal(0);
-		BigDecimal realIncomeSum = new BigDecimal(0);
-		ArrayList<IncomeTable> incomeTables = (ArrayList<IncomeTable>) this.getAllByString("IncomeTable", "tourId=?", tourId);
-		for (IncomeTable incomeTable : incomeTables) {
-			willIncomeSum = willIncomeSum.add(new BigDecimal(incomeTable.getIncome()));
-			realIncomeSum = realIncomeSum.add(new BigDecimal(incomeTable.getRealIncome()));
-		}
-		ArrayList<ChangeIncomeTable> changeIncomeTables = (ArrayList<ChangeIncomeTable>) this.getAllByString("ChangeIncomeTable", "tourId=? and status=3", tourId);
-		for (ChangeIncomeTable changeIncomeTable : changeIncomeTables) {
-			willIncomeSum = willIncomeSum.add(new BigDecimal(changeIncomeTable.getIncome()));
-			realIncomeSum = realIncomeSum.add(new BigDecimal(changeIncomeTable.getRealIncome()));
-		}
-		willAndRealIncome.put("willIncome", willIncomeSum.floatValue());
-		willAndRealIncome.put("realIncome", realIncomeSum.floatValue());
-		return willAndRealIncome;
-	}
-	
 	public boolean InvoiceGreaterThanIncome(float newInvoiceSum, int tourId){
-		if(newInvoiceSum+invoiceService.getInvoiceSum(tourId)+loanInvoiceService.getLoanInvoiceSum(tourId)>this.getWillAndRealIncome(tourId).get("realIncome")){
+		if(newInvoiceSum+invoiceService.getInvoiceSum(tourId)+loanInvoiceService.getLoanInvoiceSum(tourId)>(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue())){
 			return true;
 		}else{
 			return false;

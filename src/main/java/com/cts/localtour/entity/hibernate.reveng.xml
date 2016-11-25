@@ -33,4 +33,6 @@
   <table-filter match-catalog="localtour" match-name="changeCostTable"/>
   <table-filter match-catalog="localtour" match-name="changeIncomeTable"/>
   <table-filter match-catalog="localtour" match-name="loanInvoiceTable"/>
+  <table-filter match-catalog="localtour" match-name="reimbursementTable"/>
+  <table-filter match-catalog="localtour" match-name="reimbursementApplicationTable"/>
 </hibernate-reverse-engineering>

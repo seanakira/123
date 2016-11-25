@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-11-9 10:58:35 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-11-16 14:33:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -36,6 +36,7 @@ public class ChangeCostTable implements java.io.Serializable {
 	private String remark;
 	private int payStatus;
 	private Integer payApplicationerId;
+	private Float reimbursement;
 	private Integer status;
 
 	public ChangeCostTable() {
@@ -59,7 +60,7 @@ public class ChangeCostTable implements java.io.Serializable {
 	public ChangeCostTable(int tourId, Integer applicationerId, Integer borrowUserId, Date costDate,
 			int supplierScopeId, Integer contentId, int supplierId, float cost, int count, float realCost, int days,
 			boolean remittanced, boolean lend, boolean bill, String remark, int payStatus, Integer payApplicationerId,
-			Integer status) {
+			Float reimbursement, Integer status) {
 		this.tourId = tourId;
 		this.applicationerId = applicationerId;
 		this.borrowUserId = borrowUserId;
@@ -77,6 +78,7 @@ public class ChangeCostTable implements java.io.Serializable {
 		this.remark = remark;
 		this.payStatus = payStatus;
 		this.payApplicationerId = payApplicationerId;
+		this.reimbursement = reimbursement;
 		this.status = status;
 	}
 
@@ -244,6 +246,15 @@ public class ChangeCostTable implements java.io.Serializable {
 
 	public void setPayApplicationerId(Integer payApplicationerId) {
 		this.payApplicationerId = payApplicationerId;
+	}
+
+	@Column(name = "reimbursement", precision = 12, scale = 0)
+	public Float getReimbursement() {
+		return this.reimbursement;
+	}
+
+	public void setReimbursement(Float reimbursement) {
+		this.reimbursement = reimbursement;
 	}
 
 	@Column(name = "status")
