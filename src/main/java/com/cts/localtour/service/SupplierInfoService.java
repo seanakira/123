@@ -2,11 +2,9 @@ package com.cts.localtour.service;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.DAO.SupplierInfoDAO;
@@ -90,7 +88,7 @@ public class SupplierInfoService extends BaseService{
 	}
 
 	public void update(SupplierTable supplier) {
-		this.updateByString("SupplierTable", "supplierName=?,regionId=?,phone=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone());
+		this.updateByString("SupplierTable", "supplierName=?,regionId=?,phone=?,accountPeriod=?,accountDate=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone(),supplier.getAccountPeriod(),supplier.getAccountDate());
 	}
 	
 	@SuppressWarnings("unchecked")

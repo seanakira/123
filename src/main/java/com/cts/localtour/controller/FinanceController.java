@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.service.BalanceService;
+import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
 import com.cts.localtour.service.PayService;
@@ -23,6 +24,7 @@ import com.cts.localtour.service.ReimbursementApplicationService;
 import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.SettlementService;
 import com.cts.localtour.viewModel.FullBalanceViewModel;
+import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementApplicationViewModel;
 import com.cts.localtour.viewModel.FullRevenueViewModel;
@@ -30,6 +32,7 @@ import com.cts.localtour.viewModel.InvoiceViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 import com.cts.localtour.viewModel.SimpleBalanceViewModel;
+import com.cts.localtour.viewModel.SimpleBillCheckViewModel;
 import com.cts.localtour.viewModel.SimpleRevenueViewModel;
 import com.cts.localtour.viewModel.SimpleSettlementViewModel;
 
@@ -49,6 +52,8 @@ public class FinanceController {
 	private SettlementService settlementService;
 	@Autowired
 	private ReimbursementApplicationService reimbursementApplicationService;
+	@Autowired
+	private BillService billService;
 	/*付款管理*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -167,7 +172,6 @@ public class FinanceController {
 			newInvoiceSum = newInvoiceSum + (loanInvoiceTables2.isEmpty()?0:loanInvoiceTables2.get(0).getInvoiceAmount());
 		}
 		if(!loanInvoiceTables.isEmpty()){
-			System.out.println(loanInvoiceTables.get(0).getTourId());
 			if(revenueService.InvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
 				errorCode = -1;
 			}else if(errorCode==0){
@@ -256,5 +260,38 @@ public class FinanceController {
 	@RequestMapping("/settlementManage/checkStatus")
 	public @ResponseBody int checkStatusReimbursementApplication(@RequestParam int tourId){
 		return settlementService.checkStatusSettlement(tourId);
+	}
+	
+	/*挂账管理*/
+	@RequestMapping("/billManage")
+	public String getBillCheckAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
+		int counts = billService.getCounts(key);
+		int pageMax = counts/maxResults;
+		if(counts%maxResults>0){
+			pageMax++;
+		}
+		if(page>pageMax){
+			page=pageMax;
+		}
+		if(page<1){
+			page=1;
+		}
+		ArrayList<SimpleBillCheckViewModel> bills = billService.getAll(key,page,maxResults,3);
+		md.addAttribute("bills", bills);
+		md.addAttribute("counts", counts);
+		md.addAttribute("pageMax", pageMax);
+		md.addAttribute("pageNo", page);
+		md.addAttribute("key", key);
+		return "/financeManage/billManage";
+	}
+	
+	@RequestMapping("/billManage/find")
+	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId){
+		return billService.findBill(supplierId,3);
+	}
+	
+	@RequestMapping("/billManage/update")
+	public void updateBill(@RequestBody FullBillViewModel full){
+		billService.updateBill(full);
 	}
 }

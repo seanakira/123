@@ -35,6 +35,12 @@ public class BaseService<T> {
 		ArrayList<T> list = (ArrayList<T>) baseDAO.find(hql, param, pageNo, pageSize);	
 		return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<T> getAllByHql(String hql, int pageNo, int pageSize) {
+		ArrayList<T> list = (ArrayList<T>) baseDAO.find(hql, null, pageNo, pageSize);	
+		return list;
+	}
 
 	public T add(T t) {
 		try {

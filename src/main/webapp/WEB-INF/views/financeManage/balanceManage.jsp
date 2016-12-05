@@ -536,17 +536,14 @@
 		        	$("#headAmount").html(headAmount.html());
 		        	/* 设置成本 */
 		        	$.each(data.costs,function(){
-		        		var reimbursement = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
 		        		var bill = $("<td></td>");
-		        			if(this.costTable.bill){
-		        				bill.html('<i class="icon-ok bigger-130"></i>');
-		        			}
-		        			if(this.costTable.lend){
-		        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-		        			}else{
-		        				reimbursement.html(this.costTable.reimbursement);
-		        			}
+	        			if(this.costTable.bill){
+	        				bill.html('<i class="icon-ok bigger-130"></i>');
+	        			}
+	        			if(this.costTable.lend){
+	        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+	        			}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
 		        			tbody = flight;
@@ -571,7 +568,7 @@
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-										'<td>'+reimbursement.html()+'</td>'+
+										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
@@ -587,7 +584,6 @@
 		        		$("#changeCostBlue").attr("style","display:none");
 		        	}
 		        	$.each(data.changeCosts,function(){
-		        		var reimbursement = $("<td></td>");
 		        		var guideLoan = $("<td></td>");
 		        		var bill = $("<td></td>");
 	        			if(this.costTable.bill){
@@ -595,8 +591,6 @@
 	        			}
 	        			if(this.costTable.lend){
 	        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-	        			}else{
-        					reimbursement.html(this.costTable.reimbursement);
 	        			}
 		        		var tbody;
 		        		if(this.costTable.supplierScopeId==1){
@@ -622,7 +616,7 @@
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-										'<td>'+reimbursement.html()+'</td>'+
+										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+

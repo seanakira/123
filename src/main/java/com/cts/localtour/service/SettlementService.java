@@ -17,7 +17,7 @@ public class SettlementService extends BaseService{
 	public ArrayList<SimpleSettlementViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
 			/*这里需要做数据权限*/
-			ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) this.getAllByString("LocalTourTable", "status=8");
+			ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) this.getAllByStringOrderBy("LocalTourTable", "status=?", "id desc", 8);
 			return simpleSettlementViewModel.getAllSimpleSettlementViewModel(localTourTables);
 		}else{
 			ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) this.getAllByString("LocalTourTable", "(tourNo like '%"+key+"%' or tourName like '%"+key+"%') and status=8");

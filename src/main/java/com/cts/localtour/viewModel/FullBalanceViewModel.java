@@ -121,7 +121,7 @@ public class FullBalanceViewModel {
 			}else if(changeCostTables.get(i).isLend()){
 				changeCost.setPayStatus("借款");
 			}else if(changeCostTables.get(i).isBill()){
-				changeCost.setPayStatus("挂账");
+				changeCost.setPayStatus("待汇");
 			}else{
 				changeCost.setPayStatus(changeCostTables.get(i).getPayStatus()==0?"可付":changeCostTables.get(i).getPayStatus()==1?"待审":changeCostTables.get(i).getPayStatus()==2?"待批":changeCostTables.get(i).getPayStatus()==3?"已批准":"");
 			}

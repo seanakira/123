@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-import com.cts.localtour.entity.DeptTable;
 
 @Controller
 public class IndexController {
@@ -19,6 +18,9 @@ public class IndexController {
 		return "/userSettings/profile";
 	}
 	
-
+	@RequestMapping("/settings")
+	public String settings(){
+		return "/userSettings/settings";
+	}
 }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.ReimbursementApplicationTable;
+import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullReimbursementApplicationViewModel;
 import com.cts.localtour.viewModel.SimpleReimbursementApplicationViewModel;
 
@@ -44,7 +45,6 @@ public class ReimbursementApplicationService extends BaseService{
 	}
 
 	public void okReimbursementApplication(int tourId) {
-		this.updateByString("ReimbursementApplicationTable", "status=?", "tourId=?", true, tourId);
 		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==6){
 			this.updateByString("LocalTourTable", "status=?", "id=?", 7, tourId);
 			this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
@@ -63,5 +63,10 @@ public class ReimbursementApplicationService extends BaseService{
 			return 1;
 		}
 		return 0;
+	}
+
+	public FullBillViewModel findbillApplication(int supplierId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

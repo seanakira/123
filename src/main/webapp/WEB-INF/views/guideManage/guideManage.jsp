@@ -231,7 +231,6 @@
 		$("#table").delegate("input","keydown",function(event){
 			if(event.keyCode==13&&isChange==true){
 				if($(this).parents("td").attr("id")==null){
-					alert("asdads");
 					var tr = $(this).parents("tr");
 					var input = $(this);
 					var userId = tr.find("select").val();

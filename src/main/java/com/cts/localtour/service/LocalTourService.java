@@ -251,12 +251,13 @@ public class LocalTourService extends BaseService{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public void loanApplication(String ids) {
+	public void loanApplication(String ids, HttpSession session) {
 		String[] idss = ids.split(",");
 		for (String id : idss) {
 			LoanTable loanTable = (LoanTable)this.getById("LoanTable", Integer.parseInt(id));
 			if(loanTable.getStatus()==1){
 				loanTable.setStatus(2);
+				loanTable.setApplicationerId(((UserTable)session.getAttribute("user")).getId());
 				this.update(loanTable);
 			}
 		}

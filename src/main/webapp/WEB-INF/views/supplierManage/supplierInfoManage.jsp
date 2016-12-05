@@ -44,25 +44,30 @@
 										<span class="lbl"></span>
 									</label>
 								</th>
-								<th aria-label="Domain: activate to sort column ascending" style="width: 50px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Domain: activate to sort column ascending" style="width: 1%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									id
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 187px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Price: activate to sort column ascending" style="width: 20%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									供应商名
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									地区
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 25%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Price: activate to sort column ascending" style="width: 19%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									供应范围
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									电话
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									账期（个月）
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									第一期结账日
 								</th>
 								<th aria-label="Clicks: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
 									有效
 								</th>
-								
 								<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
 								</th>
@@ -82,7 +87,7 @@
 									
 								</td>
 								<td class="">
-									<input type="text">
+									<input type="text" style="width: 100%">
 								</td>
 								<td  class="">
 									
@@ -90,8 +95,14 @@
 								<td  class="">
 									
 								</td>
+								<td class="">
+									<input type="text" style="width: 100%">
+								</td>
+								<td class="">
+									<input type="text" style="width: 100%">
+								</td>
 								<td  class="">
-									<input id="submit" type="text">
+									<input id="submit" type="text" style="width: 100%">
 								</td>
 								<td class="hidden-480 ">
 										<span class="label label-sm label-success">有效</span>
@@ -129,15 +140,17 @@
 										</span>
 									</td>
 									<td class="">${supplier.supplierTable.phone }</td>
+									<td class="">${supplier.supplierTable.accountPeriod }</td>
+									<td class="">${supplier.supplierTable.accountDate }</td>
 									<td class="hidden-480 " id="">
-									<c:choose>
-										<c:when test="${supplier.supplierTable.enable }">
-											<span class="label label-sm label-success">有效</span>
-										</c:when>
-										<c:otherwise>
-											<span class="label label-sm label-warning">无效</span>
-										</c:otherwise>
-									</c:choose>
+										<c:choose>
+											<c:when test="${supplier.supplierTable.enable }">
+												<span class="label label-sm label-success">有效</span>
+											</c:when>
+											<c:otherwise>
+												<span class="label label-sm label-warning">无效</span>
+											</c:otherwise>
+										</c:choose>
 									</td>
 	
 									<td class=" ">
@@ -260,11 +273,11 @@
 			$("#add").click(function(){
 				var isChange = false;
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
-				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
-				$("#table").find("select").eq(1).attr("class","width-20 chosen-select");
+				$("#table").find("select").eq(0).attr("class","chosen-select");
+				$("#table").find("select").eq(1).attr("class","chosen-select");
 				$(".chosen-select").chosen();
-				$("#table").find("select").eq(0).next().attr("style","width:150px;");
-				$("#table").find("select").eq(1).next().attr("style","width:410px;");
+				$("#table").find("select").eq(0).next().attr("style","width:100%;");
+				$("#table").find("select").eq(1).next().attr("style","width:100%;");
 				$("#table").find("select").next().find("input").attr("style","height:25px;");
 				$("#table").find("input").not("#submit").keydown(function(event){
 					if(event.keyCode==13&&isChange||event.keyCode==13&&$("#table").find("input").index($(this))==1){
@@ -285,11 +298,13 @@
 				var supplierScopeIds =obj.find("select").eq(1).val().toString();
 				var regionName = obj.find("select").eq(0).find("option:selected").text();
 				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
-				var phone = obj.find("input").eq(-1).val();
-				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone};
+				var phone = obj.find("input").eq(4).val();
+				var accountPeriod = obj.find("input").eq(5).val();
+				var accountDate = obj.find("input").eq(6).val();
+				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
 				var myData = JSON.stringify(supplier);
 				var supplierId;
-				
+				alert(myData)
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
@@ -302,7 +317,9 @@
 			        	td.eq(2).html(supplierName);
 			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
 			        	td.eq(4).html(supplierScopeName);
-			        	input.parent().html(phone);
+			        	td.eq(5).html(phone);
+			        	td.eq(6).html(accountPeriod);
+			        	td.eq(7).html(accountDate);
 			        }  
 				 });
 				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
@@ -370,34 +387,41 @@
 						supplierName:td.eq(2).text(),
 						regionId:td.eq(3).children("span").text(),
 						phone:td.eq(5).text(),
+						accountPeriod:td.eq(6).text(),
+						accountDate:td.eq(7).text(),
 						supplierScopeIds:td.eq(4).find("span").text().split("")};
-			td.eq(2).html("<input id='update' type='text' value='"+info.supplierName+"' style='width:150px' />");
+			td.eq(2).html("<input id='update' type='text' style='width:100%' value='"+info.supplierName+"' style='width:150px' />");
 			td.eq(3).html($("#select").html());
-			td.eq(3).children("select").attr("class","width-20 chosen-select");
+			td.eq(3).children("select").attr("class","chosen-select");
 			td.eq(3).children("select").val(info.regionId);
 			td.eq(4).html($("#multiple").html());
-			td.eq(4).children("select").attr("class","width-20 chosen-select");
+			td.eq(4).children("select").attr("class","chosen-select");
 			td.eq(4).children("select").val(info.supplierScopeIds);
 			$(".chosen-select").chosen();
-			td.eq(3).find("select").next().attr("style","width:150px;");
+			td.eq(3).find("select").next().attr("style","width:100%;");
+			td.eq(4).find("select").next().attr("style","width:100%;");
 			td.eq(4).find("input").attr("style","height:25px;");
-			td.eq(5).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");
+			td.eq(5).html("<input type='text' style='width:100%' value='"+info.phone+"' style='width:150px' />");
+			td.eq(6).html("<input type='text' style='width:100%' value='"+info.accountPeriod+"' style='width:150px' />");
+			td.eq(7).html("<input id='update' type='text' style='width:100%' value='"+info.accountDate+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});
 	/*回车更新 */		
 		$("#table").delegate("#update","keydown",function(event){
 			if(event.keyCode==13){
 				var obj = $(this).parents("tr");
-				var td = $(this).parents("td").siblings();
+				var td = obj.children("td");
 				var params = $(this).parents("tr").find("input");
 		 		var supplierName = params.eq(1).val();
-				var id = obj.find(".red").attr("id");
+				var id = obj.find("a").eq(-3).attr("id");
 				var regionId = obj.find("select").val();
 				var regionName = obj.find("select").eq(0).find("option:selected").text();
 				var supplierScopeIds =obj.find("select").eq(1).val().toString();
 				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
 				var phone = td.eq(5).children("input").val();
-				var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone};
+				var accountPeriod = obj.find("input").eq(5).val();
+				var accountDate = obj.find("input").eq(6).val();
+				var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
 				var myData = JSON.stringify(supplier);
 				var supplierId = id;
 				$.ajax({  
@@ -408,10 +432,12 @@
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	td.eq(2).parent().html(supplierName);
+			        	td.eq(2).html(supplierName);
 			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
 			        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
 			        	td.eq(5).html(phone);
+			        	td.eq(6).html(accountPeriod);
+			        	td.eq(7).html(accountDate);
 			        }  
 				 }); 
 				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
@@ -436,13 +462,15 @@
 			var td = $(this).parents("td").siblings();
 			var params = $(this).parents("tr").find("input");
 	 		var supplierName = params.eq(1).val();
-			var id = obj.find(".red").attr("id");
+	 		var id = obj.find("a").eq(-3).attr("id");
 			var regionId = obj.find("select").val();
 			var regionName = obj.find("select").eq(0).find("option:selected").text();
 			var supplierScopeIds =obj.find("select").eq(1).val().toString();
 			var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
 			var phone = td.eq(5).children("input").val();
-			var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone};
+			var accountPeriod = obj.find("input").eq(5).val();
+			var accountDate = obj.find("input").eq(6).val();
+			var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
 			var myData = JSON.stringify(supplier);
 			var supplierId = id;
 			$.ajax({  
@@ -457,6 +485,8 @@
 		        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
 		        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
 		        	td.eq(5).html(phone);
+		        	td.eq(6).html(accountPeriod);
+		        	td.eq(7).html(accountDate);
 		        }  
 			 }); 
 			var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};

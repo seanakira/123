@@ -2,6 +2,7 @@ package com.cts.localtour.service;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,12 +104,14 @@ public class UserService extends BaseService{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<UserTable> getUserStructureTree(int deptId){
 		String hql = "from UserTable u where u.deptId = "+ deptId;
 		ArrayList<UserTable> users = (ArrayList<UserTable>)userTableDAO.findHql(hql);
 		return users;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public UserViewModel getUserView(int userId){
 		UserViewModel user = new UserViewModel();
 		UserTable userTemp = (UserTable) userTableDAO.getById(UserTable.class, userId);
@@ -158,5 +161,15 @@ public class UserService extends BaseService{
 			UserTable user = (UserTable)this.getById("UserTable", id);
 			return user.getRealName();
 		}
+	}
+
+	public Set<String> findRoles(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<String> findPermissions(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

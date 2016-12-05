@@ -168,16 +168,7 @@
 									<td>${localTour.days }</td>
 									<td>${localTour.localTourTable.startTime }</td>
 									<td>${localTour.localTourTable.endTime }</td>
-									<td>
-										<c:choose>
-											<c:when test="${localTour.localTourTable.enable }">
-												${localTour.status }
-											</c:when>
-											<c:otherwise>
-												已取消
-											</c:otherwise>
-										</c:choose>
-									</td>
+									<td><c:choose><c:when test="${localTour.localTourTable.enable }">${localTour.status }</c:when><c:otherwise>已取消</c:otherwise></c:choose></td>
 									<td>${localTour.realName }</td>
 								</tr>
 							</c:forEach>
@@ -2534,6 +2525,8 @@
 			}, 0);
 		}  */
 	});
+	
+	$(".accessBar").children("a").not("#createTour").hide();
 /* 初始化选项 */
 	/* 全局 */
 	var selectInfo;
@@ -2606,6 +2599,152 @@
 		}else{
 			$("#table").find("input").prop("checked",false);
 			checkbox.prop("checked",true);
+			/* 控制按钮显示 */
+			var status = $(this).siblings().eq(7).text();
+			if(status=="新建"){
+				$("#editTour").show();
+				$("#auditing").show();
+				$("#unAuditing").hide();
+				$("#finance").hide();
+				$("#lend").hide();
+				$("#pay").hide();
+				$("#chanageCost").hide();
+				$("#loanInvoice").hide();
+				$("#balance").hide();
+				$("#reimbursement").hide();
+				$("#delete").show();
+				$("#recover").hide();
+			}else if(status=="已提交"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").show();	/* 退回 */
+				$("#finance").show();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").hide();			/* 付款 */
+				$("#chanageCost").hide();	/* 变更 */
+				$("#loanInvoice").hide();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="已报送"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").hide();			/* 付款 */
+				$("#chanageCost").show();	/* 变更 */
+				$("#loanInvoice").show();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="可借款"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").show();			/* 借款 */
+				$("#pay").show();			/* 付款 */
+				$("#chanageCost").show();	/* 变更 */
+				$("#loanInvoice").show();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="进行中"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").show();			/* 借款 */
+				$("#pay").show();			/* 付款 */
+				$("#chanageCost").show();	/* 变更 */
+				$("#loanInvoice").show();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="已结束"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").show();			/* 借款 */
+				$("#pay").show();			/* 付款 */
+				$("#chanageCost").show();	/* 变更 */
+				$("#loanInvoice").show();	/* 借票 */
+				$("#balance").show();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="结算中"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").show();			/* 付款 */
+				$("#chanageCost").hide();	/* 变更 */
+				$("#loanInvoice").hide();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").show();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="已报账"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").hide();			/* 付款 */
+				$("#chanageCost").hide();	/* 变更 */
+				$("#loanInvoice").hide();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="已核销"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").hide();			/* 付款 */
+				$("#chanageCost").hide();	/* 变更 */
+				$("#loanInvoice").hide();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="已结算"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").hide();			/* 付款 */
+				$("#chanageCost").hide();	/* 变更 */
+				$("#loanInvoice").hide();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").hide();		/* 恢复 */
+			}else if(status=="已取消"){
+				$("#editTour").hide();		/* 修改 */
+				$("#auditing").hide();		/* 提交 */
+				$("#unAuditing").hide();	/* 退回 */
+				$("#finance").hide();		/* 报送 */
+				$("#lend").hide();			/* 借款 */
+				$("#pay").hide();			/* 付款 */
+				$("#chanageCost").hide();	/* 变更 */
+				$("#loanInvoice").hide();	/* 借票 */
+				$("#balance").hide();		/* 结算 */
+				$("#reimbursement").hide();	/* 报账 */
+				$("#delete").hide();		/* 删除 */
+				$("#recover").show();		/* 恢复 */
+			}
 		}
 	});
 	/* 全选 */
@@ -2855,6 +2994,18 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("已取消");
+			        	$("#editTour").hide();		/* 修改 */
+						$("#auditing").hide();		/* 提交 */
+						$("#unAuditing").hide();	/* 退回 */
+						$("#finance").hide();		/* 报送 */
+						$("#lend").hide();			/* 借款 */
+						$("#pay").hide();			/* 付款 */
+						$("#chanageCost").hide();	/* 变更 */
+						$("#loanInvoice").hide();	/* 借票 */
+						$("#balance").hide();		/* 结算 */
+						$("#reimbursement").hide();	/* 报账 */
+						$("#delete").hide();		/* 删除 */
+						$("#recover").show();		/* 恢复 */
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -2884,6 +3035,18 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("新建");
+			        	$("#editTour").show();
+						$("#auditing").show();
+						$("#unAuditing").hide();
+						$("#finance").hide();
+						$("#lend").hide();
+						$("#pay").hide();
+						$("#chanageCost").hide();
+						$("#loanInvoice").hide();
+						$("#balance").hide();
+						$("#reimbursement").hide();
+						$("#delete").show();
+						$("#recover").hide();
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -2914,6 +3077,18 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("已提交");
+			        	$("#editTour").hide();		/* 修改 */
+						$("#auditing").hide();		/* 提交 */
+						$("#unAuditing").show();	/* 退回 */
+						$("#finance").show();		/* 报送 */
+						$("#lend").hide();			/* 借款 */
+						$("#pay").hide();			/* 付款 */
+						$("#chanageCost").hide();	/* 变更 */
+						$("#loanInvoice").hide();	/* 借票 */
+						$("#balance").hide();		/* 结算 */
+						$("#reimbursement").hide();	/* 报账 */
+						$("#delete").hide();		/* 删除 */
+						$("#recover").hide();		/* 恢复 */
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -2944,6 +3119,18 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("新建");
+			        	$("#editTour").show();
+						$("#auditing").show();
+						$("#unAuditing").hide();
+						$("#finance").hide();
+						$("#lend").hide();
+						$("#pay").hide();
+						$("#chanageCost").hide();
+						$("#loanInvoice").hide();
+						$("#balance").hide();
+						$("#reimbursement").hide();
+						$("#delete").show();
+						$("#recover").hide();
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -2973,6 +3160,18 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("已报送");
+			        	$("#editTour").hide();		/* 修改 */
+						$("#auditing").hide();		/* 提交 */
+						$("#unAuditing").hide();	/* 退回 */
+						$("#finance").hide();		/* 报送 */
+						$("#lend").hide();			/* 借款 */
+						$("#pay").hide();			/* 付款 */
+						$("#chanageCost").show();	/* 变更 */
+						$("#loanInvoice").show();	/* 借票 */
+						$("#balance").hide();		/* 结算 */
+						$("#reimbursement").hide();	/* 报账 */
+						$("#delete").hide();		/* 删除 */
+						$("#recover").hide();		/* 恢复 */
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -4714,7 +4913,6 @@
 			});
 			var full = {costTables:costTables,changeCostTables:changeCostTables};
 			var myData = JSON.stringify(full);
-			alert(myData)
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
@@ -4845,6 +5043,18 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("结算中");
+			        	$("#editTour").hide();		/* 修改 */
+						$("#auditing").hide();		/* 提交 */
+						$("#unAuditing").hide();	/* 退回 */
+						$("#finance").hide();		/* 报送 */
+						$("#lend").hide();			/* 借款 */
+						$("#pay").show();			/* 付款 */
+						$("#chanageCost").hide();	/* 变更 */
+						$("#loanInvoice").hide();	/* 借票 */
+						$("#balance").hide();		/* 结算 */
+						$("#reimbursement").show();	/* 报账 */
+						$("#delete").hide();		/* 删除 */
+						$("#recover").hide();		/* 恢复 */
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -4914,52 +5124,20 @@
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
 	        		var bill = $("<td></td>");
-	        		/*if(this.costTable.payStatus==0){
-	        			if(this.costTable.lend){
-	        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-	        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
-	        			}else{
-	        				if(this.costTable.bill){
-		        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
-		        			}else{
-		        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
-		        			}
-		        			realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-		        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
-		        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-	        			}
-	        			payStatus.html(this.payStatus);
-	        		}else{*/
-	        			if(this.costTable.bill){
-	        				bill.html('<i class="icon-ok bigger-130"></i>');
-	        			}
-	        			if(this.costTable.lend){
-	        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-	        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
-	        			}
-        				if(this.costTable.reimbursement==null){
-        					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control" style="width:100%;" type="text">');
-        				}else{
-        					reimbursement.html(this.costTable.reimbursement);
-        					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
-        				}
-	        			/*
-	        			if(this.costTable.remittanced){
-		        			realCost.html(this.costTable.realCost);
-	        			}
-	        			if(this.costTable.payStatus==3&&!this.costTable.bill&&!this.costTable.remittanced&&!this.costTable.lend){
-	        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-	        			}else{
-	        				payStatus.html(this.payStatus);
-	        			}
-	        			remark.html(this.costTable.remark);
-	        			realCost.html(this.costTable.realCost);
-	        		}
-	        		if(this.costTable.remittanced){
-	        			remittanced.html('<input type="hidden" value="true">');
-	        		}else{
-	        			remittanced.html('<input type="hidden" value="false">');
-	        		}*/
+        			if(this.costTable.bill){
+        				bill.html('<i class="icon-ok bigger-130"></i>');
+        			}
+        			if(this.costTable.lend){
+        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+        			}
+       				if(this.costTable.reimbursement==null){
+       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control" style="width:100%;" type="text">');
+       				}else{
+       					reimbursement.html(this.costTable.reimbursement);
+       					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
+       				}
+	        			
 	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
@@ -5004,51 +5182,21 @@
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
 	        		var bill = $("<td></td>");
-	        		/*if(this.costTable.payStatus==0){
-	        			if(this.costTable.lend){
-	        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-	        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
-	        			}else{
-	        				if(this.costTable.bill){
-		        				bill.html('<label><input class="ace" type="checkbox" checked="checked"><span class="lbl"></span></label>');
-		        			}else{
-		        				bill.html('<label><input class="ace" type="checkbox"><span class="lbl"></span></label>');
-		        			}
-		        			realCost.html("<input id='remittance' class='form-control' type='text' value='"+this.costTable.realCost+"' />");
-		        			guideLoan.html('<label><input class="ace lend" type="checkbox"><span class="lbl"></span></label>');
-		        			remark.html('<input class="form-control" value="'+this.costTable.remark+'" type="text">');
-	        			}
-	        			payStatus.html(this.payStatus);
-	        		}else{*/
-	        			if(this.costTable.bill){
-	        				bill.html('<i class="icon-ok bigger-130"></i>');
-	        			}
-	        			if(this.costTable.lend){
-	        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-	        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
-	        			}
-        				if(this.costTable.reimbursement==null){
-        					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control" style="width:100%;" type="text">');
-        				}else{
-        					reimbursement.html(this.costTable.reimbursement);
-        					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
-        				}
-	        			/*if(this.costTable.remittanced){
-		        			realCost.html(this.costTable.realCost);
-	        			}
-	        			if(this.costTable.payStatus==3&&!this.costTable.bill&&!this.costTable.remittanced&&!this.costTable.lend){
-	        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a>');
-	        			}else{
-	        				payStatus.html(this.payStatus);
-	        			}
-	        			remark.html(this.costTable.remark);
-	        			realCost.html(this.costTable.realCost);
-	        		}
-	        		if(this.costTable.remittanced){
-	        			remittanced.html('<input type="hidden" value="true">');
-	        		}else{
-	        			remittanced.html('<input type="hidden" value="false">');
-	        		}*/
+	        		
+        			if(this.costTable.bill){
+        				bill.html('<i class="icon-ok bigger-130"></i>');
+        			}
+        			if(this.costTable.lend){
+        				guideLoan.html('<i class="icon-ok bigger-130"></i>');
+        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+        			}
+       				if(this.costTable.reimbursement==null){
+       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control" style="width:100%;" type="text">');
+       				}else{
+       					reimbursement.html(this.costTable.reimbursement);
+       					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
+       				}
+	        		
 	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
@@ -5105,6 +5253,20 @@
 	        	$("#realIncome").text(data.realIncome.toFixed(2));
 	        	$("#realGrossProfit").text((data.realIncome-reimbursementSum).toFixed(2));
 	        	$("#realGrossMargin").text(((data.realIncome-reimbursementSum)/data.realIncome*100).toFixed(2)+"%");
+	        	/* 设置自动计算 */
+	        	$("#costs5").find("input").blur(function(){
+	        		var reimbursementSum = 0;
+	        		$.each($("#costs5").find("input"),function(){
+	        			var val = 0;
+	        			if(!isNaN(parseFloat($(this).val()))){
+	        				val = parseFloat($(this).val());
+	        			}
+	        			reimbursementSum = reimbursementSum + val;
+	        		});
+	        		$("#reimbursementSum").text(reimbursementSum);
+	        		$("#realGrossProfit").text((parseFloat($("#realIncome").text())-reimbursementSum).toFixed(2));
+	        		$("#realGrossMargin").text(parseFloat(($("#realGrossProfit").text())/(parseFloat($("#realIncome").text()))*100).toFixed(2)+"%");
+	        	});
 	        }  
 		});
 	}

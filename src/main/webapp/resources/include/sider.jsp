@@ -68,6 +68,12 @@
 										报账审核
 									</a>
 								</li>
+								<li id="toDoBillApplication">
+									<a href="<%=path %>billApplication">
+										<i class="icon-double-angle-right"></i>
+										供应商付款审核
+									</a>
+								</li>
 							</ul>
 						</li>
 						
@@ -155,6 +161,12 @@
 									</a>
 								</li>
 								
+								<li id="billManage">
+									<a href="<%=path %>billManage">
+										<i class="icon-double-angle-right"></i>
+										挂账管理
+									</a>
+								</li>
 							</ul>
 						</li>
 

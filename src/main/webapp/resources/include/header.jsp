@@ -219,7 +219,7 @@
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="#">
+									<a href="<%=path %>settings">
 										<i class="icon-cog"></i>
 										设置
 									</a>

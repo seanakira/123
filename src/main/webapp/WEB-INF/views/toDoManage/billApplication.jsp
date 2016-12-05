@@ -49,7 +49,7 @@
 							<div style="display: inline-block;">
 								<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
 									<i class="icon-file-alt bigger-100"></i>
-									付款申请
+									付款审核
 								</a>
 							</div>
 						</div>
@@ -99,32 +99,32 @@
 	
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 	<!-- 列表循环 -->				
-								<c:forEach var="bill" items="${bills }" varStatus="status">
-									<tr id="${bill.supplierTable.id }">
+								<c:forEach var="billApplication" items="${billApplications }" varStatus="status">
+									<tr id="${billApplication.supplierTable.id }">
 										<td class="center  sorting_1">
 												<label>
 													<input class="ace" type="checkbox">
 													<span class="lbl"></span>
 												</label>
 										</td>
-										<td><a id="" role="button" data-toggle="modal" href="#">${bill.supplierTable.supplierName }</a></td>
+										<td><a id="" role="button" data-toggle="modal" href="#">${billApplication.supplierTable.supplierName }</a></td>
 										<td>
 											<c:choose>
-												<c:when test="${bill.supplierTable.accountPeriod!=null }">
-													${bill.supplierTable.accountPeriod }个月
+												<c:when test="${billApplication.supplierTable.accountPeriod!=null }">
+													${billApplication.supplierTable.accountPeriod }个月
 												</c:when>
 											</c:choose>
 										</td>
 										<td><c:choose>
-												<c:when test="${bill.settlementDate!=null }">
-													${bill.settlementDate }
+												<c:when test="${billApplication.settlementDate!=null }">
+													${billApplication.settlementDate }
 												</c:when>
 											</c:choose>
 										</td>
-										<td>${bill.billSum }</td>
-										<td>${bill.applicationSum }</td>
-										<td>${bill.willRemittanceSum }</td>
-										<td>${bill.remittancedSum }</td>
+										<td>${billApplication.billSum }</td>
+										<td>${billApplication.applicationSum }</td>
+										<td>${billApplication.willRemittanceSum }</td>
+										<td>${billApplication.remittancedSum }</td>
 									</tr>
 								</c:forEach>
 	<!-- 列表循环结束 -->								
@@ -168,7 +168,6 @@
 									报账审核
 						 		</div>
 						  	</div>
-						  	<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">可付款项</div>
 							<div class="modal-body no-padding">
 					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
 						         	<table class="table table-striped table-bordered table-hover no-margin">
@@ -193,48 +192,20 @@
 												<th style="width: 9%;">状态</th>
 											</tr>
 										</thead>
-										<tbody id="canPay">
+										<tbody id="payTable">
 										</tbody>
 									</table>
-									<span id="canChangeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
-									<span id="noCanPay" class="red">无可付款项</span>
-					       		</div>
-					       	</div>
-					       	<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">付款记录</div>
-					       	<div class="modal-body no-padding">
-					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
-						         	<table class="table table-striped table-bordered table-hover no-margin">
-										<thead>
-											<tr>
-												<th style="width: 9%;">成本日期</th>
-												<th style="width: 9%;">团号</th>
-												<th style="width: 9%;">团名</th>
-												<th style="width: 9%;">内容</th>
-												<th style="width: 9%;">成本</th>
-												<th style="width: 9%;">数量</th>
-												<th style="width: 9%;">天数</th>
-												<th style="width: 9%;">成本小计</th>
-												<th style="width: 9%;">签单金额</th>
-												<th style="width: 9%;">明细备注</th>
-												<th style="width: 9%;">状态</th>
-											</tr>
-										</thead>
-										<tbody id="isPay">
-										</tbody>
-									</table>
-									<span id="isChangeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
-									<span id="noIsPay" class="red">无付款记录</span>
+									<span id="changeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
 					       		</div>
 					       	</div>
 							<div class="modal-footer no-margin-top">
 								<button id="cancel" class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
 									<i class="icon-remove"></i>
-									关闭
+									驳回
 								</button>
-								<!-- <a href="#" id="autoAdd" style="margin:  20px;">一键填充签单金额</a> -->
-								<button id="payApplication" class="btn btn-sm btn-success pull-right"  data-dismiss="modal">
+								<button id="ok" class="btn btn-sm btn-success pull-right"  data-dismiss="">
 									<i class="icon-qrcode"></i>
-									付款申请
+									同意
 								</button>
 						 	 </div>
 						</div><!-- /.modal-content -->
@@ -254,9 +225,9 @@
 	$(function(){
 	/* 初始化 */
 		/* 样式 */
-		$("#gourpManage").addClass("open");
-		$("#gourpManage").children("ul").attr("style","display:block");
-		$("#billCheckManage").addClass("active");
+		$("#toDoManage").addClass("open");
+		$("#toDoManage").children("ul").attr("style","display:block");
+		$("#toDoBillApplication").addClass("active");
 		$(".modal-dialog").attr("style","width:90%;");
 		/* 提示 */
 		$("a").tooltip({
@@ -295,20 +266,12 @@
 		});
 		$(".selectAllPay").click(function(){
 			if($(this).prop("checked")){
-				$("#canPay").find("input").prop("checked",true);
+				$("#payTable").find("input").prop("checked",true);
 			}else{
-				$("#canPay").find("input").prop("checked",false);
+				$("#payTable").find("input").prop("checked",false);
 			}
 		});
 		
-		/* 自动填充 */
-		/* $("#autoAdd").click(function(){
-			var inputs = $("#canPay").find("input").not(".ace");
-			$.each(inputs,function(){
-				$(this).val($(this).parent().prev().text());
-			});
-		}); */
-	
 	/*查看*/
 		$("#pay").click(function(){
 			var checkbox = $("#table").find("input:checked");
@@ -319,163 +282,152 @@
 				alert("只能选择一个供应商");
 				$(this).attr("href","#");
 			}else{
-				$(".selectAllPay").prop("checked",false);
 				$(this).attr("href","#payModel");
 				var supplierId = checkbox.parent().parent().parent().attr("id");
-				$("#payApplication").parent().attr("id",supplierId);
+				$("#ok").parent().attr("id",supplierId);
 				var myData = {supplierId:supplierId};
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/billCheckManage/find",  
+			        url:"/localtour/billApplication/find",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	$("#canPay").html("");
-			        	$("#isPay").html("");
-			        	var bill = $('<td><input style="width:100%;" value="0" type="text"></td>');
+			        	$("#payTable").html("");
 						$.each(data.costs,function(){
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0&&this.costTable.reimbursement!=null){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
-				        	var tr = $('<tr id="'+this.costTable.id+'">'+
-												'<td class="center  sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-												'<td>'+this.localTourTable.tourNo+'</td>'+
-												'<td>'+this.localTourTable.tourName+'</td>'+
-												'<td>'+this.costTable.costDate+'</td>'+
-												'<td>'+this.contentName+'</td>'+
-												'<td>'+this.costTable.cost+'</td>'+
-												'<td>'+this.costTable.count+'</td>'+
-												'<td>'+this.costTable.days+'</td>'+
-												'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-												'<td>'+bill.html()+'</td>'+
-												'<td>'+this.costTable.remark+'</td>'+
-												'<td>'+this.payStatus+'</td>'+
-										'</tr>')
-							if(this.costTable.payStatus>0){
-								tr.children("td").eq(0).remove();
-								$("#isPay").append(tr);
-							}else{
-								$("#canPay").append(tr);
-							}
+							$("#payTable").append('<tr id="'+this.costTable.id+'">'+
+														'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+														'<td>'+this.costTable.costDate+'</td>'+
+														'<td>'+this.localTourTable.tourNo+'</td>'+
+														'<td>'+this.localTourTable.tourName+'</td>'+
+														'<td>'+this.contentName+'</td>'+
+														'<td>'+this.costTable.cost+'</td>'+
+														'<td>'+this.costTable.count+'</td>'+
+														'<td>'+this.costTable.days+'</td>'+
+														'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+														'<td>'+this.costTable.reimbursement+'</td>'+
+														'<td>'+this.costTable.remark+'</td>'+
+														'<td>'+this.payStatus+'</td>'+
+												'</tr>');
 						});
 						$.each(data.changeCosts,function(){
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0&&this.costTable.reimbursement!=null){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
-				        	var tr = $('<tr id="'+this.costTable.id+'" class="blue">'+
-												'<td class="center  sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-												'<td>'+this.localTourTable.tourNo+'</td>'+
-												'<td>'+this.localTourTable.tourName+'</td>'+
-												'<td>'+this.costTable.costDate+'</td>'+
-												'<td>'+this.contentName+'</td>'+
-												'<td>'+this.costTable.cost+'</td>'+
-												'<td>'+this.costTable.count+'</td>'+
-												'<td>'+this.costTable.days+'</td>'+
-												'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-												'<td>'+bill.html()+'</td>'+
-												'<td>'+this.costTable.remark+'</td>'+
-												'<td>'+this.payStatus+'</td>'+
-										'</tr>')
-							if(this.costTable.payStatus>0){
-								tr.children("td").eq(0).remove();
-								$("#isPay").append(tr);
-							}else{
-								$("#canPay").append(tr);
-							}
+							$("#payTable").append('<tr id="'+this.costTable.id+'" class="blue">'+
+														'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+														'<td>'+this.costTable.costDate+'</td>'+
+														'<td>'+this.localTourTable.tourNo+'</td>'+
+														'<td>'+this.localTourTable.tourName+'</td>'+
+														'<td>'+this.contentName+'</td>'+
+														'<td>'+this.costTable.cost+'</td>'+
+														'<td>'+this.costTable.count+'</td>'+
+														'<td>'+this.costTable.days+'</td>'+
+														'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+														'<td>'+this.costTable.reimbursement+'</td>'+
+														'<td>'+this.costTable.remark+'</td>'+
+														'<td>'+this.payStatus+'</td>'+
+												'</tr>');
 						});
-						/* 设置无记录 */
-						if($("#canPay").children("tr").length==0){
-							$("#canPay").parent().hide();
-							$("#noCanPay").show();
-							$("#canChangeCostBlue").hide();
+						if(data.changeCosts.length>0){
+							$("#changeCostBlue").show();
 						}else{
-							$("#canPay").parent().show();
-							$("#noCanPay").hide();
-							if(data.changeCosts!=0){
-								$("#canChangeCostBlue").show();
-							}else{
-								$("#canChangeCostBlue").hide();
-							}
-						}
-						if($("#isPay").children("tr").length==0){
-							$("#isPay").parent().hide();
-							$("#noIsPay").show();
-							$("#isChangeCostBlue").hide();
-						}else{
-							$("#isPay").parent().show();
-							$("#noIsPay").hide();
-							if(data.changeCosts.length!=0){
-								$("#isChangeCostBlue").show();
-							}else{
-								$("#isChangeCostBlue").hide();
-							}
+							$("#changeCostBlue").hide();
 						}
 						/* 选择本行 */
-						$("#canPay").find("td").not(".sorting_1").click(function(){
+						$("#payTable").find("td").not(".sorting_1").click(function(){
 							var checkbox = $(this).siblings().eq(0).find("input");
 							if(checkbox.prop("checked")){
 								checkbox.prop("checked",false);
 							}else{
-								$("#canPay").find("input").prop("checked",false);
+								$("#table").find("input").prop("checked",false);
 								checkbox.prop("checked",true);
+								/* 设置按钮 */
+								/* if($(this).siblings().last().text()=="待审"){
+									$("#reimbursementApplication").show();
+								}else{
+									$("#reimbursementApplication").hide();
+								} */
 							}
 						});
 			        }  
 				});
 			}
 		});
-	/* 付款申请 */
-		$("#payApplication").click(function(){
-			var costTables = new Array();
-			var changeCostTables = new Array();
-			var inputs = $("#canPay").find("input");
-			if($("#canPay").find("input.ace:checked").length==0){
-				$("#payApplication").attr("data-dismiss","");
-				alert("没有选择要申请的付款项");
+		/* 二维码 */
+		$("#ok").mouseenter(function(){
+			var supplierId = $(this).parent().attr("id");
+			var costIds = new Array();
+			var changeCostIds = new Array();
+			var inputs = $("#payTable").find(":checked");
+			$.each(inputs,function(){
+				var tr = $(this).parent().parent().parent();
+				if(tr.attr("class")!="blue"){
+					costIds.push(tr.attr("id"));
+				}else{
+					changeCostIds.push(tr.attr("id"));
+				}
+			});
+			if(costIds.length==0&&changeCostIds.length==0){
+				alert("请选择付款项");
 			}else{
-				$("#payApplication").attr("data-dismiss","modal");
-				var appSum = 0;
-				var supplierId = $("#payApplication").parent().attr("id");
+				var http = (window.document.location.href.substring(0, window.document.location.href.indexOf(window.document.location.pathname)));
+				var div = $('<div id="qrcode" style="display:none;position: absolute;background-color: #444;color: white;padding: 10px;left: 45%;top: 20%;z-index: 1500;"></div>');
+				$("body").append(div);
+				$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/billApplication/ok?supplierId="+supplierId+"&costIds="+costIds.toString().replace(/,/,"-")+"&changeCostIds="+changeCostIds.toString().replace(/,/,"-")});
+				div.fadeIn();
+			}
+		});
+		$("#ok").mouseout(function(){
+			$("#qrcode").remove();
+			var supplierId = $(this).parent().attr("id");
+			var myData = {supplierId:supplierId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"/localtour/billApplication/checkStatus", 
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(data==1){
+		        		$("#table").find("#"+supplierId).remove();
+		        	}
+		        }  
+			});
+		});
+		$("#cancel").click(function(){
+			var checkbox = $("#payTable").find(":checked");
+			if(checkbox.length==0){
+				alert("请选择一个成本");
+				$(this).attr("href","#");
+			}else{
+				$(".selectAllPay").prop("checked",false);
+				var supplierId = $(this).parent().attr("id");
+				var costIds = new Array();
+				var changeCostIds = new Array();
+				var inputs = $("#payTable").find(":checked");
 				$.each(inputs,function(){
 					var tr = $(this).parent().parent().parent();
-					if($(this).prop("checked")){
-						if(tr.attr("class")!="blue"){
-							costTables.push({
-								id:tr.attr("id"),
-								supplierId:supplierId
-							});
-						}else{
-							changeCostTables.push({
-								id:tr.attr("id"),
-								supplierId:supplierId
-							});
-						}
-						appSum = appSum + parseFloat(tr.children("td").eq(9).text());
+					if(tr.attr("class")!="change"){
+						costIds.push(tr.attr("id"));
+					}else{
+						changeCostIds.push(tr.attr("id"));
 					}
 				});
-				var full = {costTables:costTables,changeCostTables:changeCostTables};
-				var myData = JSON.stringify(full);
+				if(costIds.length+changeCostIds.length==$("#payTable").find("input").length){
+					$("#table").find("#"+supplierId).remove();
+				}
+				var myData = {supplierId:supplierId,
+								costIds:costIds.toString().replace(/,/, "-"),
+								changeCostIds:changeCostIds.toString().replace(/,/, "-")};
 				$.ajax({
-			        type: "POST",  
+			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/billCheckManage/update",  
+			        url:"/localtour/billApplication/cancel",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	if(data==-1){
-			        		$("#payApplication").attr("data-dismiss","");
-			        		alert("保存失败");
-			        	}else{
-			        		$("#payApplication").attr("data-dismiss","modal");
-			        		var td = $("#table").find("#"+supplierId).children("td").eq(5);
-			        		td.text((parseFloat(td.text())+appSum).toFixed(2));
-			        	}
+			        	
 			        }  
 				});
 			}

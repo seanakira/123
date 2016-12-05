@@ -42,14 +42,14 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="" role="button" data-toggle="modal" href="#">签单管理</a>
+								<a id="" role="button" data-toggle="modal" href="#">挂账管理</a>
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar" style="display: inline-block;">
 							<div style="display: inline-block;">
 								<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
 									<i class="icon-file-alt bigger-100"></i>
-									付款申请
+									付款管理
 								</a>
 							</div>
 						</div>
@@ -165,10 +165,9 @@
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
 								<div class="table-header">
-									报账审核
+									待付款成本
 						 		</div>
 						  	</div>
-						  	<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">可付款项</div>
 							<div class="modal-body no-padding">
 					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
 						         	<table class="table table-striped table-bordered table-hover no-margin">
@@ -193,37 +192,11 @@
 												<th style="width: 9%;">状态</th>
 											</tr>
 										</thead>
-										<tbody id="canPay">
+										<tbody id="payTable">
 										</tbody>
 									</table>
-									<span id="canChangeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
+									<span id="changeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
 									<span id="noCanPay" class="red">无可付款项</span>
-					       		</div>
-					       	</div>
-					       	<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">付款记录</div>
-					       	<div class="modal-body no-padding">
-					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
-						         	<table class="table table-striped table-bordered table-hover no-margin">
-										<thead>
-											<tr>
-												<th style="width: 9%;">成本日期</th>
-												<th style="width: 9%;">团号</th>
-												<th style="width: 9%;">团名</th>
-												<th style="width: 9%;">内容</th>
-												<th style="width: 9%;">成本</th>
-												<th style="width: 9%;">数量</th>
-												<th style="width: 9%;">天数</th>
-												<th style="width: 9%;">成本小计</th>
-												<th style="width: 9%;">签单金额</th>
-												<th style="width: 9%;">明细备注</th>
-												<th style="width: 9%;">状态</th>
-											</tr>
-										</thead>
-										<tbody id="isPay">
-										</tbody>
-									</table>
-									<span id="isChangeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
-									<span id="noIsPay" class="red">无付款记录</span>
 					       		</div>
 					       	</div>
 							<div class="modal-footer no-margin-top">
@@ -232,9 +205,9 @@
 									关闭
 								</button>
 								<!-- <a href="#" id="autoAdd" style="margin:  20px;">一键填充签单金额</a> -->
-								<button id="payApplication" class="btn btn-sm btn-success pull-right"  data-dismiss="modal">
+								<button id="save" class="btn btn-sm btn-success pull-right"  data-dismiss="modal">
 									<i class="icon-qrcode"></i>
-									付款申请
+									确认汇款
 								</button>
 						 	 </div>
 						</div><!-- /.modal-content -->
@@ -254,9 +227,9 @@
 	$(function(){
 	/* 初始化 */
 		/* 样式 */
-		$("#gourpManage").addClass("open");
-		$("#gourpManage").children("ul").attr("style","display:block");
-		$("#billCheckManage").addClass("active");
+		$("#financeManage").addClass("open");
+		$("#financeManage").children("ul").attr("style","display:block");
+		$("#billManage").addClass("active");
 		$(".modal-dialog").attr("style","width:90%;");
 		/* 提示 */
 		$("a").tooltip({
@@ -295,9 +268,9 @@
 		});
 		$(".selectAllPay").click(function(){
 			if($(this).prop("checked")){
-				$("#canPay").find("input").prop("checked",true);
+				$("#payTable").find("input").prop("checked",true);
 			}else{
-				$("#canPay").find("input").prop("checked",false);
+				$("#payTable").find("input").prop("checked",false);
 			}
 		});
 		
@@ -322,25 +295,20 @@
 				$(".selectAllPay").prop("checked",false);
 				$(this).attr("href","#payModel");
 				var supplierId = checkbox.parent().parent().parent().attr("id");
-				$("#payApplication").parent().attr("id",supplierId);
+				$("#save").parent().attr("id",supplierId);
 				var myData = {supplierId:supplierId};
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/billCheckManage/find",  
+			        url:"/localtour/billManage/find",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	$("#canPay").html("");
-			        	$("#isPay").html("");
-			        	var bill = $('<td><input style="width:100%;" value="0" type="text"></td>');
+			        	$("#payTable").html("");
 						$.each(data.costs,function(){
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0&&this.costTable.reimbursement!=null){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
 				        	var tr = $('<tr id="'+this.costTable.id+'">'+
-												'<td class="center  sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+												'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
 												'<td>'+this.localTourTable.tourNo+'</td>'+
 												'<td>'+this.localTourTable.tourName+'</td>'+
 												'<td>'+this.costTable.costDate+'</td>'+
@@ -349,26 +317,15 @@
 												'<td>'+this.costTable.count+'</td>'+
 												'<td>'+this.costTable.days+'</td>'+
 												'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-												'<td>'+bill.html()+'</td>'+
+												'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
 												'<td>'+this.costTable.remark+'</td>'+
 												'<td>'+this.payStatus+'</td>'+
 										'</tr>')
-							if(this.costTable.payStatus>0){
-								tr.children("td").eq(0).remove();
-								$("#isPay").append(tr);
-							}else{
-								$("#canPay").append(tr);
-							}
+							$("#payTable").append(tr);
 						});
 						$.each(data.changeCosts,function(){
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0&&this.costTable.reimbursement!=null){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
 				        	var tr = $('<tr id="'+this.costTable.id+'" class="blue">'+
-												'<td class="center  sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+												'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
 												'<td>'+this.localTourTable.tourNo+'</td>'+
 												'<td>'+this.localTourTable.tourName+'</td>'+
 												'<td>'+this.costTable.costDate+'</td>'+
@@ -377,51 +334,34 @@
 												'<td>'+this.costTable.count+'</td>'+
 												'<td>'+this.costTable.days+'</td>'+
 												'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-												'<td>'+bill.html()+'</td>'+
+												'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
 												'<td>'+this.costTable.remark+'</td>'+
 												'<td>'+this.payStatus+'</td>'+
 										'</tr>')
-							if(this.costTable.payStatus>0){
-								tr.children("td").eq(0).remove();
-								$("#isPay").append(tr);
-							}else{
-								$("#canPay").append(tr);
-							}
+							$("#payTable").append(tr);
 						});
 						/* 设置无记录 */
-						if($("#canPay").children("tr").length==0){
-							$("#canPay").parent().hide();
+						if($("#payTable").children("tr").length==0){
+							$("#payTable").parent().hide();
 							$("#noCanPay").show();
-							$("#canChangeCostBlue").hide();
+							$("#changeCostBlue").hide();
 						}else{
-							$("#canPay").parent().show();
+							$("#payTable").parent().show();
 							$("#noCanPay").hide();
 							if(data.changeCosts!=0){
-								$("#canChangeCostBlue").show();
+								$("#changeCostBlue").show();
 							}else{
-								$("#canChangeCostBlue").hide();
+								$("#changeCostBlue").hide();
 							}
 						}
-						if($("#isPay").children("tr").length==0){
-							$("#isPay").parent().hide();
-							$("#noIsPay").show();
-							$("#isChangeCostBlue").hide();
-						}else{
-							$("#isPay").parent().show();
-							$("#noIsPay").hide();
-							if(data.changeCosts.length!=0){
-								$("#isChangeCostBlue").show();
-							}else{
-								$("#isChangeCostBlue").hide();
-							}
-						}
+						
 						/* 选择本行 */
-						$("#canPay").find("td").not(".sorting_1").click(function(){
+						$("#payTable").find("td").not(".sorting_1").click(function(){
 							var checkbox = $(this).siblings().eq(0).find("input");
 							if(checkbox.prop("checked")){
 								checkbox.prop("checked",false);
 							}else{
-								$("#canPay").find("input").prop("checked",false);
+								$("#payTable").find("input").prop("checked",false);
 								checkbox.prop("checked",true);
 							}
 						});
@@ -429,18 +369,18 @@
 				});
 			}
 		});
-	/* 付款申请 */
-		$("#payApplication").click(function(){
+	/* 保存 */
+		$("#save").click(function(){
 			var costTables = new Array();
 			var changeCostTables = new Array();
-			var inputs = $("#canPay").find("input");
-			if($("#canPay").find("input.ace:checked").length==0){
-				$("#payApplication").attr("data-dismiss","");
-				alert("没有选择要申请的付款项");
+			var inputs = $("#payTable").find("input");
+			if($("#payTable").find("input.ace:checked").length==0){
+				$("#save").attr("data-dismiss","");
+				alert("没有选择要保存的付款");
 			}else{
-				$("#payApplication").attr("data-dismiss","modal");
-				var appSum = 0;
-				var supplierId = $("#payApplication").parent().attr("id");
+				$("#save").attr("data-dismiss","modal");
+				var realPaySum = 0;
+				var supplierId = $("#save").parent().attr("id");
 				$.each(inputs,function(){
 					var tr = $(this).parent().parent().parent();
 					if($(this).prop("checked")){
@@ -455,7 +395,7 @@
 								supplierId:supplierId
 							});
 						}
-						appSum = appSum + parseFloat(tr.children("td").eq(9).text());
+						realPaySum = realPaySum + parseFloat(tr.children("td").eq(9).text());
 					}
 				});
 				var full = {costTables:costTables,changeCostTables:changeCostTables};
@@ -463,18 +403,19 @@
 				$.ajax({
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/billCheckManage/update",  
+			        url:"/localtour/billManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
 			        	if(data==-1){
-			        		$("#payApplication").attr("data-dismiss","");
+			        		$("#save").attr("data-dismiss","");
 			        		alert("保存失败");
 			        	}else{
-			        		$("#payApplication").attr("data-dismiss","modal");
-			        		var td = $("#table").find("#"+supplierId).children("td").eq(5);
-			        		td.text((parseFloat(td.text())+appSum).toFixed(2));
+			        		$("#save").attr("data-dismiss","modal");
+			        		var tds = $("#table").find("#"+supplierId).children("td");
+			        		tds.eq(5).text((parseFloat(td.eq(5).text())-realPaySum).toFixed(2));
+			        		tds.eq(6).text((parseFloat(td.eq(6).text())+realPaySum).toFixed(2));
 			        	}
 			        }  
 				});

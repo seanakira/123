@@ -133,7 +133,7 @@ public class SimpleReimbursementApplicationViewModel {
 			reimbursementApplicationViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
 			reimbursementApplicationViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
 			reimbursementApplicationViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
-			if(!reimbursementApplicationTable.isStatus()){
+			if(reimbursementApplicationTable.getStatus()==0){
 				reimbursementApplicationViewModel.setStatus("¥˝…Û");
 			}else{
 				reimbursementApplicationViewModel.setStatus("“—…Û∫À");

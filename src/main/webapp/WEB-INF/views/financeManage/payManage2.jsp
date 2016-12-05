@@ -980,7 +980,6 @@
 			});
 			var fullPayViewModel = {costTables:costTables,changeCostTables:changeCostTables,loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
-			alert(myData)
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  

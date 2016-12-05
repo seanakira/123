@@ -359,7 +359,7 @@ public class TourController {
 	@RequestMapping("/localTourManage/loanApplication")
 	public void loanApplication(@RequestParam int tourId, @RequestParam String ids, HttpServletRequest request, HttpSession session){
 		if(!"".equals(ids)){
-			localTourService.loanApplication(ids);
+			localTourService.loanApplication(ids, session);
 			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<导游借款>，点击进行审核", request, session);
 		}
 	}
@@ -370,7 +370,6 @@ public class TourController {
 	}
 	@RequestMapping("/localTourManage/payApplication")
 	public void payApplication(@RequestBody FullPayViewModel full, HttpServletRequest request, HttpSession session){
-		System.out.println(full.getClass());
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
 			localTourService.payApplication(full.getCostTables(), full.getChangeCostTables(),session);
 			localTourService.sendMassage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有待审核的<付款申请>，点击进行审核", request, session);
@@ -464,5 +463,10 @@ public class TourController {
 	@RequestMapping("/billCheckManage/find")
 	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId){
 		return billService.findBill(supplierId);
+	}
+	
+	@RequestMapping("/billCheckManage/update")
+	public void updateBill(@RequestBody FullBillViewModel full, HttpSession session){
+		billService.updateBill(full, session);
 	}
 }
