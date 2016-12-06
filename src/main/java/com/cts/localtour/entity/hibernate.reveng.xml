@@ -15,9 +15,9 @@
   <table-filter match-catalog="localtour" match-name="loanTable"/>
   <table-filter match-catalog="localtour" match-name="localTourTable"/>
   <table-filter match-catalog="localtour" match-name="notificationTable"/>
-  <table-filter match-catalog="localtour" match-name="previlegeTable"/>
+  <table-filter match-catalog="localtour" match-name="permissionTable"/>
   <table-filter match-catalog="localtour" match-name="regionTable"/>
-  <table-filter match-catalog="localtour" match-name="rolePrevilegeTable"/>
+  <table-filter match-catalog="localtour" match-name="rolePermissionTable"/>
   <table-filter match-catalog="localtour" match-name="roleTable"/>
   <table-filter match-catalog="localtour" match-name="supplierBusinessTable"/>
   <table-filter match-catalog="localtour" match-name="supplierContentTable"/>

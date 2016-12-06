@@ -17,7 +17,7 @@ public class MobileController {
 	@Autowired
 	private MobileService mobileService;
 	/*成本收入更改*/
-	@RequestMapping("/mobile/changeCostIncomeApproval")
+	@RequestMapping("/mobile/changeCostIncomeApplication")
 	public String changeCostApproval(@RequestParam int tourId, @RequestParam int status, Model md){
 		md.addAttribute("changes", mobileService.getAllChangCostIncome(tourId,status));
 		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", tourId));

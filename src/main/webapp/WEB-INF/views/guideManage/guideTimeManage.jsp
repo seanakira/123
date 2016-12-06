@@ -570,7 +570,7 @@
 			$.ajax({
 				type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideTimeManage/get",  
+		        url:"/localtour/guideTimeManage/find",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

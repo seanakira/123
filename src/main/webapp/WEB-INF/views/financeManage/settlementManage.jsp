@@ -361,7 +361,7 @@
 			var http = (window.document.location.href.substring(0, window.document.location.href.indexOf(window.document.location.pathname)));
 			var div = $('<div id="qrcode" style="display:none;position: absolute;background-color: #444;color: white;padding: 10px;left: 45%;top: 20%;z-index: 1500;"></div>');
 			$("body").append(div);
-			$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/settlementManage/ok?tourId="+tourId});
+			$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/settlementManage/update?tourId="+tourId});
 			div.fadeIn();
 		});
 		$("#ok").mouseout(function(){

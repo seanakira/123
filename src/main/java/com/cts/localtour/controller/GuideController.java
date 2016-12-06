@@ -60,7 +60,7 @@ public class GuideController {
 		}
 	}
 	
-	@RequestMapping("/guideTimeManage/get")
+	@RequestMapping("/guideTimeManage/find")
 	public @ResponseBody GuideTimeTable getById(@RequestParam int id){
 		return (GuideTimeTable) guideTimeService.getById("GuideTimeTable", id);
 	}

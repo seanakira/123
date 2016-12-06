@@ -289,7 +289,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/billApplication/find",  
+			        url:"/localtour/toDoBill/find",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -372,7 +372,7 @@
 				var http = (window.document.location.href.substring(0, window.document.location.href.indexOf(window.document.location.pathname)));
 				var div = $('<div id="qrcode" style="display:none;position: absolute;background-color: #444;color: white;padding: 10px;left: 45%;top: 20%;z-index: 1500;"></div>');
 				$("body").append(div);
-				$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/billApplication/ok?supplierId="+supplierId+"&costIds="+costIds.toString().replace(/,/,"-")+"&changeCostIds="+changeCostIds.toString().replace(/,/,"-")});
+				$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/toDoBill/ok?supplierId="+supplierId+"&costIds="+costIds.toString().replace(/,/,"-")+"&changeCostIds="+changeCostIds.toString().replace(/,/,"-")});
 				div.fadeIn();
 			}
 		});
@@ -383,7 +383,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/billApplication/checkStatus", 
+		        url:"/localtour/toDoBill/checkStatus", 
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -422,7 +422,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/billApplication/cancel",  
+			        url:"/localtour/toDoBill/cancel",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  

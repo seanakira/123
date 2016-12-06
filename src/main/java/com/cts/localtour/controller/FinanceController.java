@@ -246,9 +246,9 @@ public class FinanceController {
 		return reimbursementApplicationService.findReimbursementApplication(tourId);
 	}
 	
-	@RequestMapping("/settlementManage/ok")
-	public String okReimbursementApplication(@RequestParam int tourId){
-		settlementService.okSettlement(tourId);
+	@RequestMapping("/settlementManage/update")
+	public String updateReimbursementApplication(@RequestParam int tourId){
+		settlementService.updateSettlement(tourId);
 		return "/mobile/applicationOk";
 	}
 	

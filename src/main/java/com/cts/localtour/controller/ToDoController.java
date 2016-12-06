@@ -23,7 +23,7 @@ public class ToDoController {
 	@Autowired
 	private BillApplicationService billApplicationService;
 	/*报账审核*/
-	@RequestMapping("/reimbursementApplication")
+	@RequestMapping("/toDoReimbursement")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = reimbursementApplicationService.getCounts(key);
 		int pageMax = counts/maxResults;
@@ -45,29 +45,29 @@ public class ToDoController {
 		return "/toDoManage/reimbursementApplication";
 	}
 	
-	@RequestMapping("/reimbursementApplication/find")
+	@RequestMapping("/toDoReimbursement/find")
 	public @ResponseBody FullReimbursementApplicationViewModel findReimbursementApplication(@RequestParam int tourId){
 		return reimbursementApplicationService.findReimbursementApplication(tourId);
 	}
 	
-	@RequestMapping("/reimbursementApplication/ok")
+	@RequestMapping("/toDoReimbursement/ok")
 	public String okReimbursementApplication(@RequestParam int tourId){
 		reimbursementApplicationService.okReimbursementApplication(tourId);
 		return "/mobile/applicationOk";
 	}
 	
-	@RequestMapping("/reimbursementApplication/cancel")
+	@RequestMapping("/toDoReimbursement/cancel")
 	public void cancelReimbursementApplication(@RequestParam int tourId){
 		reimbursementApplicationService.cancelReimbursementApplication(tourId);
 	}
 	
-	@RequestMapping("/reimbursementApplication/checkStatus")
+	@RequestMapping("/toDoReimbursement/checkStatus")
 	public @ResponseBody int checkStatusReimbursementApplication(@RequestParam int tourId){
 		return reimbursementApplicationService.checkStatusReimbursementApplication(tourId);
 	}
 	
 	/*供应商付款审核*/
-	@RequestMapping("/billApplication")
+	@RequestMapping("/toDoBill")
 	public String getBillAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = billApplicationService.getCounts(key);
 		int pageMax = counts/maxResults;
@@ -89,13 +89,13 @@ public class ToDoController {
 		return "/toDoManage/billApplication";
 	}
 	
-	@RequestMapping("/billApplication/find")
+	@RequestMapping("/toDoBill/find")
 	/*这里需要判断用户权限 如果是中心经理1 总经理2*/
 	public @ResponseBody FullBillViewModel findbillApplication(@RequestParam int supplierId){
 		return billApplicationService.findbillApplication(supplierId,1);
 	}
 	
-	@RequestMapping("/billApplication/ok")
+	@RequestMapping("/toDoBill/ok")
 	/*这里需要判断用户权限 如果是中心经理2 总经理3*/
 	public String okbillApplication(@RequestParam int supplierId, @RequestParam String costIds, @RequestParam String changeCostIds){
 		String[] costIDs = costIds.split("-");
@@ -104,14 +104,14 @@ public class ToDoController {
 		return "/mobile/applicationOk";
 	}
 	
-	@RequestMapping("/billApplication/cancel")
+	@RequestMapping("/toDoBill/cancel")
 	public void cancelbillApplication(@RequestParam int supplierId, @RequestParam String costIds, @RequestParam String changeCostIds){
 		String[] costIDs = costIds.split("-");
 		String[] changeCostIDs = changeCostIds.split("-");
 		billApplicationService.cancelbillApplication(supplierId,costIDs,changeCostIDs);
 	}
 	
-	@RequestMapping("/billApplication/checkStatus")
+	@RequestMapping("/toDoBill/checkStatus")
 	public @ResponseBody int checkStatusbillApplication(@RequestParam int tourId){
 		return billApplicationService.checkStatusbillApplication(tourId);
 	}

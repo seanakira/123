@@ -35,7 +35,7 @@ public class SettlementService extends BaseService{
 		}
 	}
 
-	public void okSettlement(int tourId) {
+	public void updateSettlement(int tourId) {
 		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==8){
 			this.updateByString("LocalTourTable", "status=9", "id=?", tourId);
 		}

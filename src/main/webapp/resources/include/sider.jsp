@@ -63,13 +63,13 @@
 							</a>
 							<ul class="submenu">
 								<li id="toDoReimbursementApplication">
-									<a href="<%=path %>reimbursementApplication">
+									<a href="<%=path %>toDoReimbursement">
 										<i class="icon-double-angle-right"></i>
 										报账审核
 									</a>
 								</li>
 								<li id="toDoBillApplication">
-									<a href="<%=path %>billApplication">
+									<a href="<%=path %>toDoBill">
 										<i class="icon-double-angle-right"></i>
 										供应商付款审核
 									</a>
@@ -187,7 +187,7 @@
 								</li>
 
 								<li>
-									<a href="jqgrid.html">
+									<a href="<%=path %>customerManage">
 										<i class="icon-double-angle-right"></i>
 										个人客户
 									</a>

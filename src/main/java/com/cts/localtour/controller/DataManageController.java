@@ -356,7 +356,6 @@ public class DataManageController {
 			return true;
 		}
 		
-		@SuppressWarnings("unchecked")
 		@RequestMapping("/contentManage/update")
 		public @ResponseBody boolean updata(@RequestBody SupplierContentTable content){
 			contentService.update(content);

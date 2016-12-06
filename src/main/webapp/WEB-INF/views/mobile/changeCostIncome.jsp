@@ -154,7 +154,7 @@
 					</div>
 					</c:forEach>
 					<div style="text-align: center;">
-						<a id="changed" href="<%=path %>mobile/changeCostIncomeApproval?tourId=${tour.id }&status=-1">点击查看本团成本收入变更记录</a>
+						<a id="changed" href="<%=path %>mobile/changeCostIncomeApplication?tourId=${tour.id }&status=-1">点击查看本团成本收入变更记录</a>
 					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">

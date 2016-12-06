@@ -3,12 +3,16 @@ package com.cts.localtour.realms;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.UserService;
 
 public class localTourRealm extends AuthorizingRealm{
@@ -17,18 +21,35 @@ public class localTourRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		System.out.println("shiro");
 		String username = (String)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(userService.findRoles(username));
-        authorizationInfo.setStringPermissions(userService.findPermissions(username));
+        authorizationInfo.setRoles(userService.getRolesByUserName(username));
+        authorizationInfo.setStringPermissions(userService.getPermissionsByUserName(username));
         return authorizationInfo;
 	}
 
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
-		// TODO Auto-generated method stub
-		return null;
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		String username = (String)token.getPrincipal();
+
+        UserTable user = userService.getByUserName(username);
+
+        if(user == null) {
+            throw new UnknownAccountException();//没找到帐号
+        }
+
+        if(Boolean.FALSE.equals(user.isEnable())) {
+            throw new LockedAccountException(); //帐号锁定
+        }
+
+        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+                user.getUserName(), //用户名
+                user.getPwd(), //密码
+               /* ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt*/
+                getName()  //realm name
+        );
+        return authenticationInfo;
 	}
 	
 	 @Override

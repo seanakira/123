@@ -1,14 +1,15 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.DAO.UserTableDAO;
 import com.cts.localtour.entity.DeptTable;
+import com.cts.localtour.entity.PermissionTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.UserViewModel;
@@ -163,13 +164,23 @@ public class UserService extends BaseService{
 		}
 	}
 
-	public Set<String> findRoles(String username) {
+	public HashSet<String> getRolesByUserName(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Set<String> findPermissions(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public HashSet<String> getPermissionsByUserName(String username) {
+		HashSet<String> permissions = new HashSet<String>();
+		UserTable user = this.getByUserName(username);
+		ArrayList<PermissionTable> permissionTables = (ArrayList<PermissionTable>)this.getByHql("SELECT p FROM UserRoleTable u, RolePermissionTable r, PermissionTable p WHERE r.roleId = u.roleId and r.permissionId=p.id and p.enable=true and u.userId= "+user.getId());
+		for (PermissionTable permissionTable : permissionTables) {
+			permissions.add(permissionTable.getPermissionName());
+		}
+		return permissions;
+	}
+
+	public UserTable getByUserName(String username) {
+		return (UserTable) this.getAllByString("UserTable", "userName=?", username).get(0);
 	}
 }
