@@ -7,7 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
-
+	
+	@RequestMapping("/")
+	public String index(){
+		return "loginManage/login";
+	}
+	
 	@RequestMapping("/profile")
 	public String profile(){
 		return "/userSettings/profile";

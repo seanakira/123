@@ -2,7 +2,8 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -18,13 +19,17 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="add" href="#">新增国家地区</a>
+								<a href="#">国家地区管理</a>
 							</li>
-
-							
-							
 						</ul><!-- .breadcrumb -->
-
+						<div class="accessBar" style="display: inline-block;">
+							<shiro:hasPermission name="region:save">
+								<a class="blue" id="add" data-toggle="modal" href="#" title="新增国家地区">
+									<i class="icon-plus bigger-100"></i>
+									新增国家地区
+								</a>
+							</shiro:hasPermission>
+						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }regionManage" method="get">
 								<span class="input-icon">
@@ -109,22 +114,26 @@
 	
 									<td class=" ">
 										<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-											
-	
-											<a id="edit" class="green" href="#">
-												<i class="icon-pencil bigger-130"></i>
-											</a>
+											<shiro:hasPermission name="region:update">
+												<a id="edit" class="green" href="#">
+													<i class="icon-pencil bigger-130"></i>
+												</a>
+											</shiro:hasPermission>
 											<span id="">
 												<c:choose>
 													<c:when test='${region.enable }'>
-														<a id="${region.id }" class="red" href="#">
-															<i class="icon-trash bigger-130"></i>
-														</a>
+														<shiro:hasPermission name="region:del">
+															<a id="${region.id }" class="red" href="#">
+																<i class="icon-trash bigger-130"></i>
+															</a>
+														</shiro:hasPermission>
 													</c:when>
 													<c:otherwise>
-														<a id="${region.id }" class="green" href="#">
-															<i class="icon-undo bigger-130"></i>
-														</a>
+														<shiro:hasPermission name="region:recover">
+															<a id="${region.id }" class="green" href="#">
+																<i class="icon-undo bigger-130"></i>
+															</a>
+														</shiro:hasPermission>
 													</c:otherwise>
 												</c:choose>
 											</span>

@@ -9,10 +9,18 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 缓存管理器 -->
-    <!-- <bean id="cacheManager" class="com.github.zhangkaitao.shiro.spring.SpringCacheManagerWrapper">
+    <!-- <bean id="cacheManager" class="com.cts.localtour.shiro.CacheManager">
         <property name="cacheManager" ref="springCacheManager"/>
+    </bean>  -->
+    <!-- spring cache -->
+    <!-- <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
     </bean> -->
-
+    <!--ehcache-->
+    <!-- <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="/WEB-INF/shiro/ehcache.xml"/>
+    </bean> -->
+    
     <!-- 凭证匹配器 -->
     <!-- <bean id="credentialsMatcher" class="com.github.zhangkaitao.shiro.chapter16.credentials.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="cacheManager"/>
@@ -22,7 +30,7 @@
     </bean> -->
 
     <!-- Realm实现 -->
-    <bean id="localTourRealm" class="com.cts.localtour.realms.localTourRealm">
+    <bean id="localTourRealm" class="com.cts.localtour.shiro.localTourRealm">
         <!-- <property name="credentialsMatcher" ref="credentialsMatcher"/> -->
         <property name="cachingEnabled" value="false"/>
         <!--<property name="authenticationCachingEnabled" value="true"/>-->
@@ -32,34 +40,34 @@
     </bean>
 
     <!-- 会话ID生成器 -->
-    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    <!-- <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/> -->
 
     <!-- 会话Cookie模板 -->
-    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+    <!-- <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="sid"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="-1"/>
-    </bean>
+    </bean> -->
 
-    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+   <!--  <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMe"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="2592000"/><!-- 30天 -->
+        <property name="maxAge" value="2592000"/>30天
     </bean>
 
-    <!-- rememberMe管理器 -->
+    rememberMe管理器
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-        <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
+        rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）
         <property name="cipherKey"
                   value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
         <property name="cookie" ref="rememberMeCookie"/>
-    </bean>
+    </bean> -->
 
     <!-- 会话DAO -->
-    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+    <!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
         <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
-    </bean>
+    </bean> -->
 
     <!-- 会话验证调度器 -->
     <!-- <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
@@ -82,8 +90,8 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="localTourRealm"/>
         <!-- <property name="sessionManager" ref="sessionManager"/> -->
-        <!-- <property name="cacheManager" ref="cacheManager"/> -->
-        <property name="rememberMeManager" ref="rememberMeManager"/>
+       <!--  <property name="cacheManager" ref="cacheManager"/> -->
+        <!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
     </bean>
 
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
@@ -126,7 +134,7 @@
 	            	/admin=anon
 	            	/admin/login=anon
 	            	/admin/logout=authc
-				<!-- 经营状况 -->	
+				<!-- 经营状况 -->
 	            	/operatingStatus=authc,perms[operatingStatus:manage]
 				<!-- 待办事项 -->
 	            	<!--报账审核  -->	
@@ -155,7 +163,6 @@
                 		/localTourManage/auditing=authc,perms["localTour:manage","localTour:auditing"]
                 		/localTourManage/unAuditing=authc,perms["localTour:manage","localTour:unAuditing"]
                 		/localTourManage/finance=authc,perms["localTour:manage","localTour:finance"]
-                		/localTourManage/cancelFinance=authc,perms["localTour:manage","localTour:unFinance"]
                 		/localTourManage/balance=authc,perms["localTour:manage","localTour:balance"]
                 		/localTourManage/findChangeCost=authc,perms["localTour:manage","localTour:findChange"]
                 		/localTourManage/saveChangeCost=authc,perms["localTour:manage","localTour:changeApplication"]
@@ -169,14 +176,14 @@
                 		/reimbursementManage/updateReimbursement=authc,perms["localTour:manage","localTour:reimbursementApplication"]
                 	<!-- 签单管理 -->
                 	/billCheckManage=authc,perms[billCheck:manage]
-                		/billCheckManage/find
-                		/billCheckManage/update
+                		/billCheckManage/find=authc,perms["billCheck:manage","billCheck:find"]
+                		/billCheckManage/update=authc,perms["billCheck:manage","billCheck:billApplication"]
                 <!-- 导游管理 -->
                 	<!-- 导游排团 -->
                 	/guideTimeManage=authc,perms[guideTime:manage]
                 		/guideTimeManage/initialize=authc,perms[guideTime:manage]
                 		/guideTimeManage/save=authc,perms["guideTime:manage","guideTime:save"]
-                		/guideTimeManage/find=authc,perms["guideTime:manage","guideTime:find"]
+                		/guideTimeManage/find=authc,perms["guideTime:manage","guideTime:update"]
                 		/guideTimeManage/update=authc,perms["guideTime:manage","guideTime:update"]
                 	<!-- 导游管理 -->
                 	/guideManage=authc,perms[guide:manage]
@@ -189,6 +196,7 @@
                 	/payManage=authc,perms[pay:manage]
                 		/payManage/find=authc,perms["pay:manage","pay:find"]
                 		/payManage/update=authc,perms["pay:manage","pay:update"]
+                		/localTourManage/cancelFinance=authc,perms["pay:manage","pay:unFinance"]
                 	<!-- 收款管理 -->
                 	/revenueManage=authc,perms[revenue:manage]
                 		/revenueManage/find=authc,perms["revenue:manage","revenue:find"]
@@ -275,18 +283,27 @@
                 	<!-- 用户管理 -->
                 	/userManage=authc,perms[user:manage]
                 		/userManage/save=authc,perms["user:manage","user:save"]
+                		/userManage/initRole=authc,perms["user:manage","user:save"]
+                		/deptManage/getTree=authc,perms["user:manage"]
                 		/userManage/del=authc,perms["user:manage","user:del"]
                 		/userManage/recover=authc,perms["user:manage","user:recover"]
+                		/userManage/find=authc,perms["user:manage","user:update"]
                 		/userManage/update=authc,perms["user:manage","user:update"]
                 		/userManage/reset=authc,perms["user:manage","user:reset"]
+                	<!-- 角色管理 -->
+                	/roleManage=authc,perms[role:manage]
+                		/roleManage/save=authc,perms["role:manage","role:save"]
+                		/roleManage/update=authc,perms["role:manage","role:update"]
+                		/permissionSManage/find=authc,perms["role:manage","role:update"]
+                		/permissionSManage/update=authc,perms["role:manage","role:update"]
                 	<!-- 部门管理 -->
                 	/deptManage=authc,perms[dept:manage]
                 		/userManage/getCreateInfo=authc,perms[dept:manage]
                 		/deptManage/search=authc,perms[dept:manage]
                 		/deptManage/save=authc,perms["dept:manage","dept:save"]
-                		/deptManage/getTree=authc,perms["dept:manage","dept:save"]
+                		/deptManage/getDeptTree=authc,perms["dept:manage","dept:save"]
                 		/deptManage/del=authc,perms["dept:manage","dept:del"]
-                		/deptManage/getUserByDept=authc,perms["dept:manage","dept:find"]
+                		/deptManage/getUserByDept=authc,perms["dept:manage"]
                 	<!-- 部门结构 -->
                 	/deptStructure=authc,perms[deptStructure:manage]
                 		/deptStructure/getTree=authc,perms[deptStructure:manage]

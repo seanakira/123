@@ -26,7 +26,7 @@ DataSourceTree.prototype.data = function(options, callback) {
 	//checkout examples/treeview.html and examples/treeview.js for more info
 };
 
-var tree_data = {
+/*var tree_data = {
 	'for-sale' : {name: 'For Sale', type: 'folder'}	,
 	'vehicles' : {name: 'Vehicles', type: 'folder'}	,
 	'rentals' : {name: 'Rentals', type: 'folder'}	,
@@ -38,9 +38,9 @@ var tree_data = {
 }
 tree_data['for-sale']['additionalParameters'] = {
 	'children' : {
-		'appliances' : {name: 'Appliances', type: 'item'},
-		'arts-crafts' : {name: 'Arts & Crafts', type: 'item'},
-		'clothing' : {name: 'Clothing', type: 'item'},
+		'appliances' : {name: 'Appliances', type: 'folder'},
+		'arts-crafts' : {name: 'Arts & Crafts', type: 'folder'},
+		'clothing' : {name: 'Clothing', type: 'folder'},
 		'computers' : {name: 'Computers', type: 'item'},
 		'jewelry' : {name: 'Jewelry', type: 'item'},
 		'office-business' : {name: 'Office & Business', type: 'item'},
@@ -91,15 +91,6 @@ tree_data['pets']['additionalParameters'] = {
 }
 
 var treeDataSource = new DataSourceTree({data: tree_data});
-
-
-
-
-
-
-
-
-
 
 
 var tree_data_2 = {
@@ -173,4 +164,4 @@ tree_data_2['backup']['additionalParameters'] = {
 		{name: '<i class="icon-archive brown"></i> backup4.zip', type: 'item'}
 	]
 }
-var treeDataSource2 = new DataSourceTree({data: tree_data_2});
+var treeDataSource2 = new DataSourceTree({data: tree_data_2});*/

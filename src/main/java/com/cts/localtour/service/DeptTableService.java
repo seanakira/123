@@ -1,8 +1,8 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import com.cts.localtour.DAO.DeptTableDAO;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.pojo.TreeElement;
+import com.cts.localtour.pojo.TreeChildren;
 import com.cts.localtour.viewModel.DeptViewModel;
+
 @SuppressWarnings("rawtypes")
 @Service
 public class DeptTableService extends BaseService{
@@ -108,9 +111,10 @@ public class DeptTableService extends BaseService{
 		return ((DeptTable)this.merge(deptTable)).getId();
 	}
 
+	@SuppressWarnings("unchecked")
 	public int getCounts(String hql,Hashtable<String,String> params) {
 		if(hql==null){
-		hql = "select count(*) from DeptTable";
+			hql = "select count(*) from DeptTable";
 		}
 		Integer counts = deptTableDAO.getCounts(hql, params);
 		return counts.intValue();
@@ -130,21 +134,89 @@ public class DeptTableService extends BaseService{
 	}
 
 
-	public ArrayList<DeptTable> getTree() {
+	@SuppressWarnings("unchecked")
+	public HashMap<Integer, TreeElement> getTree() {
 		String hql = "from DeptTable d where d.enable=true";
-		return (ArrayList<DeptTable>) deptTableDAO.findHql(hql);
+		ArrayList<DeptTable> depts = (ArrayList<DeptTable>) deptTableDAO.findHql(hql);
+		HashMap<Integer, TreeElement> treeMap = new HashMap<Integer, TreeElement>();
+		int maxLevel = 0;
+		for (DeptTable deptTable : depts) {
+			if(deptTable.getDeptLevel()>maxLevel){
+				maxLevel = deptTable.getDeptLevel();
+			}
+		}
+		for (int i = 1; i <= maxLevel; i++) {
+			TreeChildren children = new TreeChildren();
+			for (DeptTable deptTable : depts) {
+				if(deptTable.getDeptLevel()==i){
+					if(i==1){
+						TreeElement treeElement = new TreeElement();
+						treeElement.setId(deptTable.getId());
+						treeElement.setName(deptTable.getDeptName());
+						treeElement.setType("folder");
+						treeElement.setAdditionalParameters(null);
+						treeMap.put(deptTable.getId(), treeElement);
+					}else if(i==2){
+						TreeElement treeElement = new TreeElement();
+						treeElement.setId(deptTable.getId());
+						treeElement.setName(deptTable.getDeptName());
+						treeElement.setType("folder");
+						treeElement.setAdditionalParameters(null);
+						children.getChildren().put(deptTable.getId(), treeElement);
+						treeMap.get(deptTable.getUpperDeptId()).setAdditionalParameters(children);
+					}else if(i>2){
+						TreeElement treeElement = new TreeElement();
+						treeElement.setId(deptTable.getId());
+						treeElement.setName(deptTable.getDeptName());
+						treeElement.setType("folder");
+						treeElement.setAdditionalParameters(null);
+						children.getChildren().put(deptTable.getId(), treeElement);
+						int[] upId = new int[i-1];
+						int id = deptTable.getUpperDeptId();
+						upId[0] = id;
+						for (int j = 0; j < i-1; j++) {
+							for (DeptTable dept : depts) {
+								if(id==dept.getId()){
+									if(dept.getUpperDeptId()!=null){
+										upId[j+1] = dept.getUpperDeptId();
+										id = dept.getUpperDeptId();
+									}
+								}
+							}
+						}
+						HashMap<Integer, TreeElement> child = treeMap.get(upId[i-2]).getAdditionalParameters().getChildren();
+						for (int j = upId.length-2; j >= 0 ; j--) {
+							if(child.get(upId[j]).getAdditionalParameters()!=null){
+								child = child.get(upId[j]).getAdditionalParameters().getChildren();
+							}
+						}
+						if(child.get(deptTable.getUpperDeptId())!=null){
+							child.get(deptTable.getUpperDeptId()).setAdditionalParameters(children);
+						}
+					}
+				}
+			}
+		}
+		return treeMap;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<DeptTable> getAllStructure(){
 		String hql = "from DeptTable d where d.enable = 1 and d.upperDeptId = null";
 		ArrayList<DeptTable> depts = (ArrayList<DeptTable>)deptTableDAO.findHql(hql);
 		return depts;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<DeptTable> getStructureTree(int upperDeptId){
 		String hql = "from DeptTable d where d.upperDeptId = "+ upperDeptId;
 		ArrayList<DeptTable> depts = (ArrayList<DeptTable>)deptTableDAO.findHql(hql);
 		return depts;
+	}
+
+
+	public ArrayList<DeptTable> getDeptTree() {
+		return (ArrayList<DeptTable>) this.getAllByString("DeptTable", "enable=?", true);
 	}
 
 }

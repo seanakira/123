@@ -2,8 +2,10 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -156,7 +158,14 @@
 									</tr>
 							</tbody>
 						</table>
-						<div id="${changeCosts.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+						<div id="${changeCosts.costTable.id }" class="action" style="margin: 5px;">
+							<shiro:hasPermission name="payApplication:cancal">
+								<button class="btn btn-sm btn-danger cancalCost">驳回</button>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="payApplication:ok">
+								<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
+							</shiro:hasPermission>
+						</div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>

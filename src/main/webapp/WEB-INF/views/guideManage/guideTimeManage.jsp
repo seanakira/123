@@ -2,7 +2,8 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -103,6 +104,7 @@
 <!-- 正文结束 -->	
 
 <!-- 增加模板 -->
+			<shiro:hasPermission name="guideTime:save">
 				<div aria-hidden="true" style="display: none;" id="addModel" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:500px;margin-top: 10%;">
 						<div class="modal-content">
@@ -143,8 +145,10 @@
 						</div>
 					</div>
 				</div>
+			</shiro:hasPermission>
 <!-- 增加模板 结束-->
 <!-- 编辑模板 -->
+			<shiro:hasPermission name="guideTime:update">
 				<div aria-hidden="true" style="display: none;" id="editModel" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width:500px;margin-top: 10%;">
 						<div class="modal-content">
@@ -187,6 +191,7 @@
 						</div>
 					</div>
 				</div>
+			</shiro:hasPermission>
 <!-- 编辑模板 结束-->
 
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>

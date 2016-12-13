@@ -1,9 +1,14 @@
+<%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
 <%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% String path = request.getContextPath()+"/"; %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<% 
+	String path = request.getContextPath()+"/";
+	UserTable user = ((UserTable)SecurityUtils.getSubject().getPrincipal());
+%>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <style type="text/css">
@@ -40,14 +45,18 @@
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar">
-							<a id="cancelFinance" data-toggle="modal" href="#" title="付款申请">
-								<i class="icon-reply bigger-100"></i>
-								取消报送
-							</a>
-							<a id="pay" data-toggle="modal" href="#" title="付款申请">
-								<i class="icon-file-alt bigger-100"></i>
-								付款管理
-							</a>
+							<shiro:hasPermission name="pay:unFinance">
+								<a id="cancelFinance" data-toggle="modal" href="#" title="付款申请">
+									<i class="icon-reply bigger-100"></i>
+									取消报送
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="pay:find">
+								<a id="pay" data-toggle="modal" href="#" title="付款申请">
+									<i class="icon-file-alt bigger-100"></i>
+									付款管理
+								</a>
+							</shiro:hasPermission>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }payManage" method="get">
@@ -438,10 +447,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									保存
-								</button>
+								<shiro:hasPermission name="pay:update">
+									<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -874,7 +885,7 @@
 							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
 							'<td><input style="width:100%;" class="form-control loanAmountInput" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
-							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %><input type="hidden" value="<%=((UserTable)session.getAttribute("user")).getId() %>"></td>'+
+							'<td><%=user.getRealName() %><input type="hidden" value="<%=user.getId() %>"></td>'+
 							'<td>可借<input type="hidden" value="1"/></td>'+
 							'<td><input type="hidden" value="false"/></td>'+
 						'</tr>');

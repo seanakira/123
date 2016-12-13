@@ -1,10 +1,14 @@
+<%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
 <%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% String path = request.getContextPath()+"/"; %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<% 
+	String path = request.getContextPath()+"/";
+	UserTable user = ((UserTable)SecurityUtils.getSubject().getPrincipal());
+%>
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <style type="text/css">
 	#ui-datepicker-div a{
@@ -49,58 +53,84 @@
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar">
-							<a class="blue" id="createTour" data-toggle="modal" href="#create" title="新增团队">
-								<i class="icon-plus bigger-100"></i>
-								新增团队
-							</a>
-							<a class="blue" id="editTour" data-toggle="modal" href="#" title="修改团队">
-								<i class="icon-pencil bigger-100"></i>
-								修改团队
-							</a>
-							<a class="blue" id="auditing" data-toggle="modal" href="#" title="提交审核">
-								<i class="icon-hand-right bigger-100"></i>
-								提交审核
-							</a>
-							<a class="blue" id="unAuditing" data-toggle="modal" href="#" title="退回编辑">
-								<i class="icon-hand-left bigger-100"></i>
-								退回编辑
-							</a>
-							<a class="blue" id="finance" data-toggle="modal" href="#" title="报送财务">
-								<i class="icon-share-alt bigger-100"></i>
-								报送财务
-							</a>
-							<a class="blue" id="lend" data-toggle="modal" href="#" title="导游借款">
-								<i class="icon-user bigger-100"></i>
-								导游借款
-							</a>
-							<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
-								<i class="icon-file-alt bigger-100"></i>
-								付款申请
-							</a>
-							<a class="blue" id="chanageCost" data-toggle="modal" href="#" title="成本收入变更">
-								<i class="icon-tasks bigger-100"></i>
-								成本收入变更
-							</a>
-							<a class="blue" id="loanInvoice" data-toggle="modal" href="#" title="预借发票">
-								<i class="icon-building bigger-100"></i>
-								预借发票
-							</a>
-							<a class="blue" id="balance" data-toggle="modal" href="#" title="申请结算">
-								<i class="icon-table bigger-100"></i>
-								申请结算
-							</a>
-							<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="团队报账">
-								<i class="icon-suitcase bigger-100"></i>
-								团队报账
-							</a>
-							<a class="blue" id="delete" data-toggle="modal" href="#" title="取消团队">
-								<i class="icon-trash bigger-100"></i>
-								取消团队
-							</a>
-							<a class="blue" id="recover" data-toggle="modal" href="#" title="恢复团队">
-								<i class="icon-undo bigger-100"></i>
-								恢复团队
-							</a>
+							<shiro:hasPermission name="localTour:save">
+								<a class="blue" id="createTour" data-toggle="modal" href="#create" title="新增团队">
+									<i class="icon-plus bigger-100"></i>
+									新增团队
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:update">
+								<a class="blue" id="editTour" data-toggle="modal" href="#" title="修改团队">
+									<i class="icon-pencil bigger-100"></i>
+									修改团队
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:auditing">
+								<a class="blue" id="auditing" data-toggle="modal" href="#" title="提交审核">
+									<i class="icon-hand-right bigger-100"></i>
+									提交审核
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:unAuditing">
+								<a class="blue" id="unAuditing" data-toggle="modal" href="#" title="退回编辑">
+									<i class="icon-hand-left bigger-100"></i>
+									退回编辑
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:finance">
+								<a class="blue" id="finance" data-toggle="modal" href="#" title="报送财务">
+									<i class="icon-share-alt bigger-100"></i>
+									报送财务
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:findLoan">
+								<a class="blue" id="lend" data-toggle="modal" href="#" title="导游借款">
+									<i class="icon-user bigger-100"></i>
+									导游借款
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:findPay">
+								<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
+									<i class="icon-file-alt bigger-100"></i>
+									付款申请
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:findChange">
+								<a class="blue" id="chanageCost" data-toggle="modal" href="#" title="成本收入变更">
+									<i class="icon-tasks bigger-100"></i>
+									成本收入变更
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:findBorrowInvoice">
+								<a class="blue" id="loanInvoice" data-toggle="modal" href="#" title="预借发票">
+									<i class="icon-building bigger-100"></i>
+									预借发票
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:balance">
+								<a class="blue" id="balance" data-toggle="modal" href="#" title="申请结算">
+									<i class="icon-table bigger-100"></i>
+									申请结算
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:findReimbursement">
+								<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="团队报账">
+									<i class="icon-suitcase bigger-100"></i>
+									团队报账
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:del">
+								<a class="blue" id="delete" data-toggle="modal" href="#" title="取消团队">
+									<i class="icon-trash bigger-100"></i>
+									取消团队
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:recover">
+								<a class="blue" id="recover" data-toggle="modal" href="#" title="恢复团队">
+									<i class="icon-undo bigger-100"></i>
+									恢复团队
+								</a>
+							</shiro:hasPermission>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }localTourManage" method="get">
@@ -780,10 +810,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									保存
-								</button>
+								<shiro:hasPermission name="localTour:save">
+									<button id="saveNew" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -1656,15 +1688,17 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									保存
-								</button>
+								<shiro:hasPermission name="localTour:update">
+									<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
 				</div>
-<!-- 编辑结束 -->	
+<!-- 编辑结束 -->
 <!-- 成本变更模板-->
 				<div aria-hidden="true" style="display: none;" id="cost" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
@@ -1984,10 +2018,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveChange" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									提交待审
-								</button>
+								<shiro:hasPermission name="localTour:changeApplication">
+									<button id="saveChange" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										提交待审
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2041,10 +2077,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="loanApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									借款申请
-								</button>
+								<shiro:hasPermission name="localTour:loanApplication">
+									<button id="loanApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										借款申请
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2116,10 +2154,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="payApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									付款申请
-								</button>
+								<shiro:hasPermission name="localTour:payApplication">
+									<button id="payApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										付款申请
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2163,10 +2203,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="loanInvoiceApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									申请
-								</button>
+								<shiro:hasPermission name="localTour:borrowInvoiceApplication">
+									<button id="loanInvoiceApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										申请
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2467,10 +2509,12 @@
 									取消
 								</button>
 								<a href="#" id="autoAddReimbursement" style="margin:  20px;">一键填充报账金额</a>
-								<button id="reimbursementApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									保存并提交待审
-								</button>
+								<shiro:hasPermission name="localTour:reimbursementApplication">
+									<button id="reimbursementApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存并提交待审
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2952,7 +2996,7 @@
 				selects.eq(2).append('<option value="'+guides.val()[int]+'">'+names.eq(int).text()+'</option>');
 			} 
 		}
-		selects.eq(2).append('<option value="'+'<%=((UserTable)session.getAttribute("user")).getId()%>'+'">'+'<%=((UserTable)session.getAttribute("user")).getRealName()%>'+'</option>');
+		selects.eq(2).append('<option value="'+'<%=user.getId()%>'+'">'+'<%=user.getRealName()%>'+'</option>');
 		selects.chosen();
 		selects.next().attr("style","width:100%;");
 	});
@@ -3199,8 +3243,8 @@
 		var endTime = new Date(inputs.eq(12).val());
 		var guideIds  = selects.eq(5).val();
 		var remark = inputs.eq(14).val();
-		var userId = '<%=((UserTable)session.getAttribute("user")).getId()%>';
-		var deptId = '<%=((UserTable)session.getAttribute("user")).getDeptId()%>';
+		var userId = '<%=user.getId()%>';
+		var deptId = '<%=user.getDeptId()%>';
 		var status = 0;
 		var enable = true;
 		var days = (endTime-startTime)/1000/60/60/24+1;
@@ -3316,7 +3360,7 @@
 									'<td>'+startTime.getFullYear()+'-'+startTime.getMonth()+'-'+startTime.getDate()+'</td>'+
 									'<td>'+endTime.getFullYear()+'-'+endTime.getMonth()+'-'+endTime.getDate()+'</td>'+
 									'<td>新建</td>'+
-									'<td>'+'<%=((UserTable)session.getAttribute("user")).getRealName()%>'+'</td>'+
+									'<td>'+'<%=user.getRealName()%>'+'</td>'+
 								'</tr>');
 	        		tr.click(function(){
 	        			var checkbox = $(this).find("input");

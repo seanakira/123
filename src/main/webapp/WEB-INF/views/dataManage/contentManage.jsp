@@ -2,7 +2,8 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -18,13 +19,17 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-user"></i>
-								<a id="add" href="#">新增供应内容</a>
+								<a href="#">供应内容管理</a>
 							</li>
-
-							
-							
 						</ul><!-- .breadcrumb -->
-
+						<div class="accessBar" style="display: inline-block;">
+							<shiro:hasPermission name="content:save">
+								<a class="blue" id="add" data-toggle="modal" href="#" title="新增供应内容">
+									<i class="icon-plus bigger-100"></i>
+									新增供应内容
+								</a>
+							</shiro:hasPermission>
+						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }contentManage" method="get">
 								<span class="input-icon">
@@ -119,22 +124,26 @@
 	
 									<td class=" ">
 										<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-											
-	
-											<a id="edit" class="green" href="#">
-												<i class="icon-pencil bigger-130"></i>
-											</a>
+											<shiro:hasPermission name="content:update">
+												<a id="edit" class="green" href="#">
+													<i class="icon-pencil bigger-130"></i>
+												</a>
+											</shiro:hasPermission>
 											<span id="">
 												<c:choose>
 													<c:when test='${content.contentTable.enable }'>
-														<a id="${content.contentTable.id }" class="red" href="#">
-															<i class="icon-trash bigger-130"></i>
-														</a>
+														<shiro:hasPermission name="content:del">
+															<a id="${content.contentTable.id }" class="red" href="#">
+																<i class="icon-trash bigger-130"></i>
+															</a>
+														</shiro:hasPermission>
 													</c:when>
 													<c:otherwise>
-														<a id="${content.contentTable.id }" class="green" href="#">
-															<i class="icon-undo bigger-130"></i>
-														</a>
+														<shiro:hasPermission name="content:recover">
+															<a id="${content.contentTable.id }" class="green" href="#">
+																<i class="icon-undo bigger-130"></i>
+															</a>
+														</shiro:hasPermission>
 													</c:otherwise>
 												</c:choose>
 											</span>

@@ -2,8 +2,10 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -110,7 +112,14 @@
 									</tr>
 							</tbody>
 						</table>
-						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;">
+							<shiro:hasPermission name="changeCost:cancal">
+								<button class="btn btn-sm btn-danger cancalCost">驳回</button>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="changeCost:ok">
+								<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
+							</shiro:hasPermission>
+						</div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>
@@ -149,7 +158,14 @@
 									</tr>
 								</tbody>
 							</table>
-						<div id="${changeIncome.incomeTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalIncome">驳回</button><button class="btn btn-sm btn-success pull-right changeIcome">同意</button></div>
+						<div id="${changeIncome.incomeTable.id }" class="action" style="margin: 5px;">
+							<shiro:hasPermission name="changeIncome:cancal">
+								<button class="btn btn-sm btn-danger cancalIncome">驳回</button>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="changeIncome:ok">
+								<button class="btn btn-sm btn-success pull-right changeIcome">同意</button>
+							</shiro:hasPermission>
+						</div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>

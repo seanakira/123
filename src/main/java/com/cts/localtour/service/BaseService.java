@@ -125,6 +125,9 @@ public class BaseService<T> {
 	@SuppressWarnings("unchecked")
 	public List<T> getAllByStringOrderBy(String tableName, String where , String orderBy, Object... objects){
 		String hql = "from "+tableName+" where "+where+" order by "+orderBy;
+		if(where==null||"".equals(where)){
+			hql = "from "+tableName+" order by "+orderBy;
+		}
 		System.out.println(hql);
 		return baseDAO.getAllByString(hql, objects);
 	}

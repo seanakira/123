@@ -21,21 +21,15 @@ import net.sf.json.JSONObject;
 public class UserService extends BaseService{
 
 	@Autowired
-	UserTableDAO userTableDAO;
+	private UserTableDAO userTableDAO;
+	@Autowired
+	private UserViewModel userViewModel;
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<UserViewModel> getAll(String key, int pageNo, int pageSize) {
-		ArrayList<UserViewModel> userViewModels = new ArrayList<UserViewModel>();
 		if(key.equals("")){
 			ArrayList<UserTable> users = this.getAllByTableName("UserTable", pageNo, pageSize);
-			for (int i = 0; i < users.size(); i++) {
-				UserViewModel userViewModel = new UserViewModel();
-				users.get(i).setPwd("");
-				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getByWhere("DeptTable", "id", users.get(i).getDeptId()+"");
-				userViewModel.setDeptName(dept.get(0).getDeptName());
-				userViewModel.setUserTable(users.get(i));
-				userViewModels.add(userViewModel);
-			}
+			return userViewModel.getAllViewModel(users);
 		}else{
 			String where = "u.userName like :userName or u.realName like :realName";
 			Hashtable<String, String> param = new Hashtable<String, String>();
@@ -43,16 +37,8 @@ public class UserService extends BaseService{
 			param.put("realName", "%"+key+"%");
 			
 			ArrayList<UserTable> users = this.getAllByParam("UserTable u", where, param, pageNo, pageSize);
-			for (int i = 0; i < users.size(); i++) {
-				UserViewModel userViewModel = new UserViewModel();
-				users.get(i).setPwd("");
-				ArrayList<DeptTable> dept = (ArrayList<DeptTable>) this.getByWhere("DeptTable", "id", users.get(i).getDeptId()+"");
-				userViewModel.setDeptName(dept.get(0).getDeptName());
-				userViewModel.setUserTable(users.get(i));
-				userViewModels.add(userViewModel);
-			}
+			return userViewModel.getAllViewModel(users);
 		}
-		return userViewModels;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,20 +63,19 @@ public class UserService extends BaseService{
 	}
 
 	@SuppressWarnings("unchecked")
-	public void update(UserTable user) {
+	public UserTable update(UserTable user) {
 		try {
 			UserTable userTable = (UserTable) userTableDAO.getById(user.getClass(), user.getId());
-			userTable.setDeptId(user.getDeptId());
 			userTable.setPhone(user.getPhone());
 			userTable.setPosition(user.getPosition());
 			userTable.setQq(user.getQq());
-			userTable.setRealName(user.getRealName());
-			userTable.setUserName(user.getUserName());
 			userTableDAO.update(userTable);
+			return userTable;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -175,12 +160,16 @@ public class UserService extends BaseService{
 		UserTable user = this.getByUserName(username);
 		ArrayList<PermissionTable> permissionTables = (ArrayList<PermissionTable>)this.getByHql("SELECT p FROM UserRoleTable u, RolePermissionTable r, PermissionTable p WHERE r.roleId = u.roleId and r.permissionId=p.id and p.enable=true and u.userId= "+user.getId());
 		for (PermissionTable permissionTable : permissionTables) {
-			permissions.add(permissionTable.getPermissionName());
+			permissions.add(permissionTable.getName());
 		}
 		return permissions;
 	}
 
 	public UserTable getByUserName(String username) {
 		return (UserTable) this.getAllByString("UserTable", "userName=?", username).get(0);
+	}
+
+	public UserViewModel find(int userId) {
+		return userViewModel.getViewModelById(userId);
 	}
 }

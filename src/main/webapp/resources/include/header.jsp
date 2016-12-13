@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <!DOCTYPE html>
@@ -211,7 +212,7 @@
 								<img class="nav-user-photo" src="<%=path %>resources/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>操作人</small>
-									${sessionScope.user.realName }
+									<shiro:principal property="realName"/>
 								</span>
 
 								<i class="icon-caret-down"></i>

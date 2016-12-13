@@ -1,9 +1,14 @@
+<%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
 <%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% String path = request.getContextPath()+"/"; %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<% 
+	String path = request.getContextPath()+"/";
+	UserTable user = ((UserTable)SecurityUtils.getSubject().getPrincipal());
+%>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <style type="text/css">
@@ -34,18 +39,24 @@
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar" style="display: inline-block;">
-							<a id="revenue" data-toggle="modal" href="#" title="收款管理" style="padding-left: 10px;">
-								<i class="icon-envelope bigger-100"></i>
-								收款管理
-							</a>
-							<a id="invoice" data-toggle="modal" href="#" title="付款申请" style="padding-left: 10px;">
-								<i class="icon-file-alt bigger-100"></i>
-								开发票
-							</a>
-							<a id="loanInvoice" data-toggle="modal" href="#" title="预借发票" style="padding-left: 10px;">
-								<i class="icon-building bigger-100"></i>
-								预借发票
-							</a>
+							<shiro:hasPermission name="revenue:find">
+								<a id="revenue" data-toggle="modal" href="#" title="收款管理" style="padding-left: 10px;">
+									<i class="icon-envelope bigger-100"></i>
+									收款管理
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="invoice:find">
+								<a id="invoice" data-toggle="modal" href="#" title="付款申请" style="padding-left: 10px;">
+									<i class="icon-file-alt bigger-100"></i>
+									开发票
+								</a>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="loanInvoice:find">
+								<a id="loanInvoice" data-toggle="modal" href="#" title="预借发票" style="padding-left: 10px;">
+									<i class="icon-building bigger-100"></i>
+									预借发票
+								</a>
+							</shiro:hasPermission>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }revenueManage" method="get">
@@ -196,10 +207,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									收款确认
-								</button>
+								<shiro:hasPermission name="revenue:update">
+									<button id="saveEdit" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										收款确认
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -249,10 +262,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="saveInvoice" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									开票
-								</button>
+								<shiro:hasPermission name="invoice:save">
+									<button id="saveInvoice" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										开票
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -294,10 +309,12 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
-								<button id="loanInvoiceSave" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									保存
-								</button>
+								<shiro:hasPermission name="loanInvoice:save">
+									<button id="loanInvoiceSave" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										保存
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -566,7 +583,7 @@
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control invoiceAmount" type="text" placeholder="双击快速添加金额"></td>'+
-							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %><input type="hidden" value="<%=((UserTable)session.getAttribute("user")).getId() %>"></td>'+
+							'<td><%=user.getRealName() %><input type="hidden" value="<%=user.getId() %>"></td>'+
 							'<td><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 						'</tr>');
     		tr.find(".datepicker").datepicker({

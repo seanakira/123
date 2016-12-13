@@ -1,6 +1,7 @@
 package com.cts.localtour.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.cts.localtour.entity.DeptTable;
+import com.cts.localtour.entity.PermissionTable;
+import com.cts.localtour.entity.RolePermissionTable;
+import com.cts.localtour.entity.RoleTable;
+import com.cts.localtour.entity.UserRoleTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.pojo.TreeElement;
 import com.cts.localtour.service.DeptTableService;
+import com.cts.localtour.service.PermissionService;
+import com.cts.localtour.service.RoleService;
 import com.cts.localtour.service.UserService;
 import com.cts.localtour.viewModel.DeptViewModel;
+import com.cts.localtour.viewModel.RolePermissionViewModel;
 import com.cts.localtour.viewModel.UserViewModel;
 
 @Controller
@@ -24,6 +34,12 @@ public class SysManageController {
 	private UserService userService;
 	@Autowired
 	private DeptTableService deptService;
+	@Autowired
+	private RoleService roleService;
+	@Autowired
+	private PermissionService permissionService;
+	@Autowired
+	private RolePermissionViewModel roleViewModel;
 /*
  * 
  * 用户管理
@@ -52,13 +68,34 @@ public class SysManageController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@RequestMapping("/userManage/initRole")
+	public @ResponseBody ArrayList<RoleTable> initRole(){
+		return (ArrayList<RoleTable>) userService.getAllByString("RoleTable", null, null);
+	}
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/userManage/save")
-	public @ResponseBody boolean add(@RequestBody UserTable user){
-		user.setPwd("123456");
-		user.setEnable(true);
-		userService.add(user);
-		userService.addToWeiXin(user);
-		return true;
+	public @ResponseBody int add(@RequestBody UserViewModel userViewModel){
+		int id = 0;
+		if(userViewModel.getUserTable().getUserName()!=null||!"".equals(userViewModel.getUserTable().getUserName())||userViewModel.getUserTable().getDeptId()!=0){
+			userViewModel.getUserTable().setPwd("123456");
+			userViewModel.getUserTable().setEnable(true);
+			try {
+				id = ((UserTable)userService.add(userViewModel.getUserTable())).getId();
+				for (RoleTable roleTable : userViewModel.getRoleTables()) {
+					UserRoleTable userRoleTable = new UserRoleTable();
+					userRoleTable.setRoleId(roleTable.getId());
+					userRoleTable.setUserId(id);
+					userService.add(userRoleTable);
+				}
+			} catch (Exception e) {
+				return -2;
+			}
+			userService.addToWeiXin(userViewModel.getUserTable());
+		}else{
+			return -1;
+		}
+		return id;
 	}
 	
 	@RequestMapping("/userManage/del")
@@ -75,11 +112,27 @@ public class SysManageController {
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/userManage/update")
-	public @ResponseBody boolean update(@RequestBody UserTable user){
-		userService.update(user);
-		userService.updateToWeiXin(user);
-		return true;
+	public @ResponseBody int update(@RequestBody UserViewModel userViewModel){
+		if(userViewModel.getUserTable().getUserName()==null&&userViewModel.getUserTable().getRealName()==null&&userViewModel.getUserTable().getDeptId()==0){
+			userService.deleteByString("UserRoleTable", "userId=?", userViewModel.getUserTable().getId());
+			for (RoleTable roleTable : userViewModel.getRoleTables()) {
+				UserRoleTable userRoleTable = new UserRoleTable();
+				userRoleTable.setRoleId(roleTable.getId());
+				userRoleTable.setUserId(userViewModel.getUserTable().getId());
+				userService.add(userRoleTable);
+			}
+			userService.updateToWeiXin(userService.update(userViewModel.getUserTable()));
+		}else{
+			return -1;
+		}
+		return 1;
+	}
+	
+	@RequestMapping("/userManage/find")
+	public @ResponseBody UserViewModel find(@RequestParam int userId){
+		return userService.find(userId);
 	}
 	
 	@RequestMapping("/userManage/reset")
@@ -136,8 +189,13 @@ public class SysManageController {
 	}
 	
 	@RequestMapping("/deptManage/getTree")
-	public @ResponseBody ArrayList<DeptTable> getTree(){
+	public @ResponseBody HashMap<Integer,TreeElement> getTree(){
 		return deptService.getTree();
+	}
+	
+	@RequestMapping("/deptManage/getDeptTree")
+	public @ResponseBody ArrayList<DeptTable> getDeptTree(){
+		return deptService.getDeptTree();
 	}
 	
 	@RequestMapping("/deptManage/search")
@@ -165,6 +223,37 @@ public class SysManageController {
 		return "/sysManage/deptManage";
 	}
 	
+	/*角色管理*/
+	@RequestMapping("/roleManage")
+	public String getRoleAll(Model md){
+		md.addAttribute("roles", roleViewModel.getRoleViewModel());
+		return "/sysManage/roleManage";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/roleManage/save")
+	public @ResponseBody int saveRole(@RequestBody RoleTable roleTable){
+		return ((RoleTable)roleService.add(roleTable)).getId();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/roleManage/update")
+	public void updateRole(@RequestBody RoleTable roleTable){
+		roleService.update(roleTable);
+	}
+	
+	@RequestMapping("/permissionSManage/find")
+	public @ResponseBody ArrayList<PermissionTable> findPermissions(@RequestParam int roleId){
+		return permissionService.findPermissions(roleId);
+	}
+	
+	@RequestMapping("/permissionSManage/update")
+	public @ResponseBody int savePermissions(@RequestBody ArrayList<RolePermissionTable> rolePermissionTables){
+		permissionService.savePermissions(rolePermissionTables);
+		return 1;
+	}
+	
+	/*部门结构*/
 	@RequestMapping("/deptStructure")
 	public String getDeptStructureAll(Model md){
 		ArrayList<DeptTable> depts = deptService.getAllStructure();
@@ -188,5 +277,10 @@ public class SysManageController {
 	public @ResponseBody UserViewModel getUserView(Model md, @RequestParam int userId){
 		UserViewModel user = userService.getUserView(userId);
 		return user;
+	}
+	
+	@RequestMapping("/tree")
+	public String tree(){
+		return "/sysManage/treeview";
 	}
 }

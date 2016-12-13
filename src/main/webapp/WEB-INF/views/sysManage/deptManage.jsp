@@ -2,7 +2,8 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -22,13 +23,17 @@
 						<ul class="breadcrumb">
 							<li id="menu">
 								<i class="icon-user"></i>
-								<a id="addDept" href="#">新增部门</a>
+								<a href="#">部门管理</a>
 							</li>
-
-							
-							
 						</ul><!-- .breadcrumb -->
-
+						<div class="accessBar" style="display: inline-block;">
+							<shiro:hasPermission name="dept:save">
+								<a id="addDept" data-toggle="modal" href="#addModel" title="新增部门" style="padding-left: 10px;">
+									<i class="icon-plus bigger-100"></i>
+									新增部门
+								</a>
+							</shiro:hasPermission>
+						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="/localtour/deptManage/search">
 								<span class="input-icon">
@@ -105,19 +110,25 @@
 									</td>
 	
 									<td id="${deptViewMode.deptTable.id }">
-										<a id="edit" class="green" href="#">
-											<i class="icon-pencil bigger-130"></i>
-										</a>
+										<shiro:hasPermission name="dept:save">
+											<a id="edit" class="green" href="#">
+												<i class="icon-pencil bigger-130"></i>
+											</a>
+										</shiro:hasPermission>
 										<c:choose>
 											<c:when test='${deptViewMode.deptTable.enable }'>
-												<a class="red" href="#">
-													<i class="icon-trash bigger-130"></i>
-												</a>
+												<shiro:hasPermission name="dept:del">
+													<a class="red" href="#">
+														<i class="icon-trash bigger-130"></i>
+													</a>
+												</shiro:hasPermission>
 											</c:when>
 											<c:otherwise>
-												<a class="green undo" href="#">
-													<i class="icon-undo bigger-130"></i>
-												</a>
+												<shiro:hasPermission name="dept:del">
+													<a class="green undo" href="#">
+														<i class="icon-undo bigger-130"></i>
+													</a>
+												</shiro:hasPermission>
 											</c:otherwise>
 										</c:choose>
 									</td>
@@ -285,7 +296,7 @@
 			$.ajax({
 				type: "POST",  
 				contentType:"application/json;charset=utf-8",  
-				url:"/localtour/deptManage/getTree", 
+				url:"/localtour/deptManage/getDeptTree", 
 				dataType: "json",  
 				async: false,  
 				success:function(data){

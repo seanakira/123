@@ -2,7 +2,8 @@
     pageEncoding="utf-8"%>
 
 <%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -47,10 +48,12 @@
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar" style="display: inline-block;">
 							<div style="display: inline-block;">
-								<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
-									<i class="icon-file-alt bigger-100"></i>
-									付款审核
-								</a>
+								<shiro:hasPermission name="toDoBill:find">
+									<a class="blue" id="pay" data-toggle="modal" href="#" title="付款申请">
+										<i class="icon-file-alt bigger-100"></i>
+										付款审核
+									</a>
+								</shiro:hasPermission>
 							</div>
 						</div>
 						<div class="nav-search" id="nav-search">
@@ -199,14 +202,18 @@
 					       		</div>
 					       	</div>
 							<div class="modal-footer no-margin-top">
-								<button id="cancel" class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
-									<i class="icon-remove"></i>
-									驳回
-								</button>
-								<button id="ok" class="btn btn-sm btn-success pull-right"  data-dismiss="">
-									<i class="icon-qrcode"></i>
-									同意
-								</button>
+								<shiro:hasPermission name="toDoBill:cancel">
+									<button id="cancel" class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+										<i class="icon-remove"></i>
+										驳回
+									</button>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="toDoBill:ok">
+									<button id="ok" class="btn btn-sm btn-success pull-right"  data-dismiss="">
+										<i class="icon-qrcode"></i>
+										同意
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->

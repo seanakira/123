@@ -1,4 +1,4 @@
-package com.cts.localtour.realms;
+package com.cts.localtour.shiro;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -18,13 +18,15 @@ import com.cts.localtour.service.UserService;
 public class localTourRealm extends AuthorizingRealm{
 	@Autowired
 	private UserService userService;
-
+	private static final String OR_OPERATOR = " or ";  
+	private static final String AND_OPERATOR = " and ";  
+	private static final String NOT_OPERATOR = "not "; 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		String username = (String)principals.getPrimaryPrincipal();
+		UserTable user = (UserTable)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(userService.getRolesByUserName(username));
-        authorizationInfo.setStringPermissions(userService.getPermissionsByUserName(username));
+        authorizationInfo.setRoles(userService.getRolesByUserName(user.getUserName()));
+        authorizationInfo.setStringPermissions(userService.getPermissionsByUserName(user.getUserName()));
         return authorizationInfo;
 	}
 
@@ -44,7 +46,7 @@ public class localTourRealm extends AuthorizingRealm{
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getUserName(), //用户名
+                user, //用户名
                 user.getPwd(), //密码
                /* ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt*/
                 getName()  //realm name
@@ -79,5 +81,35 @@ public class localTourRealm extends AuthorizingRealm{
         clearAllCachedAuthenticationInfo();
         clearAllCachedAuthorizationInfo();
     }
-
+    
+    /*扩展支持or and not 关键词  不支持and or混用 */
+    public boolean isPermitted(PrincipalCollection principals, String permission) {  
+        if(permission.contains(OR_OPERATOR)) { 
+            String[] permissions = permission.split(OR_OPERATOR);  
+            for(String orPermission : permissions) {  
+                if(isPermittedWithNotOperator(principals, orPermission)) {  
+                    return true;  
+                }  
+            }  
+            return false;  
+        } else if(permission.contains(AND_OPERATOR)) {  
+            String[] permissions = permission.split(AND_OPERATOR);  
+            for(String orPermission : permissions) {  
+                if(!isPermittedWithNotOperator(principals, orPermission)) {  
+                    return false;  
+                }  
+            }  
+            return true;  
+        } else {  
+            return isPermittedWithNotOperator(principals, permission);  
+        }  
+    }  
+      
+    private boolean isPermittedWithNotOperator(PrincipalCollection principals, String permission) {  
+        if(permission.startsWith(NOT_OPERATOR)) {  
+            return !super.isPermitted(principals, permission.substring(NOT_OPERATOR.length()));  
+        } else {  
+            return super.isPermitted(principals, permission);  
+        }  
+    }  
 }

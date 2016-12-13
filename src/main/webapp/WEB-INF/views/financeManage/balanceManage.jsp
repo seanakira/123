@@ -2,7 +2,8 @@
     pageEncoding="utf-8"%>
 
 <%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -34,10 +35,12 @@
 							</li>
 						</ul><!-- .breadcrumb -->
 						<div class="accessBar" style="display: inline-block;">
-							<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="团队报账">
-								<i class="icon-suitcase bigger-100"></i>
-								团队核销
-							</a>
+							<shiro:hasPermission name="balance:find">
+								<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="团队报账">
+									<i class="icon-suitcase bigger-100"></i>
+									团队核销
+								</a>
+							</shiro:hasPermission>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }balanceManage" method="get">
@@ -420,14 +423,18 @@
 					         	</div>
 					        </div>
 							<div class="modal-footer no-margin-top">
-								<button id="cancel" class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
-									<i class="icon-remove"></i>
-									退回报账
-								</button>
-								<button id="reimbursementApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
-									<i class="icon-save"></i>
-									核销并提交结算
-								</button>
+								<shiro:hasPermission name="balance:cancel">
+									<button id="cancel" class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+										<i class="icon-remove"></i>
+										退回报账
+									</button>
+								</shiro:hasPermission>
+								<shiro:hasPermission name="balance:update">
+									<button id="reimbursementApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										核销并提交结算
+									</button>
+								</shiro:hasPermission>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->

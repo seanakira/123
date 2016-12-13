@@ -2,8 +2,9 @@
     pageEncoding="utf-8"%>
 
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
@@ -104,8 +105,12 @@
 							</tbody>
 						</table>
 						<div id="${loanInvoice.loanInvoiceTable.id }" class="action" style="margin: 5px;">
-							<button class="btn btn-sm btn-danger">驳回</button>
-							<button class="btn btn-sm btn-success pull-right">同意</button>
+							<shiro:hasPermission name="loanInvoiceApplication:cancal">
+								<button class="btn btn-sm btn-danger">驳回</button>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="loanInvoiceApplication:ok">
+								<button class="btn btn-sm btn-success pull-right">同意</button>
+							</shiro:hasPermission>
 						</div>
 						<HR style="margin-top: 0px;">
 					</div>

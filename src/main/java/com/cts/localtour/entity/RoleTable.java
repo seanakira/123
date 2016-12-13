@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-5 15:42:44 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-12-6 17:34:40 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,26 +16,13 @@ import javax.persistence.Table;
 public class RoleTable implements java.io.Serializable {
 
 	private Integer id;
-	private String roleName;
-	private String roleComment;
-	private Boolean enable;
-	private int roleId;
-	private String roleCreator;
+	private String remark;
 
 	public RoleTable() {
 	}
 
-	public RoleTable(String roleName, int roleId) {
-		this.roleName = roleName;
-		this.roleId = roleId;
-	}
-
-	public RoleTable(String roleName, String roleComment, Boolean enable, int roleId, String roleCreator) {
-		this.roleName = roleName;
-		this.roleComment = roleComment;
-		this.enable = enable;
-		this.roleId = roleId;
-		this.roleCreator = roleCreator;
+	public RoleTable(String remark) {
+		this.remark = remark;
 	}
 
 	@Id
@@ -50,49 +37,13 @@ public class RoleTable implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "roleName", nullable = false, length = 16)
-	public String getRoleName() {
-		return this.roleName;
+	@Column(name = "remark", nullable = false, length = 16)
+	public String getRemark() {
+		return this.remark;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	@Column(name = "roleComment", length = 65535)
-	public String getRoleComment() {
-		return this.roleComment;
-	}
-
-	public void setRoleComment(String roleComment) {
-		this.roleComment = roleComment;
-	}
-
-	@Column(name = "enable")
-	public Boolean getEnable() {
-		return this.enable;
-	}
-
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
-	}
-
-	@Column(name = "roleId", nullable = false)
-	public int getRoleId() {
-		return this.roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
-	@Column(name = "roleCreator", length = 45)
-	public String getRoleCreator() {
-		return this.roleCreator;
-	}
-
-	public void setRoleCreator(String roleCreator) {
-		this.roleCreator = roleCreator;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }
