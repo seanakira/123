@@ -630,7 +630,6 @@
 		        		$.each(roleTables,function(){
 		        			roleNames = this.remark+"  "+roleNames;
 		        		});
-		        		alert(roleNames)
 		        		var tds = $("#table").find("#"+id).parent().parent().parent().siblings();
 		        		tds.eq(3).text(roleNames);
 		        		tds.eq(4).text(position);

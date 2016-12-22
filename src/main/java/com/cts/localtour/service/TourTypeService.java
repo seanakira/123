@@ -6,8 +6,6 @@ import java.util.Hashtable;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.TourTypeTable;
-import com.cts.localtour.entity.TourTypeTable;
-import com.cts.localtour.entity.TourTypeTable;
 
 @SuppressWarnings("rawtypes")
 @Service

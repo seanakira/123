@@ -3,17 +3,13 @@ package com.cts.localtour.service;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.DAO.BusinessTypeDAO;
 import com.cts.localtour.entity.BusinessTypeTable;
 
 @SuppressWarnings("rawtypes")
 @Service
 public class BusinessTypeService extends BaseService{
-	@Autowired
-	private BusinessTypeDAO businessTypeDAO;
 	@SuppressWarnings("unchecked")
 	public ArrayList<BusinessTypeTable> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){

@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-6 17:34:40 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-12-22 12:25:28 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +51,7 @@ public class PermissionTable implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "remark", nullable = false, length = 16)
+	@Column(name = "remark", nullable = false, length = 32)
 	public String getRemark() {
 		return this.remark;
 	}

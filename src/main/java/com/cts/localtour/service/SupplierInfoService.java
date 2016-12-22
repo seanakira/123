@@ -1,6 +1,9 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,5 +127,45 @@ public class SupplierInfoService extends BaseService{
 	
 	public String getSupplierName(int supplierId){
 		return ((SupplierTable)this.getById("SupplierTable", supplierId)).getSupplierName();
+	}
+	
+	public HashMap<String, Date> getSettlementDateFromTo(int supplierId){
+		/*默认账期三个月*/
+		int accountPeriod = 3;
+		Date to = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(to);
+		calendar.add(Calendar.MONTH, -2);
+		Date from = calendar.getTime();
+		SupplierTable supplierTable = (SupplierTable)this.getById("SupplierTable", supplierId);
+		if((supplierTable.getAccountPeriod()!=null&&supplierTable.getAccountPeriod()!=0)&&supplierTable.getAccountDate()!=null){
+			Calendar accountDate = Calendar.getInstance();
+			accountDate.setTime(supplierTable.getAccountDate());
+			Calendar now = Calendar.getInstance();
+			now.setTime(to);
+			int year = now.get(Calendar.YEAR)-accountDate.get(Calendar.YEAR);
+			if(year<0){
+				from = new Date(0);
+				to = supplierTable.getAccountDate();
+			}else{
+				int month = year*12+now.get(Calendar.MONTH)-accountDate.get(Calendar.MONTH);
+				int period = month/accountPeriod;
+				if(period==0){
+					
+				}else{
+					period = period+1;
+				}
+				now.setTime(supplierTable.getAccountDate());
+				now.add(Calendar.MONTH, period*accountPeriod-accountPeriod);
+				from = now.getTime();
+				accountDate.setTime(supplierTable.getAccountDate());
+				accountDate.add(Calendar.MONTH, period*accountPeriod);
+				to = accountDate.getTime();
+			}
+		}
+		HashMap<String, Date> fromTo = new HashMap<String, Date>();
+		fromTo.put("from", from);
+		fromTo.put("to", to);
+		return fromTo;
 	}
 }

@@ -1,3 +1,4 @@
+<%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
@@ -813,7 +814,7 @@
 							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
 							'<td><input style="width:100%;" class="form-control loanAmountInput" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
-							'<td><%=((UserTable)session.getAttribute("user")).getRealName() %><input type="hidden" value="<%=((UserTable)session.getAttribute("user")).getId() %>"></td>'+
+							'<td><%=((UserTable)SecurityUtils.getSubject().getPrincipal()).getRealName() %><input type="hidden" value="<%=((UserTable)SecurityUtils.getSubject().getPrincipal()).getId() %>"></td>'+
 							'<td>可借</td>'+
 							'<td><a title="借款确认" href="#" class="green" id="loanOk" hidden=""><i class="icon-ok bigger-130"></i></a></td>'+
 						'</tr>');

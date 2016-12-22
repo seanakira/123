@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -315,13 +315,14 @@ public class TourController {
 		}
 		return 0;
 	}
+	/*成本收入变更*/
 	@RequestMapping("/localTourManage/findChangeCost")
 	public @ResponseBody ChangeCostIncomeViewModel findChangeCost(@RequestParam int tourId){
 		return localTourService.chanageCostIncomeFind(tourId);
 	}
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/saveChangeCost")
-	public @ResponseBody int saveChangeCost(@RequestBody ChangeCostIncomeViewModel changeCostIncomeViewModel, HttpServletRequest request, HttpSession session){
+	public @ResponseBody int saveChangeCost(@RequestBody ChangeCostIncomeViewModel changeCostIncomeViewModel, HttpServletRequest request){
 		/*添加成本*/
 		if(!changeCostIncomeViewModel.getCostTables().isEmpty()){
 			for (int i = 0; i < changeCostIncomeViewModel.getCostTables().size(); i++) {
@@ -329,6 +330,7 @@ public class TourController {
 					return -4;
 				}else{
 					changeCostIncomeViewModel.getCostTables().get(i).setStatus(1);
+					changeCostIncomeViewModel.getCostTables().get(i).setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					costService.add(changeCostIncomeViewModel.getCostTables().get(i));
 				}
 			}
@@ -341,13 +343,14 @@ public class TourController {
 				}else{
 					changeCostIncomeViewModel.getIncomeTables().get(i).setStatus(1);
 					changeCostIncomeViewModel.getIncomeTables().get(i).setIncomed(false);
+					changeCostIncomeViewModel.getIncomeTables().get(i).setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					incomeService.add(changeCostIncomeViewModel.getIncomeTables().get(i));
 				}
 			}
 		}
 		if(!changeCostIncomeViewModel.getCostTables().isEmpty()||!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
 			/*这里或许需要判断用户权限*/
-			localTourService.sendMassage("changeCostIncomeApproval", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有待审核的<变更成本收入>，点击进行审核", request, session);
+			localTourService.sendMassage("changeCostIncomeApplication", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有待审核的<变更成本收入>，点击进行审核");
 		}
 		return 0;
 	}
@@ -357,10 +360,10 @@ public class TourController {
 		return localTourService.findLend(tourId);
 	}
 	@RequestMapping("/localTourManage/loanApplication")
-	public void loanApplication(@RequestParam int tourId, @RequestParam String ids, HttpServletRequest request, HttpSession session){
+	public void loanApplication(@RequestParam int tourId, @RequestParam String ids, HttpServletRequest request){
 		if(!"".equals(ids)){
-			localTourService.loanApplication(ids, session);
-			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<导游借款>，点击进行审核", request, session);
+			localTourService.loanApplication(ids);
+			localTourService.sendMassage("loanApplication", tourId, 2, "您有待审核的<导游借款>，点击进行审核");
 		}
 	}
 	/*付款管理*/
@@ -369,10 +372,10 @@ public class TourController {
 		return localTourService.findPay(tourId);
 	}
 	@RequestMapping("/localTourManage/payApplication")
-	public void payApplication(@RequestBody FullPayViewModel full, HttpServletRequest request, HttpSession session){
+	public void payApplication(@RequestBody FullPayViewModel full, HttpServletRequest request){
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
-			localTourService.payApplication(full.getCostTables(), full.getChangeCostTables(),session);
-			localTourService.sendMassage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有待审核的<付款申请>，点击进行审核", request, session);
+			localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
+			localTourService.sendMassage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有待审核的<付款申请>，点击进行审核");
 		}
 		
 	}
@@ -384,10 +387,10 @@ public class TourController {
 	}
 	
 	@RequestMapping("/localTourManage/saveBorrowInvoice")
-	public @ResponseBody int saveBorrowInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables, HttpServletRequest request, HttpSession session){
+	public @ResponseBody int saveBorrowInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables, HttpServletRequest request){
 		int errorCode = 0;
 		ArrayList<LoanInvoiceTable> loanInvoices = new ArrayList<LoanInvoiceTable>();
-		int applicationerId = ((UserTable) session.getAttribute("user")).getId();
+		int applicationerId = ((UserTable) SecurityUtils.getSubject().getPrincipal()).getId();
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount()==0){
 				errorCode = -1;
@@ -400,7 +403,7 @@ public class TourController {
 		if(errorCode==0){
 			localTourService.saveBorrowInvoice(loanInvoices);
 			if(!loanInvoiceTables.isEmpty()){
-				localTourService.sendMassage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有待审核的<预借发票>，点击进行审核", request, session);
+				localTourService.sendMassage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有待审核的<预借发票>，点击进行审核");
 			}
 		}
 		return errorCode;
@@ -413,7 +416,7 @@ public class TourController {
 	}
 	
 	@RequestMapping("/reimbursementManage/updateReimbursement")
-	public @ResponseBody int updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpSession sessione){
+	public @ResponseBody int updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpServletRequest request){
 		int errorCode = 0;
 		for (CostTable costTable : full.getCostTables()) {
 			if(((CostTable)localTourService.getById("CostTable", costTable.getId())).getReimbursement()!=null){
@@ -432,7 +435,12 @@ public class TourController {
 			return errorCode;
 		}
 		if(errorCode == 0){
-			localTourService.updateReimbursement(full,sessione);
+			if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()){
+				localTourService.updateReimbursement(full);
+				if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){
+					localTourService.sendMassage("reimbursementApplication", full.getReimbursementTable().getTourId(), 0, "您有待审核的<团队报账>，点击进行审核");
+				}
+			}
 		}
 		return errorCode;
 	}
@@ -466,7 +474,7 @@ public class TourController {
 	}
 	
 	@RequestMapping("/billCheckManage/update")
-	public void updateBill(@RequestBody FullBillViewModel full, HttpSession session){
-		billService.updateBill(full, session);
+	public void updateBill(@RequestBody FullBillViewModel full){
+		billService.updateBill(full);
 	}
 }

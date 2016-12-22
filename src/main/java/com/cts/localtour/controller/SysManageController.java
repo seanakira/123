@@ -76,26 +76,7 @@ public class SysManageController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/userManage/save")
 	public @ResponseBody int add(@RequestBody UserViewModel userViewModel){
-		int id = 0;
-		if(userViewModel.getUserTable().getUserName()!=null||!"".equals(userViewModel.getUserTable().getUserName())||userViewModel.getUserTable().getDeptId()!=0){
-			userViewModel.getUserTable().setPwd("123456");
-			userViewModel.getUserTable().setEnable(true);
-			try {
-				id = ((UserTable)userService.add(userViewModel.getUserTable())).getId();
-				for (RoleTable roleTable : userViewModel.getRoleTables()) {
-					UserRoleTable userRoleTable = new UserRoleTable();
-					userRoleTable.setRoleId(roleTable.getId());
-					userRoleTable.setUserId(id);
-					userService.add(userRoleTable);
-				}
-			} catch (Exception e) {
-				return -2;
-			}
-			userService.addToWeiXin(userViewModel.getUserTable());
-		}else{
-			return -1;
-		}
-		return id;
+		return userService.addUser(userViewModel);
 	}
 	
 	@RequestMapping("/userManage/del")

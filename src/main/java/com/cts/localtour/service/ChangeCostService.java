@@ -3,14 +3,15 @@ package com.cts.localtour.service;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.ChangeCostTable;
-import com.cts.localtour.entity.SupplierTable;
+import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.pojo.BillInfo;
 import com.cts.localtour.pojo.CostInfo;
 
@@ -64,48 +65,16 @@ public class ChangeCostService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public BillInfo getBillInfo(int supplierId){
+	public BillInfo getBillTodoInfo(int supplierId){
 		BillInfo billInfo = new BillInfo();
 		BigDecimal billSum = new BigDecimal(0);
 		BigDecimal applicationSum = new BigDecimal(0);
 		BigDecimal willRemittanceSum = new BigDecimal(0);
 		BigDecimal remittancedSum = new BigDecimal(0);
-		/*默认账期三个月*/
-		int accountPeriod = 3;
-		Date to = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(to);
-		calendar.add(Calendar.MONTH, -2);
-		Date from = calendar.getTime();
-		SupplierTable supplierTable = (SupplierTable)this.getById("SupplierTable", supplierId);
-		if((supplierTable.getAccountPeriod()!=null&&supplierTable.getAccountPeriod()!=0)&&supplierTable.getAccountDate()!=null){
-			Calendar accountDate = Calendar.getInstance();
-			Calendar now = Calendar.getInstance();
-			now.setTime(to);
-			accountDate.setTime(supplierTable.getAccountDate());
-			int year = now.get(Calendar.YEAR)-accountDate.get(Calendar.YEAR);
-			if(year<0){
-				from = to;
-				to = supplierTable.getAccountDate();
-			}else{
-				int month = year*12+now.get(Calendar.MONTH)-accountDate.get(Calendar.MONTH);
-				int period = month/accountPeriod;
-				if(period==0){
-					period = 2;
-				}
-				if(month%accountPeriod>0){
-					period = period+1;
-				}
-				now.setTime(supplierTable.getAccountDate());
-				now.add(Calendar.MONTH, period*accountPeriod-accountPeriod);
-				from = now.getTime();
-				accountDate.setTime(supplierTable.getAccountDate());
-				accountDate.add(Calendar.MONTH, period*accountPeriod);
-				to = accountDate.getTime();
-				billInfo.setSettlementDate(new SimpleDateFormat("yyyy-MM-dd").format(to));
-			}
-		}
-		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "supplierId=? and bill=true and status=3 and costDate between ? and ?", supplierId, from, to);
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+		int payStatus = this.getRoleCode()-1;
+		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getByHql("SELECT c FROM ChangeCostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.remittanced=false and c.status=3 and c.tourId=l.id and c.payStatus="+payStatus+" and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
 		for (ChangeCostTable costTable : costTables) {
 			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
@@ -118,6 +87,66 @@ public class ChangeCostService extends BaseService{
 				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()));
 			}
 		}
+		billInfo.setEmpty(costTables.isEmpty());
+		billInfo.setBillSum(billSum);
+		billInfo.setApplicationSum(applicationSum);
+		billInfo.setWillRemittanceSum(willRemittanceSum);
+		billInfo.setRemittancedSum(remittancedSum);
+		return billInfo;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public BillInfo getBillInfo(int supplierId){
+		BillInfo billInfo = new BillInfo();
+		BigDecimal billSum = new BigDecimal(0);
+		BigDecimal applicationSum = new BigDecimal(0);
+		BigDecimal willRemittanceSum = new BigDecimal(0);
+		BigDecimal remittancedSum = new BigDecimal(0);
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getByHql("SELECT c FROM ChangeCostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.remittanced=false and c.status=3 and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
+		for (ChangeCostTable costTable : costTables) {
+			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
+			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
+				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+			}
+			if(costTable.getPayStatus()==3){
+				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()));
+			}
+			if(costTable.isRemittanced()){
+				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()));
+			}
+		}
+		billInfo.setEmpty(costTables.isEmpty());
+		billInfo.setBillSum(billSum);
+		billInfo.setApplicationSum(applicationSum);
+		billInfo.setWillRemittanceSum(willRemittanceSum);
+		billInfo.setRemittancedSum(remittancedSum);
+		return billInfo;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public BillInfo getBillInfo(int supplierId, int payStatus){
+		BillInfo billInfo = new BillInfo();
+		BigDecimal billSum = new BigDecimal(0);
+		BigDecimal applicationSum = new BigDecimal(0);
+		BigDecimal willRemittanceSum = new BigDecimal(0);
+		BigDecimal remittancedSum = new BigDecimal(0);
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "supplierId=? and bill=true and status=3 and payStatus=? and costDate between ? and ?", supplierId, payStatus, fromTo.get("from"), fromTo.get("to"));
+		for (ChangeCostTable costTable : costTables) {
+			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
+			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
+				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+			}
+			if(costTable.getPayStatus()==3){
+				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()));
+			}
+			if(costTable.isRemittanced()){
+				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()));
+			}
+		}
+		billInfo.setEmpty(costTables.isEmpty());
 		billInfo.setBillSum(billSum);
 		billInfo.setApplicationSum(applicationSum);
 		billInfo.setWillRemittanceSum(willRemittanceSum);

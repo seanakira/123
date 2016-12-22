@@ -1,9 +1,11 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-6 17:34:40 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-12-22 12:25:28 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,8 +18,8 @@ import javax.persistence.TemporalType;
 @Table(name = "notificationTable", catalog = "localtour")
 public class NotificationTable implements java.io.Serializable {
 
-	private int notificationId;
-	private Date time;
+	private Integer notificationId;
+	private Date sendTime;
 	private Integer deptId;
 	private Integer userId;
 	private String content;
@@ -27,14 +29,9 @@ public class NotificationTable implements java.io.Serializable {
 	public NotificationTable() {
 	}
 
-	public NotificationTable(int notificationId) {
-		this.notificationId = notificationId;
-	}
-
-	public NotificationTable(int notificationId, Date time, Integer deptId, Integer userId, String content, Boolean all,
+	public NotificationTable(Date sendTime, Integer deptId, Integer userId, String content, Boolean all,
 			Boolean enable) {
-		this.notificationId = notificationId;
-		this.time = time;
+		this.sendTime = sendTime;
 		this.deptId = deptId;
 		this.userId = userId;
 		this.content = content;
@@ -43,24 +40,25 @@ public class NotificationTable implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "notificationId", unique = true, nullable = false)
-	public int getNotificationId() {
+	public Integer getNotificationId() {
 		return this.notificationId;
 	}
 
-	public void setNotificationId(int notificationId) {
+	public void setNotificationId(Integer notificationId) {
 		this.notificationId = notificationId;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "time", length = 19)
-	public Date getTime() {
-		return this.time;
+	@Column(name = "sendTime", length = 19)
+	public Date getSendTime() {
+		return this.sendTime;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setSendTime(Date sendTime) {
+		this.sendTime = sendTime;
 	}
 
 	@Column(name = "deptId")

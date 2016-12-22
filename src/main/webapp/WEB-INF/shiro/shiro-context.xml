@@ -9,17 +9,17 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 缓存管理器 -->
-    <!-- <bean id="cacheManager" class="com.cts.localtour.shiro.CacheManager">
+    <bean id="cacheManager" class="com.cts.localtour.shiro.CacheManager">
         <property name="cacheManager" ref="springCacheManager"/>
-    </bean>  -->
+    </bean>
     <!-- spring cache -->
-    <!-- <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="ehcacheManager"/>
-    </bean> -->
+    </bean>
     <!--ehcache-->
-    <!-- <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="/WEB-INF/shiro/ehcache.xml"/>
-    </bean> -->
+    </bean>
     
     <!-- 凭证匹配器 -->
     <!-- <bean id="credentialsMatcher" class="com.github.zhangkaitao.shiro.chapter16.credentials.RetryLimitHashedCredentialsMatcher">
@@ -33,10 +33,12 @@
     <bean id="localTourRealm" class="com.cts.localtour.shiro.localTourRealm">
         <!-- <property name="credentialsMatcher" ref="credentialsMatcher"/> -->
         <property name="cachingEnabled" value="false"/>
+        <!-- 身份缓存 -->
         <!--<property name="authenticationCachingEnabled" value="true"/>-->
         <!--<property name="authenticationCacheName" value="authenticationCache"/>-->
-        <!--<property name="authorizationCachingEnabled" value="true"/>-->
-        <!--<property name="authorizationCacheName" value="authorizationCache"/>-->
+        <!-- 权限缓存 -->
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
     </bean>
 
     <!-- 会话ID生成器 -->
@@ -90,7 +92,7 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="localTourRealm"/>
         <!-- <property name="sessionManager" ref="sessionManager"/> -->
-       <!--  <property name="cacheManager" ref="cacheManager"/> -->
+       	<property name="cacheManager" ref="cacheManager"/>
         <!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
     </bean>
 
@@ -328,6 +330,10 @@
                 	/mobile/loanInvoiceApplication=authc,perms[loanInvoiceApplication:manage]
                 		/mobile/loanInvoiceApplicationOk=authc,perms["loanInvoiceApplication:manage","loanInvoiceApplication:ok"]
                 		/mobile/loanInvoiceApplicationCancel=authc,perms["loanInvoiceApplication:manage","loanInvoiceApplication:cancal"]
+                	<!-- 报账审核 -->
+                	/mobile/reimbursementApplication=authc,perms[reimbursementApplication:manage]
+                		/mobile/reimbursementApplicationOk=authc,perms["reimbursementApplication:manage","reimbursementApplication:ok"]
+                		/mobile/reimbursementApplicationCancel=authc,perms["reimbursementApplication:manage","reimbursementApplication:cancal"]
                 <!-- 其他 -->
                 	<!-- 修改资料-->
                 	/profile=authc

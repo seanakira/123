@@ -57,7 +57,7 @@
 							</div>
 						</div>
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="${path }billCheckManage" method="get">
+							<form class="form-search" action="${path }toDoBill" method="get">
 								<span class="input-icon">
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
@@ -143,15 +143,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/billCheckManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="/localtour/toDoBill?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/billCheckManage?page=${page }&key=${key }">${page }</a>
+												<a href="/localtour/toDoBill?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/billCheckManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="/localtour/toDoBill?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -414,7 +414,7 @@
 				var inputs = $("#payTable").find(":checked");
 				$.each(inputs,function(){
 					var tr = $(this).parent().parent().parent();
-					if(tr.attr("class")!="change"){
+					if(tr.attr("class")!="blue"){
 						costIds.push(tr.attr("id"));
 					}else{
 						changeCostIds.push(tr.attr("id"));

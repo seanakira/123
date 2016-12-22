@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-6 17:34:40 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-12-22 12:25:28 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,25 +24,27 @@ public class UserTable implements java.io.Serializable {
 	private String phone;
 	private String qq;
 	private String email;
-	private String weiXinId;
 	private boolean weiXinMessageSwitch;
+	private String headImg;
+	private String dataDeptIds;
 	private boolean enable;
 
 	public UserTable() {
 	}
 
 	public UserTable(String userName, String realName, String pwd, int deptId, boolean weiXinMessageSwitch,
-			boolean enable) {
+			String dataDeptIds, boolean enable) {
 		this.userName = userName;
 		this.realName = realName;
 		this.pwd = pwd;
 		this.deptId = deptId;
 		this.weiXinMessageSwitch = weiXinMessageSwitch;
+		this.dataDeptIds = dataDeptIds;
 		this.enable = enable;
 	}
 
 	public UserTable(String userName, String realName, String pwd, int deptId, String position, String phone, String qq,
-			String email, String weiXinId, boolean weiXinMessageSwitch, boolean enable) {
+			String email, boolean weiXinMessageSwitch, String headImg, String dataDeptIds, boolean enable) {
 		this.userName = userName;
 		this.realName = realName;
 		this.pwd = pwd;
@@ -51,8 +53,9 @@ public class UserTable implements java.io.Serializable {
 		this.phone = phone;
 		this.qq = qq;
 		this.email = email;
-		this.weiXinId = weiXinId;
 		this.weiXinMessageSwitch = weiXinMessageSwitch;
+		this.headImg = headImg;
+		this.dataDeptIds = dataDeptIds;
 		this.enable = enable;
 	}
 
@@ -140,15 +143,6 @@ public class UserTable implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "weiXinId", length = 30)
-	public String getWeiXinId() {
-		return this.weiXinId;
-	}
-
-	public void setWeiXinId(String weiXinId) {
-		this.weiXinId = weiXinId;
-	}
-
 	@Column(name = "weiXinMessageSwitch", nullable = false)
 	public boolean isWeiXinMessageSwitch() {
 		return this.weiXinMessageSwitch;
@@ -156,6 +150,24 @@ public class UserTable implements java.io.Serializable {
 
 	public void setWeiXinMessageSwitch(boolean weiXinMessageSwitch) {
 		this.weiXinMessageSwitch = weiXinMessageSwitch;
+	}
+
+	@Column(name = "headImg", length = 50)
+	public String getHeadImg() {
+		return this.headImg;
+	}
+
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
+	}
+
+	@Column(name = "dataDeptIds", nullable = false, length = 20)
+	public String getDataDeptIds() {
+		return this.dataDeptIds;
+	}
+
+	public void setDataDeptIds(String dataDeptIds) {
+		this.dataDeptIds = dataDeptIds;
 	}
 
 	@Column(name = "enable", nullable = false)

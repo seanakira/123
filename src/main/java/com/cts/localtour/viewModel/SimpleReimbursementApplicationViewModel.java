@@ -131,7 +131,11 @@ public class SimpleReimbursementApplicationViewModel {
 			reimbursementApplicationViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomedSum()).floatValue());
 			reimbursementApplicationViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
 			reimbursementApplicationViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
-			reimbursementApplicationViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
+			if(incomeInfo.getRealIncomeSum().floatValue()==0){
+				reimbursementApplicationViewModel.setRealGrossMargin("0");
+			}else{
+				reimbursementApplicationViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
+			}
 			reimbursementApplicationViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
 			if(reimbursementApplicationTable.getStatus()==0){
 				reimbursementApplicationViewModel.setStatus("´ýÉó");

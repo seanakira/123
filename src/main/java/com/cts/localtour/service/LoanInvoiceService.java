@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 

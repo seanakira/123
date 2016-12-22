@@ -23,9 +23,13 @@
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://221.0.171.134:6666/localtour?characterEncoding=utf-8" />
+		<property name="url" value="jdbc:mysql://192.168.0.248/localtour?characterEncoding=utf-8" />
 		<property name="username" value="root"></property>
 		<property name="password" value="123456"></property>
+		
+		<!-- <property name="url" value="jdbc:mysql://139.129.27.70:3306/localtour?characterEncoding=utf-8" />
+		<property name="username" value="zhangtian"></property>
+		<property name="password" value="ctssd123"></property> -->
 	</bean>
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/> <!-- 1、指定数据源 -->

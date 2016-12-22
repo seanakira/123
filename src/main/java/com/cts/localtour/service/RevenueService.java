@@ -2,8 +2,7 @@ package com.cts.localtour.service;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,14 +53,14 @@ public class RevenueService extends BaseService{
 	}
 
 	@SuppressWarnings("unchecked")
-	public int updateRevenue(FullRevenueViewModel fullRevenueViewModel, HttpSession session) {
+	public int updateRevenue(FullRevenueViewModel fullRevenueViewModel) {
 		int errorCode = 0;
 		for (IncomeTable incomeTable : fullRevenueViewModel.getIncomeTables()) {
 			IncomeTable income = (IncomeTable)this.getById("IncomeTable", incomeTable.getId());
 			if(income.getRealIncome()==0){
 				income.setRealIncome(incomeTable.getRealIncome());
 				income.setRemark(incomeTable.getRemark());
-				income.setHandlerId(((UserTable)session.getAttribute("user")).getId());
+				income.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				this.update(income);
 			}else{
 				errorCode = -1;/*±£¥Ê ß∞‹*/
@@ -72,7 +71,7 @@ public class RevenueService extends BaseService{
 			if(income.getRealIncome()==0){
 				income.setRealIncome(incomeTable.getRealIncome());
 				income.setRemark(incomeTable.getRemark());
-				income.setHandlerId(((UserTable)session.getAttribute("user")).getId());
+				income.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				this.update(income);
 			}else{
 				errorCode = -1;/*±£¥Ê ß∞‹*/

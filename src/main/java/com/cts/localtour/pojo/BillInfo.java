@@ -8,6 +8,7 @@ public class BillInfo {
 	private BigDecimal applicationSum;
 	private BigDecimal willRemittanceSum;
 	private BigDecimal remittancedSum;
+	private boolean empty;
 	public BigDecimal getBillSum() {
 		return billSum;
 	}
@@ -37,5 +38,11 @@ public class BillInfo {
 	}
 	public void setSettlementDate(String settlementDate) {
 		this.settlementDate = settlementDate;
+	}
+	public boolean isEmpty() {
+		return empty;
+	}
+	public void setEmpty(boolean empty) {
+		this.empty = empty;
 	}
 }

@@ -20,24 +20,28 @@ public class FullReimbursementApplicationViewModel {
 	private String budgetIncomeSumInfo;
 	private float budgetGrossProfit;
 	private float budgetGrossMargin;
+	
 	private float executeCostSum;
 	private String executeCostSumInfo;
 	private float executeIncomeSum;
 	private String executeIncomeSumInfo;
 	private float executeGrossProfit;
 	private float executeGrossMargin;
+	
 	private float willCostSum;
 	private String willCostSumInfo;
 	private float willIncomeSum;
 	private String willIncomeSumInfo;
 	private float willGrossProfit;
 	private float willGrossMargin;
+	
 	private float realCostSum;
 	private String realCostSumInfo;
 	private float realIncomeSum;
 	private String realIncomeSumInfo;
 	private float realGrossProfit;
 	private float realGrossMargin;
+	
 	private float reimbursementCostSum;
 	private String reimbursementCostSumInfo;
 	private float reimbursementIncomeSum;

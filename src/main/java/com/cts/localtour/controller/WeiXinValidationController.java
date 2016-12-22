@@ -1,46 +1,47 @@
-package com.cts.localtour.controller;
-
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.cts.localtour.entity.UserTable;
-import com.cts.localtour.service.UserService;
-import com.cts.localtour.util.WeiXinUtil;
-
-import net.sf.json.JSONObject;
-
-@Controller
-@SessionAttributes("user")
-public class WeiXinValidationController {
-	@Autowired
-	private UserService userService;
-	@RequestMapping("/weixin")
-	public void test(){
-		
-	}
+//package com.cts.localtour.controller;
+//
+//
+//import java.io.IOException;
+//import java.io.UnsupportedEncodingException;
+//import java.util.ArrayList;
+//
+//import javax.servlet.ServletException;
+//import javax.servlet.http.Cookie;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpSession;
+//
+//import org.apache.shiro.SecurityUtils;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.ui.Model;
+//import org.springframework.web.bind.annotation.CookieValue;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.SessionAttributes;
+//
+//import com.cts.localtour.entity.UserTable;
+//import com.cts.localtour.service.UserService;
+//import com.cts.localtour.util.WeiXinUtil;
+//
+//import net.sf.json.JSONObject;
+//
+//@Controller
+//@SessionAttributes("user")
+//public class WeiXinValidationController {
+//	@Autowired
+//	private UserService userService;
+//	@RequestMapping("/weixin")
+//	public void test(){
+//		
+//	}
 //	@SuppressWarnings("unchecked")
 //	@RequestMapping("/weixin")
 //	public void redirect(@RequestParam(defaultValue="") String controller, @RequestParam(defaultValue="") String parm, HttpSession session,  HttpServletRequest request, HttpServletResponse response, @CookieValue("userId") String userId, @RequestParam(defaultValue="") String code, @RequestParam(defaultValue="") String state, Model md){
 //		/*≈–∂œsession «∑ÒŒ™ø’*/
 //		System.out.println(controller+"  "+parm+"  "+code+" "+state);
 //		if(!"".equals(controller)&&!"".equals(parm)&&"".equals(code)&&"".equals(state)){
-//			UserTable user = (UserTable) session.getAttribute("user");
+//			UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
 //			if(user==null){
 //				/*≈–∂œ «∑Ò”–cookie*/
 //				if("".equals(userId)||userId==null){
@@ -128,4 +129,4 @@ public class WeiXinValidationController {
 //        	return;
 //		}
 //	}
-}
+//}

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.cts.localtour.DAO.UserTableDAO;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.PermissionTable;
+import com.cts.localtour.entity.RoleTable;
+import com.cts.localtour.entity.UserRoleTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.UserViewModel;
@@ -107,26 +109,73 @@ public class UserService extends BaseService{
 		user.setDeptName(deptTemp.get(0).getDeptName());
 		return user;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public int addUser(UserViewModel userViewModel){
+		int id = 0;
+		if(userViewModel.getUserTable().getUserName()!=null||!"".equals(userViewModel.getUserTable().getUserName())||userViewModel.getUserTable().getDeptId()!=0){
+			userViewModel.getUserTable().setPwd("123456");
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			ids.add(userViewModel.getUserTable().getDeptId());
+			ArrayList<Integer> idsCache = (ArrayList<Integer>) ids.clone();
+			while (true) {
+				String in = idsCache.toString().substring(1, idsCache.toString().length()-1);
+				ArrayList<DeptTable> deptTables = (ArrayList<DeptTable>) this.getByHql("FROM DeptTable WHERE upperDeptID in ("+in+")");
+				if (deptTables.size()==0) {
+					break;
+				}else{
+					idsCache.clear();
+					for (DeptTable deptTable : deptTables) {
+						idsCache.add(deptTable.getId());
+					}
+					ids.addAll(idsCache);
+				}
+			}
+			userViewModel.getUserTable().setDataDeptIds(ids.toString().substring(1, ids.toString().length()-1));
+			userViewModel.getUserTable().setEnable(true);
+			try {
+				id = ((UserTable)this.add(userViewModel.getUserTable())).getId();
+				for (RoleTable roleTable : userViewModel.getRoleTables()) {
+					UserRoleTable userRoleTable = new UserRoleTable();
+					userRoleTable.setRoleId(roleTable.getId());
+					userRoleTable.setUserId(id);
+					this.add(userRoleTable);
+				}
+			} catch (Exception e) {
+				return -2;
+			}
+			this.addToWeiXin(userViewModel.getUserTable());
+		}else{
+			return -1;
+		}
+		return id;
+	}
 
 	public void addToWeiXin(UserTable user) {
 		if(user.getPhone().equals("")||user.getPhone()==null){
 			user.setPhone("0000000000000");
 		}
-		JSONObject error = WeiXinUtil.addUser(user.getUserName(), user.getRealName(), "1", user.getPhone());
+		/*添加微信通讯录*/
+		/*JSONObject error = WeiXinUtil.addUser(user.getUserName(), user.getRealName(), "1", user.getPhone());
 		if(!error.getString("errmsg").equals("created")){
 			System.out.println(error.toString());
-		}
+		}*/
 	}
 
+	/*public void updateToWeiXin(UserTable user) {
+		JSONObject error = WeiXinUtil.updateUser(user.getUserName()+"@ctssd.com",user.getRealName(), user.getPosition(), user.getPhone(), user.getEmail(), user.getWeiXinId());
+		if(!error.getString("errmsg").equals("updated")){
+			System.out.println(error.toString());
+		}
+	}*/
 	public void updateToWeiXin(UserTable user) {
-		JSONObject error = WeiXinUtil.updateUser(user.getUserName(),user.getRealName(), user.getPosition(), user.getPhone(), user.getEmail(), user.getWeiXinId());
+		JSONObject error = WeiXinUtil.updateUser(user.getUserName()+"@ctssd.com",user.getRealName(), user.getPosition(), user.getPhone(), user.getEmail());
 		if(!error.getString("errmsg").equals("updated")){
 			System.out.println(error.toString());
 		}
 	}
-	
 	public void changWeiXinEnable(String userName, String enable){
-		JSONObject error = WeiXinUtil.changEnable(userName, enable);
+		JSONObject error = WeiXinUtil.changEnable(userName+"@ctssd.com", enable);
 		if(!error.getString("errmsg").equals("updated")){
 			System.out.println(error.toString());
 		}
@@ -149,9 +198,15 @@ public class UserService extends BaseService{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashSet<String> getRolesByUserName(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		HashSet<String> roles = new HashSet<String>();
+		UserTable user = this.getByUserName(username);
+		ArrayList<RoleTable> roleTables = (ArrayList<RoleTable>) this.getByHql("SELECT r FROM UserRoleTable u, RoleTable r WHERE u.roleId=r.id AND u.userId="+user.getId());
+		for (RoleTable roleTable : roleTables) {
+			roles.add(roleTable.getRemark());
+		}
+		return roles;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -215,6 +215,7 @@ public class DeptTableService extends BaseService{
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<DeptTable> getDeptTree() {
 		return (ArrayList<DeptTable>) this.getAllByString("DeptTable", "enable=?", true);
 	}

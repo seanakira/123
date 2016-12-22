@@ -7,7 +7,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% 
 	String path = request.getContextPath()+"/";
-	UserTable user = ((UserTable)SecurityUtils.getSubject().getPrincipal());
+	UserTable user = (UserTable)SecurityUtils.getSubject().getPrincipal();
 %>
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <style type="text/css">

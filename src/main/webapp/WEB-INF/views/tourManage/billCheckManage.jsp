@@ -167,7 +167,7 @@
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
 								<div class="table-header">
-									报账审核
+									签单管理
 						 		</div>
 						  	</div>
 						  	<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">可付款项</div>
@@ -182,9 +182,9 @@
 														<span class="lbl"></span>
 													</label>
 												</th>
-												<th style="width: 9%;">成本日期</th>
 												<th style="width: 9%;">团号</th>
 												<th style="width: 9%;">团名</th>
+												<th style="width: 9%;">成本日期</th>
 												<th style="width: 9%;">内容</th>
 												<th style="width: 9%;">成本</th>
 												<th style="width: 9%;">数量</th>
@@ -208,9 +208,9 @@
 						         	<table class="table table-striped table-bordered table-hover no-margin">
 										<thead>
 											<tr>
-												<th style="width: 9%;">成本日期</th>
 												<th style="width: 9%;">团号</th>
 												<th style="width: 9%;">团名</th>
+												<th style="width: 9%;">成本日期</th>
 												<th style="width: 9%;">内容</th>
 												<th style="width: 9%;">成本</th>
 												<th style="width: 9%;">数量</th>
@@ -365,12 +365,10 @@
 							}
 						});
 						$.each(data.changeCosts,function(){
-				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0){
-				        		bill.html(this.costTable.reimbursement.toFixed(2));
-				        	}
 				        	if(this.costTable.reimbursement!=0&&this.costTable.cost!=0&&this.costTable.reimbursement!=null){
 				        		bill.html(this.costTable.reimbursement.toFixed(2));
 				        	}
+				        	
 				        	var tr = $('<tr id="'+this.costTable.id+'" class="blue">'+
 												'<td class="center  sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
 												'<td>'+this.localTourTable.tourNo+'</td>'+
@@ -392,6 +390,7 @@
 								$("#canPay").append(tr);
 							}
 						});
+
 						/* 设置无记录 */
 						if($("#canPay").children("tr").length==0){
 							$("#canPay").parent().hide();
@@ -437,7 +436,7 @@
 		$("#payApplication").click(function(){
 			var costTables = new Array();
 			var changeCostTables = new Array();
-			var inputs = $("#canPay").find("input");
+			var inputs = $("#canPay").find("input.ace");
 			if($("#canPay").find("input.ace:checked").length==0){
 				$("#payApplication").attr("data-dismiss","");
 				alert("没有选择要申请的付款项");
@@ -451,12 +450,14 @@
 						if(tr.attr("class")!="blue"){
 							costTables.push({
 								id:tr.attr("id"),
-								supplierId:supplierId
+								supplierId:supplierId,
+								reimbursement:tr.find("input").eq(1).val()
 							});
 						}else{
 							changeCostTables.push({
 								id:tr.attr("id"),
-								supplierId:supplierId
+								supplierId:supplierId,
+								reimbursement:tr.find("input").eq(1).val()
 							});
 						}
 						appSum = appSum + parseFloat(tr.children("td").eq(9).text());

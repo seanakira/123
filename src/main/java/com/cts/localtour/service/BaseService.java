@@ -1,19 +1,16 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.DAO.BaseDAO;
-import com.cts.localtour.entity.BusinessTypeTable;
-import com.cts.localtour.entity.LocalTourTable;
-import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 @Service
 public class BaseService<T> {
 	@Autowired
@@ -70,15 +67,15 @@ public class BaseService<T> {
 		return counts.intValue();
 	}
 	
+	public int getCountsByHql(String hql) {
+		Integer counts = baseDAO.getCounts(hql, null);
+		return counts.intValue();
+	}
+	
 	public int getCountsAll(String tableName) {
 		String hql = "select count(*) from "+tableName;
 		Integer counts = baseDAO.getCounts(hql,null);
 		return counts.intValue();
-	}
-	
-	public Integer getCountsByString(String tableName, String where ,Object... objects){
-		String hql = "select count(*) from "+tableName+" where "+where;
-		return baseDAO.getCountsByString(hql, objects);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -191,5 +188,16 @@ public class BaseService<T> {
 	public List getSumByColumnName(String tableName, String columnName,String as,String where, Object... objects){
 		String hql = "select sum("+columnName+") as "+as+" from "+tableName+" where "+where;
 		return baseDAO.getAllByString(hql, objects);
+	}
+	
+	/*获取角色*/
+	public int getRoleCode(){
+		if(SecurityUtils.getSubject().hasRole("中心经理")){
+			return 2;
+		}
+		if(SecurityUtils.getSubject().hasRole("总经理")){
+			return 3;
+		}
+		return 0;
 	}
 }

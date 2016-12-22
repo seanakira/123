@@ -83,7 +83,7 @@ public class WeiXinUtil {
 			if(null==url||"".equals(url)){
 				content = txt;
 			}else{
-				content = "<a href='"+url+"'>"+txt+"</a>";
+				content = "<a href=\""+url+"\">"+txt+"</a>";
 			}
 			text.element("content", content);
 			message.element("text", text);
@@ -116,7 +116,7 @@ public class WeiXinUtil {
 		return tempContextUrl.toString();
 	}
 	/*添加通讯录*/
-	public static JSONObject addUser(String userid, String name, String department, String mobile){
+	/*public static JSONObject addUser(String userid, String name, String department, String mobile){
 		String requestUrl = create_user_url.replace("ACCESS_TOKEN", accessToken);
 		JSONObject user = new JSONObject();
 		user.element("userid", userid);
@@ -125,10 +125,10 @@ public class WeiXinUtil {
 		user.element("mobile", mobile);
 		JSONObject error = httpRequest(requestUrl, "POST", user.toString());
 		return error;
-	}
+	}*/
 	
 	/*更新通讯录*/
-	public static JSONObject updateUser(String userid, String name, String position, String mobile, String email, String weixinid) {
+	public static JSONObject updateUser(String userid, String name, String position, String mobile, String email) {
 		String requestUrl = update_user_url.replace("ACCESS_TOKEN", accessToken);
 		JSONObject user = new JSONObject();
 		user.element("userid", userid);
@@ -136,7 +136,7 @@ public class WeiXinUtil {
 		user.element("position", position);
 		user.element("mobile", mobile);
 		user.element("email", email);
-		user.element("weixinid", weixinid);
+		/*user.element("weixinid", weixinid);*/
 		JSONObject error = httpRequest(requestUrl, "POST", user.toString());
 		return error;
 	}

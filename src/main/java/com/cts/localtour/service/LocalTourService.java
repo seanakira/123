@@ -3,9 +3,7 @@ package com.cts.localtour.service;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,13 +57,13 @@ public class LocalTourService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
-			ArrayList<LocalTourTable> localTours = this.getAllByTableName("LocalTourTable", page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")", null, page, maxResults);
 			return setMd(localTours);
 		}else{
 			Hashtable<String, String> param = new Hashtable<String, String>();
 			param.put("tourNO", "%"+key+"%");
 			param.put("tourName", "%"+key+"%");
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "tourNO like :tourNO or tourName like :tourName", param, page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")", param, page, maxResults);
 			return setMd(localTours);
 		}
 	}
@@ -73,7 +71,6 @@ public class LocalTourService extends BaseService{
 		ArrayList<SimpleLocalTourViewModel> simpleLocalTourViewModels = new ArrayList<SimpleLocalTourViewModel>();
 		for (int i = 0; i < localTours.size(); i++) {
 			SimpleLocalTourViewModel simpleLocalTourViewModel = new SimpleLocalTourViewModel();
-//			String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", localTours.get(i).getRegionId()+"")).get(0).getRegionName();
 			String realName = ((UserTable)this.getById("UserTable", localTours.get(i).getUserId())).getRealName();
 			
 			simpleLocalTourViewModel.setLocalTourTable(localTours.get(i));
@@ -210,8 +207,8 @@ public class LocalTourService extends BaseService{
 		return changeCostIncomeViewModel.getAllChangeCostIncomeViewModel(tourId);
 	}
 	
-	public void sendMassage(String mobileControllerMapping, int tourId, int status, String message, HttpServletRequest request, HttpSession session){
-		mobileService.sendMessage(mobileControllerMapping, tourId, status, message, request, session);
+	public void sendMassage(String mobileControllerMapping, int tourId, int status, String message){
+		mobileService.sendMessage(mobileControllerMapping, tourId, status, message);
 	}
 	
 	public ArrayList<LoanViewModel> findLend(int tourId) {
@@ -230,12 +227,12 @@ public class LocalTourService extends BaseService{
 		return pay;
 	}
 	@SuppressWarnings("unchecked")
-	public void payApplication(ArrayList<CostTable> costTables, ArrayList<ChangeCostTable> changeCostTables, HttpSession session) {
+	public void payApplication(ArrayList<CostTable> costTables, ArrayList<ChangeCostTable> changeCostTables) {
 		for (CostTable cost : costTables) {
 			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
 			if(costTable.getPayStatus()==0){
 				costTable.setPayStatus(1);
-				costTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
+				costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				costTable.setRealCost(cost.getRealCost());
 				this.update(costTable);
 			}
@@ -244,20 +241,20 @@ public class LocalTourService extends BaseService{
 			ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
 			if(changeCostTable.getPayStatus()==0){
 				changeCostTable.setPayStatus(1);
-				changeCostTable.setPayApplicationerId(((UserTable)session.getAttribute("user")).getId());
+				changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				changeCostTable.setRealCost(changeCost.getRealCost());
 				this.update(changeCostTable);
 			}
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public void loanApplication(String ids, HttpSession session) {
+	public void loanApplication(String ids) {
 		String[] idss = ids.split(",");
 		for (String id : idss) {
 			LoanTable loanTable = (LoanTable)this.getById("LoanTable", Integer.parseInt(id));
 			if(loanTable.getStatus()==1){
 				loanTable.setStatus(2);
-				loanTable.setApplicationerId(((UserTable)session.getAttribute("user")).getId());
+				loanTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				this.update(loanTable);
 			}
 		}
@@ -276,18 +273,19 @@ public class LocalTourService extends BaseService{
 		return fullReimbursementViewModel.getFullReimbursementViewModel(tourId);
 	}
 	@SuppressWarnings("unchecked")
-	public void updateReimbursement(FullReimbursementViewModel full,HttpSession sessione) {
+	public void updateReimbursement(FullReimbursementViewModel full) {
 		for (CostTable costTable : full.getCostTables()) {
 			this.updateByString("CostTable", "reimbursement=?", "id=?", costTable.getReimbursement(),costTable.getId());
 		}
 		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
 			this.updateByString("ChangeCostTable", "reimbursement=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getId());
 		}
+		/*添加人头费*/
 		this.add(full.getReimbursementTable());
 		if(this.getAllByString("ReimbursementApplicationTable", "tourId=?", full.getReimbursementTable().getTourId()).isEmpty()){
 			ReimbursementApplicationTable reimbursementApplicationTable = new ReimbursementApplicationTable();
 			reimbursementApplicationTable.setTourId(full.getReimbursementTable().getTourId());
-			reimbursementApplicationTable.setDeptId(((UserTable)sessione.getAttribute("user")).getDeptId());
+			reimbursementApplicationTable.setDeptId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId());
 			this.add(reimbursementApplicationTable);
 		}
 	}

@@ -2,7 +2,6 @@ package com.cts.localtour.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -116,8 +115,8 @@ public class FinanceController {
 	}
 	
 	@RequestMapping("/revenueManage/update")
-	public @ResponseBody int updateRevenue(@RequestBody FullRevenueViewModel full, HttpSession session){
-		return revenueService.updateRevenue(full, session);
+	public @ResponseBody int updateRevenue(@RequestBody FullRevenueViewModel full){
+		return revenueService.updateRevenue(full);
 	}
 	
 	/*∑¢∆±π‹¿Ì*/
@@ -292,6 +291,6 @@ public class FinanceController {
 	
 	@RequestMapping("/billManage/update")
 	public void updateBill(@RequestBody FullBillViewModel full){
-		billService.updateBill(full);
+		billService.remittanceBill(full);
 	}
 }

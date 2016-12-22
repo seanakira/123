@@ -52,13 +52,13 @@ public class ToDoController {
 	
 	@RequestMapping("/toDoReimbursement/ok")
 	public String okReimbursementApplication(@RequestParam int tourId){
-		reimbursementApplicationService.okReimbursementApplication(tourId);
+		reimbursementApplicationService.reimbursementApplicationOk(tourId);
 		return "/mobile/applicationOk";
 	}
 	
 	@RequestMapping("/toDoReimbursement/cancel")
 	public void cancelReimbursementApplication(@RequestParam int tourId){
-		reimbursementApplicationService.cancelReimbursementApplication(tourId);
+		reimbursementApplicationService.reimbursementApplicationCancel(tourId);
 	}
 	
 	@RequestMapping("/toDoReimbursement/checkStatus")
@@ -90,17 +90,15 @@ public class ToDoController {
 	}
 	
 	@RequestMapping("/toDoBill/find")
-	/*这里需要判断用户权限 如果是中心经理1 总经理2*/
 	public @ResponseBody FullBillViewModel findbillApplication(@RequestParam int supplierId){
-		return billApplicationService.findbillApplication(supplierId,1);
+		return billApplicationService.findbillApplication(supplierId);
 	}
 	
 	@RequestMapping("/toDoBill/ok")
-	/*这里需要判断用户权限 如果是中心经理2 总经理3*/
 	public String okbillApplication(@RequestParam int supplierId, @RequestParam String costIds, @RequestParam String changeCostIds){
 		String[] costIDs = costIds.split("-");
 		String[] changeCostIDs = changeCostIds.split("-");
-		billApplicationService.okbillApplication(supplierId,costIDs,changeCostIDs,2);
+		billApplicationService.okbillApplication(supplierId,costIDs,changeCostIDs);
 		return "/mobile/applicationOk";
 	}
 	
