@@ -22,10 +22,10 @@ public class PayService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimplPayViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "status>=2 and status<=5", null, page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "status>=2 and status<=7", null, page, maxResults);
 			return simplPayViewModel.getAllSimplPayViewModel(localTours);
 		}else{
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=5", null, page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=7", null, page, maxResults);
 			return simplPayViewModel.getAllSimplPayViewModel(localTours);
 		}
 	}

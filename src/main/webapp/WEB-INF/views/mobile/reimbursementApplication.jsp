@@ -121,8 +121,8 @@
 								</tbody>
 							</table>
 							<div id="${tour.id }" class="action" style="margin: 5px;">
-								<shiro:hasPermission name="reimbursementApplication:cancal">
-									<button class="btn btn-sm btn-danger cancalCost">驳回</button>
+								<shiro:hasPermission name="reimbursementApplication:cancel">
+									<button class="btn btn-sm btn-danger cancelCost">驳回</button>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="reimbursementApplication:ok">
 									<button class="btn btn-sm btn-success pull-right changeCost">同意</button>

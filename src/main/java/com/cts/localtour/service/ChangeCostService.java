@@ -140,10 +140,10 @@ public class ChangeCostService extends BaseService{
 				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
 			if(costTable.getPayStatus()==3){
-				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()));
+				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
 			if(costTable.isRemittanced()){
-				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()));
+				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
 		}
 		billInfo.setEmpty(costTables.isEmpty());

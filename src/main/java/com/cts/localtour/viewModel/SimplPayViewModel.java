@@ -101,14 +101,26 @@ public class SimplPayViewModel {
 			simplPayViewModel.setWillPay(loanInfo.getWillLoanSum().add(costInfo.getWillCostSum()).add(changeCostInfo.getWillCostSum()).floatValue());
 			simplPayViewModel.setRealPay(loanInfo.getRealLoanSum().add(costInfo.getRealCostSum()).add(changeCostInfo.getRealCostSum()).floatValue());
 			simplPayViewModel.setRealName(((UserTable) baseService.getById("UserTable", localTourTable.getUserId())).getRealName());
-			if(localTourTable.getStatus()==2){
+			if(localTourTable.getStatus()==0){
+				simplPayViewModel.setStatus("新建");
+			}else if (localTourTable.getStatus()==1) {
+				simplPayViewModel.setStatus("已提交");
+			}else if (localTourTable.getStatus()==2) {
 				simplPayViewModel.setStatus("已报送");
-			}else if(localTourTable.getStatus()==3){
+			}else if (localTourTable.getStatus()==3) {
 				simplPayViewModel.setStatus("可借款");
-			}else if(localTourTable.getStatus()==4){
+			}else if (localTourTable.getStatus()==4) {
 				simplPayViewModel.setStatus("进行中");
-			}else if(localTourTable.getStatus()==5){
+			}else if (localTourTable.getStatus()==5) {
 				simplPayViewModel.setStatus("已结束");
+			}else if (localTourTable.getStatus()==6) {
+				simplPayViewModel.setStatus("结算中");
+			}else if (localTourTable.getStatus()==7) {
+				simplPayViewModel.setStatus("已报账");
+			}else if (localTourTable.getStatus()==8) {
+				simplPayViewModel.setStatus("已核销");
+			}else if (localTourTable.getStatus()==9) {
+				simplPayViewModel.setStatus("已结算");
 			}
 			simplPayViewModels.add(simplPayViewModel);
 		}

@@ -113,8 +113,8 @@
 							</tbody>
 						</table>
 						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="changeCost:cancal">
-								<button class="btn btn-sm btn-danger cancalCost">驳回</button>
+							<shiro:hasPermission name="changeCost:cancel">
+								<button class="btn btn-sm btn-danger cancelCost">驳回</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="changeCost:ok">
 								<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
@@ -159,8 +159,8 @@
 								</tbody>
 							</table>
 						<div id="${changeIncome.incomeTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="changeIncome:cancal">
-								<button class="btn btn-sm btn-danger cancalIncome">驳回</button>
+							<shiro:hasPermission name="changeIncome:cancel">
+								<button class="btn btn-sm btn-danger cancelIncome">驳回</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="changeIncome:ok">
 								<button class="btn btn-sm btn-success pull-right changeIcome">同意</button>
@@ -170,7 +170,7 @@
 					</div>
 					</c:forEach>
 					<div style="text-align: center;">
-						<a id="changed" href="<%=path %>mobile/changeCostIncomeApplication?tourId=${tour.id }&status=-1">点击查看本团成本收入变更记录</a>
+						<a id="changed" href="<%=path %>mobile/changeCostIncomeApplication?id=${tour.id }&status=-1">点击查看本团成本收入变更记录</a>
 					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">
@@ -242,14 +242,14 @@
 			 });
 		});
 		
-		$(".cancalCost").click(function(){
+		$(".cancelCost").click(function(){
 			var id = $(this).parent().attr("id");
 			$(this).parent().parent().remove();
 			var myData = {id:id};
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/cancalCost",  
+		        url:"/localtour/mobile/cancelCost",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -257,14 +257,14 @@
 		        }
 			 });
 		});
-		$(".cancalIncome").click(function(){
+		$(".cancelIncome").click(function(){
 			var id = $(this).parent().attr("id");
 			$(this).parent().parent().remove();
 			var myData = {id:id};
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/cancalIncome",  
+		        url:"/localtour/mobile/cancelIncome",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

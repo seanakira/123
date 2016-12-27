@@ -130,14 +130,14 @@ public class SupplierInfoService extends BaseService{
 	}
 	
 	public HashMap<String, Date> getSettlementDateFromTo(int supplierId){
-		/*默认账期三个月*/
-		int accountPeriod = 3;
 		Date to = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(to);
-		calendar.add(Calendar.MONTH, -2);
+		calendar.add(Calendar.MONTH, -3);
 		Date from = calendar.getTime();
 		SupplierTable supplierTable = (SupplierTable)this.getById("SupplierTable", supplierId);
+		/*默认账期三个月*/
+		int accountPeriod = supplierTable.getAccountPeriod()==null?3:supplierTable.getAccountPeriod();
 		if((supplierTable.getAccountPeriod()!=null&&supplierTable.getAccountPeriod()!=0)&&supplierTable.getAccountDate()!=null){
 			Calendar accountDate = Calendar.getInstance();
 			accountDate.setTime(supplierTable.getAccountDate());

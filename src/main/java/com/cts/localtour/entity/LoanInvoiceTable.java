@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-22 12:25:28 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-12-27 10:39:04 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -21,7 +21,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 
 	private Integer id;
 	private int tourId;
-	private String invoiceName;
+	private int customerAgencyId;
 	private String invoiceContent;
 	private Integer invoiceNo;
 	private float invoiceAmount;
@@ -34,18 +34,20 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	public LoanInvoiceTable() {
 	}
 
-	public LoanInvoiceTable(int tourId, float invoiceAmount, Date issueDate, int issueUserId, int status) {
+	public LoanInvoiceTable(int tourId, int customerAgencyId, float invoiceAmount, Date issueDate, int issueUserId,
+			int status) {
 		this.tourId = tourId;
+		this.customerAgencyId = customerAgencyId;
 		this.invoiceAmount = invoiceAmount;
 		this.issueDate = issueDate;
 		this.issueUserId = issueUserId;
 		this.status = status;
 	}
 
-	public LoanInvoiceTable(int tourId, String invoiceName, String invoiceContent, Integer invoiceNo,
+	public LoanInvoiceTable(int tourId, int customerAgencyId, String invoiceContent, Integer invoiceNo,
 			float invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, String remark, int status) {
 		this.tourId = tourId;
-		this.invoiceName = invoiceName;
+		this.customerAgencyId = customerAgencyId;
 		this.invoiceContent = invoiceContent;
 		this.invoiceNo = invoiceNo;
 		this.invoiceAmount = invoiceAmount;
@@ -77,13 +79,13 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.tourId = tourId;
 	}
 
-	@Column(name = "invoiceName", length = 40)
-	public String getInvoiceName() {
-		return this.invoiceName;
+	@Column(name = "customerAgencyId", nullable = false)
+	public int getCustomerAgencyId() {
+		return this.customerAgencyId;
 	}
 
-	public void setInvoiceName(String invoiceName) {
-		this.invoiceName = invoiceName;
+	public void setCustomerAgencyId(int customerAgencyId) {
+		this.customerAgencyId = customerAgencyId;
 	}
 
 	@Column(name = "invoiceContent", length = 65535)

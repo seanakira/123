@@ -77,7 +77,7 @@ public class WeiXinUtil {
 			JSONObject message = new JSONObject();
 			message.element("touser", touser);
 			message.element("msgtype", "text");
-			message.element("agentid", "0");
+			message.element("agentid", "11");/*”¶”√id*/
 			JSONObject text = new JSONObject();
 			String content = "";
 			if(null==url||"".equals(url)){
@@ -176,7 +176,8 @@ public class WeiXinUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String requestUrl = code_url.replace("CORPID", "wxbd28a656750d3724").replace("REDIRECT_URI", redirect_uri).replace("STATE", state);
+		/*String requestUrl = code_url.replace("CORPID", "wxbd28a656750d3724").replace("REDIRECT_URI", redirect_uri).replace("STATE", state);*/
+		String requestUrl = code_url.replace("CORPID", "wxc0469422cfd3e1a7").replace("REDIRECT_URI", redirect_uri).replace("STATE", state);
 		try {
 			response.sendRedirect(requestUrl);
 		} catch (IOException e) {

@@ -26,6 +26,7 @@
 	.brown{
 		color:brown;
 	}
+	
 	@media only screen and (max-width:1280px) {
 		.gainsboro{
 			display: none;
@@ -451,49 +452,49 @@
 					         			<div class="tabbable tabs-left">
 					         			<ul class="nav nav-tabs" style="width: 10%;text-align: center;">
 											<li class="active">
-												<a data-toggle="tab" href="#flight">
+												<a data-toggle="tab" href="#flight0">
 													<i class="red icon-large icon-plane"></i>
 													机票
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#hotel">
+												<a data-toggle="tab" href="#hotel0">
 													<i class="pink icon-large icon-building"></i>
 													订房
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#meal">
+												<a data-toggle="tab" href="#meal0">
 													<i class="orange icon-large icon-food"></i>
 													订餐
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#ticket">
+												<a data-toggle="tab" href="#ticket0">
 													<i class="green icon-large icon-hdd"></i>
 													门票
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#shuttle">
+												<a data-toggle="tab" href="#shuttle0">
 													<i class="dark icon-large icon-truck"></i>
 													订车
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#tickets">
+												<a data-toggle="tab" href="#tickets0">
 													<i class="blue icon-large icon-list-alt"></i>
 													票务
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#comprehensive">
+												<a data-toggle="tab" href="#comprehensive0">
 													<i class="purple icon-large icon-money"></i>
 													综费
 												</a>
 											</li>
 											<li>
-												<a data-toggle="tab" href="#other">
+												<a data-toggle="tab" href="#other0">
 													<i class="black icon-large icon-leaf"></i>
 													其他
 												</a>
@@ -2287,7 +2288,22 @@
 													</a>
 												</li>
 											</ul>
-											<div class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
+											<div id="reimbursementPrintDiv" class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
+												<style type="text/css">
+													@media print{
+														table{
+															font-size: 12px;
+															border-collapse: collapse;
+														}
+														td{
+															border: 1px solid;
+														}
+														h3{
+															text-align: center;
+														}
+													}
+													
+												</style>
 												<div id="flight5" class="tab-pane in active">
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
@@ -2515,6 +2531,10 @@
 										保存并提交待审
 									</button>
 								</shiro:hasPermission>
+								<button id="reimbursementPrint" class="btn btn-sm btn-success pull-right" data-dismiss="modal" style="margin-right: 10px;">
+									<i class="icon-save"></i>
+									打印报账单
+								</button>
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -2526,6 +2546,13 @@
 <script src="${path }resources/assets/js/chosen.jquery.min.js"></script>
 <!-- 日历组件依赖 -->
 <script src="${path }resources/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+<!-- 打印组件依赖 -->
+<script src="${path }resources/assets/js/jquery.PrintArea.js"></script>
+<!-- 这个插件还提供了一些参数可配置，使用的方法：$（element).printArea(option).
+参数设置：
+1.mode：模式，当点击打印按钮时触发模式，默认为iframe，当设置为popup则会新开一个窗口页面打印。
+2.popTitle：设置新开窗口的标题，默认为空。
+3.popClose：完成打印后是否关闭窗口，默认为false。  -->
 
 <script type="text/javascript">$(function(){
 	/* 初始化 */
@@ -2636,7 +2663,7 @@
 	});
 	
 	/* 点击本行选中复选框 */
-	$("#table").find("td").not(".sorting_1").click(function(){
+	$("#table").delegate("td:not(.sorting_1)","click",function(){
 		var checkbox = $(this).siblings().eq(0).find("input");
 		if(checkbox.prop("checked")){
 			checkbox.prop("checked",false);
@@ -3934,7 +3961,6 @@
 			        		departInfo.append(tr);
 			        		$("#edit").find("#departTime").attr("id","");
 			        	});
-						
 						/* 设置成本 */
 			        	var flight = $("#flight3").find("tbody");
 			        	var hotel = $("#hotel3").find("tbody");
@@ -4167,7 +4193,8 @@
 			    			tbody.append(tr);
 			    			var inputs = tr.find("input");
 			    			var td = tr.children("td");
-			    			inputs.eq(0).val(this.incomeTable.incomeDate.replace(/-/g,'/'));
+			    			this.incomeTable.incomeDate
+			    			inputs.eq(0).val(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'));
 			    			tr.find("select").eq(0).val(this.incomeTable.customerAgencyId);
 			    			inputs.eq(1).val(this.incomeTable.income);
 			    			td.eq(3).html(this.incomeTable.realIncome);
@@ -4176,7 +4203,7 @@
 			    			td.last().attr("id",this.incomeTable.id);
 			    			tr.find("#incomeTime").attr("id","")
 			        	});
-			        	
+
 			        	/* 点击编辑设置行程 */
 			        	var startTime = new Date(data.localTourTable.startTime);
 						var endTime = new Date(data.localTourTable.endTime);
@@ -4251,7 +4278,7 @@
 								}
 							}
 						}
-			        	
+
 						/* 要删除的ID */
 			        	$("#edit").find(".delLine").click(function(){
 			        		var parent = $(this).parent().parent().parent();
@@ -4977,6 +5004,7 @@
 	
 	
 	/*预借发票*/
+	var customerAgencyName;
 	$("#loanInvoice").click(function(){
 		var checkbox = $("#table").find("input:checked");
 		if(checkbox.length==0){
@@ -4999,10 +5027,11 @@
 		        dataType: "json",
 		        async: false,
 		        success:function(data){
-		        	$.each(data,function(){
+		        	customerAgencyName = data.customerAgencyName;
+		        	$.each(data.invoices,function(){
 		        		$("#loanInvoices").append('<tr class="loanInvoice">'+
 														'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
-														'<td>'+this.loanInvoiceTable.invoiceName+'</td>'+
+														'<td>'+this.customerAgencyName+'</td>'+
 														'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
 														'<td>'+this.loanInvoiceTable.invoiceAmount+'</td>'+
 														'<td>'+this.loanInvoiceTable.remark+'</td>'+
@@ -5018,7 +5047,7 @@
 		var date = (new Date()).toLocaleDateString();
 		var tr = $('<tr>'+
 						'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
-						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+						'<td>'+customerAgencyName+'</td>'+
 						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 						'<td><textarea style="width:100%;" class="form-control" rows="1"></textarea></td>'+
@@ -5040,13 +5069,13 @@
 			loanInvoices.push({
 				tourId:tourId,
 				issueDate:new Date(inputs.eq(0).val()),
-				invoiceName:inputs.eq(1).val(),
-				invoiceContent:inputs.eq(2).val(),
-				invoiceAmount:inputs.eq(3).val(),
+				invoiceContent:inputs.eq(1).val(),
+				invoiceAmount:inputs.eq(2).val(),
 				remark:$(this).find("textarea").val()
 			});
 		});
 		var myData = JSON.stringify(loanInvoices);
+		alert(myData)
 		$.ajax({
 			type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
@@ -5377,6 +5406,45 @@
 		        }
 			});
 		}
+	});
+	/* 打印报账单 */
+	$("#reimbursementPrint").click(function(){
+		var tbodys = $("#reimbursementPrintDiv").find("tbody");
+		$.each(tbodys,function(index){
+			if($(this).children("tr").length==0){
+				$(this).parent().hide();
+			}else{
+				if(index!=0){
+					tbodys.eq(0).append($(this).html());
+					$(this).parent().hide();
+				}
+			}
+		});
+		$("#reimbursementPrintDiv").children("#changeCostBlue").hide();
+		$("#reimbursementPrintDiv").prepend("<h3>团队报账单</h3>");
+		$("#reimbursementPrintDiv").printArea({
+	        mode       : "iframe",
+	        standard   : "html5",
+	        popTitle   : '团队报账单',
+	        popClose   : false,
+	    });
+		<%-- $("#reimbursementPrintDiv").printArea({
+	        mode       : "popup",
+	        standard   : "html5",
+	        popTitle   : '团队报账单',
+	        popClose   : false,
+	        extraCss   : "<%=path %>resources/assets/css/print.css",
+	        extraHead  : 'asd',
+	        retainAttr : ["id","class","style"],
+	        printDelay : 500, // tempo de atraso na impressao
+	        printAlert : true,
+	        printMsg   : 'Aguarde a impressão'
+	    }); --%>
+		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		$("#reimbursementPrintDiv").find("table").show();
+		$("#reimbursementPrintDiv").find("thead").show();
+		$("#reimbursementPrintDiv").children("#changeCostBlue").show();
+		$("#reimbursementPrintDiv").children("h3").remove();
 	});
 });
 

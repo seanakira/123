@@ -82,7 +82,7 @@
 										<td style="width: 20%">日期</td>
 										<td style="width: 30%">${loanInvoice.loanInvoiceTable.issueDate }</td>
 										<td style="width: 20%">抬头</td>
-										<td style="width: 30%">${loanInvoice.loanInvoiceTable.invoiceName }</td>
+										<td style="width: 30%">${loanInvoice.customerAgencyName }</td>
 									</tr>
 									<tr>
 										<td style="width: 20%">内容</td>
@@ -105,7 +105,7 @@
 							</tbody>
 						</table>
 						<div id="${loanInvoice.loanInvoiceTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="loanInvoiceApplication:cancal">
+							<shiro:hasPermission name="loanInvoiceApplication:cancel">
 								<button class="btn btn-sm btn-danger">驳回</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="loanInvoiceApplication:ok">
@@ -117,7 +117,7 @@
 					</c:forEach>
 <!-- 列表循环结束 -->	
 					<div style="text-align: center;">
-						<a id="history" href="<%=path %>mobile/loanInvoiceApplication?tourId=${tour.id }&status=-1">点击查看本团预借发票记录</a>
+						<a id="history" href="<%=path %>mobile/loanInvoiceApplication?id=${tour.id }&status=-1">点击查看本团预借发票记录</a>
 					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">

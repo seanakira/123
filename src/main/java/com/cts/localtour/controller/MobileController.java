@@ -29,9 +29,9 @@ public class MobileController {
 		mobileService.updateChangeCost(request, id);
 	}
 	
-	@RequestMapping("/mobile/cancalCost")
-	public void cancalCost(HttpServletRequest request, @RequestParam int id){
-		mobileService.cancalChangeCost(request, id);
+	@RequestMapping("/mobile/cancelCost")
+	public void cancelCost(HttpServletRequest request, @RequestParam int id){
+		mobileService.cancelChangeCost(request, id);
 	}
 	
 	@RequestMapping("/mobile/changeIcomeOk")
@@ -39,9 +39,9 @@ public class MobileController {
 		mobileService.updateChangeIcome(request, id);
 	}
 	
-	@RequestMapping("/mobile/cancalIncome")
-	public void cancalIncome(HttpServletRequest request, @RequestParam int id){
-		mobileService.cancalChangeIncome(request, id);
+	@RequestMapping("/mobile/cancelIncome")
+	public void cancelIncome(HttpServletRequest request, @RequestParam int id){
+		mobileService.cancelChangeIncome(request, id);
 	}
 	
 	

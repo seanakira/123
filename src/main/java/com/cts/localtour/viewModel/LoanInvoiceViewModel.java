@@ -63,6 +63,7 @@ public class LoanInvoiceViewModel {
 			invoiceViewModel.setLoanInvoiceTable(loanInvoiceTable);
 			invoiceViewModel.setApplicationerRealName(userService.getUserRealName(loanInvoiceTable.getApplicationerId()));
 			invoiceViewModel.setIssueUserRealName(userService.getUserRealName(loanInvoiceTable.getIssueUserId()));
+			invoiceViewModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(tourId));
 			if(loanInvoiceTable.getStatus()==0){
 				invoiceViewModel.setStatus("ÐÂ½¨");
 			}else if(loanInvoiceTable.getStatus()==1){

@@ -289,13 +289,14 @@
 											<thead>
 												<tr>
 													<th style="width: 10%;">日期</th>
+													<th style="width: 10%;">票号</th>
 													<th style="width: 20%;">抬头</th>
 													<th style="width: 10%;">内容</th>
 													<th style="width: 10%;">金额*</th>
 													<th style="width: 45%;">发票信息*</th>
-													<th style="width: 5%;">
+													<!-- <th style="width: 5%;">
 														操作
-													</th>
+													</th> -->
 												</tr>
 											</thead>
 											<tbody id="loanInvoices">
@@ -535,6 +536,7 @@
 			$("#table").find("#"+tourId).children("td").eq(4).text(realIncomeSum.toFixed(2));
 		});
 	/* 开发票 */
+		var customerAgency;
 		$("#invoice").click(function(){
 			var checkbox = $("#table").find("input:checked");
 			if(checkbox.length==0){
@@ -557,11 +559,12 @@
 			        async: false,
 			        success:function(data){
 			        	$("#invoiceTable").html("");
-			        	$.each(data,function(){
+			        	customerAgency = data.customerAgencyName;
+			        	$.each(data.invoices,function(){
 			        		$("#invoiceTable").append('<tr class="issued">'+
 			        										'<td>'+this.invoiceTable.issueDate+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceNo+'</td>'+
-			        										'<td>'+this.invoiceTable.invoiceName+'</td>'+
+			        										'<td>'+this.customerAgencyName+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceContent+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceAmount+'</td>'+
 			        										'<td>'+this.issueUserRealName+'</td>'+
@@ -580,7 +583,7 @@
     		var tr = $('<tr>'+
 							'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
-							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+							'<td>'+customerAgency+'</td>'+
 							'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 							'<td><input style="width:100%;" class="form-control invoiceAmount" type="text" placeholder="双击快速添加金额"></td>'+
 							'<td><%=user.getRealName() %><input type="hidden" value="<%=user.getId() %>"></td>'+
@@ -612,12 +615,11 @@
 					tourId:tourId,
 					issueDate:new Date(inputs.eq(0).val()),
 					invoiceNo:inputs.eq(1).val(),
-					invoiceName:inputs.eq(2).val(),
-					invoiceContent:inputs.eq(3).val(),
-					invoiceAmount:inputs.eq(4).val(),
-					issueUserId:inputs.eq(5).val()
+					invoiceContent:inputs.eq(2).val(),
+					invoiceAmount:inputs.eq(3).val(),
+					issueUserId:inputs.eq(4).val()
 				});
-				total = (total + parseFloat(inputs.eq(4).val())).toFixed(2);
+				total = (total + parseFloat(inputs.eq(3).val())).toFixed(2);
 			});
 			var myData = JSON.stringify(invoices);
 			$.ajax({
@@ -693,19 +695,20 @@
 			        async: false,
 			        success:function(data){
 			        	$.each(data,function(){
-			        		var action;
-			        		if(this.loanInvoiceTable.status==3){
-			        			action = $('<td>已开</td>');
+			        		var invoiceNo;
+			        		if(this.loanInvoiceTable.invoiceNo!=null){
+			        			invoiceNo = $('<td>'+this.loanInvoiceTable.invoiceNo+'</td>');
 			        		}else{
-			        			action = $('<td><a title="确认开票" href="#" class="green" id="issueOk"><i class="icon-ok bigger-130"></i></a></td>');
+			        			invoiceNo = $('<td><input style="width:100%;" class="form-control" type="text"></td>');
 			        		}
 			        		$("#loanInvoices").append('<tr id="'+this.loanInvoiceTable.id+'">'+
 															'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
-															'<td>'+this.loanInvoiceTable.invoiceName+'</td>'+
+															'<td>'+invoiceNo.html()+'</td>'+
+															'<td>'+this.customerAgencyName+'</td>'+
 															'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
 															'<td>'+this.loanInvoiceTable.invoiceAmount+'</td>'+
 															'<td>'+this.loanInvoiceTable.remark+'</td>'+
-															'<td>'+action.html()+'</td>'+
+															/* '<td>'+action.html()+'</td>'+ */
 														'</tr>');
 			        	});
 			        	$("#loanInvoices").find("a").tooltip({
@@ -723,22 +726,26 @@
 			}
 		});
 		/* 确认开票 */
-		$("#loanInvoices").delegate("#issueOk","click",function(){
+		/* $("#loanInvoices").delegate("#issueOk","click",function(){
 			$(this).parent().parent().attr("class","save");
 			$(this).parent().html('已开');
-		});
+		}); */
 		
 		/*预借发票保存*/
 		$("#loanInvoiceSave").click(function(){
 			var tourId = $(this).parent().attr("id");
 			var loanInvoices = new Array();
-			var trs = $("#loanInvoices").children("tr.save");
-			$.each(trs,function(){
-				var id = $(this).attr("id");
-				loanInvoices.push({
-					id:id,
-					tourId:tourId
-				});
+			var inputs = $("#loanInvoices").find("input");
+			$.each(inputs,function(){
+				if($(this).val()!=""&&!isNaN(parseInt($(this).val()))){
+					var id = $(this).parent().parent().attr("id");
+					loanInvoices.push({
+						id:id,
+						tourId:tourId,
+						invoiceNo:$(this).val()
+					});
+				}
+				
 			});
 			var myData = JSON.stringify(loanInvoices);
 			$.ajax({
@@ -751,9 +758,11 @@
 		        success:function(data){
 		        	if(data==-1){
 		        		alert("开票金额大于实收金额");
+		        	}else if(data==-2){
+		        		alert("发票号为8位数字");
 		        	}else{
 		        		var total = 0;
-		        		$.each($("#loanInvoices").find("tr.save td:nth-child(4)"),function(){
+		        		$.each($("#loanInvoices").find("tr td:nth-child(5)"),function(){
 		        			total = total +parseFloat($(this).text());
 		        		});
 		        		$("#table").find("#"+tourId).children("td").eq(5).text((parseFloat($("#table").find("#"+tourId).children("td").eq(5).text())+total).toFixed(2));

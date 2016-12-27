@@ -26,10 +26,10 @@ import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
+import com.cts.localtour.viewModel.FullLoanInvoiceViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementViewModel;
-import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 
@@ -51,9 +51,9 @@ public class LocalTourService extends BaseService{
 	@Autowired
 	private FullLocalTourViewModel fullLocalTourViewModel;
 	@Autowired
-	private LoanInvoiceViewModel loanInvoiceViewModel;
-	@Autowired
 	private FullReimbursementViewModel fullReimbursementViewModel;
+	@Autowired
+	private FullLoanInvoiceViewModel fullLoanInvoiceViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -259,13 +259,14 @@ public class LocalTourService extends BaseService{
 			}
 		}
 	}
-	public ArrayList<LoanInvoiceViewModel> findBorrowInvoice(int tourId) {
-		return loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId);
+	public FullLoanInvoiceViewModel findBorrowInvoice(int tourId) {
+		return fullLoanInvoiceViewModel.getFullLoanInvoiceViewModel(tourId);
 	}
 	@SuppressWarnings("unchecked")
 	public void saveBorrowInvoice(ArrayList<LoanInvoiceTable> loanInvoiceTables) {
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			loanInvoiceTable.setStatus(1);
+			loanInvoiceTable.setCustomerAgencyId(((LocalTourTable)this.getById("LocalTourTable", loanInvoiceTable.getTourId())).getCustomerAgencyId());
 			this.add(loanInvoiceTable);
 		}
 	}

@@ -15,8 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.UserService;
 import com.cts.localtour.util.WeiXinUtil;
 
@@ -25,7 +25,7 @@ import com.cts.localtour.util.WeiXinUtil;
  * Handles requests for the application home page.
  */
 @Controller
-@SessionAttributes("user")
+/*@SessionAttributes("user")*/
 public class LoginController {
 	@Autowired
 	private UserService userService;
@@ -36,7 +36,7 @@ public class LoginController {
 			if("".equals(userId)){
 				this.getUserId(request, response, null);
 			}else{
-				UsernamePasswordToken token = new UsernamePasswordToken(userId,userService.getByUserName(userId).getPwd());
+				UsernamePasswordToken token = new UsernamePasswordToken(userId.split("@")[0],userService.getByUserName(userId.split("@")[0]).getPwd());
 				Subject subject = SecurityUtils.getSubject();
 				subject.login(token);
 				if(subject.isAuthenticated()){
@@ -62,14 +62,18 @@ public class LoginController {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			if(subject.isAuthenticated()){
-				response.sendRedirect("../localTourManage");
+				if(((UserTable)subject.getPrincipal()).getPwd().equals("123456")){
+					md.addAttribute("msg","您的密码为123456，请修改初始密码");
+					return "/userSettings/profile";
+				}else{
+					response.sendRedirect("../localTourManage");
+				}
 			}else{
 				md.addAttribute("msg","用户名或密码错误");
 				return "/loginManage/login";
 			}
 		} catch (Exception e) {
 			md.addAttribute("msg","用户名或密码错误");
-			
 		}
 		return "/loginManage/login";
 	}

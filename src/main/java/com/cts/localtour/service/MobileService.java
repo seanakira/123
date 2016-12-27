@@ -63,7 +63,7 @@ public class MobileService extends BaseService{
 				cost.setStatus(status);
 				this.update(cost);
 				if(status==2){
-					this.sendMessage("changeCostIncomeApplication", cost.getTourId(), 2, "您有待审核的<变更成本收入>，点击进行审核");
+					this.sendMessage("changeCostIncomeApplication", cost.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(cost.getTourId())+" 待审核(成本收入变更)，点击进行审核");
 				}
 			}
 		}
@@ -79,21 +79,21 @@ public class MobileService extends BaseService{
 				income.setStatus(status);
 				this.update(income);
 				if(status==2){
-					 this.sendMessage("changeCostIncomeApplication", income.getTourId(), 2, "您有待审核的<变更成本收入>，点击进行审核");
+					 this.sendMessage("changeCostIncomeApplication", income.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(income.getTourId())+" 待审核(变更成本收入)，点击进行审核");
 				}
 			}
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void cancalChangeCost(HttpServletRequest request, int id) {
+	public void cancelChangeCost(HttpServletRequest request, int id) {
 		ChangeCostTable cost = (ChangeCostTable)this.getById("ChangeCostTable", id);
 		this.delete(cost);
 		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", cost.getApplicationerId())).getUserName(), null, "您的<"+localTourService.getTourNoAndTourName(cost.getTourId())+">团，申请的成本变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
 	}
 
 	@SuppressWarnings("unchecked")
-	public void cancalChangeIncome(HttpServletRequest request, int id) {
+	public void cancelChangeIncome(HttpServletRequest request, int id) {
 		ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", id);
 		this.delete(income);
 		LocalTourTable tour = (LocalTourTable) this.getById("LocalTourTable", income.getTourId());
@@ -116,7 +116,7 @@ public class MobileService extends BaseService{
 				loan.setStatus(status+1);
 				this.update(loan);
 				if(status==2){
-					this.sendMessage("loanApplication", loan.getTourId(), 3, "您有待审核的<借款申请>，点击进行审核");
+					this.sendMessage("loanApplication", loan.getTourId(), 3, "您有您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
 				}
 			}
 		}
@@ -147,7 +147,7 @@ public class MobileService extends BaseService{
 					costTable.setPayStatus(status);
 					this.update(costTable);
 					if(status==2){
-						this.sendMessage("payApplication", costTable.getTourId(), 2, "您有待审核的<付款申请>，点击进行审核");
+						this.sendMessage("payApplication", costTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(costTable.getTourId())+"待审核的(付款申请)，点击进行审核");
 					}
 				}
 			}
@@ -161,7 +161,7 @@ public class MobileService extends BaseService{
 					changeCostTable.setPayStatus(status);
 					this.update(changeCostTable);
 					if(status==2){
-						this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有待审核的<付款申请>，点击进行审核");
+						this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+"待审核的(付款申请)，点击进行审核");
 					}
 				}
 			}
@@ -175,14 +175,14 @@ public class MobileService extends BaseService{
 			if(costTable.getPayStatus()!=3){
 				costTable.setPayStatus(0);
 				this.update(costTable);
-				WeiXinUtil.sendTextMessage(userService.getUserName(costTable.getPayApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(costTable.getTourId())+">申请的付款已经被驳回，如需再次申请，请再次提交", "0");
+				WeiXinUtil.sendTextMessage(userService.getUserName(costTable.getPayApplicationerId()), null, "您的("+localTourService.getTourNoAndTourName(costTable.getTourId())+")申请的付款已经被驳回，如需再次申请，请再次提交", "0");
 			}
 			}else{
 			ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", id);
 			if(changeCostTable.getPayStatus()!=3){
 				changeCostTable.setPayStatus(0);
 				this.update(changeCostTable);
-				WeiXinUtil.sendTextMessage(userService.getUserName(changeCostTable.getPayApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+">申请的付款已经被驳回，如需再次申请，请再次提交", "0");
+				WeiXinUtil.sendTextMessage(userService.getUserName(changeCostTable.getPayApplicationerId()), null, "您的("+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+")申请的付款已经被驳回，如需再次申请，请再次提交", "0");
 			}
 		}
 	}
@@ -201,7 +201,7 @@ public class MobileService extends BaseService{
 	public void loanInvoiceApplicationCancel(int id) {
 		LoanInvoiceTable loanInvoiceTable = (LoanInvoiceTable)this.getById("LoanInvoiceTable", id);
 		this.delete(loanInvoiceTable);
-		WeiXinUtil.sendTextMessage(userService.getUserName(loanInvoiceTable.getApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(loanInvoiceTable.getTourId())+">申请的预借发票已经被驳回，如需再次申请，请再次提交", "0");
+		WeiXinUtil.sendTextMessage(userService.getUserName(loanInvoiceTable.getApplicationerId()), null, "您的("+localTourService.getTourNoAndTourName(loanInvoiceTable.getTourId())+")申请的预借发票已经被驳回，如需再次申请，请再次提交", "0");
 	}
 	/*报账审核*/
 	public FullReimbursementApplicationViewModel getAllReimbursementApplication(int tourId) {
@@ -232,7 +232,7 @@ public class MobileService extends BaseService{
 					costTable.setPayStatus(status);
 					this.update(costTable);
 					if(status==2){
-						this.sendMessage("billApplication", costTable.getSupplierId(), 2, "您有待审核的<供应商管理挂账付款申请>，点击进行审核");
+						this.sendMessage("billApplication", costTable.getSupplierId(), 2, "您有 待审核的(供应商管理挂账付款申请)，点击进行审核");
 					}else if(status==3&&this.getAllByString("CostTable", "supplierId=? and bill=true and remittanced=false and (payStatus=1 or payStatus=2)", id).isEmpty()&&this.getAllByString("ChangeCostTable", "supplierId=? and bill=true and remittanced=false and (payStatus=1 or payStatus=2) and status=3", id).isEmpty()){
 						this.deleteByString("BillApplicationTable", "supplierId=?", id);
 					}
@@ -248,7 +248,7 @@ public class MobileService extends BaseService{
 					changeCostTable.setPayStatus(status);
 					this.update(changeCostTable);
 					if(status==2){
-						this.sendMessage("billApplication", changeCostTable.getSupplierId(), 2, "您有待审核的<供应商管理挂账付款申请>，点击进行审核");
+						this.sendMessage("billApplication", changeCostTable.getSupplierId(), 2, "您有 待审核的(供应商挂账付款申请)，点击进行审核");
 					}else if(status==3&&this.getAllByString("CostTable", "supplierId=? and bill=true and remittanced=false and (payStatus=1 or payStatus=2)", id).isEmpty()&&this.getAllByString("ChangeCostTable", "supplierId=? and bill=true and remittanced=false and (payStatus=1 or payStatus=2) and status=3", id).isEmpty()){
 						this.deleteByString("BillApplicationTable", "supplierId=?", id);
 					}

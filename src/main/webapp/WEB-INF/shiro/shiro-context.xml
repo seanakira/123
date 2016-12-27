@@ -315,25 +315,29 @@
                 	<!-- 成本变更审核 -->
                 	/mobile/changeCostIncomeApplication=authc,perms[changeCostIncome:manage]
                 		/mobile/changeCostOk=authc,perms["changeCostIncome:manage","changeCost:ok"]
-                		/mobile/cancalCost=authc,perms["changeCostIncome:manage","changeCost:cancal"]
+                		/mobile/cancelCost=authc,perms["changeCostIncome:manage","changeCost:cancel"]
                 		/mobile/changeIcomeOk=authc,perms["changeCostIncome:manage","changeIncome:ok"]
-                		/mobile/cancalIncome=authc,perms["changeCostIncome:manage","changeIncome:cancal"]
+                		/mobile/cancelIncome=authc,perms["changeCostIncome:manage","changeIncome:cancel"]
                 	<!-- 借款申请审核 -->
                 	/mobile/loanApplication=authc,perms[loanApplication:manage]
                 		/mobile/loanApplicationOk=authc,perms["loanApplication:manage","loanApplication:ok"]
-                		/mobile/loanApplicationCancel=authc,perms["loanApplication:manage","loanApplication:cancal"]
+                		/mobile/loanApplicationCancel=authc,perms["loanApplication:manage","loanApplication:cancel"]
                 	<!-- 付款申请审核 -->
                 	/mobile/payApplication=authc,perms[payApplication:manage]
                 		/mobile/payApplicationOk=authc,perms["payApplication:manage","payApplication:ok"]
-                		/mobile/payApplicationCancel=authc,perms["payApplication:manage","payApplication:cancal"]
+                		/mobile/payApplicationCancel=authc,perms["payApplication:manage","payApplication:cancel"]
                 	<!-- 预借发票 -->
                 	/mobile/loanInvoiceApplication=authc,perms[loanInvoiceApplication:manage]
                 		/mobile/loanInvoiceApplicationOk=authc,perms["loanInvoiceApplication:manage","loanInvoiceApplication:ok"]
-                		/mobile/loanInvoiceApplicationCancel=authc,perms["loanInvoiceApplication:manage","loanInvoiceApplication:cancal"]
+                		/mobile/loanInvoiceApplicationCancel=authc,perms["loanInvoiceApplication:manage","loanInvoiceApplication:cancel"]
                 	<!-- 报账审核 -->
                 	/mobile/reimbursementApplication=authc,perms[reimbursementApplication:manage]
                 		/mobile/reimbursementApplicationOk=authc,perms["reimbursementApplication:manage","reimbursementApplication:ok"]
-                		/mobile/reimbursementApplicationCancel=authc,perms["reimbursementApplication:manage","reimbursementApplication:cancal"]
+                		/mobile/reimbursementApplicationCancel=authc,perms["reimbursementApplication:manage","reimbursementApplication:cancel"]
+                	<!-- 供应商挂账付款审核 -->
+                	/mobile/billApplication=authc,perms[billApplication:manage]
+                		/mobile/billApplicationOk=authc,perms["billApplication:manage","billApplication:ok"]
+                		/mobile/billApplicationCancel=authc,perms["billApplication:manage","billApplication:cancel"]
                 <!-- 其他 -->
                 	<!-- 修改资料-->
                 	/profile=authc

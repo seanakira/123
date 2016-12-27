@@ -69,7 +69,7 @@ public class CostViewModel {
 			cost.setBorrowUserName(userService.getUserRealName(costTable.getBorrowUserId()));
 			cost.setContentName(costTable.getContentId()==0?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
 			cost.setPayApplicationerRealName(userService.getUserName(costTable.getPayApplicationerId()));
-			cost.setSupplierName(((SupplierTable)userService.getById("SupplierTable", costTable.getContentId())).getSupplierName());
+			cost.setSupplierName(((SupplierTable)userService.getById("SupplierTable", costTable.getSupplierId())).getSupplierName());
 			if(costTable.getPayStatus()==0){
 				cost.setPayStatus("¿É¸¶");
 			}else if(costTable.getPayStatus()==1){

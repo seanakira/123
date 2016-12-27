@@ -67,10 +67,10 @@ public class BillService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public void updateBill(FullBillViewModel full) {
 		for (CostTable costTable : full.getCostTables()) {
-			this.updateByString("CostTable", "payStatus=1, reimbursement=?", "id=?", costTable.getReimbursement(), costTable.getId());
+			this.updateByString("CostTable", "payStatus=1, reimbursement=?, payApplicationerId=?", "id=?", costTable.getReimbursement(), costTable.getId(),((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 		}
 		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
-			this.updateByString("ChangeCostTable", "payStatus=1, reimbursement=?", "id=?", changeCostTable.getReimbursement(), changeCostTable.getId());
+			this.updateByString("ChangeCostTable", "payStatus=1, reimbursement=?, payApplicationerId=?", "id=?", changeCostTable.getReimbursement(), changeCostTable.getId(),((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 		}
 		if(this.getAllByString("BillApplicationTable", "supplierId=?", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getSupplierId():!full.getChangeCostTables().isEmpty()?full.getChangeCostTables().get(0).getSupplierId():0).isEmpty()){
 			BillApplicationTable bill = new BillApplicationTable();

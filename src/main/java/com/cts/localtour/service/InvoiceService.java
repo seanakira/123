@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.DAO.BaseDAO;
 import com.cts.localtour.entity.InvoiceTable;
-import com.cts.localtour.viewModel.InvoiceViewModel;
+import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.viewModel.FullInvoiceViewModel;
 
 @SuppressWarnings("rawtypes")
 @Service
 public class InvoiceService extends BaseService{
 	@Autowired
-	private InvoiceViewModel invoiceViewModel;
+	private FullInvoiceViewModel fullInvoiceViewModel;
 	@Autowired
-	private BaseDAO baseDAO;
+	private BaseService baseService;
 	@SuppressWarnings("unchecked")
 	public float getInvoiceSum(Integer tourId){
 		BigDecimal invoiceSum = new BigDecimal(0);
@@ -27,14 +27,15 @@ public class InvoiceService extends BaseService{
 		return invoiceSum.floatValue();
 	}
 
-	public ArrayList<InvoiceViewModel> findInvoice(int tourId) {
-		return invoiceViewModel.getAllInvoiceViewModel(tourId);
+	public FullInvoiceViewModel findInvoice(int tourId) {
+		return fullInvoiceViewModel.getFullInvoiceViewModel(tourId);
 	}
 
 	@SuppressWarnings("unchecked")
 	public void saveInvoice(ArrayList<InvoiceTable> invoiceTables) throws Exception{
 		for (InvoiceTable invoiceTable : invoiceTables) {
-				baseDAO.add(invoiceTable);
+			invoiceTable.setCustomerAgencyId(((LocalTourTable)baseService.getById("LocalTourTable", invoiceTable.getTourId())).getCustomerAgencyId());
+			this.add(invoiceTable);
 		}
 	}
 }

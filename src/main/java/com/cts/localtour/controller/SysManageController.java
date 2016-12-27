@@ -73,7 +73,6 @@ public class SysManageController {
 		return (ArrayList<RoleTable>) userService.getAllByString("RoleTable", null, null);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/userManage/save")
 	public @ResponseBody int add(@RequestBody UserViewModel userViewModel){
 		return userService.addUser(userViewModel);

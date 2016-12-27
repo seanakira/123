@@ -24,10 +24,10 @@ import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.SettlementService;
 import com.cts.localtour.viewModel.FullBalanceViewModel;
 import com.cts.localtour.viewModel.FullBillViewModel;
+import com.cts.localtour.viewModel.FullInvoiceViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementApplicationViewModel;
 import com.cts.localtour.viewModel.FullRevenueViewModel;
-import com.cts.localtour.viewModel.InvoiceViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 import com.cts.localtour.viewModel.SimpleBalanceViewModel;
@@ -121,7 +121,7 @@ public class FinanceController {
 	
 	/*∑¢∆±π‹¿Ì*/
 	@RequestMapping("/invoiceManage/find")
-	public @ResponseBody ArrayList<InvoiceViewModel> findInvoice(@RequestParam int tourId){
+	public @ResponseBody FullInvoiceViewModel findInvoice(@RequestParam int tourId){
 		return invoiceService.findInvoice(tourId);
 	}
 	
@@ -131,7 +131,7 @@ public class FinanceController {
 		float invoice = 0;
 		ArrayList<InvoiceTable> invoices = new ArrayList<InvoiceTable>();
 		for (InvoiceTable invoiceTable : invoiceTables) {
-			if("".equals(invoiceTable.getInvoiceNo())||"".equals(invoiceTable.getInvoiceName())||invoiceTable.getInvoiceAmount()==0){
+			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount()==0){
 				errorCode = -1;
 				break;
 			}else{
@@ -169,6 +169,9 @@ public class FinanceController {
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "id=? and status=2", loanInvoiceTable.getId());
 			newInvoiceSum = newInvoiceSum + (loanInvoiceTables2.isEmpty()?0:loanInvoiceTables2.get(0).getInvoiceAmount());
+			if(loanInvoiceTable.getInvoiceNo().toString().length()!=8){
+				errorCode = -2;
+			}
 		}
 		if(!loanInvoiceTables.isEmpty()){
 			if(revenueService.InvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){

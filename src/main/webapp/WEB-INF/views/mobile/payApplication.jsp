@@ -111,7 +111,7 @@
 									</tr>
 							</tbody>
 						</table>
-						<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+						<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancelCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>
@@ -159,8 +159,8 @@
 							</tbody>
 						</table>
 						<div id="${changeCosts.costTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="payApplication:cancal">
-								<button class="btn btn-sm btn-danger cancalCost">驳回</button>
+							<shiro:hasPermission name="payApplication:cancel">
+								<button class="btn btn-sm btn-danger cancelCost">驳回</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="payApplication:ok">
 								<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
@@ -174,7 +174,7 @@
 							<span id="changeCostBlue" class="blue" style="">*蓝色为成本收入变更</span>
 					</c:if>
 					<div style="text-align: center;">
-						<a id="lended" href="<%=path %>mobile/payApplication?tourId=${tour.id }&status=-1">点击查看本团付款申请记录</a>
+						<a id="lended" href="<%=path %>mobile/payApplication?id=${tour.id }&status=-1">点击查看本团付款申请记录</a>
 					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">

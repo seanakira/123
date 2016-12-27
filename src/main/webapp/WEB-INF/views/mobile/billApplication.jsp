@@ -80,6 +80,12 @@
 	
 								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 									<tr>
+										<td style="width: 20%">团号</td>
+										<td style="width: 30%">${cost.localTourTable.tourNo }</td>
+										<td style="width: 20%">团名</td>
+										<td style="width: 30%">${cost.localTourTable.tourName }</td>
+									</tr>
+									<tr>
 										<td style="width: 20%">日期</td>
 										<td style="width: 30%">${cost.costTable.costDate }</td>
 										<td style="width: 20%">内容</td>
@@ -111,7 +117,7 @@
 									</tr>
 							</tbody>
 						</table>
-						<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancalCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+						<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancelCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
 						<HR style="margin-top: 0px;">
 					</div>
 					</c:forEach>
@@ -126,6 +132,12 @@
 								</thead>
 	
 								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert" class="blue">
+									<tr>
+										<td style="width: 20%">团号</td>
+										<td style="width: 30%">${changeCosts.localTourTable.tourNo }</td>
+										<td style="width: 20%">团名</td>
+										<td style="width: 30%">${changeCosts.localTourTable.tourName }</td>
+									</tr>
 									<tr>
 										<td style="width: 20%">日期</td>
 										<td style="width: 30%">${changeCosts.costTable.costDate }</td>
@@ -159,8 +171,8 @@
 							</tbody>
 						</table>
 						<div id="${changeCosts.costTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="payApplication:cancal">
-								<button class="btn btn-sm btn-danger cancalCost">驳回</button>
+							<shiro:hasPermission name="payApplication:cancel">
+								<button class="btn btn-sm btn-danger cancelCost">驳回</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="payApplication:ok">
 								<button class="btn btn-sm btn-success pull-right changeCost">同意</button>

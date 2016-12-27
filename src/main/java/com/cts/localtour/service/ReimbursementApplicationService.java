@@ -54,10 +54,12 @@ public class ReimbursementApplicationService extends BaseService{
 	}
 
 	public void reimbursementApplicationCancel(int tourId) {
-		this.updateByString("CostTable", "reimbursement=null", "tourId=? and payStatus=3", tourId);
-		this.updateByString("ChangeCostTable", "reimbursement=null", "tourId=? and ((payStatus=3 and status=3) or (status=3 and lend=true))", tourId);
-		this.deleteByString("ReimbursementTable", "tourId=?", tourId);
-		this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
+		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==6){
+			this.updateByString("CostTable", "reimbursement=null", "tourId=? and payStatus=3", tourId);
+			this.updateByString("ChangeCostTable", "reimbursement=null", "tourId=? and ((payStatus=3 and status=3) or (status=3 and lend=true))", tourId);
+			this.deleteByString("ReimbursementTable", "tourId=?", tourId);
+			this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
+		}
 	}
 
 	public int checkStatusReimbursementApplication(int tourId) {

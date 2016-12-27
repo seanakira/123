@@ -19,9 +19,15 @@ public class LoanInvoiceService extends BaseService{
 		return loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, -1);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void saveLoanInvoice(ArrayList<LoanInvoiceTable> loanInvoiceTables) {
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-			this.updateByString("LoanInvoiceTable", "status=3", "id=?", loanInvoiceTable.getId());
+			LoanInvoiceTable invoice = (LoanInvoiceTable)this.getById("LoanInvoiceTable", loanInvoiceTable.getId());
+			if(invoice.getStatus()==2){
+				invoice.setStatus(3);
+				invoice.setInvoiceNo(loanInvoiceTable.getInvoiceNo());
+				this.update(invoice);
+			}
 		}
 	}
 

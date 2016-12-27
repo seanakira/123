@@ -220,8 +220,14 @@ public class UserService extends BaseService{
 		return permissions;
 	}
 
+	@SuppressWarnings("unchecked")
 	public UserTable getByUserName(String username) {
-		return (UserTable) this.getAllByString("UserTable", "userName=?", username).get(0);
+		ArrayList<UserTable> users = (ArrayList<UserTable>) this.getAllByString("UserTable", "userName=?", username);
+		if(users.isEmpty()){
+			return null;
+		}else{
+			return users.get(0);
+		}
 	}
 
 	public UserViewModel find(int userId) {

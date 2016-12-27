@@ -100,7 +100,7 @@
 							</tbody>
 						</table>
 						<div id="${loan.loanTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="loanApplication:cancal">
+							<shiro:hasPermission name="loanApplication:cancel">
 								<button class="btn btn-sm btn-danger">驳回</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="loanApplication:ok">
@@ -112,7 +112,7 @@
 					</c:forEach>
 <!-- 列表循环结束 -->	
 					<div style="text-align: center;">
-						<a id="lended" href="<%=path %>mobile/loanApplication?tourId=${tour.id }&status=-1">点击查看本团借款申请记录</a>
+						<a id="lended" href="<%=path %>mobile/loanApplication?id=${tour.id }&status=-1">点击查看本团借款申请记录</a>
 					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">
