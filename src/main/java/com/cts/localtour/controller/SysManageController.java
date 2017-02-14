@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.PermissionTable;
 import com.cts.localtour.entity.RolePermissionTable;
@@ -155,9 +154,13 @@ public class SysManageController {
 	
 	@RequestMapping("/deptManage/save")
 	public @ResponseBody int save(@RequestBody DeptTable deptTable){
-		return deptService.mergeDept(deptTable);
+		return deptService.add(deptTable);
 	}
 	
+	@RequestMapping("/deptManage/update")
+	public @ResponseBody int update(@RequestBody DeptTable deptTable){
+		return deptService.mergeDept(deptTable);
+	}
 	@RequestMapping("/deptManage/del")
 	public @ResponseBody boolean del(@RequestBody DeptTable deptTable){
 		return deptService.update(deptTable, true);

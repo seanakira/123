@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.pojo.CostInfo;
 import com.cts.localtour.pojo.IncomeInfo;
+import com.cts.localtour.service.ChangeCostService;
+import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.UserService;
@@ -25,7 +27,11 @@ public class SimpleBalanceViewModel {
 	@Autowired
 	private CostService costService;
 	@Autowired
+	private ChangeCostService changeCostService;
+	@Autowired
 	private IncomeService incomeService;
+	@Autowired
+	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private UserService userService;
 	public LocalTourTable getLocalTourTable() {
@@ -82,12 +88,14 @@ public class SimpleBalanceViewModel {
 			SimpleBalanceViewModel balanceViewModel = new SimpleBalanceViewModel();
 			balanceViewModel.setLocalTourTable(localTourTable);
 			CostInfo costInfo = costService.getCostInfo(localTourTable.getId());
+			CostInfo changeCostInfo = changeCostService.getCostInfo(localTourTable.getId());
 			IncomeInfo incomeInfo = incomeService.getIncomeInfo(localTourTable.getId());
-			balanceViewModel.setWillPaySum(costInfo.getWillCostSum().floatValue());
-			balanceViewModel.setRealPaySum(costInfo.getRealCostSum().floatValue());
-			balanceViewModel.setWillIncomeSum(incomeInfo.getRealIncomeSum().floatValue());
-			balanceViewModel.setRealIncomeSum(incomeInfo.getIncomedSum().floatValue());
-			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().floatValue());
+			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
+			balanceViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).floatValue());
+			balanceViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).floatValue());
+			balanceViewModel.setWillIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
+			balanceViewModel.setRealIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue());
+			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).floatValue());
 			balanceViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
 			if(localTourTable.getStatus()==0){
 				balanceViewModel.setStatus("ÐÂ½¨");

@@ -35,7 +35,7 @@
 							</shiro:hasPermission>
 						</div>
 						<div class="nav-search" id="nav-search">
-							<form class="form-search" action="/localtour/deptManage/search">
+							<form class="form-search" action="${path }deptManage/search">
 								<span class="input-icon">
 									<input id="search" name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
 									<i class="icon-search nav-search-icon"></i>
@@ -142,15 +142,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/deptManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }deptManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 											</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/deptManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }deptManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/deptManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }deptManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -241,7 +241,7 @@
 	    $.ajax({  
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/userManage/getCreateInfo",
+	        url:"${path }userManage/getCreateInfo",
 	        dataType: "json",  
 	        async: false,  
 	        success:function(data){
@@ -296,7 +296,7 @@
 			$.ajax({
 				type: "POST",  
 				contentType:"application/json;charset=utf-8",  
-				url:"/localtour/deptManage/getDeptTree", 
+				url:"${path }deptManage/getDeptTree", 
 				dataType: "json",  
 				async: false,  
 				success:function(data){
@@ -372,11 +372,11 @@
 		    	$.ajax({
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/deptManage/save",  
+			        url:"${path }deptManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
-			        success:function(data){  
+			        success:function(data){
 			        	var tds = tr.children("td");
 			        	tds.eq(1).html('<a id="name'+data+'" role="button" data-toggle="modal" href="#modal-table">'+dept.deptName+'</a>');
 			        	tds.eq(2).html(tds.eq(2).children("a").text());
@@ -387,6 +387,35 @@
 			 	}); 
 	    	}
 	    });
+	    /* 更新 */
+	    $("#deptTable").delegate("#update","click",function(){
+	    	var tr = $(this).parent().parent();
+	    	var inputs = tr.find("input");
+	    	var select = tr.find("select");
+			if(inputs.eq(2).val()==""){
+	    		alert("请选择上级部门");
+	    	}else{
+	    		var dept = {id:tr.children("td").last().attr("id"),deptName:inputs.eq(1).val(),upperDeptId:inputs.eq(2).val(),deptLevel:inputs.eq(3).val(),managerIds:select.val()==null?"":select.val().toString(),enable:tr.children("td").eq(-2).children("span").attr("class")=="label label-sm label-success"?true:false};
+	    		var myData = JSON.stringify(dept);
+		    	$.ajax({
+			        type: "POST",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }deptManage/update",  
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        	var tds = tr.children("td");
+			        	tds.eq(1).html('<a id="name'+data+'" role="button" data-toggle="modal" href="#modal-table">'+dept.deptName+'</a>');
+			        	tds.eq(2).html(tds.eq(2).children("a").text());
+			        	tds.eq(3).html(select.find('option:selected').text());
+			        	tds.last().attr("id",data);
+			        	tds.last().html('<a id="edit" class="green" href="#"><i class="icon-pencil bigger-130"></i></a><a class="red" href="#"><i class="icon-trash bigger-130" style="padding-left: 3px;"></i></a>');
+			        }  
+			 	}); 
+	    	}
+	    });
+	    
 	    /* 删除 */
 	    $("#deptTable").delegate(".red","click",function(){
 	    	var a = $(this);
@@ -396,7 +425,7 @@
     		$.ajax({  
    		        type: "POST",  
    		        contentType:"application/json;charset=utf-8",  
-   		        url:"/localtour/deptManage/del",  
+   		        url:"${path }deptManage/del",  
    		        data:myData,  
    		        dataType: "json",  
    		        async: false,  
@@ -416,7 +445,7 @@
     		$.ajax({  
    		        type: "POST",  
    		        contentType:"application/json;charset=utf-8",  
-   		        url:"/localtour/deptManage/del",  
+   		        url:"${path }deptManage/del",  
    		        data:myData,  
    		        dataType: "json",  
    		        async: false,  
@@ -430,7 +459,7 @@
 	    /* 编辑 */
 	    $("#deptTable").delegate("#edit","click",function(){
 	    	var tds = $(this).parent().siblings();
-	    	$(this).parent().prepend('<a id="save" class="grey" href="#"><i class="icon-save bigger-130"></i></a>');
+	    	$(this).parent().prepend('<a id="update" class="grey" href="#"><i class="icon-save bigger-130"></i></a>');
 	    	$(this).remove();
 	    	tds.eq(1).html('<input type="text" value="'+tds.eq(1).children("a").text()+'" class="form-control" />');
 	    	tds.eq(2).html('<a href="#" class="showTree">'+tds.eq(2).text()+'</a><input value="'+tds.eq(2).children("input").eq(0).val()+'" type="hidden"><input value="'+tds.eq(2).children("input").eq(1).val()+'" type="hidden">');
@@ -450,7 +479,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/deptManage/getUserByDept",  
+		        url:"${path }deptManage/getUserByDept",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -477,7 +506,7 @@
 			 $.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/deptManage/save",  
+			        url:"${path }deptManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  

@@ -125,7 +125,7 @@ public class BaseService<T> {
 		if(where==null||"".equals(where)){
 			hql = "from "+tableName+" order by "+orderBy;
 		}
-		System.out.println(hql);
+		/*System.out.println(hql);*/
 		return baseDAO.getAllByString(hql, objects);
 	}
 	

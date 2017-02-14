@@ -57,6 +57,9 @@ public class SupplierController {
 	
 	@RequestMapping("/supplierInfoManage/save")
 	public @ResponseBody int save(@RequestBody SupplierTable supplier){
+		if(supplier.getRegionId()==0){
+			return -1;
+		}
 		supplier.setEnable(true);
 		return supplierInfoService.add(supplier);
 	}

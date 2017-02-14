@@ -1,6 +1,5 @@
 package com.cts.localtour.cron;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;

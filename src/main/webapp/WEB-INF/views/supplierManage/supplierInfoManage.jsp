@@ -227,15 +227,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/supplierInfoManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }supplierInfoManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/supplierInfoManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }supplierInfoManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/supplierInfoManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }supplierInfoManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -313,36 +313,42 @@
 				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
 				var myData = JSON.stringify(supplier);
 				var supplierId;
-				alert(myData)
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/save",  
+			        url:"${path }supplierInfoManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	supplierId = data;
-			        	td.eq(2).html(supplierName);
-			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	td.eq(4).html(supplierScopeName);
-			        	td.eq(5).html(phone);
-			        	td.eq(6).html(accountPeriod);
-			        	td.eq(7).html(accountDate);
+			        	if(data==-1){
+			        		alert("地区为必填项");
+			        		supplierId = data;
+			        	}else{
+			        		supplierId = data;
+				        	td.eq(2).html(supplierName);
+				        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
+				        	td.eq(4).html(supplierScopeName);
+				        	td.eq(5).html(phone);
+				        	td.eq(6).html(accountPeriod);
+				        	td.eq(7).html(accountDate);
+			        	}
 			        }  
 				 });
-				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
-			  	$.ajax({  
-			        type: "GET",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/save",  
-			        data:ids,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	
-			        }  
-				});
+			 	if(supplierId!=-1){
+			 		var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
+				  	$.ajax({  
+				        type: "GET",  
+				        contentType:"application/json;charset=utf-8",  
+				        url:"${path }supplierBusiness/save",  
+				        data:ids,  
+				        dataType: "json",  
+				        async: false,  
+				        success:function(data){
+				        	
+				        }  
+					});
+			 	}
 				obj.next().find("input").eq(1).focus().select();
 			}
 		});
@@ -355,7 +361,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/del",  
+		        url:"${path }supplierInfoManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -375,7 +381,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/recover",  
+		        url:"${path }supplierInfoManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -436,7 +442,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/update",  
+			        url:"${path }supplierInfoManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -453,7 +459,7 @@
 			  	$.ajax({  
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/update",  
+			        url:"${path }supplierBusiness/update",  
 			        data:ids,  
 			        dataType: "json",  
 			        async: false,  
@@ -485,7 +491,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/update",  
+		        url:"${path }supplierInfoManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -502,7 +508,7 @@
 		  	$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierBusiness/update",  
+		        url:"${path }supplierBusiness/update",  
 		        data:ids,  
 		        dataType: "json",  
 		        async: false,  

@@ -43,7 +43,13 @@ public class GuideTimeViewModel {
 		ArrayList<GuideTimeViewModel> guideTimes = new ArrayList<GuideTimeViewModel>();
 		for (int i = 0; i < guideTimeTables.size(); i++) {
 			GuideTimeViewModel guideTime = new GuideTimeViewModel();
-			guideTime.setRealName(((UserTable)baseService.getById("UserTable", ((GuideTable)baseService.getById("GuideTable", guideTimeTables.get(i).getGuideId())).getUserId())).getRealName());
+			if(guideTimeTables.get(i).getGuideId()==0){
+				/*清除了错误的数据*/
+				baseService.delete(guideTimeTables.get(i));
+				guideTime.setRealName("");
+			}else{
+				guideTime.setRealName(((UserTable)baseService.getById("UserTable", ((GuideTable)baseService.getById("GuideTable", guideTimeTables.get(i).getGuideId())).getUserId())).getRealName());
+			}
 			guideTime.setGuideId(guideTimeTables.get(i).getGuideId());
 			guideTimes.add(guideTime);
 		}

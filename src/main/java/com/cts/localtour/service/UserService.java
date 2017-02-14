@@ -113,7 +113,7 @@ public class UserService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public int addUser(UserViewModel userViewModel){
 		int id = 0;
-		if(userViewModel.getUserTable().getUserName()!=null||!"".equals(userViewModel.getUserTable().getUserName())||userViewModel.getUserTable().getDeptId()!=0){
+		if(userViewModel.getUserTable().getUserName()!=null&&!"".equals(userViewModel.getUserTable().getUserName())&&userViewModel.getUserTable().getDeptId()!=0){
 			userViewModel.getUserTable().setPwd("123456");
 			ArrayList<Integer> ids = new ArrayList<Integer>();
 			ids.add(userViewModel.getUserTable().getDeptId());
@@ -133,6 +133,7 @@ public class UserService extends BaseService{
 			}
 			userViewModel.getUserTable().setDataDeptIds(ids.toString().substring(1, ids.toString().length()-1));
 			userViewModel.getUserTable().setEnable(true);
+			userViewModel.getUserTable().setWeiXinMessageSwitch(true);
 			try {
 				id = ((UserTable)this.add(userViewModel.getUserTable())).getId();
 				for (RoleTable roleTable : userViewModel.getRoleTables()) {
@@ -171,13 +172,13 @@ public class UserService extends BaseService{
 	public void updateToWeiXin(UserTable user) {
 		JSONObject error = WeiXinUtil.updateUser(user.getUserName()+"@ctssd.com",user.getRealName(), user.getPosition(), user.getPhone(), user.getEmail());
 		if(!error.getString("errmsg").equals("updated")){
-			System.out.println(error.toString());
+			/*System.out.println(error.toString());*/
 		}
 	}
 	public void changWeiXinEnable(String userName, String enable){
 		JSONObject error = WeiXinUtil.changEnable(userName+"@ctssd.com", enable);
 		if(!error.getString("errmsg").equals("updated")){
-			System.out.println(error.toString());
+			/*System.out.println(error.toString());*/
 		}
 	}
 	

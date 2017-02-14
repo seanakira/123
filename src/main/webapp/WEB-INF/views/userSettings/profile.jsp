@@ -116,7 +116,7 @@
 			$.ajax({
 				type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/profile/updateInfo",  
+		        url:"${path }profile/updateInfo",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,
@@ -139,7 +139,7 @@
 			$.ajax({
 				type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/profile/updatePw",  
+		        url:"${path }profile/updatePw",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,

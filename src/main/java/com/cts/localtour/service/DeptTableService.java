@@ -55,10 +55,12 @@ public class DeptTableService extends BaseService{
 						StringBuffer managerName = new StringBuffer();
 						for (int j = 0; j < managerIds.length; j++) {
 							UserTable user = (UserTable) this.getById("UserTable", Integer.parseInt(managerIds[j]));
-							managerName.append(user.getRealName());
-							managerName.append("  ");
-							managerName.append(user.getUserName());
-							managerName.append("    ");
+							if(user!=null){
+								managerName.append(user.getRealName());
+								managerName.append("  ");
+								managerName.append(user.getUserName());
+								managerName.append("    ");
+							}
 						}
 						deptViewMode.setManagerName(managerName.toString());
 					}

@@ -216,7 +216,7 @@
 		$.ajax({  
 			type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/guideTimeManage/initialize",
+	        url:"${path }guideTimeManage/initialize",
 	        data:myData,
 	        dataType: "json",  
 	        async: false,  
@@ -455,7 +455,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideTimeManage/initialize",
+		        url:"${path }guideTimeManage/initialize",
 		        data:myData,
 		        dataType: "json",  
 		        async: false,  
@@ -531,7 +531,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideTimeManage/save",  
+		        url:"${path }guideTimeManage/save",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -575,7 +575,7 @@
 			$.ajax({
 				type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideTimeManage/find",  
+		        url:"${path }guideTimeManage/find",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -596,7 +596,7 @@
         	$.ajax({
         		type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideTimeManage/update",  
+		        url:"${path }guideTimeManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -651,7 +651,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierInfoManage/update",  
+			        url:"${path }supplierInfoManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -666,7 +666,7 @@
 			  	$.ajax({  
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierBusiness/update",  
+			        url:"${path }supplierBusiness/update",  
 			        data:ids,  
 			        dataType: "json",  
 			        async: false,  
@@ -696,7 +696,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierInfoManage/update",  
+		        url:"${path }supplierInfoManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -711,7 +711,7 @@
 		  	$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierBusiness/update",  
+		        url:"${path }supplierBusiness/update",  
 		        data:ids,  
 		        dataType: "json",  
 		        async: false,  

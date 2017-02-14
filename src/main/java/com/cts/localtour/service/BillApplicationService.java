@@ -69,12 +69,12 @@ public class BillApplicationService extends BaseService{
 	public void cancelbillApplication(int supplierId, String[] costIds, String[] changeCostIds) {
 		for (String id : costIds) {
 			if(!"".equals(id)){
-				this.updateByString("CostTable", "payStatus=?,realCost=0,reimbursement=null", "id=?", 0, Integer.parseInt(id));
+				this.updateByString("CostTable", "payStatus=?,realCost=0", "id=?", 0, Integer.parseInt(id));
 			}
 		}
 		for (String id : changeCostIds) {
 			if(!"".equals(id)){
-				this.updateByString("ChangeCostTable", "payStatus=?,realCost=0,reimbursement=null", "id=?", 0, Integer.parseInt(id));
+				this.updateByString("ChangeCostTable", "payStatus=?,realCost=0", "id=?", 0, Integer.parseInt(id));
 			}
 		}
 		if(this.getAllByString("CostTable", "supplierId=? and bill=true and remittanced=false and (payStatus=1 or payStatus=2)", supplierId).isEmpty()&&this.getAllByString("ChangeCostTable", "supplierId=? and bill=true and remittanced=false and (payStatus=1 or payStatus=2) and status=3", supplierId).isEmpty()){

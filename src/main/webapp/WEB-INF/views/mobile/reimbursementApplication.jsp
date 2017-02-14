@@ -120,6 +120,7 @@
 									</tr>
 								</tbody>
 							</table>
+							<span>备注：${reimbursement.headAmount }%<</span>
 							<div id="${tour.id }" class="action" style="margin: 5px;">
 								<shiro:hasPermission name="reimbursementApplication:cancel">
 									<button class="btn btn-sm btn-danger cancelCost">驳回</button>
@@ -156,7 +157,7 @@
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/reimbursementApplicationOk",  
+		        url:"${path }mobile/reimbursementApplicationOk",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -176,7 +177,7 @@
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/reimbursementApplicationCancel",  
+		        url:"${path }mobile/reimbursementApplicationCancel",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

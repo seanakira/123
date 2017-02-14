@@ -106,9 +106,10 @@ public class LocalTourService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public int getCounts(String key) {
 		if(key.equals("")){
-			return this.getCountsAll("LocalTourTable");
+			String where = "deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")";
+			return this.getCountsByParam("LocalTourTable", where, null);
 		}else{
-			String where = "tourNO like :tourNO or tourName like :tourName";
+			String where = "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")";
 			Hashtable<String, String> param = new Hashtable<String, String>();
 			param.put("tourNO", "%"+key+"%");
 			param.put("tourName", "%"+key+"%");

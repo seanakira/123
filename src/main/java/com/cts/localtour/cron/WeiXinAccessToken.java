@@ -13,6 +13,6 @@ public class WeiXinAccessToken {
 		
 		/*正式环境*/
 		WeiXinUtil.makeAccessToken("wxc0469422cfd3e1a7", "z6VGHv1UtG548JR7FhiIFtvg-N5LdrXDQXc5MzFnOIKjrXg0hbl2wu7eLL61ZZ7v");
-		System.out.println(WeiXinUtil.getAccessToken());
+		/*System.out.println(WeiXinUtil.getAccessToken());*/
 	}
 }

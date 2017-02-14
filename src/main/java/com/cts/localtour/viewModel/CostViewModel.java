@@ -67,7 +67,7 @@ public class CostViewModel {
 			CostViewModel cost = new CostViewModel();
 			cost.setCostTable(costTable);
 			cost.setBorrowUserName(userService.getUserRealName(costTable.getBorrowUserId()));
-			cost.setContentName(costTable.getContentId()==0?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			cost.setContentName((costTable.getContentId()==null||costTable.getContentId()==0)?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
 			cost.setPayApplicationerRealName(userService.getUserName(costTable.getPayApplicationerId()));
 			cost.setSupplierName(((SupplierTable)userService.getById("SupplierTable", costTable.getSupplierId())).getSupplierName());
 			if(costTable.getPayStatus()==0){
@@ -78,6 +78,9 @@ public class CostViewModel {
 				cost.setPayStatus("待批");
 			}else if(costTable.getPayStatus()==3){
 				cost.setPayStatus("已批");
+			}
+			if(costTable.isRemittanced()){
+				cost.setPayStatus("已汇");
 			}
 			costs.add(cost);
 		}
@@ -100,6 +103,9 @@ public class CostViewModel {
 				cost.setPayStatus("待批");
 			}else if(costTable.getPayStatus()==3){
 				cost.setPayStatus("已批");
+			}
+			if(costTable.isRemittanced()){
+				cost.setPayStatus("已汇");
 			}
 			costs.add(cost);
 		}

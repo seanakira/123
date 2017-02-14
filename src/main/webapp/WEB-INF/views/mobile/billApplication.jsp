@@ -92,20 +92,20 @@
 										<td style="width: 30%">${cost.contentName }</td>
 									</tr>
 									<tr>
-										<td style="width: 20%">供应商</td>
-										<td style="width: 30%">${supplier.supplierName }</td>
 										<td style="width: 20%">成本单价</td>
 										<td style="width: 30%">${cost.costTable.cost }</td>
-									</tr>
-									<tr>
 										<td style="width: 20%">数量</td>
 										<td style="width: 30%">${cost.costTable.count }</td>
-										<td style="width: 20%">天数</td>
-										<td style="width: 30%">${cost.costTable.days }</td>
 									</tr>
 									<tr>
+										<td style="width: 20%">天数</td>
+										<td style="width: 30%">${cost.costTable.days }</td>
 										<td style="width: 20%">合计</td>
-										<td style="width: 30%" class="red"><fmt:formatNumber value="${cost.costTable.cost*cost.costTable.count*cost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+										<td style="width: 30%"><fmt:formatNumber value="${cost.costTable.cost*cost.costTable.count*cost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+									</tr>
+									<tr>
+										<td style="width: 20%">签单</td>
+										<td style="width: 30%" class="red">${cost.costTable.reimbursement }</td>
 										<td style="width: 20%">申请人</td>
 										<td style="width: 30%">${cost.payApplicationerRealName }</td>
 									</tr>
@@ -122,7 +122,7 @@
 					</div>
 					</c:forEach>
 <!-- 列表循环结束 -->	
-<!-- 列表循环 -->		<c:forEach var="changeCosts" items="${full.changeCosts }">
+<!-- 列表循环 -->		<c:forEach var="changeCost" items="${full.changeCosts }">
 						<div>
 							<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 								<thead>
@@ -134,43 +134,43 @@
 								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert" class="blue">
 									<tr>
 										<td style="width: 20%">团号</td>
-										<td style="width: 30%">${changeCosts.localTourTable.tourNo }</td>
+										<td style="width: 30%">${changeCost.localTourTable.tourNo }</td>
 										<td style="width: 20%">团名</td>
-										<td style="width: 30%">${changeCosts.localTourTable.tourName }</td>
+										<td style="width: 30%">${changeCost.localTourTable.tourName }</td>
 									</tr>
 									<tr>
 										<td style="width: 20%">日期</td>
-										<td style="width: 30%">${changeCosts.costTable.costDate }</td>
+										<td style="width: 30%">${changeCost.costTable.costDate }</td>
 										<td style="width: 20%">内容</td>
-										<td style="width: 30%">${changeCosts.contentName }</td>
+										<td style="width: 30%">${changeCost.contentName }</td>
 									</tr>
 									<tr>
 										<td style="width: 20%">成本单价</td>
-										<td style="width: 30%">${changeCosts.costTable.cost }</td>
+										<td style="width: 30%">${changeCost.costTable.cost }</td>
 										<td style="width: 20%">数量</td>
-										<td style="width: 30%">${changeCosts.costTable.count }</td>
+										<td style="width: 30%">${changeCost.costTable.count }</td>
 									</tr>
 									<tr>
 										<td style="width: 20%">天数</td>
-										<td style="width: 30%">${changeCosts.costTable.days }</td>
+										<td style="width: 30%">${changeCost.costTable.days }</td>
 										<td style="width: 20%">合计</td>
-										<td style="width: 30%"><fmt:formatNumber value="${changeCosts.costTable.cost*changeCosts.costTable.count*changeCosts.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+										<td style="width: 30%"><fmt:formatNumber value="${changeCost.costTable.cost*changeCost.costTable.count*changeCost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
 									</tr>
 									<tr>
-										<td style="width: 20%">合计</td>
-										<td style="width: 30%" class="red">${changeCosts.costTable.reimbursement }</td>
+										<td style="width: 20%">签单</td>
+										<td style="width: 30%" class="red">${changeCost.costTable.reimbursement }</td>
 										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${changeCosts.payApplicationerRealName }</td>
+										<td style="width: 30%">${changeCost.payApplicationerRealName }</td>
 									</tr>
 									<tr>
 										<td style="width: 20%">备注</td>
-										<td style="width: 30%">${changeCosts.costTable.remark }</td>
+										<td style="width: 30%">${changeCost.costTable.remark }</td>
 										<td style="width: 20%">状态</td>
-										<td style="width: 30%">${changeCosts.payStatus }</td>
+										<td style="width: 30%">${changeCost.payStatus }</td>
 									</tr>
 							</tbody>
 						</table>
-						<div id="${changeCosts.costTable.id }" class="action" style="margin: 5px;">
+						<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;">
 							<shiro:hasPermission name="payApplication:cancel">
 								<button class="btn btn-sm btn-danger cancelCost">驳回</button>
 							</shiro:hasPermission>
@@ -197,15 +197,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/userManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }userManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/userManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }userManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/userManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }userManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -238,7 +238,7 @@
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/billApplicationOk",  
+		        url:"${path }mobile/billApplicationOk",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -258,7 +258,7 @@
 			 $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/mobile/billApplicationCancel",  
+		        url:"${path }mobile/billApplicationCancel",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

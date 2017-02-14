@@ -9,7 +9,6 @@
 		<meta name="keywords" content="港中旅国际（山东）旅行社有限公司" />
 		<meta name="description" content="港中旅国际（山东）旅行社有限公司" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 		<!-- basic styles -->
 
 		<link href="<%=path %>resources/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -42,6 +41,7 @@
 		<script src="assets/js/html5shiv.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<!--[if IE]><script type="text/javascript">alert("请勿使用IE内核浏览器")</script> <![endif]-->
         <style type="text/css">
         	.main-container{
 				padding-top:100px;

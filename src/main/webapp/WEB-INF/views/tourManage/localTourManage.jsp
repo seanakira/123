@@ -215,15 +215,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/localTourManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }localTourManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/localTourManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }localTourManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/localTourManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }localTourManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -1212,9 +1212,9 @@
 					         	
 					            
 					         </div>
-							<div class="modal-footer no-margin-top">
+							<div id="totalAll" class="modal-footer no-margin-top">
 								
-						 	 </div>
+						 	</div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
 				</div>
@@ -1238,8 +1238,6 @@
 												基本信息
 											</a>
 										</li>
-					
-					
 										<li>
 											<a id="editTrip" data-toggle="tab" href="#trips3">
 												<i class="orange icon-calendar bigger-120"></i>
@@ -2555,6 +2553,17 @@
 3.popClose：完成打印后是否关闭窗口，默认为false。  -->
 
 <script type="text/javascript">$(function(){
+	/* AJAX 默认选项 结合shiro */
+	$.ajaxSetup({
+	    complete:function(XMLHttpRequest,textStatus){
+	          if(textStatus=="parsererror"){
+           	  	 alert("登陆超时！请重新登陆！");
+                 window.location.href = '/';
+	          } else if(textStatus=="error"){
+	        	 alert("程序错误，请联系管理员。");
+	          }
+	    }
+	});
 	/* 初始化 */
 	/* 样式 */
 	$("#gourpManage").addClass("open");
@@ -2608,7 +2617,7 @@
 		$.ajax({  
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/getCreateInfo",
+	        url:"${path }localTourManage/getCreateInfo",
 	        dataType: "json",  
 	        async: false,  
 	        success:function(data){
@@ -2756,7 +2765,7 @@
 				$("#unAuditing").hide();	/* 退回 */
 				$("#finance").hide();		/* 报送 */
 				$("#lend").hide();			/* 借款 */
-				$("#pay").show();			/* 付款 */
+				$("#pay").hide();			/* 付款 */
 				$("#chanageCost").hide();	/* 变更 */
 				$("#loanInvoice").hide();	/* 借票 */
 				$("#balance").hide();		/* 结算 */
@@ -2850,7 +2859,7 @@
 		$.ajax({  
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/guideTimeManage/checkTime",  
+	        url:"${path }guideTimeManage/checkTime",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -2912,14 +2921,14 @@
 			if(int==0){
 				ul.append('<li class="active">'+
 							'<a data-toggle="tab" href="#day'+int+'">'+
-								date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+								date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 							'</a>'+
 					  	  '</li>');
 				div.append('<div id="day'+int+'" class="tab-pane in active">'+tripModel+'</div>');
 			}else{
 				ul.append('<li>'+
 						'<a data-toggle="tab" href="#day'+int+'">'+
-							date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+							date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 						'</a>'+
 				  	  '</li>');
 				div.append('<div id="day'+int+'" class="tab-pane">'+tripModel+'</div>');
@@ -3058,7 +3067,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/del",  
+		        url:"${path }localTourManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -3099,7 +3108,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/recover",  
+		        url:"${path }localTourManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -3141,7 +3150,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/auditing",  
+		        url:"${path }localTourManage/auditing",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -3183,7 +3192,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/unAuditing",  
+		        url:"${path }localTourManage/unAuditing",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -3224,7 +3233,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/finance",  
+		        url:"${path }localTourManage/finance",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -3365,7 +3374,7 @@
 		$.ajax({
 	        type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/save",  
+	        url:"${path }localTourManage/save",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -3389,7 +3398,7 @@
 									'<td>新建</td>'+
 									'<td>'+'<%=user.getRealName()%>'+'</td>'+
 								'</tr>');
-	        		tr.click(function(){
+	        		/* tr.click(function(){
 	        			var checkbox = $(this).find("input");
 	        			if(checkbox.prop("checked")){
 	        				checkbox.prop("checked",false);
@@ -3397,7 +3406,7 @@
 	        				$("#table").find("input").prop("checked",false);
 	        				checkbox.prop("checked",true);
 	        			}
-	        		});
+	        		}); */
 	        		$("#table").prepend(tr);
 	        	}else{
 	        		$("#saveNew").attr("data-dismiss","");
@@ -3417,7 +3426,7 @@
 		$.ajax({
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/find",  
+	        url:"${path }localTourManage/find",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -3481,7 +3490,7 @@
 					if(int==0){
 						ul.append('<li class="active">'+
 									'<a data-toggle="tab" href="#day'+int+'">'+
-										date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+										date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 									'</a>'+
 							  	  '</li>');
 						var flag = false;
@@ -3507,7 +3516,7 @@
 					}else{
 						ul.append('<li>'+
 								'<a data-toggle="tab" href="#day'+int+'">'+
-									date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+									date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 								'</a>'+
 						  	  '</li>');
 						var flag = false;
@@ -3548,6 +3557,14 @@
 	        	tickets.html("");
 	        	comprehensive.html("");
 	        	other.html("");
+	        	var flightSum = 0;
+	        	var hotelSum = 0;
+	        	var mealSum = 0;
+	        	var ticketSum = 0;
+	        	var shuttleSum = 0;
+	        	var ticketsSum = 0;
+	        	var comprehensiveSum = 0;
+	        	var otherSum = 0;
 	        	$.each(data.costs,function(){
 	        		if(this.costTable.supplierScopeId==1){
 	        			flight.append('<tr>'+
@@ -3561,6 +3578,7 @@
 	        								'<td>'+this.borrowUserName+'</td>'+
 	        								'<td>'+this.costTable.remark+'</td>'+
 	        					'</tr>');
+	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			hotel.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3573,6 +3591,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==3){
 	        			meal.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3585,6 +3604,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');		        			
+	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			ticket.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3596,7 +3616,8 @@
 		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');		        			
+		    					'</tr>');	
+	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			shuttle.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3609,6 +3630,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');	
+	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tickets.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3621,6 +3643,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==7){
 	        			comprehensive.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3633,6 +3656,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			other.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3645,6 +3669,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}
 	        	});
 	        	
@@ -3671,6 +3696,7 @@
 	        								'<td>'+this.borrowUserName+'</td>'+
 	        								'<td>'+this.costTable.remark+'</td>'+
 	        					'</tr>');
+	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			hotel.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3683,6 +3709,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==3){
 	        			meal.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3694,7 +3721,8 @@
 		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');		        			
+		    					'</tr>');
+	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			ticket.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3706,7 +3734,8 @@
 		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');		        			
+		    					'</tr>');
+	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			shuttle.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3718,7 +3747,8 @@
 		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');	
+		    					'</tr>');
+	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tickets.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3731,6 +3761,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==7){
 	        			comprehensive.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3743,6 +3774,7 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			other.append('<tr>'+
 		    								'<td>'+this.costTable.costDate+'</td>'+
@@ -3755,10 +3787,22 @@
 		    								'<td>'+this.borrowUserName+'</td>'+
 		    								'<td>'+this.costTable.remark+'</td>'+
 		    					'</tr>');
+	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}
 	        	});
+	        	
+	        	flight.append('<tr><td>机票合计</td><td>'+flightSum.toFixed(2)+'</td></tr>');
+	        	hotel.append('<tr><td>订房合计</td><td>'+hotelSum.toFixed(2)+'</td></tr>');
+	        	meal.append('<tr><td>订餐合计</td><td>'+mealSum.toFixed(2)+'</td></tr>');
+	        	ticket.append('<tr><td>门票合计</td><td>'+ticketSum.toFixed(2)+'</td></tr>');
+	        	shuttle.append('<tr><td>订车合计</td><td>'+shuttleSum.toFixed(2)+'</td></tr>');
+	        	tickets.append('<tr><td>票务合计</td><td>'+ticketsSum.toFixed(2)+'</td></tr>');
+	        	comprehensive.append('<tr><td>综费合计</td><td>'+comprehensiveSum.toFixed(2)+'</td></tr>');
+	        	other.append('<tr><td>其他合计</td><td>'+otherSum.toFixed(2)+'</td></tr>');
+	        	
 	        	var tbody = $("#incomes2").find("tbody");
 	        	tbody.html("");
+	        	var incomeSum = 0;
 	        	$.each(data.incomes,function(){
 	        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 	        		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
@@ -3770,6 +3814,7 @@
 	        							'<td>'+invoiceAmount+'</td>'+
 	        							'<td>'+this.incomeTable.remark+'</td>'+
 	        					'</tr>');
+	        		incomeSum = incomeSum + this.incomeTable.income;
 	        	});
 	        	$.each(data.changeIncomes,function(){
 	        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
@@ -3782,7 +3827,19 @@
 	        							'<td>'+invoiceAmount+'</td>'+
 	        							'<td>'+this.incomeTable.remark+'</td>'+
 	        					'</tr>');
+	        		incomeSum = incomeSum + this.incomeTable.income;
 	        	});
+	        	$("#totalAll").html('<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top" style="text-align: left;"><tbody><tr><td>预估成本</td>'+
+	        									'<td>'+(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum).toFixed(2)+'</td>'+
+	        									'<td>预估收入</td>'+
+	        									'<td>'+incomeSum.toFixed(2)+'</td>'+
+	        									'<td>预估毛利</td>'+
+	        									'<td>'+(incomeSum-(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum)).toFixed(2)+'</td>'+
+	        									'<td>预估人均毛利</td>'+
+	        									'<td>'+((incomeSum-(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum))/((data.localTourTable.adultNo==null?0:data.localTourTable.adultNo) + (data.localTourTable.childrenNo==null?0:data.localTourTable.childrenNo))).toFixed(2)+'</td>'+
+	        									'<td>预估毛利率</td>'+
+	        									'<td>'+((incomeSum-(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum))/incomeSum*100).toFixed(2)+'%</td>'+
+	        						'</tr></tbody></table>');
 	        }  
 		});
 	});
@@ -3794,7 +3851,7 @@
 		$.ajax({
 	        type: "GET",
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/guideTimeManage/delete",  
+	        url:"${path }guideTimeManage/delete",  
 	        data:myData,  
 	        dataType: "json",
 	        async: false,  
@@ -3815,7 +3872,7 @@
 		$.ajax({
 	        type: "GET",
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/guideTimeManage/checkTime",  
+	        url:"${path }guideTimeManage/checkTime",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -3856,7 +3913,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/localTourManage/find",  
+			        url:"${path }localTourManage/find",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -3908,7 +3965,7 @@
 						$.ajax({
 					        type: "GET",  
 					        contentType:"application/json;charset=utf-8",  
-					        url:"/localtour/guideTimeManage/checkTime",  
+					        url:"${path }guideTimeManage/checkTime",  
 					        data:myData,  
 					        dataType: "json",  
 					        async: false,  
@@ -3988,6 +4045,9 @@
 		    					} 
 		    				}
 		    				borrowUser.append('<option value="'+data.localTourTable.userId+'">'+tourUserName+'</option>');
+		    				if(this.costTable.costDate==null){
+		    					this.costTable.costDate="";
+		    				}
 			        		if(this.costTable.supplierScopeId==1){
 			        			flight.append('<tr>'+
 				    								'<td><input value="'+this.costTable.costDate.replace(/-/g,'/')+'" style="width:100%;" class="datepicker form-control" type="text" /></td>'+
@@ -4219,7 +4279,7 @@
 							if(int==0){
 								ul.append('<li class="active">'+
 											'<a data-toggle="tab" href="#editDay'+int+'">'+
-												date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+												date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 											'</a>'+
 									  	  '</li>');
 								var flag = false;
@@ -4249,7 +4309,7 @@
 							}else{
 								ul.append('<li>'+
 										'<a data-toggle="tab" href="#editDay'+int+'">'+
-											date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+											date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 										'</a>'+
 								  	  '</li>');
 								var flag = false;
@@ -4326,7 +4386,7 @@
 			if(int==0){
 				ul.append('<li class="active">'+
 							'<a data-toggle="tab" href="#editDay'+int+'">'+
-								date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+								date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 							'</a>'+
 					  	  '</li>');
 				var flag = false;
@@ -4355,7 +4415,7 @@
 			}else{
 				ul.append('<li>'+
 						'<a data-toggle="tab" href="#editDay'+int+'">'+
-							date.getFullYear()+'/'+date.getMonth()+'/'+date.getDate()+
+							date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
 						'</a>'+
 				  	  '</li>');
 				var flag = false;
@@ -4538,7 +4598,7 @@
 		$.ajax({
 	        type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/update",  
+	        url:"${path }localTourManage/update",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -4550,7 +4610,7 @@
 	        	}else if(data==-3){
 	        		alert("保存失败，请填写前往地或离开");
 	        	}else if(data==-4){
-	        		alert("保存失败，请填写供应商或内容");
+	        		alert("保存失败，请填写供应商");
 	        	}else if(data==-5){
 	        		alert("保存失败，请填写客户");
 	        	}
@@ -4579,7 +4639,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/findChangeCost",  
+		        url:"${path }localTourManage/findChangeCost",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -4714,7 +4774,7 @@
 		$.ajax({
 	        type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/saveChangeCost",  
+	        url:"${path }localTourManage/saveChangeCost",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -4726,7 +4786,7 @@
 	        	}else if(data==-3){
 	        		alert("保存失败，请填写前往地或离开");
 	        	}else if(data==-4){
-	        		alert("保存失败，请填写供应商或内容");
+	        		alert("保存失败，请填写供应商");
 	        	}else if(data==-5){
 	        		alert("保存失败，请填写客户");
 	        	}
@@ -4751,7 +4811,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/findLend",  
+		        url:"${path }localTourManage/findLend",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -4805,7 +4865,7 @@
 		$.ajax({
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/loanApplication",  
+	        url:"${path }localTourManage/loanApplication",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -4858,7 +4918,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/findPay",  
+		        url:"${path }localTourManage/findPay",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,
@@ -4882,7 +4942,7 @@
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
-		        		}else if(!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill){
+		        		}else if(!this.costTable.lend&&!this.costTable.bill){
 		        			var tr = $('<tr>'+
 			        						'<td>'+this.costTable.costDate+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
@@ -4919,7 +4979,7 @@
 			        					'</tr>');
 		        			canPays.append(tr);
 		        			canPaysChangeCount++;
-		        		}else if(!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
+		        		}else if(!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
 		        			var tr = $('<tr class="blue">'+
 			        						'<td>'+this.costTable.costDate+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
@@ -4987,7 +5047,7 @@
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/payApplication",  
+		        url:"${path }localTourManage/payApplication",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -5022,7 +5082,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/findBorrowInvoice",  
+		        url:"${path }localTourManage/findBorrowInvoice",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,
@@ -5075,11 +5135,10 @@
 			});
 		});
 		var myData = JSON.stringify(loanInvoices);
-		alert(myData)
 		$.ajax({
 			type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/localTourManage/saveBorrowInvoice",  
+	        url:"${path }localTourManage/saveBorrowInvoice",  
 	        data:myData,  
 	        dataType: "json",
 	        async: false,
@@ -5109,7 +5168,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/localTourManage/balance",  
+		        url:"${path }localTourManage/balance",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -5157,7 +5216,7 @@
 		$.ajax({
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
-	        url:"/localtour/reimbursementManage/findReimbursement",  
+	        url:"${path }reimbursementManage/findReimbursement",  
 	        data:myData,  
 	        dataType: "json",  
 	        async: false,  
@@ -5389,7 +5448,7 @@
 			$.ajax({
 				type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/reimbursementManage/updateReimbursement",  
+		        url:"${path }reimbursementManage/updateReimbursement",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,

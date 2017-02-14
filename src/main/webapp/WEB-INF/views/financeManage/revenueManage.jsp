@@ -138,15 +138,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/revenueManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }revenueManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/revenueManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }revenueManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/revenueManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }revenueManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -397,7 +397,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/revenueManage/find",  
+		        url:"${path }revenueManage/find",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,  
@@ -522,7 +522,7 @@
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/revenueManage/update",  
+		        url:"${path }revenueManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -553,7 +553,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/invoiceManage/find",  
+			        url:"${path }invoiceManage/find",  
 			        data:myData,  
 			        dataType: "json",
 			        async: false,
@@ -625,7 +625,7 @@
 			$.ajax({
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/invoiceManage/save",  
+		        url:"${path }invoiceManage/save",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,
@@ -689,7 +689,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/loanInvoiceManage/find",  
+			        url:"${path }loanInvoiceManage/find",  
 			        data:myData,  
 			        dataType: "json",
 			        async: false,
@@ -751,7 +751,7 @@
 			$.ajax({
 				type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/loanInvoiceManage/save",  
+		        url:"${path }loanInvoiceManage/save",  
 		        data:myData,  
 		        dataType: "json",
 		        async: false,

@@ -196,15 +196,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/customerAgencyManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }customerAgencyManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/customerAgencyManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }customerAgencyManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/customerAgencyManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }customerAgencyManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -279,7 +279,7 @@
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/customerAgencyManage/save",  
+			        url:"${path }customerAgencyManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -301,7 +301,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/customerAgencyManage/del",  
+		        url:"${path }customerAgencyManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -321,7 +321,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/customerAgencyManage/recover",  
+		        url:"${path }customerAgencyManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -365,7 +365,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/customerAgencyManage/update",  
+			        url:"${path }customerAgencyManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -393,7 +393,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/customerAgencyManage/update",  
+		        url:"${path }customerAgencyManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

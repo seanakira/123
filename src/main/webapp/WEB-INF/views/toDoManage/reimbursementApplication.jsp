@@ -152,15 +152,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/toDoReimbursement?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }toDoReimbursement?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/toDoReimbursement?page=${page }&key=${key }">${page }</a>
+												<a href="${path }toDoReimbursement?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/toDoReimbursement?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }toDoReimbursement?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -228,6 +228,7 @@
 											</tr>
 										</tbody>
 									</table>
+									<span id="headAmount"></span>
 					       		</div>
 					       	</div>
 							<div class="modal-footer no-margin-top">
@@ -318,31 +319,36 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/toDoReimbursement/find",  
+			        url:"${path }toDoReimbursement/find",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	$("#cost").children("td").eq(1).html('<a title="'+data.budgetCostSumInfo.replace(/,/g,"<br>")+'">'+data.budgetCostSum+'</a>');
-			        	$("#cost").children("td").eq(2).html('<a title="'+data.executeCostSumInfo.replace(/,/g,"<br>")+'">'+data.executeCostSum+'</a>');
-			        	$("#cost").children("td").eq(3).html('<a title="'+data.willCostSumInfo.replace(/,/g,"<br>")+'">'+data.willCostSum+'</a>');
-			        	$("#cost").children("td").eq(4).html('<a title="'+data.realCostSumInfo.replace(/,/g,"<br>")+'">'+data.realCostSum+'</a>');
-			        	$("#cost").children("td").eq(5).html('<a title="'+data.reimbursementCostSumInfo.replace(/,/g,"<br>")+'">'+data.reimbursementCostSum+'</a>');
-			        	$("#income").children("td").eq(1).html('<a title="'+data.budgetIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.budgetIncomeSum+'</a>');
-			        	$("#income").children("td").eq(2).html('<a title="'+data.executeIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.executeIncomeSum+'</a>');
-			        	$("#income").children("td").eq(3).html('<a title="'+data.willIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.willIncomeSum+'</a>');
-			        	$("#income").children("td").eq(4).html('<a title="'+data.realIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.realIncomeSum+'</a>');
-			        	$("#income").children("td").eq(5).html('<a title="'+data.reimbursementIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.reimbursementIncomeSum+'</a>');
-			        	$("#grossProfit").children("td").eq(1).html(data.budgetGrossProfit);
-			        	$("#grossProfit").children("td").eq(2).html(data.executeGrossProfit);
-			        	$("#grossProfit").children("td").eq(3).html(data.willGrossProfit);
-			        	$("#grossProfit").children("td").eq(4).html(data.realGrossProfit);
-			        	$("#grossProfit").children("td").eq(5).html(data.reimbursementGrossProfit);
-			        	$("#grossMargin").children("td").eq(1).html(data.budgetGrossMargin+"%");
-			        	$("#grossMargin").children("td").eq(2).html(data.executeGrossMargin+"%");
-			        	$("#grossMargin").children("td").eq(3).html(data.willGrossMargin+"%");
-			        	$("#grossMargin").children("td").eq(4).html(data.realGrossMargin+"%");
-			        	$("#grossMargin").children("td").eq(5).html(data.reimbursementGrossMargin+"%");
+			        	var tds = $("#cost").children("td");
+			        	tds.eq(1).html('<a title="'+data.budgetCostSumInfo.replace(/,/g,"<br>")+'">'+data.budgetCostSum+'</a>');
+			        	tds.eq(2).html('<a title="'+data.executeCostSumInfo.replace(/,/g,"<br>")+'">'+data.executeCostSum+'</a>');
+			        	tds.eq(3).html('<a title="'+data.willCostSumInfo.replace(/,/g,"<br>")+'">'+data.willCostSum+'</a>');
+			        	tds.eq(4).html('<a title="'+data.realCostSumInfo.replace(/,/g,"<br>")+'">'+data.realCostSum+'</a>');
+			        	tds.eq(5).html('<a title="'+data.reimbursementCostSumInfo.replace(/,/g,"<br>")+'">'+data.reimbursementCostSum+'</a>');
+			        	var incomes = $("#income").children("td");
+			        	incomes.eq(1).html('<a title="'+data.budgetIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.budgetIncomeSum+'</a>');
+			        	incomes.eq(2).html('<a title="'+data.executeIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.executeIncomeSum+'</a>');
+			        	incomes.eq(3).html('<a title="'+data.willIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.willIncomeSum+'</a>');
+			        	incomes.eq(4).html('<a title="'+data.realIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.realIncomeSum+'</a>');
+			        	incomes.eq(5).html('<a title="'+data.reimbursementIncomeSumInfo.replace(/,/g,"<br>")+'">'+data.reimbursementIncomeSum+'</a>');
+			        	var tds2 = $("#grossProfit").children("td");
+			        	tds2.eq(1).html(data.budgetGrossProfit);
+			        	tds2.eq(2).html(data.executeGrossProfit);
+			        	tds2.eq(3).html(data.willGrossProfit);
+			        	tds2.eq(4).html(data.realGrossProfit);
+			        	tds2.eq(5).html(data.reimbursementGrossProfit);
+			        	var tds3 = $("#grossMargin").children("td");
+			        	tds3.eq(1).html(data.budgetGrossMargin+"%");
+			        	tds3.eq(2).html(data.executeGrossMargin+"%");
+			        	tds3.eq(3).html(data.willGrossMargin+"%");
+			        	tds3.eq(4).html(data.realGrossMargin+"%");
+			        	tds3.eq(5).html(data.reimbursementGrossMargin+"%");
+			        	$("#headAmount").html("备注："+data.headAmount);
 			        }  
 				});
 			}
@@ -368,7 +374,7 @@
 			var http = (window.document.location.href.substring(0, window.document.location.href.indexOf(window.document.location.pathname)));
 			var div = $('<div id="qrcode" style="display:none;position: absolute;background-color: #444;color: white;padding: 10px;left: 45%;top: 20%;z-index: 1500;"></div>');
 			$("body").append(div);
-			$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/toDoReimbursement/ok?tourId="+tourId});
+			$('#qrcode').qrcode({width: 200,height: 200,text: http+"${path }toDoReimbursement/ok?tourId="+tourId});
 			div.fadeIn();
 		});
 		$("#ok").mouseout(function(){
@@ -378,7 +384,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/toDoReimbursement/checkStatus", 
+		        url:"${path }toDoReimbursement/checkStatus", 
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -396,7 +402,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/toDoReimbursement/cancel",  
+		        url:"${path }toDoReimbursement/cancel",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

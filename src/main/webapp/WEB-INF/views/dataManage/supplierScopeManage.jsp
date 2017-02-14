@@ -181,15 +181,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/supplierScopeManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }supplierScopeManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/supplierScopeManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }supplierScopeManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/supplierScopeManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }supplierScopeManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -244,7 +244,7 @@
 			 	$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierScopeManage/save",  
+			        url:"${path }supplierScopeManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -264,7 +264,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierScopeManage/del",  
+		        url:"${path }supplierScopeManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -284,7 +284,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierScopeManage/recover",  
+		        url:"${path }supplierScopeManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -319,7 +319,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/supplierScopeManage/update",  
+			        url:"${path }supplierScopeManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -342,7 +342,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/supplierScopeManage/update",  
+		        url:"${path }supplierScopeManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

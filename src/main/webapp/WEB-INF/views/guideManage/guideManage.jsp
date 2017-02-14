@@ -184,15 +184,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/guideManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }guideManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/guideManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }guideManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/guideManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }guideManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -248,7 +248,7 @@
 				 	$.ajax({  
 				        type: "POST",  
 				        contentType:"application/json;charset=utf-8",  
-				        url:"/localtour/guideManage/save",  
+				        url:"${path }guideManage/save",  
 				        data:myData,  
 				        dataType: "json",  
 				        async: false,  
@@ -274,7 +274,7 @@
 					$.ajax({  
 				        type: "POST",  
 				        contentType:"application/json;charset=utf-8",  
-				        url:"/localtour/guideManage/update",  
+				        url:"${path }guideManage/update",  
 				        data:myData,  
 				        dataType: "json",  
 				        async: false,  
@@ -303,7 +303,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideManage/del",  
+		        url:"${path }guideManage/del",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -323,7 +323,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideManage/recover",  
+		        url:"${path }guideManage/recover",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -362,7 +362,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/contentManage/update",  
+			        url:"${path }contentManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -385,7 +385,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/guideManage/update",  
+		        url:"${path }guideManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

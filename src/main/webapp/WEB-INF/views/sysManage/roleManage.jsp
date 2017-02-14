@@ -164,7 +164,7 @@
 				$.ajax({
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/roleManage/save",  
+			        url:"${path }roleManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -187,7 +187,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/permissionSManage/find",  
+		        url:"${path }permissionSManage/find",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -220,7 +220,7 @@
 				$.ajax({
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/permissionSManage/update",  
+			        url:"${path }permissionSManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  

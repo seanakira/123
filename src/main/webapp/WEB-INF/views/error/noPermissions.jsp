@@ -74,7 +74,7 @@
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 <!-- Required Javascript -->
 <!-- page specific plugin scripts -->
-	<!-- script src="/localtour/resources/assets/js/fuelux/data/fuelux.tree-sampledata.js"></script> -->
+	<!-- script src="${path }resources/assets/js/fuelux/data/fuelux.tree-sampledata.js"></script> -->
 	
 	
 	<!-- inline scripts related to this page -->

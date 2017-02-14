@@ -178,15 +178,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/userManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }userManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/userManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }userManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/userManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }userManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -373,7 +373,7 @@
 				$.ajax({  
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/del",  
+			        url:"${path }userManage/del",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -393,7 +393,7 @@
 				$.ajax({  
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/recover",  
+			        url:"${path }userManage/recover",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -415,7 +415,7 @@
 				$.ajax({  
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/reset",  
+			        url:"${path }userManage/reset",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -430,7 +430,7 @@
 					$.ajax({
 				        type: "GET",
 				        contentType:"application/json;charset=utf-8",
-				        url:"/localtour/userManage/initRole",
+				        url:"${path }userManage/initRole",
 				        dataType: "json",
 				        async: false,
 				        success:function(data){
@@ -467,7 +467,7 @@
 					$.ajax({
 				        type: "GET",
 				        contentType:"application/json;charset=utf-8",
-				        url:"/localtour/deptManage/getTree",
+				        url:"${path }deptManage/getTree",
 				        dataType: "json",
 				        async: false,
 				        success:function(data){
@@ -507,7 +507,7 @@
 				var deptId = inputs.eq(5).val();
 				var userTable = {userName:userName,realName:realName,deptId:deptId,position:position,phone:phone,qq:qq};
 				var roleTables = new Array();
-				var trs = $("#roleTable");
+				var trs = $("#roleTable").children("tr");
 				$.each(trs,function(){
 					if($(this).find("input").prop("checked")){
 						roleTables.push({
@@ -521,7 +521,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/save",  
+			        url:"${path }userManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -558,7 +558,7 @@
 			$.ajax({  
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/userManage/find",  
+		        url:"${path }userManage/find",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -575,7 +575,7 @@
 						$.ajax({
 					        type: "GET",
 					        contentType:"application/json;charset=utf-8",
-					        url:"/localtour/userManage/initRole",
+					        url:"${path }userManage/initRole",
 					        dataType: "json",
 					        async: false,
 					        success:function(data){
@@ -618,7 +618,7 @@
 			$.ajax({  
 		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/userManage/update",  
+		        url:"${path }userManage/update",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -669,7 +669,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/save",  
+			        url:"${path }userManage/save",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -726,7 +726,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/update",  
+			        url:"${path }userManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -759,7 +759,7 @@
 				$.ajax({  
 			        type: "POST",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/userManage/update",  
+			        url:"${path }userManage/update",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -785,7 +785,7 @@
 	 			 $.ajax({  
 				        type: "POST",  
 				        contentType:"application/json;charset=utf-8",  
-				        url:"/localtour/deptManage/getTree", 
+				        url:"${path }deptManage/getTree", 
 				        dataType: "json",  
 				        async: false,  
 				        success:function(data){

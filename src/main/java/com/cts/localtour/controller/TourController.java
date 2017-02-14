@@ -288,7 +288,7 @@ public class TourController {
 			/*更新成本*/
 			if(!costTables.isEmpty()){
 				for (int i = 0; i < costTables.size(); i++) {
-					if(costTables.get(i).getContentId()==null||costTables.get(i).getSupplierId()==0){
+					if(costTables.get(i).getSupplierId()==0){
 						return -4;
 					}else{
 						costService.merge(costTables.get(i));

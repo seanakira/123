@@ -32,7 +32,7 @@ public class LoginController {
 	@RequestMapping("/admin")
 	public String admin(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue="") String userId){
 		/*Î¢ÐÅ×Ô¶¯µÇÂ¼*/
-		if(request.getHeader("user-agent").indexOf("MicroMessenger")>=0){
+		if(request.getHeader("user-agent").indexOf("MicroMessenger")>=0||request.getHeader("user-agent").indexOf("Mobile MQQBrowser")>=0){
 			if("".equals(userId)){
 				this.getUserId(request, response, null);
 			}else{
@@ -95,7 +95,7 @@ public class LoginController {
 		}else{
 			String userId = WeiXinUtil.getUserId(code);
 			try {
-				response.sendRedirect("?userId="+userId);
+				response.sendRedirect("../admin?userId="+userId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

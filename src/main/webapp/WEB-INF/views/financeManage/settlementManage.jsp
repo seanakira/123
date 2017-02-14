@@ -152,15 +152,15 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="/localtour/settlementManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }settlementManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:forEach var="page" begin="1" end="${pageMax }">
 											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="/localtour/settlementManage?page=${page }&key=${key }">${page }</a>
+												<a href="${path }settlementManage?page=${page }&key=${key }">${page }</a>
 											</li>
 										</c:forEach>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="/localtour/settlementManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }settlementManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -318,7 +318,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"/localtour/settlementManage/find",  
+			        url:"${path }settlementManage/find",  
 			        data:myData,  
 			        dataType: "json",  
 			        async: false,  
@@ -368,7 +368,7 @@
 			var http = (window.document.location.href.substring(0, window.document.location.href.indexOf(window.document.location.pathname)));
 			var div = $('<div id="qrcode" style="display:none;position: absolute;background-color: #444;color: white;padding: 10px;left: 45%;top: 20%;z-index: 1500;"></div>');
 			$("body").append(div);
-			$('#qrcode').qrcode({width: 200,height: 200,text: http+"/localtour/settlementManage/update?tourId="+tourId});
+			$('#qrcode').qrcode({width: 200,height: 200,text: http+"${path }settlementManage/update?tourId="+tourId});
 			div.fadeIn();
 		});
 		$("#ok").mouseout(function(){
@@ -378,7 +378,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/settlementManage/checkStatus", 
+		        url:"${path }settlementManage/checkStatus", 
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  
@@ -396,7 +396,7 @@
 			$.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
-		        url:"/localtour/settlementManage/cancel",  
+		        url:"${path }settlementManage/cancel",  
 		        data:myData,  
 		        dataType: "json",  
 		        async: false,  

@@ -90,7 +90,7 @@ public class WeiXinUtil {
 			message.element("safe", safe);
 			JSONObject error = httpRequest(requestUrl, "POST", message.toString());
 			if(!error.getString("errmsg").equals("ok")){
-				System.out.println(error.toString());
+				/*System.out.println(error.toString());*/
 			}
 			return true;
 		}

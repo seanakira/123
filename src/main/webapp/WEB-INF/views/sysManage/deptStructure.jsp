@@ -159,8 +159,8 @@
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 <!-- Required Javascript -->
 <!-- page specific plugin scripts -->
-	<!-- script src="/localtour/resources/assets/js/fuelux/data/fuelux.tree-sampledata.js"></script> -->
-	<script src="/localtour/resources/assets/js/fuelux/fuelux.tree.min.js"></script>
+	<!-- script src="${path }resources/assets/js/fuelux/data/fuelux.tree-sampledata.js"></script> -->
+	<script src="${path }resources/assets/js/fuelux/fuelux.tree.min.js"></script>
 	
 	<!-- inline scripts related to this page -->
 
@@ -184,7 +184,7 @@
 				        type: "GET",  
 				        contentType:"application/json;charset=utf-8", 
 				        data:"deptId="+val,
-				        url:"/localtour/deptStructure/getUserTree", 
+				        url:"${path }deptStructure/getUserTree", 
 				        dataType: "json",  
 				        async: false,  
 				        success:function(data){
@@ -199,7 +199,7 @@
 				        type: "GET",  
 				        contentType:"application/json;charset=utf-8", 
 				        data:"upperDeptId="+val,
-				        url:"/localtour/deptStructure/getTree", 
+				        url:"${path }deptStructure/getTree", 
 				        dataType: "json",  
 				        async: false,  
 				        success:function(data){
@@ -242,7 +242,7 @@
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8", 
 			        data:"userId="+val,
-			        url:"/localtour/deptStructure/getUserView", 
+			        url:"${path }deptStructure/getUserView", 
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){

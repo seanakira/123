@@ -58,8 +58,8 @@ public class UserViewModel {
 		ArrayList<UserViewModel> userViewModels = new ArrayList<UserViewModel>();
 		for (UserTable userTable : users) {
 			UserViewModel userViewModel = new UserViewModel();
-			ArrayList<DeptTable> dept = (ArrayList<DeptTable>) baseService.getByWhere("DeptTable", "id", userTable.getDeptId()+"");
-			userViewModel.setDeptName(dept.get(0).getDeptName());
+			DeptTable dept = (DeptTable)baseService.getById("DeptTable", userTable.getDeptId());
+			userViewModel.setDeptName(dept.getDeptName());
 			userViewModel.setUserTable(userTable);
 			ArrayList<RoleTable> roleTables = (ArrayList<RoleTable>) baseService.getByHql("SELECT r FROM UserRoleTable u, RoleTable r WHERE u.roleId=r.id AND u.userId="+userTable.getId());
 			userViewModel.setRoleNames("");

@@ -1,12 +1,15 @@
 package com.cts.localtour.viewModel;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cts.localtour.entity.ReimbursementTable;
 import com.cts.localtour.pojo.CostInfo;
 import com.cts.localtour.pojo.IncomeInfo;
+import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
@@ -48,6 +51,8 @@ public class FullReimbursementApplicationViewModel {
 	private String reimbursementIncomeSumInfo;
 	private float reimbursementGrossProfit;
 	private float reimbursementGrossMargin;
+	
+	private float headAmount;
 	@Autowired
 	private CostService costService;
 	@Autowired
@@ -56,6 +61,9 @@ public class FullReimbursementApplicationViewModel {
 	private IncomeService incomeService;
 	@Autowired
 	private ChangeIncomeService changeIncomeService;
+	@SuppressWarnings("rawtypes")
+	@Autowired
+	private BaseService baseService;
 	public float getBudgetCostSum() {
 		return budgetCostSum;
 	}
@@ -236,6 +244,13 @@ public class FullReimbursementApplicationViewModel {
 	public void setReimbursementGrossMargin(float reimbursementGrossMargin) {
 		this.reimbursementGrossMargin = reimbursementGrossMargin;
 	}
+	public float getHeadAmount() {
+		return headAmount;
+	}
+	public void setHeadAmount(float headAmount) {
+		this.headAmount = headAmount;
+	}
+	@SuppressWarnings("unchecked")
 	public FullReimbursementApplicationViewModel getFullReimbursementApplicationViewModel(int tourId){
 		FullReimbursementApplicationViewModel fullReimbursementApplicationViewModel = new FullReimbursementApplicationViewModel();
 		CostInfo costInfo = costService.getCostInfo(tourId);
@@ -285,6 +300,10 @@ public class FullReimbursementApplicationViewModel {
 		fullReimbursementApplicationViewModel.setReimbursementGrossProfit((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
 		if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){
 			fullReimbursementApplicationViewModel.setReimbursementGrossMargin(((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
+		}
+		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>)baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
+		if(!reimbursementTables.isEmpty()){
+			fullReimbursementApplicationViewModel.setHeadAmount(reimbursementTables.get(0).getHeadAmount());
 		}
 		return fullReimbursementApplicationViewModel;
 	}
