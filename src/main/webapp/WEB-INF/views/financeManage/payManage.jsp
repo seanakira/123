@@ -286,11 +286,11 @@
 																<th style="width: 15%;">供应商*</th>
 																<th style="width: 10%;">成本小计</th>
 																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
+																<th style="width: 8%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -307,11 +307,11 @@
 																<th style="width: 15%;">供应商*</th>
 																<th style="width: 10%;">成本小计</th>
 																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
+																<th style="width: 8%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -328,11 +328,11 @@
 																<th style="width: 15%;">供应商*</th>
 																<th style="width: 10%;">成本小计</th>
 																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
+																<th style="width: 8%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -349,11 +349,11 @@
 																<th style="width: 15%;">供应商*</th>
 																<th style="width: 10%;">成本小计</th>
 																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
+																<th style="width: 8%;">借款人</th>
 																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -365,15 +365,15 @@
 													<thead>
 														<tr>
 															<th style="width: 10%;">日期</th>
-															<th style="width: 15%;">内容</th>
-															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本小计</th>
-															<th style="width: 10%;">电汇金额</th>
-															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">挂账</th>
-															<th style="width: 6%;">状态</th>
+																<th style="width: 15%;">内容</th>
+																<th style="width: 15%;">供应商*</th>
+																<th style="width: 10%;">成本小计</th>
+																<th style="width: 10%;">电汇金额</th>
+																<th style="width: 8%;">借款人</th>
+																<th style="width: 10%;">明细备注</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -386,15 +386,15 @@
 													<thead>
 														<tr>
 															<th style="width: 10%;">日期</th>
-															<th style="width: 15%;">内容</th>
-															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本小计</th>
-															<th style="width: 10%;">电汇金额</th>
-															<th style="width: 10%;">借款人</th>
-															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">挂账</th>
-															<th style="width: 6%;">状态</th>
+																<th style="width: 15%;">内容</th>
+																<th style="width: 15%;">供应商*</th>
+																<th style="width: 10%;">成本小计</th>
+																<th style="width: 10%;">电汇金额</th>
+																<th style="width: 8%;">借款人</th>
+																<th style="width: 10%;">明细备注</th>
+																<th style="width: 8%;">导游借款</th>
+																<th style="width: 8%;">挂账</th>
+																<th style="width: 8%;">状态</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -673,11 +673,15 @@
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			tbody = other;
 		        		}
+						var costDate = "";
+						if(this.costTable.costDate!=null){
+							costDate = this.costTable.costDate.replace(/-/g,'/');
+						}
 		        		var tr = $('<tr>'+
-										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+costDate+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
-										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+										'<td><a data-toggle="modal" href="#" title="单价'+this.costTable.cost+' X 数量'+this.costTable.count+' X 天数'+this.costTable.days+'">'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</a></td>'+
 										'<td>'+realCost.html()+'</td>'+
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+remark.html()+'</td>'+
@@ -687,7 +691,6 @@
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
-		        	
 		        	/* 设置成本变更 */
 		        	if(data.changeCosts.length > 0){
 		        		$("#changeCostBlue").attr("style","");
@@ -757,8 +760,12 @@
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			tbody = other;
 		        		}
-		        		var tr = $('<tr class="blue">'+
-										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+		        		var costDate = "";
+						if(this.costTable.costDate!=null){
+							costDate = this.costTable.costDate.replace(/-/g,'/');
+						}
+		        		var tr = $('<tr>'+
+										'<td>'+costDate+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
@@ -1035,7 +1042,7 @@
 				var inputs = $(this).find("input");
 				var tds = $(this).children("td");
 				if(inputs.length>3){
-					if(inputs.eq(1).val()!=""&&inputs.eq(2).val()!=""){
+					if(inputs.eq(1).val()!=""){
 						loanTables.push({
 							id:tds.last().attr("id"),
 							tourId:tourId,

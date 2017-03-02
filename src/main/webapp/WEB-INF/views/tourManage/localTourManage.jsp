@@ -132,6 +132,35 @@
 									恢复团队
 								</a>
 							</shiro:hasPermission>
+							<div id="print" class="btn-group" style="top: -2px;font-size: 12.5px;">
+								<button data-toggle="dropdown" class="blue" style="border-width: 0px;background-color: rgba(255,255,255,0);">
+										<i class="icon-print bigger-100"></i>打印单据
+									<span class="icon-caret-down icon-on-right"></span>
+								</button>
+
+								<ul class="dropdown-menu dropdown-inverse">
+									<li>
+										<a id="lendPrintButton" data-toggle="modal" href="#">打印导游借款凭证</a>
+									</li>
+
+									<li>
+										<a href="#">打印付款凭证</a>
+									</li>
+
+									<!-- <li>
+										<a href="#">打印出团通知书</a>
+									</li>
+
+									<li class="divider"></li>
+
+									<li>
+										<a href="#">打印订房单</a>
+									</li>
+									<li>
+										<a href="#">打印预借发票申请</a>
+									</li> -->
+								</ul>
+							</div>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }localTourManage" method="get">
@@ -2153,6 +2182,7 @@
 									<i class="icon-remove"></i>
 									取消
 								</button>
+								<a href="#" class="autoAddLend" style="margin:  20px;">一键填充金额</a>
 								<shiro:hasPermission name="localTour:payApplication">
 									<button id="payApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 										<i class="icon-save"></i>
@@ -2538,6 +2568,91 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 团队报账结束 -->
+<!-- 导游借款模板-->
+				<div aria-hidden="true" style="display: none;" id="lendPrintModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									导游借款凭证
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div id="printArea" class="tab-pane fade in active costTable">
+					         			<style type="text/css">
+											@media print{
+												table{
+													font-size: 12px;
+													border-collapse: collapse;
+													margin-top: 10px;
+													width: 100%;
+												}
+												td{
+													border: 1px solid;
+												}
+												h3{
+													text-align: center;
+													margin:0px;
+												}
+												span{
+													position: absolute;
+													top:20px;
+													right:10px;
+													font-size: 12px;
+												}
+												input{
+													border: 0px;
+												}
+											}
+											
+										</style>
+										<span class="pull-right"></span>
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+									      <tbody>
+										        <tr>
+											        <td style="width: 10%;">团号</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+											        <td style="width: 10%;">团名</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+											        <td style="width: 10%;">部门</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+												</tr>
+												<tr>
+											        <td>金额</td>
+											        <td class="printInfo"></td>
+											        <td>大写</td>
+											        <td class="printInfo"></td>
+											        <td>借款方式</td>
+											        <td><input style="width: 100%;" type="text"></td>
+												</tr>
+												<tr>
+											        <td>打印日期</td>
+											        <td class="printInfo"></td>
+											        <td>打印人</td>
+											        <td class="printInfo"></td>
+											        <td>备注</td>
+											        <td><input style="width: 100%;" type="text"></td>
+												</tr>
+											</tbody>
+										</table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="lendPrint" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-print"></i>
+									打印
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 导游借款结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -2555,14 +2670,22 @@
 <script type="text/javascript">$(function(){
 	/* AJAX 默认选项 结合shiro */
 	$.ajaxSetup({
-	    complete:function(XMLHttpRequest,textStatus){
-	          if(textStatus=="parsererror"){
-           	  	 alert("登陆超时！请重新登陆！");
-                 window.location.href = '/';
-	          } else if(textStatus=="error"){
-	        	 alert("程序错误，请联系管理员。");
-	          }
-	    }
+		error: function(XMLHttpRequest, textStatus, errorMsg){
+			if(textStatus=="parsererror"){
+          		alert("登陆超时！请重新登陆！");
+                window.location.href = '/';
+	        } else if(textStatus=="error"){
+				if(XMLHttpRequest.status==400){
+	        		alert("请检查必填项，或其他数据是否正确，（如：天数只可填写整数）");
+	        	}else if(XMLHttpRequest.status==500){
+	        		alert("服务器错误，请记录具体操作流程，联系管理员");
+	        	}else if(XMLHttpRequest.status==404){
+	        		/* alert("提交错误，找不到页面"); */
+	        	}else{
+	        		alert("其他错误，请记录具体操作流程，联系管理员 ");
+	        	}
+	        }
+		}
 	});
 	/* 初始化 */
 	/* 样式 */
@@ -2671,6 +2794,17 @@
 		}
 	});
 	
+	/* 点击本行复选框选中本行 */
+	$("#table").delegate(".ace","click",function(){
+		var checkbox = $(this);
+		if(checkbox.prop("checked")){
+			$("#table").find("input").prop("checked",false);
+			checkbox.prop("checked",true);
+			var status = $(this).parent().parent().siblings().eq(7).text();
+			changeButton(status);
+		}
+	});
+	
 	/* 点击本行选中复选框 */
 	$("#table").delegate("td:not(.sorting_1)","click",function(){
 		var checkbox = $(this).siblings().eq(0).find("input");
@@ -2681,152 +2815,158 @@
 			checkbox.prop("checked",true);
 			/* 控制按钮显示 */
 			var status = $(this).siblings().eq(7).text();
-			if(status=="新建"){
-				$("#editTour").show();
-				$("#auditing").show();
-				$("#unAuditing").hide();
-				$("#finance").hide();
-				$("#lend").hide();
-				$("#pay").hide();
-				$("#chanageCost").hide();
-				$("#loanInvoice").hide();
-				$("#balance").hide();
-				$("#reimbursement").hide();
-				$("#delete").show();
-				$("#recover").hide();
-			}else if(status=="已提交"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").show();	/* 退回 */
-				$("#finance").show();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").hide();	/* 变更 */
-				$("#loanInvoice").hide();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="已报送"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").show();	/* 变更 */
-				$("#loanInvoice").show();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="可借款"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").show();			/* 借款 */
-				$("#pay").show();			/* 付款 */
-				$("#chanageCost").show();	/* 变更 */
-				$("#loanInvoice").show();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="进行中"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").show();			/* 借款 */
-				$("#pay").show();			/* 付款 */
-				$("#chanageCost").show();	/* 变更 */
-				$("#loanInvoice").show();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="已结束"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").show();			/* 借款 */
-				$("#pay").show();			/* 付款 */
-				$("#chanageCost").show();	/* 变更 */
-				$("#loanInvoice").show();	/* 借票 */
-				$("#balance").show();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="结算中"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").hide();	/* 变更 */
-				$("#loanInvoice").hide();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").show();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="已报账"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").hide();	/* 变更 */
-				$("#loanInvoice").hide();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="已核销"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").hide();	/* 变更 */
-				$("#loanInvoice").hide();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="已结算"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").hide();	/* 变更 */
-				$("#loanInvoice").hide();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").hide();		/* 恢复 */
-			}else if(status=="已取消"){
-				$("#editTour").hide();		/* 修改 */
-				$("#auditing").hide();		/* 提交 */
-				$("#unAuditing").hide();	/* 退回 */
-				$("#finance").hide();		/* 报送 */
-				$("#lend").hide();			/* 借款 */
-				$("#pay").hide();			/* 付款 */
-				$("#chanageCost").hide();	/* 变更 */
-				$("#loanInvoice").hide();	/* 借票 */
-				$("#balance").hide();		/* 结算 */
-				$("#reimbursement").hide();	/* 报账 */
-				$("#delete").hide();		/* 删除 */
-				$("#recover").show();		/* 恢复 */
-			}
+			changeButton(status);
 		}
 	});
+	
+	/* 改变按钮 */
+	function changeButton(status){
+		if(status=="新建"){
+			$("#editTour").show();
+			$("#auditing").show();
+			$("#unAuditing").hide();
+			$("#finance").hide();
+			$("#lend").hide();
+			$("#pay").hide();
+			$("#chanageCost").hide();
+			$("#loanInvoice").hide();
+			$("#balance").hide();
+			$("#reimbursement").hide();
+			$("#delete").show();
+			$("#recover").hide();
+		}else if(status=="已提交"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").show();	/* 退回 */
+			$("#finance").show();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="已报送"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").show();	/* 变更 */
+			$("#loanInvoice").show();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="可借款"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").show();			/* 借款 */
+			$("#pay").show();			/* 付款 */
+			$("#chanageCost").show();	/* 变更 */
+			$("#loanInvoice").show();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="进行中"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").show();			/* 借款 */
+			$("#pay").show();			/* 付款 */
+			$("#chanageCost").show();	/* 变更 */
+			$("#loanInvoice").show();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="已结束"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").show();			/* 借款 */
+			$("#pay").show();			/* 付款 */
+			$("#chanageCost").show();	/* 变更 */
+			$("#loanInvoice").show();	/* 借票 */
+			$("#balance").show();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="结算中"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").show();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="已报账"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="已核销"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="已结算"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="已取消"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#delete").hide();		/* 删除 */
+			$("#recover").show();		/* 恢复 */
+		}
+	}
+	
 	/* 全选 */
 	$(".selectAll").click(function(){
 		if($(this).prop("checked")){
@@ -2865,7 +3005,7 @@
 	        async: false,  
 	        success:function(data){
         		$.each(data,function(){
-	        		select.append('<option value="'+this.guideTable.id+'">'+this.userTable.realName+'</option>');
+	        		select.append('<option value="'+this.guideTable.id+'" name="'+this.userTable.id+'">'+this.userTable.realName+'</option>');
 	        	});
 	        },
 	        error:function(){
@@ -2921,14 +3061,14 @@
 			if(int==0){
 				ul.append('<li class="active">'+
 							'<a data-toggle="tab" href="#day'+int+'">'+
-								date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+								date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 							'</a>'+
 					  	  '</li>');
 				div.append('<div id="day'+int+'" class="tab-pane in active">'+tripModel+'</div>');
 			}else{
 				ul.append('<li>'+
 						'<a data-toggle="tab" href="#day'+int+'">'+
-							date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+							date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 						'</a>'+
 				  	  '</li>');
 				div.append('<div id="day'+int+'" class="tab-pane">'+tripModel+'</div>');
@@ -2968,6 +3108,8 @@
         	$.each(selectInfo.flightSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val(tr.parents(".tab-content").find("#guideTd").parent().prev().children("td:last").text());
+        	tr.find("input").eq(3).val(1);
 		}else if(type.substr(0,type.length-1)=="hotel"){
 			tr.children("td").last().append('<input type="hidden" value="2" />');
 			$.each(selectInfo.hotelContents,function(){
@@ -2976,6 +3118,8 @@
         	$.each(selectInfo.hotelSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val((tr.parents(".tab-content").find("#guideTd").parent().prev().children("td:last").text()/2).toFixed(0));
+        	tr.find("input").eq(3).val(1);
 		}else if(type.substr(0,type.length-1)=="meal"){
 			tr.children("td").last().append('<input type="hidden" value="3" />');
 			$.each(selectInfo.mealContents,function(){
@@ -2984,6 +3128,7 @@
         	$.each(selectInfo.mealSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val(tr.parents(".tab-content").find("#guideTd").parent().prev().children("td:last").text());
 		}else if(type.substr(0,type.length-1)=="ticket"){
 			tr.children("td").last().append('<input type="hidden" value="4" />');
 			$.each(selectInfo.ticketContents,function(){
@@ -2992,6 +3137,8 @@
         	$.each(selectInfo.ticketSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val(tr.parents(".tab-content").find("#guideTd").parent().prev().children("td:last").text());
+        	tr.find("input").eq(3).val(1);
 		}else if(type.substr(0,type.length-1)=="shuttle"){
 			tr.children("td").last().append('<input type="hidden" value="5" />');
 			$.each(selectInfo.shuttleContents,function(){
@@ -3000,6 +3147,8 @@
         	$.each(selectInfo.shuttleSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val(1);
+        	tr.find("input").eq(3).val(1);
 		}else if(type.substr(0,type.length-1)=="tickets"){
 			tr.children("td").last().append('<input type="hidden" value="6" />');
 			$.each(selectInfo.ticketsContents,function(){
@@ -3008,6 +3157,8 @@
         	$.each(selectInfo.ticketsSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val(tr.parents(".tab-content").find("#guideTd").parent().prev().children("td:last").text());
+        	tr.find("input").eq(3).val(1);
 		}else if(type.substr(0,type.length-1)=="comprehensive"){
 			tr.children("td").last().append('<input type="hidden" value="7" />');
 			$.each(selectInfo.comprehensiveContents,function(){
@@ -3016,6 +3167,8 @@
         	$.each(selectInfo.comprehensiveSuppliers,function(){
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
+        	tr.find("input").eq(2).val(1);
+        	tr.find("input").eq(3).val(1);
 		}else if(type.substr(0,type.length-1)=="other"){
 			tr.children("td").last().append('<input type="hidden" value="8" />');
 			$.each(selectInfo.otherContents,function(){
@@ -3029,7 +3182,7 @@
 		var names = guides.find("option:selected");
 		if(guides.val()!=undefined){
 			for (var int = 0; int < guides.val().length; int++) {
-				selects.eq(2).append('<option value="'+guides.val()[int]+'">'+names.eq(int).text()+'</option>');
+				selects.eq(2).append('<option value="'+names.eq(int).attr("name")+'">'+names.eq(int).text()+'</option>');
 			} 
 		}
 		selects.eq(2).append('<option value="'+'<%=user.getId()%>'+'">'+'<%=user.getRealName()%>'+'</option>');
@@ -3490,7 +3643,7 @@
 					if(int==0){
 						ul.append('<li class="active">'+
 									'<a data-toggle="tab" href="#day'+int+'">'+
-										date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+										date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 									'</a>'+
 							  	  '</li>');
 						var flag = false;
@@ -3516,7 +3669,7 @@
 					}else{
 						ul.append('<li>'+
 								'<a data-toggle="tab" href="#day'+int+'">'+
-									date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+									date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 								'</a>'+
 						  	  '</li>');
 						var flag = false;
@@ -3878,7 +4031,7 @@
 	        async: false,  
 	        success:function(data){
         		$.each(data,function(){
-	        		select.append('<option value="'+this.guideTable.id+'">'+this.userTable.realName+'</option>');
+	        		select.append('<option value="'+this.guideTable.id+'" name="'+this.userTable.id+'">'+this.userTable.realName+'</option>');
 	        	});
 	        },
 	        error:function(){
@@ -3962,6 +4115,7 @@
 			        	/* 设置导游 */
 			        	var select = td.eq(14).children("select");
 						var myData = {startTime:(data.localTourTable.startTime).replace(/-/g,"/"),endTime:(data.localTourTable.endTime).replace(/-/g,"/")};
+						select.empty();
 						$.ajax({
 					        type: "GET",  
 					        contentType:"application/json;charset=utf-8",  
@@ -3972,11 +4126,11 @@
 					        success:function(guides){
 					        	var guideIds = new Array();
 								$.each(data.guideTimes,function(index){
-									select.append('<option value="'+this.guideId+'">'+this.realName+'</option>');
+									select.append('<option value="'+this.guideId+'" name="'+this.userId+'">'+this.realName+'</option>');
 									guideIds[index] = this.guideId;
 					        	});
 				        		$.each(guides,function(){
-					        		select.append('<option value="'+this.guideTable.id+'">'+this.userTable.realName+'</option>');
+					        		select.append('<option value="'+this.guideTable.id+'" name="'+this.userTable.id+'">'+this.userTable.realName+'</option>');
 					        	});
 				        		select.val(guideIds);
 					        },
@@ -4041,7 +4195,7 @@
 		    				var borrowUser = $('<select style="width:100%;" class="width-20 chosen-select"><option value="">&nbsp;</option></select>');
 		    				if(guides.val()!=undefined){
 		    					for (var int = 0; int < guides.val().length; int++) {
-		    						borrowUser.append('<option value="'+guides.val()[int]+'">'+names.eq(int).text()+'</option>');
+		    						borrowUser.append('<option value="'+names.eq(int).attr("name")+'">'+names.eq(int).text()+'</option>');
 		    					} 
 		    				}
 		    				borrowUser.append('<option value="'+data.localTourTable.userId+'">'+tourUserName+'</option>');
@@ -4279,7 +4433,7 @@
 							if(int==0){
 								ul.append('<li class="active">'+
 											'<a data-toggle="tab" href="#editDay'+int+'">'+
-												date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+												date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 											'</a>'+
 									  	  '</li>');
 								var flag = false;
@@ -4309,7 +4463,7 @@
 							}else{
 								ul.append('<li>'+
 										'<a data-toggle="tab" href="#editDay'+int+'">'+
-											date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+											date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 										'</a>'+
 								  	  '</li>');
 								var flag = false;
@@ -4386,7 +4540,7 @@
 			if(int==0){
 				ul.append('<li class="active">'+
 							'<a data-toggle="tab" href="#editDay'+int+'">'+
-								date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+								date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 							'</a>'+
 					  	  '</li>');
 				var flag = false;
@@ -4415,7 +4569,7 @@
 			}else{
 				ul.append('<li>'+
 						'<a data-toggle="tab" href="#editDay'+int+'">'+
-							date.getFullYear()+'/'+date.getMonth()+1+'/'+date.getDate()+
+							date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()+
 						'</a>'+
 				  	  '</li>');
 				var flag = false;
@@ -4818,6 +4972,8 @@
 		        success:function(data){
 		        	var canLoans = $('<tbody></tbody>');
 		        	var isLoans = $('<tbody></tbody>');
+		        	$("#canLoans").html("");
+		        	$("#isLoans").html("");
 		        	$.each(data,function(){
 		        		if(this.loanTable.status>1){
 		        			var tr = $('<tr>'+
@@ -4840,12 +4996,12 @@
 		        		}
 		        	});
 		        	if(canLoans.html()==""){
-	        			$("#canLoans").parent().html('<span class="red">无可借款项</span>');
+	        			$("#canLoans").append('<span class="red">无可借款项</span>');
 	        		}else {
 	        			$("#canLoans").html(canLoans.html());
 	        		}
 					if(isLoans.html()==""){
-						$("#isLoans").parent().html('<span class="red">无借款记录</span>');
+						$("#isLoans").append('<span class="red">无借款记录</span>');
 	        		}else{
 	        			$("#isLoans").html(isLoans.html());
 	        		}
@@ -4927,9 +5083,10 @@
 		        	var isPays = $('<tbody></tbody>');
 		        	$.each(data.costs,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill){
+		        			var costTable = this.costTable.costDate==null?"":this.costTable.costDate;
 		        			var tr = $('<tr id="'+this.costTable.id+'">'+
 		        							'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			        						'<td>'+this.costTable.costDate+'</td>'+
+			        						'<td>'+costTable+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
 			        						'<td>'+this.supplierName+'</td>'+
 			        						'<td>'+this.costTable.cost+'</td>'+
@@ -4943,9 +5100,10 @@
 			        					'</tr>');
 		        			canPays.append(tr);
 		        		}else if(!this.costTable.lend&&!this.costTable.bill){
+		        			var costTable = this.costTable.costDate==null?"":this.costTable.costDate;
 		        			var tr = $('<tr>'+
 			        						'<td>'+this.costTable.costDate+'</td>'+
-			        						'<td>'+this.contentName+'</td>'+
+			        						'<td>'+costTable+'</td>'+
 			        						'<td>'+this.supplierName+'</td>'+
 			        						'<td>'+this.costTable.cost+'</td>'+
 			        						'<td>'+this.costTable.count+'</td>'+
@@ -5420,7 +5578,17 @@
         	$("#realGrossMargin").text(((parseFloat($("#realIncome").text())-reimbursementSum)/parseFloat($("#realIncome").text())*100).toFixed(2)+"%");
 		}
 	});
-	
+	/* 自动填充借款付款金额 */
+	$(".autoAddLend").click(function(){
+		var inputs = $(this).parent().prev().find("input").not(".ace");
+		if(inputs.length==0){
+			
+		}else{
+			$.each(inputs,function(){
+				$(this).val($(this).parent().prev().text());
+			});
+		}
+	});
 	/*保存报账*/
 	$("#reimbursementApplication").click(function(){
 		var tourId= $("#reimbursementApplication").parent().attr("id");
@@ -5499,12 +5667,108 @@
 	        printAlert : true,
 	        printMsg   : 'Aguarde a impressão'
 	    }); --%>
-		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
 		$("#reimbursementPrintDiv").find("table").show();
 		$("#reimbursementPrintDiv").find("thead").show();
 		$("#reimbursementPrintDiv").children("#changeCostBlue").show();
 		$("#reimbursementPrintDiv").children("h3").remove();
+		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
 	});
+	/* 打印借款凭证 */
+	$("#lendPrintButton").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+			$(this).attr("href","#");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			$(this).attr("href","#");
+		}else{
+			/* 初始化选项 */
+			var a = $(this);
+			var myData = {tourId:checkbox.parent().parent().parent().attr("id"),type:"lend"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printVoucher",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	var tds = checkbox.parent().parent().siblings();
+		        	if(data.loans.length==0){
+		        		alert("暂无可打印的导游借款凭证，请确认借款是否已经经过审批或是否已经借出款项");
+		        		a.attr("href","#");
+		        	}else{
+		        		var total = 0;
+		        		var printCount = 0;
+		        		
+		        		$("#printTable").remove();
+		        		var printTable = $('<table id="printTable" class="table table-striped table-bordered table-hover no-margin"><tbody></tbody></table>');
+		        		printTable.append('<tr><td>日期</td><td>金额</td><td>备注</td><td>状态</td><td>财务</td><td>申请人</td><td>经理</td><td>总经理</td></tr>')
+		        		$.each(data.loans,function(){
+		        			total = total+this.loanTable.loanAmount;
+		        			if(printCount<this.loanTable.printCount){
+		        				printCount = this.loanTable.printCount;
+		        			}
+		        			var remark = this.loanTable.remark==null?"":this.loanTable.remark;
+		        			printTable.append('<tr><td>'+this.loanTable.loanDate+'</td><td>'+this.loanTable.loanAmount.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.status+'</td><td>'+this.lenderRealName+'</td><td>'+this.applicationerRealName+'</td><td>'+this.managerName+'</td><td>'+this.bossName+'</td></tr>');
+		        		});
+		        		printCount++;
+		        		var printInfos = $("#printArea").find(".printInfo");
+		        		printInfos.eq(0).text(tds.eq(0).text());
+		        		printInfos.eq(1).text(tds.eq(1).text());
+		        		printInfos.eq(2).text(data.deptName);
+		        		printInfos.eq(3).text(total.toFixed(2));
+		        		printInfos.eq(4).text(moneyTrun(total.toFixed(2)));
+		        		var date = new Date();
+		        		printInfos.eq(5).text(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+		        		printInfos.eq(6).text('<%=user.getRealName()%>');
+		        		$("#printArea").find("span").text("第"+printCount+"次打印");
+		        		$("#printArea").append(printTable)
+		        		$("#printArea").find("input").val("");
+		        		a.attr("href","#lendPrintModel");
+		        	}
+		        }
+			});
+		}
+	});
+	$("#lendPrint").click(function(){
+		var myData = {tourId:$("#table").find("input:checked").parent().parent().parent().attr("id"),type:"lend"}
+		$.ajax({
+	        type: "GET",  
+	        contentType:"application/json;charset=utf-8",  
+	        url:"${path }localTourManage/printCountPlus",
+	        data:myData,  
+	        dataType: "json",  
+	        async: false,  
+	        success:function(data){
+	        }
+		});
+		var tds = $("#table").find("input:checked").parents("td").siblings();
+		var printHtml = $("#printArea");
+		printHtml.prepend("<h3>导游借款凭证</h3>").printArea({
+	        mode       : "popup",
+	        standard   : "html5",
+	        popTitle   : '导游借款单',
+	        popClose   : false,
+	    });
+		printHtml.find("h3").remove();
+		printHtml.find("span").text("");
+		$("#printTable").remove();
+		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+	});
+   function moneyTrun(num) {  
+        var strOutput = "";  
+        var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
+        num += "00";  
+        var intPos = num.indexOf('.');  
+        if (intPos >= 0)  
+          num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
+        strUnit = strUnit.substr(strUnit.length - num.length);  
+        for (var i=0; i < num.length; i++)  
+          strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
+          return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
+    };  
 });
 
 

@@ -14,6 +14,8 @@ public class LoanViewModel {
 	private String lenderRealName;
 	private String applicationerRealName;
 	private String status;
+	private String managerName;
+	private String bossName;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -40,6 +42,18 @@ public class LoanViewModel {
 	}
 	public void setApplicationerRealName(String applicationerRealName) {
 		this.applicationerRealName = applicationerRealName;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getBossName() {
+		return bossName;
+	}
+	public void setBossName(String bossName) {
+		this.bossName = bossName;
 	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<LoanViewModel> getAllLoanViewModel(int tourId){
@@ -94,6 +108,37 @@ public class LoanViewModel {
 				}else if(loanTables.get(i).getStatus()==3){
 					loan.setStatus("待批准");
 				}else if(loanTables.get(i).getStatus()==4){
+					loan.setStatus("已批准");
+				}
+			}
+			loans.add(loan);
+		}
+		return loans;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<LoanViewModel> getPrintViewModel(int tourId){
+		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=? and status=4 and lended=false", tourId);
+		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
+		for (LoanTable loanTable : loanTables) {
+			LoanViewModel loan = new LoanViewModel();
+			loan.setLoanTable(loanTable);
+			loan.setApplicationerRealName(((UserTable)baseService.getById("UserTable", loanTable.getApplicationerId())).getRealName());
+			loan.setLenderRealName(((UserTable)baseService.getById("UserTable", loanTable.getLenderId())).getRealName());
+			loan.setManagerName(((UserTable)baseService.getById("UserTable", loanTable.getManagerId())).getRealName());
+			loan.setBossName(((UserTable)baseService.getById("UserTable", loanTable.getBossId())).getRealName());
+			if(loanTable.isLended()){
+				loan.setStatus("已借出");
+			}else{
+				if(loanTable.getStatus()==0){
+					loan.setStatus("新建");
+				}else if(loanTable.getStatus()==1){
+					loan.setStatus("可借");
+				}else if(loanTable.getStatus()==2){
+					loan.setStatus("待审核");
+				}else if(loanTable.getStatus()==3){
+					loan.setStatus("待批准");
+				}else if(loanTable.getStatus()==4){
 					loan.setStatus("已批准");
 				}
 			}

@@ -2,7 +2,13 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<% String path = request.getContextPath()+"/"; %>
+<%@ page import="org.apache.shiro.SecurityUtils"%>
+<%@ page import="java.util.Arrays"%>
+<%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
+<% 
+	String path = request.getContextPath()+"/"; 
+	UserTable user = (UserTable)SecurityUtils.getSubject().getPrincipal();
+%>
 
 <!DOCTYPE html>
 <html lang="zh">
@@ -63,7 +69,7 @@
 					<a href="<%=path %>" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							地接系统
+							<%=Arrays.binarySearch(new int[]{3,10,11,12,13,15}, user.getDeptId())<0?"地接系统":"会展系统"%>
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

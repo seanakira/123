@@ -14,6 +14,7 @@ import com.cts.localtour.service.BaseService;
 public class GuideTimeViewModel {
 	private String realName;
 	private int guideId;
+	private int userId;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -37,6 +38,12 @@ public class GuideTimeViewModel {
 	public void setTourInfo(Hashtable<String, GuideTimeTable> tourInfo) {
 		this.tourInfo = tourInfo;
 	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<GuideTimeViewModel> getAllGuideTimeViewModel(int tourId){
 		ArrayList<GuideTimeTable> guideTimeTables = (ArrayList<GuideTimeTable>)baseService.getAllByString("GuideTimeTable", "tourId=?", tourId);
@@ -48,7 +55,9 @@ public class GuideTimeViewModel {
 				baseService.delete(guideTimeTables.get(i));
 				guideTime.setRealName("");
 			}else{
-				guideTime.setRealName(((UserTable)baseService.getById("UserTable", ((GuideTable)baseService.getById("GuideTable", guideTimeTables.get(i).getGuideId())).getUserId())).getRealName());
+				UserTable user = (UserTable)baseService.getById("UserTable", ((GuideTable)baseService.getById("GuideTable", guideTimeTables.get(i).getGuideId())).getUserId());
+				guideTime.setRealName(user.getRealName());
+				guideTime.setUserId(user.getId());
 			}
 			guideTime.setGuideId(guideTimeTables.get(i).getGuideId());
 			guideTimes.add(guideTime);

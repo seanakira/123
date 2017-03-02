@@ -31,6 +31,7 @@ import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.GuideTimeService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
+import com.cts.localtour.service.PrintService;
 import com.cts.localtour.service.TripService;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
@@ -40,6 +41,7 @@ import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
+import com.cts.localtour.viewModel.PayVoucherViewModel;
 import com.cts.localtour.viewModel.SimpleBillCheckViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
@@ -61,6 +63,8 @@ public class TourController {
 	private IncomeService incomeService;
 	@Autowired
 	private BillService billService;
+	@Autowired
+	private PrintService printService;
 	@RequestMapping("/localTourManage")
 	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -255,6 +259,8 @@ public class TourController {
 			
 			/*更新排团信息*/
 			guideTimeService.deleteByString("GuideTimeTable", "tourId=?", localTour.getId());
+			System.out.println(localTour.getId());
+			System.out.println(guideTimeTables.toString());
 			if(!guideTimeTables.isEmpty()){
 				for (int i = 0; i < guideTimeTables.size(); i++) {
 					guideTimeService.add(guideTimeTables.get(i));
@@ -477,5 +483,15 @@ public class TourController {
 	@RequestMapping("/billCheckManage/update")
 	public void updateBill(@RequestBody FullBillViewModel full){
 		billService.updateBill(full);
+	}
+	
+	/*打印导游借款凭证*/
+	@RequestMapping("/localTourManage/printVoucher")
+	public @ResponseBody PayVoucherViewModel printPayVoucher(@RequestParam String type, @RequestParam int tourId){
+		return printService.printPayVoucher(type, tourId);
+	}
+	@RequestMapping("/localTourManage/printCountPlus")
+	public void printCountPlus(@RequestParam String type, @RequestParam int tourId){
+		printService.printCountPlus(type, tourId);
 	}
 }

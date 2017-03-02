@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-27 10:39:04 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-2 12:05:36 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -24,33 +24,37 @@ public class LoanTable implements java.io.Serializable {
 	private Date loanDate;
 	private Integer applicationerId;
 	private int lenderId;
+	private Integer managerId;
+	private Integer bossId;
 	private boolean lended;
 	private String remark;
+	private Integer printCount;
 	private int status;
 
 	public LoanTable() {
 	}
 
-	public LoanTable(int tourId, float loanAmount, Date loanDate, int lenderId, boolean lended, String remark,
-			int status) {
+	public LoanTable(int tourId, float loanAmount, Date loanDate, int lenderId, boolean lended, int status) {
 		this.tourId = tourId;
 		this.loanAmount = loanAmount;
 		this.loanDate = loanDate;
 		this.lenderId = lenderId;
 		this.lended = lended;
-		this.remark = remark;
 		this.status = status;
 	}
 
-	public LoanTable(int tourId, float loanAmount, Date loanDate, Integer applicationerId, int lenderId, boolean lended,
-			String remark, int status) {
+	public LoanTable(int tourId, float loanAmount, Date loanDate, Integer applicationerId, int lenderId,
+			Integer managerId, Integer bossId, boolean lended, String remark, Integer printCount, int status) {
 		this.tourId = tourId;
 		this.loanAmount = loanAmount;
 		this.loanDate = loanDate;
 		this.applicationerId = applicationerId;
 		this.lenderId = lenderId;
+		this.managerId = managerId;
+		this.bossId = bossId;
 		this.lended = lended;
 		this.remark = remark;
+		this.printCount = printCount;
 		this.status = status;
 	}
 
@@ -112,6 +116,24 @@ public class LoanTable implements java.io.Serializable {
 		this.lenderId = lenderId;
 	}
 
+	@Column(name = "managerId")
+	public Integer getManagerId() {
+		return this.managerId;
+	}
+
+	public void setManagerId(Integer managerId) {
+		this.managerId = managerId;
+	}
+
+	@Column(name = "bossId")
+	public Integer getBossId() {
+		return this.bossId;
+	}
+
+	public void setBossId(Integer bossId) {
+		this.bossId = bossId;
+	}
+
 	@Column(name = "lended", nullable = false)
 	public boolean isLended() {
 		return this.lended;
@@ -121,13 +143,22 @@ public class LoanTable implements java.io.Serializable {
 		this.lended = lended;
 	}
 
-	@Column(name = "remark", nullable = false, length = 65535)
+	@Column(name = "remark", length = 65535)
 	public String getRemark() {
 		return this.remark;
 	}
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Column(name = "printCount")
+	public Integer getPrintCount() {
+		return this.printCount;
+	}
+
+	public void setPrintCount(Integer printCount) {
+		this.printCount = printCount;
 	}
 
 	@Column(name = "status", nullable = false)

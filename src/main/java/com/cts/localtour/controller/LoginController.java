@@ -66,7 +66,7 @@ public class LoginController {
 					md.addAttribute("msg","您的密码为123456，请修改初始密码");
 					return "/userSettings/profile";
 				}else{
-					response.sendRedirect("../localTourManage");
+					response.sendRedirect("../operatingStatus");
 				}
 			}else{
 				md.addAttribute("msg","用户名或密码错误");

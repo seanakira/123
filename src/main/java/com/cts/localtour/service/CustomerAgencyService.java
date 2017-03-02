@@ -21,8 +21,8 @@ public class CustomerAgencyService extends BaseService{
 			for (int i = 0; i < customerAgencys.size(); i++) {
 				CustomerAgencyViewModel customerAgencyViewModel = new CustomerAgencyViewModel();
 				customerAgencyViewModel.setCustomerAgencyTable(customerAgencys.get(i));
-				String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", customerAgencys.get(i).getRegionId()+"")).get(0).getRegionName();
-				customerAgencyViewModel.setRegionName(regionName);
+				RegionTable region = ((RegionTable) this.getById("RegionTable", customerAgencys.get(i).getRegionId()));
+				customerAgencyViewModel.setRegionName(region==null?"":region.getRegionName());
 				CustomerAgencyViewModels.add(customerAgencyViewModel);
 			}
 			return CustomerAgencyViewModels;

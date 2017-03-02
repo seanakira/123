@@ -114,10 +114,13 @@ public class MobileService extends BaseService{
 			/*状态验证*/
 			if(loan.getStatus()==status){
 				loan.setStatus(status+1);
-				this.update(loan);
 				if(status==2){
 					this.sendMessage("loanApplication", loan.getTourId(), 3, "您有您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
+					loan.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				}else if(status==3){
+					loan.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				}
+				this.update(loan);
 			}
 		}
 	}

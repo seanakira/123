@@ -2,7 +2,13 @@
     pageEncoding="utf-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="shiro-ex" tagdir="/WEB-INF/tags" %>
-<% request.setAttribute("path", request.getContextPath()+"/");%>
+<%@ page import="org.apache.shiro.SecurityUtils"%>
+<%@ page import="java.util.Arrays"%>
+<%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
+<% UserTable user = (UserTable)SecurityUtils.getSubject().getPrincipal();
+	request.setAttribute("path", request.getContextPath()+"/");
+	request.setAttribute("manageBarName", Arrays.binarySearch(new int[]{3,10,11,12,13}, user.getDeptId())<0?"地接团队":"会展项目");
+%>
 
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
@@ -100,7 +106,7 @@
 										<li id="localTourManage">
 											<a href="${path }localTourManage">
 												<i class="icon-double-angle-right"></i>
-												地接团队
+												${manageBarName }
 											</a>
 										</li>
 									</shiro:hasPermission>

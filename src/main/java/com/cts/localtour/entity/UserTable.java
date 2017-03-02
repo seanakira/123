@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-27 10:39:04 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-1 13:31:07 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -161,7 +161,7 @@ public class UserTable implements java.io.Serializable {
 		this.headImg = headImg;
 	}
 
-	@Column(name = "dataDeptIds", nullable = false, length = 20)
+	@Column(name = "dataDeptIds", nullable = false, length = 100)
 	public String getDataDeptIds() {
 		return this.dataDeptIds;
 	}

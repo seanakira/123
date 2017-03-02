@@ -159,6 +159,9 @@ public class BaseService<T> {
 	
 	public void deleteByString(String tableName,String where, Object...objects){
 		String hql = "delete "+tableName+" where "+where;
+		if("".equals(where)||where==null){
+			hql = "delete "+tableName;
+		}
 		baseDAO.deleteByString(hql , objects);
 	}
 	

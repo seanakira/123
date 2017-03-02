@@ -138,6 +138,7 @@
 	            	/admin/logout=authc
 				<!-- 经营状况 -->
 	            	/operatingStatus=authc,perms[operatingStatus:manage]
+	            	/operatingStatus/getAllSysUsage=authc,perms[operatingStatus:manage]
 				<!-- 待办事项 -->
 	            	<!--报账审核  -->	
 	                /toDoReimbursement=authc,perms[toDoReimbursement:manage]
@@ -176,6 +177,8 @@
                 		/localTourManage/saveBorrowInvoice=authc,perms["localTour:manage","localTour:borrowInvoiceApplication"]
                 		/reimbursementManage/findReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
                 		/reimbursementManage/updateReimbursement=authc,perms["localTour:manage","localTour:reimbursementApplication"]
+                		<!-- 打印 -->
+                		/localTourManage/printVoucher=authc
                 	<!-- 签单管理 -->
                 	/billCheckManage=authc,perms[billCheck:manage]
                 		/billCheckManage/find=authc,perms["billCheck:manage","billCheck:find"]
@@ -345,7 +348,6 @@
                 	/settings=authc
                 	<!-- 没有权限 -->
                 	/error/noPermissions=authc
-                
                	<!-- 自定义验证器 -->
                	<!-- /** = user,sysUser -->
             </value>

@@ -77,7 +77,9 @@ public class GuideTimeService extends BaseService{
 			if(guideTimeTables.size()==0){
 				GuideViewModel guideViewModel = new GuideViewModel();
 				guideViewModel.setGuideTable(guides.get(i));
-				guideViewModel.setUserTable((UserTable) this.getById("UserTable", guides.get(i).getUserId()));
+				UserTable user = (UserTable) this.getById("UserTable", guides.get(i).getUserId());
+				user.setPwd("");
+				guideViewModel.setUserTable(user);
 				guideViewModels.add(guideViewModel);
 			}
 		}
