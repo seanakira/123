@@ -20,6 +20,8 @@ public class ChangeCostViewModel {
 	private String status;
 	private String payStatus;
 	private String payApplicationerRealName;
+	private String managerName;
+	private String bossName;
 	@Autowired
 	private UserService userService;
 	@SuppressWarnings("rawtypes")
@@ -72,6 +74,18 @@ public class ChangeCostViewModel {
 	}
 	public void setPayApplicationerRealName(String payApplicationerRealName) {
 		this.payApplicationerRealName = payApplicationerRealName;
+	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getBossName() {
+		return bossName;
+	}
+	public void setBossName(String bossName) {
+		this.bossName = bossName;
 	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<ChangeCostViewModel> getAllChangeCostViewModel(int tourId){
@@ -149,6 +163,32 @@ public class ChangeCostViewModel {
 				cost.setPayStatus("已汇");
 			}
 			costs.add(cost);
+		}
+		return costs;
+	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<ChangeCostViewModel> getPrintViewModel(int tourId) {
+		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "tourId=? and remittanced=false and lend=false and bill=false and payStatus=3", tourId);
+		ArrayList<ChangeCostViewModel> costs = new ArrayList<ChangeCostViewModel>();
+		for (ChangeCostTable changeCostTable : changeCostTables) {
+			ChangeCostViewModel changeCost = new ChangeCostViewModel();
+			changeCost.setCostTable(changeCostTable);
+			changeCost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
+			changeCost.setContentName(((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
+			changeCost.setPayApplicationerRealName(userService.getUserRealName(changeCostTable.getPayApplicationerId()));
+			changeCost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
+			changeCost.setManagerName(userService.getUserRealName(changeCostTable.getManagerId()));
+			changeCost.setBossName(userService.getUserRealName(changeCostTable.getBossId()));
+			if(changeCostTable.getPayStatus()==0){
+				changeCost.setPayStatus("可付");
+			}else if(changeCostTable.getPayStatus()==1){
+				changeCost.setPayStatus("待审");
+			}else if(changeCostTable.getPayStatus()==2){
+				changeCost.setPayStatus("待批");
+			}else if(changeCostTable.getPayStatus()==3){
+				changeCost.setPayStatus("已批");
+			}
+			costs.add(changeCost);
 		}
 		return costs;
 	}

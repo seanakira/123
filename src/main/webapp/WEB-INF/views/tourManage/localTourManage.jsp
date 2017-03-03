@@ -144,7 +144,7 @@
 									</li>
 
 									<li>
-										<a href="#">打印付款凭证</a>
+										<a id="payPrintButton" data-toggle="modal" href="#">打印供应商付款凭证</a>
 									</li>
 
 									<!-- <li>
@@ -2568,13 +2568,13 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 团队报账结束 -->
-<!-- 导游借款模板-->
+<!-- 打印模板-->
 				<div aria-hidden="true" style="display: none;" id="lendPrintModel" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
 								<div class="table-header">
-									导游借款凭证
+									凭证打印
 						 		</div>
 						  	</div>
 							<div class="modal-body no-padding">
@@ -2619,7 +2619,7 @@
 											        <td style="width: 20%;" class="printInfo"></td>
 												</tr>
 												<tr>
-											        <td>金额</td>
+											        <td>总金额</td>
 											        <td class="printInfo"></td>
 											        <td>大写</td>
 											        <td class="printInfo"></td>
@@ -2652,7 +2652,7 @@
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
 				</div>
-<!-- 导游借款结束 -->
+<!-- 打印结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -5733,37 +5733,138 @@
 		}
 	});
 	$("#lendPrint").click(function(){
-		var myData = {tourId:$("#table").find("input:checked").parent().parent().parent().attr("id"),type:"lend"}
-		$.ajax({
-	        type: "GET",  
-	        contentType:"application/json;charset=utf-8",  
-	        url:"${path }localTourManage/printCountPlus",
-	        data:myData,  
-	        dataType: "json",  
-	        async: false,  
-	        success:function(data){
-	        }
-		});
-		var tds = $("#table").find("input:checked").parents("td").siblings();
-		var printHtml = $("#printArea");
-		printHtml.prepend("<h3>导游借款凭证</h3>").printArea({
-	        mode       : "popup",
-	        standard   : "html5",
-	        popTitle   : '导游借款单',
-	        popClose   : false,
-	    });
-		printHtml.find("h3").remove();
-		printHtml.find("span").text("");
-		$("#printTable").remove();
-		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		if($("#printArea").find(".red").length==0){
+			var myData = {tourId:$("#table").find("input:checked").parent().parent().parent().attr("id"),type:"lend"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printCountPlus",
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			});
+			var tds = $("#table").find("input:checked").parents("td").siblings();
+			var printHtml = $("#printArea");
+			printHtml.prepend("<h3>导游借款凭证</h3>").printArea({
+		        mode       : "iframe",
+		        standard   : "html5",
+		        popTitle   : '导游借款凭证',
+		        popClose   : false,
+		    });
+			printHtml.find("h3").remove();
+			printHtml.find("span").text("");
+			$("#printTable").remove();
+			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		}else{
+			var myData = {tourId:$("#table").find("input:checked").parent().parent().parent().attr("id"),type:"pay"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printCountPlus",
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			});
+			var tds = $("#table").find("input:checked").parents("td").siblings();
+			var printHtml = $("#printArea");
+			printHtml.prepend("<h3>供应商付款凭证</h3>").printArea({
+		        mode       : "iframe",
+		        standard   : "html5",
+		        popTitle   : '供应商付款凭证',
+		        popClose   : false,
+		    });
+			printHtml.find("h3").remove();
+			printHtml.find("span").text("");
+			$("#printTable").remove();
+			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		}
+		
 	});
-   function moneyTrun(num) {  
+	/* 打印供应商付款凭证 */
+	$("#payPrintButton").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+			$(this).attr("href","#");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			$(this).attr("href","#");
+		}else{
+			/* 初始化选项 */
+			var a = $(this);
+			var myData = {tourId:checkbox.parent().parent().parent().attr("id"),type:"pay"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printVoucher",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	var tds = checkbox.parent().parent().siblings();
+		        	if(data.pays==0){
+		        		alert("暂无可打印的供应商付款凭证，请确认付款是否已经经过审批或是否已经付出款项");
+		        		a.attr("href","#");
+		        	}else{
+		        		var total = 0;
+		        		var printCount = 0;
+		        		$("#printTable").remove();
+		        		var printTable = $('<table id="printTable" class="table table-striped table-bordered table-hover no-margin"><tbody></tbody></table>');
+		        		$.each(data.pays,function(){
+		        			var bankName = this.supplierTable.bankName==null?"":this.supplierTable.bankName;
+		        			var bankNo = this.supplierTable.bankNo==null?"":this.supplierTable.bankNo;
+		        			printTable.append('<tr class="red"><td>供应商名</td><td>'+this.supplierTable.supplierName+'</td><td>开户行</td><td>'+bankName+'</td><td>账号</td><td>'+bankNo+'</td><td></td></tr>')
+		        			printTable.append('<tr><td>日期</td><td>金额</td><td>备注</td><td>状态</td><td>申请人</td><td>经理</td><td>总经理</td></tr>')
+		        			$.each(this.costs,function(){
+		        				total = total+this.costTable.realCost;
+		        				if(printCount<this.costTable.printCount){
+			        				printCount = this.costTable.printCount;
+			        			}
+		        				var remark = this.costTable.remark==null?"":this.costTable.remark;
+		        				var costDate = this.costTable.costDate==null?"":this.costTable.costDate;
+			        			printTable.append('<tr><td>'+costDate+'</td><td>'+this.costTable.realCost.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.payStatus+'</td><td>'+this.payApplicationerRealName+'</td><td>'+this.managerName+'</td><td>'+this.bossName+'</td></tr>');
+		        			});
+							$.each(this.changeCosts,function(){
+								total = total+this.costTable.realCost;
+		        				if(printCount<this.costTable.printCount){
+			        				printCount = this.costTable.printCount;
+			        			}
+		        				var remark = this.costTable.remark==null?"":this.costTable.remark;
+		        				var costDate = this.costTable.costDate==null?"":this.costTable.costDate;
+			        			printTable.append('<tr class="blue"><td>'+costDate+'</td><td>'+this.costTable.realCost.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.payStatus+'</td><td>'+this.payApplicationerRealName+'</td><td>'+this.managerName+'</td><td>'+this.bossName+'</td></tr>');
+		        			});
+		        		});
+		        		printCount++;
+		        		var printInfos = $("#printArea").find(".printInfo");
+		        		printInfos.eq(0).text(tds.eq(0).text());
+		        		printInfos.eq(1).text(tds.eq(1).text());
+		        		printInfos.eq(2).text(data.deptName);
+		        		printInfos.eq(3).text(total.toFixed(2));
+		        		printInfos.eq(4).text(moneyTrun(total.toFixed(2)));
+		        		var date = new Date();
+		        		printInfos.eq(5).text(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+		        		printInfos.eq(6).text('<%=user.getRealName()%>');
+		        		$("#printArea").find("span").text("第"+printCount+"次打印");
+		        		$("#printArea").append(printTable)
+		        		$("#printArea").find("input").val("");
+		        		a.attr("href","#lendPrintModel");
+		        	}
+		        }
+			});
+		}
+	});
+	/* 数字转汉字大写 */
+	function moneyTrun(num) {  
         var strOutput = "";  
         var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
         num += "00";  
         var intPos = num.indexOf('.');  
         if (intPos >= 0)  
-          num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
+        num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
         strUnit = strUnit.substr(strUnit.length - num.length);  
         for (var i=0; i < num.length; i++)  
           strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  

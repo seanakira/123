@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-27 10:39:04 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-3 10:04:29 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -35,6 +35,9 @@ public class CostTable implements java.io.Serializable {
 	private String remark;
 	private int payStatus;
 	private Integer payApplicationerId;
+	private Integer managerId;
+	private Integer bossId;
+	private Integer printCount;
 	private Float reimbursement;
 
 	public CostTable() {
@@ -57,7 +60,8 @@ public class CostTable implements java.io.Serializable {
 
 	public CostTable(int tourId, Integer borrowUserId, Date costDate, int supplierScopeId, Integer contentId,
 			int supplierId, float cost, int count, float realCost, int days, boolean remittanced, boolean lend,
-			boolean bill, String remark, int payStatus, Integer payApplicationerId, Float reimbursement) {
+			boolean bill, String remark, int payStatus, Integer payApplicationerId, Integer managerId, Integer bossId,
+			Integer printCount, Float reimbursement) {
 		this.tourId = tourId;
 		this.borrowUserId = borrowUserId;
 		this.costDate = costDate;
@@ -74,6 +78,9 @@ public class CostTable implements java.io.Serializable {
 		this.remark = remark;
 		this.payStatus = payStatus;
 		this.payApplicationerId = payApplicationerId;
+		this.managerId = managerId;
+		this.bossId = bossId;
+		this.printCount = printCount;
 		this.reimbursement = reimbursement;
 	}
 
@@ -232,6 +239,33 @@ public class CostTable implements java.io.Serializable {
 
 	public void setPayApplicationerId(Integer payApplicationerId) {
 		this.payApplicationerId = payApplicationerId;
+	}
+
+	@Column(name = "managerId")
+	public Integer getManagerId() {
+		return this.managerId;
+	}
+
+	public void setManagerId(Integer managerId) {
+		this.managerId = managerId;
+	}
+
+	@Column(name = "bossId")
+	public Integer getBossId() {
+		return this.bossId;
+	}
+
+	public void setBossId(Integer bossId) {
+		this.bossId = bossId;
+	}
+
+	@Column(name = "printCount")
+	public Integer getPrintCount() {
+		return this.printCount;
+	}
+
+	public void setPrintCount(Integer printCount) {
+		this.printCount = printCount;
 	}
 
 	@Column(name = "reimbursement", precision = 12, scale = 0)

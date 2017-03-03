@@ -18,6 +18,8 @@ public class CostViewModel {
 	private String borrowUserName;
 	private String payStatus;
 	private String payApplicationerRealName;
+	private String managerName;
+	private String bossName;
 	@Autowired
 	private UserService userService;
 	@SuppressWarnings("rawtypes")
@@ -59,6 +61,18 @@ public class CostViewModel {
 	public void setPayApplicationerRealName(String payApplicationerRealName) {
 		this.payApplicationerRealName = payApplicationerRealName;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getBossName() {
+		return bossName;
+	}
+	public void setBossName(String bossName) {
+		this.bossName = bossName;
+	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<CostViewModel> getAllCostViewModel(int tourId){
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=?", tourId);
@@ -95,6 +109,35 @@ public class CostViewModel {
 			CostViewModel cost = new CostViewModel();
 			cost.setCostTable(costTable);
 			cost.setContentName(costTable.getContentId()==0?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			if(costTable.getPayStatus()==0){
+				cost.setPayStatus("可付");
+			}else if(costTable.getPayStatus()==1){
+				cost.setPayStatus("待审");
+			}else if(costTable.getPayStatus()==2){
+				cost.setPayStatus("待批");
+			}else if(costTable.getPayStatus()==3){
+				cost.setPayStatus("已批");
+			}
+			if(costTable.isRemittanced()){
+				cost.setPayStatus("已汇");
+			}
+			costs.add(cost);
+		}
+		return costs;
+	}
+	@SuppressWarnings("unchecked")
+	public ArrayList<CostViewModel> getPrintViewModel(int tourId) {
+		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=? and remittanced=false and lend=false and bill=false and payStatus=3", tourId);
+		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
+		for (CostTable costTable : costTables) {
+			CostViewModel cost = new CostViewModel();
+			cost.setCostTable(costTable);
+			cost.setBorrowUserName(userService.getUserRealName(costTable.getBorrowUserId()));
+			cost.setContentName((costTable.getContentId()==null||costTable.getContentId()==0)?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			cost.setPayApplicationerRealName(userService.getUserRealName(costTable.getPayApplicationerId()));
+			cost.setSupplierName(((SupplierTable)userService.getById("SupplierTable", costTable.getSupplierId())).getSupplierName());
+			cost.setManagerName(userService.getUserRealName(costTable.getManagerId()));
+			cost.setBossName(userService.getUserRealName(costTable.getBossId()));
 			if(costTable.getPayStatus()==0){
 				cost.setPayStatus("可付");
 			}else if(costTable.getPayStatus()==1){

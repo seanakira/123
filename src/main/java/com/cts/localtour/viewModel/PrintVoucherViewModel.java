@@ -11,14 +11,17 @@ import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.BaseService;
 
 @Component
-public class PayVoucherViewModel {
+public class PrintVoucherViewModel {
 	private String deptName;
 	private ArrayList<LoanViewModel> loans;
+	private ArrayList<PrintPayVoucherViewModel> pays;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
 	@Autowired
 	private LoanViewModel loanViewModel;
+	@Autowired
+	private PrintPayVoucherViewModel printPayVoucherViewModel;
 	public String getDeptName() {
 		return deptName;
 	}
@@ -31,11 +34,22 @@ public class PayVoucherViewModel {
 	public void setLoans(ArrayList<LoanViewModel> loans) {
 		this.loans = loans;
 	}
-	public PayVoucherViewModel getPrintViewModel(int tourId) {
-		PayVoucherViewModel payVoucherViewModel = new PayVoucherViewModel();
+	public ArrayList<PrintPayVoucherViewModel> getPays() {
+		return pays;
+	}
+	public void setPays(ArrayList<PrintPayVoucherViewModel> pays) {
+		this.pays = pays;
+	}
+	public PrintVoucherViewModel getPrintViewModel(int tourId, String type) {
+		PrintVoucherViewModel payVoucherViewModel = new PrintVoucherViewModel();
 		payVoucherViewModel.setDeptName(((DeptTable)baseService.getById("DeptTable", ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId())).getDeptName());
-		payVoucherViewModel.setLoans(loanViewModel.getPrintViewModel(tourId));
+		if("lend".equals(type)){
+			payVoucherViewModel.setLoans(loanViewModel.getPrintViewModel(tourId));
+		}else if("pay".equals(type)){
+			payVoucherViewModel.setPays(printPayVoucherViewModel.getPrintViewModel(tourId));
+		}
 		return payVoucherViewModel;
 	}
+	
 
 }

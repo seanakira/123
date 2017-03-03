@@ -41,7 +41,7 @@ import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
-import com.cts.localtour.viewModel.PayVoucherViewModel;
+import com.cts.localtour.viewModel.PrintVoucherViewModel;
 import com.cts.localtour.viewModel.SimpleBillCheckViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 
@@ -487,7 +487,7 @@ public class TourController {
 	
 	/*打印导游借款凭证*/
 	@RequestMapping("/localTourManage/printVoucher")
-	public @ResponseBody PayVoucherViewModel printPayVoucher(@RequestParam String type, @RequestParam int tourId){
+	public @ResponseBody PrintVoucherViewModel printPayVoucher(@RequestParam String type, @RequestParam int tourId){
 		return printService.printPayVoucher(type, tourId);
 	}
 	@RequestMapping("/localTourManage/printCountPlus")
