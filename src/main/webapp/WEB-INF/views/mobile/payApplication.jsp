@@ -50,11 +50,9 @@
 								<i class="icon-user"></i>
 								<a id="add" href="<%=path %>localTourManage?key=${tour.tourNo }">${tour.tourNo }  ${tour.tourName }</a>
 							</li>
-
-							
-							
 						</ul><!-- .breadcrumb -->
-
+						<button class="btn btn-sm btn-primary pull-right changeCost" style="margin-top: 3px;margin-right: -7px;">全部同意</button>
+						
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }userManage" method="get">
 								<span class="input-icon">
@@ -223,16 +221,41 @@
 			}
 			$(this).parent().parent().remove();
 			var myData = {id:id,change:change};
-			 $.ajax({
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"${path }mobile/payApplicationOk",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        }
-			 });
+			$.ajax({
+			      type: "GET",  
+			      contentType:"application/json;charset=utf-8",  
+			      url:"${path }mobile/payApplicationOk",  
+			      data:myData,  
+			      dataType: "json",  
+			      async: false,  
+			      success:function(data){
+			      }
+			});
+		});
+		
+		$(".btn-primary").click(function(){
+			var buttons = $(".btn-success");
+			var ids = new Array();
+			$.each(buttons,function(){
+				var id = $(this).parent().attr("id");
+				var change = false;
+				if($(this).parent().prev().children("tbody").attr("class")=="blue"){
+					change = true;
+				}
+				$(this).parent().parent().remove();
+				ids.push([id,change]);
+			});
+			var myData = JSON.stringify(ids);
+			$.ajax({
+			      type: "POST",  
+			      contentType:"application/json;charset=utf-8",  
+			      url:"${path }mobile/payApplicationAllOk",  
+			      data:myData,  
+			      dataType: "json",  
+			      async: false,  
+			      success:function(data){
+			      }
+			});
 		});
 		
 		$(".btn-danger").click(function(){

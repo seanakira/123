@@ -126,6 +126,33 @@ public class MobileService extends BaseService{
 	}
 
 	@SuppressWarnings("unchecked")
+	public void loanApplicationAllOk(HttpServletRequest request, int[] ids) {
+		int status = this.getRoleCode();
+		if(status!=0){
+			boolean isManager = false;
+			LoanTable loan = null;
+			for (int id : ids) {
+				loan = (LoanTable) this.getById("LoanTable", id);
+				/*+1为数据库状态与code不符*/
+				/*状态验证*/
+				if(loan.getStatus()==status){
+					loan.setStatus(status+1);
+					if(status==2){
+						loan.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+						isManager = true;
+					}else if(status==3){
+						loan.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					}
+					this.update(loan);
+				}
+			}
+			if(isManager&&loan!=null){
+				this.sendMessage("loanApplication", loan.getTourId(), 3, "您有您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public void loanApplicationCancel(HttpServletRequest request, int id) {
 		LoanTable loan = (LoanTable) this.getById("LoanTable", id);
 		loan.setStatus(1);
@@ -148,10 +175,13 @@ public class MobileService extends BaseService{
 				/*状态验证*/
 				if(costTable.getPayStatus()==status-1){
 					costTable.setPayStatus(status);
-					this.update(costTable);
 					if(status==2){
+						costTable.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 						this.sendMessage("payApplication", costTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(costTable.getTourId())+"待审核的(付款申请)，点击进行审核");
+					}else if(status==3){
+						costTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					}
+					this.update(costTable);
 				}
 			}
 		}else{
@@ -162,12 +192,62 @@ public class MobileService extends BaseService{
 				/*状态验证*/
 				if(changeCostTable.getPayStatus()==status-1){
 					changeCostTable.setPayStatus(status);
-					this.update(changeCostTable);
 					if(status==2){
+						changeCostTable.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 						this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+"待审核的(付款申请)，点击进行审核");
+					}else if(status==3){
+						changeCostTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					}
+					this.update(changeCostTable);
 				}
 			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void payApplicationAllOk(HttpServletRequest request, ArrayList<String[]> ids) {
+		boolean isManager = false;
+		int tourId = 0;
+		for (String[] id : ids) {
+			if(!"true".equals(id[1])){
+				int status = this.getRoleCode();
+				if(status!=0){
+					CostTable costTable = (CostTable) this.getById("CostTable", Integer.parseInt(id[0]));
+					/*状态验证*/
+					if(costTable.getPayStatus()==status-1){
+						costTable.setPayStatus(status);
+						if(status==2){
+							costTable.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+							isManager = true;
+						}else if(status==3){
+							costTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+						}
+						this.update(costTable);
+					}
+					tourId = costTable.getTourId();
+				}
+			}else{
+				/*这里需要权限判断 如果是中心经理*/
+				int status = this.getRoleCode();
+				if(status!=0){
+					ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", Integer.parseInt(id[0]));
+					/*状态验证*/
+					if(changeCostTable.getPayStatus()==status-1){
+						changeCostTable.setPayStatus(status);
+						if(status==2){
+							changeCostTable.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+							isManager = true;
+						}else if(status==3){
+							changeCostTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+						}
+						this.update(changeCostTable);
+					}
+					tourId = changeCostTable.getTourId();
+				}
+			}
+		}
+		if(isManager&&tourId!=0){
+			this.sendMessage("payApplication", tourId, 2, "您有 "+localTourService.getTourNoAndTourName(tourId)+"待审核的(付款申请)，点击进行审核");
 		}
 	}
 
@@ -304,5 +384,4 @@ public class MobileService extends BaseService{
 			}
 		}
 	}
-
 }

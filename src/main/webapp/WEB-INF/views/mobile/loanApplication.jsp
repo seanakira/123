@@ -49,11 +49,8 @@
 								<i class="icon-user"></i>
 								<a id="add" href="<%=path %>localTourManage?key=${tour.tourNo }">${tour.tourNo }  ${tour.tourName }</a>
 							</li>
-
-							
-							
 						</ul><!-- .breadcrumb -->
-
+						<button class="btn btn-sm btn-primary pull-right" style="margin-top: 3px;margin-right: -7px;">全部同意</button>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }userManage" method="get">
 								<span class="input-icon">
@@ -167,6 +164,27 @@
 		        success:function(data){
 		        }
 			 });
+		});
+		
+		$(".btn-primary").click(function(){
+			var buttons = $(".btn-success");
+			var ids = new Array();
+			$.each(buttons,function(){
+				var id = $(this).parent().attr("id");
+				$(this).parent().parent().remove();
+				ids.push(id);
+			});
+			var myData = JSON.stringify(ids);
+			$.ajax({
+			      type: "POST",  
+			      contentType:"application/json;charset=utf-8",  
+			      url:"${path }mobile/loanApplicationAllOk",  
+			      data:myData,  
+			      dataType: "json",  
+			      async: false,  
+			      success:function(data){
+			      }
+			});
 		});
 		
 		$(".btn-danger").click(function(){

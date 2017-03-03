@@ -1,10 +1,13 @@
 package com.cts.localtour.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -58,6 +61,11 @@ public class MobileController {
 		mobileService.loanApplicationOk(request, id);
 	}
 	
+	@RequestMapping("/mobile/loanApplicationAllOk")
+	public void loanApplicationAllOk(HttpServletRequest request, @RequestBody int[] ids){
+		mobileService.loanApplicationAllOk(request, ids);
+	}
+	
 	@RequestMapping("/mobile/loanApplicationCancel")
 	public void loanApplicationCancel(HttpServletRequest request, @RequestParam int id){
 		mobileService.loanApplicationCancel(request, id);
@@ -74,6 +82,11 @@ public class MobileController {
 	@RequestMapping("/mobile/payApplicationOk")
 	public void payApplicationOk(HttpServletRequest request, @RequestParam int id, @RequestParam boolean change){
 		mobileService.payApplicationOk(request, id, change);
+	}
+	
+	@RequestMapping("/mobile/payApplicationAllOk")
+	public void payApplicationAllOk(HttpServletRequest request, @RequestBody ArrayList<String[]> ids){
+		mobileService.payApplicationAllOk(request, ids);
 	}
 	
 	@RequestMapping("/mobile/payApplicationCancel")
