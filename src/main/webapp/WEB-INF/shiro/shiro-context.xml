@@ -176,6 +176,7 @@
                 		/localTourManage/findBorrowInvoice=authc,perms["localTour:manage","localTour:findBorrowInvoice"]
                 		/localTourManage/saveBorrowInvoice=authc,perms["localTour:manage","localTour:borrowInvoiceApplication"]
                 		/reimbursementManage/findReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
+                		/reimbursementManage/checkReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
                 		/reimbursementManage/updateReimbursement=authc,perms["localTour:manage","localTour:reimbursementApplication"]
                 		<!-- 打印 -->
                 		/localTourManage/printVoucher=authc

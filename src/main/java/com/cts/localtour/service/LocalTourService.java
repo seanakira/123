@@ -22,6 +22,7 @@ import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.ReimbursementApplicationTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
@@ -54,6 +55,12 @@ public class LocalTourService extends BaseService{
 	private FullReimbursementViewModel fullReimbursementViewModel;
 	@Autowired
 	private FullLoanInvoiceViewModel fullLoanInvoiceViewModel;
+	@Autowired
+	private IncomeService incomeService;
+	@Autowired
+	private ChangeIncomeService changeIncomeService;
+	@Autowired
+	private LoanInvoiceService loanInvoiceService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -271,9 +278,15 @@ public class LocalTourService extends BaseService{
 			this.add(loanInvoiceTable);
 		}
 	}
+	
 	public FullReimbursementViewModel findReimbursement(int tourId) {
 		return fullReimbursementViewModel.getFullReimbursementViewModel(tourId);
 	}
+	
+	public boolean checkReimbursement(int tourId) {
+		return loanInvoiceService.getLoanInvoiceSum(tourId)<=(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue());
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void updateReimbursement(FullReimbursementViewModel full) {
 		for (CostTable costTable : full.getCostTables()) {
@@ -281,6 +294,18 @@ public class LocalTourService extends BaseService{
 		}
 		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
 			this.updateByString("ChangeCostTable", "reimbursement=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getId());
+		}
+		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
+			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement()==0){
+				this.delete(reimbursementCostTable);
+			}else{
+				this.updateByString("ReimbursementCostTable", "reimbursement=?", "id=?", reimbursementCostTable.getReimbursement(),reimbursementCostTable.getId());
+			}
+		}
+		for (ReimbursementCostTable reimbursementCostTable : full.getNewReimbursementCostTables()) {
+			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement()!=0){
+				this.add(reimbursementCostTable);
+			}
 		}
 		/*添加人头费*/
 		this.add(full.getReimbursementTable());

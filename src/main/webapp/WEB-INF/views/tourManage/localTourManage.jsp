@@ -1192,6 +1192,7 @@
 									            </table>
 											</div>
 											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>
+											<span id="reimbursementCostRed" class="red" style="">*红色为报账新增成本</span>
 										</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
@@ -1821,7 +1822,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1846,7 +1847,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1871,7 +1872,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1896,7 +1897,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1921,7 +1922,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1946,7 +1947,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1971,7 +1972,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -1996,7 +1997,7 @@
 															<th style="width: 10%;">成本小计</th>
 															<th style="width: 10%;">借款人</th>
 															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">
+															<th style="width: 1%;">
 																<a class="blue addCost" href="#">
 																	<i class="icon-plus bigger-130"></i>
 																</a>
@@ -2023,7 +2024,7 @@
 																<th style="width: 10%">实收</th>
 																<th style="width: 10%">已开发票金额</th>
 																<th style="width: 20%">备注</th>
-																<th style="width: 10%">
+																<th style="width: 1%">
 																	<a class="blue addIncome" href="#">
 																		<i class="icon-plus bigger-130"></i>
 																	</a>
@@ -2049,7 +2050,7 @@
 								<shiro:hasPermission name="localTour:changeApplication">
 									<button id="saveChange" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 										<i class="icon-save"></i>
-										提交待审
+										保存
 									</button>
 								</shiro:hasPermission>
 						 	 </div>
@@ -2329,6 +2330,12 @@
 														h3{
 															text-align: center;
 														}
+														#changeCostBlue{
+															display: none;
+														}
+														#reimbursementCostRed{
+															display: none;
+														}
 													}
 													
 												</style>
@@ -2336,16 +2343,24 @@
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
-																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 8%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 8%;">导游借款</th>
-																<th style="width: 8%;">挂账</th>
-																<th style="width: 8%;">状态</th>
+																<th style="width: 5%;">日期</th>
+																<th style="width: 10%;">内容</th>
+																<th style="width: 10%;">供应商*</th>
+																<th style="width: 5%;">成本</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 5%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">付款状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -2357,16 +2372,24 @@
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
-																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 8%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 8%;">导游借款</th>
-																<th style="width: 8%;">挂账</th>
-																<th style="width: 8%;">状态</th>
+																<th style="width: 5%;">日期</th>
+																<th style="width: 10%;">内容</th>
+																<th style="width: 10%;">供应商*</th>
+																<th style="width: 5%;">成本</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 5%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">付款状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -2378,16 +2401,24 @@
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
-																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">日期</th>
+																<th style="width: 10%;">内容</th>
+																<th style="width: 10%;">供应商*</th>
+																<th style="width: 5%;">成本</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 5%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">付款状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -2399,16 +2430,24 @@
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
-																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">日期</th>
+																<th style="width: 10%;">内容</th>
+																<th style="width: 10%;">供应商*</th>
+																<th style="width: 5%;">成本</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 5%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">付款状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -2420,16 +2459,24 @@
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
-																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">日期</th>
+																<th style="width: 10%;">内容</th>
+																<th style="width: 10%;">供应商*</th>
+																<th style="width: 5%;">成本</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 5%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">付款状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -2441,16 +2488,24 @@
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
-																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
-																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">日期</th>
+																<th style="width: 10%;">内容</th>
+																<th style="width: 10%;">供应商*</th>
+																<th style="width: 5%;">成本</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 5%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">付款状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -2461,16 +2516,24 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 10%;">日期</th>
-															<th style="width: 15%;">内容</th>
-															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本小计</th>
-															<th style="width: 10%;">电汇金额</th>
-															<th style="width: 10%;">报账金额</th>
-															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">挂账</th>
-															<th style="width: 6%;">状态</th>
+															<th style="width: 5%;">日期</th>
+															<th style="width: 10%;">内容</th>
+															<th style="width: 10%;">供应商*</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
+															<th style="width: 5%;">成本小计</th>
+															<th style="width: 5%;">电汇金额</th>
+															<th style="width: 5%;">报账金额</th>
+															<th style="width: 5%;">明细备注</th>
+															<th style="width: 5%;">导游借款</th>
+															<th style="width: 5%;">挂账</th>
+															<th style="width: 5%;">付款状态</th>
+															<th style="width: 1%;">
+																<a class="blue addReimbursement" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -2482,28 +2545,37 @@
 												<table class="table table-striped table-bordered table-hover no-margin">
 													<thead>
 														<tr>
-															<th style="width: 10%;">日期</th>
-															<th style="width: 15%;">内容</th>
-															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本小计</th>
-															<th style="width: 10%;">电汇金额</th>
-															<th style="width: 10%;">报账金额</th>
-															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">挂账</th>
-															<th style="width: 6%;">状态</th>
+															<th style="width: 5%;">日期</th>
+															<th style="width: 10%;">内容</th>
+															<th style="width: 10%;">供应商*</th>
+															<th style="width: 5%;">成本</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
+															<th style="width: 5%;">成本小计</th>
+															<th style="width: 5%;">电汇金额</th>
+															<th style="width: 5%;">报账金额</th>
+															<th style="width: 5%;">明细备注</th>
+															<th style="width: 5%;">导游借款</th>
+															<th style="width: 5%;">挂账</th>
+															<th style="width: 5%;">付款状态</th>
+															<th style="width: 1%;">
+																<a class="blue addReimbursement" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
 									            </table>
 											</div>
-											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>		
+											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>
+											<span id="reimbursementCostRed" class="red">*红色为报账新增成本</span>
 						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
 					         	</div>
-					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         	<div class="tab-content no-border padding-6">
 					         		<div class="tab-pane fade in active costTable">
 					         			<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">导游借款</div>
 					         			<table class="table table-striped table-bordered table-hover no-margin">
@@ -2523,9 +2595,9 @@
 							            <table class="table table-striped table-bordered table-hover no-margin">
 											<tbody>
 												<tr>
-													<td style="width: 10%;">导游已借款</td>
+													<td style="width: 10%;">导游借款</td>
 													<td id="total" style="width: 15%;"></td>
-													<td style="width: 10%;">借款项总计</td>
+													<td style="width: 10%;">应借款总计</td>
 													<td id="maxLoan" style="width: 15%;"></td>
 													<td style="width: 10%;">报账总计</td>
 													<td id="reimbursementSum" style="width: 15%;"></td>
@@ -2533,7 +2605,7 @@
 													<td id="headAmount" style="width: 15%;"><input class="form-control" style="width:100%;" type="text"></td>
 												</tr>
 												<tr>
-													<td style="width: 10%;">供应商电汇项</td>
+													<td style="width: 10%;">供应商电汇</td>
 													<td id="willCost" style="width: 15%;"></td>
 													<td style="width: 10%;">已收款</td>
 													<td id="realIncome" style="width: 15%;"></td>
@@ -2682,7 +2754,7 @@
 	        	}else if(XMLHttpRequest.status==404){
 	        		/* alert("提交错误，找不到页面"); */
 	        	}else{
-	        		alert("其他错误，请记录具体操作流程，联系管理员 ");
+	        		alert("其他错误，请记录具体操作流程，联系管理员  "+textStatus+":"+XMLHttpRequest.status);
 	        	}
 	        }
 		}
@@ -3719,111 +3791,43 @@
 	        	var comprehensiveSum = 0;
 	        	var otherSum = 0;
 	        	$.each(data.costs,function(){
+	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
-	        			flight.append('<tr>'+
-	        								'<td>'+this.costTable.costDate+'</td>'+
-	        								'<td>'+this.contentName+'</td>'+
-	        								'<td>'+this.supplierName+'</td>'+
-	        								'<td>'+this.costTable.cost+'</td>'+
-	        								'<td>'+this.costTable.count+'</td>'+
-	        								'<td>'+this.costTable.days+'</td>'+
-	        								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-	        								'<td>'+this.borrowUserName+'</td>'+
-	        								'<td>'+this.costTable.remark+'</td>'+
-	        					'</tr>');
+	        			tbody = flight;
 	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==2){
-	        			hotel.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = hotel;
 	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==3){
-	        			meal.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');		        			
+	        		}else if(this.costTable.supplierScopeId==3){	
+	        			tbody = meal;
 	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==4){
-	        			ticket.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');	
+	        			tbody = ticket;
 	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==5){
-	        			shuttle.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');	
+	        			tbody = shuttle;
 	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==6){
-	        			tickets.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = tickets;
 	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			comprehensive.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = comprehensive;
 	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==8){
-	        			other.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = other;
 	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}
+	        		tbody.append('<tr>'+
+							'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
+							'<td>'+this.contentName+'</td>'+
+							'<td>'+this.supplierName+'</td>'+
+							'<td>'+this.costTable.cost+'</td>'+
+							'<td>'+this.costTable.count+'</td>'+
+							'<td>'+this.costTable.days+'</td>'+
+							'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+							'<td>'+this.borrowUserName+'</td>'+
+							'<td>'+this.costTable.remark+'</td>'+
+					'</tr>');
 	        	});
 	        	
 	        	if(data.changeCosts.length > 0){
@@ -3837,111 +3841,87 @@
 	        		$("#changeIncomeBlue").attr("style","display:none");
 	        	}
 	        	$.each(data.changeCosts,function(){
+	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
-	        			flight.append('<tr class="blue">'+
-	        								'<td>'+this.costTable.costDate+'</td>'+
-	        								'<td>'+this.contentName+'</td>'+
-	        								'<td>'+this.supplierName+'</td>'+
-	        								'<td>'+this.costTable.cost+'</td>'+
-	        								'<td>'+this.costTable.count+'</td>'+
-	        								'<td>'+this.costTable.days+'</td>'+
-	        								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-	        								'<td>'+this.borrowUserName+'</td>'+
-	        								'<td>'+this.costTable.remark+'</td>'+
-	        					'</tr>');
+	        			tbody = flight;
 	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==2){
-	        			hotel.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = hotel;
 	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==3){
-	        			meal.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        		}else if(this.costTable.supplierScopeId==3){	
+	        			tbody = meal;
 	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==4){
-	        			ticket.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = ticket;
 	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==5){
-	        			shuttle.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = shuttle;
 	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==6){
-	        			tickets.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = tickets;
 	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			comprehensive.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = comprehensive;
 	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}else if(this.costTable.supplierScopeId==8){
-	        			other.append('<tr>'+
-		    								'<td>'+this.costTable.costDate+'</td>'+
-		    								'<td>'+this.contentName+'</td>'+
-		    								'<td>'+this.supplierName+'</td>'+
-		    								'<td>'+this.costTable.cost+'</td>'+
-		    								'<td>'+this.costTable.count+'</td>'+
-		    								'<td>'+this.costTable.days+'</td>'+
-		    								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-		    								'<td>'+this.borrowUserName+'</td>'+
-		    								'<td>'+this.costTable.remark+'</td>'+
-		    					'</tr>');
+	        			tbody = other;
 	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
 	        		}
+	        		tbody.append('<tr class="blue">'+
+							'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
+							'<td>'+this.contentName+'</td>'+
+							'<td>'+this.supplierName+'</td>'+
+							'<td>'+this.costTable.cost+'</td>'+
+							'<td>'+this.costTable.count+'</td>'+
+							'<td>'+this.costTable.days+'</td>'+
+							'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+							'<td>'+this.borrowUserName+'</td>'+
+							'<td>'+this.costTable.remark+'</td>'+
+					'</tr>');
+	        	});
+	        	if(data.reimbursementCosts.length > 0){
+	        		$("#costs2").find("#reimbursementCostRed").attr("style","");
+	        	}else{
+	        		$("#costs2").find("#reimbursementCostRed").attr("style","display:none");
+	        	}
+	        	$.each(data.reimbursementCosts,function(){
+	        		var tbody;
+	        		if(this.costTable.supplierScopeId==1){
+	        			tbody = flight;
+	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==2){
+	        			tbody = hotel;
+	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==3){	
+	        			tbody = meal;
+	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==4){
+	        			tbody = ticket;
+	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==5){
+	        			tbody = shuttle;
+	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==6){
+	        			tbody = tickets;
+	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==7){
+	        			tbody = comprehensive;
+	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}else if(this.costTable.supplierScopeId==8){
+	        			tbody = other;
+	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        		}
+	        		tbody.append('<tr class="red">'+
+							'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
+							'<td>'+this.contentName+'</td>'+
+							'<td>'+this.supplierName+'</td>'+
+							'<td>'+this.costTable.cost+'</td>'+
+							'<td>'+this.costTable.count+'</td>'+
+							'<td>'+this.costTable.days+'</td>'+
+							'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+							'<td></td>'+
+							'<td>'+this.costTable.remark+'</td>'+
+					'</tr>');
 	        	});
 	        	
 	        	flight.append('<tr><td>机票合计</td><td>'+flightSum.toFixed(2)+'</td></tr>');
@@ -4815,7 +4795,7 @@
 		        	comprehensive.html("");
 		        	other.html("");
 		        	$.each(data.costs,function(){
-		        		var tr = $('<tr class="look">'+
+		        		var tr = $('<tr class="look blue">'+
 										'<td>'+this.costTable.costDate+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
@@ -4826,7 +4806,7 @@
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 								'</tr>');
-		        		if(this.costTable.remittanced){
+		        		/* if(this.costTable.remittanced){
 		        			tr.append('<td>已汇款</td>')
 		        		}else{
 		        			if(this.costTable.status==0){
@@ -4838,7 +4818,7 @@
 			        		}else if(this.costTable.status==3){
 			        			tr.append('<td>已批准</td>')
 			        		}
-		        		}
+		        		} */
 		        		if(this.costTable.supplierScopeId==1){
 		        			flight.append(tr);
 		        		}else if(this.costTable.supplierScopeId==2){
@@ -4862,7 +4842,7 @@
 		        	$.each(data.incomes,function(){
 		        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 		        		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
-		        		var tr = $('<tr class="look">'+
+		        		var tr = $('<tr class="look blue">'+
 		        						'<td>'+this.incomeTable.incomeDate+'</td>'+
 		        						'<td>'+this.customerAgencyName+'</td>'+
 		        						'<td>'+this.incomeTable.income+'</td>'+
@@ -4870,7 +4850,7 @@
 		        						'<td>'+invoiceAmount+'</td>'+
 		        						'<td>'+this.incomeTable.remark+'</td>'+
 		        					'</tr>');
-		        		if(this.incomeTable.incomed){
+		        		/* if(this.incomeTable.incomed){
 		        			tr.append('<td>已收款</td>')
 		        		}else{
 		        			if(this.incomeTable.status==0){
@@ -4882,7 +4862,7 @@
 			        		}else if(this.incomeTable.status==3){
 			        			tr.append('<td>已批准</td>')
 			        		}
-		        		}
+		        		} */
 		        		incomes.append(tr);
 		        	});
 		        }  
@@ -5367,7 +5347,26 @@
 			var tourId = checkbox.parent().parent().parent().attr("id");
 			$("#reimbursementApplication").parent().attr("id",tourId);
 			var myData = {tourId:tourId};
-			find(myData);
+			if(inited==false){
+				init();
+				inited = true;
+			}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }reimbursementManage/checkReimbursement",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(data){
+		        		find(myData);
+		        	}else{
+		        		alert("不能报账，预借发票金额大于实际收款金额");
+		        		$("#reimbursement").attr("href","#");
+		        	}
+		        }
+		    });
 		}
 	});
 	function find(myData){
@@ -5422,7 +5421,7 @@
         				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
         			}
        				if(this.costTable.reimbursement==null){
-       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control" style="width:100%;" type="text">');
+       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
        				}else{
        					reimbursement.html(this.costTable.reimbursement);
        					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
@@ -5450,6 +5449,9 @@
 									'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
 									'<td>'+this.contentName+'</td>'+
 									'<td>'+this.supplierName+'</td>'+
+									'<td>'+this.costTable.cost+'</td>'+
+									'<td>'+this.costTable.count+'</td>'+
+									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 									'<td>'+reimbursement.html()+'</td>'+
@@ -5457,6 +5459,7 @@
 									'<td>'+guideLoan.html()+'</td>'+
 									'<td>'+bill.html()+'</td>'+
 									'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
+									'<td></td>'+
 								'</tr>');
 	        		tbody.append(tr);
 	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
@@ -5464,9 +5467,9 @@
 	        	
 	        	/* 设置成本变更 */
 	        	if(data.changeCosts.length > 0){
-	        		$("#changeCostBlue").attr("style","");
+	        		$("#costs5").find("#changeCostBlue").attr("style","");
 	        	}else{
-	        		$("#changeCostBlue").attr("style","display:none");
+	        		$("#costs5").find("#changeCostBlue").attr("style","display:none");
 	        	}
 	        	$.each(data.changeCosts,function(){
 	        		var reimbursement = $("<td></td>");
@@ -5481,7 +5484,7 @@
         				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
         			}
        				if(this.costTable.reimbursement==null){
-       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control" style="width:100%;" type="text">');
+       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
        				}else{
        					reimbursement.html(this.costTable.reimbursement);
        					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
@@ -5509,6 +5512,9 @@
 			        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
 									'<td>'+this.contentName+'</td>'+
 									'<td>'+this.supplierName+'</td>'+
+									'<td>'+this.costTable.cost+'</td>'+
+									'<td>'+this.costTable.count+'</td>'+
+									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 									'<td>'+reimbursement.html()+'</td>'+
@@ -5516,6 +5522,63 @@
 									'<td>'+guideLoan.html()+'</td>'+
 									'<td>'+bill.html()+'</td>'+
 									'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
+									'<td></td>'+
+								'</tr>');
+	        		tbody.append(tr);
+	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
+	        	});
+	        	
+	        	/* 设置报账成本 */
+	        	if(data.reimbursementCosts.length > 0){
+	        		$("#costs5").find("#reimbursementCostRed").attr("style","");
+	        	}else{
+	        		$("#costs5").find("#reimbursementCostRed").attr("style","display:none");
+	        	}
+	        	$.each(data.reimbursementCosts,function(){
+	        		var reimbursement = $("<td></td>");
+	        		var bill = $("<td></td>");
+        			if(this.costTable.bill){
+        				bill.html('<i class="icon-ok bigger-130"></i>');
+        			}
+       				if(this.costTable.reimbursement==null){
+       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
+       				}else{
+       					reimbursement.html(this.costTable.reimbursement);
+       					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
+       				}
+	        		var tbody;
+	        		if(this.costTable.supplierScopeId==1){
+	        			tbody = flight;
+	        		}else if(this.costTable.supplierScopeId==2){
+	        			tbody = hotel;
+	        		}else if(this.costTable.supplierScopeId==3){
+	        			tbody = meal;
+	        		}else if(this.costTable.supplierScopeId==4){
+	        			tbody = ticket;
+	        		}else if(this.costTable.supplierScopeId==5){
+	        			tbody = shuttle;
+	        		}else if(this.costTable.supplierScopeId==6){
+	        			tbody = tickets;
+	        		}else if(this.costTable.supplierScopeId==7){
+	        			tbody = comprehensive;
+	        		}else if(this.costTable.supplierScopeId==8){
+	        			tbody = other;
+	        		}
+	        		var tr = $('<tr class="red" id="'+this.costTable.id+'">'+
+			        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+									'<td>'+this.contentName+'</td>'+
+									'<td>'+this.supplierName+'</td>'+
+									'<td>'+this.costTable.cost+'</td>'+
+									'<td>'+this.costTable.count+'</td>'+
+									'<td>'+this.costTable.days+'</td>'+
+									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+									'<td></td>'+
+									'<td>'+reimbursement.html()+'</td>'+
+									'<td>'+this.costTable.remark+'</td>'+
+									'<td></td>'+
+									'<td>'+bill.html()+'</td>'+
+									'<td style="vertical-align: middle;">报账新增</td>'+
+									'<td></td>'+
 								'</tr>');
 	        		tbody.append(tr);
 	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
@@ -5561,15 +5624,127 @@
 		});
 	}
 	
+	$(".addReimbursement").click(function(){
+		var tbody = $(this).parents("table").children("tbody");
+		tbody.append('<tr class="reimbursementTr">'+
+        				'<td>'+
+			    			'<input id="costTime" class="form-control datepicker" type="text">'+
+			    		'</td>'+
+			    		'<td>'+
+			    			'<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">'+
+								'<option value="">&nbsp;</option>'+
+							'</select>'+
+						'</td>'+
+			    		'<td>'+
+			    			'<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">'+
+								'<option value="">&nbsp;</option>'+
+							'</select>'+
+			    		'</td>'+
+			    		'<td><input class="form-control costPlus" type="text"></td>'+
+			    		'<td><input class="form-control costPlus" type="text"></td>'+
+			    		'<td><input class="form-control costPlus" type="text"></td>'+
+			    		'<td style="vertical-align: middle;"></td>'+
+			    		'<td></td>'+
+						'<td><input class="form-control reimbursement" placeholder="" type="text"></td>'+
+						'<td><input class="form-control" placeholder="" type="text"></td>'+
+						'<td></td>'+
+						'<td></td>'+
+						'<td style="vertical-align: middle;">报账新增</td>'+
+						'<td style="vertical-align: middle;">'+
+							'<a class="red delLine" href="#">'+
+								'<i class="icon-trash bigger-130"></i>'+
+							'</a>'+
+						'</td>'+
+			    	'</tr>');
+		var tr = tbody.children("tr").not("#costModel").last();
+		tr.find("#costTime").attr("id","").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+		});
+		var selects = tr.find("select");
+		var type = $(this).parents("div").attr("id");
+		if(type.substr(0,type.length-1)=="flight"){
+			tr.children("td").last().append('<input type="hidden" value="1" />');
+			$.each(selectInfo.flightContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.flightSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="hotel"){
+			tr.children("td").last().append('<input type="hidden" value="2" />');
+			$.each(selectInfo.hotelContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.hotelSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="meal"){
+			tr.children("td").last().append('<input type="hidden" value="3" />');
+			$.each(selectInfo.mealContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.mealSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="ticket"){
+			tr.children("td").last().append('<input type="hidden" value="4" />');
+			$.each(selectInfo.ticketContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.ticketSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="shuttle"){
+			tr.children("td").last().append('<input type="hidden" value="5" />');
+			$.each(selectInfo.shuttleContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.shuttleSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="tickets"){
+			tr.children("td").last().append('<input type="hidden" value="6" />');
+			$.each(selectInfo.ticketsContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.ticketsSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="comprehensive"){
+			tr.children("td").last().append('<input type="hidden" value="7" />');
+			$.each(selectInfo.comprehensiveContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.comprehensiveSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}else if(type.substr(0,type.length-1)=="other"){
+			tr.children("td").last().append('<input type="hidden" value="8" />');
+			$.each(selectInfo.otherContents,function(){
+        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+        	});
+        	$.each(selectInfo.otherSuppliers,function(){
+        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+        	});
+		}
+		selects.chosen();
+		selects.next().attr("style","width:100%;");
+		
+	});
+	
 	/*自动填充报账金额*/
 	$("#autoAddReimbursement").click(function(){
-		var inputs = $("#costs5").find("input");
+		var inputs = $("#costs5").find(".reimbursement");
 		if(inputs.length==0){
 			
 		}else{
 			var reimbursementSum = 0;
 			$.each(inputs,function(){
 				var reimbursement = parseFloat($(this).parent().prev().text());
+				if(isNaN(reimbursement)){
+					reimbursement = parseFloat($(this).parent().prev().prev().text());
+				}
 				$(this).val(reimbursement.toFixed(2));
 				reimbursementSum = reimbursementSum + reimbursement;
 			});
@@ -5598,20 +5773,46 @@
 			$("#reimbursementApplication").attr("data-dismiss","");
 			alert("*号为必填项，请输入数字");
 		}else{
-			var inputs = $("#costs5").find("input");
+			var inputs = $("#costs5").find("tr").not(".reimbursementTr").find("input");
 			var costTables = new Array();
 			var changeCostTables = new Array();
+			var reimbursementCostTables = new Array();
+			var newReimbursementCostTables = new Array();
 			$.each(inputs,function(){
-				if($(this).parent().parent().attr("class")!="blue"){
-					costTables.push({id:$(this).parent().parent().attr("id"),
-									reimbursement:$(this).val()==""?0:$(this).val()});
-				}else{
+				if($(this).parent().parent().attr("class")=="blue"){
 					changeCostTables.push({id:$(this).parent().parent().attr("id"),
-										reimbursement:$(this).val()==""?0:$(this).val()});
+						reimbursement:$(this).val()==""?0:$(this).val()});
+				}else if($(this).parent().parent().attr("class")=="red"){
+					reimbursementCostTables.push({id:$(this).parent().parent().attr("id"),
+						reimbursement:$(this).val()==""?0:$(this).val()});
+				}
+				else{
+					costTables.push({id:$(this).parent().parent().attr("id"),
+						reimbursement:$(this).val()==""?0:$(this).val()});
 				}
 			});
+			var reimbursementTr = $("#costs5").find("tr.reimbursementTr");
+			$.each(reimbursementTr,function(){
+				var inputs = $(this).find("input");
+				var selects = $(this).find("select");
+				newReimbursementCostTables.push({tourId:tourId,
+												costDate:new Date(inputs.eq(0).val()),
+												contentId:selects.eq(0).val(),
+												supplierId:selects.eq(1).val(),
+												cost:inputs.eq(3).val(),
+												count:inputs.eq(4).val(),
+												days:inputs.eq(5).val(),
+												reimbursement:inputs.eq(6).val(),
+												remark:inputs.eq(7).val(),
+												supplierScopeId:inputs.eq(8).val(),
+												});
+			});
 			var reimbursementTable = {tourId:tourId,headAmount:$("#headAmount").children("input").val()};
-			var fullReimbursementViewModel = {costTables:costTables,changeCostTables:changeCostTables,reimbursementTable:reimbursementTable};
+			var fullReimbursementViewModel = {costTables:costTables,
+					changeCostTables:changeCostTables,
+					reimbursementTable:reimbursementTable,
+					reimbursementCostTables:reimbursementCostTables,
+					newReimbursementCostTables:newReimbursementCostTables};
 			var myData = JSON.stringify(fullReimbursementViewModel);
 			$.ajax({
 				type: "POST",  
@@ -5641,13 +5842,14 @@
 			if($(this).children("tr").length==0){
 				$(this).parent().hide();
 			}else{
+				var inputs = $(this).find("input");
+				inputs.parent().html(inputs.val());
 				if(index!=0){
 					tbodys.eq(0).append($(this).html());
 					$(this).parent().hide();
 				}
 			}
 		});
-		$("#reimbursementPrintDiv").children("#changeCostBlue").hide();
 		$("#reimbursementPrintDiv").prepend("<h3>团队报账单</h3>");
 		$("#reimbursementPrintDiv").printArea({
 	        mode       : "iframe",
@@ -5669,7 +5871,6 @@
 	    }); --%>
 		$("#reimbursementPrintDiv").find("table").show();
 		$("#reimbursementPrintDiv").find("thead").show();
-		$("#reimbursementPrintDiv").children("#changeCostBlue").show();
 		$("#reimbursementPrintDiv").children("h3").remove();
 		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
 	});

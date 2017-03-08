@@ -1,14 +1,12 @@
 package com.cts.localtour.viewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.IncomeTable;
-import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.InvoiceService;
 @Component
 public class FullRevenueViewModel {
@@ -21,8 +19,6 @@ public class FullRevenueViewModel {
 	private IncomeViewModel incomeViewModel;
 	@Autowired
 	private ChangeIncomeViewModel changeIncomeViewModel;
-	@Autowired
-	private IncomeService incomeService;
 	@Autowired
 	private InvoiceService invoiceService;
 	public ArrayList<IncomeViewModel> getIncomes() {

@@ -80,8 +80,16 @@ public class RevenueService extends BaseService{
 		return errorCode;
 	}
 	
-	public boolean InvoiceGreaterThanIncome(float newInvoiceSum, int tourId){
+	public boolean invoiceGreaterThanIncome(float newInvoiceSum, int tourId){
 		if(newInvoiceSum+invoiceService.getInvoiceSum(tourId)+loanInvoiceService.getLoanInvoiceSum(tourId)>(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public boolean loanInvoiceGreaterThanIncome(float newInvoiceSum, int tourId){
+		if(newInvoiceSum+invoiceService.getInvoiceSum(tourId)+loanInvoiceService.getLoanInvoiceSum(tourId)>(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue())){
 			return true;
 		}else{
 			return false;

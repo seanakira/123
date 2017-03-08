@@ -10,6 +10,7 @@ import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.SysUsageTable;
 import com.cts.localtour.entity.UserTable;
 
+@SuppressWarnings("rawtypes")
 @Service
 public class SysUsageService extends BaseService{
 

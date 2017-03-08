@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 public class IncomeInfo {
 	private BigDecimal IncomeSum;
 	private BigDecimal realIncomeSum;
-	private BigDecimal incomedSum;
 	private String incomeSumInfo;
 	private String realIncomeSumInfo;
-	private String incomedSumInfo;
 	public BigDecimal getIncomeSum() {
 		return IncomeSum;
 	}
@@ -21,12 +19,6 @@ public class IncomeInfo {
 	public void setRealIncomeSum(BigDecimal realIncomeSum) {
 		this.realIncomeSum = realIncomeSum;
 	}
-	public BigDecimal getIncomedSum() {
-		return incomedSum;
-	}
-	public void setIncomedSum(BigDecimal incomedSum) {
-		this.incomedSum = incomedSum;
-	}
 	public String getIncomeSumInfo() {
 		return incomeSumInfo;
 	}
@@ -38,11 +30,5 @@ public class IncomeInfo {
 	}
 	public void setRealIncomeSumInfo(String realIncomeSumInfo) {
 		this.realIncomeSumInfo = realIncomeSumInfo;
-	}
-	public String getIncomedSumInfo() {
-		return incomedSumInfo;
-	}
-	public void setIncomedSumInfo(String incomedSumInfo) {
-		this.incomedSumInfo = incomedSumInfo;
 	}
 }

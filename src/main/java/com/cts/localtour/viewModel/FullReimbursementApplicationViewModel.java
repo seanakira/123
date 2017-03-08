@@ -9,11 +9,14 @@ import org.springframework.stereotype.Component;
 import com.cts.localtour.entity.ReimbursementTable;
 import com.cts.localtour.pojo.CostInfo;
 import com.cts.localtour.pojo.IncomeInfo;
+import com.cts.localtour.pojo.LoanInfo;
 import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
+import com.cts.localtour.service.LoanService;
+import com.cts.localtour.service.ReimbursementCostService;
 
 @Component
 public class FullReimbursementApplicationViewModel {
@@ -61,6 +64,10 @@ public class FullReimbursementApplicationViewModel {
 	private IncomeService incomeService;
 	@Autowired
 	private ChangeIncomeService changeIncomeService;
+	@Autowired
+	private ReimbursementCostService reimbursementCostService;
+	@Autowired
+	private LoanService loanService;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -255,8 +262,10 @@ public class FullReimbursementApplicationViewModel {
 		FullReimbursementApplicationViewModel fullReimbursementApplicationViewModel = new FullReimbursementApplicationViewModel();
 		CostInfo costInfo = costService.getCostInfo(tourId);
 		CostInfo changeCostInfo = changeCostService.getCostInfo(tourId);
+		CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(tourId);
 		IncomeInfo incomeInfo = incomeService.getIncomeInfo(tourId);
 		IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(tourId);
+		LoanInfo loanInfo = loanService.getLoanInfo(tourId);
 		fullReimbursementApplicationViewModel.setBudgetCostSum(costInfo.getCostSum().floatValue());
 		fullReimbursementApplicationViewModel.setBudgetCostSumInfo(costInfo.getCostSumInfo());
 		fullReimbursementApplicationViewModel.setBudgetIncomeSum(incomeInfo.getIncomeSum().floatValue());
@@ -275,31 +284,31 @@ public class FullReimbursementApplicationViewModel {
 			fullReimbursementApplicationViewModel.setExecuteGrossMargin(((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum())).subtract(costInfo.getCostSum().add(changeCostInfo.getCostSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
 		}
 		
-		fullReimbursementApplicationViewModel.setWillCostSum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).floatValue());
-		fullReimbursementApplicationViewModel.setWillCostSumInfo(costInfo.getWillCostSumInfo()+changeCostInfo.getWillCostSumInfo());
+		fullReimbursementApplicationViewModel.setWillCostSum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum()).floatValue());
+		fullReimbursementApplicationViewModel.setWillCostSumInfo(costInfo.getWillCostSumInfo()+loanInfo.getWillLoanSumInfo()+changeCostInfo.getWillCostSumInfo()+reimbursementCostInfo.getWillCostSumInfo());
 		fullReimbursementApplicationViewModel.setWillIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
 		fullReimbursementApplicationViewModel.setWillIncomeSumInfo(incomeInfo.getRealIncomeSumInfo()+changeIncomeInfo.getRealIncomeSumInfo());
-		fullReimbursementApplicationViewModel.setWillGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum())).floatValue());
+		fullReimbursementApplicationViewModel.setWillGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum())).floatValue());
 		if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){
-			fullReimbursementApplicationViewModel.setWillGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
+			fullReimbursementApplicationViewModel.setWillGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
 		}
 		
-		fullReimbursementApplicationViewModel.setRealCostSum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).floatValue());
-		fullReimbursementApplicationViewModel.setRealCostSumInfo(costInfo.getRealCostSumInfo()+changeCostInfo.getRealCostSumInfo());
+		fullReimbursementApplicationViewModel.setRealCostSum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()).floatValue());
+		fullReimbursementApplicationViewModel.setRealCostSumInfo(costInfo.getRealCostSumInfo()+loanInfo.getRealLoanSumInfo()+changeCostInfo.getRealCostSumInfo()+reimbursementCostInfo.getRealCostSumInfo());
 		fullReimbursementApplicationViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
 		fullReimbursementApplicationViewModel.setRealIncomeSumInfo(incomeInfo.getRealIncomeSumInfo()+changeIncomeInfo.getRealIncomeSumInfo());
-		fullReimbursementApplicationViewModel.setRealGrossProfit((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum())).floatValue());
+		fullReimbursementApplicationViewModel.setRealGrossProfit((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum())).floatValue());
 		if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){
-			fullReimbursementApplicationViewModel.setRealGrossMargin(((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
+			fullReimbursementApplicationViewModel.setRealGrossMargin(((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
 		}
 		
-		fullReimbursementApplicationViewModel.setReimbursementCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).floatValue());
-		fullReimbursementApplicationViewModel.setReimbursementCostSumInfo(costInfo.getReimbursementSumInfo()+changeCostInfo.getReimbursementSumInfo());
+		fullReimbursementApplicationViewModel.setReimbursementCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())).floatValue());
+		fullReimbursementApplicationViewModel.setReimbursementCostSumInfo(costInfo.getReimbursementSumInfo()+changeCostInfo.getReimbursementSumInfo()+reimbursementCostInfo.getReimbursementSumInfo());
 		fullReimbursementApplicationViewModel.setReimbursementIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
 		fullReimbursementApplicationViewModel.setReimbursementIncomeSumInfo(incomeInfo.getRealIncomeSumInfo()+changeIncomeInfo.getRealIncomeSumInfo());
-		fullReimbursementApplicationViewModel.setReimbursementGrossProfit((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
+		fullReimbursementApplicationViewModel.setReimbursementGrossProfit((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum())).floatValue());
 		if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){
-			fullReimbursementApplicationViewModel.setReimbursementGrossMargin(((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
+			fullReimbursementApplicationViewModel.setReimbursementGrossMargin(((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
 		}
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>)baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
 		if(!reimbursementTables.isEmpty()){

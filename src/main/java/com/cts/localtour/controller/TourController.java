@@ -22,6 +22,7 @@ import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
@@ -335,7 +336,7 @@ public class TourController {
 				if(changeCostIncomeViewModel.getCostTables().get(i).getContentId()==null||changeCostIncomeViewModel.getCostTables().get(i).getSupplierId()==0){
 					return -4;
 				}else{
-					changeCostIncomeViewModel.getCostTables().get(i).setStatus(1);
+					changeCostIncomeViewModel.getCostTables().get(i).setStatus(3);/*设置状态*/
 					changeCostIncomeViewModel.getCostTables().get(i).setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					costService.add(changeCostIncomeViewModel.getCostTables().get(i));
 				}
@@ -347,18 +348,17 @@ public class TourController {
 				if(changeCostIncomeViewModel.getIncomeTables().get(i).getCustomerAgencyId()==0){
 					return -5;
 				}else{
-					changeCostIncomeViewModel.getIncomeTables().get(i).setStatus(1);
-					changeCostIncomeViewModel.getIncomeTables().get(i).setIncomed(false);
+					changeCostIncomeViewModel.getIncomeTables().get(i).setStatus(3);/*设置状态*/
 					changeCostIncomeViewModel.getIncomeTables().get(i).setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					incomeService.add(changeCostIncomeViewModel.getIncomeTables().get(i));
 				}
 			}
 		}
-		if(!changeCostIncomeViewModel.getCostTables().isEmpty()||!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
-			/*这里或许需要判断用户权限*/
+		/*if(!changeCostIncomeViewModel.getCostTables().isEmpty()||!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
+			这里或许需要判断用户权限
 			localTourService.sendMassage("changeCostIncomeApplication", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(changeCostIncomeViewModel.getCostTables().isEmpty()?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId())+" 待审核(变更成本收入)，点击进行审核");
-		}
-		return 0;
+		}*/
+		return 1;
 	}
 	/*借款管理*/
 	@RequestMapping("/localTourManage/findLend")
@@ -422,6 +422,11 @@ public class TourController {
 		return localTourService.findReimbursement(tourId);
 	}
 	
+	@RequestMapping("/reimbursementManage/checkReimbursement")
+	public @ResponseBody boolean checkReimbursement(@RequestParam int tourId){
+		return localTourService.checkReimbursement(tourId);
+	}
+	
 	@RequestMapping("/reimbursementManage/updateReimbursement")
 	public @ResponseBody int updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpServletRequest request){
 		int errorCode = 0;
@@ -437,16 +442,21 @@ public class TourController {
 				return errorCode;
 			}
 		}
+		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
+			if(((ReimbursementCostTable)localTourService.getById("ReimbursementCostTable", reimbursementCostTable.getId())).getReimbursement()!=null){
+				errorCode = -1;
+				return errorCode;
+			}
+		}
 		if(full.getReimbursementTable().getHeadAmount()==0||!localTourService.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getId()).isEmpty()){
 			errorCode = -2;
 			return errorCode;
 		}
+		
 		if(errorCode == 0){
-			if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()){
+			if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()||!full.getNewReimbursementCostTables().isEmpty()){
 				localTourService.updateReimbursement(full);
-				if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){
-					localTourService.sendMassage("reimbursementApplication", full.getReimbursementTable().getTourId(), 0, "您有 "+localTourService.getTourNoAndTourName(full.getReimbursementTable().getTourId())+" 待审核的(团队报账)，点击进行审核");
-				}
+				localTourService.sendMassage("reimbursementApplication", full.getReimbursementTable().getTourId(), 0, "您有 "+localTourService.getTourNoAndTourName(full.getReimbursementTable().getTourId())+" 待审核的(团队报账)，点击进行审核");
 			}
 		}
 		return errorCode;

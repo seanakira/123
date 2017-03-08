@@ -6,6 +6,8 @@ public class LoanInfo {
 	private BigDecimal loanSum;
 	private BigDecimal willLoanSum;
 	private BigDecimal realLoanSum;
+	private String willLoanSumInfo;
+	private String realLoanSumInfo;
 	public BigDecimal getLoanSum() {
 		return loanSum;
 	}
@@ -24,5 +26,16 @@ public class LoanInfo {
 	public void setRealLoanSum(BigDecimal realLoanSum) {
 		this.realLoanSum = realLoanSum;
 	}
-	
+	public String getWillLoanSumInfo() {
+		return willLoanSumInfo;
+	}
+	public void setWillLoanSumInfo(String willLoanSumInfo) {
+		this.willLoanSumInfo = willLoanSumInfo;
+	}
+	public String getRealLoanSumInfo() {
+		return realLoanSumInfo;
+	}
+	public void setRealLoanSumInfo(String realLoanSumInfo) {
+		this.realLoanSumInfo = realLoanSumInfo;
+	}
 }

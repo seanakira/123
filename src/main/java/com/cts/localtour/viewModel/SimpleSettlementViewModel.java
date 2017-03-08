@@ -122,7 +122,7 @@ public class SimpleSettlementViewModel {
 			simpleSettlementViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(loanInfo.getLoanSum()).floatValue());
 			simpleSettlementViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()).floatValue());
 			simpleSettlementViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).floatValue());
-			simpleSettlementViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomedSum()).floatValue());
+			simpleSettlementViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().floatValue());
 			simpleSettlementViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
 			simpleSettlementViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
 			if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){

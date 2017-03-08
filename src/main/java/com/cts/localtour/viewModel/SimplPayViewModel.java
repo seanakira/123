@@ -13,6 +13,7 @@ import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.LoanService;
+import com.cts.localtour.service.ReimbursementCostService;
 @Component
 public class SimplPayViewModel {
 	private LocalTourTable localTourTable;
@@ -33,6 +34,8 @@ public class SimplPayViewModel {
 	private ChangeCostService changeCostService;
 	@Autowired
 	private LoanService loanService;
+	@Autowired
+	private ReimbursementCostService reimbursementCostService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -93,13 +96,14 @@ public class SimplPayViewModel {
 			SimplPayViewModel simplPayViewModel = new SimplPayViewModel();
 			CostInfo costInfo = costService.getCostInfo(localTourTable.getId());
 			CostInfo changeCostInfo = changeCostService.getCostInfo(localTourTable.getId());
+			CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(localTourTable.getId());
 			LoanInfo loanInfo = loanService.getLoanInfo(localTourTable.getId());
 			simplPayViewModel.setLocalTourTable(localTourTable);
 			simplPayViewModel.setLoan(loanInfo.getLoanSum().floatValue());
 			simplPayViewModel.setCanCost(costInfo.getCanCostSum().add(changeCostInfo.getCanCostSum()).floatValue());
 			simplPayViewModel.setCanPay(costInfo.getCanCostSum().add(changeCostInfo.getCanCostSum()).add(loanInfo.getLoanSum()).floatValue());
-			simplPayViewModel.setWillPay(loanInfo.getWillLoanSum().add(costInfo.getWillCostSum()).add(changeCostInfo.getWillCostSum()).floatValue());
-			simplPayViewModel.setRealPay(loanInfo.getRealLoanSum().add(costInfo.getRealCostSum()).add(changeCostInfo.getRealCostSum()).floatValue());
+			simplPayViewModel.setWillPay(loanInfo.getWillLoanSum().add(costInfo.getWillCostSum()).add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).floatValue());
+			simplPayViewModel.setRealPay(loanInfo.getRealLoanSum().add(costInfo.getRealCostSum()).add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()).floatValue());
 			simplPayViewModel.setRealName(((UserTable) baseService.getById("UserTable", localTourTable.getUserId())).getRealName());
 			if(localTourTable.getStatus()==0){
 				simplPayViewModel.setStatus("ÐÂ½¨");

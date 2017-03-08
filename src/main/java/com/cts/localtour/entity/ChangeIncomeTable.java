@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-27 10:39:04 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-8 13:58:10 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -25,7 +25,6 @@ public class ChangeIncomeTable implements java.io.Serializable {
 	private int customerAgencyId;
 	private float income;
 	private float realIncome;
-	private boolean incomed;
 	private Integer handlerId;
 	private String remark;
 	private int status;
@@ -33,25 +32,22 @@ public class ChangeIncomeTable implements java.io.Serializable {
 	public ChangeIncomeTable() {
 	}
 
-	public ChangeIncomeTable(int tourId, int customerAgencyId, float income, float realIncome, boolean incomed,
-			int status) {
+	public ChangeIncomeTable(int tourId, int customerAgencyId, float income, float realIncome, int status) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
 		this.realIncome = realIncome;
-		this.incomed = incomed;
 		this.status = status;
 	}
 
 	public ChangeIncomeTable(int tourId, Date incomeDate, Integer applicationerId, int customerAgencyId, float income,
-			float realIncome, boolean incomed, Integer handlerId, String remark, int status) {
+			float realIncome, Integer handlerId, String remark, int status) {
 		this.tourId = tourId;
 		this.incomeDate = incomeDate;
 		this.applicationerId = applicationerId;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
 		this.realIncome = realIncome;
-		this.incomed = incomed;
 		this.handlerId = handlerId;
 		this.remark = remark;
 		this.status = status;
@@ -122,15 +118,6 @@ public class ChangeIncomeTable implements java.io.Serializable {
 
 	public void setRealIncome(float realIncome) {
 		this.realIncome = realIncome;
-	}
-
-	@Column(name = "incomed", nullable = false)
-	public boolean isIncomed() {
-		return this.incomed;
-	}
-
-	public void setIncomed(boolean incomed) {
-		this.incomed = incomed;
 	}
 
 	@Column(name = "handlerId")

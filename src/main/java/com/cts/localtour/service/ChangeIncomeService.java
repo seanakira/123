@@ -19,10 +19,8 @@ public class ChangeIncomeService extends BaseService{
 		IncomeInfo incomeInfo = new IncomeInfo();
 		BigDecimal incomeSum = new BigDecimal(0);
 		BigDecimal realIncomeSum = new BigDecimal(0);
-		BigDecimal incomedSum = new BigDecimal(0);
 		StringBuffer realIncomeSumInfo = new StringBuffer();
 		StringBuffer incomeSumInfo = new StringBuffer();
-		StringBuffer incomedSumInfo = new StringBuffer();
 		ArrayList<ChangeIncomeTable> changeIncomeTables = (ArrayList<ChangeIncomeTable>) this.getAllByString("ChangeIncomeTable", "tourId=? and status=3", tourId);
 		for (ChangeIncomeTable changeIncomeTable : changeIncomeTables) {
 			String customerAgencyName = customerAgencyService.getCustomerAgencyName(changeIncomeTable.getTourId());
@@ -30,17 +28,11 @@ public class ChangeIncomeService extends BaseService{
 			incomeSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getIncome()).append(",");
 			realIncomeSum = realIncomeSum.add(new BigDecimal(changeIncomeTable.getRealIncome()));
 			realIncomeSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getRealIncome()).append(",");
-			if(changeIncomeTable.isIncomed()){
-				incomedSum = incomedSum.add(new BigDecimal(changeIncomeTable.getRealIncome()));
-				incomedSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getRealIncome()).append(",");
-			}
 		}
 		incomeInfo.setRealIncomeSum(realIncomeSum);
 		incomeInfo.setIncomeSum(incomeSum);
-		incomeInfo.setIncomedSum(incomedSum);
 		incomeInfo.setIncomeSumInfo(incomeSumInfo.toString());
 		incomeInfo.setRealIncomeSumInfo(realIncomeSumInfo.toString());
-		incomeInfo.setIncomedSumInfo(incomedSumInfo.toString());
 		return incomeInfo;
 	}
 }

@@ -37,19 +37,19 @@ public class ChangeCostService extends BaseService{
 			BigDecimal cost = new BigDecimal(costTable.getCost());
 			String supplierName = supplierInfoService.getSupplierName(costTable.getSupplierId());
 			costSum =  costSum.add(cost.multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
-			costSumInfo.append("<a class='orange'>").append(supplierName).append(",").append("单价 ").append(costTable.getCost()).append(" X 数量 ").append(costTable.getCount()).append(" X 天数 ").append(costTable.getDays()).append(" = ").append(cost.multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).toString()).append("<a>").append(",");
+			costSumInfo.append("<a class='blue'>").append(supplierName).append(",").append("单价 ").append(costTable.getCost()).append(" X 数量 ").append(costTable.getCount()).append(" X 天数 ").append(costTable.getDays()).append(" = ").append(cost.multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).toString()).append("<a>").append(",");
 			canCostSum = canCostSum.add(new BigDecimal(costTable.getRealCost()));
 			if(costTable.getPayStatus()==3){
 				willCostSum = willCostSum.add(new BigDecimal(costTable.getRealCost()));
-				willCosSumInfo.append(supplierName).append(" ").append(costTable.getRealCost()).append(",");
+				willCosSumInfo.append("<a class='blue'>").append(supplierName).append(" ").append(costTable.getRealCost()).append("<a>").append(",");
 			}
 			if(costTable.isRemittanced()){
 				realCostSum = realCostSum.add(new BigDecimal(costTable.getRealCost()));
-				realCosSumInfo.append(supplierName).append(" ").append(costTable.getRealCost()).append(",");
+				realCosSumInfo.append("<a class='blue'>").append(supplierName).append(" ").append(costTable.getRealCost()).append("<a>").append(",");
 			}
 			if(costTable.getReimbursement()!=null){
 				reimbursementSum = reimbursementSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
-				reimbursementSumInfo.append(supplierName).append(" ").append(costTable.getReimbursement()).append(",");
+				reimbursementSumInfo.append("<a class='blue'>").append(supplierName).append(" ").append(costTable.getReimbursement()).append("<a>").append(",");
 			}
 		}
 		costInfo.setCostSum(costSum);

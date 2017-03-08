@@ -49,6 +49,7 @@ public class ReimbursementApplicationService extends BaseService{
 	public void reimbursementApplicationOk(int tourId) {
 		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==6){
 			this.updateByString("LocalTourTable", "status=?", "id=?", 7, tourId);
+			this.updateByString("ReimbursementCostTable", "payStatus=1", "tourId=?", tourId);
 			this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
 		}
 	}
@@ -57,6 +58,7 @@ public class ReimbursementApplicationService extends BaseService{
 		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==6){
 			this.updateByString("CostTable", "reimbursement=null", "tourId=? and payStatus=3", tourId);
 			this.updateByString("ChangeCostTable", "reimbursement=null", "tourId=? and ((payStatus=3 and status=3) or (status=3 and lend=true))", tourId);
+			this.updateByString("ReimbursementCostTable", "reimbursement=null", "tourId=?", tourId);
 			this.deleteByString("ReimbursementTable", "tourId=?", tourId);
 			this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
 		}

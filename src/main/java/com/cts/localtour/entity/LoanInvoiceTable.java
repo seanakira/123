@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2016-12-27 10:39:04 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-8 13:58:10 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	private int tourId;
 	private int customerAgencyId;
 	private String invoiceContent;
-	private Integer invoiceNo;
+	private String invoiceNo;
 	private float invoiceAmount;
 	private Date issueDate;
 	private int issueUserId;
@@ -44,7 +44,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public LoanInvoiceTable(int tourId, int customerAgencyId, String invoiceContent, Integer invoiceNo,
+	public LoanInvoiceTable(int tourId, int customerAgencyId, String invoiceContent, String invoiceNo,
 			float invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, String remark, int status) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
@@ -97,12 +97,12 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.invoiceContent = invoiceContent;
 	}
 
-	@Column(name = "invoiceNo", unique = true)
-	public Integer getInvoiceNo() {
+	@Column(name = "invoiceNo", unique = true, length = 11)
+	public String getInvoiceNo() {
 		return this.invoiceNo;
 	}
 
-	public void setInvoiceNo(Integer invoiceNo) {
+	public void setInvoiceNo(String invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
 

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
-import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.UserService;
 @Component
@@ -80,11 +79,7 @@ public class ChangeIncomeViewModel {
 			income.setCustomerAgencyName(((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", incomeTable.getCustomerAgencyId())).getCustomerAgencyName());
 			income.setApplicationerRealName(userService.getUserRealName(incomeTable.getApplicationerId()));
 			income.setHandlerRealName(userService.getUserRealName(incomeTable.getHandlerId()));
-			if(incomeTable.isIncomed()){
-				income.setStatus("已收款");
-			}else{
-				income.setStatus(incomeTable.getStatus()==0?"新建":incomeTable.getStatus()==1?"待审核":incomeTable.getStatus()==2?"待批准":incomeTable.getStatus()==3?"已批准":"");
-			}
+			income.setStatus(incomeTable.getStatus()==0?"新建":incomeTable.getStatus()==1?"待审核":incomeTable.getStatus()==2?"待批准":incomeTable.getStatus()==3?"已批准":"");
 			incomes.add(income);
 		}
 		return incomes;

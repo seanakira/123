@@ -9,6 +9,7 @@ import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.LoanTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
@@ -23,12 +24,16 @@ public class FullPayViewModel {
 	private ArrayList<ChangeCostViewModel> changeCosts;
 	private ArrayList<ChangeIncomeViewModel> changeIncomes;
 	private ArrayList<ChangeCostTable> changeCostTables;
+	private ArrayList<ReimbursementCostTable> reimbursementCostTables;
+	private ArrayList<ReimbursementCostViewModel> reimbursementCosts;
 	private ArrayList<ChangeIncomeTable> changeIncomeTables;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ReimbursementCostViewModel reimbursementCostViewModel;
 	public ArrayList<CostViewModel> getCosts() {
 		return costs;
 	}
@@ -76,6 +81,18 @@ public class FullPayViewModel {
 	}
 	public void setChangeIncomeTables(ArrayList<ChangeIncomeTable> changeIncomeTables) {
 		this.changeIncomeTables = changeIncomeTables;
+	}
+	public ArrayList<ReimbursementCostTable> getReimbursementCostTables() {
+		return reimbursementCostTables;
+	}
+	public void setReimbursementCostTables(ArrayList<ReimbursementCostTable> reimbursementCostTables) {
+		this.reimbursementCostTables = reimbursementCostTables;
+	}
+	public ArrayList<ReimbursementCostViewModel> getReimbursementCosts() {
+		return reimbursementCosts;
+	}
+	public void setReimbursementCosts(ArrayList<ReimbursementCostViewModel> reimbursementCosts) {
+		this.reimbursementCosts = reimbursementCosts;
 	}
 	@SuppressWarnings("unchecked")
 	public FullPayViewModel getPayApplicationViewModel(int tourId, int status){
@@ -182,6 +199,8 @@ public class FullPayViewModel {
 			changeCosts.add(changeCost);
 		}
 		full.setChangeCosts(changeCosts);
+		
+		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModel(tourId, 1));
 		
 		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=?", tourId);
 		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();

@@ -12,6 +12,7 @@ import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
+import com.cts.localtour.service.ReimbursementCostService;
 import com.cts.localtour.service.UserService;
 
 @Component
@@ -34,6 +35,8 @@ public class SimpleBalanceViewModel {
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ReimbursementCostService reimbursementCostService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -89,13 +92,14 @@ public class SimpleBalanceViewModel {
 			balanceViewModel.setLocalTourTable(localTourTable);
 			CostInfo costInfo = costService.getCostInfo(localTourTable.getId());
 			CostInfo changeCostInfo = changeCostService.getCostInfo(localTourTable.getId());
+			CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(localTourTable.getId());
 			IncomeInfo incomeInfo = incomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
 			balanceViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).floatValue());
 			balanceViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).floatValue());
 			balanceViewModel.setWillIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
 			balanceViewModel.setRealIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue());
-			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).floatValue());
+			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())).floatValue());
 			balanceViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
 			if(localTourTable.getStatus()==0){
 				balanceViewModel.setStatus("ÐÂ½¨");

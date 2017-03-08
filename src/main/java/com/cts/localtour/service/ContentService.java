@@ -64,4 +64,8 @@ public class ContentService extends BaseService{
 	public void update(SupplierContentTable content) {
 		this.updateByString("SupplierContentTable", "contentName=?,supplierScopeId=?", "id="+content.getId(), content.getContentName(),content.getSupplierScopeId());
 	}
+	
+	public String getContentName(int id){
+		return ((SupplierContentTable)this.getById("SupplierContentTable", id)).getContentName();
+	}
 }

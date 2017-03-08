@@ -401,7 +401,8 @@
 													</tbody>
 									            </table>
 											</div>
-											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>		
+											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>
+											<span id="reimbursementCostRed" class="red">*红色为报账新增成本</span>
 						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
@@ -764,15 +765,73 @@
 						if(this.costTable.costDate!=null){
 							costDate = this.costTable.costDate.replace(/-/g,'/');
 						}
-		        		var tr = $('<tr>'+
+		        		var tr = $('<tr class="blue">'+
 										'<td>'+costDate+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
-										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+										'<td><a data-toggle="modal" href="#" title="单价'+this.costTable.cost+' X 数量'+this.costTable.count+' X 天数'+this.costTable.days+'">'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</a></td>'+
 										'<td>'+realCost.html()+'</td>'+
 										'<td>'+this.borrowUserName+'</td>'+
 										'<td>'+remark.html()+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
+										'<td>'+bill.html()+'</td>'+
+										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+remittanced.html()+'</td>'+
+									'</tr>');
+		        		tbody.append(tr);
+		        	});
+		        	
+		        	/* 设置报账成本 */
+		        	if(data.reimbursementCosts.length > 0){
+		        		$("#reimbursementCostRed").attr("style","");
+		        	}else{
+		        		$("#reimbursementCostRed").attr("style","display:none");
+		        	}
+		        	$.each(data.reimbursementCosts,function(){
+		        		var payStatus = $("<td></td>");
+		        		var remark = $("<td></td>");
+		        		var bill = $("<td></td>");
+		        		var remittanced = $("<td></td>");
+	        			remark.html(this.costTable.remark);
+		        		if(this.costTable.remittanced){
+		        			remittanced.html('<input type="hidden" value="true">');
+		        			payStatus.html("已汇款");
+		        		}else{
+		        			remittanced.html('<input type="hidden" value="false">');
+		        			if(this.costTable.bill){
+		        				payStatus.html('<a title="汇款确认" href="#" hidden="" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a><span>挂账</span>');
+		        				bill.html('<label><input class="ace bill" type="checkbox" checked="checked"><span class="lbl"></span></label>');
+		        			}else{
+		        				payStatus.html('<a title="汇款确认" href="#" class="green" id="remittanceOk"><i class="icon-ok bigger-130"></i></a><span hidden="">挂账</span>');
+		        				bill.html('<label><input class="ace bill" type="checkbox"><span class="lbl"></span></label>');
+		        			}
+		        		}
+		        		var tbody;
+		        		if(this.costTable.supplierScopeId==1){
+		        			tbody = flight;
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			tbody = hotel;
+		        		}else if(this.costTable.supplierScopeId==3){
+		        			tbody = meal;
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			tbody = ticket;
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			tbody = shuttle;
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tbody = tickets;
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			tbody = comprehensive;
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			tbody = other;
+		        		}
+		        		var tr = $('<tr class="red">'+
+										'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
+										'<td>'+this.contentName+'</td>'+
+										'<td>'+this.supplierName+'</td>'+
+										'<td><a data-toggle="modal" href="#" title="单价'+this.costTable.cost+' X 数量'+this.costTable.count+' X 天数'+this.costTable.days+'">'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</a></td>'+
+										'<td>'+this.costTable.reimbursement+'</td>'+
+										'<td></td>'+
+										'<td></td>'+
+										'<td></td>'+
 										'<td>'+bill.html()+'</td>'+
 										'<td id="'+this.costTable.id+'"style="vertical-align: middle;">'+payStatus.html()+remittanced.html()+'</td>'+
 									'</tr>');
@@ -876,6 +935,16 @@
     			$(this).parent().parent().html('<i class="icon-ok bigger-130"></i>');
     		}
     	});
+    	/* 报账新增勾选挂账 */
+    	$("#costs3").delegate(".bill","click",function(){
+    		if($(this).prop("checked")){
+    			$(this).parent().parent().next().children("a").hide();
+    			$(this).parent().parent().next().children("span").show();
+    		}else{
+    			$(this).parent().parent().next().children("a").show();
+    			$(this).parent().parent().next().children("span").hide();
+    		}
+    	});
     	/* 确认汇款 */
     	$("#costs3").delegate("#remittanceOk","click",function(){
     		var a = $(this);
@@ -884,6 +953,7 @@
     		a.next().val(true);
     		a.after("已汇");
     		a.remove();
+    		td.prev().html("");
     	});
     	/* 增加借款 */
     	$(".addLoan").click(function(){
@@ -945,7 +1015,7 @@
 		$("#saveEdit").click(function(){
 			var tourId = $(this).parent().attr("id");
 			var costTables = new Array();
-			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not(".blue");
+			var costTrs = $("#edit").find("#costs3").find("tbody").find("tr").not(".blue").not(".red");
 			for (var int = 0; int < costTrs.length; int++) {
 				var tds = costTrs.eq(int).children("td");
 				var id = tds.last().attr("id");
@@ -1036,6 +1106,30 @@
 					bill:bill,
 					lend:lend});
 			}
+			
+			var reimbursementCostTables = new Array();
+			var reimbursementCostTrs = $("#edit").find("#costs3").find("tbody").find("tr.red");
+			for (var int = 0; int < reimbursementCostTrs.length; int++) {
+				var tds = reimbursementCostTrs.eq(int).children("td");
+				var id = tds.last().attr("id");
+				var remittanced = tds.last().children("input").val();
+				var bill = false;
+				var realCost;
+				if(tds.eq(8).find("input").length==0){
+					if(tds.eq(8).find("i").length==1){
+						bill = true;
+					}
+				}else{
+					if(tds.eq(8).find("input").prop("checked")){
+						bill = true;
+					}
+				}
+				reimbursementCostTables.push({
+					id:id,
+					remittanced:remittanced,
+					bill:bill});
+			}
+			
 			var loanTables = new Array();
 			var loanTrs = $("#loanTable").children("tr");
 			$.each(loanTrs,function(){
@@ -1066,7 +1160,7 @@
 				}
 			});
 			
-			var fullPayViewModel = {costTables:costTables, changeCostTables:changeCostTables, loanTables:loanTables};
+			var fullPayViewModel = {costTables:costTables, changeCostTables:changeCostTables, reimbursementCostTables:reimbursementCostTables, loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
 			$.ajax({
 		        type: "POST",  
@@ -1076,12 +1170,15 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
+		        	$("#saveEdit").attr("data-dismiss","")
 		        	if(data==-1){
 		        		alert("保存失败，提交数据异常，借款和汇款同时为true");
 		        	}else if(data==-2){
 		        		alert("保存失败，电汇金额不能大于成本小计");
 		        	}else if(data==-3){
 		        		alert("保存失败，借款总计大于最大借款额");
+		        	}else if(data==1){
+		        		$("#saveEdit").attr("data-dismiss","modal")
 		        	}
 		        }
 			 });

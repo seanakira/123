@@ -9,6 +9,7 @@ import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 
@@ -44,6 +45,7 @@ public class PayService extends BaseService{
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<LoanTable> loanTables = full.getLoanTables();
 		ArrayList<ChangeCostTable> changeCostTables = full.getChangeCostTables();
+		ArrayList<ReimbursementCostTable> reimbursementCostTables = full.getReimbursementCostTables();
 		ArrayList<CostTable> costCache =new ArrayList<CostTable>();
 		ArrayList<ChangeCostTable> changeCostCache = new ArrayList<ChangeCostTable>();
 		float maxLoan = 0;
@@ -91,6 +93,14 @@ public class PayService extends BaseService{
 					changeCostCache.add(changeCostTable);
 					changeCostCache.add(changeCostTables.get(i));
 				}
+			}
+		}
+		
+		for (ReimbursementCostTable reimbursementCostTable : reimbursementCostTables) {
+			if(reimbursementCostTable.isBill()&&reimbursementCostTable.isRemittanced()){
+				return -1;
+			}else{
+				this.updateByString("ReimbursementCostTable", "bill=?, remittanced=?", "id=?", reimbursementCostTable.isBill(), reimbursementCostTable.isRemittanced(), reimbursementCostTable.getId());
 			}
 		}
 		/*¼ÆËã½è¿î¶î*/

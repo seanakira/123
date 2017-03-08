@@ -140,7 +140,7 @@ public class FinanceController {
 			}
 		}
 		if(!invoices.isEmpty()){
-			if(revenueService.InvoiceGreaterThanIncome(invoice, invoices.get(0).getTourId())){
+			if(revenueService.invoiceGreaterThanIncome(invoice, invoices.get(0).getTourId())){
 				errorCode = -3;
 			}else if(errorCode==0){
 				try {
@@ -169,12 +169,12 @@ public class FinanceController {
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "id=? and status=2", loanInvoiceTable.getId());
 			newInvoiceSum = newInvoiceSum + (loanInvoiceTables2.isEmpty()?0:loanInvoiceTables2.get(0).getInvoiceAmount());
-			if(loanInvoiceTable.getInvoiceNo().toString().length()!=8){
+			if(loanInvoiceTable.getInvoiceNo().length()!=8){
 				errorCode = -2;
 			}
 		}
 		if(!loanInvoiceTables.isEmpty()){
-			if(revenueService.InvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
+			if(revenueService.loanInvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
 				errorCode = -1;
 			}else if(errorCode==0){
 				loanInvoiceService.saveLoanInvoice(loanInvoiceTables);

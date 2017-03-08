@@ -383,7 +383,8 @@
 													</tbody>
 									            </table>
 											</div>
-											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>		
+											<span id="changeCostBlue" class="blue">*蓝色为成本收入变更</span>
+											<span id="reimbursementCostRed" class="red" style="display:none">*红色为报账新增成本</span>	
 						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
@@ -617,7 +618,7 @@
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			tbody = other;
 		        		}
-		        		var tr = $('<tr class="blue"  id="'+this.costTable.id+'">'+
+		        		var tr = $('<tr class="blue" id="'+this.costTable.id+'">'+
 				        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
@@ -628,6 +629,50 @@
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
 										'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
+									'</tr>');
+		        		tbody.append(tr);
+		        	});
+		        	
+		        	/* 设置成本变更 */
+		        	if(data.reimbursementCosts.length > 0){
+		        		$("#reimbursementCostRed").attr("style","");
+		        	}else{
+		        		$("#reimbursementCostRed").attr("style","display:none");
+		        	}
+		        	$.each(data.reimbursementCosts,function(){
+		        		var bill = $("<td></td>");
+	        			if(this.costTable.bill){
+	        				bill.html('<i class="icon-ok bigger-130"></i>');
+	        			}
+		        		var tbody;
+		        		if(this.costTable.supplierScopeId==1){
+		        			tbody = flight;
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			tbody = hotel;
+		        		}else if(this.costTable.supplierScopeId==3){
+		        			tbody = meal;
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			tbody = ticket;
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			tbody = shuttle;
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tbody = tickets;
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			tbody = comprehensive;
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			tbody = other;
+		        		}
+		        		var tr = $('<tr class="red" id="'+this.costTable.id+'">'+
+				        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+this.contentName+'</td>'+
+										'<td>'+this.supplierName+'</td>'+
+										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+										'<td> </td>'+
+										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td>'+this.costTable.remark+'</td>'+
+										'<td></td>'+
+										'<td>'+bill.html()+'</td>'+
+										'<td style="vertical-align: middle;">报账新增</td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
