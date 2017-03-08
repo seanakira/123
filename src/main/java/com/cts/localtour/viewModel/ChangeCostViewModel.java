@@ -95,7 +95,7 @@ public class ChangeCostViewModel {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
 			changeCost.setCostTable(changeCostTable);
 			changeCost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
-			changeCost.setContentName(((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
+			changeCost.setContentName(changeCostTable.getContentId()==null?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
 			changeCost.setPayApplicationerRealName(userService.getUserName(changeCostTable.getPayApplicationerId()));
 			changeCost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
 			if(changeCostTable.getPayStatus()==0){

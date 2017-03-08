@@ -52,17 +52,23 @@
 								<th aria-label="Domain: activate to sort column ascending" style="width: 1%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									id
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 20%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									供应商名
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									地区
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 19%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									供应范围
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									电话
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									开户行
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									银行账号
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									账期（个月）
@@ -70,10 +76,10 @@
 								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									第一期结账日
 								</th>
-								<th aria-label="Clicks: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
+								<th aria-label="Clicks: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
 									有效
 								</th>
-								<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+								<th aria-label="" style="width: 5%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
 								</th>
 							</tr>
@@ -145,6 +151,8 @@
 										</span>
 									</td>
 									<td class="">${supplier.supplierTable.phone }</td>
+									<td class="">${supplier.supplierTable.bankName }</td>
+									<td class="">${supplier.supplierTable.bankNo }</td>
 									<td class="">${supplier.supplierTable.accountPeriod }</td>
 									<td class="">${supplier.supplierTable.accountDate }</td>
 									<td class="hidden-480 " id="">
@@ -402,8 +410,10 @@
 						supplierName:td.eq(2).text(),
 						regionId:td.eq(3).children("span").text(),
 						phone:td.eq(5).text(),
-						accountPeriod:td.eq(6).text(),
-						accountDate:td.eq(7).text(),
+						bankName:td.eq(6).text(),
+						bankNo:td.eq(7).text(),
+						accountPeriod:td.eq(8).text(),
+						accountDate:td.eq(9).text(),
 						supplierScopeIds:td.eq(4).find("span").text().split("")};
 			td.eq(2).html("<input id='update' type='text' style='width:100%' value='"+info.supplierName+"' style='width:150px' />");
 			td.eq(3).html($("#select").html());
@@ -417,8 +427,10 @@
 			td.eq(4).find("select").next().attr("style","width:100%;");
 			td.eq(4).find("input").attr("style","height:25px;");
 			td.eq(5).html("<input type='text' style='width:100%' value='"+info.phone+"' style='width:150px' />");
-			td.eq(6).html("<input type='text' style='width:100%' value='"+info.accountPeriod+"' style='width:150px' />");
-			td.eq(7).html("<input id='update' type='text' style='width:100%' value='"+info.accountDate+"' style='width:150px' />");
+			td.eq(6).html("<input type='text' style='width:100%' value='"+info.bankName+"' style='width:150px' />");
+			td.eq(7).html("<input type='text' style='width:100%' value='"+info.bankNo+"' style='width:150px' />");
+			td.eq(8).html("<input type='text' style='width:100%' value='"+info.accountPeriod+"' style='width:150px' />");
+			td.eq(9).html("<input id='update' type='text' style='width:100%' value='"+info.accountDate+"' style='width:150px' placeholder='按回车保存'/>");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});
 	/*回车更新 */		
@@ -434,9 +446,11 @@
 				var supplierScopeIds =obj.find("select").eq(1).val().toString();
 				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
 				var phone = td.eq(5).children("input").val();
-				var accountPeriod = obj.find("input").eq(5).val();
-				var accountDate = obj.find("input").eq(6).val();
-				var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
+				var bankName = obj.find("input").eq(5).val();
+				var bankNo = obj.find("input").eq(6).val();
+				var accountPeriod = obj.find("input").eq(7).val();
+				var accountDate = obj.find("input").eq(8).val();
+				var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone,bankName:bankName,bankNo:bankNo,accountPeriod:accountPeriod,accountDate:accountDate};
 				var myData = JSON.stringify(supplier);
 				var supplierId = id;
 				$.ajax({  
@@ -451,8 +465,10 @@
 			        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
 			        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
 			        	td.eq(5).html(phone);
-			        	td.eq(6).html(accountPeriod);
-			        	td.eq(7).html(accountDate);
+			        	td.eq(6).html(bankName);
+			        	td.eq(7).html(bankNo);
+			        	td.eq(8).html(accountPeriod);
+			        	td.eq(9).html(accountDate);
 			        }  
 				 }); 
 				var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};
@@ -474,18 +490,20 @@
 		/* 按钮更新 */
 		$("#table").delegate("#save","click",function(){
 			var obj = $(this).parents("tr");
-			var td = $(this).parents("td").siblings();
+			var td = obj.children("td");
 			var params = $(this).parents("tr").find("input");
 	 		var supplierName = params.eq(1).val();
-	 		var id = obj.find("a").eq(-3).attr("id");
+			var id = obj.find("a").eq(-3).attr("id");
 			var regionId = obj.find("select").val();
 			var regionName = obj.find("select").eq(0).find("option:selected").text();
 			var supplierScopeIds =obj.find("select").eq(1).val().toString();
 			var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
 			var phone = td.eq(5).children("input").val();
-			var accountPeriod = obj.find("input").eq(5).val();
-			var accountDate = obj.find("input").eq(6).val();
-			var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
+			var bankName = obj.find("input").eq(5).val();
+			var bankNo = obj.find("input").eq(6).val();
+			var accountPeriod = obj.find("input").eq(7).val();
+			var accountDate = obj.find("input").eq(8).val();
+			var supplier = {id:id,supplierName:supplierName,regionId:regionId,phone:phone,bankName:bankName,bankNo:bankNo,accountPeriod:accountPeriod,accountDate:accountDate};
 			var myData = JSON.stringify(supplier);
 			var supplierId = id;
 			$.ajax({  
@@ -500,8 +518,10 @@
 		        	td.eq(3).html(regionName+"<span hidden=''>"+regionId+"</span>");
 		        	td.eq(4).html(supplierScopeName+"<span hidden=''>"+supplierScopeIds+"</span>");
 		        	td.eq(5).html(phone);
-		        	td.eq(6).html(accountPeriod);
-		        	td.eq(7).html(accountDate);
+		        	td.eq(6).html(bankName);
+		        	td.eq(7).html(bankNo);
+		        	td.eq(8).html(accountPeriod);
+		        	td.eq(9).html(accountDate);
 		        }  
 			 }); 
 			var ids = {supplierId:supplierId,supplierScopeIds:supplierScopeIds};

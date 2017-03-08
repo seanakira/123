@@ -4905,6 +4905,7 @@
 		}
 		var changeCostIncomeViewModel = {costTables:costTables,incomeTables:incomeTables};
 		var myData = JSON.stringify(changeCostIncomeViewModel);
+		alert(myData)
 		$.ajax({
 	        type: "POST",  
 	        contentType:"application/json;charset=utf-8",  

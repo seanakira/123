@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.DAO.SupplierInfoDAO;
-import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.SupplierBusinessTable;
-import com.cts.localtour.entity.SupplierScopeTable;
 import com.cts.localtour.viewModel.SupplierInfoViewModel;
 
 @SuppressWarnings("rawtypes")
@@ -21,52 +19,18 @@ import com.cts.localtour.viewModel.SupplierInfoViewModel;
 public class SupplierInfoService extends BaseService{
 	@Autowired
 	private SupplierInfoDAO supplierInfoDAO;
+	@Autowired
+	private SupplierInfoViewModel supplierInfoViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SupplierInfoViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
 			ArrayList<SupplierTable> suppliers = this.getAllByTableName("SupplierTable", page, maxResults);
-			ArrayList<SupplierInfoViewModel> SupplierInfoViewModels = new ArrayList<SupplierInfoViewModel>();
-			for (int i = 0; i < suppliers.size(); i++) {
-				SupplierInfoViewModel supplierViewModel = new SupplierInfoViewModel();
-				supplierViewModel.setSupplierTable(suppliers.get(i));
-				String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", suppliers.get(i).getRegionId()+"")).get(0).getRegionName();
-				supplierViewModel.setRegionName(regionName);
-				ArrayList<String> supplierScopeNames = new ArrayList<String>();
-				ArrayList<Integer> supplierScopeIds = new ArrayList<Integer>();
-				ArrayList<SupplierBusinessTable> SupplierBusinesses = ((ArrayList<SupplierBusinessTable>) this.getByWhere("SupplierBusinessTable", "supplierId", suppliers.get(i).getId()+"","id"));
-				for (int j = 0; j < SupplierBusinesses.size(); j++) {
-					String supplierScopeName = ((ArrayList<SupplierScopeTable>) this.getByWhere("SupplierScopeTable", "id",  SupplierBusinesses.get(j).getSupplierScopeId()+"")).get(0).getSupplierScopeName();
-					supplierScopeNames.add(supplierScopeName);
-					supplierScopeIds.add(SupplierBusinesses.get(j).getSupplierScopeId());
-				}
-				supplierViewModel.setSupplierScopeNames(supplierScopeNames);
-				supplierViewModel.setSupplierScopeIds(supplierScopeIds);
-				SupplierInfoViewModels.add(supplierViewModel);
-			}
-			return SupplierInfoViewModels;
+			return supplierInfoViewModel.getAllSupplierInfoViewModel(suppliers);
 		}else{
 			Hashtable<String, String> param = new Hashtable<String, String>();
 			param.put("supplierName", "%"+key+"%");
 			ArrayList<SupplierTable> suppliers = this.getAllByParam("SupplierTable", "supplierName like :supplierName", param, page, maxResults);
-			ArrayList<SupplierInfoViewModel> SupplierInfoViewModels = new ArrayList<SupplierInfoViewModel>();
-			for (int i = 0; i < suppliers.size(); i++) {
-				SupplierInfoViewModel supplierViewModel = new SupplierInfoViewModel();
-				supplierViewModel.setSupplierTable(suppliers.get(i));
-				String regionName = ((ArrayList<RegionTable>) this.getByWhere("RegionTable", "id", suppliers.get(i).getRegionId()+"")).get(0).getRegionName();
-				supplierViewModel.setRegionName(regionName);
-				ArrayList<String> supplierScopeNames = new ArrayList<String>();
-				ArrayList<Integer> supplierScopeIds = new ArrayList<Integer>();
-				ArrayList<SupplierBusinessTable> SupplierBusinesses = ((ArrayList<SupplierBusinessTable>) this.getByWhere("SupplierBusinessTable", "supplierId", suppliers.get(i).getId()+"","id"));
-				for (int j = 0; j < SupplierBusinesses.size(); j++) {
-					String supplierScopeName = ((ArrayList<SupplierScopeTable>) this.getByWhere("SupplierScopeTable", "id", SupplierBusinesses.get(j).getSupplierScopeId()+"")).get(0).getSupplierScopeName();
-					supplierScopeNames.add(supplierScopeName);
-					supplierScopeIds.add(SupplierBusinesses.get(j).getSupplierScopeId());
-				}
-				supplierViewModel.setSupplierScopeNames(supplierScopeNames);
-				supplierViewModel.setSupplierScopeIds(supplierScopeIds);
-				SupplierInfoViewModels.add(supplierViewModel);
-			}
-			return SupplierInfoViewModels;
+			return supplierInfoViewModel.getAllSupplierInfoViewModel(suppliers);
 		}
 	}
 
@@ -91,7 +55,7 @@ public class SupplierInfoService extends BaseService{
 	}
 
 	public void update(SupplierTable supplier) {
-		this.updateByString("SupplierTable", "supplierName=?,regionId=?,phone=?,accountPeriod=?,accountDate=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone(),supplier.getAccountPeriod(),supplier.getAccountDate());
+		this.updateByString("SupplierTable", "supplierName=?,regionId=?,phone=?,bankName=?,bankNo=?,accountPeriod=?,accountDate=?", "id="+supplier.getId(), supplier.getSupplierName(),supplier.getRegionId(),supplier.getPhone(),supplier.getBankName(),supplier.getBankNo(),supplier.getAccountPeriod(),supplier.getAccountDate());
 	}
 	
 	@SuppressWarnings("unchecked")

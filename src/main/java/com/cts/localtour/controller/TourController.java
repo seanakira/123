@@ -333,7 +333,7 @@ public class TourController {
 		/*添加成本*/
 		if(!changeCostIncomeViewModel.getCostTables().isEmpty()){
 			for (int i = 0; i < changeCostIncomeViewModel.getCostTables().size(); i++) {
-				if(changeCostIncomeViewModel.getCostTables().get(i).getContentId()==null||changeCostIncomeViewModel.getCostTables().get(i).getSupplierId()==0){
+				if(changeCostIncomeViewModel.getCostTables().get(i).getSupplierId()==0){
 					return -4;
 				}else{
 					changeCostIncomeViewModel.getCostTables().get(i).setStatus(3);/*设置状态*/
