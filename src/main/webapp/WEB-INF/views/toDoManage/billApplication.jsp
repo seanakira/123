@@ -208,6 +208,8 @@
 										驳回
 									</button>
 								</shiro:hasPermission>
+								<a href="#" id="prev" style="margin:  20px;">上一账期</a>
+								<a href="#" id="next" style="margin:  20px; margin-left: 0">下一账期</a>
 								<shiro:hasPermission name="toDoBill:ok">
 									<button id="ok" class="btn btn-sm btn-success pull-right"  data-dismiss="">
 										<i class="icon-qrcode"></i>
@@ -359,6 +361,85 @@
 				});
 			}
 		});
+		/* 账期选择 */
+		var relativePeriod = 0;
+		$("#next").click(function(){
+			relativePeriod++;
+			checkRelativePeriod(relativePeriod);
+		});
+		$("#prev").click(function(){
+			relativePeriod--;
+			checkRelativePeriod(relativePeriod);
+		});
+		function checkRelativePeriod(relativePeriod){
+			$(".selectAllPay").prop("checked",false);
+			var supplierId = $("#table").find("input:checked").parent().parent().parent().attr("id");
+			var myData = {supplierId:supplierId,relativePeriod:relativePeriod};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }toDoBill/find",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	$("#payTable").html("");
+					$.each(data.costs,function(){
+						$("#payTable").append('<tr id="'+this.costTable.id+'">'+
+													'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+													'<td>'+this.costTable.costDate+'</td>'+
+													'<td>'+this.localTourTable.tourNo+'</td>'+
+													'<td>'+this.localTourTable.tourName+'</td>'+
+													'<td>'+this.contentName+'</td>'+
+													'<td>'+this.costTable.cost+'</td>'+
+													'<td>'+this.costTable.count+'</td>'+
+													'<td>'+this.costTable.days+'</td>'+
+													'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+													'<td>'+this.costTable.reimbursement+'</td>'+
+													'<td>'+this.costTable.remark+'</td>'+
+													'<td>'+this.payStatus+'</td>'+
+											'</tr>');
+					});
+					$.each(data.changeCosts,function(){
+						$("#payTable").append('<tr id="'+this.costTable.id+'" class="blue">'+
+													'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+													'<td>'+this.costTable.costDate+'</td>'+
+													'<td>'+this.localTourTable.tourNo+'</td>'+
+													'<td>'+this.localTourTable.tourName+'</td>'+
+													'<td>'+this.contentName+'</td>'+
+													'<td>'+this.costTable.cost+'</td>'+
+													'<td>'+this.costTable.count+'</td>'+
+													'<td>'+this.costTable.days+'</td>'+
+													'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+													'<td>'+this.costTable.reimbursement+'</td>'+
+													'<td>'+this.costTable.remark+'</td>'+
+													'<td>'+this.payStatus+'</td>'+
+											'</tr>');
+					});
+					if(data.changeCosts.length>0){
+						$("#changeCostBlue").show();
+					}else{
+						$("#changeCostBlue").hide();
+					}
+					/* 选择本行 */
+					$("#payTable").find("td").not(".sorting_1").click(function(){
+						var checkbox = $(this).siblings().eq(0).find("input");
+						if(checkbox.prop("checked")){
+							checkbox.prop("checked",false);
+						}else{
+							$("#table").find("input").prop("checked",false);
+							checkbox.prop("checked",true);
+							/* 设置按钮 */
+							/* if($(this).siblings().last().text()=="待审"){
+								$("#reimbursementApplication").show();
+							}else{
+								$("#reimbursementApplication").hide();
+							} */
+						}
+					});
+		        }  
+			});
+		}
 		/* 二维码 */
 		$("#ok").mouseenter(function(){
 			var supplierId = $(this).parent().attr("id");

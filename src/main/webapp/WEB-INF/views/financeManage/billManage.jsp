@@ -208,6 +208,8 @@
 									关闭
 								</button>
 								<!-- <a href="#" id="autoAdd" style="margin:  20px;">一键填充签单金额</a> -->
+								<a href="#" id="prev" style="margin:  20px;">上一账期</a>
+								<a href="#" id="next" style="margin:  20px; margin-left: 0">下一账期</a>
 								<shiro:hasPermission name="bill:update">
 									<button id="save" class="btn btn-sm btn-success pull-right"  data-dismiss="modal">
 										<i class="icon-qrcode"></i>
@@ -346,6 +348,23 @@
 										'</tr>');
 							$("#payTable").append(tr);
 						});
+						$.each(data.reimbursementCosts,function(){
+				        	var tr = $('<tr id="'+this.costTable.id+'" class="red">'+
+												'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+												'<td>'+this.localTourTable.tourNo+'</td>'+
+												'<td>'+this.localTourTable.tourName+'</td>'+
+												'<td>'+this.costTable.costDate+'</td>'+
+												'<td>'+this.contentName+'</td>'+
+												'<td>'+this.costTable.cost+'</td>'+
+												'<td>'+this.costTable.count+'</td>'+
+												'<td>'+this.costTable.days+'</td>'+
+												'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+												'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+												'<td>'+this.costTable.remark+'</td>'+
+												'<td>'+this.payStatus+'</td>'+
+										'</tr>');
+							$("#payTable").append(tr);
+						});
 						/* 设置无记录 */
 						if($("#payTable").children("tr").length==0){
 							$("#payTable").parent().hide();
@@ -375,10 +394,113 @@
 				});
 			}
 		});
+	/* 账期选择 */
+		var relativePeriod = 0;
+		$("#next").click(function(){
+			relativePeriod++;
+			checkRelativePeriod(relativePeriod);
+		});
+		$("#prev").click(function(){
+			relativePeriod--;
+			checkRelativePeriod(relativePeriod);
+		});
+		function checkRelativePeriod(relativePeriod){
+			var supplierId = $("#table").find("input:checked").parent().parent().parent().attr("id");
+			var myData = {supplierId:supplierId,relativePeriod:relativePeriod};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }billManage/find",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	$("#payTable").html("");
+					$.each(data.costs,function(){
+						var reimbursement = this.costTable.reimbursement==null?0:this.costTable.reimbursement.toFixed(2);
+			        	var tr = $('<tr id="'+this.costTable.id+'">'+
+											'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+											'<td>'+this.localTourTable.tourNo+'</td>'+
+											'<td>'+this.localTourTable.tourName+'</td>'+
+											'<td>'+this.costTable.costDate+'</td>'+
+											'<td>'+this.contentName+'</td>'+
+											'<td>'+this.costTable.cost+'</td>'+
+											'<td>'+this.costTable.count+'</td>'+
+											'<td>'+this.costTable.days+'</td>'+
+											'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+											'<td>'+reimbursement+'</td>'+
+											'<td>'+this.costTable.remark+'</td>'+
+											'<td>'+this.payStatus+'</td>'+
+									'</tr>');
+						$("#payTable").append(tr);
+					});
+					$.each(data.changeCosts,function(){
+			        	var tr = $('<tr id="'+this.costTable.id+'" class="blue">'+
+											'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+											'<td>'+this.localTourTable.tourNo+'</td>'+
+											'<td>'+this.localTourTable.tourName+'</td>'+
+											'<td>'+this.costTable.costDate+'</td>'+
+											'<td>'+this.contentName+'</td>'+
+											'<td>'+this.costTable.cost+'</td>'+
+											'<td>'+this.costTable.count+'</td>'+
+											'<td>'+this.costTable.days+'</td>'+
+											'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+											'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+											'<td>'+this.costTable.remark+'</td>'+
+											'<td>'+this.payStatus+'</td>'+
+									'</tr>');
+						$("#payTable").append(tr);
+					});
+					$.each(data.reimbursementCosts,function(){
+			        	var tr = $('<tr id="'+this.costTable.id+'" class="red">'+
+											'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+											'<td>'+this.localTourTable.tourNo+'</td>'+
+											'<td>'+this.localTourTable.tourName+'</td>'+
+											'<td>'+this.costTable.costDate+'</td>'+
+											'<td>'+this.contentName+'</td>'+
+											'<td>'+this.costTable.cost+'</td>'+
+											'<td>'+this.costTable.count+'</td>'+
+											'<td>'+this.costTable.days+'</td>'+
+											'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+											'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+											'<td>'+this.costTable.remark+'</td>'+
+											'<td>'+this.payStatus+'</td>'+
+									'</tr>');
+						$("#payTable").append(tr);
+					});
+					/* 设置无记录 */
+					if($("#payTable").children("tr").length==0){
+						$("#payTable").parent().hide();
+						$("#noCanPay").show();
+						$("#changeCostBlue").hide();
+					}else{
+						$("#payTable").parent().show();
+						$("#noCanPay").hide();
+						if(data.changeCosts!=0){
+							$("#changeCostBlue").show();
+						}else{
+							$("#changeCostBlue").hide();
+						}
+					}
+					
+					/* 选择本行 */
+					$("#payTable").find("td").not(".sorting_1").click(function(){
+						var checkbox = $(this).siblings().eq(0).find("input");
+						if(checkbox.prop("checked")){
+							checkbox.prop("checked",false);
+						}else{
+							$("#payTable").find("input").prop("checked",false);
+							checkbox.prop("checked",true);
+						}
+					});
+		        }  
+			});
+		}
 	/* 保存 */
 		$("#save").click(function(){
 			var costTables = new Array();
 			var changeCostTables = new Array();
+			var reimbursementCostTables = new Array();
 			var inputs = $("#payTable").find("input");
 			if($("#payTable").find("input.ace:checked").length==0){
 				$("#save").attr("data-dismiss","");
@@ -390,13 +512,18 @@
 				$.each(inputs,function(){
 					var tr = $(this).parent().parent().parent();
 					if($(this).prop("checked")){
-						if(tr.attr("class")!="blue"){
-							costTables.push({
+						if(tr.attr("class")=="blue"){
+							changeCostTables.push({
+								id:tr.attr("id"),
+								supplierId:supplierId
+							});
+						}else if(tr.attr("class")=="red"){
+							reimbursementCostTables.push({
 								id:tr.attr("id"),
 								supplierId:supplierId
 							});
 						}else{
-							changeCostTables.push({
+							costTables.push({
 								id:tr.attr("id"),
 								supplierId:supplierId
 							});
@@ -404,7 +531,7 @@
 						realPaySum = realPaySum + parseFloat(tr.children("td").eq(9).text());
 					}
 				});
-				var full = {costTables:costTables,changeCostTables:changeCostTables};
+				var full = {costTables:costTables,changeCostTables:changeCostTables,reimbursementCostTables:reimbursementCostTables};
 				var myData = JSON.stringify(full);
 				$.ajax({
 			        type: "POST",  

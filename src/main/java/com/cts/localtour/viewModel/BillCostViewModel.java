@@ -62,8 +62,8 @@ public class BillCostViewModel {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<BillCostViewModel> getAllBillViewModel(int supplierId){
-		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+	public ArrayList<BillCostViewModel> getAllBillViewModel(int supplierId, int relativePeriod){
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId, relativePeriod);
 		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getByHql("SELECT c FROM CostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.remittanced=false and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
 		ArrayList<BillCostViewModel> costs = new ArrayList<BillCostViewModel>();
@@ -88,8 +88,8 @@ public class BillCostViewModel {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<BillCostViewModel> getAllBillViewModel(int supplierId, int payStatus){
-		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+	public ArrayList<BillCostViewModel> getAllBillViewModel(int supplierId, int payStatus, int relativePeriod){
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId, relativePeriod);
 		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getByHql("SELECT c FROM CostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.remittanced=false and c.tourId=l.id and c.payStatus="+payStatus+" and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
 		/*ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "supplierId=? and bill=true and payStatus=? and  and costDate between ? and ?", supplierId, payStatus, fromTo.get("from"), fromTo.get("to"));*/

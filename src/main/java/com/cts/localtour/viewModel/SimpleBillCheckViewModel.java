@@ -9,6 +9,7 @@ import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.pojo.BillInfo;
 import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.CostService;
+import com.cts.localtour.service.ReimbursementCostService;
 
 @Component
 public class SimpleBillCheckViewModel {
@@ -22,6 +23,8 @@ public class SimpleBillCheckViewModel {
 	private CostService costService;
 	@Autowired
 	private ChangeCostService changeCostService;
+	@Autowired
+	private ReimbursementCostService reimbursementCostService;
 	public SupplierTable getSupplierTable() {
 		return supplierTable;
 	}
@@ -59,64 +62,68 @@ public class SimpleBillCheckViewModel {
 		this.settlementDate = settlementDate;
 	}
 	
-	public ArrayList<SimpleBillCheckViewModel> getAllSimpleBillTodowModel(ArrayList<SupplierTable> supplierTables){
+	public ArrayList<SimpleBillCheckViewModel> getAllSimpleBillTodowModel(ArrayList<SupplierTable> supplierTables, int relativePeriod){
 		ArrayList<SimpleBillCheckViewModel> billCheckViewModels = new ArrayList<SimpleBillCheckViewModel>();
 		for (SupplierTable supplierTable : supplierTables) {
-			BillInfo billinfo = costService.getBillTodoInfo(supplierTable.getId());
-			BillInfo changeBillInfo = changeCostService.getBillTodoInfo(supplierTable.getId());
-			if(billinfo.isEmpty()&&changeBillInfo.isEmpty()){
+			BillInfo billinfo = costService.getBillTodoInfo(supplierTable.getId(), relativePeriod);
+			BillInfo changeBillInfo = changeCostService.getBillTodoInfo(supplierTable.getId(), relativePeriod);
+			BillInfo reimbursementBillInfo = reimbursementCostService.getBillInfo(supplierTable.getId(),relativePeriod);
+			/*if(billinfo.isEmpty()&&changeBillInfo.isEmpty()){
 				continue;
-			}
+			}*/
 			
 			SimpleBillCheckViewModel billCheckViewModel = new SimpleBillCheckViewModel();
 			billCheckViewModel.setSupplierTable(supplierTable);
 			billCheckViewModel.setSettlementDate(billinfo.getSettlementDate());
-			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).floatValue());
-			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).floatValue());
-			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).floatValue());
-			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).floatValue());
+			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()).floatValue());
+			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()).floatValue());
+			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()).floatValue());
+			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()).floatValue());
 			billCheckViewModels.add(billCheckViewModel);
 		}
 		return billCheckViewModels;
 	}
 	
-	public ArrayList<SimpleBillCheckViewModel> getAllSimpleBillCheckViewModel(ArrayList<SupplierTable> supplierTables){
+	public ArrayList<SimpleBillCheckViewModel> getAllSimpleBillCheckViewModel(ArrayList<SupplierTable> supplierTables, int relativePeriod){
 		ArrayList<SimpleBillCheckViewModel> billCheckViewModels = new ArrayList<SimpleBillCheckViewModel>();
 		for (SupplierTable supplierTable : supplierTables) {
-			BillInfo billinfo = costService.getBillInfo(supplierTable.getId());
-			BillInfo changeBillInfo = changeCostService.getBillInfo(supplierTable.getId());
-			if(billinfo.isEmpty()&&changeBillInfo.isEmpty()){
+			BillInfo billinfo = costService.getBillInfo(supplierTable.getId(), relativePeriod);
+			BillInfo changeBillInfo = changeCostService.getBillInfo(supplierTable.getId(), relativePeriod);
+			BillInfo reimbursementBillInfo = reimbursementCostService.getBillInfo(supplierTable.getId(),relativePeriod);
+			/*判断是否本账期内有挂账，如果没有，不进行装配*/
+			/*if(billinfo.isEmpty()&&changeBillInfo.isEmpty()){
 				continue;
-			}
+			}*/
 			
 			SimpleBillCheckViewModel billCheckViewModel = new SimpleBillCheckViewModel();
 			billCheckViewModel.setSupplierTable(supplierTable);
 			billCheckViewModel.setSettlementDate(billinfo.getSettlementDate());
-			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).floatValue());
-			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).floatValue());
-			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).floatValue());
-			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).floatValue());
+			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()).floatValue());
+			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()).floatValue());
+			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()).floatValue());
+			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()).floatValue());
 			billCheckViewModels.add(billCheckViewModel);
 		}
 		return billCheckViewModels;
 	}
 	
-	public ArrayList<SimpleBillCheckViewModel> getAllSimpleBillCheckViewModel(ArrayList<SupplierTable> supplierTables, int payStatus){
+	public ArrayList<SimpleBillCheckViewModel> getAllSimpleBillCheckViewModel(ArrayList<SupplierTable> supplierTables, int payStatus, int relativePeriod){
 		ArrayList<SimpleBillCheckViewModel> billCheckViewModels = new ArrayList<SimpleBillCheckViewModel>();
 		for (SupplierTable supplierTable : supplierTables) {
-			BillInfo billinfo = costService.getBillInfo(supplierTable.getId(),payStatus);
-			BillInfo changeBillInfo = changeCostService.getBillInfo(supplierTable.getId(),payStatus);
-			if(billinfo.isEmpty()&&changeBillInfo.isEmpty()){
+			BillInfo billinfo = costService.getBillInfo(supplierTable.getId(),payStatus,relativePeriod);
+			BillInfo changeBillInfo = changeCostService.getBillInfo(supplierTable.getId(),payStatus, relativePeriod);
+			BillInfo reimbursementBillInfo = reimbursementCostService.getBillInfo(supplierTable.getId(),payStatus, relativePeriod);
+			/*if(billinfo.isEmpty()&&changeBillInfo.isEmpty()){
 				continue;
-			}
+			}*/
 			
 			SimpleBillCheckViewModel billCheckViewModel = new SimpleBillCheckViewModel();
 			billCheckViewModel.setSupplierTable(supplierTable);
 			billCheckViewModel.setSettlementDate(billinfo.getSettlementDate());
-			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).floatValue());
-			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).floatValue());
-			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).floatValue());
-			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).floatValue());
+			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()).floatValue());
+			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()).floatValue());
+			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()).floatValue());
+			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()).floatValue());
 			billCheckViewModels.add(billCheckViewModel);
 		}
 		return billCheckViewModels;

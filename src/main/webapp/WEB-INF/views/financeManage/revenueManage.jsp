@@ -415,7 +415,7 @@
 		        			remark.html(this.incomeTable.remark);
 		        		}
 		        		var tr = $('<tr>'+
-										'<td>'+this.incomeTable.incomeDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.customerAgencyName+'</td>'+
 										'<td>'+this.incomeTable.income+'</td>'+
 										'<td>'+realIncome.html()+'</td>'+
@@ -442,7 +442,7 @@
 		        			remark.html(this.incomeTable.remark);
 		        		}
 		        		var tr = $('<tr class="blue">'+
-										'<td>'+this.incomeTable.incomeDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.customerAgencyName+'</td>'+
 										'<td>'+this.incomeTable.income+'</td>'+
 										'<td>'+realIncome.html()+'</td>'+

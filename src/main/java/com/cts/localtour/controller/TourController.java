@@ -486,8 +486,8 @@ public class TourController {
 	}
 	
 	@RequestMapping("/billCheckManage/find")
-	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId){
-		return billService.findBill(supplierId);
+	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId, @RequestParam(defaultValue="0") int relativePeriod){
+		return billService.findBill(supplierId,relativePeriod);
 	}
 	
 	@RequestMapping("/billCheckManage/update")

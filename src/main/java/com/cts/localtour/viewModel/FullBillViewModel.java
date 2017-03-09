@@ -7,18 +7,23 @@ import org.springframework.stereotype.Component;
 
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 
 
 @Component
 public class FullBillViewModel {
 	private ArrayList<BillCostViewModel> costs;
 	private ArrayList<BillChangeCostViewModel> changeCosts;
+	private ArrayList<BillReimbursementCostViewModel> reimbursementCosts;
 	private ArrayList<CostTable> costTables;
 	private ArrayList<ChangeCostTable> changeCostTables;
+	private ArrayList<ReimbursementCostTable> reimbursementCostTables;
 	@Autowired
 	private BillCostViewModel costViewModel;
 	@Autowired
 	private BillChangeCostViewModel changeCostViewModel;
+	@Autowired
+	private BillReimbursementCostViewModel reimbursementCostViewModel;
 	public ArrayList<BillCostViewModel> getCosts() {
 		return costs;
 	}
@@ -49,17 +54,35 @@ public class FullBillViewModel {
 		this.changeCostTables = changeCostTables;
 	}
 
-	public FullBillViewModel getFullBillCheckViewModel(int supplierId, int payStatus){
+	public ArrayList<BillReimbursementCostViewModel> getReimbursementCosts() {
+		return reimbursementCosts;
+	}
+
+	public void setReimbursementCosts(ArrayList<BillReimbursementCostViewModel> reimbursementCosts) {
+		this.reimbursementCosts = reimbursementCosts;
+	}
+
+	public ArrayList<ReimbursementCostTable> getReimbursementCostTables() {
+		return reimbursementCostTables;
+	}
+
+	public void setReimbursementCostTables(ArrayList<ReimbursementCostTable> reimbursementCostTables) {
+		this.reimbursementCostTables = reimbursementCostTables;
+	}
+
+	public FullBillViewModel getFullBillCheckViewModel(int supplierId, int payStatus, int relativePeriod){
 		FullBillViewModel billViewModel = new FullBillViewModel();
-		billViewModel.setCosts(costViewModel.getAllBillViewModel(supplierId, payStatus));
-		billViewModel.setChangeCosts(changeCostViewModel.getAllBillViewModel(supplierId, payStatus));
+		billViewModel.setCosts(costViewModel.getAllBillViewModel(supplierId, payStatus, relativePeriod));
+		billViewModel.setChangeCosts(changeCostViewModel.getAllBillViewModel(supplierId, payStatus, relativePeriod));
+		billViewModel.setReimbursementCosts(reimbursementCostViewModel.getAllBillViewModel(supplierId, payStatus, relativePeriod));
 		return billViewModel;
 	}
 
-	public FullBillViewModel getFullBillCheckViewModel(int supplierId) {
+	public FullBillViewModel getFullBillCheckViewModel(int supplierId, int relativePeriod) {
 		FullBillViewModel billViewModel = new FullBillViewModel();
-		billViewModel.setCosts(costViewModel.getAllBillViewModel(supplierId));
-		billViewModel.setChangeCosts(changeCostViewModel.getAllBillViewModel(supplierId));
+		billViewModel.setCosts(costViewModel.getAllBillViewModel(supplierId, relativePeriod));
+		billViewModel.setChangeCosts(changeCostViewModel.getAllBillViewModel(supplierId, relativePeriod));
+		billViewModel.setReimbursementCosts(reimbursementCostViewModel.getAllBillViewModel(supplierId, relativePeriod));
 		return billViewModel;
 	}
 }

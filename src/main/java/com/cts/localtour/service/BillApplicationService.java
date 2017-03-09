@@ -37,16 +37,16 @@ public class BillApplicationService extends BaseService{
 		int payStatus = this.getRoleCode()-1;
 		if(key.equals("")){
 			ArrayList<SupplierTable> supplierTables = (ArrayList<SupplierTable>) this.getAllByHql("select distinct s from SupplierTable s, BillApplicationTable b ,CostTable c, ChangeCostTable cc, LocalTourTable l where (s.id=b.supplierId and b.supplierId=c.supplierId and c.bill=true and c.remittanced=false and c.payStatus="+payStatus+" and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")) or (s.id=b.supplierId and b.supplierId=cc.supplierId and cc.bill=true and cc.remittanced=false and cc.payStatus="+payStatus+" and cc.status=3 and cc.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+"))", page, maxResults);
-			return simpleBillCheckViewModel.getAllSimpleBillTodowModel(supplierTables);
+			return simpleBillCheckViewModel.getAllSimpleBillTodowModel(supplierTables,0);
 		}else{
 			ArrayList<SupplierTable> supplierTables = (ArrayList<SupplierTable>) this.getAllByHql("select distinct s from SupplierTable s, BillApplicationTable b ,CostTable c, ChangeCostTable cc, LocalTourTable l where (s.id=b.supplierId and b.supplierId=c.supplierId and c.bill=true and c.remittanced=false and c.payStatus="+payStatus+" and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")) or (s.id=b.supplierId and b.supplierId=cc.supplierId and cc.bill=true and cc.remittanced=false and cc.payStatus="+payStatus+" and cc.status=3 and cc.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")) and s.supplierName like '%"+key+"%'", page, maxResults);
-			return simpleBillCheckViewModel.getAllSimpleBillTodowModel(supplierTables);
+			return simpleBillCheckViewModel.getAllSimpleBillTodowModel(supplierTables,0);
 		}
 	}
 
-	public FullBillViewModel findbillApplication(int supplierId) {
+	public FullBillViewModel findbillApplication(int supplierId, int relativePeriod) {
 		/*这里需要判断用户权限 如果是中心经理1 总经理2*/
-		return fullBillViewModel.getFullBillCheckViewModel(supplierId, this.getRoleCode()-1);
+		return fullBillViewModel.getFullBillCheckViewModel(supplierId, this.getRoleCode()-1, relativePeriod);
 	}
 
 	public void okbillApplication(int supplierId, String[] costIds, String[] changeCostIds) {

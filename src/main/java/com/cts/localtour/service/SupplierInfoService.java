@@ -93,7 +93,8 @@ public class SupplierInfoService extends BaseService{
 		return ((SupplierTable)this.getById("SupplierTable", supplierId)).getSupplierName();
 	}
 	
-	public HashMap<String, Date> getSettlementDateFromTo(int supplierId){
+	public HashMap<String, Date> getSettlementDateFromTo(int supplierId, int relativePeriod){
+		/*初始化为3个月前到现在*/
 		Date to = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(to);
@@ -119,6 +120,7 @@ public class SupplierInfoService extends BaseService{
 				}else{
 					period = period+1;
 				}
+				period = period + relativePeriod;
 				now.setTime(supplierTable.getAccountDate());
 				now.add(Calendar.MONTH, period*accountPeriod-accountPeriod);
 				from = now.getTime();

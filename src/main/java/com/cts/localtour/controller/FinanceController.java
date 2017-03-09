@@ -288,8 +288,8 @@ public class FinanceController {
 	}
 	
 	@RequestMapping("/billManage/find")
-	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId){
-		return billService.findBill(supplierId,3);
+	public @ResponseBody FullBillViewModel findBill(@RequestParam int supplierId, @RequestParam(defaultValue="0") int relativePeriod){
+		return billService.findBill(supplierId,3,relativePeriod);
 	}
 	
 	@RequestMapping("/billManage/update")

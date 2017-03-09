@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cts.localtour.entity.BillApplicationTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.viewModel.FullBillViewModel;
@@ -26,20 +27,20 @@ public class BillService extends BaseService{
 	
 	public int getCounts(String key) {
 		if(key.equals("")){
-			return this.getByHql("SELECT distinct s FROM SupplierTable s,CostTable c , ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3)").size();
+			return this.getByHql("SELECT distinct s FROM SupplierTable s, CostTable c, ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3)").size();
 		}else{
-			return this.getByHql("SELECT distinct s FROM SupplierTable s,CostTable c, ChangeCostTable cc  WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3) and supplierName like '%"+key+"%'").size();
+			return this.getByHql("SELECT distinct s FROM SupplierTable s, CostTable c, ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3) and supplierName like '%"+key+"%'").size();
 		}
 	}
 	/*团队管理 签单管理*/
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleBillCheckViewModel> getAll(String key, int page,int maxResults) {
 		if(key.equals("")){
-			ArrayList<SupplierTable> supplierTables = this.getAllByHql("SELECT distinct s FROM SupplierTable s,CostTable c , ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3)", page, maxResults);
-			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables);
+			ArrayList<SupplierTable> supplierTables = this.getAllByHql("SELECT distinct s FROM SupplierTable s, CostTable c, ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3)", page, maxResults);
+			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables,0);
 		}else{
-			ArrayList<SupplierTable> supplierTables = this.getAllByHql("SELECT distinct s FROM SupplierTable s,CostTable c, ChangeCostTable cc  WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3) and supplierName like '%"+key+"%'", page, maxResults);
-			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables);
+			ArrayList<SupplierTable> supplierTables = this.getAllByHql("SELECT distinct s FROM SupplierTable s, CostTable c, ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id) or (cc.bill=true and cc.supplierId=s.id and cc.status=3) and supplierName like '%"+key+"%'", page, maxResults);
+			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables,0);
 		}
 	}
 	
@@ -48,19 +49,19 @@ public class BillService extends BaseService{
 	public ArrayList<SimpleBillCheckViewModel> getAll(String key, int page,int maxResults, int payStatus) {
 		if(key.equals("")){
 			ArrayList<SupplierTable> supplierTables = this.getAllByHql("SELECT distinct s FROM SupplierTable s,CostTable c , ChangeCostTable cc WHERE (c.bill=true and c.supplierId=s.id and c.payStatus=3 and c.remittanced=false) or (cc.bill=true and cc.supplierId=s.id and cc.status=3 and cc.remittanced=false)", page, maxResults);
-			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables, 3);
+			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables, 3, 0);
 		}else{
 			ArrayList<SupplierTable> supplierTables = this.getAllByHql("SELECT distinct s FROM SupplierTable s,CostTable c, ChangeCostTable cc  WHERE (c.bill=true and c.supplierId=s.id and c.payStatus=3 and c.remittanced=false) or (cc.bill=true and cc.supplierId=s.id and cc.status=3 and cc.remittanced=false) and supplierName like '%"+key+"%'", page, maxResults);
-			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables, 3);
+			return simpleBillCheckViewModel.getAllSimpleBillCheckViewModel(supplierTables, 3, 0);
 		}
 	}
 
-	public FullBillViewModel findBill(int supplierId) {
-		return fullBillViewModel.getFullBillCheckViewModel(supplierId);
+	public FullBillViewModel findBill(int supplierId, int relativePeriod) {
+		return fullBillViewModel.getFullBillCheckViewModel(supplierId, relativePeriod);
 	}
 	
-	public FullBillViewModel findBill(int supplierId, int payStatus) {
-		return fullBillViewModel.getFullBillCheckViewModel(supplierId,payStatus);
+	public FullBillViewModel findBill(int supplierId, int payStatus, int relativePeriod) {
+		return fullBillViewModel.getFullBillCheckViewModel(supplierId,payStatus,relativePeriod);
 	}
 
 	/*挂账付款申请*/
@@ -90,6 +91,9 @@ public class BillService extends BaseService{
 		}
 		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
 			this.updateByString("ChangeCostTable", "remittanced=true", "id=?", changeCostTable.getId());
+		}
+		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
+			this.updateByString("ReimbursementCostTable", "remittanced=true", "id=?", reimbursementCostTable.getId());
 		}
 	}
 

@@ -112,8 +112,14 @@
 								<td class="">
 									<input type="text" style="width: 100%">
 								</td>
+								<td class="">
+									<input type="text" style="width: 100%">
+								</td>
+								<td class="">
+									<input type="text" style="width: 100%">
+								</td>
 								<td  class="">
-									<input id="submit" type="text" style="width: 100%">
+									<input id="submit" type="text" placeholder="按回车保存" style="width: 100%">
 								</td>
 								<td class="hidden-480 ">
 										<span class="label label-sm label-success">有效</span>
@@ -316,9 +322,11 @@
 				var regionName = obj.find("select").eq(0).find("option:selected").text();
 				var supplierScopeName = obj.find("select").eq(1).find("option:selected").text();
 				var phone = obj.find("input").eq(4).val();
-				var accountPeriod = obj.find("input").eq(5).val();
-				var accountDate = obj.find("input").eq(6).val();
-				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone,accountPeriod:accountPeriod,accountDate:accountDate};
+				var bankName =  obj.find("input").eq(5).val();
+				var bankNo = obj.find("input").eq(6).val();
+				var accountPeriod = obj.find("input").eq(7).val();
+				var accountDate = obj.find("input").eq(8).val();
+				var supplier = {supplierName:supplierName,regionId:regionId,phone:phone,bankName:bankName,bankNo:bankNo,accountPeriod:accountPeriod,accountDate:accountDate};
 				var myData = JSON.stringify(supplier);
 				var supplierId;
 			 	$.ajax({  

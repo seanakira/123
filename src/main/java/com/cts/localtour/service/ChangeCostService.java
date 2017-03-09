@@ -65,22 +65,22 @@ public class ChangeCostService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public BillInfo getBillTodoInfo(int supplierId){
+	public BillInfo getBillTodoInfo(int supplierId, int relativePeriod){
 		BillInfo billInfo = new BillInfo();
 		BigDecimal billSum = new BigDecimal(0);
 		BigDecimal applicationSum = new BigDecimal(0);
 		BigDecimal willRemittanceSum = new BigDecimal(0);
 		BigDecimal remittancedSum = new BigDecimal(0);
-		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId, relativePeriod);
 		int payStatus = this.getRoleCode()-1;
 		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
-		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getByHql("SELECT c FROM ChangeCostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.remittanced=false and c.status=3 and c.tourId=l.id and c.payStatus="+payStatus+" and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getByHql("SELECT c FROM ChangeCostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.status=3 and c.tourId=l.id and c.payStatus="+payStatus+" and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
 		for (ChangeCostTable costTable : costTables) {
 			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
 				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
-			if(costTable.getPayStatus()==3){
+			if(costTable.getPayStatus()==3&&!costTable.isRemittanced()){
 				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
 			if(costTable.isRemittanced()){
@@ -96,21 +96,21 @@ public class ChangeCostService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public BillInfo getBillInfo(int supplierId){
+	public BillInfo getBillInfo(int supplierId, int relativePeriod){
 		BillInfo billInfo = new BillInfo();
 		BigDecimal billSum = new BigDecimal(0);
 		BigDecimal applicationSum = new BigDecimal(0);
 		BigDecimal willRemittanceSum = new BigDecimal(0);
 		BigDecimal remittancedSum = new BigDecimal(0);
-		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId, relativePeriod);
 		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
-		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getByHql("SELECT c FROM ChangeCostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.remittanced=false and c.status=3 and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
+		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getByHql("SELECT c FROM ChangeCostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.status=3 and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+df.format(fromTo.get("from"))+"' and '"+df.format(fromTo.get("to"))+"'");
 		for (ChangeCostTable costTable : costTables) {
 			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
 				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
-			if(costTable.getPayStatus()==3){
+			if(costTable.getPayStatus()==3&&!costTable.isRemittanced()){
 				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()));
 			}
 			if(costTable.isRemittanced()){
@@ -126,20 +126,20 @@ public class ChangeCostService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public BillInfo getBillInfo(int supplierId, int payStatus){
+	public BillInfo getBillInfo(int supplierId, int payStatus, int relativePeriod){
 		BillInfo billInfo = new BillInfo();
 		BigDecimal billSum = new BigDecimal(0);
 		BigDecimal applicationSum = new BigDecimal(0);
 		BigDecimal willRemittanceSum = new BigDecimal(0);
 		BigDecimal remittancedSum = new BigDecimal(0);
-		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId);
+		HashMap<String, Date> fromTo = supplierInfoService.getSettlementDateFromTo(supplierId, relativePeriod);
 		ArrayList<ChangeCostTable> costTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "supplierId=? and bill=true and status=3 and payStatus=? and costDate between ? and ?", supplierId, payStatus, fromTo.get("from"), fromTo.get("to"));
 		for (ChangeCostTable costTable : costTables) {
 			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
 				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
-			if(costTable.getPayStatus()==3){
+			if(costTable.getPayStatus()==3&&!costTable.isRemittanced()){
 				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
 			}
 			if(costTable.isRemittanced()){

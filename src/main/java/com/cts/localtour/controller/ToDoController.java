@@ -90,8 +90,8 @@ public class ToDoController {
 	}
 	
 	@RequestMapping("/toDoBill/find")
-	public @ResponseBody FullBillViewModel findbillApplication(@RequestParam int supplierId){
-		return billApplicationService.findbillApplication(supplierId);
+	public @ResponseBody FullBillViewModel findbillApplication(@RequestParam int supplierId, @RequestParam(defaultValue="0") int relativePeriod){
+		return billApplicationService.findbillApplication(supplierId, relativePeriod);
 	}
 	
 	@RequestMapping("/toDoBill/ok")
