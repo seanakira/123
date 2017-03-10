@@ -3978,7 +3978,7 @@
 	});
 /* 编辑 */
 	/* 点击日期删除导游 */
-	$("#edit").find(".datepicker").click(function(){
+	/* $("#edit").find(".datepicker").click(function(){
 		$("#edit").find("#guideTd").html('<input id="guide" type="text" class="form-control" placeholder="可选多个" style="width:100%;">');
 		var myData = {tourId:$("#saveEdit").parent().attr("id")};
 		$.ajax({
@@ -3992,7 +3992,7 @@
         		
 	        }
 		});
-	});
+	}); */
 	/* 选择导游 */
 	$("#edit").delegate("#guide","click",function(){
 		var td = $(this).parents("td");

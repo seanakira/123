@@ -18,7 +18,6 @@ import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
-import com.cts.localtour.entity.GuideTimeTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
@@ -29,7 +28,6 @@ import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DepartService;
-import com.cts.localtour.service.GuideTimeService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PrintService;
@@ -50,8 +48,8 @@ import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 public class TourController {
 	@Autowired
 	private LocalTourService localTourService;
-	@Autowired
-	private GuideTimeService guideTimeService;
+//	@Autowired
+//	private GuideTimeService guideTimeService;
 	@Autowired
 	private ArrService arrService;
 	@Autowired
@@ -97,7 +95,7 @@ public class TourController {
 	@RequestMapping("/localTourManage/save")
 	public @ResponseBody int save(@RequestBody FullLocalTourViewModel full){
 		LocalTourTable localTour = full.getLocalTourTable();
-		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
+//		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
 		ArrayList<DepartTable> departTables = full.getDepartTables();
 		ArrayList<TripTable> tripTables = full.getTripTables();
@@ -119,12 +117,12 @@ public class TourController {
 			int tourId = localTourService.addLocalTour(localTour);
 			if(tourId!=0){
 				/*保存排团信息*/
-				if(!guideTimeTables.isEmpty()){
+				/*if(!guideTimeTables.isEmpty()){
 					for (int i = 0; i < guideTimeTables.size(); i++) {
 						guideTimeTables.get(i).setTourId(tourId);
 						guideTimeService.add(guideTimeTables.get(i));
 					}
-				}
+				}*/
 				/*保存抵达离开信息*/
 				if(!arrTables.isEmpty()){
 					for (int i = 0; i < arrTables.size(); i++) {
@@ -244,7 +242,7 @@ public class TourController {
 	@RequestMapping("/localTourManage/update")
 	public @ResponseBody Integer update(@RequestBody FullLocalTourViewModel full){
 		LocalTourTable localTour = full.getLocalTourTable();
-		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
+//		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
 		ArrayList<DepartTable> departTables = full.getDepartTables();
 		Hashtable<String, String> delIds = full.getDelIds();
@@ -259,14 +257,12 @@ public class TourController {
 			}
 			
 			/*更新排团信息*/
-			guideTimeService.deleteByString("GuideTimeTable", "tourId=?", localTour.getId());
-			System.out.println(localTour.getId());
-			System.out.println(guideTimeTables.toString());
+			/*guideTimeService.deleteByString("GuideTimeTable", "tourId=?", localTour.getId());
 			if(!guideTimeTables.isEmpty()){
 				for (int i = 0; i < guideTimeTables.size(); i++) {
 					guideTimeService.add(guideTimeTables.get(i));
 				}
-			}
+			}*/
 			/*更新抵达离开信息*/
 			if(!arrTables.isEmpty()){
 				for (int i = 0; i < arrTables.size(); i++) {

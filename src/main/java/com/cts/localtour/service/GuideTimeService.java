@@ -73,15 +73,16 @@ public class GuideTimeService extends BaseService{
 		ArrayList<GuideTable> guides = (ArrayList<GuideTable>) this.getAllByString("GuideTable", "enable=?", true);
 		ArrayList<GuideViewModel> guideViewModels = new ArrayList<GuideViewModel>();
 		for (int i = 0; i < guides.size(); i++) {
-			ArrayList<GuideTimeTable> guideTimeTables = ((ArrayList<GuideTimeTable>) this.getAllByStringOrderByLimit("GuideTimeTable", "guideId=? and ((startTime>=? and startTime<=?) or (endTime>=? and endTime<=?))", "startTime asc",  1, guides.get(i).getId(), startTime, endTime, startTime, endTime));
-			if(guideTimeTables.size()==0){
+			/*检查导游排团表是否有空*/
+			/*ArrayList<GuideTimeTable> guideTimeTables = ((ArrayList<GuideTimeTable>) this.getAllByStringOrderByLimit("GuideTimeTable", "guideId=? and ((startTime>=? and startTime<=?) or (endTime>=? and endTime<=?))", "startTime asc",  1, guides.get(i).getId(), startTime, endTime, startTime, endTime));
+			if(guideTimeTables.size()==0){*/
 				GuideViewModel guideViewModel = new GuideViewModel();
 				guideViewModel.setGuideTable(guides.get(i));
 				UserTable user = (UserTable) this.getById("UserTable", guides.get(i).getUserId());
 				user.setPwd("");
 				guideViewModel.setUserTable(user);
 				guideViewModels.add(guideViewModel);
-			}
+			/*}*/
 		}
 		return guideViewModels;
 	}
