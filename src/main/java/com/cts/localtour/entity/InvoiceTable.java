@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-3-8 13:58:10 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-10 15:09:16 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ public class InvoiceTable implements java.io.Serializable {
 	private int tourId;
 	private int customerAgencyId;
 	private String invoiceContent;
-	private int invoiceNo;
+	private String invoiceNo;
 	private float invoiceAmount;
 	private Date issueDate;
 	private int issueUserId;
@@ -31,7 +31,7 @@ public class InvoiceTable implements java.io.Serializable {
 	public InvoiceTable() {
 	}
 
-	public InvoiceTable(int tourId, int customerAgencyId, String invoiceContent, int invoiceNo, float invoiceAmount,
+	public InvoiceTable(int tourId, int customerAgencyId, String invoiceContent, String invoiceNo, float invoiceAmount,
 			Date issueDate, int issueUserId) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
@@ -82,11 +82,11 @@ public class InvoiceTable implements java.io.Serializable {
 	}
 
 	@Column(name = "invoiceNo", unique = true, nullable = false)
-	public int getInvoiceNo() {
+	public String getInvoiceNo() {
 		return this.invoiceNo;
 	}
 
-	public void setInvoiceNo(int invoiceNo) {
+	public void setInvoiceNo(String invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
 

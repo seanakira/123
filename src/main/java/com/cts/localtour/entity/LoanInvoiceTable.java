@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-3-8 13:58:10 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-10 15:09:16 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -97,7 +97,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.invoiceContent = invoiceContent;
 	}
 
-	@Column(name = "invoiceNo", unique = true, length = 11)
+	@Column(name = "invoiceNo", unique = true)
 	public String getInvoiceNo() {
 		return this.invoiceNo;
 	}
