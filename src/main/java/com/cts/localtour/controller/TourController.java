@@ -448,7 +448,7 @@ public class TourController {
 				return errorCode;
 			}
 		}
-		if(full.getReimbursementTable().getHeadAmount()==0||!localTourService.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getId()).isEmpty()){
+		if(/*full.getReimbursementTable().getHeadAmount()==0||*/!localTourService.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getId()).isEmpty()){
 			errorCode = -2;
 			return errorCode;
 		}

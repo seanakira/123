@@ -1160,7 +1160,7 @@
 				}
 			});
 			
-			var fullPayViewModel = {costTables:costTables, changeCostTables:changeCostTables, reimbursementCostTables:reimbursementCostTables, loanTables:loanTables};
+			var fullPayViewModel = {tourId:tourId,costTables:costTables, changeCostTables:changeCostTables, reimbursementCostTables:reimbursementCostTables, loanTables:loanTables};
 			var myData = JSON.stringify(fullPayViewModel);
 			$.ajax({
 		        type: "POST",  

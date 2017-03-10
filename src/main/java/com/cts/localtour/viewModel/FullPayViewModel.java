@@ -17,6 +17,7 @@ import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.UserService;
 @Component
 public class FullPayViewModel {
+	private int tourId;
 	private ArrayList<CostViewModel> costs;
 	private ArrayList<LoanViewModel> loans;
 	private ArrayList<CostTable> costTables;
@@ -94,6 +95,12 @@ public class FullPayViewModel {
 	public void setReimbursementCosts(ArrayList<ReimbursementCostViewModel> reimbursementCosts) {
 		this.reimbursementCosts = reimbursementCosts;
 	}
+	public int getTourId() {
+		return tourId;
+	}
+	public void setTourId(int tourId) {
+		this.tourId = tourId;
+	}
 	@SuppressWarnings("unchecked")
 	public FullPayViewModel getPayApplicationViewModel(int tourId, int status){
 		FullPayViewModel full = new FullPayViewModel();
@@ -112,7 +119,7 @@ public class FullPayViewModel {
 			cost.setCostTable(costTable);
 			cost.setPayApplicationerRealName(userService.getUserRealName(costTable.getPayApplicationerId()));
 			cost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", costTable.getSupplierId())).getSupplierName());
-			cost.setContentName(((SupplierContentTable)baseService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			cost.setContentName(costTable.getContentId()==null?"":((SupplierContentTable)baseService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
 			if(costTable.isRemittanced()){
 				cost.setPayStatus("ря╩Ц");
 			}else{
@@ -134,7 +141,7 @@ public class FullPayViewModel {
 			changeCost.setCostTable(changeCostTable);
 			changeCost.setPayApplicationerRealName(userService.getUserRealName(changeCostTable.getPayApplicationerId()));
 			changeCost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
-			changeCost.setContentName(((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
+			changeCost.setContentName(changeCostTable.getContentId()==null?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
 			if(changeCostTable.isRemittanced()){
 				changeCost.setPayStatus("ря╩Ц");
 			}else{

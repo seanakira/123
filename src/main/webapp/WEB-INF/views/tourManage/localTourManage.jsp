@@ -2601,7 +2601,7 @@
 													<td id="maxLoan" style="width: 15%;"></td>
 													<td style="width: 10%;">报账总计</td>
 													<td id="reimbursementSum" style="width: 15%;"></td>
-													<td style="width: 10%;">备注*</td>
+													<td style="width: 10%;">人头*</td>
 													<td id="headAmount" style="width: 15%;"><input class="form-control" style="width:100%;" type="text"></td>
 												</tr>
 												<tr>
