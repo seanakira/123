@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.service.MobileService;
-import com.cts.localtour.util.WeiXinUtil;
 
 @Controller
 public class MobileController {
@@ -150,8 +149,8 @@ public class MobileController {
 	}
 	
 	/*∑¢ÀÕ≤‚ ‘*/
-	@RequestMapping("/sendTest")
+	/*@RequestMapping("/sendTest")
 	public void sendTest(){
 		WeiXinUtil.sendTextMessage("hanguangjun@ctssd.com", "http://erp.ctssd.com/mobile/payApplication?id=77&status=2", "∏∂øÓ…Í«Î", "0");
-	}
+	}*/
 }

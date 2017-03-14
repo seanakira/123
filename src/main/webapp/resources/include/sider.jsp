@@ -7,7 +7,6 @@
 <%@ page import="com.cts.localtour.entity.UserTable" language="java"%>
 <% UserTable user = (UserTable)SecurityUtils.getSubject().getPrincipal();
 	request.setAttribute("path", request.getContextPath()+"/");
-	request.setAttribute("manageBarName", Arrays.binarySearch(new int[]{3,10,11,12,13}, user.getDeptId())<0?"地接团队":"会展项目");
 %>
 
 		<div class="main-container" id="main-container">
@@ -106,7 +105,7 @@
 										<li id="localTourManage">
 											<a href="${path }localTourManage">
 												<i class="icon-double-angle-right"></i>
-												${manageBarName }
+												${sessionScope.deptType==1?"地接系统":"会展系统"}
 											</a>
 										</li>
 									</shiro:hasPermission>

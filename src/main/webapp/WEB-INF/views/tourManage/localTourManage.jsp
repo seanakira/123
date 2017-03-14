@@ -5162,6 +5162,7 @@
 	$("#payApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
 		var checkbox = $("#canPays").find("input:checked");
+		var error = 0;
 		if(checkbox.length==0){
 			$("#payApplication").attr("data-dismiss","");
 			alert("没有选择要申请的付款项");
@@ -5171,6 +5172,11 @@
 			var changeCostTables = new Array();
 			$.each(checkbox,function(){
 				var tr = $(this).parent().parent().parent();
+				if(tr.children("td").eq(8).children("input").val()>parseFloat(tr.children("td").eq(7).text())){
+					alert("申请金额不能大于成本小计");
+					error = -1;
+					return;
+				}
 				if(tr.attr("class")=="blue"){
 					changeCostTables.push({id:tr.attr("id"),
 										tourId:tourId,
@@ -5181,19 +5187,23 @@
 								realCost:tr.children("td").eq(8).children("input").val()});
 				}
 			});
-			var full = {costTables:costTables,changeCostTables:changeCostTables};
-			var myData = JSON.stringify(full);
-			$.ajax({
-		        type: "POST",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"${path }localTourManage/payApplication",  
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        	
-		        }  
-			 });
+			if(error==0){
+				var full = {costTables:costTables,changeCostTables:changeCostTables};
+				var myData = JSON.stringify(full);
+				$.ajax({
+			        type: "POST",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }localTourManage/payApplication",  
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        	if(data==-1){
+			        		alert("申请金额不能大于成本小计");
+			        	}
+			        }  
+				});
+			}
 		}
 	});
 	/*点击付款input金额自动填充*/

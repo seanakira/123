@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import com.cts.localtour.viewModel.DeptViewModel;
 
 @SuppressWarnings("rawtypes")
 @Service
-public class DeptTableService extends BaseService{
+public class DeptService extends BaseService{
 	@Autowired
 	private DeptTableDAO deptTableDAO;
 	
@@ -141,6 +142,7 @@ public class DeptTableService extends BaseService{
 		String hql = "from DeptTable d where d.enable=true";
 		ArrayList<DeptTable> depts = (ArrayList<DeptTable>) deptTableDAO.findHql(hql);
 		HashMap<Integer, TreeElement> treeMap = new HashMap<Integer, TreeElement>();
+		/*树的最大分支等级*/
 		int maxLevel = 0;
 		for (DeptTable deptTable : depts) {
 			if(deptTable.getDeptLevel()>maxLevel){
@@ -148,7 +150,6 @@ public class DeptTableService extends BaseService{
 			}
 		}
 		for (int i = 1; i <= maxLevel; i++) {
-			TreeChildren children = new TreeChildren();
 			for (DeptTable deptTable : depts) {
 				if(deptTable.getDeptLevel()==i){
 					if(i==1){
@@ -164,15 +165,20 @@ public class DeptTableService extends BaseService{
 						treeElement.setName(deptTable.getDeptName());
 						treeElement.setType("folder");
 						treeElement.setAdditionalParameters(null);
-						children.getChildren().put(deptTable.getId(), treeElement);
-						treeMap.get(deptTable.getUpperDeptId()).setAdditionalParameters(children);
+						if(treeMap.get(deptTable.getUpperDeptId()).getAdditionalParameters()!=null){
+							treeMap.get(deptTable.getUpperDeptId()).getAdditionalParameters().getChildren().put(deptTable.getId(), treeElement);
+						}else{
+							TreeChildren children = new TreeChildren();
+							children.getChildren().put(deptTable.getId(), treeElement);
+							treeMap.get(deptTable.getUpperDeptId()).setAdditionalParameters(children);
+						}
 					}else if(i>2){
 						TreeElement treeElement = new TreeElement();
 						treeElement.setId(deptTable.getId());
 						treeElement.setName(deptTable.getDeptName());
 						treeElement.setType("folder");
 						treeElement.setAdditionalParameters(null);
-						children.getChildren().put(deptTable.getId(), treeElement);
+						/*获取上级目录结构id直到顶层*/
 						int[] upId = new int[i-1];
 						int id = deptTable.getUpperDeptId();
 						upId[0] = id;
@@ -186,14 +192,21 @@ public class DeptTableService extends BaseService{
 								}
 							}
 						}
-						HashMap<Integer, TreeElement> child = treeMap.get(upId[i-2]).getAdditionalParameters().getChildren();
+						/*找到最顶级的部门，逐级向下找到最终归属部门*/
+						HashMap<Integer, TreeElement> top = treeMap.get(upId[i-2]).getAdditionalParameters().getChildren();
 						for (int j = upId.length-2; j >= 0 ; j--) {
-							if(child.get(upId[j]).getAdditionalParameters()!=null){
-								child = child.get(upId[j]).getAdditionalParameters().getChildren();
+							if(top.get(upId[j]).getAdditionalParameters()!=null){
+								top = top.get(upId[j]).getAdditionalParameters().getChildren();
+								if(j==0){
+									top.put(deptTable.getId(), treeElement);
+								}
+							}else{
+								if(j==0){
+									TreeChildren children = new TreeChildren();
+									children.getChildren().put(deptTable.getId(), treeElement);
+									top.get(deptTable.getUpperDeptId()).setAdditionalParameters(children);
+								}
 							}
-						}
-						if(child.get(deptTable.getUpperDeptId())!=null){
-							child.get(deptTable.getUpperDeptId()).setAdditionalParameters(children);
 						}
 					}
 				}
@@ -221,5 +234,32 @@ public class DeptTableService extends BaseService{
 	public ArrayList<DeptTable> getDeptTree() {
 		return (ArrayList<DeptTable>) this.getAllByString("DeptTable", "enable=?", true);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public int getDeptType(){
+		int userDeptId = ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId();
+		String hql = "from DeptTable d where d.enable=true";
+		ArrayList<DeptTable> depts = (ArrayList<DeptTable>) deptTableDAO.findHql(hql);
+		int maxLevel = 0;
+		for (DeptTable deptTable : depts) {
+			if(deptTable.getDeptLevel()>maxLevel){
+				maxLevel = deptTable.getDeptLevel();
+			}
+		}
+		
+		ArrayList<Integer> localTourDeptId = new ArrayList<Integer>();
+		localTourDeptId.add(2);
+		for (int i = 1; i <= maxLevel; i++) {
+			for (DeptTable deptTable : depts) {
+				if(localTourDeptId.contains(deptTable.getUpperDeptId())&&deptTable.getDeptLevel()==i){
+					localTourDeptId.add(deptTable.getId());
+				}
+			}
+		}
+		if(localTourDeptId.contains(userDeptId)){
+			return 1;
+		}else {
+			return 0;
+		}
+	}
 }

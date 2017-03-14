@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -235,25 +236,36 @@ public class LocalTourService extends BaseService{
 		return pay;
 	}
 	@SuppressWarnings("unchecked")
-	public void payApplication(ArrayList<CostTable> costTables, ArrayList<ChangeCostTable> changeCostTables) {
+	public int payApplication(ArrayList<CostTable> costTables, ArrayList<ChangeCostTable> changeCostTables) {
+		int errorCode = 0;
 		for (CostTable cost : costTables) {
 			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
-			if(costTable.getPayStatus()==0){
-				costTable.setPayStatus(1);
-				costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-				costTable.setRealCost(cost.getRealCost());
-				this.update(costTable);
+			if(cost.getRealCost()>new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).floatValue()){
+				errorCode = -1;
+			}else{
+				if(costTable.getPayStatus()==0){
+					costTable.setPayStatus(1);
+					costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					costTable.setRealCost(cost.getRealCost());
+					this.update(costTable);
+				}
 			}
 		}
 		for (ChangeCostTable changeCost : changeCostTables) {
-			ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
-			if(changeCostTable.getPayStatus()==0){
-				changeCostTable.setPayStatus(1);
-				changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-				changeCostTable.setRealCost(changeCost.getRealCost());
-				this.update(changeCostTable);
+			CostTable costTable = (CostTable)this.getById("CostTable", changeCost.getId());
+			if(changeCost.getRealCost()>new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).floatValue()){
+				errorCode = -1;
+			}else{
+				ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
+				if(changeCostTable.getPayStatus()==0){
+					changeCostTable.setPayStatus(1);
+					changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					changeCostTable.setRealCost(changeCost.getRealCost());
+					this.update(changeCostTable);
+				}
 			}
 		}
+		return errorCode;
 	}
 	@SuppressWarnings("unchecked")
 	public void loanApplication(String ids) {

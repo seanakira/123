@@ -374,12 +374,12 @@ public class TourController {
 		return localTourService.findPay(tourId);
 	}
 	@RequestMapping("/localTourManage/payApplication")
-	public void payApplication(@RequestBody FullPayViewModel full, HttpServletRequest request){
+	public @ResponseBody int payApplication(@RequestBody FullPayViewModel full, HttpServletRequest request){
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
-			localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
 			localTourService.sendMassage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(!full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId())+" 待审核的(付款申请)，点击进行审核");
+			return localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
 		}
-		
+		return 0;
 	}
 	
 	/*预借发票*/

@@ -19,7 +19,7 @@ import com.cts.localtour.entity.RoleTable;
 import com.cts.localtour.entity.UserRoleTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.pojo.TreeElement;
-import com.cts.localtour.service.DeptTableService;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.PermissionService;
 import com.cts.localtour.service.RoleService;
 import com.cts.localtour.service.UserService;
@@ -32,7 +32,7 @@ public class SysManageController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private DeptTableService deptService;
+	private DeptService deptService;
 	@Autowired
 	private RoleService roleService;
 	@Autowired

@@ -69,7 +69,7 @@
 					<a href="<%=path %>" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							<%=Arrays.binarySearch(new int[]{3,10,11,12,13,15}, user.getDeptId())<0?"地接系统":"会展系统"%>
+							${sessionScope.deptType==1?"地接系统":"会展系统"}
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

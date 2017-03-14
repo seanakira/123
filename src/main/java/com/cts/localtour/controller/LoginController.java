@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.UserService;
 import com.cts.localtour.util.WeiXinUtil;
 
@@ -29,6 +30,8 @@ import com.cts.localtour.util.WeiXinUtil;
 public class LoginController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private DeptService deptService;
 	@RequestMapping("/admin")
 	public String admin(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue="") String userId){
 		/*微信自动登录*/
@@ -68,6 +71,7 @@ public class LoginController {
 				}else{
 					response.sendRedirect("../operatingStatus");
 				}
+				subject.getSession().setAttribute("deptType", deptService.getDeptType());
 			}else{
 				md.addAttribute("msg","用户名或密码错误");
 				return "/loginManage/login";

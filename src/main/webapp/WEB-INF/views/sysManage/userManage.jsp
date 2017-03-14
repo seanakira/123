@@ -471,6 +471,7 @@
 				        dataType: "json",
 				        async: false,
 				        success:function(data){
+				        	alert(JSON.stringify(data))
 				        	tree_data = data;
 				        }
 					}); 
