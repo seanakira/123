@@ -71,6 +71,7 @@ public class UserService extends BaseService{
 			userTable.setPhone(user.getPhone());
 			userTable.setPosition(user.getPosition());
 			userTable.setQq(user.getQq());
+			userTable.setDataDeptIds(user.getDataDeptIds());
 			userTableDAO.update(userTable);
 			return userTable;
 		} catch (Exception e) {

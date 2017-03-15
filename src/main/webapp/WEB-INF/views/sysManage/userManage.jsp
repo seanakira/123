@@ -286,7 +286,7 @@
 						<div class="modal-content">
 					        <div class="modal-header no-padding">
 								<div class="table-header">
-									新增用户
+									编辑用户
 						 		</div>
 						  	</div>
 							<div class="modal-body no-padding">
@@ -309,6 +309,10 @@
 											<td style="width: 25%"><input style="width: 100%" type="text" /></td>
 											<td>部门</td>
 											<td style="width: 25%"></td>
+										</tr>
+										<tr>
+											<td>查看部门</td>
+											<td style="width: 25%"><input id="checkDept" style="width: 100%" type="text" /></td>
 										</tr>
 									</tbody>
 					            </table>
@@ -471,7 +475,6 @@
 				        dataType: "json",
 				        async: false,
 				        success:function(data){
-				        	alert(JSON.stringify(data))
 				        	tree_data = data;
 				        }
 					}); 
@@ -497,6 +500,7 @@
 				$(".widget-body").hide();
 				addDeptCache = $(this).text();
 			});
+		
 		/* 保存 */
 			$("#save").click(function(){
 				var inputs = $("#addModel").find("input");
@@ -571,6 +575,7 @@
 		        	tds.eq(7).children("input").val(data.userTable.phone);
 		        	tds.eq(9).children("input").val(data.userTable.qq);
 		        	tds.eq(11).text(data.deptName);
+		        	tds.eq(13).children("input").val(data.userTable.dataDeptIds);
 		        	var tbody = $("#editModel").find("#roleTable");
 		        	if(tbody.children("tr").length==0){
 						$.ajax({
@@ -596,6 +601,50 @@
 		        }  
 			});
 		});
+		
+		/* 选择查看部门 */
+		$("#checkDept").click(function(){
+			if($("#tree2").length==0){
+				$(this).parent().append('<div class="widget-body" style="position: absolute;z-index: 200;"><div id="tree2" class="tree"></div></div>');
+				var tree_data;
+				$.ajax({
+			        type: "GET",
+			        contentType:"application/json;charset=utf-8",
+			        url:"${path }deptManage/getTree",
+			        dataType: "json",
+			        async: false,
+			        success:function(data){
+			        	tree_data = data;
+			        }
+				}); 
+				var treeDataSource = new DataSourceTree({data: tree_data});
+				$('#tree2').ace_tree({
+					dataSource: treeDataSource ,
+					multiSelect:true,
+					loadingHTML:'',
+					'open-icon' : 'icon-minus',
+					'close-icon' : 'icon-plus',
+					'selectable' : true,
+					'selected-icon' : 'icon-ok',
+					'unselected-icon' : 'icon-remove'
+				});
+			}else{
+				$(".widget-body").show();
+			}
+		});
+	/* 设置查看部门 */
+		var checkDeptCache = "";
+		$("#editModel").delegate(".tree-folder-name","click",function(){
+			if($("#checkDept").val()==""){
+				$("#checkDept").val($(this).attr("id"));
+				checkDeptCache = $(this).text();
+			}else{
+				$("#checkDept").val($("#checkDept").val()+", "+$(this).attr("id"));
+				checkDeptCache = checkDeptCache+", "+$(this).text();
+			}
+			$(".widget-body").hide();
+		});
+		
 		/* 更新 */
 		$("#saveEdit").click(function(){
 			var inputs = $("#userInfo").find("input");
@@ -603,7 +652,8 @@
 			var position = inputs.eq(0).val();
 			var phone = inputs.eq(1).val();
 			var qq = inputs.eq(2).val();
-			var userTable = {id:id,position:position,phone:phone,qq:qq};
+			var dataDeptIds = inputs.eq(3).val();
+			var userTable = {id:id,position:position,phone:phone,qq:qq,dataDeptIds:dataDeptIds};
 			var roleTables = new Array();
 			var trs = $("#editModel").find("#roleTable").find("tr");
 			$.each(trs,function(){

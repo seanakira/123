@@ -148,9 +148,9 @@ public class MobileController {
 		mobileService.billApplicationCancel(id, change);
 	}
 	
-	/*∑¢ÀÕ≤‚ ‘*/
-	/*@RequestMapping("/sendTest")
+	/*∑¢ÀÕ≤‚ ‘
+	@RequestMapping("/sendTest")
 	public void sendTest(){
-		WeiXinUtil.sendTextMessage("hanguangjun@ctssd.com", "http://erp.ctssd.com/mobile/payApplication?id=77&status=2", "∏∂øÓ…Í«Î", "0");
+		WeiXinUtil.sendTextMessage("chenjun@ctssd.com", "http://erp.ctssd.com/mobile/payApplication?id=77&status=2", "∏∂øÓ…Í«Î", "0");
 	}*/
 }
