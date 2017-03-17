@@ -491,7 +491,7 @@ public class TourController {
 		billService.updateBill(full);
 	}
 	
-	/*打印导游借款凭证*/
+	/*打印导游借款、供应商付款凭证*/
 	@RequestMapping("/localTourManage/printVoucher")
 	public @ResponseBody PrintVoucherViewModel printPayVoucher(@RequestParam String type, @RequestParam int tourId){
 		return printService.printPayVoucher(type, tourId);
