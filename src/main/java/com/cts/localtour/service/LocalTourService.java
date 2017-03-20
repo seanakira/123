@@ -216,8 +216,12 @@ public class LocalTourService extends BaseService{
 		return changeCostIncomeViewModel.getAllChangeCostIncomeViewModel(tourId);
 	}
 	
-	public void sendMassage(String mobileControllerMapping, int tourId, int status, String message){
-		mobileService.sendMessage(mobileControllerMapping, tourId, status, message);
+	public boolean sendMassage(String mobileControllerMapping, int tourId, int status, String message){
+		return mobileService.sendMessage(mobileControllerMapping, tourId, status, message);
+	}
+	
+	public boolean sendMessageAgain(String mobileControllerMapping, int tourId, String message) {
+		return mobileService.sendMessageAgain(mobileControllerMapping, tourId, message);
 	}
 	
 	public ArrayList<LoanViewModel> findLend(int tourId) {

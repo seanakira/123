@@ -19,7 +19,6 @@ public class PrintVoucherViewModel {
 	private String deptName;
 	private ArrayList<LoanViewModel> loans;
 	private String customerAgencyName;
-	private LocalTourTable localTourTable;
 	private float incomeTotal;
 	private ArrayList<PrintPayVoucherViewModel> pays;
 	@SuppressWarnings("rawtypes")
@@ -57,12 +56,6 @@ public class PrintVoucherViewModel {
 	public void setCustomerAgencyName(String customerAgencyName) {
 		this.customerAgencyName = customerAgencyName;
 	}
-	public LocalTourTable getLocalTourTable() {
-		return localTourTable;
-	}
-	public void setLocalTourTable(LocalTourTable localTourTable) {
-		this.localTourTable = localTourTable;
-	}
 	public float getIncomeTotal() {
 		return incomeTotal;
 	}
@@ -78,7 +71,6 @@ public class PrintVoucherViewModel {
 			payVoucherViewModel.setPays(printPayVoucherViewModel.getPrintViewModel(tourId));
 		}else if("income".equals(type)){
 			LocalTourTable localTour = (LocalTourTable)baseService.getById("LocalTourTable", tourId);
-			payVoucherViewModel.setLocalTourTable(localTour);
 			payVoucherViewModel.setCustomerAgencyName(((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
 			payVoucherViewModel.setIncomeTotal(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
 		}

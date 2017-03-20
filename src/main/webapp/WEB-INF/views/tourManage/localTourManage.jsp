@@ -261,7 +261,7 @@
 												<li>
 													<a>...</a>
 												</li>
-												<c:forEach var="page" begin="${pageNo-5 }" end="${pageNo+4 }">
+												<c:forEach var="page" begin="${pageNo-5 }" end="${pageMax>10?pageNo+4:pageMax }">
 													<li <c:if test="${pageNo==page }">class="active"</c:if>>
 														<a href="${path }localTourManage?page=${page }&key=${key }">${page }</a>
 													</li>
@@ -4691,6 +4691,7 @@
 	/* 全局行程删除id */
 	var tripDelIds = new Array();
 	$("#saveEdit").click(function(){
+		$("#saveEdit").attr("data-dismiss","modal");
 		var inputs = $("#edit").find("#tourInfo3").find("input");
 		var selects = $("#edit").find("#tourInfo3").find("select");
 		var id = $(this).parent().attr("id");
@@ -4847,14 +4848,19 @@
 	        async: false,  
 	        success:function(data){
 	        	if(data==-1){
+	        		$("#saveEdit").attr("data-dismiss","");
 	        		alert("保存失败，请检查团号是否重复，基本信息必填项是否完整，开始日期是否大于结束日期");
 	        	}else if(data==-2){
+	        		$("#saveEdit").attr("data-dismiss","");
 	        		alert("保存失败，请填写出发地或抵达地");
 	        	}else if(data==-3){
+	        		$("#saveEdit").attr("data-dismiss","");
 	        		alert("保存失败，请填写前往地或离开");
 	        	}else if(data==-4){
+	        		$("#saveEdit").attr("data-dismiss","");
 	        		alert("保存失败，请填写供应商");
 	        	}else if(data==-5){
+	        		$("#saveEdit").attr("data-dismiss","");
 	        		alert("保存失败，请填写客户");
 	        	}
 	        }
@@ -5103,22 +5109,42 @@
 	$("#loanApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
 		var ids = [];
-		var trs = $("#canLoans").children("tr");
-		$.each(trs,function(index){
-			ids[index] = $(this).attr("id");
-		});
-		var myData = {tourId:tourId,ids:ids.toString()};
-		$.ajax({
-	        type: "GET",  
-	        contentType:"application/json;charset=utf-8",  
-	        url:"${path }localTourManage/loanApplication",  
-	        data:myData,  
-	        dataType: "json",  
-	        async: false,  
-	        success:function(data){
-	        	
-	        }  
-		 });
+		var canTrs = $("#canLoans").children("tr");
+		var isTrs = $("#isLoans").children("tr");
+		if(canTrs.length>0){
+			$.each(canTrs,function(index){
+				ids[index] = $(this).attr("id");
+			});
+			var myData = {tourId:tourId,ids:ids.toString()};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/loanApplication",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(!data){
+		        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+		        	}
+		        }  
+			 });
+		}else if(canTrs.length==0&&isTrs.length>0){
+			var myData = {tourId:tourId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/loanApplicationAgain",
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(!data){
+		        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+		        	}
+		        }  
+			 });
+		}
 	});
 	
 	/* 付款申请 */
@@ -5271,49 +5297,69 @@
 	$("#payApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
 		var checkbox = $("#canPays").find("input:checked");
-		var error = 0;
-		if(checkbox.length==0){
-			$("#payApplication").attr("data-dismiss","");
-			alert("没有选择要申请的付款项");
-		}else{
-			$("#payApplication").attr("data-dismiss","modal");
-			var costTables = new Array();
-			var changeCostTables = new Array();
-			$.each(checkbox,function(){
-				var tr = $(this).parent().parent().parent();
-				if(tr.children("td").eq(8).children("input").val()>parseFloat(tr.children("td").eq(7).text())){
-					alert("申请金额不能大于成本小计");
-					error = -1;
-					return;
-				}
-				if(tr.attr("class")=="blue"){
-					changeCostTables.push({id:tr.attr("id"),
-										tourId:tourId,
-										realCost:tr.children("td").eq(8).children("input").val()});
-				}else{
-					costTables.push({id:tr.attr("id"),
-								tourId:tourId,
-								realCost:tr.children("td").eq(8).children("input").val()});
-				}
-			});
-			if(error==0){
-				var full = {costTables:costTables,changeCostTables:changeCostTables};
-				var myData = JSON.stringify(full);
-				$.ajax({
-			        type: "POST",  
-			        contentType:"application/json;charset=utf-8",  
-			        url:"${path }localTourManage/payApplication",  
-			        data:myData,  
-			        dataType: "json",  
-			        async: false,  
-			        success:function(data){
-			        	if(data==-1){
-			        		alert("申请金额不能大于成本小计");
-			        	}
-			        }  
+		var canTrs = $("#canPays").find("tr");
+		var isTrs = $("#isPays").find("tr");
+		if(canTrs.length>0){
+			var error = 0;
+			if(checkbox.length==0){
+				$("#payApplication").attr("data-dismiss","");
+				alert("没有选择要申请的付款项");
+			}else{
+				$("#payApplication").attr("data-dismiss","modal");
+				var costTables = new Array();
+				var changeCostTables = new Array();
+				$.each(checkbox,function(){
+					var tr = $(this).parent().parent().parent();
+					if(tr.children("td").eq(8).children("input").val()>parseFloat(tr.children("td").eq(7).text())){
+						alert("申请金额不能大于成本小计");
+						error = -1;
+						return;
+					}
+					if(tr.attr("class")=="blue"){
+						changeCostTables.push({id:tr.attr("id"),
+											tourId:tourId,
+											realCost:tr.children("td").eq(8).children("input").val()});
+					}else{
+						costTables.push({id:tr.attr("id"),
+									tourId:tourId,
+									realCost:tr.children("td").eq(8).children("input").val()});
+					}
 				});
+				if(error==0){
+					var full = {costTables:costTables,changeCostTables:changeCostTables};
+					var myData = JSON.stringify(full);
+					$.ajax({
+				        type: "POST",  
+				        contentType:"application/json;charset=utf-8",  
+				        url:"${path }localTourManage/payApplication",  
+				        data:myData,  
+				        dataType: "json",  
+				        async: false,  
+				        success:function(data){
+				        	if(data==-1){
+				        		alert("申请金额不能大于成本小计");
+				        	}
+				        }  
+					});
+				}
 			}
+		}else if(canTrs.length==0&&isTrs.length>0){
+			var myData = {tourId:tourId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/payApplicationAgain",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(!data){
+		        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+		        	}
+		        }  
+			});
 		}
+		
 	});
 	/*点击付款input金额自动填充*/
 	$("#payModel").delegate("input:not(.ace)","click",function(){
@@ -5382,33 +5428,51 @@
 		var tourId = $(this).parent().attr("id");
 		var loanInvoices = new Array();
 		var trs = $("#loanInvoices").children("tr").not(".loanInvoice");
-		$.each(trs,function(){
-			var inputs = $(this).find("input");
-			loanInvoices.push({
-				tourId:tourId,
-				issueDate:new Date(inputs.eq(0).val()),
-				invoiceContent:inputs.eq(1).val(),
-				invoiceAmount:inputs.eq(2).val(),
-				remark:$(this).find("textarea").val()
+		if(trs.length>0){
+			$.each(trs,function(){
+				var inputs = $(this).find("input");
+				loanInvoices.push({
+					tourId:tourId,
+					issueDate:new Date(inputs.eq(0).val()),
+					invoiceContent:inputs.eq(1).val(),
+					invoiceAmount:inputs.eq(2).val(),
+					remark:$(this).find("textarea").val()
+				});
 			});
-		});
-		var myData = JSON.stringify(loanInvoices);
-		$.ajax({
-			type: "POST",  
-	        contentType:"application/json;charset=utf-8",  
-	        url:"${path }localTourManage/saveBorrowInvoice",  
-	        data:myData,  
-	        dataType: "json",
-	        async: false,
-	        success:function(data){
-	        	if(data==-1){
-	        		$("#loanInvoiceApplication").attr("data-dismiss","");
-	        		alert("*号为必填项");
-	        	}else{
-	        		$("#loanInvoiceApplication").attr("data-dismiss","modal");
-	        	}
-	        }
-		});
+			var myData = JSON.stringify(loanInvoices);
+			$.ajax({
+				type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/saveBorrowInvoice",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	if(data==-1){
+		        		$("#loanInvoiceApplication").attr("data-dismiss","");
+		        		alert("*号为必填项");
+		        	}else{
+		        		$("#loanInvoiceApplication").attr("data-dismiss","modal");
+		        	}
+		        }
+			});
+		}else{
+			var myData = {tourId:tourId};
+			$.ajax({
+				type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/borrowInvoiceAgain",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	if(!data){
+		        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+		        	}
+		        }
+			});
+		}
+		
 	});
 	
 	/*申请结算*/

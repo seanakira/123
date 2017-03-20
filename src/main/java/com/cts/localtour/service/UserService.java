@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -234,5 +235,23 @@ public class UserService extends BaseService{
 
 	public UserViewModel find(int userId) {
 		return userViewModel.getViewModelById(userId);
+	}
+	
+	public String[] getManagerIds(UserTable user){
+		DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
+		String managerIds = dept.getManagerIds();
+	    String[] ids = managerIds.split(",");
+		return ids;
+	}
+	
+	public String[] getBossIds(UserTable user){
+		DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
+		String managerIds = dept.getManagerIds();
+	    String[] ids = managerIds.split(",");
+	    
+	    user = (UserTable) this.getById("UserTable", Integer.parseInt(ids[0]));
+		dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
+		managerIds = dept.getManagerIds();
+	    return managerIds.split(",");
 	}
 }
