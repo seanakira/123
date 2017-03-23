@@ -143,14 +143,14 @@
 										<td style="width: 30%">${changeCosts.costTable.days }</td>
 									</tr>
 									<tr>
-										<td style="width: 20%">合计</td>
-										<td style="width: 30%" class="red"><fmt:formatNumber value="${changeCosts.costTable.cost*changeCosts.costTable.count*changeCosts.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
-										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${changeCosts.payApplicationerRealName }</td>
+										<td style="width: 20%">小计</td>
+										<td style="width: 30%"><fmt:formatNumber value="${changeCosts.costTable.cost*changeCosts.costTable.count*changeCosts.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+										<td style="width: 20%">申请额</td>
+										<td style="width: 30%" class="red">${changeCosts.costTable.realCost }</td>
 									</tr>
 									<tr>
-										<td style="width: 20%">备注</td>
-										<td style="width: 30%">${changeCosts.costTable.remark }</td>
+										<td style="width: 20%">申请人</td>
+										<td style="width: 30%">${changeCosts.payApplicationerRealName }</td>
 										<td style="width: 20%">状态</td>
 										<td style="width: 30%">${changeCosts.payStatus }</td>
 									</tr>

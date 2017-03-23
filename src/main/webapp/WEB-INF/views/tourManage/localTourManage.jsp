@@ -5020,7 +5020,6 @@
 		}
 		var changeCostIncomeViewModel = {costTables:costTables,incomeTables:incomeTables};
 		var myData = JSON.stringify(changeCostIncomeViewModel);
-		alert(myData)
 		$.ajax({
 	        type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
@@ -5338,6 +5337,8 @@
 				        success:function(data){
 				        	if(data==-1){
 				        		alert("申请金额不能大于成本小计");
+				        	}else if(data==-2){
+				        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
 				        	}
 				        }  
 					});

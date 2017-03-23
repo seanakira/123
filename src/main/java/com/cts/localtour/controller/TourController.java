@@ -1,5 +1,6 @@
 package com.cts.localtour.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -206,6 +207,7 @@ public class TourController {
 	public @ResponseBody boolean financeLocalTour(@RequestParam int id){
 		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==1){
 			localTourService.changeStatus(id,2);
+			localTourService.sendMassageToFinance(id, " 已经报送，请及时进行导游借款操作。");
 			return true;
 		}
 		return false;
@@ -328,13 +330,19 @@ public class TourController {
 	public @ResponseBody int saveChangeCost(@RequestBody ChangeCostIncomeViewModel changeCostIncomeViewModel, HttpServletRequest request){
 		/*添加成本*/
 		if(!changeCostIncomeViewModel.getCostTables().isEmpty()){
-			for (int i = 0; i < changeCostIncomeViewModel.getCostTables().size(); i++) {
-				if(changeCostIncomeViewModel.getCostTables().get(i).getSupplierId()==0){
+			for (ChangeCostTable changeCostTable : changeCostIncomeViewModel.getCostTables()) {
+				if(changeCostTable.getSupplierId()==0){
 					return -4;
 				}else{
-					changeCostIncomeViewModel.getCostTables().get(i).setStatus(3);/*设置状态*/
-					changeCostIncomeViewModel.getCostTables().get(i).setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					costService.add(changeCostIncomeViewModel.getCostTables().get(i));
+					/*如果成本小计小于0，为供应商退款*/
+					if(changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()<0){
+						changeCostTable.setRealCost(new BigDecimal(changeCostTable.getCost()).multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())).floatValue());
+						changeCostTable.setPayStatus(3);
+						changeCostTable.setRemittanced(true);
+					}
+					changeCostTable.setStatus(3);/*设置状态*/
+					changeCostTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					costService.add(changeCostTable);
 				}
 			}
 		}
@@ -392,7 +400,7 @@ public class TourController {
 	}
 	@RequestMapping("/localTourManage/payApplicationAgain")
 	public @ResponseBody boolean payApplicationAgain(@RequestParam int tourId){
-		return localTourService.sendMassage("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核");
+		return localTourService.sendMessageAgain("payApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核");
 	}
 	
 	/*预借发票*/

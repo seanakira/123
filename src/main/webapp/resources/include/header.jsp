@@ -69,7 +69,7 @@
 					<a href="<%=path %>" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							${sessionScope.deptType==1?"地接系统":"会展系统"}
+							${sessionScope.isMice?"会展系统":"地接系统"}
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

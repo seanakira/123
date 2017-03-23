@@ -236,7 +236,7 @@ public class DeptService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public int getDeptType(){
+	public boolean isMice(){
 		int userDeptId = ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId();
 		String hql = "from DeptTable d where d.enable=true";
 		ArrayList<DeptTable> depts = (ArrayList<DeptTable>) deptTableDAO.findHql(hql);
@@ -248,7 +248,8 @@ public class DeptService extends BaseService{
 		}
 		
 		ArrayList<Integer> localTourDeptId = new ArrayList<Integer>();
-		localTourDeptId.add(2);
+		/*将会展中心ID放入数组*/
+		localTourDeptId.add(3);
 		for (int i = 1; i <= maxLevel; i++) {
 			for (DeptTable deptTable : depts) {
 				if(localTourDeptId.contains(deptTable.getUpperDeptId())&&deptTable.getDeptLevel()==i){
@@ -257,9 +258,10 @@ public class DeptService extends BaseService{
 			}
 		}
 		if(localTourDeptId.contains(userDeptId)){
-			return 1;
+			/*如果是会展下级部门返回1*/
+			return true;
 		}else {
-			return 0;
+			return false;
 		}
 	}
 }

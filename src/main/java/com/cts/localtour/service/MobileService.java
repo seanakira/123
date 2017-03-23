@@ -119,6 +119,7 @@ public class MobileService extends BaseService{
 					loan.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				}else if(status==3){
 					loan.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					localTourService.sendMassageToMaker(loan.getTourId(), " 借款申请："+loan.getLoanAmount()+"元，已经经过分管副总批准，可以打印借款凭证了");
 				}
 				this.update(loan);
 			}
@@ -148,6 +149,8 @@ public class MobileService extends BaseService{
 			}
 			if(isManager&&loan!=null){
 				this.sendMessage("loanApplication", loan.getTourId(), 3, "您有您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
+			}else if(loan!=null){
+				localTourService.sendMassageToMaker(loan.getTourId(), " 多项借款申请，已经经过分管副总批准，可以打印借款凭证了");
 			}
 		}
 	}
@@ -180,6 +183,7 @@ public class MobileService extends BaseService{
 						this.sendMessage("payApplication", costTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(costTable.getTourId())+"待审核的(付款申请)，点击进行审核");
 					}else if(status==3){
 						costTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+						localTourService.sendMassageToMaker(costTable.getTourId(), " 付款申请："+costTable.getRealCost()+"元，已经经过分管副总批准，可以打印付款凭证了");
 					}
 					this.update(costTable);
 				}
@@ -197,6 +201,7 @@ public class MobileService extends BaseService{
 						this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+"待审核的(付款申请)，点击进行审核");
 					}else if(status==3){
 						changeCostTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+						localTourService.sendMassageToMaker(changeCostTable.getTourId(), " 付款申请："+changeCostTable.getRealCost()+"元，已经经过分管副总批准，可以打印付款凭证了");
 					}
 					this.update(changeCostTable);
 				}
@@ -248,6 +253,8 @@ public class MobileService extends BaseService{
 		}
 		if(isManager&&tourId!=0){
 			this.sendMessage("payApplication", tourId, 2, "您有 "+localTourService.getTourNoAndTourName(tourId)+"待审核的(付款申请)，点击进行审核");
+		}else if(tourId!=0){
+			localTourService.sendMassageToMaker(tourId, " 多项付款申请，已经经过分管副总批准，可以打印付款凭证了");
 		}
 	}
 
@@ -276,8 +283,12 @@ public class MobileService extends BaseService{
 		return loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, status);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loanInvoiceApplicationOk(int id) {
-		this.updateByString("LoanInvoiceTable", "status=2", "id=?", id);
+		LoanInvoiceTable loanInvoiceTable= (LoanInvoiceTable) this.getById("LoanInvoiceTable", id);
+		loanInvoiceTable.setStatus(2);
+		this.update(loanInvoiceTable);
+		localTourService.sendMassageToMaker(loanInvoiceTable.getTourId(), " 多项付款申请，已经经过分管副总批准，可以打印付款凭证了");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -370,7 +381,7 @@ public class MobileService extends BaseService{
 	@SuppressWarnings("unused")
 	public boolean sendMessage(String mobileControllerMapping, int tourId, int status, String message){
 		/*验证是否打开微信消息接收开关*/
-		if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){
+		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 			StringBuffer path = request.getRequestURL();  
 			String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
@@ -383,7 +394,7 @@ public class MobileService extends BaseService{
 		    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
 		    	return WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0");
 			}
-		}
+		/*}*/
 		return false;
 	}
 	
@@ -394,7 +405,7 @@ public class MobileService extends BaseService{
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		StringBuffer path = request.getRequestURL();
 		String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-		if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){
+		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
 			boolean hasManager = false;
 			boolean hasBoss = false;
 			UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
@@ -465,7 +476,7 @@ public class MobileService extends BaseService{
 					}
 				}
 			}
-		}
+		/*}*/
 		return sendOk;
 	}
 }

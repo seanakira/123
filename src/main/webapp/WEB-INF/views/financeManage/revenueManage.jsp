@@ -696,11 +696,11 @@
 			        success:function(data){
 			        	$.each(data,function(){
 			        		var invoiceNo;
-			        		if(this.loanInvoiceTable.invoiceNo!=null){
+			        		/* if(this.loanInvoiceTable.invoiceNo!=null){
 			        			invoiceNo = $('<td>'+this.loanInvoiceTable.invoiceNo+'</td>');
-			        		}else{
-			        			invoiceNo = $('<td><input style="width:100%;" class="form-control" type="text"></td>');
-			        		}
+			        		}else{ */
+			        			invoiceNo = $('<td><input style="width:100%;" class="form-control" type="text" value='+this.loanInvoiceTable.invoiceNo+'></td>');
+			        		/* } */
 			        		$("#loanInvoices").append('<tr id="'+this.loanInvoiceTable.id+'">'+
 															'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
 															'<td>'+invoiceNo.html()+'</td>'+
@@ -757,7 +757,7 @@
 		        async: false,
 		        success:function(data){
 		        	if(data==-1){
-		        		alert("开票金额大于实收金额");
+		        		alert("开票金额大于预估收入金额");
 		        	}else if(data==-2){
 		        		alert("发票号为8位数字");
 		        	}else{

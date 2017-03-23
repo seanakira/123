@@ -71,7 +71,7 @@ public class LoginController {
 				}else{
 					response.sendRedirect("../operatingStatus");
 				}
-				subject.getSession().setAttribute("deptType", deptService.getDeptType());
+				subject.getSession().setAttribute("isMice", deptService.isMice());
 			}else{
 				md.addAttribute("msg","用户名或密码错误");
 				return "/loginManage/login";

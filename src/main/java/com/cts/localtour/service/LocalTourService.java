@@ -7,6 +7,8 @@ import java.util.Hashtable;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.cts.localtour.DAO.LocalTourDAO;
 import com.cts.localtour.entity.SupplierContentTable;
@@ -14,6 +16,7 @@ import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.TourTypeTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.entity.VisitorTypeTable;
+import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
@@ -62,6 +65,8 @@ public class LocalTourService extends BaseService{
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private LoanInvoiceService loanInvoiceService;
+	@Autowired
+	private UserService userService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -224,12 +229,27 @@ public class LocalTourService extends BaseService{
 		return mobileService.sendMessageAgain(mobileControllerMapping, tourId, message);
 	}
 	
+	public boolean sendMassageToMaker(int tourId, String message){
+		LocalTourTable localTourTable = (LocalTourTable) this.getById("LocalTourTable", tourId);
+		return WeiXinUtil.sendTextMessage(userService.getUserRealName(localTourTable.getUserId())+"@ctssd.com", "", localTourTable.getTourNo()+" "+localTourTable.getTourName()+message, "0");
+	}
+	
+	public boolean sendMassageToFinance(int tourId, String message){
+		boolean isMice = (Boolean) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession().getAttribute("isMice");
+		if(isMice){
+			return WeiXinUtil.sendTextMessage("huangyumin@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
+		}else{
+			return WeiXinUtil.sendTextMessage("lidi@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
+		}
+		
+	}
+	
 	public ArrayList<LoanViewModel> findLend(int tourId) {
 		return loanViewModel.getAllLoanViewModel(tourId);
 	}
 	
-	public String getTourNoAndTourName(int id){
-		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", id);
+	public String getTourNoAndTourName(int tourId){
+		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", tourId);
 		return tour.getTourNo()+" "+tour.getTourName();
 	}
 	
@@ -256,7 +276,7 @@ public class LocalTourService extends BaseService{
 			}
 		}
 		for (ChangeCostTable changeCost : changeCostTables) {
-			CostTable costTable = (CostTable)this.getById("CostTable", changeCost.getId());
+			ChangeCostTable costTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
 			if(changeCost.getRealCost()>new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).floatValue()){
 				errorCode = -1;
 			}else{

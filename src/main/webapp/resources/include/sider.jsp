@@ -105,7 +105,7 @@
 										<li id="localTourManage">
 											<a href="${path }localTourManage">
 												<i class="icon-double-angle-right"></i>
-												${sessionScope.deptType==1?"地接系统":"会展系统"}
+												${sessionScope.isMice?"会展系统":"地接系统"}
 											</a>
 										</li>
 									</shiro:hasPermission>

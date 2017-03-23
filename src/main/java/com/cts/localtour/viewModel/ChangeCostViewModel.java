@@ -95,7 +95,7 @@ public class ChangeCostViewModel {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
 			changeCost.setCostTable(changeCostTable);
 			changeCost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
-			changeCost.setContentName(changeCostTable.getContentId()==null?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
+			changeCost.setContentName(changeCostTable.getContentId()==null||changeCostTable.getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
 			changeCost.setPayApplicationerRealName(userService.getUserName(changeCostTable.getPayApplicationerId()));
 			changeCost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
 			if(changeCostTable.getPayStatus()==0){
@@ -149,7 +149,7 @@ public class ChangeCostViewModel {
 		for (ChangeCostTable costTable : costTables) {
 			ChangeCostViewModel cost = new ChangeCostViewModel();
 			cost.setCostTable(costTable);
-			cost.setContentName(costTable.getContentId()==0?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
+			cost.setContentName(costTable.getContentId()==null||costTable.getContentId()==0?"":((SupplierContentTable)userService.getById("SupplierContentTable", costTable.getContentId())).getContentName());
 			if(costTable.getPayStatus()==0){
 				cost.setPayStatus("¿É¸¶");
 			}else if(costTable.getPayStatus()==1){
@@ -174,7 +174,7 @@ public class ChangeCostViewModel {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
 			changeCost.setCostTable(changeCostTable);
 			changeCost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
-			changeCost.setContentName(((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
+			changeCost.setContentName(changeCostTable.getContentId()==null||changeCostTable.getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
 			changeCost.setPayApplicationerRealName(userService.getUserRealName(changeCostTable.getPayApplicationerId()));
 			changeCost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
 			changeCost.setManagerName(userService.getUserRealName(changeCostTable.getManagerId()));
