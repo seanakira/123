@@ -5389,21 +5389,23 @@
 						alert("申请金额不能大于成本小计");
 						$("#payApplication").attr("data-dismiss","");
 						error = -1;
-						return;
+						return false;
 					}
 					if(tr.children("td").eq(8).children("input").val()==0){
 						alert("申请金额不能为0");
 						$("#payApplication").attr("data-dismiss","");
 						error = -3;
-						return;
+						return false;
 					}
 					if(tr.attr("class")=="blue"){
 						changeCostTables.push({id:tr.attr("id"),
 											tourId:tourId,
+											supplierId:tr.find("select").val(),
 											realCost:tr.children("td").eq(8).children("input").val()});
 					}else{
 						costTables.push({id:tr.attr("id"),
 									tourId:tourId,
+									supplierId:tr.find("select").val(),
 									realCost:tr.children("td").eq(8).children("input").val()});
 					}
 				});

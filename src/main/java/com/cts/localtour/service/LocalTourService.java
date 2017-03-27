@@ -270,6 +270,7 @@ public class LocalTourService extends BaseService{
 				if(costTable.getPayStatus()==0){
 					costTable.setPayStatus(1);
 					costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					costTable.setSupplierId(cost.getSupplierId());
 					costTable.setRealCost(cost.getRealCost());
 					this.update(costTable);
 				}
@@ -284,6 +285,7 @@ public class LocalTourService extends BaseService{
 				if(changeCostTable.getPayStatus()==0){
 					changeCostTable.setPayStatus(1);
 					changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					changeCostTable.setSupplierId(changeCost.getSupplierId());
 					changeCostTable.setRealCost(changeCost.getRealCost());
 					this.update(changeCostTable);
 				}
