@@ -23,7 +23,7 @@ public class LoanInvoiceService extends BaseService{
 	public void saveLoanInvoice(ArrayList<LoanInvoiceTable> loanInvoiceTables) {
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			LoanInvoiceTable invoice = (LoanInvoiceTable)this.getById("LoanInvoiceTable", loanInvoiceTable.getId());
-			if(invoice.getStatus()==2){
+			if(invoice.getStatus()==2||invoice.getStatus()==3){
 				invoice.setStatus(3);
 				invoice.setInvoiceNo(loanInvoiceTable.getInvoiceNo());
 				this.update(invoice);

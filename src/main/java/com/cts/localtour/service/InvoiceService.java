@@ -34,8 +34,12 @@ public class InvoiceService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public void saveInvoice(ArrayList<InvoiceTable> invoiceTables) throws Exception{
 		for (InvoiceTable invoiceTable : invoiceTables) {
-			invoiceTable.setCustomerAgencyId(((LocalTourTable)baseService.getById("LocalTourTable", invoiceTable.getTourId())).getCustomerAgencyId());
-			this.add(invoiceTable);
+			if(invoiceTable.getId()==null){
+				invoiceTable.setCustomerAgencyId(((LocalTourTable)baseService.getById("LocalTourTable", invoiceTable.getTourId())).getCustomerAgencyId());
+				this.add(invoiceTable);
+			}else{
+				this.updateByString("InvoiceTable", "invoiceNo=?, invoiceAmount=?", "id=?", invoiceTable.getInvoiceNo(), invoiceTable.getInvoiceAmount(), invoiceTable.getId());
+			}
 		}
 	}
 }

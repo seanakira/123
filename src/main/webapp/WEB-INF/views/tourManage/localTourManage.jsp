@@ -261,7 +261,7 @@
 												<li>
 													<a>...</a>
 												</li>
-												<c:forEach var="page" begin="${pageNo-5 }" end="${pageMax>10?pageNo+4:pageMax }">
+												<c:forEach var="page" begin="${pageNo-5 }" end="${pageNo+4>pageMax?pageMax:pageNo+4 }">
 													<li <c:if test="${pageNo==page }">class="active"</c:if>>
 														<a href="${path }localTourManage?page=${page }&key=${key }">${page }</a>
 													</li>
@@ -2915,7 +2915,7 @@
 	/* 全局 */
 	var selectInfo;
 	/* 新建初始化 */
-	var selects = $("#create").find("select");
+	
 	var inited = false;
 	function init(){
 		$.ajax({  
@@ -2925,7 +2925,6 @@
 	        dataType: "json",  
 	        async: false,  
 	        success:function(data){
-	        	selects.not(".traffic").html('<option value="">&nbsp;</option>');
 	        	$.each(data.businessTypes,function(){
 	        		$(".businessType").append('<option value="'+this.id+'">'+this.businessTypeName+'</option>');
 	        	});
@@ -2957,20 +2956,22 @@
 								comprehensiveSuppliers : data.comprehensiveSuppliers,
 								otherContents : data.otherContents,
 								otherSuppliers : data.otherSuppliers};
-	        	selects.eq(0).chosen();
-	        	selects.eq(1).chosen();
-	        	selects.eq(2).chosen();
-	        	selects.eq(3).chosen();
-	        	selects.eq(4).chosen();
-				$(".chosen-select").next().attr("style","width:100%;");
-				$(".chosen-select").next().find("input").attr("style","height:100%;");
 	        }  
 		});
 	}
 	/* 新增团队初始化选项 */
 	$("#createTour").click(function(){
 		if(inited==false){
+			var selects = $("#create").find("select");
+			selects.not(".traffic").html('<option value="">&nbsp;</option>');
 			init();
+			selects.eq(0).chosen();
+        	selects.eq(1).chosen();
+        	selects.eq(2).chosen();
+        	selects.eq(3).chosen();
+        	selects.eq(4).chosen();
+        	$(".chosen-select").next().attr("style","width:100%;");
+			$(".chosen-select").next().find("input").attr("style","height:100%;");
 			inited = true;
 		}
 	});
@@ -5165,7 +5166,7 @@
 			}
 		});
 		/*点击本行选择*/
-		$("#canPays").delegate("tr td:not(.center):not(tr td:nth-child(9))","click",function(){
+		$("#canPays").delegate("tr td:not(.center):not(tr td:nth-child(9)):not(tr td:nth-child(4))","click",function(){
 			var checkbox = $(this).parent().find("input");
 			if(checkbox.prop("checked")){
 				checkbox.prop("checked",false);
@@ -5194,16 +5195,54 @@
 		        dataType: "json",
 		        async: false,
 		        success:function(data){
-		        	var canPays = $('<tbody></tbody>');
-		        	var isPays = $('<tbody></tbody>');
+		        	var canPays = $("#canPays");
+		        	var isPays = $("#isPays");
+		        	if(inited==false){
+						init();
+						inited = true;
+					}
 		        	$.each(data.costs,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill){
-		        			var costTable = this.costTable.costDate==null?"":this.costTable.costDate;
+		        			var td = $('<td><select style="display: none;" value="'+this.costTable.supplierId+'" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+		        			var select = td.children("select");
+		        			if(this.costTable.supplierScopeId==1){
+		        	        	$.each(selectInfo.flightSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==2){
+		        	        	$.each(selectInfo.hotelSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==3){
+		        	        	$.each(selectInfo.mealSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==4){
+		        	        	$.each(selectInfo.ticketSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==5){
+		        	        	$.each(selectInfo.shuttleSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==6){
+		        	        	$.each(selectInfo.ticketsSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==7){
+		        	        	$.each(selectInfo.comprehensiveSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==8){
+		        	        	$.each(selectInfo.otherSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}
 		        			var tr = $('<tr id="'+this.costTable.id+'">'+
 		        							'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			        						'<td>'+costTable+'</td>'+
+			        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
-			        						'<td>'+this.supplierName+'</td>'+
+			        						'<td>'+td.html()+'</td>'+
 			        						'<td>'+this.costTable.cost+'</td>'+
 			        						'<td>'+this.costTable.count+'</td>'+
 			        						'<td>'+this.costTable.days+'</td>'+
@@ -5214,10 +5253,11 @@
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
+		        			canPays.find("select").last().val(this.costTable.supplierId);
 		        		}else if(!this.costTable.lend&&!this.costTable.bill){
 		        			var costTable = this.costTable.costDate==null?"":this.costTable.costDate;
 		        			var tr = $('<tr>'+
-			        						'<td>'+this.costTable.costDate+'</td>'+
+			        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 			        						'<td>'+costTable+'</td>'+
 			        						'<td>'+this.supplierName+'</td>'+
 			        						'<td>'+this.costTable.cost+'</td>'+
@@ -5236,11 +5276,46 @@
 		        	var isPaysChangeCount = 0;
 		        	$.each(data.changeCosts,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
+		        			var td = $('<td><select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+		        			var select = td.children("select");
+		        			if(this.costTable.supplierScopeId==1){
+		        	        	$.each(selectInfo.flightSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==2){
+		        	        	$.each(selectInfo.hotelSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==3){
+		        	        	$.each(selectInfo.mealSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==4){
+		        	        	$.each(selectInfo.ticketSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==5){
+		        	        	$.each(selectInfo.shuttleSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==6){
+		        	        	$.each(selectInfo.ticketsSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==7){
+		        	        	$.each(selectInfo.comprehensiveSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}else if(this.costTable.supplierScopeId==8){
+		        	        	$.each(selectInfo.otherSuppliers,function(){
+		        	        		select.append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+		        	        	});
+		        			}
 		        			var tr = $('<tr id="'+this.costTable.id+'" class="blue">'+
 		        							'<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
-			        						'<td>'+this.costTable.costDate+'</td>'+
+			        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
-			        						'<td>'+this.supplierName+'</td>'+
+			        						'<td>'+td.html()+'</td>'+
 			        						'<td>'+this.costTable.cost+'</td>'+
 			        						'<td>'+this.costTable.count+'</td>'+
 			        						'<td>'+this.costTable.days+'</td>'+
@@ -5251,10 +5326,11 @@
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
+		        			canPays.find("select").last().val(this.costTable.supplierId);
 		        			canPaysChangeCount++;
 		        		}else if(!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
 		        			var tr = $('<tr class="blue">'+
-			        						'<td>'+this.costTable.costDate+'</td>'+
+			        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
 			        						'<td>'+this.supplierName+'</td>'+
 			        						'<td>'+this.costTable.cost+'</td>'+
@@ -5275,7 +5351,6 @@
 		        	if(canPays.html()==""){
 	        			$("#canPays").parent().html('<span class="red">无可付款项</span>');
 	        		}else {
-	        			$("#canPays").html(canPays.html());
 	        			if(canPaysChangeCount!=0){
 	        				canPaysP.after(span);
 	        			}
@@ -5283,11 +5358,12 @@
 					if(isPays.html()==""){
 						$("#isPays").parent().html('<span class="red">无付款记录</span>');
 	        		}else{
-	        			$("#isPays").html(isPays.html());
 	        			if(isPaysChangeCount!=0){
 	        				isPaysP.after(span);
 	        			}
 	        		}
+		        	$("#canPays").find("select").chosen();
+		        	$("#canPays").find("select").next().attr("style","width:100%;");
 		        }
 			});
 		}
@@ -5311,7 +5387,14 @@
 					var tr = $(this).parent().parent().parent();
 					if(tr.children("td").eq(8).children("input").val()>parseFloat(tr.children("td").eq(7).text())){
 						alert("申请金额不能大于成本小计");
+						$("#payApplication").attr("data-dismiss","");
 						error = -1;
+						return;
+					}
+					if(tr.children("td").eq(8).children("input").val()==0){
+						alert("申请金额不能为0");
+						$("#payApplication").attr("data-dismiss","");
+						error = -3;
 						return;
 					}
 					if(tr.attr("class")=="blue"){
@@ -5344,7 +5427,8 @@
 					});
 				}
 			}
-		}else if(canTrs.length==0&&isTrs.length>0){
+		}
+		if(isTrs.length>0){
 			var myData = {tourId:tourId};
 			$.ajax({
 		        type: "GET",  

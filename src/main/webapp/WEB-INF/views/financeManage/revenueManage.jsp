@@ -294,9 +294,8 @@
 													<th style="width: 10%;">内容</th>
 													<th style="width: 10%;">金额*</th>
 													<th style="width: 45%;">发票信息*</th>
-													<!-- <th style="width: 5%;">
-														操作
-													</th> -->
+													<th style="width: 5%;">
+													</th>
 												</tr>
 											</thead>
 											<tbody id="loanInvoices">
@@ -561,14 +560,14 @@
 			        	$("#invoiceTable").html("");
 			        	customerAgency = data.customerAgencyName;
 			        	$.each(data.invoices,function(){
-			        		$("#invoiceTable").append('<tr class="issued">'+
+			        		$("#invoiceTable").append('<tr id="'+this.invoiceTable.id+'" class="issued">'+
 			        										'<td>'+this.invoiceTable.issueDate+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceNo+'</td>'+
 			        										'<td>'+this.customerAgencyName+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceContent+'</td>'+
 			        										'<td>'+this.invoiceTable.invoiceAmount+'</td>'+
 			        										'<td>'+this.issueUserRealName+'</td>'+
-			        										'<td></td>'
+			        										'<td><a class="green" href="#"><i class="icon-pencil bigger-130"></i></a></td>'
 			        								+'</tr>');
 			        	});
 			        	$("#maxIssue").text($("#table").find("#"+tourId).children("td").eq(4).text());
@@ -599,27 +598,48 @@
 		$("table").delegate(".delLine","click",function(){
 			$(this).parents("tr").remove();
 		});
+		/* 编辑本行 */
+		$("table").delegate(".green","click",function(){
+			var tds = $(this).parent().siblings();
+			tds.eq(1).html('<input type="text" value="'+tds.eq(1).text()+'">');
+			tds.eq(4).html('<input type="text" value="'+tds.eq(4).text()+'">');
+		});
+		
 		/* 开票 */
 		$("#saveInvoice").click(function(){
 			var tourId = $(this).parent().attr("id");
-			var trs = $("#invoiceTable").children("tr").not(".issued");
+			var trs = $("#invoiceTable").children("tr");
 			var invoices = new Array();
 			var errorCode = 0;
 			var total = 0;
 			$.each(trs,function(){
 				var inputs = $(this).find("input");
-				if(isNaN(parseInt(inputs.eq(1).val()))||inputs.eq(1).val().length!=8){
-					errorCode = -2;
+				if($(this).attr("class")=="issued"){
+					if(isNaN(parseInt(inputs.eq(0).val()))||inputs.eq(0).val().length!=8){
+						errorCode = -2;
+					}
+					if(inputs.length!=0){
+						invoices.push({
+							id:$(this).attr("id"),
+							invoiceNo:inputs.eq(0).val(),
+							invoiceAmount:inputs.eq(1).val(),
+						});
+						total = (total + parseFloat(inputs.eq(1).val())).toFixed(2);
+					}
+				}else{
+					if(isNaN(parseInt(inputs.eq(1).val()))||inputs.eq(1).val().length!=8){
+						errorCode = -2;
+					}
+					invoices.push({
+						tourId:tourId,
+						issueDate:new Date(inputs.eq(0).val()),
+						invoiceNo:inputs.eq(1).val(),
+						invoiceContent:inputs.eq(2).val(),
+						invoiceAmount:inputs.eq(3).val(),
+						issueUserId:inputs.eq(4).val()
+					});
+					total = (total + parseFloat(inputs.eq(3).val())).toFixed(2);
 				}
-				invoices.push({
-					tourId:tourId,
-					issueDate:new Date(inputs.eq(0).val()),
-					invoiceNo:inputs.eq(1).val(),
-					invoiceContent:inputs.eq(2).val(),
-					invoiceAmount:inputs.eq(3).val(),
-					issueUserId:inputs.eq(4).val()
-				});
-				total = (total + parseFloat(inputs.eq(3).val())).toFixed(2);
 			});
 			var myData = JSON.stringify(invoices);
 			$.ajax({
@@ -645,11 +665,12 @@
 		        	}
 		        }
 			});
-			if(errorCode == -2){
+			if(errorCode == -2&&invoices.length>0){
 				$("#saveInvoice").attr("data-dismiss","");
 				alert("票号必须为8位数字");
 			}
 		});
+		
 		/* 自动计算 */
 		$("#invoiceTable").delegate(".invoiceAmount","dblclick",function(){
 			var maxIssue = parseFloat($("#maxIssue").text());
@@ -696,19 +717,25 @@
 			        success:function(data){
 			        	$.each(data,function(){
 			        		var invoiceNo;
-			        		/* if(this.loanInvoiceTable.invoiceNo!=null){
+			        		var action;
+			        		var amount;
+			        		if(this.loanInvoiceTable.invoiceNo!=null){
 			        			invoiceNo = $('<td>'+this.loanInvoiceTable.invoiceNo+'</td>');
-			        		}else{ */
-			        			invoiceNo = $('<td><input style="width:100%;" class="form-control" type="text" value='+this.loanInvoiceTable.invoiceNo+'></td>');
-			        		/* } */
+			        			action = $('<td><a class="green" href="#"><i class="icon-pencil bigger-130"></i></a></td>');
+			        			amount = $('<td>'+this.loanInvoiceTable.invoiceAmount+'</td>');
+			        		}else{
+			        			invoiceNo = $('<td><input style="width:100%;" class="form-control" type="text" value='+(this.loanInvoiceTable.invoiceNo==null?"":this.loanInvoiceTable.invoiceNo)+'></td>');
+			        			action = $('<td></td>');
+			        			amount = $('<td><input type="text" value="'+this.loanInvoiceTable.invoiceAmount+'" /></td>');
+			        		}
 			        		$("#loanInvoices").append('<tr id="'+this.loanInvoiceTable.id+'">'+
 															'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
 															'<td>'+invoiceNo.html()+'</td>'+
 															'<td>'+this.customerAgencyName+'</td>'+
 															'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
-															'<td>'+this.loanInvoiceTable.invoiceAmount+'</td>'+
+															'<td>'+amount.html()+'</td>'+
 															'<td>'+this.loanInvoiceTable.remark+'</td>'+
-															/* '<td>'+action.html()+'</td>'+ */
+															'<td>'+action.html()+'</td>'+
 														'</tr>');
 			        	});
 			        	$("#loanInvoices").find("a").tooltip({
@@ -734,18 +761,21 @@
 		/*预借发票保存*/
 		$("#loanInvoiceSave").click(function(){
 			var tourId = $(this).parent().attr("id");
+			var trs = $("#loanInvoices").find("tr");
 			var loanInvoices = new Array();
-			var inputs = $("#loanInvoices").find("input");
-			$.each(inputs,function(){
-				if($(this).val()!=""&&!isNaN(parseInt($(this).val()))){
-					var id = $(this).parent().parent().attr("id");
-					loanInvoices.push({
-						id:id,
-						tourId:tourId,
-						invoiceNo:$(this).val()
-					});
+			$.each(trs,function(){
+				var inputs = $(this).find("input");
+				if(inputs.length>0){
+					if(inputs.eq(0).val()!=""&&!isNaN(parseInt(inputs.eq(0).val()))){
+						var id = $(this).attr("id");
+						loanInvoices.push({
+							id:id,
+							tourId:tourId,
+							invoiceNo:inputs.eq(0).val(),
+							invoiceAmount:inputs.eq(1).val()
+						});
+					}
 				}
-				
 			});
 			var myData = JSON.stringify(loanInvoices);
 			$.ajax({

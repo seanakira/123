@@ -65,13 +65,13 @@ public class LoginController {
 			Subject subject = SecurityUtils.getSubject();
 			subject.login(token);
 			if(subject.isAuthenticated()){
+				subject.getSession().setAttribute("isMice", deptService.isMice());
 				if(((UserTable)subject.getPrincipal()).getPwd().equals("123456")){
 					md.addAttribute("msg","您的密码为123456，请修改初始密码");
 					return "/userSettings/profile";
 				}else{
 					response.sendRedirect("../operatingStatus");
 				}
-				subject.getSession().setAttribute("isMice", deptService.isMice());
 			}else{
 				md.addAttribute("msg","用户名或密码错误");
 				return "/loginManage/login";

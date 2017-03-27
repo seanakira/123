@@ -231,7 +231,7 @@ public class LocalTourService extends BaseService{
 	
 	public boolean sendMassageToMaker(int tourId, String message){
 		LocalTourTable localTourTable = (LocalTourTable) this.getById("LocalTourTable", tourId);
-		return WeiXinUtil.sendTextMessage(userService.getUserRealName(localTourTable.getUserId())+"@ctssd.com", "", localTourTable.getTourNo()+" "+localTourTable.getTourName()+message, "0");
+		return WeiXinUtil.sendTextMessage(userService.getUserName(localTourTable.getUserId())+"@ctssd.com", "", localTourTable.getTourNo()+" "+localTourTable.getTourName()+message, "0");
 	}
 	
 	public boolean sendMassageToFinance(int tourId, String message){

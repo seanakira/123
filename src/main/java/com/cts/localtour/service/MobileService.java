@@ -115,7 +115,7 @@ public class MobileService extends BaseService{
 			if(loan.getStatus()==status){
 				loan.setStatus(status+1);
 				if(status==2){
-					this.sendMessage("loanApplication", loan.getTourId(), 3, "您有您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
+					this.sendMessage("loanApplication", loan.getTourId(), 3, "您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
 					loan.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				}else if(status==3){
 					loan.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
@@ -148,7 +148,7 @@ public class MobileService extends BaseService{
 				}
 			}
 			if(isManager&&loan!=null){
-				this.sendMessage("loanApplication", loan.getTourId(), 3, "您有您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
+				this.sendMessage("loanApplication", loan.getTourId(), 3, "您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
 			}else if(loan!=null){
 				localTourService.sendMassageToMaker(loan.getTourId(), " 多项借款申请，已经经过分管副总批准，可以打印借款凭证了");
 			}
@@ -288,7 +288,7 @@ public class MobileService extends BaseService{
 		LoanInvoiceTable loanInvoiceTable= (LoanInvoiceTable) this.getById("LoanInvoiceTable", id);
 		loanInvoiceTable.setStatus(2);
 		this.update(loanInvoiceTable);
-		localTourService.sendMassageToMaker(loanInvoiceTable.getTourId(), " 多项付款申请，已经经过分管副总批准，可以打印付款凭证了");
+		localTourService.sendMassageToMaker(loanInvoiceTable.getTourId(), " 预借发票，已经经过中心经理审核，可以到财务开票了");
 	}
 
 	@SuppressWarnings("unchecked")

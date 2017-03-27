@@ -380,7 +380,7 @@ public class TourController {
 
 	@RequestMapping("/localTourManage/loanApplicationAgain")
 	public @ResponseBody boolean loanApplicationAgain(@RequestParam int tourId){
-		return localTourService.sendMessageAgain("loanApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核");
+		return localTourService.sendMessageAgain("loanApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(导游借款)，点击进行审核");
 	}
 	/*付款管理*/
 	@RequestMapping("/localTourManage/findPay")
@@ -434,7 +434,10 @@ public class TourController {
 	}
 	@RequestMapping("/localTourManage/borrowInvoiceAgain")
 	public @ResponseBody boolean borrowInvoiceAgain(@RequestParam int tourId){
-		return localTourService.sendMassage("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核");
+		if(!localTourService.getAllByString("LoanInvoiceTable", "tourId=? and status=1", tourId).isEmpty()){
+			return localTourService.sendMassage("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核");
+		}
+		return false;
 	}
 	
 	/*团队报账*/
