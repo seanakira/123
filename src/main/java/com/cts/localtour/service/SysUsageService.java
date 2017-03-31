@@ -16,7 +16,7 @@ public class SysUsageService extends BaseService{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<SysUsageTable> getAllSysUsage() {
-		ArrayList<SysUsageTable> sysUsageTables = (ArrayList<SysUsageTable>) this.getAllByString("SysUsageTable", "", null);
+		ArrayList<SysUsageTable> sysUsageTables = (ArrayList<SysUsageTable>)this.getAllByStringOrderBy("SysUsageTable", "", "tourCount desc", null);
 		return sysUsageTables;
 	}
 	
@@ -31,10 +31,11 @@ public class SysUsageService extends BaseService{
 		Date lastMonth = calendar.getTime();//获取一年前的时间，或者一个月前的时间    
 		calendar.add(Calendar.MONTH, +6);
 		Date nextMonth = calendar.getTime();
-		System.out.println(lastMonth);
+		int index = 1;
 		for (UserTable userTable : userTables) {
 			SysUsageTable sysUsageTable = new SysUsageTable();
 			ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) this.getAllByString("LocalTourTable", "userId=? and startTime between ? and ?", userTable.getId(),lastMonth,nextMonth);
+			sysUsageTable.setId(index);
 			for (LocalTourTable localTourTable : localTourTables) {
 				if(localTourTable.getStatus()==0){
 					sysUsageTable.setCreateCount(sysUsageTable.getCreateCount()+1);
@@ -62,6 +63,7 @@ public class SysUsageService extends BaseService{
 				sysUsageTable.setUserRealName(userTable.getRealName());
 				sysUsageTable.setTourCount(sysUsageTable.getCreateCount()+sysUsageTable.getAuditingCount()+sysUsageTable.getFinanceCount()+sysUsageTable.getCanLendCount()+sysUsageTable.getOngoingCount()+sysUsageTable.getFinishCount()+sysUsageTable.getBalanceCount()+sysUsageTable.getReimbursementCount()+sysUsageTable.getVerificationCount()+sysUsageTable.getSettlementCount());
 				this.add(sysUsageTable);
+				index++;
 			}
 		}
 	}

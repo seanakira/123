@@ -251,7 +251,8 @@
                 		/supplierInfoManage/update=authc,perms["supplierInfo:manage","supplierInfo:update"]
                 		/supplierBusiness/update=authc,perms["supplierInfo:manage","supplierInfo:update"]
                 <!-- 统计分析 -->
-                
+                	/deptGains=authc
+                	/deptGains/get=authc
                 <!-- 数据管理 -->
                 	<!-- 业务类型 -->
                 	/businessTypeManage=authc,perms[businessType:manage]

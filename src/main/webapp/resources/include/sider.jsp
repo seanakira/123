@@ -271,28 +271,16 @@
 								</a>
 	
 								<ul class="submenu">
-									<li id="compreStat">
-										<a href="${path }supplierInfoManage">
+									<li id="deptGains">
+										<a href="${path }deptGains">
 											<i class="icon-double-angle-right"></i>
-											综合业务统计
+											部门盈利统计
 										</a>
 									</li>
-									<li id="orderStat">
-										<a href="${path }supplierInfoManage">
+									<li id="supplierGains">
+										<a href="${path }supplierGains">
 											<i class="icon-double-angle-right"></i>
-											订单收支明细统计
-										</a>
-									</li>
-									<li id="customerCompanyStat">
-										<a href="${path }supplierInfoManage">
-											<i class="icon-double-angle-right"></i>
-											公司客户业务统计
-										</a>
-									</li>
-									<li id="customerPersonStat">
-										<a href="${path }supplierInfoManage">
-											<i class="icon-double-angle-right"></i>
-											个人客户业务统计
+											供应商使用分析
 										</a>
 									</li>
 								</ul>

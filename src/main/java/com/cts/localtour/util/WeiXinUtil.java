@@ -92,7 +92,6 @@ public class WeiXinUtil {
 			if(!error.getString("errmsg").equals("ok")){
 				return false;
 			}
-//			System.out.println(error.getString("errmsg"));
 			return true;
 		}
 	}

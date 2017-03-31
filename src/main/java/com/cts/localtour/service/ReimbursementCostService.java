@@ -33,7 +33,7 @@ public class ReimbursementCostService extends BaseService{
 		for (ReimbursementCostTable reimbursementCostTable : costTables) {
 			String supplierName = supplierInfoService.getSupplierName(reimbursementCostTable.getSupplierId());
 			if(reimbursementCostTable.getPayStatus()==1){
-				willCostSum = willCostSum.add(new BigDecimal(reimbursementCostTable.getReimbursement()));
+				willCostSum = willCostSum.add(new BigDecimal(reimbursementCostTable.getReimbursement()==null?0:reimbursementCostTable.getReimbursement()));
 				willCosSumInfo.append("<a class='red'>").append(supplierName).append(" ").append(reimbursementCostTable.getReimbursement()).append("</a>").append(",");
 			}
 			if(reimbursementCostTable.isRemittanced()){

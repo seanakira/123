@@ -221,7 +221,7 @@ public class LocalTourService extends BaseService{
 		return changeCostIncomeViewModel.getAllChangeCostIncomeViewModel(tourId);
 	}
 	
-	public boolean sendMassage(String mobileControllerMapping, int tourId, int status, String message){
+	public boolean sendMessage(String mobileControllerMapping, int tourId, int status, String message){
 		return mobileService.sendMessage(mobileControllerMapping, tourId, status, message);
 	}
 	
@@ -229,12 +229,12 @@ public class LocalTourService extends BaseService{
 		return mobileService.sendMessageAgain(mobileControllerMapping, tourId, message);
 	}
 	
-	public boolean sendMassageToMaker(int tourId, String message){
+	public boolean sendMessageToMaker(int tourId, String message){
 		LocalTourTable localTourTable = (LocalTourTable) this.getById("LocalTourTable", tourId);
 		return WeiXinUtil.sendTextMessage(userService.getUserName(localTourTable.getUserId())+"@ctssd.com", "", localTourTable.getTourNo()+" "+localTourTable.getTourName()+message, "0");
 	}
 	
-	public boolean sendMassageToFinance(int tourId, String message){
+	public boolean sendMessageToFinance(int tourId, String message){
 		boolean isMice = (Boolean) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession().getAttribute("isMice");
 		if(isMice){
 			return WeiXinUtil.sendTextMessage("huangyumin@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
@@ -272,6 +272,7 @@ public class LocalTourService extends BaseService{
 					costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					costTable.setSupplierId(cost.getSupplierId());
 					costTable.setRealCost(cost.getRealCost());
+					costTable.setRemark(cost.getRemark());
 					this.update(costTable);
 				}
 			}
@@ -287,6 +288,7 @@ public class LocalTourService extends BaseService{
 					changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					changeCostTable.setSupplierId(changeCost.getSupplierId());
 					changeCostTable.setRealCost(changeCost.getRealCost());
+					changeCostTable.setRemark(changeCost.getRemark());
 					this.update(changeCostTable);
 				}
 			}
@@ -294,12 +296,12 @@ public class LocalTourService extends BaseService{
 		return errorCode;
 	}
 	@SuppressWarnings("unchecked")
-	public void loanApplication(String ids) {
-		String[] idss = ids.split(",");
-		for (String id : idss) {
-			LoanTable loanTable = (LoanTable)this.getById("LoanTable", Integer.parseInt(id));
+	public void loanApplication(ArrayList<LoanTable> loans) {
+		for (LoanTable loan : loans) {
+			LoanTable loanTable = (LoanTable)this.getById("LoanTable", loan.getId());
 			if(loanTable.getStatus()==1){
 				loanTable.setStatus(2);
+				loanTable.setRemark(loan.getRemark());
 				loanTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				this.update(loanTable);
 			}

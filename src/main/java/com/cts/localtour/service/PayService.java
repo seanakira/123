@@ -133,7 +133,7 @@ public class PayService extends BaseService{
 			if(((LocalTourTable)this.getById("LocalTourTable", full.getTourId())).getStatus()==2){
 				this.updateByString("LocalTourTable", "status=3", "id=?", full.getTourId());
 			}
-			localTourService.sendMassageToMaker(costCache.size()!=0?costCache.get(0).getTourId():changeCostCache.size()!=0?changeCostCache.get(0).getTourId():loanTables.get(0).getTourId(), " 财务借款处理完毕，已可进行借款或付款申请");
+			localTourService.sendMessageToMaker(costCache.size()!=0?costCache.get(0).getTourId():changeCostCache.size()!=0?changeCostCache.get(0).getTourId():loanTables.get(0).getTourId(), " 财务借款处理完毕，已可进行借款或付款申请");
 		}
 		return 1;
 	}

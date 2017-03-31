@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-  <!-- <table-filter match-catalog="localtour" match-name="arrTable"/>
+  <table-filter match-catalog="localtour" match-name="arrTable"/>
   <table-filter match-catalog="localtour" match-name="billApplicationTable"/>
   <table-filter match-catalog="localtour" match-name="businessTypeTable"/>
   <table-filter match-catalog="localtour" match-name="changeCostTable"/>
@@ -36,7 +36,7 @@
   <table-filter match-catalog="localtour" match-name="userPrevilegeTable"/>
   <table-filter match-catalog="localtour" match-name="userRoleTable"/>
   <table-filter match-catalog="localtour" match-name="userTable"/>
-  <table-filter match-catalog="localtour" match-name="visitorTypeTable"/> -->
+  <table-filter match-catalog="localtour" match-name="visitorTypeTable"/>
   <table-filter match-catalog="localtour" match-name="tourNoAscriptionTable"/>
   <table-filter match-catalog="localtour" match-name="wxMessageTable"/>
 </hibernate-reverse-engineering>

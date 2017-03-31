@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-3-10 15:09:16 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-27 13:53:58 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

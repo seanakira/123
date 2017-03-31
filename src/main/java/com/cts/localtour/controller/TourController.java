@@ -21,6 +21,7 @@ import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
+import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.TripTable;
@@ -32,7 +33,9 @@ import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PrintService;
+import com.cts.localtour.service.SysUsageService;
 import com.cts.localtour.service.TripService;
+import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullBillViewModel;
@@ -65,6 +68,8 @@ public class TourController {
 	private BillService billService;
 	@Autowired
 	private PrintService printService;
+	@Autowired
+	private SysUsageService sysUsageService;
 	@RequestMapping("/localTourManage")
 	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -207,7 +212,7 @@ public class TourController {
 	public @ResponseBody boolean financeLocalTour(@RequestParam int id){
 		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==1){
 			localTourService.changeStatus(id,2);
-			localTourService.sendMassageToFinance(id, " 已经报送，请及时进行导游借款操作。");
+			localTourService.sendMessageToFinance(id, " 已经报送，请及时进行导游借款操作。");
 			return true;
 		}
 		return false;
@@ -360,7 +365,7 @@ public class TourController {
 		}
 		/*if(!changeCostIncomeViewModel.getCostTables().isEmpty()||!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
 			这里或许需要判断用户权限
-			localTourService.sendMassage("changeCostIncomeApplication", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(changeCostIncomeViewModel.getCostTables().isEmpty()?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId())+" 待审核(变更成本收入)，点击进行审核");
+			localTourService.sendMessage("changeCostIncomeApplication", changeCostIncomeViewModel.getCostTables().size()==0?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(changeCostIncomeViewModel.getCostTables().isEmpty()?changeCostIncomeViewModel.getIncomeTables().get(0).getTourId():changeCostIncomeViewModel.getCostTables().get(0).getTourId())+" 待审核(变更成本收入)，点击进行审核");
 		}*/
 		return 1;
 	}
@@ -370,10 +375,10 @@ public class TourController {
 		return localTourService.findLend(tourId);
 	}
 	@RequestMapping("/localTourManage/loanApplication")
-	public @ResponseBody boolean loanApplication(@RequestParam int tourId, @RequestParam String ids){
-		if(!"".equals(ids)){
-			localTourService.loanApplication(ids);
-			return localTourService.sendMassage("loanApplication", tourId, 2, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(导游借款)，点击进行审核");
+	public @ResponseBody boolean loanApplication(@RequestBody ArrayList<LoanTable> loans){
+		if(!loans.isEmpty()){
+			localTourService.loanApplication(loans);
+			return localTourService.sendMessage("loanApplication", loans.get(0).getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(loans.get(0).getTourId())+" 待审核的(导游借款)，点击进行审核");
 		}
 		return false;
 	}
@@ -392,7 +397,7 @@ public class TourController {
 		int errorCode = 0;
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
 			errorCode = localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
-			if(!localTourService.sendMassage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(!full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId())+" 待审核的(付款申请)，点击进行审核")){
+			if(!localTourService.sendMessage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(!full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId())+" 待审核的(付款申请)，点击进行审核")){
 				errorCode = -2;
 			}
 		}
@@ -427,7 +432,7 @@ public class TourController {
 		if(errorCode==0){
 			localTourService.saveBorrowInvoice(loanInvoices);
 			if(!loanInvoiceTables.isEmpty()){
-				localTourService.sendMassage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(loanInvoiceTables.get(0).getTourId())+" 待审核的(预借发票)，点击进行审核");
+				localTourService.sendMessage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(loanInvoiceTables.get(0).getTourId())+" 待审核的(预借发票)，点击进行审核");
 			}
 		}
 		return errorCode;
@@ -435,7 +440,7 @@ public class TourController {
 	@RequestMapping("/localTourManage/borrowInvoiceAgain")
 	public @ResponseBody boolean borrowInvoiceAgain(@RequestParam int tourId){
 		if(!localTourService.getAllByString("LoanInvoiceTable", "tourId=? and status=1", tourId).isEmpty()){
-			return localTourService.sendMassage("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核");
+			return localTourService.sendMessage("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核");
 		}
 		return false;
 	}
@@ -480,7 +485,7 @@ public class TourController {
 		if(errorCode == 0){
 			if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()||!full.getNewReimbursementCostTables().isEmpty()){
 				localTourService.updateReimbursement(full);
-				localTourService.sendMassage("reimbursementApplication", full.getReimbursementTable().getTourId(), 0, "您有 "+localTourService.getTourNoAndTourName(full.getReimbursementTable().getTourId())+" 待审核的(团队报账)，点击进行审核");
+				localTourService.sendMessage("reimbursementApplication", full.getReimbursementTable().getTourId(), 0, "您有 "+localTourService.getTourNoAndTourName(full.getReimbursementTable().getTourId())+" 待审核的(团队报账)，点击进行审核");
 			}
 		}
 		return errorCode;
@@ -527,5 +532,17 @@ public class TourController {
 	@RequestMapping("/localTourManage/printCountPlus")
 	public void printCountPlus(@RequestParam String type, @RequestParam int tourId){
 		printService.printCountPlus(type, tourId);
+	}
+	
+	/*测试*/
+	@RequestMapping("/test")
+	public void test(){
+		sysUsageService.computeSysUsageTable();
+	}
+	@RequestMapping("/sendTest")
+	public void sendTest(@RequestParam String touser){
+		System.out.println(touser);
+		boolean ok = WeiXinUtil.sendTextMessage(touser, "", "测试消息", "0");
+		System.out.println(ok);
 	}
 }

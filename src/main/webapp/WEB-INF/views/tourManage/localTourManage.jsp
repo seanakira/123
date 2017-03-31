@@ -5084,7 +5084,7 @@
 		        			var tr = $('<tr id="'+this.loanTable.id+'">'+
 	        						'<td>'+this.loanTable.loanDate+'</td>'+
 	        						'<td>'+this.loanTable.loanAmount+'</td>'+
-	        						'<td>'+this.loanTable.remark+'</td>'+
+	        						'<td><input type="text" value="'+this.loanTable.remark+'" /></td>'+
 	        						'<td>'+this.lenderRealName+'</td>'+
 	        						'<td>'+this.status+'</td>'+
 	        					'</tr>');
@@ -5108,16 +5108,16 @@
 	/* 提交借款申请 */
 	$("#loanApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
-		var ids = [];
 		var canTrs = $("#canLoans").children("tr");
 		var isTrs = $("#isLoans").children("tr");
+		var loans = new Array();
 		if(canTrs.length>0){
 			$.each(canTrs,function(index){
-				ids[index] = $(this).attr("id");
+				loans.push({id:$(this).attr("id"),tourId:tourId,remark:$(this).find("input").val()});
 			});
-			var myData = {tourId:tourId,ids:ids.toString()};
+			var myData = JSON.stringify(loans);
 			$.ajax({
-		        type: "GET",  
+		        type: "POST",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"${path }localTourManage/loanApplication",  
 		        data:myData,  
@@ -5143,7 +5143,7 @@
 		        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
 		        	}
 		        }  
-			 });
+			});
 		}
 	});
 	
@@ -5166,7 +5166,7 @@
 			}
 		});
 		/*点击本行选择*/
-		$("#canPays").delegate("tr td:not(.center):not(tr td:nth-child(9)):not(tr td:nth-child(4))","click",function(){
+		$("#canPays").delegate("tr td:not(.center):not(tr td:nth-child(9)):not(tr td:nth-child(4)):not(tr td:nth-child(11))","click",function(){
 			var checkbox = $(this).parent().find("input");
 			if(checkbox.prop("checked")){
 				checkbox.prop("checked",false);
@@ -5247,9 +5247,9 @@
 			        						'<td>'+this.costTable.count+'</td>'+
 			        						'<td>'+this.costTable.days+'</td>'+
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-			        						'<td><input style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
+			        						'<td><input class="realCost" placeholder="双击自动添加" style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
-			        						'<td>'+this.costTable.remark+'</td>'+
+			        						'<td><input style="width:100%;" type="text" value="'+this.costTable.remark+'"></td>'+
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
@@ -5320,9 +5320,9 @@
 			        						'<td>'+this.costTable.count+'</td>'+
 			        						'<td>'+this.costTable.days+'</td>'+
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-			        						'<td><input style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
+			        						'<td><input class="realCost" placeholder="双击自动添加" style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
-			        						'<td>'+this.costTable.remark+'</td>'+
+			        						'<td><input style="width:100%;" type="text" value="'+this.costTable.remark+'"></td>'+
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
@@ -5401,12 +5401,14 @@
 						changeCostTables.push({id:tr.attr("id"),
 											tourId:tourId,
 											supplierId:tr.find("select").val(),
-											realCost:tr.children("td").eq(8).children("input").val()});
+											realCost:tr.children("td").eq(8).children("input").val(),
+											remark:tr.children("td").eq(10).children("input").val()});
 					}else{
 						costTables.push({id:tr.attr("id"),
 									tourId:tourId,
 									supplierId:tr.find("select").val(),
-									realCost:tr.children("td").eq(8).children("input").val()});
+									realCost:tr.children("td").eq(8).children("input").val(),
+									remark:tr.children("td").eq(10).children("input").val()});
 					}
 				});
 				if(error==0){
@@ -5449,7 +5451,7 @@
 		
 	});
 	/*点击付款input金额自动填充*/
-	$("#payModel").delegate("input:not(.ace)","click",function(){
+	$("#payModel").delegate("input.realCost","dblclick",function(){
 		$(this).val(parseFloat($(this).parent().prev().text()));
 	});
 	
@@ -5780,7 +5782,7 @@
 	        			tbody = other;
 	        		}
 	        		var tr = $('<tr class="blue"  id="'+this.costTable.id+'">'+
-			        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+			        				'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 									'<td>'+this.contentName+'</td>'+
 									'<td>'+this.supplierName+'</td>'+
 									'<td>'+this.costTable.cost+'</td>'+
@@ -5798,7 +5800,7 @@
 	        		tbody.append(tr);
 	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
 	        	});
-	        	
+
 	        	/* 设置报账成本 */
 	        	if(data.reimbursementCosts.length > 0){
 	        		$("#costs5").find("#reimbursementCostRed").attr("style","");

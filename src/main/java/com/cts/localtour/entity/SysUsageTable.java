@@ -1,10 +1,8 @@
 package com.cts.localtour.entity;
-// Generated 2017-3-10 15:09:16 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-3-27 13:53:58 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "sysUsageTable", catalog = "localtour")
 public class SysUsageTable implements java.io.Serializable {
 
-	private Integer id;
+	private int id;
 	private String userRealName;
 	private int tourCount;
 	private int createCount;
@@ -32,9 +30,10 @@ public class SysUsageTable implements java.io.Serializable {
 	public SysUsageTable() {
 	}
 
-	public SysUsageTable(String userRealName, int tourCount, int createCount, int auditingCount, int financeCount,
-			int canLendCount, int ongoingCount, int finishCount, int balanceCount, int reimbursementCount,
-			int verificationCount, int settlementCount) {
+	public SysUsageTable(int id, String userRealName, int tourCount, int createCount, int auditingCount,
+			int financeCount, int canLendCount, int ongoingCount, int finishCount, int balanceCount,
+			int reimbursementCount, int verificationCount, int settlementCount) {
+		this.id = id;
 		this.userRealName = userRealName;
 		this.tourCount = tourCount;
 		this.createCount = createCount;
@@ -50,14 +49,13 @@ public class SysUsageTable implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -119,7 +119,7 @@ public class MobileService extends BaseService{
 					loan.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				}else if(status==3){
 					loan.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					localTourService.sendMassageToMaker(loan.getTourId(), " 借款申请："+loan.getLoanAmount()+"元，已经经过分管副总批准，可以打印借款凭证了");
+					localTourService.sendMessageToMaker(loan.getTourId(), " 借款申请："+loan.getLoanAmount()+"元，已经经过分管副总批准，可以打印借款凭证了");
 				}
 				this.update(loan);
 			}
@@ -150,7 +150,7 @@ public class MobileService extends BaseService{
 			if(isManager&&loan!=null){
 				this.sendMessage("loanApplication", loan.getTourId(), 3, "您有 "+localTourService.getTourNoAndTourName(loan.getTourId())+" 待审核(导游借款)，点击进行审核");
 			}else if(loan!=null){
-				localTourService.sendMassageToMaker(loan.getTourId(), " 多项借款申请，已经经过分管副总批准，可以打印借款凭证了");
+				localTourService.sendMessageToMaker(loan.getTourId(), " 多项借款申请，已经经过分管副总批准，可以打印借款凭证了");
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public class MobileService extends BaseService{
 						this.sendMessage("payApplication", costTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(costTable.getTourId())+"待审核的(付款申请)，点击进行审核");
 					}else if(status==3){
 						costTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-						localTourService.sendMassageToMaker(costTable.getTourId(), " 付款申请："+costTable.getRealCost()+"元，已经经过分管副总批准，可以打印付款凭证了");
+						localTourService.sendMessageToMaker(costTable.getTourId(), " 付款申请："+costTable.getRealCost()+"元，已经经过分管副总批准，可以打印付款凭证了");
 					}
 					this.update(costTable);
 				}
@@ -201,7 +201,7 @@ public class MobileService extends BaseService{
 						this.sendMessage("payApplication", changeCostTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+"待审核的(付款申请)，点击进行审核");
 					}else if(status==3){
 						changeCostTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-						localTourService.sendMassageToMaker(changeCostTable.getTourId(), " 付款申请："+changeCostTable.getRealCost()+"元，已经经过分管副总批准，可以打印付款凭证了");
+						localTourService.sendMessageToMaker(changeCostTable.getTourId(), " 付款申请："+changeCostTable.getRealCost()+"元，已经经过分管副总批准，可以打印付款凭证了");
 					}
 					this.update(changeCostTable);
 				}
@@ -254,7 +254,7 @@ public class MobileService extends BaseService{
 		if(isManager&&tourId!=0){
 			this.sendMessage("payApplication", tourId, 2, "您有 "+localTourService.getTourNoAndTourName(tourId)+"待审核的(付款申请)，点击进行审核");
 		}else if(tourId!=0){
-			localTourService.sendMassageToMaker(tourId, " 多项付款申请，已经经过分管副总批准，可以打印付款凭证了");
+			localTourService.sendMessageToMaker(tourId, " 多项付款申请，已经经过分管副总批准，可以打印付款凭证了");
 		}
 	}
 
@@ -288,7 +288,7 @@ public class MobileService extends BaseService{
 		LoanInvoiceTable loanInvoiceTable= (LoanInvoiceTable) this.getById("LoanInvoiceTable", id);
 		loanInvoiceTable.setStatus(2);
 		this.update(loanInvoiceTable);
-		localTourService.sendMassageToMaker(loanInvoiceTable.getTourId(), " 预借发票，已经经过中心经理审核，可以到财务开票了");
+		localTourService.sendMessageToMaker(loanInvoiceTable.getTourId(), " 预借发票，已经经过中心经理审核，可以到财务开票了");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -382,6 +382,7 @@ public class MobileService extends BaseService{
 	public boolean sendMessage(String mobileControllerMapping, int tourId, int status, String message){
 		/*验证是否打开微信消息接收开关*/
 		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
+			int errorCode = 0;
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 			StringBuffer path = request.getRequestURL();  
 			String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
@@ -392,8 +393,13 @@ public class MobileService extends BaseService{
 		    String[] ids = managerIds.split(",");
 		    for (int i = 0; i < ids.length; i++) {
 		    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
-		    	return WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0");
+		    	if(WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+		    		errorCode = -1;
+		    	}
 			}
+		    if(errorCode==0){
+		    	return true;
+		    }
 		/*}*/
 		return false;
 	}
