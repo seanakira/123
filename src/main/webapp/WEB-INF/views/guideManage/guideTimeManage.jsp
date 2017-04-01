@@ -626,7 +626,7 @@
 			td.eq(4).html($("#multiple").html());
 			td.eq(4).children("select").attr("class","width-20 chosen-select");
 			td.eq(4).children("select").val(info.supplierScopeIds);
-			$(".chosen-select").chosen();
+			$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 			td.eq(3).find("select").next().attr("style","width:150px;");
 			td.eq(4).find("input").attr("style","height:25px;");
 			td.eq(5).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");

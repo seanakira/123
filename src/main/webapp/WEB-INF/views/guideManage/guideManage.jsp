@@ -232,7 +232,7 @@
 			$("#add").click(function(){
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
 				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
-				$(".chosen-select").chosen();
+				$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 				$("#table").find("input").eq(1).focus().select();
 				$("#table").find("select").change(function(){isChange = true;});
 			});
@@ -343,7 +343,7 @@
 			td.eq(1).html($("#select").html());
 			td.eq(1).children("select").attr("class","width-20 chosen-select");
 			td.eq(1).children("select").val(td.eq(1).attr("id"));
-			$(".chosen-select").chosen();
+			$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 			obj.parents("tr").find("input").eq(1).focus().select();
 			$("#table").find("select").change(function(){isChange = true;});

@@ -257,7 +257,6 @@ public class DeptService extends BaseService{
 				}
 			}
 		}
-		System.out.println(localTourDeptId.toString());
 		if(localTourDeptId.contains(userDeptId)){
 			/*如果是会展下级部门返回1*/
 			return true;

@@ -899,7 +899,7 @@
 		    			showOtherMonths: true,
 		    			selectOtherMonths: false,
 		    		});
-		        	$("#edit").find("select").chosen();
+		        	$("#edit").find("select").chosen({no_results_text: "查无结果", search_contains: true});
 		        	$(".chosen-select").next().attr("style","width:100%;");
 					$(".chosen-select").next().find("input").attr("style","height:100%;");
 					$(".traffic").next().attr("style","width:100%;");

@@ -2965,11 +2965,11 @@
 			var selects = $("#create").find("select");
 			selects.not(".traffic").html('<option value="">&nbsp;</option>');
 			init();
-			selects.eq(0).chosen();
-        	selects.eq(1).chosen();
-        	selects.eq(2).chosen();
-        	selects.eq(3).chosen();
-        	selects.eq(4).chosen();
+			selects.eq(0).chosen({no_results_text: "查无结果", search_contains: true});
+        	selects.eq(1).chosen({no_results_text: "查无结果", search_contains: true});
+        	selects.eq(2).chosen({no_results_text: "查无结果", search_contains: true});
+        	selects.eq(3).chosen({no_results_text: "查无结果", search_contains: true});
+        	selects.eq(4).chosen({no_results_text: "查无结果", search_contains: true});
         	$(".chosen-select").next().attr("style","width:100%;");
 			$(".chosen-select").next().find("input").attr("style","height:100%;");
 			inited = true;
@@ -3194,7 +3194,7 @@
 	        	alert("团期选择错误，无法匹配导游");
 	        }
 		});
-		select.chosen();
+		select.chosen({no_results_text: "查无结果", search_contains: true});
 		select.next().attr("style","width:100%;");
 		select.next().find("input").attr("style","height:100%;");
 		td.find("input").focus().select();
@@ -3213,8 +3213,8 @@
 		var dep = $(this).parent().parent().parent().find(".departInfo");
 		arr.append("<tr>"+$("#arrModel").html()+"</tr>");
 		dep.append("<tr>"+$("#departModel").html()+"</tr>");
-		arr.find("tr:last").find("select").chosen();
-		dep.find("tr:last").find("select").chosen();
+		arr.find("tr:last").find("select").chosen({no_results_text: "查无结果", search_contains: true});
+		dep.find("tr:last").find("select").chosen({no_results_text: "查无结果", search_contains: true});
 		arr.find("tr:last").find("#arrTime").attr("id","").datepicker({
 			showOtherMonths: true,
 			selectOtherMonths: false,
@@ -3368,7 +3368,7 @@
 			} 
 		}
 		selects.eq(2).append('<option value="'+'<%=user.getId()%>'+'">'+'<%=user.getRealName()%>'+'</option>');
-		selects.chosen();
+		selects.chosen({no_results_text: "查无结果", search_contains: true});
 		selects.next().attr("style","width:100%;");
 	});
 /* 收入 */
@@ -3383,7 +3383,7 @@
 		/* tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text()); */
 		var select = tr.children("td").eq(1).children("select");
 		select.val($(this).parents(".tab-pane").siblings().first().find("#customer").val());
-		select.chosen();
+		select.chosen({no_results_text: "查无结果", search_contains: true});
 		select.next().attr("style","width:100%;");
 		select.next().find("input").attr("style","height:100%;");
 	});
@@ -4128,7 +4128,7 @@
 	        	alert("团期选择错误，无法匹配导游");
 	        }
 		});
-		select.chosen();
+		select.chosen({no_results_text: "查无结果", search_contains: true});
 		select.next().attr("style","width:100%;");
 		select.next().find("input").attr("style","height:100%;");
 		td.find("input").focus().select();
@@ -4598,7 +4598,7 @@
 			    			showOtherMonths: true,
 			    			selectOtherMonths: false,
 			    		});
-			        	$("#edit").find("select").chosen();
+			        	$("#edit").find("select").chosen({no_results_text: "查无结果", search_contains: true});
 			        	$(".chosen-select").next().attr("style","width:100%;");
 						$(".chosen-select").next().find("input").attr("style","height:100%;");
 						$(".traffic").next().attr("style","width:100%;");
@@ -5362,7 +5362,7 @@
 	        				isPaysP.after(span);
 	        			}
 	        		}
-		        	$("#canPays").find("select").chosen();
+		        	$("#canPays").find("select").chosen({no_results_text: "查无结果", search_contains: true});
 		        	$("#canPays").find("select").next().attr("style","width:100%;");
 		        }
 			});
@@ -6001,7 +6001,7 @@
         		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
         	});
 		}
-		selects.chosen();
+		selects.chosen({no_results_text: "查无结果", search_contains: true});
 		selects.next().attr("style","width:100%;");
 		
 	});

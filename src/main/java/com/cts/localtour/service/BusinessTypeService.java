@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.BusinessTypeTable;
+import com.cts.localtour.entity.LocalTourTable;
 
 @SuppressWarnings("rawtypes")
 @Service
@@ -46,6 +47,7 @@ public class BusinessTypeService extends BaseService{
 			return this.getCountsByParam("BusinessTypeTable", where, param);
 		}
 	}
-
-	
+	public String getTourBusinessTypeName(int tourId){
+		return ((BusinessTypeTable)this.getById("BusinessTypeTable", ((LocalTourTable)this.getById("LocalTourTable", tourId)).getBusinessTypeId())).getBusinessTypeName();
+	}
 }

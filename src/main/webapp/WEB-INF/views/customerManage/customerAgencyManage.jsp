@@ -255,7 +255,7 @@
 				var isChange = false;
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
 				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
-				$(".chosen-select").chosen();
+				$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 				$("#table").find("select").next().attr("style","width:200px;");
 				$("#table").find("input").not("#submit").keydown(function(event){
 					if(event.keyCode==13&&isChange||event.keyCode==13&&$("#table").find("input").index($(this))==1){
@@ -346,7 +346,7 @@
 			td.eq(3).html($("#select").html());
 			td.eq(3).children("select").attr("class","width-20 chosen-select");
 			td.eq(3).children("select").val(info.regionId);
-			$(".chosen-select").chosen();
+			$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 			td.eq(4).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});

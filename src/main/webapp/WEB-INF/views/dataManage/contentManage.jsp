@@ -248,7 +248,7 @@
 				var isChange = false;
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
 				$("#table").find("select").eq(0).attr("class","width-20 chosen-select");
-				$(".chosen-select").chosen();
+				$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 				
 				$("#table").find("input").not("#submit").keydown(function(event){
 					if(event.keyCode==13&&isChange==true){
@@ -335,7 +335,7 @@
 			td.eq(2).html($("#select").html());
 			td.eq(2).children("select").attr("class","width-20 chosen-select");
 			td.eq(2).children("select").val(info.supplierScopeId);
-			$(".chosen-select").chosen();
+			$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 			td.eq(3).html("<input id='update' type='text' value='"+info.contentName+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});

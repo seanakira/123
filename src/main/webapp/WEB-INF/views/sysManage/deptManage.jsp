@@ -278,7 +278,7 @@
 	    	$.each(user,function(){
 	    		tr.find("select").append('<option value="'+this.id+'">'+this.realName+'&nbsp;&nbsp;&nbsp;&nbsp;'+this.userName+'&nbsp;&nbsp;&nbsp;&nbsp;</option>');
 	    	});
-	    	tr.find("select").chosen();
+	    	tr.find("select").chosen({no_results_text: "查无结果", search_contains: true});
 	    	tr.find("select").next().attr("style","width:100%;");
 	    	tr.find("select").next().find("input").attr("style","height:100%;");
 			$("#deptTable").prepend(tr);
@@ -467,7 +467,7 @@
 	    	$.each(user,function(){
 	    		tds.eq(3).children("select").append('<option value="'+this.id+'">'+this.realName+'&nbsp'+this.userName+'&nbsp;&nbsp;&nbsp;&nbsp;</option>');
 	    	});
-	    	tds.eq(3).children("select").chosen();
+	    	tds.eq(3).children("select").chosen({no_results_text: "查无结果", search_contains: true});
 	    	tds.eq(3).children("select").next().attr("style","width:100%;");
 	    	tds.eq(3).children("select").next().find("input").attr("style","height:100%;");
 	    	

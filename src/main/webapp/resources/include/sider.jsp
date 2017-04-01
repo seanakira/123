@@ -271,6 +271,12 @@
 								</a>
 	
 								<ul class="submenu">
+									<li id="tourDetails">
+										<a href="${path }tourDetails">
+											<i class="icon-double-angle-right"></i>
+											台账统计
+										</a>
+									</li>
 									<li id="deptGains">
 										<a href="${path }deptGains">
 											<i class="icon-double-angle-right"></i>

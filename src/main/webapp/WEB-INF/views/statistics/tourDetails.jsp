@@ -45,39 +45,47 @@
 						<table id="excel" aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 								<tr role="row">
-									<th style="width: 20%;">
-										部门/团控/团号
+									<th style="width: 5%;">
+										月份
 									</th>
 									<th style="width: 10%;">
-										应付
+										团号
 									</th>
-									<th style="width: 10%;">
+									<th style="width: 16%;">
+										客户
+									</th>
+									<th style="width: 5%;">									
+										人数
+									</th>
+									<th style="width: 9%;">
+										类型
+									</th>
+									<th style="width: 9%;">
 										应收
 									</th>
-									<th style="width: 10%;">									
-										预估毛利
-									</th>
-									<th style="width: 10%;">
-										预估毛利率
-									</th>
-									<th style="width: 10%;">
-										实付
-									</th>
-									<th style="width: 10%;">
+									<th style="width: 9%;">
 										实收
 									</th>
-									<th style="width: 10%;">
+									<th style="width: 9%;">
 										实际毛利
 									</th>
-									<th style="width: 10%;">
+									<th style="width: 9%;">
+										人均毛利
+									</th>
+									<th style="width: 9%;">
 										实际毛利率
+									</th>
+									<th style="width: 5%;">
+										团控
+									</th>
+									<th style="width: 5%;">
+										状态
 									</th>
 								</tr>
 							</thead>
 							<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
 							</tbody>
 						</table>
-						*应付为领导批准，财务未汇款项。
 					</div>
 				</div>
 <!-- 正文结束 -->									
@@ -89,11 +97,10 @@
 <script src="${path }resources/assets/js/kayalshri-tableExport/jquery.base64.js"></script>
 <script type="text/javascript">
 	$(function(){
-		
 	/* 初始化 */
 		$("#statisticalAnalysis").addClass("open");
 		$("#statisticalAnalysis").children("ul").attr("style","display:block");
-		$("#deptGains").addClass("active");
+		$("#tourDetails").addClass("active");
 	/* 日历初始化 */
 		$(".datepicker").not("#arrTime,#departTime,#costTime,#incomeTime").datepicker({
 			showOtherMonths: true,
@@ -116,7 +123,7 @@
 			}  */
 		});
 	/* 表格收缩展开 */
-		$("#table").delegate(".dept","click",function(){
+		/* $("#table").delegate(".dept","click",function(){
 			$(".dept"+$(this).attr("id")+".user").toggle();
 			if($(".dept"+$(this).attr("id")+".user").eq(0).attr("style")=="display: none;"){
 				$(".dept"+$(this).attr("id")).hide();
@@ -125,14 +132,14 @@
 		
 		$("#table").delegate(".user","click",function(){
 			$(".user"+$(this).attr("id")).toggle();
-		});
+		}); */
 	/* 页面直接载入本月数据 */
-		var start = new Date();
+		/* var start = new Date();
 		start.setDate(1);
 		var end = new Date();  
 		end.setMonth(end.getMonth()+1);  
 		end.setDate(0);  
-		var myData = {start:start,end:end};
+		var myData = {start:start,end:end}; */
 		/* $.ajax({
 	        type: "GET",  
 	        contentType:"application/json;charset=utf-8",  
@@ -190,7 +197,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"${path }deptGains/get",
+			        url:"${path }tourDetails/get",
 			        data:myData,
 			        dataType: "json",
 			        async: true,
@@ -200,19 +207,8 @@
 						$(".progress-bar").attr("style","width:0"+percent+"100%");
 			        	$("#wait").remove();
 			        	var table = $("#table");
-			        	var index = 0
-			        	var index2 = 0
 						$.each(data,function(){
-							if(this.type=="dept"){
-								index++;
-								table.append('<tr id="'+index+'" class="dept"><td class="blue">'+this.headerName+'</td><td>'+this.willCostSum+'</td><td>'+this.willIncomeSum+'</td><td>'+this.willGrossProfit+'</td><td>'+this.willGrossMargin+'%</td><td>'+this.realCostSum+'</td><td>'+this.realIncomeSum+'</td><td>'+this.realGrossProfit+'</td><td>'+this.realGrossMargin+'%</td></tr>');
-							}else if(this.type=="user"){
-								index2++;
-								table.append('<tr id="'+index2+'" class="user dept'+index+'"><td class="green">&nbsp;&nbsp;&nbsp;&nbsp;'+this.headerName+'</td><td>'+this.willCostSum+'</td><td>'+this.willIncomeSum+'</td><td>'+this.willGrossProfit+'</td><td>'+this.willGrossMargin+'%</td><td>'+this.realCostSum+'</td><td>'+this.realIncomeSum+'</td><td>'+this.realGrossProfit+'</td><td>'+this.realGrossMargin+'%</td></tr>');
-							}else{
-								table.append('<tr class="user'+index2+' dept'+index+'"><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+this.headerName+'</td><td>'+this.willCostSum+'</td><td>'+this.willIncomeSum+'</td><td>'+this.willGrossProfit+'</td><td>'+this.willGrossMargin+'%</td><td>'+this.realCostSum+'</td><td>'+this.realIncomeSum+'</td><td>'+this.realGrossProfit+'</td><td>'+this.realGrossMargin+'%</td></tr>');
-							}
-							$("#table").find("tr").not(".dept").hide();
+							table.append('<tr><td>'+this.month+'</td><td>'+this.localTourTable.tourNo+'</td><td>'+this.customerAgencyName+'</td><td>'+(this.localTourTable.adultNo+this.localTourTable.childrenNo)+'</td><td>'+this.tourBusinessTypeName+'</td><td>'+this.willIncomeSum+'</td><td>'+this.realIncomeSum+'</td><td>'+this.realGrossProfit+'</td><td>'+(this.realGrossProfit/(this.localTourTable.adultNo+this.localTourTable.childrenNo)).toFixed(2)+'</td><td>'+this.realGrossMargin+'%</td><td>'+this.userName+'</td><td>'+this.status+'</td></tr>');
 						});
 			        }
 				});

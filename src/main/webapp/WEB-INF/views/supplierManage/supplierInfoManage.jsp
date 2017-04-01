@@ -315,7 +315,7 @@
 				$("#table").prepend("<tr>"+$("#addModel").html()+"</tr>");
 				$("#table").find("select").eq(0).attr("class","chosen-select");
 				$("#table").find("select").eq(1).attr("class","chosen-select");
-				$(".chosen-select").chosen();
+				$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 				$("#table").find("select").eq(0).next().attr("style","width:100%;");
 				$("#table").find("select").eq(1).next().attr("style","width:100%;");
 				$("#table").find("select").next().find("input").attr("style","height:25px;");
@@ -447,7 +447,7 @@
 			td.eq(4).html($("#multiple").html());
 			td.eq(4).children("select").attr("class","chosen-select");
 			td.eq(4).children("select").val(info.supplierScopeIds);
-			$(".chosen-select").chosen();
+			$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
 			td.eq(3).find("select").next().attr("style","width:100%;");
 			td.eq(4).find("select").next().attr("style","width:100%;");
 			td.eq(4).find("input").attr("style","height:25px;");
