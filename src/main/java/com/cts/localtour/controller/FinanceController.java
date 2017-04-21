@@ -18,10 +18,12 @@ import com.cts.localtour.service.BalanceService;
 import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
+import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PayService;
 import com.cts.localtour.service.ReimbursementApplicationService;
 import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.SettlementService;
+import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullBalanceViewModel;
 import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullInvoiceViewModel;
@@ -53,6 +55,8 @@ public class FinanceController {
 	private ReimbursementApplicationService reimbursementApplicationService;
 	@Autowired
 	private BillService billService;
+	@Autowired
+	private LocalTourService localTourService;
 	/*∏∂øÓπ‹¿Ì*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -204,6 +208,11 @@ public class FinanceController {
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
 		return "/financeManage/balanceManage";
+	}
+	
+	@RequestMapping("/balanceManage/getCreateInfo")
+	public @ResponseBody CreateInfoViewModel getCreateInfo(){
+		return localTourService.getCreateInfo();
 	}
 	
 	@RequestMapping("/balanceManage/find")

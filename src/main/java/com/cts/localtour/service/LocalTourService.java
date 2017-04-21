@@ -225,6 +225,11 @@ public class LocalTourService extends BaseService{
 		return mobileService.sendMessage(mobileControllerMapping, tourId, status, message);
 	}
 	
+
+	public boolean sendMessageMice(String mobileControllerMapping, int tourId, int status, String message, boolean biger10000) {
+		return mobileService.sendMessageMice(mobileControllerMapping, tourId, status, message,biger10000);
+	}
+	
 	public boolean sendMessageAgain(String mobileControllerMapping, int tourId, String message) {
 		return mobileService.sendMessageAgain(mobileControllerMapping, tourId, message);
 	}

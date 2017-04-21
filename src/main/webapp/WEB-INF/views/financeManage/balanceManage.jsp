@@ -216,21 +216,29 @@
 													</a>
 												</li>
 											</ul>
-											<div class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
+											<div class="tab-content no-padding" style="z-index: 1300;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
 												<div id="flight5" class="tab-pane in active">
 													<table class="table table-striped table-bordered table-hover no-margin">
 														<thead>
 															<tr>
 																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
+																<th style="width: 10%;">内容</th>
 																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 8%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 8%;">导游借款</th>
-																<th style="width: 8%;">挂账</th>
-																<th style="width: 8%;">状态</th>
+																<th style="width: 5%;">单价</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 8%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -243,15 +251,23 @@
 														<thead>
 															<tr>
 																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
+																<th style="width: 10%;">内容</th>
 																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 8%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 8%;">导游借款</th>
-																<th style="width: 8%;">挂账</th>
-																<th style="width: 8%;">状态</th>
+																<th style="width: 5%;">单价</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 8%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -264,15 +280,23 @@
 														<thead>
 															<tr>
 																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
+																<th style="width: 10%;">内容</th>
 																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">单价</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 8%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -285,15 +309,23 @@
 														<thead>
 															<tr>
 																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
+																<th style="width: 10%;">内容</th>
 																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">借款人</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">单价</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 8%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -306,15 +338,23 @@
 														<thead>
 															<tr>
 																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
+																<th style="width: 10%;">内容</th>
 																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">单价</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 8%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -327,15 +367,23 @@
 														<thead>
 															<tr>
 																<th style="width: 10%;">日期</th>
-																<th style="width: 15%;">内容</th>
+																<th style="width: 10%;">内容</th>
 																<th style="width: 15%;">供应商*</th>
-																<th style="width: 10%;">成本小计</th>
-																<th style="width: 10%;">电汇金额</th>
-																<th style="width: 10%;">报账金额</th>
-																<th style="width: 10%;">明细备注</th>
-																<th style="width: 10%;">导游借款</th>
-																<th style="width: 6%;">挂账</th>
-																<th style="width: 6%;">状态</th>
+																<th style="width: 5%;">单价</th>
+																<th style="width: 5%;">数量</th>
+																<th style="width: 5%;">天数</th>
+																<th style="width: 5%;">成本小计</th>
+																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">报账金额</th>
+																<th style="width: 8%;">明细备注</th>
+																<th style="width: 5%;">导游借款</th>
+																<th style="width: 5%;">挂账</th>
+																<th style="width: 5%;">状态</th>
+																<th style="width: 1%;">
+																	<a class="blue addReimbursement" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -347,15 +395,23 @@
 													<thead>
 														<tr>
 															<th style="width: 10%;">日期</th>
-															<th style="width: 15%;">内容</th>
+															<th style="width: 10%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本小计</th>
-															<th style="width: 10%;">电汇金额</th>
-															<th style="width: 10%;">报账金额</th>
-															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">挂账</th>
-															<th style="width: 6%;">状态</th>
+															<th style="width: 5%;">单价</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
+															<th style="width: 5%;">成本小计</th>
+															<th style="width: 5%;">电汇金额</th>
+															<th style="width: 5%;">报账金额</th>
+															<th style="width: 8%;">明细备注</th>
+															<th style="width: 5%;">导游借款</th>
+															<th style="width: 5%;">挂账</th>
+															<th style="width: 5%;">状态</th>
+															<th style="width: 1%;">
+																<a class="blue addReimbursement" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -368,15 +424,23 @@
 													<thead>
 														<tr>
 															<th style="width: 10%;">日期</th>
-															<th style="width: 15%;">内容</th>
+															<th style="width: 10%;">内容</th>
 															<th style="width: 15%;">供应商*</th>
-															<th style="width: 10%;">成本小计</th>
-															<th style="width: 10%;">电汇金额</th>
-															<th style="width: 10%;">报账金额</th>
-															<th style="width: 10%;">明细备注</th>
-															<th style="width: 10%;">导游借款</th>
-															<th style="width: 6%;">挂账</th>
-															<th style="width: 6%;">状态</th>
+															<th style="width: 5%;">单价</th>
+															<th style="width: 5%;">数量</th>
+															<th style="width: 5%;">天数</th>
+															<th style="width: 5%;">成本小计</th>
+															<th style="width: 5%;">电汇金额</th>
+															<th style="width: 5%;">报账金额</th>
+															<th style="width: 8%;">明细备注</th>
+															<th style="width: 5%;">导游借款</th>
+															<th style="width: 5%;">挂账</th>
+															<th style="width: 5%;">状态</th>
+															<th style="width: 1%;">
+																<a class="blue addReimbursement" href="#">
+																	<i class="icon-plus bigger-130"></i>
+																</a>
+															</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -389,7 +453,7 @@
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
 					         	</div>
-					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1300;">
 					         		<div class="tab-pane fade in active costTable">
 					         			<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">导游借款</div>
 					         			<table class="table table-striped table-bordered table-hover no-margin">
@@ -431,7 +495,7 @@
 									</button>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="balance:update">
-									<button id="reimbursementApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<button id="save" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 										<i class="icon-save"></i>
 										核销并提交结算
 									</button>
@@ -456,7 +520,53 @@
 		$("#financeManage").addClass("open");
 		$("#financeManage").children("ul").attr("style","display:block");
 		$("#balanceManage").addClass("active");
-		$(".modal-dialog").attr("style","width:70%;");
+		$(".modal-dialog").attr("style","width:90%;");
+		
+		/* 选项初始化 */
+		var inited = false;
+		function init(){
+			$.ajax({  
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }balanceManage/getCreateInfo",
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	$.each(data.businessTypes,function(){
+		        		$(".businessType").append('<option value="'+this.id+'">'+this.businessTypeName+'</option>');
+		        	});
+		        	$.each(data.tourTypes,function(){
+		        		$(".tourType").append('<option value="'+this.id+'">'+this.tourTypeName+'</option>');
+		        	});
+		        	$.each(data.regions,function(){
+		        		$(".region").append('<option value="'+this.id+'">'+this.regionName+'</option>');
+		        	});
+		        	$.each(data.visitorTypes,function(){
+		        		$(".visitorType").append('<option value="'+this.id+'">'+this.visitorTypeName+'</option>');
+		        	});
+		        	$.each(data.customerAgencys,function(){
+		        		$(".customerAgency").append('<option value="'+this.id+'">'+this.customerAgencyName+'</option>');
+		        	});
+		        	selectInfo = {flightContents : data.flightContents,
+									flightSuppliers : data.flightSuppliers,
+									hotelContents : data.hotelContents,
+									hotelSuppliers : data.hotelSuppliers,
+									mealContents : data.mealContents,
+									mealSuppliers : data.mealSuppliers,
+									ticketContents : data.ticketContents,
+									ticketSuppliers : data.ticketSuppliers,
+									shuttleContents : data.shuttleContents,
+									shuttleSuppliers : data.shuttleSuppliers,
+									ticketsContents : data.ticketsContents,
+									ticketsSuppliers : data.ticketsSuppliers,
+									comprehensiveContents : data.comprehensiveContents,
+									comprehensiveSuppliers : data.comprehensiveSuppliers,
+									otherContents : data.otherContents,
+									otherSuppliers : data.otherSuppliers};
+		        }  
+			});
+		}
+		
 		/* 提示 */
 		$("a").tooltip({
 			show: null,
@@ -499,6 +609,9 @@
 				$(this).attr("href","#reimbursementModel");
 				var tourId = checkbox.parent().parent().parent().attr("id");
 				$("#reimbursementApplication").parent().attr("id",tourId);
+				if(inited==false){
+					init();
+				}
 				var myData = {tourId:tourId};
 				find(myData);
 			}
@@ -542,6 +655,7 @@
 		        		headAmount.html(data.reimbursementTable.headAmount);
 		        	}
 		        	$("#headAmount").html(headAmount.html());
+					
 		        	/* 设置成本 */
 		        	$.each(data.costs,function(){
 		        		var guideLoan = $("<td></td>");
@@ -570,21 +684,25 @@
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			tbody = other;
 		        		}
-		        		var tr = $('<tr id="'+this.costTable.id+'">'+
-										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+		        		var tr = $('<tr id="'+this.costTable.id+'" class="costTr">'+
+										'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
+										'<td>'+this.costTable.cost.toFixed(2)+'</td>'+
+										'<td>'+this.costTable.count+'</td>'+
+										'<td>'+this.costTable.days+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td><input type="text" class="form-control reimbursement" placeholder="双击自动添加" value="'+(this.costTable.reimbursement==null?"":this.costTable.reimbursement.toFixed(2))+'" /></td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
 										'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
+										'<td></td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
-		        	
+
 		        	/* 设置成本变更 */
 		        	if(data.changeCosts.length > 0){
 		        		$("#changeCostBlue").attr("style","");
@@ -618,22 +736,26 @@
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			tbody = other;
 		        		}
-		        		var tr = $('<tr class="blue" id="'+this.costTable.id+'">'+
-				        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+		        		var tr = $('<tr class="blue" id="'+this.costTable.id+'" class="changeCostTr">'+
+				        				'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
+										'<td>'+this.costTable.cost.toFixed(2)+'</td>'+
+										'<td>'+this.costTable.count+'</td>'+
+										'<td>'+this.costTable.days+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td><input type="text" class="form-control reimbursement" placeholder="双击自动添加" value="'+(this.costTable.reimbursement==null?"":this.costTable.reimbursement.toFixed(2))+'" /></td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
 										'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
+										'<td></td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
-		        	
-		        	/* 设置成本变更 */
+
+		        	/* 设置报账成本新增 */
 		        	if(data.reimbursementCosts.length > 0){
 		        		$("#reimbursementCostRed").attr("style","");
 		        	}else{
@@ -662,21 +784,25 @@
 		        		}else if(this.costTable.supplierScopeId==8){
 		        			tbody = other;
 		        		}
-		        		var tr = $('<tr class="red" id="'+this.costTable.id+'">'+
-				        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+		        		var tr = $('<tr class="red" id="'+this.costTable.id+'" class="reimbursementTr>'+
+				        				'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
+										'<td>'+this.costTable.cost.toFixed(2)+'</td>'+
+										'<td>'+this.costTable.count+'</td>'+
+										'<td>'+this.costTable.days+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td> </td>'+
-										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td><input type="text" class="form-control reimbursement"  placeholder="双击自动添加" value="'+(this.costTable.reimbursement==null?"":this.costTable.reimbursement.toFixed(2))+'" /></td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td></td>'+
 										'<td>'+bill.html()+'</td>'+
 										'<td style="vertical-align: middle;">报账新增</td>'+
+										'<td></td>'+
 									'</tr>');
 		        		tbody.append(tr);
 		        	});
-		        	
+
 		        	/* 设置借款 */
 		        	$("#loanTable").html("");
 		        	$.each(data.loans,function(){
@@ -698,6 +824,191 @@
 			});
 		}
 		
+		/* 添加一行 */
+		$(".addReimbursement").click(function(){
+			var tbody = $(this).parents("table").children("tbody");
+			tbody.append('<tr class="reimbursementTr">'+
+	        				'<td>'+
+				    			'<input id="costTime" class="form-control datepicker" type="text">'+
+				    		'</td>'+
+				    		'<td>'+
+				    			'<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">'+
+									'<option value="">&nbsp;</option>'+
+								'</select>'+
+							'</td>'+
+				    		'<td>'+
+				    			'<select style="display: none;" class="width-20 chosen-select" data-placeholder="Choose a Country...">'+
+									'<option value="">&nbsp;</option>'+
+								'</select>'+
+				    		'</td>'+
+				    		'<td><input class="form-control costPlus" type="text"></td>'+
+				    		'<td><input class="form-control costPlus" type="text"></td>'+
+				    		'<td><input class="form-control costPlus" type="text"></td>'+
+				    		'<td style="vertical-align: middle;"></td>'+
+				    		'<td></td>'+
+							'<td><input class="form-control reimbursement" placeholder="" type="text"></td>'+
+							'<td><input class="form-control" placeholder="" type="text"></td>'+
+							'<td></td>'+
+							'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
+							'<td style="vertical-align: middle;">报账新增</td>'+
+							'<td style="vertical-align: middle;">'+
+								'<a class="red delLine" href="#">'+
+									'<i class="icon-trash bigger-130"></i>'+
+								'</a>'+
+							'</td>'+
+				    	'</tr>');
+			var tr = tbody.children("tr").not("#costModel").last();
+			tr.find("#costTime").attr("id","").datepicker({
+				showOtherMonths: true,
+				selectOtherMonths: false,
+			});
+			var selects = tr.find("select");
+			var type = $(this).parents("div").attr("id");
+			if(type.substr(0,type.length-1)=="flight"){
+				tr.children("td").last().append('<input type="hidden" value="1" />');
+				$.each(selectInfo.flightContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.flightSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="hotel"){
+				tr.children("td").last().append('<input type="hidden" value="2" />');
+				$.each(selectInfo.hotelContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.hotelSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="meal"){
+				tr.children("td").last().append('<input type="hidden" value="3" />');
+				$.each(selectInfo.mealContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.mealSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="ticket"){
+				tr.children("td").last().append('<input type="hidden" value="4" />');
+				$.each(selectInfo.ticketContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.ticketSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="shuttle"){
+				tr.children("td").last().append('<input type="hidden" value="5" />');
+				$.each(selectInfo.shuttleContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.shuttleSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="tickets"){
+				tr.children("td").last().append('<input type="hidden" value="6" />');
+				$.each(selectInfo.ticketsContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.ticketsSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="comprehensive"){
+				tr.children("td").last().append('<input type="hidden" value="7" />');
+				$.each(selectInfo.comprehensiveContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.comprehensiveSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}else if(type.substr(0,type.length-1)=="other"){
+				tr.children("td").last().append('<input type="hidden" value="8" />');
+				$.each(selectInfo.otherContents,function(){
+	        		selects.eq(0).append('<option value="'+this.id+'">'+this.contentName+'</option>');
+	        	});
+	        	$.each(selectInfo.otherSuppliers,function(){
+	        		selects.eq(1).append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+			}
+			selects.chosen({no_results_text: "查无结果", search_contains: true});
+			selects.next().attr("style","width:100%;");
+			
+		});
+		
+		/* 删除一行 */
+		$("table").delegate(".delLine","click",function(){
+			$(this).parents("tr").remove();
+		});
+		
+		/* 成本小计 */
+		$(".costTable").delegate(".costPlus","blur",function(){
+			var product = 1;
+			var costPlus = $(this).parents("tr").find(".costPlus");
+			costPlus.each(function(){
+				if(isNaN(parseInt($(this).val()))){
+					product = product * 0;
+				}else{
+					product = product * parseInt($(this).val());
+				}
+			})
+			costPlus.last().parent().next().text(product);
+			$(this).parents("tr").find(".reimbursement").val(product);
+		});
+		
+		/* 双击自动填充 */
+		$("#costs5").delegate(".reimbursement","dblclick",function(){
+			$(this).val($(this).parent().prev().text());
+		});
+		
+		/* 更新 */
+		$("#save").click(function(){
+			var costTables = new Array();
+			var changeCostTables = new Array();
+			var reimbursementCostTables = new Array();
+			var tourId = $(this).parent().attr("id");
+			var trs = $("#costs5").find("tr");
+			$.each(trs,function(){
+				if($(this).attr("class")=="costTr"){
+					costTables.push({id:$(this).attr("id"),reimbursement:$(this).find("input").val()});
+				}else if($(this).attr("class")=="blue"){
+					changeCostTables.push({id:$(this).attr("id"),reimbursement:$(this).find("input").val()});
+				}else if($(this).attr("class")=="reimbursementTr"){
+					if($(this).find("input").length==1){
+						var inputs = $(this).find("input");
+						reimbursementCostTables.push({id:$(this).attr("id"),reimbursement:$(this).find("input").eq(0).val(),bill:inputs.eq(1).prop("checked")});
+					}else{
+						var inputs = $(this).find("input");
+						var selects = $(this).find("select");
+						reimbursementCostTables.push({id:$(this).attr("id"),
+													tourId:tourId,
+													costDate:new Date(inputs.eq(0).val()),
+													contentId:selects.eq(0).val(),
+													supplierId:selects.eq(1).val(),
+													cost:inputs.eq(3).val(),
+													count:inputs.eq(4).val(),
+													days:inputs.eq(5).val(),
+													reimbursement:inputs.eq(6).val(),
+													remark:inputs.eq(7).val(),
+													bill:inputs.eq(8).prop("checked")});
+					}
+				}
+			});
+			var myData = JSON.stringify({costTables:costTables,changeCostTables:changeCostTables,reimbursementCostTables:reimbursementCostTables});
+			alert(myData)
+			$("#table").find("#"+tourId).remove();
+			$.ajax({
+		        type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }balanceManage/update",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	
+		        }
+			});
+		});
+		
+		/* 提交 */
 		$("#reimbursementApplication").click(function(){
 			var tourId = $(this).parent().attr("id")
 			var myData = {tourId:tourId};
@@ -715,6 +1026,7 @@
 			});
 		});
 		
+		/* 取消报送 */
 		$("#cancel").click(function(){
 			var tourId = $(this).parent().attr("id")
 			var myData = {tourId:tourId};

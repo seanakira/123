@@ -378,7 +378,6 @@ public class MobileService extends BaseService{
 
 	
 	/*向上级发送微信消息*/
-	@SuppressWarnings("unused")
 	public boolean sendMessage(String mobileControllerMapping, int tourId, int status, String message){
 		/*验证是否打开微信消息接收开关*/
 		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
@@ -397,6 +396,36 @@ public class MobileService extends BaseService{
 		    		errorCode = -1;
 		    	}
 			}
+		    if(errorCode==0){
+		    	return true;
+		    }
+		/*}*/
+		return false;
+	}
+	
+	public boolean sendMessageMice(String mobileControllerMapping, int tourId, int status, String message, boolean biger10000){
+		/*验证是否打开微信消息接收开关*/
+		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
+			int errorCode = 0;
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			StringBuffer path = request.getRequestURL();  
+			String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+			String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+status;
+		    UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
+		    DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
+		    String managerIds = dept.getManagerIds();
+		    String[] ids = managerIds.split(",");
+		    if(biger10000){
+		    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
+		    	if(WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+		    		errorCode = -1;
+		    	}
+		    }else{
+		    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
+		    	if(WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+		    		errorCode = -1;
+		    	}
+		    }
 		    if(errorCode==0){
 		    	return true;
 		    }

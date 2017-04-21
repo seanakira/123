@@ -32,6 +32,9 @@ public class FullBalanceViewModel {
 	private float realPaySum;
 	private float reimbursementSum;
 	private ReimbursementTable reimbursementTable;
+	private ArrayList<CostTable> costTables;
+	private ArrayList<ChangeCostTable> changeCostTables;
+	private ArrayList<ReimbursementCostTable> reimbursementCostTables;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -100,6 +103,24 @@ public class FullBalanceViewModel {
 	}
 	public void setReimbursementCosts(ArrayList<ReimbursementCostViewModel> reimbursementCosts) {
 		this.reimbursementCosts = reimbursementCosts;
+	}
+	public ArrayList<CostTable> getCostTables() {
+		return costTables;
+	}
+	public void setCostTables(ArrayList<CostTable> costTables) {
+		this.costTables = costTables;
+	}
+	public ArrayList<ChangeCostTable> getChangeCostTables() {
+		return changeCostTables;
+	}
+	public void setChangeCostTables(ArrayList<ChangeCostTable> changeCostTables) {
+		this.changeCostTables = changeCostTables;
+	}
+	public ArrayList<ReimbursementCostTable> getReimbursementCostTables() {
+		return reimbursementCostTables;
+	}
+	public void setReimbursementCostTables(ArrayList<ReimbursementCostTable> reimbursementCostTables) {
+		this.reimbursementCostTables = reimbursementCostTables;
 	}
 	@SuppressWarnings("unchecked")
 	public FullBalanceViewModel getFullBalanceViewModel (int tourId){

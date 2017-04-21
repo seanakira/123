@@ -220,6 +220,7 @@
                 	<!-- 核销管理 -->
                 	/balanceManage=authc,perms[balance:manage]
                 		/balanceManage/find=authc,perms["balance:manage","balance:find"]
+                		/balanceManage/getCreateInfo=authc,perms["balance:manage","balance:find"]
                 		/balanceManage/update=authc,perms["balance:manage","balance:update"]
                 		/balanceManage/cancel=authc,perms["balance:manage","balance:cancel"]
                 	<!-- 结算管理 -->
