@@ -9,6 +9,7 @@ import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
+import com.cts.localtour.entity.ReimbursementIncomeTable;
 import com.cts.localtour.entity.ReimbursementTable;
 import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
@@ -29,6 +30,10 @@ public class FullReimbursementViewModel {
 	private ArrayList<ReimbursementCostTable> reimbursementCostTables;
 	private ArrayList<ReimbursementCostTable> newReimbursementCostTables;
 	private ArrayList<ReimbursementCostViewModel> reimbursementCosts;
+	private ArrayList<IncomeViewModel> incomes;
+	private ArrayList<ChangeIncomeViewModel> changeIncomes;
+	private ArrayList<ReimbursementIncomeTable> reimbursementIncomeTables;
+	private ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -40,6 +45,12 @@ public class FullReimbursementViewModel {
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private ReimbursementCostViewModel reimbursementCostViewModel;
+	@Autowired
+	private IncomeViewModel incomeViewModel;
+	@Autowired
+	private ChangeIncomeViewModel changeIncomeViewModel;
+	@Autowired
+	private ReimbursementIncomeViewModel reimbursementIncomeViewModel;
 	public ArrayList<CostViewModel> getCosts() {
 		return costs;
 	}
@@ -99,6 +110,30 @@ public class FullReimbursementViewModel {
 	}
 	public void setNewReimbursementCostTables(ArrayList<ReimbursementCostTable> newReimbursementCostTables) {
 		this.newReimbursementCostTables = newReimbursementCostTables;
+	}
+	public ArrayList<IncomeViewModel> getIncomes() {
+		return incomes;
+	}
+	public void setIncomes(ArrayList<IncomeViewModel> incomes) {
+		this.incomes = incomes;
+	}
+	public ArrayList<ChangeIncomeViewModel> getChangeIncomes() {
+		return changeIncomes;
+	}
+	public void setChangeIncomes(ArrayList<ChangeIncomeViewModel> changeIncomes) {
+		this.changeIncomes = changeIncomes;
+	}
+	public ArrayList<ReimbursementIncomeTable> getReimbursementIncomeTables() {
+		return reimbursementIncomeTables;
+	}
+	public void setReimbursementIncomeTables(ArrayList<ReimbursementIncomeTable> reimbursementIncomeTables) {
+		this.reimbursementIncomeTables = reimbursementIncomeTables;
+	}
+	public ArrayList<ReimbursementIncomeViewModel> getReimbursementIncomes() {
+		return reimbursementIncomes;
+	}
+	public void setReimbursementIncomes(ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes) {
+		this.reimbursementIncomes = reimbursementIncomes;
 	}
 	@SuppressWarnings("unchecked")
 	public FullReimbursementViewModel getFullReimbursementViewModel(int tourId, int payStatus){
@@ -232,6 +267,13 @@ public class FullReimbursementViewModel {
 			loans.add(loan);
 		}
 		full.setLoans(loans);
+		
+		full.setIncomes(incomeViewModel.getAllIncomeViewModel(tourId));
+		
+		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId));
+		
+		full.setReimbursementIncomes(reimbursementIncomeViewModel.getAllIncomeViewModel(tourId));
+		
 		full.setRealIncome(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue());
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
 		full.setReimbursementTable(reimbursementTables.isEmpty()?null:reimbursementTables.get(0));

@@ -22,6 +22,7 @@
   <table-filter match-catalog="localtour" match-name="regionTable"/>
   <table-filter match-catalog="localtour" match-name="reimbursementApplicationTable"/>
   <table-filter match-catalog="localtour" match-name="reimbursementCostTable"/>
+  <table-filter match-catalog="localtour" match-name="reimbursementIncomeTable"/>
   <table-filter match-catalog="localtour" match-name="reimbursementTable"/>
   <table-filter match-catalog="localtour" match-name="rolePermissionTable"/>
   <table-filter match-catalog="localtour" match-name="roleTable"/>
@@ -30,6 +31,7 @@
   <table-filter match-catalog="localtour" match-name="supplierScopeTable"/>
   <table-filter match-catalog="localtour" match-name="supplierTable"/>
   <table-filter match-catalog="localtour" match-name="sysUsageTable"/>
+  <table-filter match-catalog="localtour" match-name="tourNoAscriptionTable"/>
   <table-filter match-catalog="localtour" match-name="tourTypeTable"/>
   <table-filter match-catalog="localtour" match-name="transactionTable"/>
   <table-filter match-catalog="localtour" match-name="tripTable"/>
@@ -37,6 +39,5 @@
   <table-filter match-catalog="localtour" match-name="userRoleTable"/>
   <table-filter match-catalog="localtour" match-name="userTable"/>
   <table-filter match-catalog="localtour" match-name="visitorTypeTable"/>
-  <table-filter match-catalog="localtour" match-name="tourNoAscriptionTable"/>
   <table-filter match-catalog="localtour" match-name="wxMessageTable"/>
 </hibernate-reverse-engineering>

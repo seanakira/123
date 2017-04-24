@@ -835,9 +835,9 @@
 											            			<input id="incomeTime" class="form-control datepicker" type="text">
 											            		</td>
 											            		<td>
-											            			<select style="display: none;" class="width-20 chosen-select customerAgency" data-placeholder="Choose a Country...">
+											            			<!-- <select style="display: none;" class="width-20 chosen-select customerAgency" data-placeholder="Choose a Country...">
 																		<option value="">&nbsp;</option>
-																	</select>
+																	</select> -->
 																</td>
 											            		<td><input class="form-control incomePlus" type="text"></td>
 											            		<td style="vertical-align: middle;"></td>
@@ -2286,6 +2286,12 @@
 												成本
 											</a>
 										</li>
+										<li>
+											<a data-toggle="tab" href="#incomes5">
+												<i class="pink icon-briefcase bigger-120"></i>
+												收入
+											</a>
+										</li>
 									</ul>
 					         	</div>
 					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
@@ -2598,6 +2604,32 @@
 						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 成本tab结束 -->
+					         		<div id="incomes5" class="tab-pane fade">
+					         			<div class="tabbable tabs-left">
+											<div class="tab-content no-padding" style="z-index: 1400;overflow: visible;">
+												<table class="table table-striped table-bordered table-hover incomeTable">
+														<thead>
+															<tr>
+																<th style="width: 15%">日期</th>
+																<th>客户*</th>
+																<th style="width: 10%">收入</th>
+																<th style="width: 10%">实收</th>
+																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 20%">备注</th>
+																<th style="width: 1%">
+																	<a class="blue addIncome" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+											            </tbody>
+										            </table>
+												         			
+						         			</div><!-- tab content 结束 -->
+					         			</div><!-- 左tab 结束 -->
+					         		</div><!-- 收入tab结束 -->
 					         	</div>
 					         	<div class="tab-content no-border padding-6">
 					         		<div class="tab-pane fade in active costTable">
@@ -3381,11 +3413,32 @@
 			selectOtherMonths: false,
 		});
 		/* tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text()); */
-		var select = tr.children("td").eq(1).children("select");
+		/* var select = tr.children("td").eq(1).children("select");
 		select.val($(this).parents(".tab-pane").siblings().first().find("#customer").val());
 		select.chosen({no_results_text: "查无结果", search_contains: true});
 		select.next().attr("style","width:100%;");
-		select.next().find("input").attr("style","height:100%;");
+		select.next().find("input").attr("style","height:100%;"); */
+		if(tr.prev().not("#incomeModel").html()==undefined){
+			if($(this).parents(".tab-pane").siblings().first().find("#customer").html()==undefined){
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }localTourManage/findCustomer",  
+			        data:{tourId:$("#table").find("input:checked").parent().parent().parent().attr("id")},  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        	tr.children("td").eq(1).html(data.customerAgencyName+'<input type="hidden" value="'+data.id+'" />');
+			        }
+				});
+			}else{
+				var select = $(this).parents(".tab-pane").siblings().first().find("#customer");
+				tr.children("td").eq(1).html(select.find('option:selected').text()+'<input type="hidden" value="'+select.val()+'" />');
+			}
+		}else{
+			tr.children("td").eq(1).html(tr.prev().not("#incomeModel").children("td").eq(1).html());
+		}
+		
 	});
 /* 删除 */
 	$("#delete").click(function(){
@@ -3699,7 +3752,7 @@
 			var incomeInputs = incomeTrs.eq(int).find("input");
 			incomeTables.push({
 				incomeDate:new Date(incomeInputs.eq(0).val()),
-				customerAgencyId:incomeTrs.eq(int).find("select").val(),
+				customerAgencyId:incomeInputs.eq(1).val(),
 				income:incomeInputs.eq(2).val(),
 				remark:incomeInputs.eq(3).val()});
 		}
@@ -4499,7 +4552,7 @@
 			    			var td = tr.children("td");
 			    			this.incomeTable.incomeDate
 			    			inputs.eq(0).val(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'));
-			    			tr.find("select").eq(0).val(this.incomeTable.customerAgencyId);
+			    			tr.find("td").eq(1).html(this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />');
 			    			inputs.eq(1).val(this.incomeTable.income);
 			    			td.eq(3).html(this.incomeTable.realIncome);
 			    			td.eq(4).html(this.invoiceAmount);
@@ -4812,7 +4865,7 @@
 				id:incomeTrs.eq(int).children("td").last().attr("id"),
 				tourId:id,
 				incomeDate:new Date(incomeInputs.eq(0).val()),
-				customerAgencyId:incomeTrs.eq(int).find("select").val(),
+				customerAgencyId:incomeInputs.eq(1).val(),
 				income:incomeInputs.eq(2).val(),
 				remark:incomeInputs.eq(3).val()});
 		}
@@ -4960,7 +5013,7 @@
 		        		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
 		        		var tr = $('<tr class="look blue">'+
 		        						'<td>'+this.incomeTable.incomeDate+'</td>'+
-		        						'<td>'+this.customerAgencyName+'</td>'+
+		        						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
 		        						'<td>'+this.incomeTable.income+'</td>'+
 		        						'<td>'+realIncome+'</td>'+
 		        						'<td>'+invoiceAmount+'</td>'+
@@ -5014,7 +5067,7 @@
 			incomeTables.push({
 				tourId:tourId,
 				incomeDate:new Date(incomeInputs.eq(0).val()),
-				customerAgencyId:incomeSelects.eq(0).val(),
+				customerAgencyId:incomeInputs.eq(1).val(),
 				income:incomeInputs.eq(2).val(),
 				remark:incomeInputs.eq(3).val()
 			});
@@ -5685,9 +5738,9 @@
 	        	$.each(data.costs,function(){
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
-	        		var bill = $("<td></td>");
+	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
-        				bill.html('<i class="icon-ok bigger-130"></i>');
+        				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
         			}
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
@@ -5747,10 +5800,9 @@
 	        	$.each(data.changeCosts,function(){
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
-	        		var bill = $("<td></td>");
-	        		
+	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
-        				bill.html('<i class="icon-ok bigger-130"></i>');
+        				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
         			}
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
@@ -5800,7 +5852,7 @@
 	        		tbody.append(tr);
 	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
 	        	});
-
+				
 	        	/* 设置报账成本 */
 	        	if(data.reimbursementCosts.length > 0){
 	        		$("#costs5").find("#reimbursementCostRed").attr("style","");
@@ -5809,9 +5861,9 @@
 	        	}
 	        	$.each(data.reimbursementCosts,function(){
 	        		var reimbursement = $("<td></td>");
-	        		var bill = $("<td></td>");
+	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
-        				bill.html('<i class="icon-ok bigger-130"></i>');
+        				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
         			}
        				if(this.costTable.reimbursement==null){
        					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
@@ -5871,6 +5923,51 @@
         			total = total + this.loanTable.loanAmount;
 	        		$("#loanTable").append(tr);
 	        	});
+	        	
+	        	/* 设置收入 */
+	        	var incomeTable = $("#incomes5").find("tbody");
+	        	incomeTable.html("");
+	        	$.each(data.incomes,function(){
+	        		var tr = $('<tr>'+
+        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+        						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
+        						'<td>'+this.incomeTable.income.toFixed(2)+'</td>'+
+        						'<td>'+this.incomeTable.realIncome.toFixed(2)+'</td>'+
+        						'<td></td>'+
+        						'<td>'+this.incomeTable.remark+'</td>'+
+        						'<td></td>'+
+        					'</tr>');
+        			incomeTable.append(tr);
+	        	});
+	        	
+	        	/* 设置收入变更 */
+	        	$.each(data.changeIncomes,function(){
+	        		var tr = $('<tr>'+
+        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+        						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
+        						'<td>'+this.incomeTable.income.toFixed(2)+'</td>'+
+        						'<td>'+this.incomeTable.realIncome.toFixed(2)+'</td>'+
+        						'<td></td>'+
+        						'<td>'+this.incomeTable.remark+'</td>'+
+        						'<td></td>'+
+        					'</tr>');
+        			incomeTable.append(tr);
+	        	});
+	        	
+	        	/* 设置报账收入变更 */
+	        	$.each(data.reimbursementIncomes,function(){
+	        		var tr = $('<tr>'+
+        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+        						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
+        						'<td>'+this.incomeTable.income.toFixed(2)+'</td>'+
+        						'<td>'+this.incomeTable.realIncome.toFixed(2)+'</td>'+
+        						'<td></td>'+
+        						'<td>'+this.incomeTable.remark+'</td>'+
+        						'<td></td>'+
+        					'</tr>');
+        			incomeTable.append(tr);
+	        	});
+	        	
 	        	/* 设置借款总计、最大借款额 */
 	        	$("#total").text(total.toFixed(2));
 	        	$("#maxLoan").text(maxLoan);
@@ -5921,7 +6018,7 @@
 						'<td><input class="form-control reimbursement" placeholder="" type="text"></td>'+
 						'<td><input class="form-control" placeholder="" type="text"></td>'+
 						'<td></td>'+
-						'<td></td>'+
+						'<td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>'+
 						'<td style="vertical-align: middle;">报账新增</td>'+
 						'<td style="vertical-align: middle;">'+
 							'<a class="red delLine" href="#">'+
@@ -6004,6 +6101,22 @@
 		selects.chosen({no_results_text: "查无结果", search_contains: true});
 		selects.next().attr("style","width:100%;");
 		
+	});
+	
+	$(".addReimbursementIncome").click(function(){
+		var tbody = $(this).parents("table").children("tbody");
+		tbody.append("<tr>"+$("#incomeModel").html()+"</tr>");
+		var tr = tbody.children("tr").not("#incomeModel").last();
+		tr.find("#incomeTime").attr("id","").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+		});
+		/* tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text()); */
+		var select = tr.children("td").eq(1).children("select");
+		select.val($(this).parents(".tab-pane").siblings().first().find("#customer").val());
+		select.chosen({no_results_text: "查无结果", search_contains: true});
+		select.next().attr("style","width:100%;");
+		select.next().find("input").attr("style","height:100%;");
 	});
 	
 	/*自动填充报账金额*/

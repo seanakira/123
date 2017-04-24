@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
+import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DepartTable;
 import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
@@ -29,6 +30,7 @@ import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.CostService;
+import com.cts.localtour.service.CustomerAgencyService;
 import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
@@ -95,6 +97,12 @@ public class TourController {
 	@RequestMapping("/localTourManage/getCreateInfo")
 	public @ResponseBody CreateInfoViewModel getCreateInfo(){
 		return localTourService.getCreateInfo();
+	}
+	
+	@RequestMapping("/localTourManage/findCustomer")
+	public @ResponseBody CustomerAgencyTable findCustomer(@RequestParam int tourId){
+		LocalTourTable tour = (LocalTourTable) localTourService.getById("LocalTourTable", tourId);
+		return (CustomerAgencyTable) localTourService.getById("CustomerAgencyTable", tour.getCustomerAgencyId());
 	}
 	
 	@SuppressWarnings("unchecked")
