@@ -363,10 +363,16 @@ public class LocalTourService extends BaseService{
 		/*添加人头费*/
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) this.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getTourId());
 		if(reimbursementTables.size()==1){
-			reimbursementTables.get(0).setHeadAmount(full.getReimbursementTable().getHeadAmount());
-			this.update(reimbursementTables.get(0));
+			if(full.getReimbursementTable().getHeadAmount()!=0){
+				reimbursementTables.get(0).setHeadAmount(full.getReimbursementTable().getHeadAmount());
+				this.update(reimbursementTables.get(0));
+			}else{
+				this.delete(reimbursementTables.get(0));
+			}
 		}else{
-			this.add(full.getReimbursementTable());
+			if(full.getReimbursementTable().getHeadAmount()!=0){
+				this.add(full.getReimbursementTable());
+			}
 		}
 	}
 	

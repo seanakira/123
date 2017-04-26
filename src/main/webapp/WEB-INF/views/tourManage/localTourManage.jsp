@@ -6069,9 +6069,9 @@
 	        	$("#realGrossProfit").text((willIncomeSum-reimbursementSum).toFixed(2));
 	        	$("#realGrossMargin").text(((willIncomeSum-reimbursementSum)/willIncomeSum*100).toFixed(2)+"%");
 	        	/* 设置自动计算 */
-	        	$("#costs5").find("input").blur(function(){
+	        	$("#costs5").find(".reimbursement").blur(function(){
 	        		var reimbursementSum = 0;
-	        		$.each($("#costs5").find("input"),function(){
+	        		$.each($("#costs5").find(".reimbursement"),function(){
 	        			var val = 0;
 	        			if(!isNaN(parseFloat($(this).val()))){
 	        				val = parseFloat($(this).val());
@@ -6079,8 +6079,8 @@
 	        			reimbursementSum = reimbursementSum + val;
 	        		});
 	        		$("#reimbursementSum").text(reimbursementSum);
-	        		$("#realGrossProfit").text((parseFloat($("#realIncome").text())-reimbursementSum).toFixed(2));
-	        		$("#realGrossMargin").text(parseFloat(($("#realGrossProfit").text())/(parseFloat($("#realIncome").text()))*100).toFixed(2)+"%");
+	        		$("#realGrossProfit").text((parseFloat($("#realIncomeSum").text())-reimbursementSum).toFixed(2));
+	        		$("#realGrossMargin").text(parseFloat(($("#realGrossProfit").text())/(parseFloat($("#realIncomeSum").text()))*100).toFixed(2)+"%");
 	        	});
 	        	$("#incomes5").find(".reimbursementIncome").blur(function(){
 	        		var willIncomeSum = 0;
@@ -6266,10 +6266,11 @@
 		var tourId= $("#reimbursementApplication").parent().attr("id");
 		if($("#headAmount").children("input").length==0){
 			alert("重复报账")
-		}else if(isNaN(parseFloat($("#headAmount").children("input").val()))){
+		}else if("${sessionScope.isMice }"=="false"&&isNaN(parseFloat($("#headAmount").children("input").val()))){
 			$("#reimbursementApplication").attr("data-dismiss","");
 			alert("*号为必填项，请输入数字");
 		}else{
+			$("#reimbursementApplication").attr("data-dismiss","modal");
 			var trs = $("#costs5").find("tbody").find("tr").not(".reimbursementTr");
 			var costTables = new Array();
 			var changeCostTables = new Array();
@@ -6339,15 +6340,6 @@
 		        dataType: "json",
 		        async: false,
 		        success:function(data){
-		        	if(data==-1){
-		        		$("#reimbursementApplication").attr("data-dismiss","");
-		        		alert("保存失败");
-		        	}else if(data==-2){
-		        		$("#reimbursementApplication").attr("data-dismiss","");
-		        		alert("*号为必填项");
-		        	}else{
-		        		$("#reimbursementApplication").attr("data-dismiss","modal");
-		        	}
 		        }
 			});
 		}

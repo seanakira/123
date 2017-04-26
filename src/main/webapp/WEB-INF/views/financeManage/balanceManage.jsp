@@ -415,7 +415,7 @@
 													<td id="realIncome" style="width: 15%;"></td>
 													<td style="width: 10%;">报账总计</td>
 													<td id="reimbursementSum" style="width: 15%;"></td>
-													<td style="width: 10%;">备注*</td>
+													<td style="width: 10%;">人头*</td>
 													<td id="headAmount" style="width: 15%;"><input class="form-control" style="width:100%;" type="text"></td>
 												</tr>
 											</tbody>
@@ -571,7 +571,7 @@
 		        			tbody = other;
 		        		}
 		        		var tr = $('<tr id="'+this.costTable.id+'">'+
-										'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+										'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
@@ -619,7 +619,7 @@
 		        			tbody = other;
 		        		}
 		        		var tr = $('<tr class="blue" id="'+this.costTable.id+'">'+
-				        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+		        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
@@ -663,7 +663,7 @@
 		        			tbody = other;
 		        		}
 		        		var tr = $('<tr class="red" id="'+this.costTable.id+'">'+
-				        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+		        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
