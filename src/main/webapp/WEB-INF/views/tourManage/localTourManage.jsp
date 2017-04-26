@@ -6078,9 +6078,9 @@
 	        			}
 	        			reimbursementSum = reimbursementSum + val;
 	        		});
-	        		$("#reimbursementSum").text(reimbursementSum);
-	        		$("#realGrossProfit").text((parseFloat($("#realIncomeSum").text())-reimbursementSum).toFixed(2));
-	        		$("#realGrossMargin").text(parseFloat(($("#realGrossProfit").text())/(parseFloat($("#realIncomeSum").text()))*100).toFixed(2)+"%");
+	        		$("#reimbursementSum").text(reimbursementSum.toFixed(2));
+	        		$("#realGrossProfit").text((parseFloat($("#willIncomeSum").text())-reimbursementSum).toFixed(2));
+	        		$("#realGrossMargin").text(parseFloat(($("#willIncomeSum").text())/(parseFloat($("#willIncomeSum").text()))*100).toFixed(2)+"%");
 	        	});
 	        	$("#incomes5").find(".reimbursementIncome").blur(function(){
 	        		var willIncomeSum = 0;
