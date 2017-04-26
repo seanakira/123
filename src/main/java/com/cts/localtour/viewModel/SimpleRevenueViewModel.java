@@ -93,8 +93,10 @@ public class SimpleRevenueViewModel {
 			}else if(localTour.getStatus()==7){
 				simpleRevenueViewModel.setStatus("已报账");
 			}else if(localTour.getStatus()==8){
-				simpleRevenueViewModel.setStatus("已核销");
+				simpleRevenueViewModel.setStatus("待核销");
 			}else if(localTour.getStatus()==9){
+				simpleRevenueViewModel.setStatus("待结算");
+			}else if(localTour.getStatus()==10){
 				simpleRevenueViewModel.setStatus("已结算");
 			}
 			simpleRevenueViewModels.add(simpleRevenueViewModel);

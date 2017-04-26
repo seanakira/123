@@ -47,19 +47,19 @@ public class ReimbursementApplicationService extends BaseService{
 	}
 
 	public void reimbursementApplicationOk(int tourId) {
-		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==6){
-			this.updateByString("LocalTourTable", "status=?", "id=?", 7, tourId);
+		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==7){
+			this.updateByString("LocalTourTable", "status=?", "id=?", 8, tourId);
 			this.updateByString("ReimbursementCostTable", "payStatus=1", "tourId=?", tourId);
 			this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void reimbursementApplicationCancel(int tourId) {
-		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==6){
-			this.updateByString("CostTable", "reimbursement=null", "tourId=? and payStatus=3", tourId);
-			this.updateByString("ChangeCostTable", "reimbursement=null", "tourId=? and ((payStatus=3 and status=3) or (status=3 and lend=true))", tourId);
-			this.updateByString("ReimbursementCostTable", "reimbursement=null", "tourId=?", tourId);
-			this.deleteByString("ReimbursementTable", "tourId=?", tourId);
+		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", tourId);
+		if(tour.getStatus()==7){
+			tour.setStatus(6);
+			this.update(tour);
 			this.deleteByString("ReimbursementApplicationTable", "tourId=?", tourId);
 		}
 	}

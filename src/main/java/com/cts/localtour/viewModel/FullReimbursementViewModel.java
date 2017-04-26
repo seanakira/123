@@ -15,8 +15,6 @@ import com.cts.localtour.entity.SupplierContentTable;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.BaseService;
-import com.cts.localtour.service.ChangeIncomeService;
-import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.UserService;
 @Component
 public class FullReimbursementViewModel {
@@ -25,7 +23,6 @@ public class FullReimbursementViewModel {
 	private ArrayList<ChangeCostViewModel> changeCosts;
 	private ArrayList<CostTable> costTables;
 	private ArrayList<ChangeCostTable> changeCostTables;
-	private float realIncome;
 	private ReimbursementTable reimbursementTable;
 	private ArrayList<ReimbursementCostTable> reimbursementCostTables;
 	private ArrayList<ReimbursementCostTable> newReimbursementCostTables;
@@ -39,10 +36,6 @@ public class FullReimbursementViewModel {
 	private BaseService baseService;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private IncomeService incomeService;
-	@Autowired
-	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private ReimbursementCostViewModel reimbursementCostViewModel;
 	@Autowired
@@ -80,12 +73,6 @@ public class FullReimbursementViewModel {
 	}
 	public void setChangeCostTables(ArrayList<ChangeCostTable> changeCostTables) {
 		this.changeCostTables = changeCostTables;
-	}
-	public float getRealIncome() {
-		return realIncome;
-	}
-	public void setRealIncome(float realIncome) {
-		this.realIncome = realIncome;
 	}
 	public ReimbursementTable getReimbursementTable() {
 		return reimbursementTable;
@@ -274,7 +261,6 @@ public class FullReimbursementViewModel {
 		
 		full.setReimbursementIncomes(reimbursementIncomeViewModel.getAllIncomeViewModel(tourId));
 		
-		full.setRealIncome(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue());
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
 		full.setReimbursementTable(reimbursementTables.isEmpty()?null:reimbursementTables.get(0));
 		return full;

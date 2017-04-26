@@ -24,13 +24,11 @@ import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
-import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.CostService;
-import com.cts.localtour.service.CustomerAgencyService;
 import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
@@ -395,6 +393,7 @@ public class TourController {
 	public @ResponseBody boolean loanApplicationAgain(@RequestParam int tourId){
 		return localTourService.sendMessageAgain("loanApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(导游借款)，点击进行审核");
 	}
+	
 	/*付款管理*/
 	@RequestMapping("/localTourManage/findPay")
 	public @ResponseBody FullPayViewModel findPay(@RequestParam int tourId){
@@ -465,38 +464,17 @@ public class TourController {
 	}
 	
 	@RequestMapping("/reimbursementManage/updateReimbursement")
-	public @ResponseBody int updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpServletRequest request){
-		int errorCode = 0;
-		for (CostTable costTable : full.getCostTables()) {
-			if(((CostTable)localTourService.getById("CostTable", costTable.getId())).getReimbursement()!=null){
-				errorCode = -1;
-				return errorCode;
-			}
+	public void updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpServletRequest request){
+		if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()||!full.getNewReimbursementCostTables().isEmpty()){
+			localTourService.updateReimbursement(full);
 		}
-		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
-			if(((ChangeCostTable)localTourService.getById("ChangeCostTable", changeCostTable.getId())).getReimbursement()!=null){
-				errorCode = -1;
-				return errorCode;
-			}
+	}
+	
+	@RequestMapping("/reimbursementManage/auditingReimbursement")
+	public void auditingReimbursement(@RequestParam int tourId){
+		if(localTourService.auditingReimbursement(tourId)==0){
+			localTourService.sendMessage("reimbursementApplication", tourId, 0, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(团队报账)，点击进行审核");
 		}
-		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
-			if(((ReimbursementCostTable)localTourService.getById("ReimbursementCostTable", reimbursementCostTable.getId())).getReimbursement()!=null){
-				errorCode = -1;
-				return errorCode;
-			}
-		}
-		if(/*full.getReimbursementTable().getHeadAmount()==0||*/!localTourService.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getId()).isEmpty()){
-			errorCode = -2;
-			return errorCode;
-		}
-		
-		if(errorCode == 0){
-			if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()||!full.getNewReimbursementCostTables().isEmpty()){
-				localTourService.updateReimbursement(full);
-				localTourService.sendMessage("reimbursementApplication", full.getReimbursementTable().getTourId(), 0, "您有 "+localTourService.getTourNoAndTourName(full.getReimbursementTable().getTourId())+" 待审核的(团队报账)，点击进行审核");
-			}
-		}
-		return errorCode;
 	}
 	
 	/*签单管理*/

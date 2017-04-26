@@ -127,8 +127,10 @@ public class TourDetailsViewModel {
 			}else if (localTourTable.getStatus()==7) {
 				tourDetailsViewModel.setStatus("已报账");
 			}else if (localTourTable.getStatus()==8) {
-				tourDetailsViewModel.setStatus("已核销");
+				tourDetailsViewModel.setStatus("待核销");
 			}else if (localTourTable.getStatus()==9) {
+				tourDetailsViewModel.setStatus("待结算");
+			}else if (localTourTable.getStatus()==10) {
 				tourDetailsViewModel.setStatus("已结算");
 			}
 			tourDetailsViewModels.add(tourDetailsViewModel);

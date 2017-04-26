@@ -115,11 +115,15 @@
 								</a>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="localTour:findReimbursement">
-								<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="团队报账">
-									<i class="icon-suitcase bigger-100"></i>
-									团队报账
+								<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="报账填写">
+									<i class="icon-columns bigger-100"></i>
+									报账填写
 								</a>
 							</shiro:hasPermission>
+								<a class="blue" id="auditingReimbursement" data-toggle="modal" href="#" title="提交报账">
+									<i class="icon-suitcase bigger-100"></i>
+									提交报账
+								</a>
 							<shiro:hasPermission name="localTour:del">
 								<a class="blue" id="delete" data-toggle="modal" href="#" title="取消团队">
 									<i class="icon-trash bigger-100"></i>
@@ -148,11 +152,15 @@
 									</li>
 									
 									<li class="divider"></li>
-
-									<li>
 									
 									<li>
 										<a id="incomePrintButton" data-toggle="modal" href="#">打印缴款单</a>
+									</li>
+									
+									<li class="divider"></li>
+									
+									<li>
+										<a id="reimbursementPrintButton" data-toggle="modal" href="#">打印报账单</a>
 									</li>
 									<!-- <li>
 										<a href="#">打印出团通知书</a>
@@ -820,7 +828,7 @@
 																<th>客户*</th>
 																<th style="width: 10%">收入</th>
 																<th style="width: 10%">实收</th>
-																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 5%">
 																	<a class="blue addIncome" href="#">
@@ -1249,7 +1257,7 @@
 																<th>客户*</th>
 																<th style="width: 10%">收入</th>
 																<th style="width: 10%">实收</th>
-																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 															</tr>
 														</thead>
@@ -1715,7 +1723,7 @@
 																<th>客户*</th>
 																<th style="width: 10%">收入</th>
 																<th style="width: 10%">实收</th>
-																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 5%">
 																	<a class="blue addIncome" href="#">
@@ -2046,7 +2054,7 @@
 																<th>客户*</th>
 																<th style="width: 10%">收入</th>
 																<th style="width: 10%">实收</th>
-																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 1%">
 																	<a class="blue addIncome" href="#">
@@ -2353,6 +2361,7 @@
 														table{
 															font-size: 12px;
 															border-collapse: collapse;
+															width: 100%;
 														}
 														td{
 															border: 1px solid;
@@ -2379,8 +2388,8 @@
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
-																<th style="width: 5%;">成本小计</th>
-																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">预估成本</th>
+																<th style="width: 5%;">已汇金额</th>
 																<th style="width: 5%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
@@ -2408,8 +2417,8 @@
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
-																<th style="width: 5%;">成本小计</th>
-																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">预估成本</th>
+																<th style="width: 5%;">已汇金额</th>
 																<th style="width: 5%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
@@ -2437,8 +2446,8 @@
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
-																<th style="width: 5%;">成本小计</th>
-																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">预估成本</th>
+																<th style="width: 5%;">已汇金额</th>
 																<th style="width: 5%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
@@ -2466,8 +2475,8 @@
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
-																<th style="width: 5%;">成本小计</th>
-																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">预估成本</th>
+																<th style="width: 5%;">已汇金额</th>
 																<th style="width: 5%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
@@ -2495,8 +2504,8 @@
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
-																<th style="width: 5%;">成本小计</th>
-																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">预估成本</th>
+																<th style="width: 5%;">已汇金额</th>
 																<th style="width: 5%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
@@ -2524,8 +2533,8 @@
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
-																<th style="width: 5%;">成本小计</th>
-																<th style="width: 5%;">电汇金额</th>
+																<th style="width: 5%;">预估成本</th>
+																<th style="width: 5%;">已汇金额</th>
 																<th style="width: 5%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
@@ -2552,8 +2561,8 @@
 															<th style="width: 5%;">成本</th>
 															<th style="width: 5%;">数量</th>
 															<th style="width: 5%;">天数</th>
-															<th style="width: 5%;">成本小计</th>
-															<th style="width: 5%;">电汇金额</th>
+															<th style="width: 5%;">预估成本</th>
+															<th style="width: 5%;">已汇金额</th>
 															<th style="width: 5%;">报账金额</th>
 															<th style="width: 5%;">明细备注</th>
 															<th style="width: 5%;">导游借款</th>
@@ -2581,8 +2590,8 @@
 															<th style="width: 5%;">成本</th>
 															<th style="width: 5%;">数量</th>
 															<th style="width: 5%;">天数</th>
-															<th style="width: 5%;">成本小计</th>
-															<th style="width: 5%;">电汇金额</th>
+															<th style="width: 5%;">预估成本</th>
+															<th style="width: 5%;">已汇金额</th>
 															<th style="width: 5%;">报账金额</th>
 															<th style="width: 5%;">明细备注</th>
 															<th style="width: 5%;">导游借款</th>
@@ -2614,7 +2623,7 @@
 																<th>客户*</th>
 																<th style="width: 10%">收入</th>
 																<th style="width: 10%">实收</th>
-																<th style="width: 10%">已开发票金额</th>
+																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 1%">
 																	<a class="blue addIncome" href="#">
@@ -2626,7 +2635,8 @@
 														<tbody>
 											            </tbody>
 										            </table>
-												         			
+										            <span id="changeIncomeBlue" class="blue" style="">*蓝色为成本收入变更</span>
+												    <span id="reimbursementIncomeRed" class="red" style="">*红色为报账调整应收</span>   			
 						         			</div><!-- tab content 结束 -->
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 收入tab结束 -->
@@ -2651,23 +2661,23 @@
 							            <table class="table table-striped table-bordered table-hover no-margin">
 											<tbody>
 												<tr>
-													<td style="width: 10%;">导游借款</td>
-													<td id="total" style="width: 15%;"></td>
-													<td style="width: 10%;">应借款总计</td>
+													<td style="width: 10%;">借款预估</td>
 													<td id="maxLoan" style="width: 15%;"></td>
+													<td style="width: 10%;">电汇预估</td>
+													<td id="willCostSum" style="width: 15%;"></td>
 													<td style="width: 10%;">报账总计</td>
 													<td id="reimbursementSum" style="width: 15%;"></td>
 													<td style="width: 10%;">人头*</td>
 													<td id="headAmount" style="width: 15%;"><input class="form-control" style="width:100%;" type="text"></td>
 												</tr>
 												<tr>
-													<td style="width: 10%;">供应商电汇</td>
-													<td id="willCost" style="width: 15%;"></td>
+													<td style="width: 10%;">应收款</td>
+													<td id="willIncomeSum" style="width: 15%;"></td>
 													<td style="width: 10%;">已收款</td>
-													<td id="realIncome" style="width: 15%;"></td>
-													<td style="width: 10%;">实际毛利</td>
+													<td id="realIncomeSum" style="width: 15%;"></td>
+													<td style="width: 10%;">报账毛利</td>
 													<td id="realGrossProfit" style="width: 15%;"></td>
-													<td style="width: 10%;">实际毛利率</td>
+													<td style="width: 10%;">报账毛利率</td>
 													<td id="realGrossMargin" style="width: 15%;"></td>
 												</tr>
 											</tbody>
@@ -2684,13 +2694,13 @@
 								<shiro:hasPermission name="localTour:reimbursementApplication">
 									<button id="reimbursementApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 										<i class="icon-save"></i>
-										保存并提交待审
+										保存
 									</button>
 								</shiro:hasPermission>
-								<button id="reimbursementPrint" class="btn btn-sm btn-success pull-right" data-dismiss="modal" style="margin-right: 10px;">
+								<!-- <button id="reimbursementPrintButton" class="btn btn-sm btn-success pull-right" data-dismiss="modal" style="margin-right: 10px;">
 									<i class="icon-save"></i>
 									打印报账单
-								</button>
+								</button> -->
 						 	 </div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
@@ -3046,6 +3056,7 @@
 			$("#loanInvoice").hide();
 			$("#balance").hide();
 			$("#reimbursement").hide();
+			$("#auditingReimbursement").hide();
 			$("#delete").show();
 			$("#recover").hide();
 		}else if(status=="已提交"){
@@ -3059,6 +3070,7 @@
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已报送"){
@@ -3072,6 +3084,7 @@
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="可借款"){
@@ -3085,6 +3098,7 @@
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="进行中"){
@@ -3098,6 +3112,7 @@
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已结束"){
@@ -3111,6 +3126,7 @@
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").show();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="结算中"){
@@ -3124,6 +3140,7 @@
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").show();	/* 报账 */
+			$("#auditingReimbursement").show();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已报账"){
@@ -3137,6 +3154,7 @@
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已核销"){
@@ -3150,6 +3168,7 @@
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已结算"){
@@ -3163,6 +3182,7 @@
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已取消"){
@@ -3176,6 +3196,7 @@
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").show();		/* 恢复 */
 		}
@@ -5548,6 +5569,7 @@
 			});
 		}
 	});
+	
 	/*新增预借发票*/
 	$(".addLoanInvoice").click(function(){
 		var date = (new Date()).toLocaleDateString();
@@ -5565,6 +5587,7 @@
 		});
 		$("#loanInvoices").append(tr);
 	});
+	
 	/*预借发票申请*/
 	$("#loanInvoiceApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
@@ -5716,8 +5739,9 @@
 	        	var total = 0;
 	        	var maxLoan = 0;
 	        	var reimbursementSum = 0;
-	        	var willCost = 0;
-	        	var realIncome = 0;
+	        	var willCostSum = 0;
+	        	var willIncomeSum = 0;
+	        	var realIncomeSum = 0;
 	        	flight.html("");
 	        	hotel.html("");
 	        	meal.html("");
@@ -5727,14 +5751,43 @@
 	        	comprehensive.html("");
 	        	other.html("");
 	        	/*设置人头*/
-	        	var headAmount = $("<td></td>");
-	        	if(data.reimbursementTable==undefined){
-	        		headAmount.html('<input id="headAmount" class="form-control" style="width:100%;" type="text">');
-	        	}else{
-	        		headAmount.html(data.reimbursementTable.headAmount);
-	        	}
-	        	$("#headAmount").html(headAmount.html());
+	        	$("#headAmount").html('<input class="form-control" style="width:100%;" type="text" value="'+(data.reimbursementTable==null?"":data.reimbursementTable.headAmount)+'"/>');
+	        	
 	        	/* 设置成本 */
+	        	var flightSelect = 	$('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var hotelSelect = 	$('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var mealSelect = 	$('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var ticketSelect = 	$('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var shuttleSelect = $('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var ticketsSelect = $('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var comprehensiveSelect = $('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+	        	var otherSelect = 	$('<td><select style="width:100%;" class="width-20 chosen-select" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+        		
+       			$.each(selectInfo.flightSuppliers,function(){
+       				flightSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+	        	});
+       			$.each(selectInfo.hotelSuppliers,function(){
+       				hotelSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+   	        	});
+       			$.each(selectInfo.mealSuppliers,function(){
+       				mealSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+               	});
+       			$.each(selectInfo.ticketSuppliers,function(){
+       				ticketSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+               	});
+       			$.each(selectInfo.shuttleSuppliers,function(){
+       				shuttleSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+               	});
+       			$.each(selectInfo.ticketsSuppliers,function(){
+       				ticketsSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+               	});
+       			$.each(selectInfo.comprehensiveSuppliers,function(){
+       				comprehensiveSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+               	});
+       			$.each(selectInfo.otherSuppliers,function(){
+       				otherSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
+               	});
+       			
 	        	$.each(data.costs,function(){
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
@@ -5745,52 +5798,59 @@
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
         				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+        			}else{
+        				willCostSum = willCostSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}
-       				if(this.costTable.reimbursement==null){
-       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
-       				}else{
-       					reimbursement.html(this.costTable.reimbursement);
-       					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
-       				}
+        			
+       				reimbursementSum = reimbursementSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        			
 	        		var tbody;
+	        		var select;
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
+	        			select = flightSelect;
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			tbody = hotel;
+	        			select = hotelSelect;
 	        		}else if(this.costTable.supplierScopeId==3){
 	        			tbody = meal;
+	        			select = mealSelect;
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			tbody = ticket;
+	        			select = ticketSelect;
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			tbody = shuttle;
+	        			select = shuttleSelect;
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tbody = tickets;
+	        			select = ticketsSelect;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensive;
+	        			tbody = comprehensiveSelect;
+	        			select = hotelSelect;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
+	        			select = otherSelect;
 	        		}
 	        		var tr = $('<tr id="'+this.costTable.id+'">'+
-									'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+									'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 									'<td>'+this.contentName+'</td>'+
-									'<td>'+this.supplierName+'</td>'+
+									'<td>'+select.html()+'</td>'+
 									'<td>'+this.costTable.cost+'</td>'+
 									'<td>'+this.costTable.count+'</td>'+
 									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-									'<td>'+reimbursement.html()+'</td>'+
+									'<td><input type="text" value="'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
 									'<td>'+this.costTable.remark+'</td>'+
 									'<td>'+guideLoan.html()+'</td>'+
 									'<td>'+bill.html()+'</td>'+
 									'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
 									'<td></td>'+
 								'</tr>');
+	        		tr.find("select").val(this.costTable.supplierId);
 	        		tbody.append(tr);
-	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
 	        	});
-	        	
+
 	        	/* 设置成本变更 */
 	        	if(data.changeCosts.length > 0){
 	        		$("#costs5").find("#changeCostBlue").attr("style","");
@@ -5807,52 +5867,59 @@
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
         				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+        			}else{
+        				willCostSum = willCostSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}
-       				if(this.costTable.reimbursement==null){
-       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
-       				}else{
-       					reimbursement.html(this.costTable.reimbursement);
-       					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
-       				}
+       				
+       				reimbursementSum = reimbursementSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		
 	        		var tbody;
+	        		var select;
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
+	        			select = flightSelect;
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			tbody = hotel;
+	        			select = hotelSelect;
 	        		}else if(this.costTable.supplierScopeId==3){
 	        			tbody = meal;
+	        			select = mealSelect;
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			tbody = ticket;
+	        			select = ticketSelect;
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			tbody = shuttle;
+	        			select = shuttleSelect;
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tbody = tickets;
+	        			select = ticketsSelect;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensive;
+	        			tbody = comprehensiveSelect;
+	        			select = hotelSelect;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
+	        			select = otherSelect;
 	        		}
 	        		var tr = $('<tr class="blue"  id="'+this.costTable.id+'">'+
 			        				'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 									'<td>'+this.contentName+'</td>'+
-									'<td>'+this.supplierName+'</td>'+
+									'<td>'+select.html()+'</td>'+
 									'<td>'+this.costTable.cost+'</td>'+
 									'<td>'+this.costTable.count+'</td>'+
 									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-									'<td>'+reimbursement.html()+'</td>'+
+									'<td><input type="text" value="'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
 									'<td>'+this.costTable.remark+'</td>'+
 									'<td>'+guideLoan.html()+'</td>'+
 									'<td>'+bill.html()+'</td>'+
 									'<td style="vertical-align: middle;">'+this.payStatus+'</td>'+
 									'<td></td>'+
 								'</tr>');
+	        		tr.find("select").val(this.costTable.supplierId);
 	        		tbody.append(tr);
-	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
 	        	});
-				
+
 	        	/* 设置报账成本 */
 	        	if(data.reimbursementCosts.length > 0){
 	        		$("#costs5").find("#reimbursementCostRed").attr("style","");
@@ -5865,56 +5932,65 @@
         			if(this.costTable.bill){
         				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
         			}
-       				if(this.costTable.reimbursement==null){
-       					reimbursement.html('<input id="'+this.costTable.id+'" class="form-control reimbursement" style="width:100%;" type="text">');
-       				}else{
-       					reimbursement.html(this.costTable.reimbursement);
-       					reimbursementSum = reimbursementSum + this.costTable.reimbursement;
-       				}
+       				
+       				reimbursementSum = reimbursementSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+       				
 	        		var tbody;
+	        		var select;
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
+	        			select = flightSelect;
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			tbody = hotel;
+	        			select = hotelSelect;
 	        		}else if(this.costTable.supplierScopeId==3){
 	        			tbody = meal;
+	        			select = mealSelect;
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			tbody = ticket;
+	        			select = ticketSelect;
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			tbody = shuttle;
+	        			select = shuttleSelect;
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tbody = tickets;
+	        			select = ticketsSelect;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensive;
+	        			tbody = comprehensiveSelect;
+	        			select = hotelSelect;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
+	        			select = otherSelect;
 	        		}
 	        		var tr = $('<tr class="red" id="'+this.costTable.id+'">'+
-			        				'<td>'+this.costTable.costDate.replace(/-/g,'/')+'</td>'+
+			        				'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate.replace(/-/g,'/'))+'</td>'+
 									'<td>'+this.contentName+'</td>'+
-									'<td>'+this.supplierName+'</td>'+
+									'<td>'+select.html()+'</td>'+
 									'<td>'+this.costTable.cost+'</td>'+
 									'<td>'+this.costTable.count+'</td>'+
 									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td></td>'+
-									'<td>'+reimbursement.html()+'</td>'+
+									'<td><input type="text" value="'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
 									'<td>'+this.costTable.remark+'</td>'+
 									'<td></td>'+
 									'<td>'+bill.html()+'</td>'+
 									'<td style="vertical-align: middle;">报账新增</td>'+
 									'<td></td>'+
 								'</tr>');
+	        		tr.find("select").val(this.costTable.supplierId);
 	        		tbody.append(tr);
-	        		willCost = willCost + (this.costTable.cost*this.costTable.count*this.costTable.days);
+	        		willCostSum = willCostSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
 	        	});
-	        	
+	        	$("#costs5").find("select").chosen({no_results_text: "查无结果", search_contains: true});
+	        	$("#costs5").find("select").next().attr("style","width:100%;");
+
 	        	/* 设置借款 */
 	        	$("#loanTable").html("");
 	        	$.each(data.loans,function(){
 	        		var tr;
         			tr = $('<tr>'+
-        						'<td>'+this.loanTable.loanDate+'</td>'+
+        						'<td>'+(this.loanTable.loanDate==null?"":this.loanTable.loanDate.replace(/-/g,'/'))+'</td>'+
         						'<td>'+this.loanTable.loanAmount.toFixed(2)+'</td>'+
         						'<td>'+this.loanTable.remark+'</td>'+
         						'<td>'+this.lenderRealName+'</td>'+
@@ -5929,7 +6005,7 @@
 	        	incomeTable.html("");
 	        	$.each(data.incomes,function(){
 	        		var tr = $('<tr>'+
-        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+        						'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
         						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
         						'<td>'+this.incomeTable.income.toFixed(2)+'</td>'+
         						'<td>'+this.incomeTable.realIncome.toFixed(2)+'</td>'+
@@ -5938,12 +6014,19 @@
         						'<td></td>'+
         					'</tr>');
         			incomeTable.append(tr);
+        			willIncomeSum = willIncomeSum + this.incomeTable.income;
+        			realIncomeSum = realIncomeSum + this.incomeTable.realIncome;
 	        	});
 	        	
 	        	/* 设置收入变更 */
+	        	if(data.changeIncomes.length > 0){
+	        		$("#incomes5").find("#changeIncomeBlue").attr("style","");
+	        	}else{
+	        		$("#incomes5").find("#changeIncomeBlue").attr("style","display:none");
+	        	}
 	        	$.each(data.changeIncomes,function(){
 	        		var tr = $('<tr>'+
-        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+	        					'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
         						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
         						'<td>'+this.incomeTable.income.toFixed(2)+'</td>'+
         						'<td>'+this.incomeTable.realIncome.toFixed(2)+'</td>'+
@@ -5952,30 +6035,39 @@
         						'<td></td>'+
         					'</tr>');
         			incomeTable.append(tr);
+        			willIncomeSum = willIncomeSum + this.incomeTable.income;
+        			realIncomeSum = realIncomeSum + this.incomeTable.realIncome;
 	        	});
-	        	
+
 	        	/* 设置报账收入变更 */
+	        	if(data.reimbursementIncomes.length > 0){
+	        		$("#incomes5").find("#reimbursementIncomeRed").attr("style","");
+	        	}else{
+	        		$("#incomes5").find("#reimbursementIncomeRed").attr("style","display:none");
+	        	}
 	        	$.each(data.reimbursementIncomes,function(){
-	        		var tr = $('<tr>'+
-        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+	        		var tr = $('<tr class="red" id="'+this.incomeTable.id+'">'+
+	        					'<td></td>'+
         						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
-        						'<td>'+this.incomeTable.income.toFixed(2)+'</td>'+
-        						'<td>'+this.incomeTable.realIncome.toFixed(2)+'</td>'+
+        						'<td><input class="form-control reimbursementIncome" style="width:100%;" type="text" value="'+this.incomeTable.income.toFixed(2)+'" /></td>'+
         						'<td></td>'+
-        						'<td>'+this.incomeTable.remark+'</td>'+
+        						'<td></td>'+
+        						'<td><input class="form-control reimbursementIncome" style="width:100%;" type="text" value="'+this.incomeTable.remark+'" /></td>'+
         						'<td></td>'+
         					'</tr>');
         			incomeTable.append(tr);
+        			willIncomeSum = willIncomeSum + this.incomeTable.income;
 	        	});
-	        	
+
 	        	/* 设置借款总计、最大借款额 */
-	        	$("#total").text(total.toFixed(2));
+	        	/* $("#total").text(total.toFixed(2)); */
 	        	$("#maxLoan").text(maxLoan);
 	        	$("#reimbursementSum").text(reimbursementSum.toFixed(2));
-	        	$("#willCost").text(willCost.toFixed(2));
-	        	$("#realIncome").text(data.realIncome.toFixed(2));
-	        	$("#realGrossProfit").text((data.realIncome-reimbursementSum).toFixed(2));
-	        	$("#realGrossMargin").text(((data.realIncome-reimbursementSum)/data.realIncome*100).toFixed(2)+"%");
+	        	$("#willCostSum").text(willCostSum.toFixed(2));
+	        	$("#willIncomeSum").text(willIncomeSum.toFixed(2));
+	        	$("#realIncomeSum").text(realIncomeSum.toFixed(2));
+	        	$("#realGrossProfit").text((willIncomeSum-reimbursementSum).toFixed(2));
+	        	$("#realGrossMargin").text(((willIncomeSum-reimbursementSum)/willIncomeSum*100).toFixed(2)+"%");
 	        	/* 设置自动计算 */
 	        	$("#costs5").find("input").blur(function(){
 	        		var reimbursementSum = 0;
@@ -5989,6 +6081,25 @@
 	        		$("#reimbursementSum").text(reimbursementSum);
 	        		$("#realGrossProfit").text((parseFloat($("#realIncome").text())-reimbursementSum).toFixed(2));
 	        		$("#realGrossMargin").text(parseFloat(($("#realGrossProfit").text())/(parseFloat($("#realIncome").text()))*100).toFixed(2)+"%");
+	        	});
+	        	$("#incomes5").find(".reimbursementIncome").blur(function(){
+	        		var willIncomeSum = 0;
+	        		$.each($("#incomes5").find("tbody").find("tr"),function(){
+	        			var val = 0;
+	        			if($(this).find("input").length>1){
+	        				if(!isNaN(parseFloat($(this).find("input").eq(1).val()))){
+		        				val = parseFloat($(this).find("input").eq(1).val());
+		        			}
+	        			}else{
+	        				if(!isNaN(parseFloat($(this).find("td").eq(2).text()))){
+		        				val = parseFloat($(this).find("td").eq(2).text());
+		        			}
+	        			}
+	        			willIncomeSum = willIncomeSum + val;
+	        		});
+	        		$("#willIncomeSum").text(willIncomeSum.toFixed(2));
+	        		$("#realGrossProfit").text((willIncomeSum-reimbursementSum).toFixed(2));
+		        	$("#realGrossMargin").text(((willIncomeSum-reimbursementSum)/willIncomeSum*100).toFixed(2)+"%");
 	        	});
 	        }  
 		});
@@ -6128,15 +6239,15 @@
 			var reimbursementSum = 0;
 			$.each(inputs,function(){
 				var reimbursement = parseFloat($(this).parent().prev().text());
-				if(isNaN(reimbursement)){
+				if(isNaN(reimbursement)||reimbursement==0){
 					reimbursement = parseFloat($(this).parent().prev().prev().text());
 				}
 				$(this).val(reimbursement.toFixed(2));
 				reimbursementSum = reimbursementSum + reimbursement;
 			});
 			$("#reimbursementSum").text(reimbursementSum.toFixed(2));
-			$("#realGrossProfit").text((parseFloat($("#realIncome").text())-reimbursementSum).toFixed(2));
-        	$("#realGrossMargin").text(((parseFloat($("#realIncome").text())-reimbursementSum)/parseFloat($("#realIncome").text())*100).toFixed(2)+"%");
+			$("#realGrossProfit").text((parseFloat($("#willIncomeSum").text())-reimbursementSum).toFixed(2));
+        	$("#realGrossMargin").text(((parseFloat($("#willIncomeSum").text())-reimbursementSum)/parseFloat($("#willIncomeSum").text())*100).toFixed(2)+"%");
 		}
 	});
 	/* 自动填充借款付款金额 */
@@ -6154,27 +6265,36 @@
 	$("#reimbursementApplication").click(function(){
 		var tourId= $("#reimbursementApplication").parent().attr("id");
 		if($("#headAmount").children("input").length==0){
-			
+			alert("重复报账")
 		}else if(isNaN(parseFloat($("#headAmount").children("input").val()))){
 			$("#reimbursementApplication").attr("data-dismiss","");
 			alert("*号为必填项，请输入数字");
 		}else{
-			var inputs = $("#costs5").find("tr").not(".reimbursementTr").find("input");
+			var trs = $("#costs5").find("tbody").find("tr").not(".reimbursementTr");
 			var costTables = new Array();
 			var changeCostTables = new Array();
 			var reimbursementCostTables = new Array();
 			var newReimbursementCostTables = new Array();
-			$.each(inputs,function(){
-				if($(this).parent().parent().attr("class")=="blue"){
-					changeCostTables.push({id:$(this).parent().parent().attr("id"),
-						reimbursement:$(this).val()==""?0:$(this).val()});
-				}else if($(this).parent().parent().attr("class")=="red"){
-					reimbursementCostTables.push({id:$(this).parent().parent().attr("id"),
-						reimbursement:$(this).val()==""?0:$(this).val()});
-				}
-				else{
-					costTables.push({id:$(this).parent().parent().attr("id"),
-						reimbursement:$(this).val()==""?0:$(this).val()});
+			var reimbursementIncomeTables = new Array();
+			$.each(trs,function(){
+				if($(this).attr("class")=="blue"){
+					var inputs = $(this).find("input");
+					changeCostTables.push({id:$(this).attr("id"),
+						supplierId:$(this).find("select").val(),
+						reimbursement:inputs.eq(1).val()==""?0:inputs.eq(1).val(),
+						bill:inputs.eq(2).prop("checked")});
+				}else if($(this).attr("class")=="red"){
+					var inputs = $(this).find("input");
+					reimbursementCostTables.push({id:$(this).attr("id"),
+						supplierId:$(this).find("select").val(),
+						reimbursement:inputs.eq(1).val()==""?0:inputs.eq(1).val(),
+						bill:inputs.eq(2).prop("checked")});
+				}else{
+					var inputs = $(this).find("input");
+					costTables.push({id:$(this).attr("id"),
+						supplierId:$(this).find("select").val(),
+						reimbursement:inputs.eq(1).val()==""?0:inputs.eq(1).val(),
+						bill:inputs.eq(2).prop("checked")});
 				}
 			});
 			var reimbursementTr = $("#costs5").find("tr.reimbursementTr");
@@ -6190,15 +6310,26 @@
 												days:inputs.eq(5).val(),
 												reimbursement:inputs.eq(6).val(),
 												remark:inputs.eq(7).val(),
-												supplierScopeId:inputs.eq(8).val(),
-												});
+												bill:inputs.eq(8).prop("checked"),
+												supplierScopeId:inputs.eq(9).val()});
 			});
+			var incomeTrs = $("#incomes5").find("tr.red");
+			$.each(incomeTrs, function(){
+				var inputs = $(this).find("input");
+				reimbursementIncomeTables.push({id:$(this).attr("id"),
+												tourId:tourId,
+												customerAgencyId:inputs.eq(0).val(),
+												income:inputs.eq(1).val(),
+												remark:inputs.eq(2).val()});
+			});
+			
 			var reimbursementTable = {tourId:tourId,headAmount:$("#headAmount").children("input").val()};
 			var fullReimbursementViewModel = {costTables:costTables,
 					changeCostTables:changeCostTables,
 					reimbursementTable:reimbursementTable,
 					reimbursementCostTables:reimbursementCostTables,
-					newReimbursementCostTables:newReimbursementCostTables};
+					newReimbursementCostTables:newReimbursementCostTables,
+					reimbursementIncomeTables:reimbursementIncomeTables};
 			var myData = JSON.stringify(fullReimbursementViewModel);
 			$.ajax({
 				type: "POST",  
@@ -6221,22 +6352,127 @@
 			});
 		}
 	});
+	
+	/* 提交报账 */
+	$("#auditingReimbursement").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+		}else{
+			$(this).hide();
+			$(this).prev().hide();
+			checkbox.parent().parent().siblings().eq(-2).text("已报账");
+			$.ajax({
+				type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }reimbursementManage/auditingReimbursement",  
+		        data:{tourId:checkbox.parent().parent().parent().attr("id")},  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	
+		        }
+			});
+		}
+	});
+	
 	/* 打印报账单 */
-	$("#reimbursementPrint").click(function(){
+	$("#reimbursementPrintButton").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"){
+			alert("请先报账填写，并报账提交");
+			return;
+		}else if(checkbox.length==0){
+			alert("请选择一个团队");
+			return;
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			return;
+		}else{
+			var tourId = checkbox.parent().parent().parent().attr("id");
+			if(tourId==$("#reimbursementApplication").parent().attr("id")){
+				
+			}else{
+				$("#reimbursementApplication").parent().attr("id",tourId);
+				var myData = {tourId:tourId};
+				if(inited==false){
+					init();
+					inited = true;
+				}
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }reimbursementManage/checkReimbursement",  
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        	if(data){
+			        		find(myData);
+			        	}else{
+			        		alert("不能报账，预借发票金额大于实际收款金额");
+			        		$("#reimbursement").attr("href","#");
+			        	}
+			        }
+			    });
+			}
+		}
+		$("#reimbursementPrintDiv").append("<h4>导游借款表</h4>");
+		$("#reimbursementPrintDiv").append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>");
+		$("#reimbursementPrintDiv").append("<h4>收入表</h4>");
+		$("#reimbursementPrintDiv").append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
+		$("#reimbursementPrintDiv").append("<h4>统计信息</h4>");
+		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#maxLoan").parent().parent().parent().html()+"</table>");
 		var tbodys = $("#reimbursementPrintDiv").find("tbody");
 		$.each(tbodys,function(index){
 			if($(this).children("tr").length==0){
 				$(this).parent().hide();
 			}else{
 				var inputs = $(this).find("input");
-				inputs.parent().html(inputs.val());
+				$.each(inputs, function(){
+					if($(this).parent().parent().prev().children("i").length>0){
+						$(this).parent().parent().prev().html("是");
+					}
+					if($(this).attr("class")=="ace"){
+						if(($(this).prop("checked"))){
+							$(this).parent().html("是");
+						}else{
+							$(this).parent().html("");
+						}
+					}else if($(this).attr("type")!="hidden"){
+						$(this).parent().html($(this).val());
+					}
+				});
 				if(index!=0){
-					tbodys.eq(0).append($(this).html());
-					$(this).parent().hide();
+					if($(this).prev().find("th").length>7){
+						tbodys.eq(0).append($(this).html());
+						$(this).parent().hide();
+					}
 				}
 			}
 		});
+		/* 成本样式 */
+		tbodys.eq(0).find("tr td:nth-child(4)").hide();
+		tbodys.eq(0).find("tr td:nth-child(5)").hide();
+		tbodys.eq(0).find("tr td:nth-child(6)").hide();
+		tbodys.eq(0).find("tr td:nth-child(14)").hide();
+		var thead = $("#reimbursementPrintDiv").find("thead");
+		thead.eq(0).find("tr th:nth-child(4)").hide();
+		thead.eq(0).find("tr th:nth-child(5)").hide();
+		thead.eq(0).find("tr th:nth-child(6)").hide();
+		thead.eq(0).find("tr th:nth-child(14)").hide();
+		$("#reimbursementPrintDiv").find("#changeCostBlue").hide();
+		$("#reimbursementPrintDiv").find("#reimbursementCostRed").hide();
+		
+		/* 收入样式 */
+		tbodys.eq(9).prev().find("tr th:nth-child(7)").hide();
+		tbodys.eq(9).find("tr td:nth-child(7)").hide();
+		/* 添加标题 */
+		$("#reimbursementPrintDiv").prepend("<h4>成本表</h4>");
 		$("#reimbursementPrintDiv").prepend("<h3>团队报账单</h3>");
+		
 		$("#reimbursementPrintDiv").printArea({
 	        mode       : "iframe",
 	        standard   : "html5",
@@ -6257,9 +6493,15 @@
 	    }); --%>
 		$("#reimbursementPrintDiv").find("table").show();
 		$("#reimbursementPrintDiv").find("thead").show();
+		$("#reimbursementPrintDiv").find("thead th").show();
 		$("#reimbursementPrintDiv").children("h3").remove();
+		$("#reimbursementPrintDiv").children("h4").remove();
+		$(".printLoans").remove();
+		$(".printIncomes").remove();
+		$(".printStatistical").remove();
 		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
 	});
+	
 	/* 打印借款凭证 */
 	$("#lendPrintButton").click(function(){
 		var checkbox = $("#table").find("input:checked");

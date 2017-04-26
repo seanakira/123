@@ -27,6 +27,8 @@ import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.ReimbursementApplicationTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
+import com.cts.localtour.entity.ReimbursementIncomeTable;
+import com.cts.localtour.entity.ReimbursementTable;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.ChangeCostViewModel;
 import com.cts.localtour.viewModel.CostViewModel;
@@ -107,8 +109,10 @@ public class LocalTourService extends BaseService{
 			}else if (localTours.get(i).getStatus()==7) {
 				simpleLocalTourViewModel.setStatus("已报账");
 			}else if (localTours.get(i).getStatus()==8) {
-				simpleLocalTourViewModel.setStatus("已核销");
+				simpleLocalTourViewModel.setStatus("待核销");
 			}else if (localTours.get(i).getStatus()==9) {
+				simpleLocalTourViewModel.setStatus("待结算");
+			}else if (localTours.get(i).getStatus()==10) {
 				simpleLocalTourViewModel.setStatus("已结算");
 			}
 			simpleLocalTourViewModels.add(simpleLocalTourViewModel);
@@ -330,16 +334,16 @@ public class LocalTourService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public void updateReimbursement(FullReimbursementViewModel full) {
 		for (CostTable costTable : full.getCostTables()) {
-			this.updateByString("CostTable", "reimbursement=?", "id=?", costTable.getReimbursement(),costTable.getId());
+			this.updateByString("CostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", costTable.getReimbursement(),costTable.getSupplierId(),costTable.isBill(),costTable.getId());
 		}
 		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
-			this.updateByString("ChangeCostTable", "reimbursement=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getId());
+			this.updateByString("ChangeCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getSupplierId(),changeCostTable.isBill(),changeCostTable.getId());
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
 			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement()==0){
 				this.delete(reimbursementCostTable);
 			}else{
-				this.updateByString("ReimbursementCostTable", "reimbursement=?", "id=?", reimbursementCostTable.getReimbursement(),reimbursementCostTable.getId());
+				this.updateByString("ReimbursementCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", reimbursementCostTable.getReimbursement(),reimbursementCostTable.getSupplierId(),reimbursementCostTable.isBill(),reimbursementCostTable.getId());
 			}
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getNewReimbursementCostTables()) {
@@ -347,13 +351,41 @@ public class LocalTourService extends BaseService{
 				this.add(reimbursementCostTable);
 			}
 		}
-		/*添加人头费*/
-		this.add(full.getReimbursementTable());
-		if(this.getAllByString("ReimbursementApplicationTable", "tourId=?", full.getReimbursementTable().getTourId()).isEmpty()){
-			ReimbursementApplicationTable reimbursementApplicationTable = new ReimbursementApplicationTable();
-			reimbursementApplicationTable.setTourId(full.getReimbursementTable().getTourId());
-			reimbursementApplicationTable.setDeptId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId());
-			this.add(reimbursementApplicationTable);
+		
+		for (ReimbursementIncomeTable income : full.getReimbursementIncomeTables()) {
+			if(income.getIncome()!=0){
+				this.merge(income);
+			}else if(income.getId()!=null&&income.getId()!=0){
+				this.delete(income);
+			}
 		}
+		
+		/*添加人头费*/
+		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) this.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getTourId());
+		if(reimbursementTables.size()==1){
+			reimbursementTables.get(0).setHeadAmount(full.getReimbursementTable().getHeadAmount());
+			this.update(reimbursementTables.get(0));
+		}else{
+			this.add(full.getReimbursementTable());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public int auditingReimbursement(int tourId) {
+		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", tourId);
+		if(tour.getStatus()==6){
+			tour.setStatus(7);
+			this.update(tour);
+			/*添加申请*/
+			if(this.getAllByString("ReimbursementApplicationTable", "tourId=?", tourId).isEmpty()){
+				ReimbursementApplicationTable reimbursementApplicationTable = new ReimbursementApplicationTable();
+				reimbursementApplicationTable.setTourId(tourId);
+				reimbursementApplicationTable.setDeptId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId());
+				this.add(reimbursementApplicationTable);
+			}
+		}else{
+			return -1;
+		}
+		return 0;
 	}
 }

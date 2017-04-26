@@ -146,8 +146,10 @@ public class SimpleSettlementViewModel {
 			}else if(localTourTable.getStatus()==7){
 				simpleSettlementViewModel.setStatus("已报账");
 			}else if(localTourTable.getStatus()==8){
-				simpleSettlementViewModel.setStatus("已核销");
+				simpleSettlementViewModel.setStatus("待核销");
 			}else if(localTourTable.getStatus()==9){
+				simpleSettlementViewModel.setStatus("待结算");
+			}else if(localTourTable.getStatus()==10){
 				simpleSettlementViewModel.setStatus("已结算");
 			}
 			simpleSettlementViewModels.add(simpleSettlementViewModel);

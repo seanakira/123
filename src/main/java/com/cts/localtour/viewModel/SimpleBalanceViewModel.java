@@ -118,8 +118,10 @@ public class SimpleBalanceViewModel {
 			}else if(localTourTable.getStatus()==7){
 				balanceViewModel.setStatus("已报账");
 			}else if(localTourTable.getStatus()==8){
-				balanceViewModel.setStatus("已核销");
+				balanceViewModel.setStatus("待核销");
 			}else if(localTourTable.getStatus()==9){
+				balanceViewModel.setStatus("待结算");
+			}else if(localTourTable.getStatus()==10){
 				balanceViewModel.setStatus("已结算");
 			}
 			balanceViewModels.add(balanceViewModel);

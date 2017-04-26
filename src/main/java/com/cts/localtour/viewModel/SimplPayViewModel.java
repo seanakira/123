@@ -122,8 +122,10 @@ public class SimplPayViewModel {
 			}else if (localTourTable.getStatus()==7) {
 				simplPayViewModel.setStatus("已报账");
 			}else if (localTourTable.getStatus()==8) {
-				simplPayViewModel.setStatus("已核销");
+				simplPayViewModel.setStatus("待核销");
 			}else if (localTourTable.getStatus()==9) {
+				simplPayViewModel.setStatus("待结算");
+			}else if (localTourTable.getStatus()==10) {
 				simplPayViewModel.setStatus("已结算");
 			}
 			simplPayViewModels.add(simplPayViewModel);
