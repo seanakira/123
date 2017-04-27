@@ -190,6 +190,11 @@
 																<th style="width: 10%">实收</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 15%">财务确认人</th>
+																<th style="width: 1%">
+																	<a class="blue addIncome" href="#">
+																		<i class="icon-plus bigger-130"></i>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -413,13 +418,14 @@
 		        			realIncome.html(this.incomeTable.realIncome);
 		        			remark.html(this.incomeTable.remark);
 		        		}
-		        		var tr = $('<tr>'+
+		        		var tr = $('<tr id="'+this.incomeTable.id+'">'+
 										'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
-										'<td>'+this.customerAgencyName+'</td>'+
+										'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'"></td>'+
 										'<td>'+this.incomeTable.income+'</td>'+
-										'<td>'+realIncome.html()+'</td>'+
+										'<td class="income">'+realIncome.html()+'</td>'+
 										'<td>'+remark.html()+'</td>'+
-										'<td id="'+this.incomeTable.id+'">'+this.handlerRealName+'</td>'+
+										'<td>'+this.handlerRealName+'</td>'+
+										'<td></td>'+
 									'</tr>');
 		        		$("#incomes").find("tbody").append(tr);
 		        	});
@@ -440,13 +446,13 @@
 		        			realIncome.html(this.incomeTable.realIncome);
 		        			remark.html(this.incomeTable.remark);
 		        		}
-		        		var tr = $('<tr class="blue">'+
+		        		var tr = $('<tr class="blue" id="'+this.incomeTable.id+'">'+
 										'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
-										'<td>'+this.customerAgencyName+'</td>'+
+										'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'"></td>'+
 										'<td>'+this.incomeTable.income+'</td>'+
-										'<td>'+realIncome.html()+'</td>'+
+										'<td class="income">'+realIncome.html()+'</td>'+
 										'<td>'+remark.html()+'</td>'+
-										'<td id="'+this.incomeTable.id+'">'+this.handlerRealName+'</td>'+
+										'<td>'+this.handlerRealName+'</td>'+
 									'</tr>');
 		        		$("#incomes").find("tbody").append(tr);
 		        	});
@@ -477,7 +483,42 @@
     	$("#incomes").delegate(".realIncome","dblclick",function(){
     		$(this).val($(this).parent().prev().text());
     	});
-    	
+    /* 添加一行 */
+    $(".addIncome").click(function(){
+    	var tbody = $("#incomes").find("tbody");
+    	if(tbody.children("tr").length>0){
+    		tbody.append('<tr class="blue">'+
+		            		'<td>'+
+			        			'<input class="form-control datepicker" type="text">'+
+			        		'</td>'+
+			        		'<td style="vertical-align: middle;">'+tbody.children("tr").eq(0).children("td").eq(1).html()+'</td>'+
+			        		'<td style="vertical-align: middle;">0</td>'+
+			        		'<td style="vertical-align: middle;"><input class="form-control" type="text"></td>'+
+			        		'<td style="vertical-align: middle;"><input class="form-control" type="text"></td>'+
+			        		'<td style="vertical-align: middle;"><%=user.getRealName() %><input type="hidden" value="<%=user.getId() %>"></td>'+
+							'<td style="vertical-align: middle;">'+
+								'<a class="red delLine" href="#">'+
+									'<i class="icon-trash bigger-130"></i>'+
+								'</a>'+
+							'</td>'+
+			        	'</tr>');
+    		tbody.find(".datepicker").datepicker({
+    			showOtherMonths: true,
+    			selectOtherMonths: false,
+    		});
+    	}else{
+    		alert("计调未做收入，无法收取尾款");
+    	}
+    });
+ 	
+    /* 双击编辑 */
+    $("#incomes").delegate(".income","dblclick",function(){
+    	if($(this).children("input").length==0){
+    		$(this).html('<input class="form-control" value="'+$(this).text()+'"/>');
+    		$(this).next().html('<input class="form-control" value="'+$(this).next().text()+'"/>');
+    	}
+    });
+    
 	/*更新 */
 		$("#saveEdit").click(function(){
 			var tourId = $(this).parent().attr("id");
@@ -487,7 +528,7 @@
 			for (var int = 0; int < incomeTrs.length; int++) {
 				var tds = incomeTrs.eq(int).children("td");
 				if(tds.eq(3).children("input").length!=0){
-					var id = tds.last().attr("id");
+					var id = incomeTrs.eq(int).attr("id");
 					var realIncome = tds.eq(3).children("input").val();
 					var remark = tds.eq(4).children("input").val();
 					incomeTables.push({
@@ -504,13 +545,22 @@
 			for (var int = 0; int < changeIncomeTrs.length; int++) {
 				var tds = changeIncomeTrs.eq(int).children("td");
 				if(tds.eq(3).children("input").length!=0){
-					var id = tds.last().attr("id");
+					var id = changeIncomeTrs.eq(int).attr("id");
 					var realIncome = tds.eq(3).children("input").val();
 					var remark = tds.eq(4).children("input").val();
-					changeIncomeTables.push({
-						id:id,
-						realIncome:realIncome,
-						remark:remark});
+					if(id==undefined){
+						changeIncomeTables.push({
+							tourId:tourId,
+							incomeDate:new Date(tds.eq(0).children("input").val()),
+							customerAgencyId:tds.eq(1).children("input").val(),
+							realIncome:realIncome,
+							remark:remark});
+					}else{
+						changeIncomeTables.push({
+							id:id,
+							realIncome:realIncome,
+							remark:remark});
+					}
 					realIncomeSum = realIncomeSum + parseFloat(realIncome);
 				}else{
 					realIncomeSum = realIncomeSum + parseFloat(tds.eq(3).text());

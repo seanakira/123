@@ -57,24 +57,26 @@ public class RevenueService extends BaseService{
 		int errorCode = 0;
 		for (IncomeTable incomeTable : fullRevenueViewModel.getIncomeTables()) {
 			IncomeTable income = (IncomeTable)this.getById("IncomeTable", incomeTable.getId());
-			if(income.getRealIncome()==0){
+			/*if(income.getRealIncome()==0){*/
 				income.setRealIncome(incomeTable.getRealIncome());
 				income.setRemark(incomeTable.getRemark());
 				income.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				this.update(income);
-			}else{
-				errorCode = -1;/*±£¥Ê ß∞‹*/
-			}
+			/*}else{
+				errorCode = -1;±£¥Ê ß∞‹
+			}*/
 		}
 		for (ChangeIncomeTable incomeTable : fullRevenueViewModel.getChangeIncomeTables()) {
-			ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", incomeTable.getId());
-			if(income.getRealIncome()==0){
+			if(incomeTable.getId()==null){
+				incomeTable.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				incomeTable.setStatus(3);
+				this.add(incomeTable);
+			}else{
+				ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", incomeTable.getId());
 				income.setRealIncome(incomeTable.getRealIncome());
 				income.setRemark(incomeTable.getRemark());
 				income.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				this.update(income);
-			}else{
-				errorCode = -1;/*±£¥Ê ß∞‹*/
 			}
 		}
 		return errorCode;
