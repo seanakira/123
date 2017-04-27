@@ -1150,12 +1150,6 @@
 				}else{
 					loanTables.push({
 						id:tds.last().attr("id"),
-						tourId:tourId,
-						loanDate:new Date(tds.eq(0).text()),
-						loanAmount:tds.eq(1).text(),
-						remark:tds.eq(2).text(),
-						lenderId:inputs.eq(0).val(),
-						status:inputs.eq(1).val(),
 						lended:inputs.last().val()});
 				}
 			});

@@ -1,6 +1,5 @@
 package com.cts.localtour.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -346,11 +345,11 @@ public class TourController {
 					return -4;
 				}else{
 					/*如果成本小计小于0，为供应商退款*/
-					if(changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()<0){
+					/*if(changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()<0){
 						changeCostTable.setRealCost(new BigDecimal(changeCostTable.getCost()).multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())).floatValue());
 						changeCostTable.setPayStatus(3);
 						changeCostTable.setRemittanced(true);
-					}
+					}*/
 					changeCostTable.setStatus(3);/*设置状态*/
 					changeCostTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 					costService.add(changeCostTable);
