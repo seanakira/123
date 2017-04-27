@@ -47,7 +47,7 @@
 				padding-top:100px;
 			}
 			.login-layout {
-			    background-color: #dedede;
+			    background-color: #fff;
 			}
 			
 			.login-layout .widget-box {
@@ -56,6 +56,16 @@
 			
 			.grey{
 				color: #6f6f6f !important;
+			}
+			h5{
+				margin-top: 350px;
+			}
+			#login-box{
+				padding: 1px;
+			}
+			.login-layout .widget-box .widget-main{
+				padding: 16px 36px 36px;
+				background: #fbfbfb;
 			}
         </style>
 	</head>
@@ -67,17 +77,14 @@
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="login-container">
 							<div class="center">
-							  <h1> <em class="icon-leaf green"></em> <span class="grey">CTS</span> <span class="grey">业务系统</span> </h1>
-							  <h4 class="blue">&copy; 港中旅国际（山东）旅行社有限公司 </h4>
+							  <h1> <img alt="logo" src="<%=path %>resources/assets/avatars/logo.png"><span class="grey">星途业务系统</span> </h1>
+								<hr>
 							</div>
-
-							<div class="space-6"></div>
-
 							<div class="position-relative">
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-										  <h4 class="header blue lighter bigger" style="display: inline-block;"> <em class="icon-coffee green"></em> 登录 </h4>
+										  <h4 class="header blue lighter bigger" style="display: inline-block;"> <em class="icon-coffee blue"></em> 系统登录 </h4>
 										  <span class="lbl red pull-right" style="margin-top: 25px;">${msg }</span>
 										  <div class="space-6"></div>
 										 
@@ -100,10 +107,10 @@
 													<div class="space"></div>
 
 													<div class="clearfix">
-														<label class="inline">
+														<!-- <label class="inline">
 															<input type="checkbox" class="ace" />
 															<span class="lbl"> 记住密码 </span>
-														</label>
+														</label> -->
 
 														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="icon-key"></i>
@@ -126,7 +133,6 @@
 										
 									</div><!-- /widget-body -->
 								</div><!-- /login-box -->
-
 								<div id="forgot-box" class="forgot-box widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
@@ -243,6 +249,7 @@
 									</div><!-- /widget-body -->
 								</div><!-- /signup-box -->
 							</div><!-- /position-relative -->
+							<h5 class="blue center">&copy; 港中旅国际（山东）旅行社有限公司 </h5>
 						</div>
 					</div><!-- /.col -->
 				</div><!-- /.row -->

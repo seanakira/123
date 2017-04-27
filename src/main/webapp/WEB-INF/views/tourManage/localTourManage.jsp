@@ -5662,18 +5662,7 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("结算中");
-			        	$("#editTour").hide();		/* 修改 */
-						$("#auditing").hide();		/* 提交 */
-						$("#unAuditing").hide();	/* 退回 */
-						$("#finance").hide();		/* 报送 */
-						$("#lend").hide();			/* 借款 */
-						$("#pay").show();			/* 付款 */
-						$("#chanageCost").hide();	/* 变更 */
-						$("#loanInvoice").hide();	/* 借票 */
-						$("#balance").hide();		/* 结算 */
-						$("#reimbursement").show();	/* 报账 */
-						$("#delete").hide();		/* 删除 */
-						$("#recover").hide();		/* 恢复 */
+			        	changeButton("结算中");
 		        	}else{
 		        		alert("操作失败");
 		        	}
