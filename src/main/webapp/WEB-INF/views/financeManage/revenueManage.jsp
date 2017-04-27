@@ -203,6 +203,7 @@
 												         			
 						         			</div><!-- tab content 结束 -->
 						         			<span id="changeIncomeBlue" class="blue" style="">*蓝色为成本收入变更</span>
+						         			<span class="pull-right">双击实收变更成本</span>
 					         			</div><!-- 左tab 结束 -->
 					         		</div>
 					         	</div>
@@ -432,9 +433,9 @@
 		        	
 		        	/* 设置收入变更 */
 		        	if(data.changeIncomes.length > 0){
-		        		$("#changeCostBlue").attr("style","");
+		        		$("#changeIncomeBlue").attr("style","");
 		        	}else{
-		        		$("#changeCostBlue").attr("style","display:none");
+		        		$("#changeIncomeBlue").attr("style","display:none");
 		        	}
 		        	$.each(data.changeIncomes,function(){
 		        		var realIncome = $("<td></td>");
@@ -453,6 +454,7 @@
 										'<td class="income">'+realIncome.html()+'</td>'+
 										'<td>'+remark.html()+'</td>'+
 										'<td>'+this.handlerRealName+'</td>'+
+										'<td></td>'+
 									'</tr>');
 		        		$("#incomes").find("tbody").append(tr);
 		        	});
@@ -495,7 +497,7 @@
 			        		'<td style="vertical-align: middle;">0</td>'+
 			        		'<td style="vertical-align: middle;"><input class="form-control" type="text"></td>'+
 			        		'<td style="vertical-align: middle;"><input class="form-control" type="text"></td>'+
-			        		'<td style="vertical-align: middle;"><%=user.getRealName() %><input type="hidden" value="<%=user.getId() %>"></td>'+
+			        		'<td style="vertical-align: middle;"><%=user.getRealName() %></td>'+
 							'<td style="vertical-align: middle;">'+
 								'<a class="red delLine" href="#">'+
 									'<i class="icon-trash bigger-130"></i>'+
