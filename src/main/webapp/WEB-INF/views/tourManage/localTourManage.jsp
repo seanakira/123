@@ -6514,14 +6514,14 @@
 		        		$("#lendPrintModel").find("#printArea").children("table").not("#printTable").find("td").eq(10).text("借款方式");
 		        		$("#lendPrintModel").find("#printTable").remove();
 		        		var printTable = $('<table id="printTable" class="table table-striped table-bordered table-hover no-margin"><tbody></tbody></table>');
-		        		printTable.append('<tr><td>日期</td><td>金额</td><td>备注</td><td>状态</td><td>财务</td><td>申请人</td><td>经理</td><td>总经理</td></tr>')
+		        		printTable.append('<tr><td style="width: 1%;"><label><input class="ace selectAll" type="checkbox"><span class="lbl"></span></label></td><td>日期</td><td>金额</td><td>备注</td><td>状态</td><td>财务</td><td>申请人</td><td>经理</td><td>总经理</td></tr>')
 		        		$.each(data.loans,function(){
 		        			total = total+this.loanTable.loanAmount;
 		        			if(printCount<this.loanTable.printCount){
 		        				printCount = this.loanTable.printCount;
 		        			}
 		        			var remark = this.loanTable.remark==null?"":this.loanTable.remark;
-		        			printTable.append('<tr><td>'+this.loanTable.loanDate+'</td><td>'+this.loanTable.loanAmount.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.status+'</td><td>'+this.lenderRealName+'</td><td>'+this.applicationerRealName+'</td><td>'+this.managerName+'</td><td>'+this.bossName+'</td></tr>');
+		        			printTable.append('<tr id="'+this.loanTable.id+'"><td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td><td>'+this.loanTable.loanDate+'</td><td>'+this.loanTable.loanAmount.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.status+'</td><td>'+this.lenderRealName+'</td><td>'+this.applicationerRealName+'</td><td>'+this.managerName+'</td><td id="'+this.loanTable.printCount+'">'+this.bossName+'</td></tr>');
 		        		});
 		        		printCount++;
 		        		var printInfos = $("#lendPrintModel").find("#printArea").find(".printInfo");
@@ -6537,6 +6537,39 @@
 		        		$("#lendPrintModel").find("#printArea").append(printTable)
 		        		$("#lendPrintModel").find("#printArea").find("input").val("");
 		        		a.attr("href","#lendPrintModel");
+		        		/* 注册事件 */
+			        	printTable.find("tr td:not(tr td:nth-child(1))").click(function(){
+			        		$(this).parent().find("input.ace").prop("checked",!$(this).parent().find("input.ace").prop("checked"));
+			        		var printCount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var td = $(this).parent().parent().siblings().eq(-1);
+			        			if(td.attr("id")>printCount){
+			        				printCount = td.last().attr("id");
+			        			}
+			        		});
+			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        	});
+			        	printTable.find("input.selectAll").click(function(){
+			        		printTable.find("input.ace").prop("checked",$(this).prop("checked"));
+			        		var printCount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var td = $(this).parent().parent().siblings().eq(-1);
+			        			if(td.attr("id")>printCount){
+			        				printCount = td.last().attr("id");
+			        			}
+			        		});
+			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        	});
+			        	printTable.find("input.ace:not(.selectAll)").click(function(){
+			        		var printCount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var td = $(this).parent().parent().siblings().eq(-1);
+			        			if(td.attr("id")>printCount){
+			        				printCount = td.last().attr("id");
+			        			}
+			        		});
+			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        	});
 		        	}
 		        }
 			});
@@ -6544,51 +6577,95 @@
 	});
 	$("#lendPrint").click(function(){
 		if($("#lendPrintModel").find("#printArea").find(".red").length==0){
-			var myData = {tourId:$("#table").find("input:checked").parent().parent().parent().attr("id"),type:"lend"}
-			$.ajax({
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"${path }localTourManage/printCountPlus",
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        }
-			});
-			var printHtml = $("#lendPrintModel").find("#printArea");
-			printHtml.prepend("<h3>导游借款凭证</h3>").printArea({
-		        mode       : "iframe",
-		        standard   : "html5",
-		        popTitle   : '导游借款凭证',
-		        popClose   : false,
-		    });
-			printHtml.find("h3").remove();
-			printHtml.find("span").text("");
-			$("#lendPrintModel").find("#printTable").remove();
-			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+			if($("#printTable").find("input:not(.selectAll):checked").length==0){
+				alert("请选择一个打印项");
+				$("#lendPrint").attr("data-dismiss","");
+			}else{
+				$("#lendPrint").attr("data-dismiss","modal");
+				var ids = new Array();
+				$.each($("#printTable input.ace:not(.selectAll)"),function(){
+					if($(this).prop("checked")){
+						ids.push($(this).parent().parent().parent().attr("id"));
+					}else{
+						$(this).parent().parent().parent().hide();
+					}
+				});
+				var myData = {ids:ids.toString()}
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }localTourManage/printCountPlus",
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        }
+				});
+				$("#printTable").find("tr td:nth-child(1)").hide();
+				var printHtml = $("#lendPrintModel").find("#printArea");
+				printHtml.prepend("<h3>导游借款凭证</h3>").printArea({
+			        mode       : "iframe",
+			        standard   : "html5",
+			        popTitle   : '导游借款凭证',
+			        popClose   : false,
+			    });
+				printHtml.find("h3").remove();
+				$("#printTable").find("tr,td").show();
+				alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+				printHtml.find("span").text("");
+				$("#lendPrintModel").find("#printTable").remove();
+			}
 		}else{
-			var myData = {tourId:$("#table").find("input:checked").parent().parent().parent().attr("id"),type:"pay"}
-			$.ajax({
-		        type: "GET",  
-		        contentType:"application/json;charset=utf-8",  
-		        url:"${path }localTourManage/printCountPlus",
-		        data:myData,  
-		        dataType: "json",  
-		        async: false,  
-		        success:function(data){
-		        }
-			});
-			var printHtml = $("#lendPrintModel").find("#printArea");
-			printHtml.prepend("<h3>供应商付款凭证</h3>").printArea({
-		        mode       : "iframe",
-		        standard   : "html5",
-		        popTitle   : '供应商付款凭证',
-		        popClose   : false,
-		    });
-			printHtml.find("h3").remove();
-			printHtml.find("span").text("");
-			$("#lendPrintModel").find("#printTable").remove();
-			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+			if($("#printTable").find("input:not(.selectAll):checked").length==0){
+				alert("请选择一个打印项");
+				$("#lendPrint").attr("data-dismiss","");
+			}else{
+				$("#lendPrint").attr("data-dismiss","modal");
+				var costIds = new Array();
+				var changeCostIds = new Array();
+				$.each($("#printTable input.ace:not(.selectAll)"),function(){
+					if($(this).prop("checked")){
+						if($(this).parent().parent().parent().attr("class")=="blue"){
+							changeCostIds.push($(this).parent().parent().parent().attr("id"));
+						}else{
+							costIds.push($(this).parent().parent().parent().attr("id"));
+						}
+					}else{
+						$(this).parent().parent().parent().hide();
+					}
+				});
+				var myData = {costIds:costIds.toString(), changeCostIds:changeCostIds.toString()}
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }localTourManage/printCountPlus2",
+			        data:myData,  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        }
+				});
+				$("#printTable").find("tr td:nth-child(1)").hide();
+				var trs = $("#printTable").find("tr:not(:hidden)");
+				$.each(trs, function(i){
+					if($(this).attr("class")=="red"&&(trs.eq(i+2).attr("class")==undefined&&trs.eq(i+2).attr("id")==undefined||trs.eq(i+2).attr("class")=="red"&&trs.eq(i+2).attr("id")==undefined)){
+						$(this).hide();
+						$(this).next().hide();
+					}
+				});
+				var printHtml = $("#lendPrintModel").find("#printArea");
+				printHtml.prepend("<h3>供应商付款凭证</h3>").printArea({
+			        mode       : "iframe",
+			        standard   : "html5",
+			        popTitle   : '供应商付款凭证',
+			        popClose   : false,
+			    });
+				printHtml.find("h3").remove();
+				$("#printTable").find("tr,td").show();
+				alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+				printHtml.find("span").text("");
+				$("#lendPrintModel").find("#printTable").remove();
+			}
 		}
 		
 	});
@@ -6626,8 +6703,8 @@
 		        		$.each(data.pays,function(){
 		        			var bankName = this.supplierTable.bankName==null?"":this.supplierTable.bankName;
 		        			var bankNo = this.supplierTable.bankNo==null?"":this.supplierTable.bankNo;
-		        			printTable.append('<tr class="red"><td>供应商名</td><td>'+this.supplierTable.supplierName+'</td><td>开户行</td><td>'+bankName+'</td><td>账号</td><td>'+bankNo+'</td><td></td></tr>')
-		        			printTable.append('<tr><td>日期</td><td>金额</td><td>备注</td><td>状态</td><td>申请人</td><td>经理</td><td>总经理</td></tr>')
+		        			printTable.append('<tr class="red"><td style="width: 1%;"><label><input class="ace selectAll" type="checkbox"><span class="lbl"></span></label></td><td>供应商名</td><td>'+this.supplierTable.supplierName+'</td><td>开户行</td><td>'+bankName+'</td><td>账号</td><td>'+bankNo+'</td><td></td></tr>')
+		        			printTable.append('<tr><td></td><td>日期</td><td>金额</td><td>备注</td><td>状态</td><td>申请人</td><td>经理</td><td>总经理</td></tr>')
 		        			$.each(this.costs,function(){
 		        				total = total+this.costTable.realCost;
 		        				if(printCount<this.costTable.printCount){
@@ -6635,7 +6712,7 @@
 			        			}
 		        				var remark = this.costTable.remark==null?"":this.costTable.remark;
 		        				var costDate = this.costTable.costDate==null?"":this.costTable.costDate;
-			        			printTable.append('<tr><td>'+costDate+'</td><td>'+this.costTable.realCost.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.payStatus+'</td><td>'+this.payApplicationerRealName+'</td><td>'+this.managerName+'</td><td>'+this.bossName+'</td></tr>');
+			        			printTable.append('<tr id="'+this.costTable.id+'"><td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td><td>'+costDate+'</td><td>'+this.costTable.realCost.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.payStatus+'</td><td>'+this.payApplicationerRealName+'</td><td>'+this.managerName+'</td><td id="'+this.costTable.printCount+'">'+this.bossName+'</td></tr>');
 		        			});
 							$.each(this.changeCosts,function(){
 								total = total+this.costTable.realCost;
@@ -6644,7 +6721,7 @@
 			        			}
 		        				var remark = this.costTable.remark==null?"":this.costTable.remark;
 		        				var costDate = this.costTable.costDate==null?"":this.costTable.costDate;
-			        			printTable.append('<tr class="blue"><td>'+costDate+'</td><td>'+this.costTable.realCost.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.payStatus+'</td><td>'+this.payApplicationerRealName+'</td><td>'+this.managerName+'</td><td>'+this.bossName+'</td></tr>');
+			        			printTable.append('<tr class="blue" id="'+this.costTable.id+'"><td><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td><td>'+costDate+'</td><td>'+this.costTable.realCost.toFixed(2)+'</td><td>'+remark+'</td><td>'+this.payStatus+'</td><td>'+this.payApplicationerRealName+'</td><td>'+this.managerName+'</td><td id="'+this.costTable.printCount+'">'+this.bossName+'</td></tr>');
 		        			});
 		        		});
 		        		printCount++;
@@ -6661,6 +6738,39 @@
 		        		$("#lendPrintModel").find("#printArea").append(printTable)
 		        		$("#lendPrintModel").find("#printArea").find("input").val("");
 		        		a.attr("href","#lendPrintModel");
+		        		/* 注册事件 */
+			        	printTable.find("tr td:not(tr td:nth-child(1))").click(function(){
+			        		$(this).parent().find("input.ace").prop("checked",!$(this).parent().find("input.ace").prop("checked"));
+			        		var printCount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var td = $(this).parent().parent().siblings().eq(-1);
+			        			if(td.attr("id")>printCount){
+			        				printCount = td.last().attr("id");
+			        			}
+			        		});
+			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        	});
+			        	printTable.find("input.selectAll").click(function(){
+			        		printTable.find("input.ace").prop("checked",$(this).prop("checked"));
+			        		var printCount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var td = $(this).parent().parent().siblings().eq(-1);
+			        			if(td.attr("id")>printCount){
+			        				printCount = td.last().attr("id");
+			        			}
+			        		});
+			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        	});
+			        	printTable.find("input.ace:not(.selectAll)").click(function(){
+			        		var printCount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var td = $(this).parent().parent().siblings().eq(-1);
+			        			if(td.attr("id")>printCount){
+			        				printCount = td.last().attr("id");
+			        			}
+			        		});
+			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        	});
 		        	}
 		        }
 			});
@@ -6670,7 +6780,9 @@
 	/* 打印缴款单 */
 	$("#incomePrintButton").click(function(){
 		var checkbox = $("#table").find("input:checked");
-		if(checkbox.length==0){
+		if(checkbox.parent().parent().siblings().eq(-2).text()=="新建"||checkbox.parent().parent().siblings().eq(-2).text()=="已提交"){
+			alert("中心经理还未报送财务，暂时不能收款");
+		}else if(checkbox.length==0){
 			alert("请选择一个团队");
 			$(this).attr("href","#");
 		}else if(checkbox.length>1){
@@ -6710,7 +6822,7 @@
 	$("#incomePrint").click(function(){
 		var printHtml = $("#incomePrintModel").find("#printArea");
 		printHtml.prepend("<h3>缴款单</h3>").printArea({
-	        mode       : "popup",
+	        mode       : "iframe",
 	        standard   : "html5",
 	        popTitle   : '缴款单',
 	        popClose   : false,

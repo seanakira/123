@@ -1,7 +1,5 @@
 package com.cts.localtour.service;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,34 +18,28 @@ public class PrintService extends BaseService{
 		return payVoucherViewModel.getPrintViewModel(tourId,type);
 	}
 	@SuppressWarnings("unchecked")
-	public void printCountPlus(String type, int tourId) {
-		if("lend".equals(type)){
-			ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=? and status=4 and lended=false", tourId);
-			int printConunt = 0;
-			for (LoanTable loanTable : loanTables) {
-				if(loanTable.getPrintCount()!=null&&printConunt<loanTable.getPrintCount()){
-					printConunt = loanTable.getPrintCount();
-				}
+	public void printCountPlus(String[] ids) {
+		for (String id : ids) {
+			LoanTable loan = (LoanTable) this.getById("LoanTable", Integer.parseInt(id));
+			loan.setPrintCount(loan.getPrintCount()+1);
+			this.update(loan);
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public void printCountPlus(String[] costIds, String[] changeCostIds) {
+		for (String id : costIds) {
+			if(!id.equals("")){
+				CostTable cost = (CostTable) this.getById("CostTable", Integer.parseInt(id));
+				cost.setPrintCount(cost.getPrintCount()+1);
+				this.update(cost);
 			}
-			printConunt++;
-			this.updateByString("LoanTable", "printCount=?", "tourId=? and status=4 and lended=false", printConunt,tourId);
-		}else if("pay".equals(type)){
-			ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getAllByString("CostTable", "tourId=? and remittanced=false and lend=false and bill=false and payStatus=3", tourId);
-			ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) this.getAllByString("ChangeCostTable", "tourId=? and remittanced=false and lend=false and bill=false and payStatus=3", tourId);
-			int printConunt = 0;
-			for (CostTable costTable : costTables) {
-				if(costTable.getPrintCount()!=null&&printConunt<costTable.getPrintCount()){
-					printConunt = costTable.getPrintCount();
-				}
+		}
+		for (String id : changeCostIds) {
+			if(!id.equals("")){
+				ChangeCostTable cost = (ChangeCostTable) this.getById("ChangeCostTable", Integer.parseInt(id));
+				cost.setPrintCount(cost.getPrintCount()+1);
+				this.update(cost);
 			}
-			for (ChangeCostTable changeCostTable : changeCostTables) {
-				if(changeCostTable.getPrintCount()!=null&&printConunt<changeCostTable.getPrintCount()){
-					printConunt = changeCostTable.getPrintCount();
-				}
-			}
-			printConunt++;
-			this.updateByString("CostTable", "printCount=?", "tourId=? and remittanced=false and lend=false and bill=false and payStatus=3",  printConunt,tourId);
-			this.updateByString("ChangeCostTable", "printCount=?", "tourId=? and remittanced=false and lend=false and bill=false and payStatus=3",  printConunt,tourId);
 		}
 	}
 

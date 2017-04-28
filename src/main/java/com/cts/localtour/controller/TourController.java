@@ -515,10 +515,14 @@ public class TourController {
 		return printService.printPayVoucher(type, tourId);
 	}
 	@RequestMapping("/localTourManage/printCountPlus")
-	public void printCountPlus(@RequestParam String type, @RequestParam int tourId){
-		printService.printCountPlus(type, tourId);
+	public void printCountPlus(@RequestParam String ids){
+		printService.printCountPlus(ids.split(","));
 	}
 	
+	@RequestMapping("/localTourManage/printCountPlus2")
+	public void printCountPlus(@RequestParam String costIds, @RequestParam String changeCostIds){
+		printService.printCountPlus(costIds.split(","),changeCostIds.split(","));
+	}
 	/*≤‚ ‘*/
 	@RequestMapping("/test")
 	public void test(){
