@@ -1,3 +1,5 @@
+<%@page import="org.apache.shiro.SecurityUtils"%>
+<%@page import="com.cts.localtour.entity.UserTable"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
@@ -5,8 +7,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-
-<% String path = request.getContextPath()+"/"; %>
+<% 
+	String path = request.getContextPath()+"/"; 
+	UserTable user = (UserTable)SecurityUtils.getSubject().getPrincipal();
+%>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <style type="text/css">
@@ -68,104 +72,324 @@
 							<div style="margin-left: 10px;"><span class="red">没有查询到借款记录</span></div>
 					</c:if>
 <!-- 列表循环 -->		<c:forEach var="cost" items="${full.costs }">
-						<div>
-							<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
-								<thead>
-									<tr role="row">
-										
-									</tr>
-								</thead>
-	
-								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-									<tr>
-										<td style="width: 20%">日期</td>
-										<td style="width: 30%">${cost.costTable.costDate }</td>
-										<td style="width: 20%">内容</td>
-										<td style="width: 30%">${cost.contentName }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">供应商</td>
-										<td style="width: 30%">${cost.supplierName }</td>
-										<td style="width: 20%">成本单价</td>
-										<td style="width: 30%">${cost.costTable.cost }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">数量</td>
-										<td style="width: 30%">${cost.costTable.count }</td>
-										<td style="width: 20%">天数</td>
-										<td style="width: 30%">${cost.costTable.days }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">小计</td>
-										<td style="width: 30%"><fmt:formatNumber value="${cost.costTable.cost*cost.costTable.count*cost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
-										<td style="width: 20%">申请额</td>
-										<td style="width: 30%" class="red">${cost.costTable.realCost }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${cost.payApplicationerRealName }</td>
-										<td style="width: 20%">状态</td>
-										<td style="width: 30%">${cost.payStatus }</td>
-									</tr>
-							</tbody>
-						</table>
-						<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancelCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
-						<HR style="margin-top: 0px;">
-					</div>
+						<c:choose>
+							<c:when test="${sessionScope.isMice }">
+								<c:choose>
+									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
+										<c:if test="${cost.costTable.realCost>10000 }">
+											<div>
+												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+													<thead>
+														<tr role="row">
+															
+														</tr>
+													</thead>
+						
+													<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+														<tr>
+															<td style="width: 20%">日期</td>
+															<td style="width: 30%">${cost.costTable.costDate }</td>
+															<td style="width: 20%">内容</td>
+															<td style="width: 30%">${cost.contentName }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">供应商</td>
+															<td style="width: 30%">${cost.supplierName }</td>
+															<td style="width: 20%">成本单价</td>
+															<td style="width: 30%">${cost.costTable.cost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">数量</td>
+															<td style="width: 30%">${cost.costTable.count }</td>
+															<td style="width: 20%">天数</td>
+															<td style="width: 30%">${cost.costTable.days }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">小计</td>
+															<td style="width: 30%"><fmt:formatNumber value="${cost.costTable.cost*cost.costTable.count*cost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+															<td style="width: 20%">申请额</td>
+															<td style="width: 30%" class="red">${cost.costTable.realCost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">申请人</td>
+															<td style="width: 30%">${cost.payApplicationerRealName }</td>
+															<td style="width: 20%">状态</td>
+															<td style="width: 30%">${cost.payStatus }</td>
+														</tr>
+													</tbody>
+												</table>
+												<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancelCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+												<HR style="margin-top: 0px;">
+											</div>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${cost.costTable.realCost<=10000 }">
+											<div>
+												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+													<thead>
+														<tr role="row">
+															
+														</tr>
+													</thead>
+						
+													<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+														<tr>
+															<td style="width: 20%">日期</td>
+															<td style="width: 30%">${cost.costTable.costDate }</td>
+															<td style="width: 20%">内容</td>
+															<td style="width: 30%">${cost.contentName }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">供应商</td>
+															<td style="width: 30%">${cost.supplierName }</td>
+															<td style="width: 20%">成本单价</td>
+															<td style="width: 30%">${cost.costTable.cost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">数量</td>
+															<td style="width: 30%">${cost.costTable.count }</td>
+															<td style="width: 20%">天数</td>
+															<td style="width: 30%">${cost.costTable.days }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">小计</td>
+															<td style="width: 30%"><fmt:formatNumber value="${cost.costTable.cost*cost.costTable.count*cost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+															<td style="width: 20%">申请额</td>
+															<td style="width: 30%" class="red">${cost.costTable.realCost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">申请人</td>
+															<td style="width: 30%">${cost.payApplicationerRealName }</td>
+															<td style="width: 20%">状态</td>
+															<td style="width: 30%">${cost.payStatus }</td>
+														</tr>
+													</tbody>
+												</table>
+												<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancelCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+												<HR style="margin-top: 0px;">
+											</div>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+									<div>
+										<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+											<thead>
+												<tr role="row">
+													
+												</tr>
+											</thead>
+				
+											<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+												<tr>
+													<td style="width: 20%">日期</td>
+													<td style="width: 30%">${cost.costTable.costDate }</td>
+													<td style="width: 20%">内容</td>
+													<td style="width: 30%">${cost.contentName }</td>
+												</tr>
+												<tr>
+													<td style="width: 20%">供应商</td>
+													<td style="width: 30%">${cost.supplierName }</td>
+													<td style="width: 20%">成本单价</td>
+													<td style="width: 30%">${cost.costTable.cost }</td>
+												</tr>
+												<tr>
+													<td style="width: 20%">数量</td>
+													<td style="width: 30%">${cost.costTable.count }</td>
+													<td style="width: 20%">天数</td>
+													<td style="width: 30%">${cost.costTable.days }</td>
+												</tr>
+												<tr>
+													<td style="width: 20%">小计</td>
+													<td style="width: 30%"><fmt:formatNumber value="${cost.costTable.cost*cost.costTable.count*cost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+													<td style="width: 20%">申请额</td>
+													<td style="width: 30%" class="red">${cost.costTable.realCost }</td>
+												</tr>
+												<tr>
+													<td style="width: 20%">申请人</td>
+													<td style="width: 30%">${cost.payApplicationerRealName }</td>
+													<td style="width: 20%">状态</td>
+													<td style="width: 30%">${cost.payStatus }</td>
+												</tr>
+										</tbody>
+									</table>
+									<div id="${cost.costTable.id }" class="action" style="margin: 5px;"><button class="btn btn-sm btn-danger cancelCost">驳回</button><button class="btn btn-sm btn-success pull-right changeCost">同意</button></div>
+									<HR style="margin-top: 0px;">
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 <!-- 列表循环结束 -->	
-<!-- 列表循环 -->		<c:forEach var="changeCosts" items="${full.changeCosts }">
-						<div>
-							<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
-								<thead>
-									<tr role="row">
-										
-									</tr>
-								</thead>
-	
-								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert" class="blue">
-									<tr>
-										<td style="width: 20%">日期</td>
-										<td style="width: 30%">${changeCosts.costTable.costDate }</td>
-										<td style="width: 20%">内容</td>
-										<td style="width: 30%">${changeCosts.contentName }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">供应商</td>
-										<td style="width: 30%">${changeCosts.supplierName }</td>
-										<td style="width: 20%">成本单价</td>
-										<td style="width: 30%">${changeCosts.costTable.cost }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">数量</td>
-										<td style="width: 30%">${changeCosts.costTable.count }</td>
-										<td style="width: 20%">天数</td>
-										<td style="width: 30%">${changeCosts.costTable.days }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">小计</td>
-										<td style="width: 30%"><fmt:formatNumber value="${changeCosts.costTable.cost*changeCosts.costTable.count*changeCosts.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
-										<td style="width: 20%">申请额</td>
-										<td style="width: 30%" class="red">${changeCosts.costTable.realCost }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${changeCosts.payApplicationerRealName }</td>
-										<td style="width: 20%">状态</td>
-										<td style="width: 30%">${changeCosts.payStatus }</td>
-									</tr>
-							</tbody>
-						</table>
-						<div id="${changeCosts.costTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="payApplication:cancel">
-								<button class="btn btn-sm btn-danger cancelCost">驳回</button>
-							</shiro:hasPermission>
-							<shiro:hasPermission name="payApplication:ok">
-								<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
-							</shiro:hasPermission>
-						</div>
-						<HR style="margin-top: 0px;">
-					</div>
+<!-- 列表循环 -->		<c:forEach var="changeCost" items="${full.changeCosts }">
+						<c:choose>
+							<c:when test="${sessionScope.isMice }">
+								<c:choose>
+									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
+										<c:if test="${changeCost.costTable.realCost>10000 }">
+											<div>
+												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+													<thead>
+														<tr role="row">
+															
+														</tr>
+													</thead>
+						
+													<tbody id="table" aria-relevant="all" aria-live="polite" role="alert" class="blue">
+														<tr>
+															<td style="width: 20%">日期</td>
+															<td style="width: 30%">${changeCost.costTable.costDate }</td>
+															<td style="width: 20%">内容</td>
+															<td style="width: 30%">${changeCost.contentName }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">供应商</td>
+															<td style="width: 30%">${changeCost.supplierName }</td>
+															<td style="width: 20%">成本单价</td>
+															<td style="width: 30%">${changeCost.costTable.cost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">数量</td>
+															<td style="width: 30%">${changeCost.costTable.count }</td>
+															<td style="width: 20%">天数</td>
+															<td style="width: 30%">${changeCost.costTable.days }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">小计</td>
+															<td style="width: 30%"><fmt:formatNumber value="${changeCost.costTable.cost*changeCost.costTable.count*changeCost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+															<td style="width: 20%">申请额</td>
+															<td style="width: 30%" class="red">${changeCost.costTable.realCost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">申请人</td>
+															<td style="width: 30%">${changeCost.payApplicationerRealName }</td>
+															<td style="width: 20%">状态</td>
+															<td style="width: 30%">${changeCost.payStatus }</td>
+														</tr>
+													</tbody>
+												</table>
+												<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;">
+													<shiro:hasPermission name="payApplication:cancel">
+														<button class="btn btn-sm btn-danger cancelCost">驳回</button>
+													</shiro:hasPermission>
+													<shiro:hasPermission name="payApplication:ok">
+														<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
+													</shiro:hasPermission>
+												</div>
+												<HR style="margin-top: 0px;">
+											</div>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${changeCost.costTable.realCost<=10000 }">
+											<div>
+												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+													<thead>
+														<tr role="row">
+															
+														</tr>
+													</thead>
+						
+													<tbody id="table" aria-relevant="all" aria-live="polite" role="alert" class="blue">
+														<tr>
+															<td style="width: 20%">日期</td>
+															<td style="width: 30%">${changeCost.costTable.costDate }</td>
+															<td style="width: 20%">内容</td>
+															<td style="width: 30%">${changeCost.contentName }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">供应商</td>
+															<td style="width: 30%">${changeCost.supplierName }</td>
+															<td style="width: 20%">成本单价</td>
+															<td style="width: 30%">${changeCost.costTable.cost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">数量</td>
+															<td style="width: 30%">${changeCost.costTable.count }</td>
+															<td style="width: 20%">天数</td>
+															<td style="width: 30%">${changeCost.costTable.days }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">小计</td>
+															<td style="width: 30%"><fmt:formatNumber value="${changeCost.costTable.cost*changeCost.costTable.count*changeCost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+															<td style="width: 20%">申请额</td>
+															<td style="width: 30%" class="red">${changeCost.costTable.realCost }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">申请人</td>
+															<td style="width: 30%">${changeCost.payApplicationerRealName }</td>
+															<td style="width: 20%">状态</td>
+															<td style="width: 30%">${changeCost.payStatus }</td>
+														</tr>
+													</tbody>
+												</table>
+												<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;">
+													<shiro:hasPermission name="payApplication:cancel">
+														<button class="btn btn-sm btn-danger cancelCost">驳回</button>
+													</shiro:hasPermission>
+													<shiro:hasPermission name="payApplication:ok">
+														<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
+													</shiro:hasPermission>
+												</div>
+												<HR style="margin-top: 0px;">
+											</div>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+									<div>
+									<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+										<thead>
+											<tr role="row">
+											</tr>
+										</thead>
+										<tbody id="table" aria-relevant="all" aria-live="polite" role="alert" class="blue">
+											<tr>
+												<td style="width: 20%">日期</td>
+												<td style="width: 30%">${changeCost.costTable.costDate }</td>
+												<td style="width: 20%">内容</td>
+												<td style="width: 30%">${changeCost.contentName }</td>
+											</tr>
+											<tr>
+												<td style="width: 20%">供应商</td>
+												<td style="width: 30%">${changeCost.supplierName }</td>
+												<td style="width: 20%">成本单价</td>
+												<td style="width: 30%">${changeCost.costTable.cost }</td>
+											</tr>
+											<tr>
+												<td style="width: 20%">数量</td>
+												<td style="width: 30%">${changeCost.costTable.count }</td>
+												<td style="width: 20%">天数</td>
+												<td style="width: 30%">${changeCost.costTable.days }</td>
+											</tr>
+											<tr>
+												<td style="width: 20%">小计</td>
+												<td style="width: 30%"><fmt:formatNumber value="${changeCost.costTable.cost*changeCost.costTable.count*changeCost.costTable.days }" pattern="#0.00"></fmt:formatNumber></td>
+												<td style="width: 20%">申请额</td>
+												<td style="width: 30%" class="red">${changeCost.costTable.realCost }</td>
+											</tr>
+											<tr>
+												<td style="width: 20%">申请人</td>
+												<td style="width: 30%">${changeCost.payApplicationerRealName }</td>
+												<td style="width: 20%">状态</td>
+												<td style="width: 30%">${changeCost.payStatus }</td>
+											</tr>
+										</tbody>
+									</table>
+									<div id="${changeCost.costTable.id }" class="action" style="margin: 5px;">
+										<shiro:hasPermission name="payApplication:cancel">
+											<button class="btn btn-sm btn-danger cancelCost">驳回</button>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="payApplication:ok">
+											<button class="btn btn-sm btn-success pull-right changeCost">同意</button>
+										</shiro:hasPermission>
+									</div>
+									<HR style="margin-top: 0px;">
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 <!-- 列表循环结束 -->	
 					<c:if test="${full.changeCosts.size()>0 }">

@@ -2626,7 +2626,7 @@
 																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 1%">
-																	<a class="blue addIncome" href="#">
+																	<a class="blue reimbursementIncome" href="#">
 																		<i class="icon-plus bigger-130"></i>
 																	</a>
 																</th>
@@ -3316,13 +3316,13 @@
 		var product = 1;
 		var costPlus = $(this).parents("tr").find(".costPlus");
 		costPlus.each(function(){
-			if(isNaN(parseInt($(this).val()))){
+			if(isNaN(parseFloat($(this).val()))){
 				product = product * 0;
 			}else{
-				product = product * parseInt($(this).val());
+				product = product * parseFloat($(this).val());
 			}
 		})
-		costPlus.last().parent().next().text(product);
+		costPlus.last().parent().next().text(product.toFixed(2));
 	});
 	/* 成本增加 */
 	$(".addCost").click(function(){
@@ -6249,6 +6249,44 @@
 				$(this).val($(this).parent().prev().text());
 			});
 		}
+	});
+	
+	/* 调整报账收入 */
+	$("incomes5").delegate(".reimbursementIncome","click",function(){
+		var tbody = $(this).parents("table").children("tbody");
+		tbody.append('<tr class="red"><td></td><td style="vertical-align: middle;"></td><td><input class="form-control reimbursementIncome" style="width:100%;" type="text"></td><td></td><td></td><td><input class="form-control" style="width:100%;" type="text"></td><td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td></tr>');
+		var tr = tbody.children("tr").not("#incomeModel").last();
+		tr.find("#incomeTime").attr("id","").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+		});
+		/* tr.children("td").eq(1).text($(this).parents(".tab-pane").siblings().first().find("#customer").find("option:selected").text()); */
+		/* var select = tr.children("td").eq(1).children("select");
+		select.val($(this).parents(".tab-pane").siblings().first().find("#customer").val());
+		select.chosen({no_results_text: "查无结果", search_contains: true});
+		select.next().attr("style","width:100%;");
+		select.next().find("input").attr("style","height:100%;"); */
+		if(tr.prev().not("#incomeModel").html()==undefined){
+			if($(this).parents(".tab-pane").siblings().first().find("#customer").html()==undefined){
+				$.ajax({
+			        type: "GET",  
+			        contentType:"application/json;charset=utf-8",  
+			        url:"${path }localTourManage/findCustomer",  
+			        data:{tourId:$("#table").find("input:checked").parent().parent().parent().attr("id")},  
+			        dataType: "json",  
+			        async: false,  
+			        success:function(data){
+			        	tr.children("td").eq(1).html(data.customerAgencyName+'<input type="hidden" value="'+data.id+'" />');
+			        }
+				});
+			}else{
+				var select = $(this).parents(".tab-pane").siblings().first().find("#customer");
+				tr.children("td").eq(1).html(select.find('option:selected').text()+'<input type="hidden" value="'+select.val()+'" />');
+			}
+		}else{
+			tr.children("td").eq(1).html(tr.prev().not("#incomeModel").children("td").eq(1).html());
+		}
+		
 	});
 	/*保存报账*/
 	$("#reimbursementApplication").click(function(){

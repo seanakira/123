@@ -233,6 +233,14 @@ public class LocalTourService extends BaseService{
 		return mobileService.sendMessageAgain(mobileControllerMapping, tourId, message);
 	}
 	
+	public boolean sendMessageMice(String mobileControllerMapping, int tourId, int status, String message, boolean hasMainManager, boolean hasViceManager){
+		return mobileService.sendMessageMice(mobileControllerMapping, tourId, status, message ,hasMainManager, hasViceManager);
+	}
+	
+	public boolean sendMessageMice(String mobileControllerMapping, int tourId, int status, String message, boolean hasDeptManager){
+		return mobileService.sendMessageMice(mobileControllerMapping, tourId, status, message ,hasDeptManager);
+	}
+	
 	public boolean sendMessageToMaker(int tourId, String message){
 		LocalTourTable localTourTable = (LocalTourTable) this.getById("LocalTourTable", tourId);
 		return WeiXinUtil.sendTextMessage(userService.getUserName(localTourTable.getUserId())+"@ctssd.com", "", localTourTable.getTourNo()+" "+localTourTable.getTourName()+message, "0");
@@ -328,7 +336,7 @@ public class LocalTourService extends BaseService{
 	}
 	
 	public boolean checkReimbursement(int tourId) {
-		return loanInvoiceService.getLoanInvoiceSum(tourId)<=(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue());
+		return loanInvoiceService.getLoanInvoiceSum(tourId)<=(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -351,14 +359,14 @@ public class LocalTourService extends BaseService{
 				this.add(reimbursementCostTable);
 			}
 		}
-		
 		for (ReimbursementIncomeTable income : full.getReimbursementIncomeTables()) {
 			if(income.getIncome()!=0){
 				this.merge(income);
-			}else if(income.getId()!=null&&income.getId()!=0){
+			}else if(income.getId()!=null||income.getId()!=0){
 				this.delete(income);
 			}
 		}
+		
 		
 		/*添加人头费*/
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) this.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getTourId());

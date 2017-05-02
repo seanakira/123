@@ -378,7 +378,6 @@ public class MobileService extends BaseService{
 
 	
 	/*向上级发送微信消息*/
-	@SuppressWarnings("unused")
 	public boolean sendMessage(String mobileControllerMapping, int tourId, int status, String message){
 		/*验证是否打开微信消息接收开关*/
 		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
@@ -404,6 +403,64 @@ public class MobileService extends BaseService{
 		return false;
 	}
 	
+	public boolean sendMessageMice(String mobileControllerMapping, int tourId, int status, String message, boolean hasMainManager, boolean hasViceManager){
+		/*验证是否打开微信消息接收开关*/
+		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
+			int errorCode = 0;
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			StringBuffer path = request.getRequestURL();  
+			String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+			String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+status;
+		    UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
+		    DeptTable dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
+		    String managerIds = dept.getManagerIds();
+		    String[] ids = managerIds.split(",");
+		    if(hasMainManager){
+		    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
+		    	if(WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+		    		errorCode = -1;
+		    	}
+	    	}
+	    	if(hasViceManager){
+	    		UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
+		    	if(WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+		    		errorCode = -1;
+		    	}
+	    	}
+		    if(errorCode==0){
+		    	return true;
+		    }
+		/*}*/
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean sendMessageMice(String mobileControllerMapping, int tourId, int status, String message, boolean hasDeptManager){
+		/*验证是否打开微信消息接收开关*/
+		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
+			int errorCode = 0;
+			if(hasDeptManager){
+				HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+				StringBuffer path = request.getRequestURL();  
+				String tempContextUrl = path.delete(path.length() - request.getRequestURI().length(), path.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+				String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+status;
+			    UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
+			    ArrayList<UserTable> users = (ArrayList<UserTable>) this.getAllByString("UserTable", "deptId=?", user.getDeptId());
+			    for (UserTable userTable : users) {
+			    	if(userTable.getPosition().equals("部门经理")){
+			    		if(WeiXinUtil.sendTextMessage(userTable.getUserName()+"@ctssd.com", url, message, "0")==false){
+				    		errorCode = -1;
+				    	}
+			    	}
+				}
+	    	}
+		    if(errorCode==0){
+		    	return true;
+		    }
+		/*}*/
+		return false;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public boolean sendMessageAgain(String mobileControllerMapping, int tourId, String message){
 		/*验证是否打开微信消息接收开关*/
@@ -414,12 +471,19 @@ public class MobileService extends BaseService{
 		/*if(((UserTable)SecurityUtils.getSubject().getPrincipal()).isWeiXinMessageSwitch()){*/
 			boolean hasManager = false;
 			boolean hasBoss = false;
+			boolean hasMainManager = false;
+			boolean hasViceManager = false;
 			UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
 			if("loanApplication".equals(mobileControllerMapping)){
 				ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) this.getAllByString("LoanTable", "tourId=? and (status=2 or status=3)", tourId);
 				for (LoanTable loanTable : loanTables) {
 					if(loanTable.getStatus()==2){
 						hasManager = true;
+						if(loanTable.getLoanAmount()>10000){
+							hasMainManager = true;
+						}else{
+							hasViceManager = true;
+						}
 					}else if(loanTable.getStatus()==3){
 						hasBoss = true;
 					}
@@ -427,12 +491,28 @@ public class MobileService extends BaseService{
 				if(hasManager){
 					String[] ids = userService.getManagerIds(user);
 				    String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+2;
-				    for (int i = 0; i < ids.length; i++) {
-				    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
-				    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
-				    		sendOk = false;
+				    /*如果是会展*/
+				    if((Boolean)SecurityUtils.getSubject().getSession().getAttribute("isMice")){
+				    	if(hasMainManager){
+					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    		sendOk = false;
+					    	}
 				    	}
-					}
+				    	if(hasViceManager){
+				    		UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    		sendOk = false;
+					    	}
+				    	}
+				    }else{
+				    	for (int i = 0; i < ids.length; i++) {
+					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
+					    		sendOk = false;
+					    	}
+						}
+				    }
 				}
 				if(hasBoss){
 					String[] ids = userService.getBossIds(user);
@@ -450,6 +530,11 @@ public class MobileService extends BaseService{
 				for (CostTable cost : costTables) {
 					if(cost.getPayStatus()==1){
 						hasManager = true;
+						if(cost.getCost()*cost.getCount()*cost.getDays()>10000){
+							hasMainManager = true;
+						}else{
+							hasViceManager = true;
+						}
 					}else if(cost.getPayStatus()==2){
 						hasBoss = true;
 					}
@@ -457,6 +542,11 @@ public class MobileService extends BaseService{
 				for (ChangeCostTable changeCost : changeCostTable) {
 					if(changeCost.getPayStatus()==1){
 						hasManager = true;
+						if(changeCost.getCost()*changeCost.getCount()*changeCost.getDays()>10000){
+							hasMainManager = true;
+						}else{
+							hasViceManager = true;
+						}
 					}else if(changeCost.getPayStatus()==2){
 						hasBoss = true;
 					}
@@ -464,12 +554,28 @@ public class MobileService extends BaseService{
 				if(hasManager){
 					String[] ids = userService.getManagerIds(user);
 				    String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+1;
-				    for (int i = 0; i < ids.length; i++) {
-				    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
-				    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
-				    		sendOk = false;
+				    /*如果是会展*/
+				    if((Boolean)SecurityUtils.getSubject().getSession().getAttribute("isMice")){
+				    	if(hasMainManager){
+					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    		sendOk = false;
+					    	}
 				    	}
-					}
+				    	if(hasViceManager){
+				    		UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    		sendOk = false;
+					    	}
+				    	}
+				    }else{
+				    	for (int i = 0; i < ids.length; i++) {
+					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
+					    		sendOk = false;
+					    	}
+						}
+				    }
 				}
 				if(hasBoss){
 					String[] ids = userService.getBossIds(user);

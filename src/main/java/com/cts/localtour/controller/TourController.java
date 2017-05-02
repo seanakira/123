@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -380,10 +381,26 @@ public class TourController {
 		return localTourService.findLend(tourId);
 	}
 	@RequestMapping("/localTourManage/loanApplication")
-	public @ResponseBody boolean loanApplication(@RequestBody ArrayList<LoanTable> loans){
+	public @ResponseBody boolean loanApplication(@RequestBody ArrayList<LoanTable> loans, HttpSession session){
 		if(!loans.isEmpty()){
+			boolean hasMainManage = false;
+			boolean hasViceManager = false;
+			for (LoanTable loanTable : loans) {
+				if(loanTable.getLoanAmount()>10000){
+					hasMainManage = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManage&&hasViceManager){
+					break;
+				}
+			}
 			localTourService.loanApplication(loans);
-			return localTourService.sendMessage("loanApplication", loans.get(0).getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(loans.get(0).getTourId())+" 待审核的(导游借款)，点击进行审核");
+			if((Boolean) session.getAttribute("isMice")){
+				return localTourService.sendMessageMice("loanApplication", loans.get(0).getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(loans.get(0).getTourId())+" 待审核的(导游借款)，点击进行审核", hasMainManage, hasViceManager);
+			}else{
+				return localTourService.sendMessage("loanApplication", loans.get(0).getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(loans.get(0).getTourId())+" 待审核的(导游借款)，点击进行审核");
+			}
 		}
 		return false;
 	}
@@ -399,12 +416,41 @@ public class TourController {
 		return localTourService.findPay(tourId);
 	}
 	@RequestMapping("/localTourManage/payApplication")
-	public @ResponseBody int payApplication(@RequestBody FullPayViewModel full){
+	public @ResponseBody int payApplication(@RequestBody FullPayViewModel full, HttpSession session){
 		int errorCode = 0;
+		boolean hasMainManager = false;
+		boolean hasViceManager = false;
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
+			for (CostTable cost : full.getCostTables()) {
+				if(cost.getCost()*cost.getCount()*cost.getDays()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
+			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
+				if(changeCost.getCost()*changeCost.getCount()*changeCost.getDays()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
 			errorCode = localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
-			if(!localTourService.sendMessage("payApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(!full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId())+" 待审核的(付款申请)，点击进行审核")){
-				errorCode = -2;
+			int tourId = full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
+			if((Boolean) session.getAttribute("isMice")){
+				if(!localTourService.sendMessageMice("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核", hasMainManager, hasViceManager)){
+					errorCode = -2;
+				}
+			}else{
+				if(!localTourService.sendMessage("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核")){
+					errorCode = -2;
+				}
 			}
 		}
 		return errorCode;
@@ -421,32 +467,45 @@ public class TourController {
 	}
 	
 	@RequestMapping("/localTourManage/saveBorrowInvoice")
-	public @ResponseBody int saveBorrowInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables, HttpServletRequest request){
+	public @ResponseBody int saveBorrowInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables, HttpSession session){
 		int errorCode = 0;
-		ArrayList<LoanInvoiceTable> loanInvoices = new ArrayList<LoanInvoiceTable>();
-		int applicationerId = ((UserTable) SecurityUtils.getSubject().getPrincipal()).getId();
-		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-			if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount()==0){
-				errorCode = -1;
-				break;
-			}else{
-				loanInvoiceTable.setApplicationerId(applicationerId);
-				loanInvoiceTable.setRemark(loanInvoiceTable.getRemark().replaceAll("\n", "<br>"));
-				loanInvoices.add(loanInvoiceTable);
+		if(!loanInvoiceTables.isEmpty()){
+			ArrayList<LoanInvoiceTable> loanInvoices = new ArrayList<LoanInvoiceTable>();
+			int applicationerId = ((UserTable) SecurityUtils.getSubject().getPrincipal()).getId();
+			for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
+				if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount()==0){
+					errorCode = -1;
+					break;
+				}else{
+					loanInvoiceTable.setApplicationerId(applicationerId);
+					loanInvoiceTable.setRemark(loanInvoiceTable.getRemark().replaceAll("\n", "<br>"));
+					loanInvoices.add(loanInvoiceTable);
+				}
+			}
+			if(errorCode==0){
+				localTourService.saveBorrowInvoice(loanInvoices);
+				if((Boolean) session.getAttribute("isMice")){
+					if(!localTourService.sendMessageMice("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(loanInvoiceTables.get(0).getTourId())+" 待审核的(预借发票)，点击进行审核", true)){
+						errorCode = -1;
+					}
+				}else{
+					if(!localTourService.sendMessage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(loanInvoiceTables.get(0).getTourId())+" 待审核的(预借发票)，点击进行审核")){
+						errorCode = -1;
+					}
+				}
+				return errorCode;
 			}
 		}
-		if(errorCode==0){
-			localTourService.saveBorrowInvoice(loanInvoices);
-			if(!loanInvoiceTables.isEmpty()){
-				localTourService.sendMessage("loanInvoiceApplication", loanInvoiceTables.get(0).getTourId(), 1, "您有 "+localTourService.getTourNoAndTourName(loanInvoiceTables.get(0).getTourId())+" 待审核的(预借发票)，点击进行审核");
-			}
-		}
-		return errorCode;
+		return -1;
 	}
 	@RequestMapping("/localTourManage/borrowInvoiceAgain")
-	public @ResponseBody boolean borrowInvoiceAgain(@RequestParam int tourId){
+	public @ResponseBody boolean borrowInvoiceAgain(@RequestParam int tourId, HttpSession session){
 		if(!localTourService.getAllByString("LoanInvoiceTable", "tourId=? and status=1", tourId).isEmpty()){
-			return localTourService.sendMessage("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核");
+			if((Boolean) session.getAttribute("isMice")){
+				return localTourService.sendMessageMice("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核", true);
+			}else{
+				return localTourService.sendMessage("loanInvoiceApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(预借发票)，点击进行审核");
+			} 
 		}
 		return false;
 	}

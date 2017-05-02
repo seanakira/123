@@ -1,3 +1,5 @@
+<%@page import="org.apache.shiro.SecurityUtils"%>
+<%@page import="com.cts.localtour.entity.UserTable"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
@@ -5,7 +7,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<% String path = request.getContextPath()+"/"; %>
+<% 
+	String path = request.getContextPath()+"/"; 
+	UserTable user = (UserTable)SecurityUtils.getSubject().getPrincipal();
+%>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
 <style type="text/css">
@@ -63,49 +68,140 @@
 					
 					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
 					<c:if test="${loans.size()==0 }">
-						<c:if test="${changes.costs.size()==0 }">
-							<div style="margin-left: 10px;"><span class="red">没有查询到借款记录</span></div>
-						</c:if>
+						<div style="margin-left: 10px;"><span class="red">没有查询到借款记录</span></div>
 					</c:if>
+					
 <!-- 列表循环 -->		<c:forEach var="loan" items="${loans }">
-						<div>
-							<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
-								<thead>
-									<tr role="row">
+						<c:choose>
+							<c:when test="${sessionScope.isMice }">
+								<c:choose>
+									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
+										<c:if test="${loan.loanTable.loanAmount>10000 }">
+											<div>
+												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+													<thead>
+														<tr role="row">
+															
+														</tr>
+													</thead>
+													
+													<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+														<tr>
+															<td style="width: 20%">日期</td>
+															<td style="width: 30%">${loan.loanTable.loanDate }</td>
+															<td style="width: 20%">金额</td>
+															<td style="width: 30%">${loan.loanTable.loanAmount }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">申请人</td>
+															<td style="width: 30%">${loan.applicationerRealName }</td>
+															<td style="width: 20%">状态</td>
+															<td style="width: 30%">${loan.status }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">备注</td>
+															<td style="width: 30%">${loan.loanTable.remark }</td>
+														</tr>
+														
+													</tbody>
+												</table>
+												<div id="${loan.loanTable.id }" class="action" style="margin: 5px;">
+													<shiro:hasPermission name="loanApplication:cancel">
+														<button class="btn btn-sm btn-danger">驳回</button>
+													</shiro:hasPermission>
+													<shiro:hasPermission name="loanApplication:ok">
+														<button class="btn btn-sm btn-success pull-right">同意</button>
+													</shiro:hasPermission>
+												</div>
+												<HR style="margin-top: 0px;">
+											</div>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${loan.loanTable.loanAmount<=10000 }">
+											<div>
+												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+													<thead>
+														<tr role="row">
+															
+														</tr>
+													</thead>
+													
+													<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+														<tr>
+															<td style="width: 20%">日期</td>
+															<td style="width: 30%">${loan.loanTable.loanDate }</td>
+															<td style="width: 20%">金额</td>
+															<td style="width: 30%">${loan.loanTable.loanAmount }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">申请人</td>
+															<td style="width: 30%">${loan.applicationerRealName }</td>
+															<td style="width: 20%">状态</td>
+															<td style="width: 30%">${loan.status }</td>
+														</tr>
+														<tr>
+															<td style="width: 20%">备注</td>
+															<td style="width: 30%">${loan.loanTable.remark }</td>
+														</tr>
+													</tbody>
+												</table>
+												<div id="${loan.loanTable.id }" class="action" style="margin: 5px;">
+													<shiro:hasPermission name="loanApplication:cancel">
+														<button class="btn btn-sm btn-danger">驳回</button>
+													</shiro:hasPermission>
+													<shiro:hasPermission name="loanApplication:ok">
+														<button class="btn btn-sm btn-success pull-right">同意</button>
+													</shiro:hasPermission>
+												</div>
+												<HR style="margin-top: 0px;">
+											</div>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+								<div>
+									<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+										<thead>
+											<tr role="row">
+												
+											</tr>
+										</thead>
 										
-									</tr>
-								</thead>
-	
-								<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
-									<tr>
-										<td style="width: 20%">日期</td>
-										<td style="width: 30%">${loan.loanTable.loanDate }</td>
-										<td style="width: 20%">金额</td>
-										<td style="width: 30%">${loan.loanTable.loanAmount }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">申请人</td>
-										<td style="width: 30%">${loan.applicationerRealName }</td>
-										<td style="width: 20%">状态</td>
-										<td style="width: 30%">${loan.status }</td>
-									</tr>
-									<tr>
-										<td style="width: 20%">备注</td>
-										<td style="width: 30%">${loan.loanTable.remark }</td>
-									</tr>
-									
-							</tbody>
-						</table>
-						<div id="${loan.loanTable.id }" class="action" style="margin: 5px;">
-							<shiro:hasPermission name="loanApplication:cancel">
-								<button class="btn btn-sm btn-danger">驳回</button>
-							</shiro:hasPermission>
-							<shiro:hasPermission name="loanApplication:ok">
-								<button class="btn btn-sm btn-success pull-right">同意</button>
-							</shiro:hasPermission>
-						</div>
-						<HR style="margin-top: 0px;">
-					</div>
+										<tbody id="table" aria-relevant="all" aria-live="polite" role="alert">
+											<tr>
+												<td style="width: 20%">日期</td>
+												<td style="width: 30%">${loan.loanTable.loanDate }</td>
+												<td style="width: 20%">金额</td>
+												<td style="width: 30%">${loan.loanTable.loanAmount }</td>
+											</tr>
+											<tr>
+												<td style="width: 20%">申请人</td>
+												<td style="width: 30%">${loan.applicationerRealName }</td>
+												<td style="width: 20%">状态</td>
+												<td style="width: 30%">${loan.status }</td>
+											</tr>
+											<tr>
+												<td style="width: 20%">备注</td>
+												<td style="width: 30%">${loan.loanTable.remark }</td>
+											</tr>
+											
+										</tbody>
+									</table>
+									<div id="${loan.loanTable.id }" class="action" style="margin: 5px;">
+										<shiro:hasPermission name="loanApplication:cancel">
+											<button class="btn btn-sm btn-danger">驳回</button>
+										</shiro:hasPermission>
+										<shiro:hasPermission name="loanApplication:ok">
+											<button class="btn btn-sm btn-success pull-right">同意</button>
+										</shiro:hasPermission>
+									</div>
+									<HR style="margin-top: 0px;">
+								</div>
+							</c:otherwise>
+						</c:choose>
+						
 					</c:forEach>
 <!-- 列表循环结束 -->	
 					<div style="text-align: center;">
