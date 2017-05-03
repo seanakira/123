@@ -1,6 +1,7 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,9 +134,13 @@ public class PayService extends BaseService{
 					this.updateByString("LoanTable", "lended=?", "id=?", loanTables.get(i).isLended(),loanTables.get(i).getId());
 				}
 			}
-			
-			if(((LocalTourTable)this.getById("LocalTourTable", full.getTourId())).getStatus()==2){
-				this.updateByString("LocalTourTable", "status=3", "id=?", full.getTourId());
+			LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", full.getTourId());
+			if(tour.getStatus()==2){
+				if(new Date().getTime()>=tour.getEndTime().getTime()){
+					this.updateByString("LocalTourTable", "status=5", "id=?", full.getTourId());
+				}else{
+					this.updateByString("LocalTourTable", "status=3", "id=?", full.getTourId());
+				}
 			}
 			localTourService.sendMessageToMaker(costCache.size()!=0?costCache.get(0).getTourId():changeCostCache.size()!=0?changeCostCache.get(0).getTourId():loanTables.get(0).getTourId(), " 财务借款处理完毕，已可进行借款或付款申请");
 		}

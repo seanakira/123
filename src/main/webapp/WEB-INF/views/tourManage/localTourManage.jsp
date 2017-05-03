@@ -2383,14 +2383,14 @@
 														<thead>
 															<tr>
 																<th style="width: 5%;">日期</th>
-																<th style="width: 10%;">内容</th>
-																<th style="width: 10%;">供应商*</th>
+																<th style="width: 8%;">内容</th>
+																<th style="width: 5%;">供应商*</th>
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
 																<th style="width: 5%;">预估成本</th>
 																<th style="width: 5%;">已汇金额</th>
-																<th style="width: 5%;">报账金额</th>
+																<th style="width: 9%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
 																<th style="width: 5%;">挂账</th>
@@ -2412,14 +2412,14 @@
 														<thead>
 															<tr>
 																<th style="width: 5%;">日期</th>
-																<th style="width: 10%;">内容</th>
-																<th style="width: 10%;">供应商*</th>
+																<th style="width: 8%;">内容</th>
+																<th style="width: 5%;">供应商*</th>
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
 																<th style="width: 5%;">预估成本</th>
 																<th style="width: 5%;">已汇金额</th>
-																<th style="width: 5%;">报账金额</th>
+																<th style="width: 9%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
 																<th style="width: 5%;">挂账</th>
@@ -2441,14 +2441,14 @@
 														<thead>
 															<tr>
 																<th style="width: 5%;">日期</th>
-																<th style="width: 10%;">内容</th>
-																<th style="width: 10%;">供应商*</th>
+																<th style="width: 8%;">内容</th>
+																<th style="width: 5%;">供应商*</th>
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
 																<th style="width: 5%;">预估成本</th>
 																<th style="width: 5%;">已汇金额</th>
-																<th style="width: 5%;">报账金额</th>
+																<th style="width: 9%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
 																<th style="width: 5%;">挂账</th>
@@ -2470,14 +2470,14 @@
 														<thead>
 															<tr>
 																<th style="width: 5%;">日期</th>
-																<th style="width: 10%;">内容</th>
-																<th style="width: 10%;">供应商*</th>
+																<th style="width: 8%;">内容</th>
+																<th style="width: 5%;">供应商*</th>
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
 																<th style="width: 5%;">预估成本</th>
 																<th style="width: 5%;">已汇金额</th>
-																<th style="width: 5%;">报账金额</th>
+																<th style="width: 9%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
 																<th style="width: 5%;">挂账</th>
@@ -2499,14 +2499,14 @@
 														<thead>
 															<tr>
 																<th style="width: 5%;">日期</th>
-																<th style="width: 10%;">内容</th>
-																<th style="width: 10%;">供应商*</th>
+																<th style="width: 8%;">内容</th>
+																<th style="width: 5%;">供应商*</th>
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
 																<th style="width: 5%;">预估成本</th>
 																<th style="width: 5%;">已汇金额</th>
-																<th style="width: 5%;">报账金额</th>
+																<th style="width: 9%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
 																<th style="width: 5%;">挂账</th>
@@ -2528,14 +2528,14 @@
 														<thead>
 															<tr>
 																<th style="width: 5%;">日期</th>
-																<th style="width: 10%;">内容</th>
-																<th style="width: 10%;">供应商*</th>
+																<th style="width: 8%;">内容</th>
+																<th style="width: 5%;">供应商*</th>
 																<th style="width: 5%;">成本</th>
 																<th style="width: 5%;">数量</th>
 																<th style="width: 5%;">天数</th>
 																<th style="width: 5%;">预估成本</th>
 																<th style="width: 5%;">已汇金额</th>
-																<th style="width: 5%;">报账金额</th>
+																<th style="width: 9%;">报账金额</th>
 																<th style="width: 5%;">明细备注</th>
 																<th style="width: 5%;">导游借款</th>
 																<th style="width: 5%;">挂账</th>
@@ -2556,14 +2556,14 @@
 													<thead>
 														<tr>
 															<th style="width: 5%;">日期</th>
-															<th style="width: 10%;">内容</th>
-															<th style="width: 10%;">供应商*</th>
+															<th style="width: 8%;">内容</th>
+															<th style="width: 5%;">供应商*</th>
 															<th style="width: 5%;">成本</th>
 															<th style="width: 5%;">数量</th>
 															<th style="width: 5%;">天数</th>
 															<th style="width: 5%;">预估成本</th>
 															<th style="width: 5%;">已汇金额</th>
-															<th style="width: 5%;">报账金额</th>
+															<th style="width: 9%;">报账金额</th>
 															<th style="width: 5%;">明细备注</th>
 															<th style="width: 5%;">导游借款</th>
 															<th style="width: 5%;">挂账</th>
@@ -2585,14 +2585,14 @@
 													<thead>
 														<tr>
 															<th style="width: 5%;">日期</th>
-															<th style="width: 10%;">内容</th>
-															<th style="width: 10%;">供应商*</th>
+															<th style="width: 8%;">内容</th>
+															<th style="width: 5%;">供应商*</th>
 															<th style="width: 5%;">成本</th>
 															<th style="width: 5%;">数量</th>
 															<th style="width: 5%;">天数</th>
 															<th style="width: 5%;">预估成本</th>
 															<th style="width: 5%;">已汇金额</th>
-															<th style="width: 5%;">报账金额</th>
+															<th style="width: 9%;">报账金额</th>
 															<th style="width: 5%;">明细备注</th>
 															<th style="width: 5%;">导游借款</th>
 															<th style="width: 5%;">挂账</th>
@@ -2626,7 +2626,7 @@
 																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 																<th style="width: 1%">
-																	<a class="blue reimbursementIncome" href="#">
+																	<a class="blue reimbursementIncomeAdd" href="#">
 																		<i class="icon-plus bigger-130"></i>
 																	</a>
 																</th>
@@ -2917,7 +2917,7 @@
 	$("#localTourManage").addClass("active");
 	$("#create").find("input").attr("style","width:100%;");
 	$("#create").find("select").attr("style","width:100%;");
-	$(".modal-dialog").attr("style","width:80%;");
+	$(".modal-dialog").attr("style","width:90%;");
 	/* 提示 */
 	$("a").tooltip({
 		show: null,
@@ -5776,7 +5776,7 @@
        			$.each(selectInfo.otherSuppliers,function(){
        				otherSelect.children("select").append('<option value="'+this.id+'">'+this.supplierName+'</option>');
                	});
-       			
+
 	        	$.each(data.costs,function(){
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
@@ -5973,7 +5973,6 @@
 	        	});
 	        	$("#costs5").find("select").chosen({no_results_text: "查无结果", search_contains: true});
 	        	$("#costs5").find("select").next().attr("style","width:100%;");
-
 	        	/* 设置借款 */
 	        	$("#loanTable").html("");
 	        	$.each(data.loans,function(){
@@ -6252,7 +6251,7 @@
 	});
 	
 	/* 调整报账收入 */
-	$("incomes5").delegate(".reimbursementIncome","click",function(){
+	$(".reimbursementIncomeAdd").click(function(){
 		var tbody = $(this).parents("table").children("tbody");
 		tbody.append('<tr class="red"><td></td><td style="vertical-align: middle;"></td><td><input class="form-control reimbursementIncome" style="width:100%;" type="text"></td><td></td><td></td><td><input class="form-control" style="width:100%;" type="text"></td><td style="vertical-align: middle;"><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td></tr>');
 		var tr = tbody.children("tr").not("#incomeModel").last();
@@ -6380,9 +6379,6 @@
 		}else if(checkbox.length>1){
 			alert("只能选择一个团队");
 		}else{
-			$(this).hide();
-			$(this).prev().hide();
-			checkbox.parent().parent().siblings().eq(-2).text("已报账");
 			$.ajax({
 				type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
@@ -6394,13 +6390,16 @@
 		        	
 		        }
 			});
+			$(this).hide();
+			$(this).prev().hide();
+			checkbox.parent().parent().siblings().eq(-2).text("已报账");
 		}
 	});
 	
 	/* 打印报账单 */
 	$("#reimbursementPrintButton").click(function(){
 		var checkbox = $("#table").find("input:checked");
-		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"){
+		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"){
 			alert("请先报账填写，并报账提交");
 			return;
 		}else if(checkbox.length==0){
@@ -6446,7 +6445,7 @@
 		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#maxLoan").parent().parent().parent().html()+"</table>");
 		var tbodys = $("#reimbursementPrintDiv").find("tbody");
 		$.each(tbodys,function(index){
-			if($(this).children("tr").length==0){
+			if($(this).children("tr").length==0&&index!=0){
 				$(this).parent().hide();
 			}else{
 				var inputs = $(this).find("input");

@@ -186,7 +186,7 @@ public class FullReimbursementViewModel {
 	@SuppressWarnings("unchecked")
 	public FullReimbursementViewModel getFullReimbursementViewModel (int tourId){
 		FullReimbursementViewModel full = new FullReimbursementViewModel();
-		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=? and (payStatus=3 or lend=true or bill=true)", tourId);
+		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=?", tourId);
 		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
 		for (int i = 0; i < costTables.size(); i++) {
 			CostViewModel cost = new CostViewModel();
@@ -207,7 +207,7 @@ public class FullReimbursementViewModel {
 		}
 		full.setCosts(costs);
 		
-		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "tourId=? and status=3 and (payStatus=3 or lend=true or bill=true)", tourId);
+		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "tourId=? and status=3", tourId);
 		ArrayList<ChangeCostViewModel> changeCosts = new ArrayList<ChangeCostViewModel>();
 		for (int i = 0; i < changeCostTables.size(); i++) {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
@@ -228,7 +228,7 @@ public class FullReimbursementViewModel {
 		}
 		full.setChangeCosts(changeCosts);
 		
-		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModel(tourId ,0));
+		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModelAll(tourId));
 		
 		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=? and status=4", tourId);
 		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();

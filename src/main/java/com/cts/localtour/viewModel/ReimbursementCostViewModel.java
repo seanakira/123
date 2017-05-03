@@ -54,7 +54,22 @@ public class ReimbursementCostViewModel {
 			ReimbursementCostViewModel reimbursementCostViewModel = new ReimbursementCostViewModel();
 			reimbursementCostViewModel.setCostTable(reimbursementCostTable);
 			reimbursementCostViewModel.setSupplierName(supplierInfoService.getSupplierName(reimbursementCostTable.getSupplierId()));
-			reimbursementCostViewModel.setContentName(contentService.getContentName(reimbursementCostTable.getContentId()));
+			reimbursementCostViewModel.setContentName(reimbursementCostTable.getContentId()==null?"":contentService.getContentName(reimbursementCostTable.getContentId()));
+			reimbursementCostViewModel.setPayStatus(reimbursementCostTable.getPayStatus()==0?"新增":"已批准");
+			reimbursementCostViewModels.add(reimbursementCostViewModel);
+		}
+		return reimbursementCostViewModels;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ReimbursementCostViewModel> getAllReimbursementCostViewModelAll(int tourId){
+		ArrayList<ReimbursementCostViewModel> reimbursementCostViewModels = new ArrayList<ReimbursementCostViewModel>();
+		ArrayList<ReimbursementCostTable> reimbursementCostTables = (ArrayList<ReimbursementCostTable>) baseService.getAllByString("ReimbursementCostTable", "tourId=?", tourId);
+		for (ReimbursementCostTable reimbursementCostTable : reimbursementCostTables) {
+			ReimbursementCostViewModel reimbursementCostViewModel = new ReimbursementCostViewModel();
+			reimbursementCostViewModel.setCostTable(reimbursementCostTable);
+			reimbursementCostViewModel.setSupplierName(supplierInfoService.getSupplierName(reimbursementCostTable.getSupplierId()));
+			reimbursementCostViewModel.setContentName(reimbursementCostTable.getContentId()==null?"":contentService.getContentName(reimbursementCostTable.getContentId()));
 			reimbursementCostViewModel.setPayStatus(reimbursementCostTable.getPayStatus()==0?"新增":"已批准");
 			reimbursementCostViewModels.add(reimbursementCostViewModel);
 		}
