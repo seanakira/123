@@ -36,6 +36,7 @@ public class FullLocalTourViewModel {
 	private ArrayList<IncomeTable> incomeTables;
 	private ArrayList<IncomeViewModel> incomes;
 	private ArrayList<ChangeIncomeViewModel> changeIncomes;
+	private ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes;
 	private Hashtable<String, String> tourInfo;
 	private Hashtable<String, String> delIds;
 	@SuppressWarnings("rawtypes")
@@ -57,6 +58,8 @@ public class FullLocalTourViewModel {
 	private ChangeIncomeViewModel changeIncomeViewModel;
 	@Autowired
 	private ReimbursementCostViewModel reimbursementCostViewModel;
+	@Autowired
+	private ReimbursementIncomeViewModel reimbursementIncomeViewModel;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -159,10 +162,16 @@ public class FullLocalTourViewModel {
 	public void setReimbursementCosts(ArrayList<ReimbursementCostViewModel> reimbursementCosts) {
 		this.reimbursementCosts = reimbursementCosts;
 	}
+	public ArrayList<ReimbursementIncomeViewModel> getReimbursementIncomes() {
+		return reimbursementIncomes;
+	}
+	public void setReimbursementIncomes(ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes) {
+		this.reimbursementIncomes = reimbursementIncomes;
+	}
 	@SuppressWarnings("unchecked")
-	public FullLocalTourViewModel getFullLocalTourViewModel(int id){
+	public FullLocalTourViewModel getFullLocalTourViewModel(int tourId){
 		FullLocalTourViewModel full = new FullLocalTourViewModel();
-		LocalTourTable localTour = (LocalTourTable) baseService.getById("LocalTourTable", id);
+		LocalTourTable localTour = (LocalTourTable) baseService.getById("LocalTourTable", tourId);
 		full.setLocalTourTable(localTour);
 		
 		Hashtable<String, String> tourInfo = new Hashtable<String, String>();
@@ -172,24 +181,26 @@ public class FullLocalTourViewModel {
 		tourInfo.put("visitorTypeName", ((VisitorTypeTable)baseService.getById("VisitorTypeTable", localTour.getVisitorTypeId())).getVisitorTypeName());
 		tourInfo.put("customerAgencyName", ((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
 		full.setTourInfo(tourInfo);
-		full.setGuideTimes(guideTimeViewModel.getAllGuideTimeViewModel(id));
+		full.setGuideTimes(guideTimeViewModel.getAllGuideTimeViewModel(tourId));
 //		full.setArrTables((ArrayList<ArrTable>) baseService.getAllByString("ArrTable", "tourId=?", id));
-		full.setArrs(arrViewModel.getAllArrDepViewModel(id));
+		full.setArrs(arrViewModel.getAllArrDepViewModel(tourId));
 		
 //		full.setDepartTables(departTables);
-		full.setDeparts(departViewModel.getAllDepartViewModel(id));
+		full.setDeparts(departViewModel.getAllDepartViewModel(tourId));
 		
-		full.setTripTables((ArrayList<TripTable>) baseService.getAllByString("TripTable", "tourId=?", id));
+		full.setTripTables((ArrayList<TripTable>) baseService.getAllByString("TripTable", "tourId=?", tourId));
 		
-		full.setCosts(costViewModel.getAllCostViewModel(id));
+		full.setCosts(costViewModel.getAllCostViewModel(tourId));
 		
-		full.setIncomes(incomeViewModel.getAllIncomeViewModel(id));
+		full.setIncomes(incomeViewModel.getAllIncomeViewModel(tourId));
 		
-		full.setChangeCosts(changeCostViewModel.getAllChangeCostViewModel(id,3));
+		full.setChangeCosts(changeCostViewModel.getAllChangeCostViewModel(tourId,3));
 		
-		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(id,3));
+		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId,3));
 		
-		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModel(id, 1));
+		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModelAll(tourId));
+		
+		full.setReimbursementIncomes(reimbursementIncomeViewModel.getAllIncomeViewModel(tourId));
 		return full;
 	}
 }

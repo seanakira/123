@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cts.localtour.cron.TourStatusStartOrEnd;
 import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
@@ -70,6 +71,8 @@ public class TourController {
 	private PrintService printService;
 	@Autowired
 	private SysUsageService sysUsageService;
+	@Autowired
+	private TourStatusStartOrEnd status;
 	@RequestMapping("/localTourManage")
 	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -442,7 +445,7 @@ public class TourController {
 				}
 			}
 			errorCode = localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
-			int tourId = full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
+			int tourId = !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
 			if((Boolean) session.getAttribute("isMice")){
 				if(!localTourService.sendMessageMice("payApplication", tourId, 1, "ÄúÓÐ "+localTourService.getTourNoAndTourName(tourId)+" ´ýÉóºËµÄ(¸¶¿îÉêÇë)£¬µã»÷½øÐÐÉóºË", hasMainManager, hasViceManager)){
 					errorCode = -2;
@@ -585,7 +588,8 @@ public class TourController {
 	/*²âÊÔ*/
 	@RequestMapping("/test")
 	public void test(){
-		sysUsageService.computeSysUsageTable();
+		
+		status.firstTask();
 	}
 	@RequestMapping("/sendTest")
 	public void sendTest(@RequestParam String touser){

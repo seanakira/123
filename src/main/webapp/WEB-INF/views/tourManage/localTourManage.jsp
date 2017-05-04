@@ -1267,6 +1267,7 @@
 												         			
 						         			</div><!-- tab content 结束 -->
 						         			<span id="changeIncomeBlue" class="blue">*蓝色为成本收入变更</span>
+						         			<span id="reimbursementIncomeRed" class="red" style="">*红色为报账调整应收</span>
 					         			</div><!-- 左tab 结束 -->
 					         		</div><!-- 收入tab结束 -->
 					         		
@@ -3137,7 +3138,7 @@
 			$("#lend").hide();			/* 借款 */
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
-			$("#loanInvoice").hide();	/* 借票 */
+			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").show();	/* 报账 */
 			$("#auditingReimbursement").show();
@@ -3151,7 +3152,7 @@
 			$("#lend").hide();			/* 借款 */
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
-			$("#loanInvoice").hide();	/* 借票 */
+			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
@@ -3165,7 +3166,7 @@
 			$("#lend").hide();			/* 借款 */
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
-			$("#loanInvoice").hide();	/* 借票 */
+			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
@@ -3974,32 +3975,49 @@
 	        	var ticketsSum = 0;
 	        	var comprehensiveSum = 0;
 	        	var otherSum = 0;
+	        	
+	        	var reimbursementFlightSum = 0;
+	        	var reimbursementHotelSum = 0;
+	        	var reimbursementMealSum = 0;
+	        	var reimbursementTicketSum = 0;
+	        	var reimbursementShuttleSum = 0;
+	        	var reimbursementTicketsSum = 0;
+	        	var reimbursementComprehensiveSum = 0;
+	        	var reimbursementOtherSum = 0;
 	        	$.each(data.costs,function(){
 	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
 	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementFlightSum = reimbursementFlightSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			tbody = hotel;
 	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementHotelSum = reimbursementHotelSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==3){	
 	        			tbody = meal;
 	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementMealSum = reimbursementMealSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			tbody = ticket;
 	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementTicketSum = reimbursementTicketSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			tbody = shuttle;
 	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementShuttleSum = reimbursementShuttleSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tbody = tickets;
 	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementTicketsSum = reimbursementTicketsSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==7){
 	        			tbody = comprehensive;
 	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementComprehensiveSum = reimbursementComprehensiveSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
 	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementOtherSum = reimbursementOtherSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}
 	        		tbody.append('<tr>'+
 							'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
@@ -4029,27 +4047,35 @@
 	        		if(this.costTable.supplierScopeId==1){
 	        			tbody = flight;
 	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementFlightSum = reimbursementFlightSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==2){
 	        			tbody = hotel;
 	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementHotelSum = reimbursementHotelSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==3){	
 	        			tbody = meal;
 	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementMealSum = reimbursementMealSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==4){
 	        			tbody = ticket;
 	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementTicketSum = reimbursementTicketSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==5){
 	        			tbody = shuttle;
 	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementShuttleSum = reimbursementShuttleSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==6){
 	        			tbody = tickets;
 	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementTicketsSum = reimbursementTicketsSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==7){
 	        			tbody = comprehensive;
 	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementComprehensiveSum = reimbursementComprehensiveSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
 	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
+	        			reimbursementOtherSum = reimbursementOtherSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
 	        		}
 	        		tbody.append('<tr class="blue">'+
 							'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
@@ -4063,63 +4089,69 @@
 							'<td>'+this.costTable.remark+'</td>'+
 					'</tr>');
 	        	});
-	        	if(data.reimbursementCosts.length > 0){
-	        		$("#costs2").find("#reimbursementCostRed").attr("style","");
+	        	if(data.localTourTable.status>6){
+	        		if(data.reimbursementCosts.length > 0){
+		        		$("#costs2").find("#reimbursementCostRed").attr("style","");
+		        	}else{
+		        		$("#costs2").find("#reimbursementCostRed").attr("style","display:none");
+		        	}
+	        		$.each(data.reimbursementCosts,function(){
+		        		var tbody;
+		        		if(this.costTable.supplierScopeId==1){
+		        			tbody = flight;
+		        			reimbursementFlightSum = reimbursementFlightSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==2){
+		        			tbody = hotel;
+		        			reimbursementHotelSum = reimbursementHotelSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==3){	
+		        			tbody = meal;
+		        			reimbursementMealSum = reimbursementMealSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==4){
+		        			tbody = ticket;
+		        			reimbursementTicketSum = reimbursementTicketSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==5){
+		        			tbody = shuttle;
+		        			reimbursementShuttleSum = reimbursementShuttleSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==6){
+		        			tbody = tickets;
+		        			reimbursementTicketsSum = reimbursementTicketsSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==7){
+		        			tbody = comprehensive;
+		        			reimbursementComprehensiveSum = reimbursementComprehensiveSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}else if(this.costTable.supplierScopeId==8){
+		        			tbody = other;
+		        			reimbursementOtherSum = reimbursementOtherSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
+		        		}
+		        		tbody.append('<tr class="red">'+
+								'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
+								'<td>'+this.contentName+'</td>'+
+								'<td>'+this.supplierName+'</td>'+
+								'<td>'+this.costTable.cost+'</td>'+
+								'<td>'+this.costTable.count+'</td>'+
+								'<td>'+this.costTable.days+'</td>'+
+								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+								'<td></td>'+
+								'<td>'+this.costTable.remark+'</td>'+
+						'</tr>');
+		        	});
 	        	}else{
 	        		$("#costs2").find("#reimbursementCostRed").attr("style","display:none");
 	        	}
-	        	$.each(data.reimbursementCosts,function(){
-	        		var tbody;
-	        		if(this.costTable.supplierScopeId==1){
-	        			tbody = flight;
-	        			flightSum = flightSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==2){
-	        			tbody = hotel;
-	        			hotelSum = hotelSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==3){	
-	        			tbody = meal;
-	        			mealSum = mealSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==4){
-	        			tbody = ticket;
-	        			ticketSum = ticketSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==5){
-	        			tbody = shuttle;
-	        			shuttleSum = shuttleSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==6){
-	        			tbody = tickets;
-	        			ticketsSum = ticketsSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensive;
-	        			comprehensiveSum = comprehensiveSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}else if(this.costTable.supplierScopeId==8){
-	        			tbody = other;
-	        			otherSum = otherSum + this.costTable.cost*this.costTable.count*this.costTable.days;
-	        		}
-	        		tbody.append('<tr class="red">'+
-							'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
-							'<td>'+this.contentName+'</td>'+
-							'<td>'+this.supplierName+'</td>'+
-							'<td>'+this.costTable.cost+'</td>'+
-							'<td>'+this.costTable.count+'</td>'+
-							'<td>'+this.costTable.days+'</td>'+
-							'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-							'<td></td>'+
-							'<td>'+this.costTable.remark+'</td>'+
-					'</tr>');
-	        	});
 	        	
-	        	flight.append('<tr><td>机票合计</td><td>'+flightSum.toFixed(2)+'</td></tr>');
-	        	hotel.append('<tr><td>订房合计</td><td>'+hotelSum.toFixed(2)+'</td></tr>');
-	        	meal.append('<tr><td>订餐合计</td><td>'+mealSum.toFixed(2)+'</td></tr>');
-	        	ticket.append('<tr><td>门票合计</td><td>'+ticketSum.toFixed(2)+'</td></tr>');
-	        	shuttle.append('<tr><td>订车合计</td><td>'+shuttleSum.toFixed(2)+'</td></tr>');
-	        	tickets.append('<tr><td>票务合计</td><td>'+ticketsSum.toFixed(2)+'</td></tr>');
-	        	comprehensive.append('<tr><td>综费合计</td><td>'+comprehensiveSum.toFixed(2)+'</td></tr>');
-	        	other.append('<tr><td>其他合计</td><td>'+otherSum.toFixed(2)+'</td></tr>');
+	        	flight.append('<tr><td>机票合计</td><td>'+flightSum.toFixed(2)+'</td>'+(reimbursementFlightSum==0?'':'<td>机票报账合计</td><td>'+reimbursementFlightSum.toFixed(2)+'</td>')+'</tr>');
+	        	hotel.append('<tr><td>订房合计</td><td>'+hotelSum.toFixed(2)+'</td>'+(reimbursementHotelSum==0?'':'<td>订房报账合计</td><td>'+reimbursementHotelSum.toFixed(2)+'</td>')+'</tr>');
+	        	meal.append('<tr><td>订餐合计</td><td>'+mealSum.toFixed(2)+'</td>'+(reimbursementMealSum==0?'':'<td>订餐报账合计</td><td>'+reimbursementMealSum.toFixed(2)+'</td>')+'</tr>');
+	        	ticket.append('<tr><td>门票合计</td><td>'+ticketSum.toFixed(2)+'</td>'+(reimbursementTicketSum==0?'':'<td>门票报账合计</td><td>'+reimbursementTicketSum.toFixed(2)+'</td>')+'</tr>');
+	        	shuttle.append('<tr><td>订车合计</td><td>'+shuttleSum.toFixed(2)+'</td>'+(reimbursementShuttleSum==0?'':'<td>订车报账合计</td><td>'+reimbursementShuttleSum.toFixed(2)+'</td>')+'</tr>');
+	        	tickets.append('<tr><td>票务合计</td><td>'+ticketsSum.toFixed(2)+'</td>'+(reimbursementTicketsSum==0?'':'<td>票务报账合计</td><td>'+reimbursementTicketsSum.toFixed(2)+'</td>')+'</tr>');
+	        	comprehensive.append('<tr><td>综费合计</td><td>'+comprehensiveSum.toFixed(2)+'</td>'+(reimbursementComprehensiveSum==0?'':'<td>综费报账合计</td><td>'+reimbursementComprehensiveSum.toFixed(2)+'</td>')+'</tr>');
+	        	other.append('<tr><td>其他合计</td><td>'+otherSum.toFixed(2)+'</td>'+(reimbursementOtherSum==0?'':'<td>其他报账合计</td><td>'+reimbursementOtherSum.toFixed(2)+'</td>')+'</tr>');
 	        	
 	        	var tbody = $("#incomes2").find("tbody");
 	        	tbody.html("");
 	        	var incomeSum = 0;
+	        	var reimbursementIncomeSum = 0;
+	        	
 	        	$.each(data.incomes,function(){
 	        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 	        		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
@@ -4132,7 +4164,14 @@
 	        							'<td>'+this.incomeTable.remark+'</td>'+
 	        					'</tr>');
 	        		incomeSum = incomeSum + this.incomeTable.income;
+	        		reimbursementIncomeSum = reimbursementIncomeSum + this.incomeTable.income;
 	        	});
+	        	if(data.changeIncomes.length > 0){
+	        		$("#incomes2").find("#changeIncomeBlue").attr("style","");
+	        	}else{
+	        		$("#incomes2").find("#changeIncomeBlue").attr("style","display:none");
+	        	}
+	        	
 	        	$.each(data.changeIncomes,function(){
 	        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 	        		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
@@ -4145,7 +4184,30 @@
 	        							'<td>'+this.incomeTable.remark+'</td>'+
 	        					'</tr>');
 	        		incomeSum = incomeSum + this.incomeTable.income;
+	        		reimbursementIncomeSum = reimbursementIncomeSum + this.incomeTable.income;
 	        	});
+	        	
+	        	if(data.localTourTable.status>6){
+	        		if(data.reimbursementIncomes.length > 0){
+		        		$("#incomes2").find("#reimbursementIncomeRed").attr("style","");
+		        	}else{
+		        		$("#incomes2").find("#reimbursementIncomeRed").attr("style","display:none");
+		        	}
+	        		$.each(data.reimbursementIncomes,function(){
+		        		tbody.append('<tr class="red">'+
+		        							'<td></td>'+
+		        							'<td>'+this.customerAgencyName+'</td>'+
+		        							'<td>'+this.incomeTable.income+'</td>'+
+		        							'<td></td>'+
+		        							'<td></td>'+
+		        							'<td>'+this.incomeTable.remark+'</td>'+
+		        					'</tr>');
+		        		reimbursementIncomeSum = reimbursementIncomeSum + this.incomeTable.income;
+		        	});
+	        	}else{
+	        		$("#incomes2").find("#reimbursementIncomeRed").attr("style","display:none");
+	        	}
+	        	
 	        	$("#totalAll").html('<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top" style="text-align: left;"><tbody><tr><td>预估成本</td>'+
 	        									'<td>'+(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum).toFixed(2)+'</td>'+
 	        									'<td>预估收入</td>'+
@@ -4157,6 +4219,19 @@
 	        									'<td>预估毛利率</td>'+
 	        									'<td>'+((incomeSum-(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum))/incomeSum*100).toFixed(2)+'%</td>'+
 	        						'</tr></tbody></table>');
+	        	if(data.localTourTable.status>6){
+	        		$("#totalAll").find("tbody").append('<tr><td>报账成本</td>'+
+							'<td>'+(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum).toFixed(2)+'</td>'+
+							'<td>报账收入</td>'+
+							'<td>'+reimbursementIncomeSum.toFixed(2)+'</td>'+
+							'<td>报账毛利</td>'+
+							'<td>'+(reimbursementIncomeSum-(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum)).toFixed(2)+'</td>'+
+							'<td>报账人均毛利</td>'+
+							'<td>'+((reimbursementIncomeSum-(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum))/((data.localTourTable.adultNo==null?0:data.localTourTable.adultNo) + (data.localTourTable.childrenNo==null?0:data.localTourTable.childrenNo))).toFixed(2)+'</td>'+
+							'<td>报账毛利率</td>'+
+							'<td>'+((reimbursementIncomeSum-(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum))/incomeSum*100).toFixed(2)+'%</td>'+
+				'</tr>');
+	        	}
 	        }  
 		});
 	});
@@ -5277,7 +5352,13 @@
 					}
 		        	$.each(data.costs,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill){
-		        			var td = $('<td><select style="display: none;" value="'+this.costTable.supplierId+'" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+		        			var td;
+		        			if(this.costTable.remark.indexOf("补余款")>-1){
+		        				td = $('<td>'+this.supplierName+'</td>');
+		        			}else{
+		        				td = $('<td><select style="display: none;" value="'+this.costTable.supplierId+'" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+		        			}
+		        			
 		        			var select = td.children("select");
 		        			if(this.costTable.supplierScopeId==1){
 		        	        	$.each(selectInfo.flightSuppliers,function(){
@@ -5330,7 +5411,7 @@
 		        			canPays.find("select").last().val(this.costTable.supplierId);
 		        		}else if(!this.costTable.lend&&!this.costTable.bill){
 		        			var costTable = this.costTable.costDate==null?"":this.costTable.costDate;
-		        			var tr = $('<tr>'+
+		        			var tr = $('<tr id="'+this.costTable.id+'">'+
 			        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 			        						'<td>'+costTable+'</td>'+
 			        						'<td>'+this.supplierName+'</td>'+
@@ -5338,10 +5419,10 @@
 			        						'<td>'+this.costTable.count+'</td>'+
 			        						'<td>'+this.costTable.days+'</td>'+
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-			        						'<td>'+this.costTable.realCost+'</td>'+
+			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
 			        						'<td>'+this.costTable.remark+'</td>'+
-			        						'<td>'+this.payStatus+'</td>'+
+			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
 		        		}
@@ -5350,7 +5431,12 @@
 		        	var isPaysChangeCount = 0;
 		        	$.each(data.changeCosts,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
-		        			var td = $('<td><select style="display: none;" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+		        			var td;
+		        			if(this.costTable.remark.indexOf("补余款")>-1){
+		        				td = $('<td>'+this.supplierName+'</td>');
+		        			}else{
+		        				td = $('<td><select style="display: none;" value="'+this.costTable.supplierId+'" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
+		        			}
 		        			var select = td.children("select");
 		        			if(this.costTable.supplierScopeId==1){
 		        	        	$.each(selectInfo.flightSuppliers,function(){
@@ -5403,7 +5489,7 @@
 		        			canPays.find("select").last().val(this.costTable.supplierId);
 		        			canPaysChangeCount++;
 		        		}else if(!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
-		        			var tr = $('<tr class="blue">'+
+		        			var tr = $('<tr id="'+this.costTable.id+'" class="blue">'+
 			        						'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 			        						'<td>'+this.contentName+'</td>'+
 			        						'<td>'+this.supplierName+'</td>'+
@@ -5411,10 +5497,10 @@
 			        						'<td>'+this.costTable.count+'</td>'+
 			        						'<td>'+this.costTable.days+'</td>'+
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
-			        						'<td>'+this.costTable.realCost+'</td>'+
+			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
 			        						'<td>'+this.costTable.remark+'</td>'+
-			        						'<td>'+this.payStatus+'</td>'+
+			        						'<td>'+this.payStatus+'<a href="#" class="pull-right">| 补款</a></td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
 		        			isPaysChangeCount++;
@@ -5829,7 +5915,7 @@
 									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-									'<td><input type="text" value="'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
+									'<td><input type="text" value="'+(this.costTable.reimbursement==null?this.costTable.realCost==0?(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2):this.costTable.realCost:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
 									'<td>'+this.costTable.remark+'</td>'+
 									'<td>'+guideLoan.html()+'</td>'+
 									'<td>'+bill.html()+'</td>'+
@@ -5898,7 +5984,7 @@
 									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-									'<td><input type="text" value="'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
+									'<td><input type="text" value="'+(this.costTable.reimbursement==null?this.costTable.realCost==0?(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2):this.costTable.realCost:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
 									'<td>'+this.costTable.remark+'</td>'+
 									'<td>'+guideLoan.html()+'</td>'+
 									'<td>'+bill.html()+'</td>'+
@@ -5960,7 +6046,7 @@
 									'<td>'+this.costTable.days+'</td>'+
 									'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 									'<td></td>'+
-									'<td><input type="text" value="'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
+									'<td><input type="text" value="'+(this.costTable.reimbursement==null?this.costTable.realCost==0?(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2):this.costTable.realCost:this.costTable.reimbursement)+'" style="width: 100%;" class="reimbursement"/></td>'+
 									'<td>'+this.costTable.remark+'</td>'+
 									'<td></td>'+
 									'<td>'+bill.html()+'</td>'+
@@ -6390,8 +6476,7 @@
 		        	
 		        }
 			});
-			$(this).hide();
-			$(this).prev().hide();
+			changeButton("已报账");
 			checkbox.parent().parent().siblings().eq(-2).text("已报账");
 		}
 	});

@@ -495,13 +495,13 @@ public class MobileService extends BaseService{
 				    if((Boolean)SecurityUtils.getSubject().getSession().getAttribute("isMice")){
 				    	if(hasMainManager){
 					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
-					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
 					    		sendOk = false;
 					    	}
 				    	}
 				    	if(hasViceManager){
 				    		UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
-					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
 					    		sendOk = false;
 					    	}
 				    	}
@@ -558,13 +558,13 @@ public class MobileService extends BaseService{
 				    if((Boolean)SecurityUtils.getSubject().getSession().getAttribute("isMice")){
 				    	if(hasMainManager){
 					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
-					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
 					    		sendOk = false;
 					    	}
 				    	}
 				    	if(hasViceManager){
 				    		UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
-					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")==false){
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
 					    		sendOk = false;
 					    	}
 				    	}

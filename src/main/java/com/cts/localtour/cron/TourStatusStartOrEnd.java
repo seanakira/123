@@ -24,8 +24,8 @@ public class TourStatusStartOrEnd {
 	@Scheduled(cron="0 0 0 * * ?" )  
 	public void firstTask(){
 		/*设置团队状态*/
-		localTourService.updateByString("LocalTourTable", "status=?", "startTime>=? and status=?", 4, new Date() ,3);
-		localTourService.updateByString("LocalTourTable", "status=?", "endTime>=? and status=?", 5, new Date() ,4);
+		localTourService.updateByString("LocalTourTable", "status=?", "startTime<=? and status=?", 4, new Date() ,3);
+		localTourService.updateByString("LocalTourTable", "status=?", "endTime<=? and status=?", 5, new Date() ,4);
 		
 		/*计算系统使用状况*/
 		sysUsageService.computeSysUsageTable();
