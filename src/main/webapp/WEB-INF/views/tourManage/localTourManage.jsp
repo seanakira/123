@@ -2360,15 +2360,25 @@
 												<style type="text/css">
 													@media print{
 														table{
-															font-size: 12px;
+															font-size: 10px;
 															border-collapse: collapse;
 															width: 100%;
+															margin-bottom: 30px;
 														}
 														td{
 															border: 1px solid;
 														}
-														h3{
+														.h3{	
+															font-size: 14x;
 															text-align: center;
+															margin: 0px;
+														}
+														.h4{
+															font-size: 12x;
+															margin: 0px;
+														}
+														.h4 span{
+														    float: right;
 														}
 														#changeCostBlue{
 															display: none;
@@ -2877,6 +2887,17 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 打印结束 -->
+<!-- 打印提示 -->
+				<div aria-hidden="true" style="display: none;" id="printAlert" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content" style="background-color:rgba(255,0,0,0);border: 1px solid rgba(0,0,0,0);">
+							<img style="width: 400px;" alt="提示1" src="<%=path %>resources/assets/images/print/print1.png">
+							<img style="width: 240px; margin-left: 30px;" alt="提示2" src="<%=path %>resources/assets/images/print/print2.png">
+							<img style="width: 400px; margin-left: 30px;" alt="提示3" src="<%=path %>resources/assets/images/print/print3.png">
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 打印提示结束 -->
 <jsp:include page="../../../resources/include/footer.jsp"></jsp:include>
 
 <!-- 下拉搜索依赖 -->
@@ -5900,8 +5921,8 @@
 	        			tbody = tickets;
 	        			select = ticketsSelect;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensiveSelect;
-	        			select = hotelSelect;
+	        			tbody = comprehensive;
+	        			select = comprehensiveSelect;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
 	        			select = otherSelect;
@@ -5969,8 +5990,8 @@
 	        			tbody = tickets;
 	        			select = ticketsSelect;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensiveSelect;
-	        			select = hotelSelect;
+	        			tbody = comprehensive;
+	        			select = comprehensiveSelect;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
 	        			select = otherSelect;
@@ -6031,8 +6052,8 @@
 	        			tbody = tickets;
 	        			select = ticketsSelect;
 	        		}else if(this.costTable.supplierScopeId==7){
-	        			tbody = comprehensiveSelect;
-	        			select = hotelSelect;
+	        			tbody = comprehensive;
+	        			select = comprehensiveSelect;
 	        		}else if(this.costTable.supplierScopeId==8){
 	        			tbody = other;
 	        			select = otherSelect;
@@ -6522,17 +6543,45 @@
 			    });
 			}
 		}
-		$("#reimbursementPrintDiv").append("<h4>导游借款表</h4>");
-		$("#reimbursementPrintDiv").append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>");
-		$("#reimbursementPrintDiv").append("<h4>收入表</h4>");
-		$("#reimbursementPrintDiv").append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
-		$("#reimbursementPrintDiv").append("<h4>统计信息</h4>");
-		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#maxLoan").parent().parent().parent().html()+"</table>");
-		var tbodys = $("#reimbursementPrintDiv").find("tbody");
-		$.each(tbodys,function(index){
-			if($(this).children("tr").length==0&&index!=0){
-				$(this).parent().hide();
-			}else{
+		
+		
+		var tbodys = $("#reimbursementPrintDiv").find("tbody").not(".printTable");
+		tbodys.parent().hide();
+		tbodys.find("tr td:nth-child(14)").hide();
+		var tourNo = checkbox.parent().parent().next().text();
+		var tourName = checkbox.parent().parent().next().next().text();
+		$.each(tbodys, function(i){
+			var trs = $(this).children("tr");
+			var table;
+			$.each(trs,function(index){
+				/* 生成表格 */
+				if(index%10==0){
+					table = $('<table style="height: 12cm;"><thead><tr><th style="width: 5%;">日期</th>	<th style="width: 8%;">内容</th><th style="width: 10%;">供应商*</th>	<th style="width: 5%;">成本</th><th style="width: 5%;">数量</th><th style="width: 5%;">天数</th>	<th style="width: 5%;">预估成本</th><th style="width: 5%;">已汇金额</th><th style="width: 5%;">报账金额</th>	<th style="width: 5%;">备注</th><th style="width: 5%;">借款</th><th style="width: 5%;">挂账</th><th style="width: 5%;">状态</th></tr></thead><tbody class="printTable"></tbody></table>');
+					$("#reimbursementPrintDiv").append(table);
+					if(i==0){
+						table.prepend('<p class="h4">机票<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==1){
+						table.prepend('<p class="h4">订房<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==2){
+						table.prepend('<p class="h4">订餐<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==3){
+						table.prepend('<p class="h4">门票<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==4){
+						table.prepend('<p class="h4">订车<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==5){
+						table.prepend('<p class="h4">票务<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==6){
+						table.prepend('<p class="h4">综费<span>'+tourNo+'  '+tourName+'</span></p>');
+					}else if(i==7){
+						table.prepend('<p class="h4">其他<span>'+tourNo+'  '+tourName+'</span></p>');
+						if($(this).find("td").eq(1).text()=="酒水"){
+							$(this).find("td").eq(1).text("综费");
+						}
+					}
+					/* 添加标题 */
+					table.prepend('<p class="h3">团队报账单</p>');
+				}
+				/* 设置input为文字 */
 				var inputs = $(this).find("input");
 				$.each(inputs, function(){
 					if($(this).parent().parent().prev().children("i").length>0){
@@ -6548,38 +6597,62 @@
 						$(this).parent().html($(this).val());
 					}
 				});
-				if(index!=0){
-					if($(this).prev().find("th").length>7){
-						tbodys.eq(0).append($(this).html());
-						$(this).parent().hide();
+				/* 添加此行 */
+				table.append($(this));
+				/* 补充行数 */
+				if(index==trs.length-1){
+					for (var int = 0; int < (parseInt((index+1)/10)+((index+1)%10>0?1:0))*10-(index+1); int++) {
+						table.append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')
 					}
 				}
+			});
+		});
+		$("#reimbursementPrintDiv").find(".printTable").children("tr").attr("style","height:9%;")
+		
+		/* $("#reimbursementPrintDiv").append("<h4>导游借款表</h4>");
+		$("#reimbursementPrintDiv").append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>"); */
+		$("#reimbursementPrintDiv").append('<p class="h4">收入<span>'+tourNo+'  '+tourName+'</span></p>');
+		$("#reimbursementPrintDiv").append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
+		$("#reimbursementPrintDiv").append('<p class="h4">统计信息</p>');
+		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#maxLoan").parent().parent().parent().html()+"</table>");
+		
+		
+		var inputs = $("#reimbursementPrintDiv").find("input");
+		$.each(inputs, function(){
+			if($(this).parent().parent().prev().children("i").length>0){
+				$(this).parent().parent().prev().html("是");
+			}
+			if($(this).attr("class")=="ace"){
+				if(($(this).prop("checked"))){
+					$(this).parent().html("是");
+				}else{
+					$(this).parent().html("");
+				}
+			}else if($(this).attr("type")!="hidden"){
+				$(this).parent().html($(this).val());
 			}
 		});
-		/* 成本样式 */
-		tbodys.eq(0).find("tr td:nth-child(4)").hide();
-		tbodys.eq(0).find("tr td:nth-child(5)").hide();
-		tbodys.eq(0).find("tr td:nth-child(6)").hide();
-		tbodys.eq(0).find("tr td:nth-child(14)").hide();
-		var thead = $("#reimbursementPrintDiv").find("thead");
-		thead.eq(0).find("tr th:nth-child(4)").hide();
-		thead.eq(0).find("tr th:nth-child(5)").hide();
-		thead.eq(0).find("tr th:nth-child(6)").hide();
-		thead.eq(0).find("tr th:nth-child(14)").hide();
+		/* 再次设置成本样式 */
+		var tbodys = $("#reimbursementPrintDiv").find(".printTable");
+		tbodys.find("tr td:nth-child(4)").hide();
+		tbodys.find("tr td:nth-child(5)").hide();
+		tbodys.find("tr td:nth-child(6)").hide();
+		var thead = $("#reimbursementPrintDiv").find(".printTable").parent().children("thead");
+		thead.find("tr th:nth-child(4)").hide();
+		thead.find("tr th:nth-child(5)").hide();
+		thead.find("tr th:nth-child(6)").hide();
 		$("#reimbursementPrintDiv").find("#changeCostBlue").hide();
 		$("#reimbursementPrintDiv").find("#reimbursementCostRed").hide();
 		
 		/* 收入样式 */
-		tbodys.eq(9).prev().find("tr th:nth-child(7)").hide();
-		tbodys.eq(9).find("tr td:nth-child(7)").hide();
-		/* 添加标题 */
-		$("#reimbursementPrintDiv").prepend("<h4>成本表</h4>");
-		$("#reimbursementPrintDiv").prepend("<h3>团队报账单</h3>");
+		$("#reimbursementPrintDiv").find(".printIncomes").find("tr th:nth-child(7)").hide();
+		$("#reimbursementPrintDiv").find(".printIncomes").find("tr td:nth-child(7)").hide();
+		
 		
 		$("#reimbursementPrintDiv").printArea({
 	        mode       : "iframe",
 	        standard   : "html5",
-	        popTitle   : '团队报账单',
+	        popTitle   : '',
 	        popClose   : false,
 	    });
 		<%-- $("#reimbursementPrintDiv").printArea({
@@ -6597,12 +6670,16 @@
 		$("#reimbursementPrintDiv").find("table").show();
 		$("#reimbursementPrintDiv").find("thead").show();
 		$("#reimbursementPrintDiv").find("thead th").show();
-		$("#reimbursementPrintDiv").children("h3").remove();
-		$("#reimbursementPrintDiv").children("h4").remove();
+		$("#reimbursementPrintDiv").children(".h3").remove();
+		$("#reimbursementPrintDiv").children(".h4").remove();
 		$(".printLoans").remove();
 		$(".printIncomes").remove();
 		$(".printStatistical").remove();
-		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		/* alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”"); */
+		/* 火狐弹出提示框 */
+		if(navigator.userAgent.indexOf("Firefox")>0){
+			$(this).attr("href","#printAlert");
+		}
 	});
 	
 	/* 打印借款凭证 */
@@ -6966,7 +7043,7 @@
         for (var i=0; i < num.length; i++)  
           strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
           return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-    };  
+    };
 });
 
 

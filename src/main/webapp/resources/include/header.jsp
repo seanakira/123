@@ -14,7 +14,7 @@
 <html lang="zh">
 	<head>
 		<meta charset="utf-8" />
-		<title>后台管理系统</title>
+		<title>星途业务管理系统</title>
 		<meta name="keywords" content="港中旅国际山东旅行社有限公司地接后台" />
 		<meta name="description" content="ctssd地接后台系统" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />

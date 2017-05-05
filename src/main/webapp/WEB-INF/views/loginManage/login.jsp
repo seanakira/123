@@ -77,7 +77,7 @@
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="login-container">
 							<div class="center">
-							  <h1> <img alt="logo" src="<%=path %>resources/assets/avatars/logo.png"><span class="grey">星途业务系统</span> </h1>
+							  <h1> <img alt="logo" src="<%=path %>resources/assets/avatars/logo.png"><span class="grey">星途业务管理系统</span> </h1>
 								<hr>
 							</div>
 							<div class="position-relative">
