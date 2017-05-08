@@ -34,7 +34,6 @@ import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PrintService;
-import com.cts.localtour.service.SysUsageService;
 import com.cts.localtour.service.TripService;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
@@ -69,8 +68,6 @@ public class TourController {
 	private BillService billService;
 	@Autowired
 	private PrintService printService;
-	@Autowired
-	private SysUsageService sysUsageService;
 	@Autowired
 	private TourStatusStartOrEnd status;
 	@RequestMapping("/localTourManage")

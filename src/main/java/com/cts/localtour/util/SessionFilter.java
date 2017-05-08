@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.cts.localtour.service.UserService;
  
 /**
  * 用于检查用户是否登录了系统的过滤器<br>
@@ -33,7 +32,6 @@ public class SessionFilter implements Filter {
      
     /** 检查不通过时，转发的URL */
     private String forwardUrl;
-    private UserService userService;
     @Override
     public void init(FilterConfig cfg) throws ServletException {
         sessionKey = cfg.getInitParameter("sessionKey");
@@ -46,7 +44,6 @@ public class SessionFilter implements Filter {
         forwardUrl = cfg.getInitParameter("forwardUrl");
     }
  
-    @SuppressWarnings("unchecked")
 	@Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         // 如果 sessionKey 为空，则直接放行

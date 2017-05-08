@@ -2890,7 +2890,7 @@
 <!-- 打印提示 -->
 				<div aria-hidden="true" style="display: none;" id="printAlert" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
-						<div class="modal-content" style="background-color:rgba(255,0,0,0);border: 1px solid rgba(0,0,0,0);">
+						<div class="modal-content" style="background-color:rgba(0,0,0,0.2);border: 1px solid rgba(0,0,0,0);text-align: center;">
 							<img style="width: 400px;" alt="提示1" src="<%=path %>resources/assets/images/print/print1.png">
 							<img style="width: 240px; margin-left: 30px;" alt="提示2" src="<%=path %>resources/assets/images/print/print2.png">
 							<img style="width: 400px; margin-left: 30px;" alt="提示3" src="<%=path %>resources/assets/images/print/print3.png">
@@ -3174,6 +3174,20 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#balance").hide();		/* 结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
+		}else if(status=="待核销"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
@@ -6574,12 +6588,15 @@
 						table.prepend('<p class="h4">综费<span>'+tourNo+'  '+tourName+'</span></p>');
 					}else if(i==7){
 						table.prepend('<p class="h4">其他<span>'+tourNo+'  '+tourName+'</span></p>');
-						if($(this).find("td").eq(1).text()=="酒水"){
-							$(this).find("td").eq(1).text("综费");
-						}
 					}
 					/* 添加标题 */
 					table.prepend('<p class="h3">团队报账单</p>');
+				}
+				/* 隐藏一些不合规的内容 */
+				if(i==7){
+					if($(this).find("td").eq(1).text()=="酒水"){
+						$(this).find("td").eq(1).text("综费");
+					}
 				}
 				/* 设置input为文字 */
 				var inputs = $(this).find("input");
@@ -6634,13 +6651,13 @@
 		});
 		/* 再次设置成本样式 */
 		var tbodys = $("#reimbursementPrintDiv").find(".printTable");
-		tbodys.find("tr td:nth-child(4)").hide();
+		/* tbodys.find("tr td:nth-child(4)").hide();
 		tbodys.find("tr td:nth-child(5)").hide();
-		tbodys.find("tr td:nth-child(6)").hide();
+		tbodys.find("tr td:nth-child(6)").hide(); */
 		var thead = $("#reimbursementPrintDiv").find(".printTable").parent().children("thead");
-		thead.find("tr th:nth-child(4)").hide();
+		/* thead.find("tr th:nth-child(4)").hide();
 		thead.find("tr th:nth-child(5)").hide();
-		thead.find("tr th:nth-child(6)").hide();
+		thead.find("tr th:nth-child(6)").hide(); */
 		$("#reimbursementPrintDiv").find("#changeCostBlue").hide();
 		$("#reimbursementPrintDiv").find("#reimbursementCostRed").hide();
 		
@@ -6650,7 +6667,7 @@
 		
 		
 		$("#reimbursementPrintDiv").printArea({
-	        mode       : "iframe",
+	        mode       : "popup",
 	        standard   : "html5",
 	        popTitle   : '',
 	        popClose   : false,
