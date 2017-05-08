@@ -167,6 +167,7 @@
                 		/localTourManage/unAuditing=authc,perms["localTour:manage","localTour:unAuditing"]
                 		/localTourManage/finance=authc,perms["localTour:manage","localTour:finance"]
                 		/localTourManage/balance=authc,perms["localTour:manage","localTour:balance"]
+                		/localTourManage/unBalance=authc,perms["localTour:manage","localTour:balance"]
                 		/localTourManage/findChangeCost=authc,perms["localTour:manage","localTour:findChange"]
                 		/localTourManage/saveChangeCost=authc,perms["localTour:manage","localTour:changeApplication"]
                 		/localTourManage/findLend=authc,perms["localTour:manage","localTour:findLoan"]

@@ -114,6 +114,12 @@
 									申请结算
 								</a>
 							</shiro:hasPermission>
+							<shiro:hasPermission name="localTour:balance">
+								<a class="blue" id="unBalance" data-toggle="modal" href="#" title="取消结算">
+									<i class="icon-table bigger-100"></i>
+									取消结算
+								</a>
+							</shiro:hasPermission>
 							<shiro:hasPermission name="localTour:findReimbursement">
 								<a class="blue" id="reimbursement" data-toggle="modal" href="#" title="报账填写">
 									<i class="icon-columns bigger-100"></i>
@@ -3077,6 +3083,7 @@
 			$("#chanageCost").hide();
 			$("#loanInvoice").hide();
 			$("#balance").hide();
+			$("#unBalance").hide();
 			$("#reimbursement").hide();
 			$("#auditingReimbursement").hide();
 			$("#delete").show();
@@ -3091,6 +3098,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3105,6 +3113,7 @@
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3119,6 +3128,7 @@
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3133,6 +3143,7 @@
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3147,6 +3158,7 @@
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").show();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3161,6 +3173,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").show();		/* 取消结算 */
 			$("#reimbursement").show();	/* 报账 */
 			$("#auditingReimbursement").show();
 			$("#delete").hide();		/* 删除 */
@@ -3175,6 +3188,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3189,6 +3203,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3203,6 +3218,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3217,6 +3233,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3231,6 +3248,7 @@
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
 			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
@@ -3519,18 +3537,7 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("已取消");
-			        	$("#editTour").hide();		/* 修改 */
-						$("#auditing").hide();		/* 提交 */
-						$("#unAuditing").hide();	/* 退回 */
-						$("#finance").hide();		/* 报送 */
-						$("#lend").hide();			/* 借款 */
-						$("#pay").hide();			/* 付款 */
-						$("#chanageCost").hide();	/* 变更 */
-						$("#loanInvoice").hide();	/* 借票 */
-						$("#balance").hide();		/* 结算 */
-						$("#reimbursement").hide();	/* 报账 */
-						$("#delete").hide();		/* 删除 */
-						$("#recover").show();		/* 恢复 */
+			        	changeButton("已取消");
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -3560,18 +3567,7 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("新建");
-			        	$("#editTour").show();
-						$("#auditing").show();
-						$("#unAuditing").hide();
-						$("#finance").hide();
-						$("#lend").hide();
-						$("#pay").hide();
-						$("#chanageCost").hide();
-						$("#loanInvoice").hide();
-						$("#balance").hide();
-						$("#reimbursement").hide();
-						$("#delete").show();
-						$("#recover").hide();
+			        	changeButton("新建");
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -3602,18 +3598,7 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("已提交");
-			        	$("#editTour").hide();		/* 修改 */
-						$("#auditing").hide();		/* 提交 */
-						$("#unAuditing").show();	/* 退回 */
-						$("#finance").show();		/* 报送 */
-						$("#lend").hide();			/* 借款 */
-						$("#pay").hide();			/* 付款 */
-						$("#chanageCost").hide();	/* 变更 */
-						$("#loanInvoice").hide();	/* 借票 */
-						$("#balance").hide();		/* 结算 */
-						$("#reimbursement").hide();	/* 报账 */
-						$("#delete").hide();		/* 删除 */
-						$("#recover").hide();		/* 恢复 */
+			        	changeButton("已提交");
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -3644,18 +3629,7 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("新建");
-			        	$("#editTour").show();
-						$("#auditing").show();
-						$("#unAuditing").hide();
-						$("#finance").hide();
-						$("#lend").hide();
-						$("#pay").hide();
-						$("#chanageCost").hide();
-						$("#loanInvoice").hide();
-						$("#balance").hide();
-						$("#reimbursement").hide();
-						$("#delete").show();
-						$("#recover").hide();
+			        	changeButton("新建");
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -3685,18 +3659,7 @@
 		        success:function(data){
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("已报送");
-			        	$("#editTour").hide();		/* 修改 */
-						$("#auditing").hide();		/* 提交 */
-						$("#unAuditing").hide();	/* 退回 */
-						$("#finance").hide();		/* 报送 */
-						$("#lend").hide();			/* 借款 */
-						$("#pay").hide();			/* 付款 */
-						$("#chanageCost").show();	/* 变更 */
-						$("#loanInvoice").show();	/* 借票 */
-						$("#balance").hide();		/* 结算 */
-						$("#reimbursement").hide();	/* 报账 */
-						$("#delete").hide();		/* 删除 */
-						$("#recover").hide();		/* 恢复 */
+			        	changeButton("已报送");
 		        	}else{
 		        		alert("操作失败");
 		        	}
@@ -5784,6 +5747,37 @@
 		        	if(data){
 			        	checkbox.parent().parent().parent().find("td").eq(8).text("结算中");
 			        	changeButton("结算中");
+		        	}else{
+		        		alert("操作失败");
+		        	}
+		        }
+			});
+		}
+	});
+	
+	/* 取消结算 */
+	$("#unBalance").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+			$(this).attr("href","#");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			$(this).attr("href","#");
+		}else{
+			var tourId = checkbox.parent().parent().parent().attr("id");
+			var myData = {id:tourId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/unBalance",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(data){
+			        	checkbox.parent().parent().parent().find("td").eq(8).text("已结束");
+			        	changeButton("已结束");
 		        	}else{
 		        		alert("操作失败");
 		        	}

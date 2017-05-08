@@ -246,6 +246,16 @@ public class TourController {
 		return false;
 	}
 	
+	/*»°œ˚…Í«ÎΩ·À„*/
+	@RequestMapping("/localTourManage/unBalance")
+	public @ResponseBody boolean unBalanceLocalTour(@RequestParam int id){
+		if(((LocalTourTable) localTourService.getById("LocalTourTable", id)).getStatus()==6){
+			localTourService.changeStatus(id,5);
+			return true;
+		}
+		return false;
+	}
+	
 	@RequestMapping("/localTourManage/find")
 	public @ResponseBody FullLocalTourViewModel find(@RequestParam int tourId){
 		return localTourService.find(tourId);
