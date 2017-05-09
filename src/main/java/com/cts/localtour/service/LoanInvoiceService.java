@@ -24,21 +24,26 @@ public class LoanInvoiceService extends BaseService{
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			LoanInvoiceTable invoice = (LoanInvoiceTable)this.getById("LoanInvoiceTable", loanInvoiceTable.getId());
 			if(invoice.getStatus()==2||invoice.getStatus()==3){
-				invoice.setStatus(3);
-				invoice.setInvoiceNo(loanInvoiceTable.getInvoiceNo());
-				this.update(invoice);
+				if(loanInvoiceTable.getInvoiceAmount().compareTo(new BigDecimal(0))==0){
+					this.delete(invoice);
+				}else{
+					invoice.setStatus(3);
+					invoice.setInvoiceNo(loanInvoiceTable.getInvoiceNo());
+					invoice.setInvoiceAmount(loanInvoiceTable.getInvoiceAmount());
+					this.update(invoice);
+				}
 			}
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public float getLoanInvoiceSum(int tourId) {
+	public BigDecimal getLoanInvoiceSum(int tourId) {
 		BigDecimal loanInvoiceSum = new BigDecimal(0);
 		ArrayList<LoanInvoiceTable> loanInvoiceTables = (ArrayList<LoanInvoiceTable>) this.getAllByString("LoanInvoiceTable", "tourId=? and status=3", tourId);
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-			loanInvoiceSum = loanInvoiceSum.add(new BigDecimal(loanInvoiceTable.getInvoiceAmount()));
+			loanInvoiceSum = loanInvoiceSum.add(loanInvoiceTable.getInvoiceAmount());
 		}
-		return loanInvoiceSum.floatValue();
+		return loanInvoiceSum;
 	}
 	
 

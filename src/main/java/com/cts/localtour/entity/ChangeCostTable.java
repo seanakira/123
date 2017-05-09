@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,10 +27,11 @@ public class ChangeCostTable implements java.io.Serializable {
 	private int supplierScopeId;
 	private Integer contentId;
 	private int supplierId;
-	private float cost;
+	private BigDecimal cost;
 	private int count;
-	private float realCost;
+	private BigDecimal realCost;
 	private int days;
+	private BigDecimal costTotal;
 	private boolean remittanced;
 	private boolean lend;
 	private boolean bill;
@@ -39,14 +41,14 @@ public class ChangeCostTable implements java.io.Serializable {
 	private Integer managerId;
 	private Integer bossId;
 	private Integer printCount;
-	private Float reimbursement;
+	private BigDecimal reimbursement;
 	private Integer status;
 
 	public ChangeCostTable() {
 	}
 
-	public ChangeCostTable(int tourId, int supplierScopeId, int supplierId, float cost, int count, float realCost,
-			int days, boolean remittanced, boolean lend, boolean bill, int payStatus) {
+	public ChangeCostTable(int tourId, int supplierScopeId, int supplierId, BigDecimal cost, int count,
+			BigDecimal realCost, int days, boolean remittanced, boolean lend, boolean bill, int payStatus) {
 		this.tourId = tourId;
 		this.supplierScopeId = supplierScopeId;
 		this.supplierId = supplierId;
@@ -61,9 +63,10 @@ public class ChangeCostTable implements java.io.Serializable {
 	}
 
 	public ChangeCostTable(int tourId, Integer applicationerId, Integer borrowUserId, Date costDate,
-			int supplierScopeId, Integer contentId, int supplierId, float cost, int count, float realCost, int days,
-			boolean remittanced, boolean lend, boolean bill, String remark, int payStatus, Integer payApplicationerId,
-			Integer managerId, Integer bossId, Integer printCount, Float reimbursement, Integer status) {
+			int supplierScopeId, Integer contentId, int supplierId, BigDecimal cost, int count, BigDecimal realCost,
+			int days, BigDecimal costTotal, boolean remittanced, boolean lend, boolean bill, String remark,
+			int payStatus, Integer payApplicationerId, Integer managerId, Integer bossId, Integer printCount,
+			BigDecimal reimbursement, Integer status) {
 		this.tourId = tourId;
 		this.applicationerId = applicationerId;
 		this.borrowUserId = borrowUserId;
@@ -75,6 +78,7 @@ public class ChangeCostTable implements java.io.Serializable {
 		this.count = count;
 		this.realCost = realCost;
 		this.days = days;
+		this.costTotal = costTotal;
 		this.remittanced = remittanced;
 		this.lend = lend;
 		this.bill = bill;
@@ -164,12 +168,12 @@ public class ChangeCostTable implements java.io.Serializable {
 		this.supplierId = supplierId;
 	}
 
-	@Column(name = "cost", nullable = false, precision = 12, scale = 0)
-	public float getCost() {
+	@Column(name = "cost", nullable = false, precision = 11)
+	public BigDecimal getCost() {
 		return this.cost;
 	}
 
-	public void setCost(float cost) {
+	public void setCost(BigDecimal cost) {
 		this.cost = cost;
 	}
 
@@ -182,12 +186,12 @@ public class ChangeCostTable implements java.io.Serializable {
 		this.count = count;
 	}
 
-	@Column(name = "realCost", nullable = false, precision = 12, scale = 0)
-	public float getRealCost() {
+	@Column(name = "realCost", nullable = false, precision = 11)
+	public BigDecimal getRealCost() {
 		return this.realCost;
 	}
 
-	public void setRealCost(float realCost) {
+	public void setRealCost(BigDecimal realCost) {
 		this.realCost = realCost;
 	}
 
@@ -198,6 +202,15 @@ public class ChangeCostTable implements java.io.Serializable {
 
 	public void setDays(int days) {
 		this.days = days;
+	}
+
+	@Column(name = "costTotal", precision = 11)
+	public BigDecimal getCostTotal() {
+		return this.costTotal;
+	}
+
+	public void setCostTotal(BigDecimal costTotal) {
+		this.costTotal = costTotal;
 	}
 
 	@Column(name = "remittanced", nullable = false)
@@ -281,12 +294,12 @@ public class ChangeCostTable implements java.io.Serializable {
 		this.printCount = printCount;
 	}
 
-	@Column(name = "reimbursement", precision = 12, scale = 0)
-	public Float getReimbursement() {
+	@Column(name = "reimbursement", precision = 11)
+	public BigDecimal getReimbursement() {
 		return this.reimbursement;
 	}
 
-	public void setReimbursement(Float reimbursement) {
+	public void setReimbursement(BigDecimal reimbursement) {
 		this.reimbursement = reimbursement;
 	}
 

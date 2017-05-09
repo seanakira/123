@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class LoanTable implements java.io.Serializable {
 
 	private Integer id;
 	private int tourId;
-	private float loanAmount;
+	private BigDecimal loanAmount;
 	private Date loanDate;
 	private Integer applicationerId;
 	private int lenderId;
@@ -34,7 +35,7 @@ public class LoanTable implements java.io.Serializable {
 	public LoanTable() {
 	}
 
-	public LoanTable(int tourId, float loanAmount, Date loanDate, int lenderId, boolean lended, int status) {
+	public LoanTable(int tourId, BigDecimal loanAmount, Date loanDate, int lenderId, boolean lended, int status) {
 		this.tourId = tourId;
 		this.loanAmount = loanAmount;
 		this.loanDate = loanDate;
@@ -43,7 +44,7 @@ public class LoanTable implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public LoanTable(int tourId, float loanAmount, Date loanDate, Integer applicationerId, int lenderId,
+	public LoanTable(int tourId, BigDecimal loanAmount, Date loanDate, Integer applicationerId, int lenderId,
 			Integer managerId, Integer bossId, boolean lended, String remark, Integer printCount, int status) {
 		this.tourId = tourId;
 		this.loanAmount = loanAmount;
@@ -79,12 +80,12 @@ public class LoanTable implements java.io.Serializable {
 		this.tourId = tourId;
 	}
 
-	@Column(name = "loanAmount", nullable = false, precision = 12, scale = 0)
-	public float getLoanAmount() {
+	@Column(name = "loanAmount", nullable = false, precision = 11)
+	public BigDecimal getLoanAmount() {
 		return this.loanAmount;
 	}
 
-	public void setLoanAmount(float loanAmount) {
+	public void setLoanAmount(BigDecimal loanAmount) {
 		this.loanAmount = loanAmount;
 	}
 

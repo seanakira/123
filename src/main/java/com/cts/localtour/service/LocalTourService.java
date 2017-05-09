@@ -276,7 +276,7 @@ public class LocalTourService extends BaseService{
 		int errorCode = 0;
 		for (CostTable cost : costTables) {
 			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
-			if(cost.getRealCost()>new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).floatValue()){
+			if(cost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
 				errorCode = -1;
 			}else{
 				if(costTable.getPayStatus()==0){
@@ -291,7 +291,7 @@ public class LocalTourService extends BaseService{
 		}
 		for (ChangeCostTable changeCost : changeCostTables) {
 			ChangeCostTable costTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
-			if(changeCost.getRealCost()>new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).floatValue()){
+			if(changeCost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
 				errorCode = -1;
 			}else{
 				ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
@@ -336,7 +336,7 @@ public class LocalTourService extends BaseService{
 	}
 	
 	public boolean checkReimbursement(int tourId) {
-		return loanInvoiceService.getLoanInvoiceSum(tourId)<=(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
+		return loanInvoiceService.getLoanInvoiceSum(tourId).floatValue()<=(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -348,19 +348,19 @@ public class LocalTourService extends BaseService{
 			this.updateByString("ChangeCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getSupplierId(),changeCostTable.isBill(),changeCostTable.getId());
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
-			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement()==0){
+			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement().floatValue()==0){
 				this.delete(reimbursementCostTable);
 			}else{
 				this.updateByString("ReimbursementCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", reimbursementCostTable.getReimbursement(),reimbursementCostTable.getSupplierId(),reimbursementCostTable.isBill(),reimbursementCostTable.getId());
 			}
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getNewReimbursementCostTables()) {
-			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement()!=0){
+			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().floatValue()!=0){
 				this.add(reimbursementCostTable);
 			}
 		}
 		for (ReimbursementIncomeTable income : full.getReimbursementIncomeTables()) {
-			if(income.getIncome()!=0){
+			if(income.getIncome().floatValue()!=0){
 				this.merge(income);
 			}else if(income.getId()!=null||income.getId()!=0){
 				this.delete(income);
@@ -371,14 +371,14 @@ public class LocalTourService extends BaseService{
 		/*添加人头费*/
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) this.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getTourId());
 		if(reimbursementTables.size()==1){
-			if(full.getReimbursementTable().getHeadAmount()!=0){
+			if(full.getReimbursementTable().getHeadAmount().floatValue()!=0){
 				reimbursementTables.get(0).setHeadAmount(full.getReimbursementTable().getHeadAmount());
 				this.update(reimbursementTables.get(0));
 			}else{
 				this.delete(reimbursementTables.get(0));
 			}
 		}else{
-			if(full.getReimbursementTable().getHeadAmount()!=0){
+			if(full.getReimbursementTable().getHeadAmount().floatValue()!=0){
 				this.add(full.getReimbursementTable());
 			}
 		}

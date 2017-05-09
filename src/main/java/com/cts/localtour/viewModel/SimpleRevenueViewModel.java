@@ -75,7 +75,7 @@ public class SimpleRevenueViewModel {
 			simpleRevenueViewModel.setUserRealName(userService.getUserRealName(localTour.getUserId()));
 			simpleRevenueViewModel.setRealIncome(incomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum()).floatValue());
 			simpleRevenueViewModel.setWillIncome(incomeService.getIncomeInfo(localTour.getId()).getIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getIncomeSum()).floatValue());
-			simpleRevenueViewModel.setInvoice((new BigDecimal(invoiceService.getInvoiceSum(localTour.getId())).add(new BigDecimal(loanInvoiceService.getLoanInvoiceSum(localTour.getId())))).floatValue());
+			simpleRevenueViewModel.setInvoice((invoiceService.getInvoiceSum(localTour.getId()).add(loanInvoiceService.getLoanInvoiceSum(localTour.getId()))).floatValue());
 			if(localTour.getStatus()==0){
 				simpleRevenueViewModel.setStatus("ÐÂ½¨");
 			}else if(localTour.getStatus()==1){

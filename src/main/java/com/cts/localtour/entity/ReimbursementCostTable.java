@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,19 +25,19 @@ public class ReimbursementCostTable implements java.io.Serializable {
 	private int supplierScopeId;
 	private Integer contentId;
 	private int supplierId;
-	private float cost;
+	private BigDecimal cost;
 	private int count;
 	private int days;
 	private boolean remittanced;
 	private boolean bill;
 	private String remark;
-	private Float reimbursement;
+	private BigDecimal reimbursement;
 	private int payStatus;
 
 	public ReimbursementCostTable() {
 	}
 
-	public ReimbursementCostTable(int tourId, int supplierScopeId, int supplierId, float cost, int count, int days,
+	public ReimbursementCostTable(int tourId, int supplierScopeId, int supplierId, BigDecimal cost, int count, int days,
 			boolean remittanced, boolean bill, int payStatus) {
 		this.tourId = tourId;
 		this.supplierScopeId = supplierScopeId;
@@ -50,8 +51,8 @@ public class ReimbursementCostTable implements java.io.Serializable {
 	}
 
 	public ReimbursementCostTable(int tourId, Date costDate, int supplierScopeId, Integer contentId, int supplierId,
-			float cost, int count, int days, boolean remittanced, boolean bill, String remark, Float reimbursement,
-			int payStatus) {
+			BigDecimal cost, int count, int days, boolean remittanced, boolean bill, String remark,
+			BigDecimal reimbursement, int payStatus) {
 		this.tourId = tourId;
 		this.costDate = costDate;
 		this.supplierScopeId = supplierScopeId;
@@ -125,12 +126,12 @@ public class ReimbursementCostTable implements java.io.Serializable {
 		this.supplierId = supplierId;
 	}
 
-	@Column(name = "cost", nullable = false, precision = 12, scale = 0)
-	public float getCost() {
+	@Column(name = "cost", nullable = false, precision = 11)
+	public BigDecimal getCost() {
 		return this.cost;
 	}
 
-	public void setCost(float cost) {
+	public void setCost(BigDecimal cost) {
 		this.cost = cost;
 	}
 
@@ -179,12 +180,12 @@ public class ReimbursementCostTable implements java.io.Serializable {
 		this.remark = remark;
 	}
 
-	@Column(name = "reimbursement", precision = 12, scale = 0)
-	public Float getReimbursement() {
+	@Column(name = "reimbursement", precision = 11)
+	public BigDecimal getReimbursement() {
 		return this.reimbursement;
 	}
 
-	public void setReimbursement(Float reimbursement) {
+	public void setReimbursement(BigDecimal reimbursement) {
 		this.reimbursement = reimbursement;
 	}
 

@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.shiro.SecurityUtils;
@@ -82,16 +83,16 @@ public class RevenueService extends BaseService{
 		return errorCode;
 	}
 	
-	public boolean invoiceGreaterThanIncome(float newInvoiceSum, int tourId){
-		if(newInvoiceSum+invoiceService.getInvoiceSum(tourId)+loanInvoiceService.getLoanInvoiceSum(tourId)>(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue())){
+	public boolean invoiceGreaterThanIncome(BigDecimal newInvoiceSum, int tourId){
+		if(newInvoiceSum.add(invoiceService.getInvoiceSum(tourId)).add(loanInvoiceService.getLoanInvoiceSum(tourId)).compareTo(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()))==1){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
-	public boolean loanInvoiceGreaterThanIncome(float newInvoiceSum, int tourId){
-		if(newInvoiceSum+invoiceService.getInvoiceSum(tourId)+loanInvoiceService.getLoanInvoiceSum(tourId)>(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue())){
+	public boolean loanInvoiceGreaterThanIncome(BigDecimal newInvoiceSum, int tourId){
+		if(newInvoiceSum.add(invoiceService.getInvoiceSum(tourId)).add(loanInvoiceService.getLoanInvoiceSum(tourId)).compareTo(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()))==1){
 			return true;
 		}else{
 			return false;

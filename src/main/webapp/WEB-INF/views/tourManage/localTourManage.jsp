@@ -6661,7 +6661,7 @@
 		
 		
 		$("#reimbursementPrintDiv").printArea({
-	        mode       : "popup",
+	        mode       : "iframe",
 	        standard   : "html5",
 	        popTitle   : '',
 	        popClose   : false,

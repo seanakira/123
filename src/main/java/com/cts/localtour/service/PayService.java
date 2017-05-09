@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -51,8 +52,8 @@ public class PayService extends BaseService{
 		ArrayList<ReimbursementCostTable> reimbursementCostTables = full.getReimbursementCostTables();
 		ArrayList<CostTable> costCache =new ArrayList<CostTable>();
 		ArrayList<ChangeCostTable> changeCostCache = new ArrayList<ChangeCostTable>();
-		float maxLoan = 0;
-		float total = 0;
+		BigDecimal maxLoan = new BigDecimal(0);
+		BigDecimal total = new BigDecimal(0);
 		/*计算最大可借款额*/
 		for (int i = 0; i < costTables.size(); i++) {
 			if(costTables.get(i).isLend()&&costTables.get(i).isRemittanced()){
@@ -60,7 +61,7 @@ public class PayService extends BaseService{
 			}else{
 				CostTable costTable = (CostTable) this.getById("CostTable", costTables.get(i).getId());
 				if(!costTables.get(i).isLend()){
-					if(costTables.get(i).getRealCost()>costTable.getCost()*costTable.getCount()*costTable.getDays()){
+					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
 						return -2;
 					}else{
 						costTable.setRealCost(costTables.get(i).getRealCost());
@@ -70,7 +71,7 @@ public class PayService extends BaseService{
 						this.update(costTable);
 					}
 				}else{
-					maxLoan = maxLoan + costTable.getCost()*costTable.getCount()*costTable.getDays();
+					maxLoan = maxLoan.add(costTable.getCost().multiply(new BigDecimal(costTable.getCount()).multiply(new BigDecimal(costTable.getDays()))));
 					costCache.add(costTable);
 					costCache.add(costTables.get(i));
 				}
@@ -82,7 +83,7 @@ public class PayService extends BaseService{
 			}else{
 				ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
 				if(!changeCostTables.get(i).isLend()){
-					if(changeCostTables.get(i).getRealCost()>changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()){
+					if(changeCostTables.get(i).getRealCost().compareTo(changeCostTable.getCost().multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())))>1){
 						return -2;
 					}else{
 						changeCostTable.setRealCost(changeCostTables.get(i).getRealCost());
@@ -92,7 +93,7 @@ public class PayService extends BaseService{
 						this.update(changeCostTable);
 					}
 				}else{
-					maxLoan = maxLoan + changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays();
+					maxLoan = maxLoan.add(changeCostTable.getCost().multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())));
 					changeCostCache.add(changeCostTable);
 					changeCostCache.add(changeCostTables.get(i));
 				}
@@ -108,9 +109,9 @@ public class PayService extends BaseService{
 		}
 		/*计算借款额*/
 		for (int i = 0; i < loanTables.size(); i++) {
-			total = total + loanTables.get(i).getLoanAmount();
+			total = total.add(loanTables.get(i).getLoanAmount());
 		}
-		if(total>maxLoan){
+		if(total.compareTo(maxLoan)==1){
 			return -3;
 		}else{
 			for (int j = 0; j < costCache.size(); j+=2) {

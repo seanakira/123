@@ -22,8 +22,6 @@ public class BillService extends BaseService{
 	private SimpleBillCheckViewModel simpleBillCheckViewModel;
 	@Autowired
 	private FullBillViewModel fullBillViewModel;
-	@Autowired
-	private MobileService mobileService;
 	
 	public int getCounts(String key) {
 		if(key.equals("")){
@@ -66,12 +64,20 @@ public class BillService extends BaseService{
 
 	/*挂账付款申请*/
 	@SuppressWarnings("unchecked")
-	public void updateBill(FullBillViewModel full) {
+	public int updateBill(FullBillViewModel full) {
 		for (CostTable costTable : full.getCostTables()) {
-			this.updateByString("CostTable", "payStatus=1, payApplicationerId=?", "id=?", ((UserTable)SecurityUtils.getSubject().getPrincipal()).getId(), costTable.getId());
+			if(costTable.getRealCost().compareTo(((CostTable)this.getById("CostTable", costTable.getId())).getReimbursement())==1){
+				return -1;
+			}else{
+				this.updateByString("CostTable", "payStatus=1, payApplicationerId=?", "id=?", ((UserTable)SecurityUtils.getSubject().getPrincipal()).getId(), costTable.getId());
+			}
 		}
 		for (ChangeCostTable changeCostTable : full.getChangeCostTables()) {
-			this.updateByString("ChangeCostTable", "payStatus=1, payApplicationerId=?", "id=?", ((UserTable)SecurityUtils.getSubject().getPrincipal()).getId(), changeCostTable.getId());
+			if(changeCostTable.getRealCost().compareTo(((ChangeCostTable)this.getById("ChangeCostTable", changeCostTable.getId())).getReimbursement())==1){
+				return -1;
+			}else{
+				this.updateByString("ChangeCostTable", "payStatus=1, payApplicationerId=?", "id=?", ((UserTable)SecurityUtils.getSubject().getPrincipal()).getId(), changeCostTable.getId());
+			}
 		}
 		if(this.getAllByString("BillApplicationTable", "supplierId=?", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getSupplierId():!full.getChangeCostTables().isEmpty()?full.getChangeCostTables().get(0).getSupplierId():0).isEmpty()){
 			BillApplicationTable bill = new BillApplicationTable();
@@ -79,9 +85,7 @@ public class BillService extends BaseService{
 			bill.setSupplierId(!full.getCostTables().isEmpty()?full.getCostTables().get(0).getSupplierId():!full.getChangeCostTables().isEmpty()?full.getChangeCostTables().get(0).getSupplierId():0);
 			this.add(bill);
 		}
-		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
-			mobileService.sendMessage("billApplication", !full.getCostTables().isEmpty()?full.getCostTables().get(0).getSupplierId():!full.getChangeCostTables().isEmpty()?full.getChangeCostTables().get(0).getSupplierId():0, 1, "您有待审核的（供应商挂账付款申请），点击进行审核");
-		}
+		return 0;
 	}
 	
 	/*财务确认挂账汇款*/

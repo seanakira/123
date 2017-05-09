@@ -23,13 +23,13 @@ public class LoanService extends BaseService{
 		StringBuffer willLoanSumInfo = new StringBuffer();
 		StringBuffer realLoanSumInfo = new StringBuffer();
 		for (LoanTable loanTable : loanTables) {
-			loanSum = loanSum.add(new BigDecimal(loanTable.getLoanAmount()));
+			loanSum = loanSum.add(loanTable.getLoanAmount());
 			if(loanTable.getStatus()==4){
-				willLoanSum = willLoanSum.add(new BigDecimal(loanTable.getLoanAmount()));
+				willLoanSum = willLoanSum.add(loanTable.getLoanAmount());
 				willLoanSumInfo.append(userService.getUserRealName(loanTable.getApplicationerId())).append(" ½è¿î ").append(loanTable.getLoanAmount()).append(",");
 			}
 			if(loanTable.isLended()){
-				realLoanSum = realLoanSum.add(new BigDecimal(loanTable.getLoanAmount()));
+				realLoanSum = realLoanSum.add(loanTable.getLoanAmount());
 				realLoanSumInfo.append(userService.getUserRealName(loanTable.getApplicationerId())).append(" ½è¿î ").append(loanTable.getLoanAmount()).append(",");
 			}
 		}

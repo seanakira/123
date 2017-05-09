@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +43,7 @@ public class CustomerAgencyTable implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "customerAgencyName", nullable = false, length = 20)
+	@Column(name = "customerAgencyName", nullable = false, length = 50)
 	public String getCustomerAgencyName() {
 		return this.customerAgencyName;
 	}

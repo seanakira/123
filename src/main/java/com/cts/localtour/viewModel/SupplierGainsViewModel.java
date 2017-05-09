@@ -134,9 +134,9 @@ public class SupplierGainsViewModel {
 						ArrayList<Integer> contentTourIds = new ArrayList<Integer>();
 						for (CostTable cost : costTables) {
 							if(cost.getContentId()==supplierContentTable.getId()){
-								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(new BigDecimal(cost.getRealCost())).floatValue());
+								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(cost.getRealCost()).floatValue());
 								if(cost.isRemittanced()){
-									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(new BigDecimal(cost.getRealCost())).floatValue());
+									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(cost.getRealCost()).floatValue());
 								}
 								content.setUseCount(cost.getCount()*cost.getDays());
 								if(!contentTourIds.contains(cost.getTourId())){
@@ -152,9 +152,9 @@ public class SupplierGainsViewModel {
 						}
 						for (ChangeCostTable changeCost : changeCostTables) {
 							if(changeCost.getContentId()==supplierContentTable.getId()){
-								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(new BigDecimal(changeCost.getRealCost())).floatValue());
+								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(changeCost.getRealCost()).floatValue());
 								if(changeCost.isRemittanced()){
-									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(new BigDecimal(changeCost.getRealCost())).floatValue());
+									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(changeCost.getRealCost()).floatValue());
 								}
 								content.setUseCount(changeCost.getCount()*changeCost.getDays());
 								if(!contentTourIds.contains(changeCost.getTourId())){
@@ -170,9 +170,9 @@ public class SupplierGainsViewModel {
 						}
 						for (ReimbursementCostTable reimbursementCost : reimbursementCostTables) {
 							if(reimbursementCost.getContentId()==supplierContentTable.getId()){
-								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(new BigDecimal(reimbursementCost.getReimbursement())).floatValue());
+								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(reimbursementCost.getReimbursement()).floatValue());
 								if(reimbursementCost.isRemittanced()){
-									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(new BigDecimal(reimbursementCost.getReimbursement())).floatValue());
+									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(reimbursementCost.getReimbursement()).floatValue());
 								}
 								content.setUseCount(reimbursementCost.getCount()*reimbursementCost.getDays());
 								if(!contentTourIds.contains(reimbursementCost.getTourId())){

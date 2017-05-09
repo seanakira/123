@@ -1,5 +1,6 @@
 package com.cts.localtour.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -128,14 +129,14 @@ public class FinanceController {
 	@RequestMapping("/invoiceManage/save")
 	public @ResponseBody int saveInvoice(@RequestBody ArrayList<InvoiceTable> invoiceTables){
 		int errorCode = 0;
-		float invoice = 0;
+		BigDecimal invoice = new BigDecimal(0);
 		ArrayList<InvoiceTable> invoices = new ArrayList<InvoiceTable>();
 		for (InvoiceTable invoiceTable : invoiceTables) {
-			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount()==0){
+			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount().floatValue()==0){
 				errorCode = -1;
 				break;
 			}else{
-				invoice = invoice + invoiceTable.getInvoiceAmount();
+				invoice = invoice.add(invoiceTable.getInvoiceAmount());
 				invoices.add(invoiceTable);
 			}
 		}
@@ -165,10 +166,10 @@ public class FinanceController {
 	@RequestMapping("/loanInvoiceManage/save")
 	public @ResponseBody int saveLoanInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables){
 		int errorCode = 0;
-		float newInvoiceSum = 0;
+		BigDecimal newInvoiceSum = new BigDecimal(0);
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
 			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "id=? and status=2", loanInvoiceTable.getId());
-			newInvoiceSum = newInvoiceSum + (loanInvoiceTables2.isEmpty()?0:loanInvoiceTables2.get(0).getInvoiceAmount());
+			newInvoiceSum = newInvoiceSum.add(loanInvoiceTables2.isEmpty()?new BigDecimal(0):loanInvoiceTables2.get(0).getInvoiceAmount());
 			/*验证发票是否8位*/
 			/*if(loanInvoiceTable.getInvoiceNo().length()!=8){
 				errorCode = -2;

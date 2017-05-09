@@ -1,6 +1,8 @@
 package com.cts.localtour.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cts.localtour.cron.TourStatusStartOrEnd;
 import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
@@ -25,6 +26,7 @@ import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.ArrService;
@@ -68,8 +70,6 @@ public class TourController {
 	private BillService billService;
 	@Autowired
 	private PrintService printService;
-	@Autowired
-	private TourStatusStartOrEnd status;
 	@RequestMapping("/localTourManage")
 	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -396,7 +396,7 @@ public class TourController {
 			boolean hasMainManage = false;
 			boolean hasViceManager = false;
 			for (LoanTable loanTable : loans) {
-				if(loanTable.getLoanAmount()>10000){
+				if(loanTable.getLoanAmount().floatValue()>10000){
 					hasMainManage = true;
 				}else{
 					hasViceManager = true;
@@ -432,7 +432,7 @@ public class TourController {
 		boolean hasViceManager = false;
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
 			for (CostTable cost : full.getCostTables()) {
-				if(cost.getCost()*cost.getCount()*cost.getDays()>10000){
+				if(cost.getCost().multiply(new BigDecimal(cost.getCount())).multiply(new BigDecimal(cost.getDays())).floatValue()>10000){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -442,7 +442,7 @@ public class TourController {
 				}
 			}
 			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
-				if(changeCost.getCost()*changeCost.getCount()*changeCost.getDays()>10000){
+				if(changeCost.getCost().multiply(new BigDecimal(changeCost.getCount())).multiply(new BigDecimal(changeCost.getDays())).floatValue()>10000){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -483,7 +483,7 @@ public class TourController {
 			ArrayList<LoanInvoiceTable> loanInvoices = new ArrayList<LoanInvoiceTable>();
 			int applicationerId = ((UserTable) SecurityUtils.getSubject().getPrincipal()).getId();
 			for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-				if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount()==0){
+				if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount().floatValue()==0){
 					errorCode = -1;
 					break;
 				}else{
@@ -574,8 +574,55 @@ public class TourController {
 	}
 	
 	@RequestMapping("/billCheckManage/update")
-	public void updateBill(@RequestBody FullBillViewModel full){
+	public @ResponseBody int updateBill(@RequestBody FullBillViewModel full, HttpSession session){
 		billService.updateBill(full);
+		int errorCode = 0;
+		boolean hasMainManager = false;
+		boolean hasViceManager = false;
+		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()){
+			for (CostTable cost : full.getCostTables()) {
+				if(cost.getCost().multiply(new BigDecimal(cost.getCount())).multiply(new BigDecimal(cost.getDays())).floatValue()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
+			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
+				if(changeCost.getCost().multiply(new BigDecimal(changeCost.getCount())).multiply(new BigDecimal(changeCost.getDays())).floatValue()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
+			for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
+				if(reimbursementCostTable.getCost().multiply(new BigDecimal(reimbursementCostTable.getCount())).multiply(new BigDecimal(reimbursementCostTable.getDays())).floatValue()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
+			errorCode = billService.updateBill(full);
+			int tourId = !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():!full.getChangeCostTables().isEmpty()?full.getChangeCostTables().get(0).getTourId():full.getReimbursementCostTables().get(0).getTourId();
+			if((Boolean) session.getAttribute("isMice")){
+				if(!localTourService.sendMessageMice("billApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的（供应商挂账付款申请），点击进行审核", hasMainManager, hasViceManager)){
+					errorCode = -2;
+				}
+			}else{
+				if(!localTourService.sendMessage("billApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的（供应商挂账付款申请），点击进行审核")){
+					errorCode = -2;
+				}
+			}
+		}
+		return errorCode;
 	}
 	
 	/*打印导游借款、供应商付款凭证*/
@@ -595,8 +642,8 @@ public class TourController {
 	/*测试*/
 	@RequestMapping("/test")
 	public void test(){
-		
-		status.firstTask();
+		System.out.println(localTourService.getAllByString("LocalTourTable", "startTime<=? and status=?", new Date() ,3).size());
+		System.out.println(localTourService.getAllByString("LocalTourTable", "endTime<=? and status=?", new Date() ,4).size());
 	}
 	@RequestMapping("/sendTest")
 	public void sendTest(@RequestParam String touser){

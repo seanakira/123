@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +24,8 @@ public class ChangeIncomeTable implements java.io.Serializable {
 	private Date incomeDate;
 	private Integer applicationerId;
 	private int customerAgencyId;
-	private float income;
-	private float realIncome;
+	private BigDecimal income;
+	private BigDecimal realIncome;
 	private Integer handlerId;
 	private String remark;
 	private int status;
@@ -32,7 +33,7 @@ public class ChangeIncomeTable implements java.io.Serializable {
 	public ChangeIncomeTable() {
 	}
 
-	public ChangeIncomeTable(int tourId, int customerAgencyId, float income, float realIncome, int status) {
+	public ChangeIncomeTable(int tourId, int customerAgencyId, BigDecimal income, BigDecimal realIncome, int status) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.income = income;
@@ -40,8 +41,8 @@ public class ChangeIncomeTable implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public ChangeIncomeTable(int tourId, Date incomeDate, Integer applicationerId, int customerAgencyId, float income,
-			float realIncome, Integer handlerId, String remark, int status) {
+	public ChangeIncomeTable(int tourId, Date incomeDate, Integer applicationerId, int customerAgencyId,
+			BigDecimal income, BigDecimal realIncome, Integer handlerId, String remark, int status) {
 		this.tourId = tourId;
 		this.incomeDate = incomeDate;
 		this.applicationerId = applicationerId;
@@ -102,21 +103,21 @@ public class ChangeIncomeTable implements java.io.Serializable {
 		this.customerAgencyId = customerAgencyId;
 	}
 
-	@Column(name = "income", nullable = false, precision = 12, scale = 0)
-	public float getIncome() {
+	@Column(name = "income", nullable = false, precision = 11)
+	public BigDecimal getIncome() {
 		return this.income;
 	}
 
-	public void setIncome(float income) {
+	public void setIncome(BigDecimal income) {
 		this.income = income;
 	}
 
-	@Column(name = "realIncome", nullable = false, precision = 12, scale = 0)
-	public float getRealIncome() {
+	@Column(name = "realIncome", nullable = false, precision = 11)
+	public BigDecimal getRealIncome() {
 		return this.realIncome;
 	}
 
-	public void setRealIncome(float realIncome) {
+	public void setRealIncome(BigDecimal realIncome) {
 		this.realIncome = realIncome;
 	}
 

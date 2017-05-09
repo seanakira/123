@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -479,7 +480,7 @@ public class MobileService extends BaseService{
 				for (LoanTable loanTable : loanTables) {
 					if(loanTable.getStatus()==2){
 						hasManager = true;
-						if(loanTable.getLoanAmount()>10000){
+						if(loanTable.getLoanAmount().floatValue()>10000){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;
@@ -530,7 +531,7 @@ public class MobileService extends BaseService{
 				for (CostTable cost : costTables) {
 					if(cost.getPayStatus()==1){
 						hasManager = true;
-						if(cost.getCost()*cost.getCount()*cost.getDays()>10000){
+						if(cost.getCost().multiply(new BigDecimal(cost.getCount())).multiply(new BigDecimal(cost.getDays())).floatValue()>10000){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;
@@ -542,7 +543,7 @@ public class MobileService extends BaseService{
 				for (ChangeCostTable changeCost : changeCostTable) {
 					if(changeCost.getPayStatus()==1){
 						hasManager = true;
-						if(changeCost.getCost()*changeCost.getCount()*changeCost.getDays()>10000){
+						if(changeCost.getCost().multiply(new BigDecimal(changeCost.getCount())).multiply(new BigDecimal(changeCost.getDays())).floatValue()>10000){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;

@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +18,12 @@ public class ReimbursementTable implements java.io.Serializable {
 
 	private Integer id;
 	private int tourId;
-	private float headAmount;
+	private BigDecimal headAmount;
 
 	public ReimbursementTable() {
 	}
 
-	public ReimbursementTable(int tourId, float headAmount) {
+	public ReimbursementTable(int tourId, BigDecimal headAmount) {
 		this.tourId = tourId;
 		this.headAmount = headAmount;
 	}
@@ -48,12 +49,12 @@ public class ReimbursementTable implements java.io.Serializable {
 		this.tourId = tourId;
 	}
 
-	@Column(name = "headAmount", nullable = false, precision = 12, scale = 0)
-	public float getHeadAmount() {
+	@Column(name = "headAmount", nullable = false, precision = 11)
+	public BigDecimal getHeadAmount() {
 		return this.headAmount;
 	}
 
-	public void setHeadAmount(float headAmount) {
+	public void setHeadAmount(BigDecimal headAmount) {
 		this.headAmount = headAmount;
 	}
 

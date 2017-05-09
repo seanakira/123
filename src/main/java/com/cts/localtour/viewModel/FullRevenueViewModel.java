@@ -56,7 +56,7 @@ public class FullRevenueViewModel {
 		FullRevenueViewModel fullRevenueViewModel = new FullRevenueViewModel();
 		fullRevenueViewModel.setIncomes(incomeViewModel.getAllIncomeViewModel(tourId));
 		fullRevenueViewModel.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId,3));
-		fullRevenueViewModel.setInvoiceSum(invoiceService.getInvoiceSum(tourId));
+		fullRevenueViewModel.setInvoiceSum(invoiceService.getInvoiceSum(tourId).floatValue());
 		return fullRevenueViewModel;
 	}
 }

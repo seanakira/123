@@ -312,7 +312,7 @@ public class FullReimbursementApplicationViewModel {
 		}
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>)baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
 		if(!reimbursementTables.isEmpty()){
-			fullReimbursementApplicationViewModel.setHeadAmount(reimbursementTables.get(0).getHeadAmount());
+			fullReimbursementApplicationViewModel.setHeadAmount(reimbursementTables.get(0).getHeadAmount().floatValue());
 		}
 		return fullReimbursementApplicationViewModel;
 	}

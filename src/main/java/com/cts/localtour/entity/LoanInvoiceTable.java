@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	private int customerAgencyId;
 	private String invoiceContent;
 	private String invoiceNo;
-	private float invoiceAmount;
+	private BigDecimal invoiceAmount;
 	private Date issueDate;
 	private int issueUserId;
 	private Integer applicationerId;
@@ -34,7 +35,7 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	public LoanInvoiceTable() {
 	}
 
-	public LoanInvoiceTable(int tourId, int customerAgencyId, float invoiceAmount, Date issueDate, int issueUserId,
+	public LoanInvoiceTable(int tourId, int customerAgencyId, BigDecimal invoiceAmount, Date issueDate, int issueUserId,
 			int status) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
@@ -45,7 +46,8 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	}
 
 	public LoanInvoiceTable(int tourId, int customerAgencyId, String invoiceContent, String invoiceNo,
-			float invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, String remark, int status) {
+			BigDecimal invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, String remark,
+			int status) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.invoiceContent = invoiceContent;
@@ -106,12 +108,12 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.invoiceNo = invoiceNo;
 	}
 
-	@Column(name = "invoiceAmount", nullable = false, precision = 12, scale = 0)
-	public float getInvoiceAmount() {
+	@Column(name = "invoiceAmount", nullable = false, precision = 11)
+	public BigDecimal getInvoiceAmount() {
 		return this.invoiceAmount;
 	}
 
-	public void setInvoiceAmount(float invoiceAmount) {
+	public void setInvoiceAmount(BigDecimal invoiceAmount) {
 		this.invoiceAmount = invoiceAmount;
 	}
 

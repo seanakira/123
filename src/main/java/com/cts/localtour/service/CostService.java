@@ -34,21 +34,21 @@ public class CostService extends BaseService{
 		StringBuffer reimbursementSumInfo = new StringBuffer();
 		CostInfo costInfo = new CostInfo();
 		for (CostTable costTable : costTables) {
-			BigDecimal cost = new BigDecimal(costTable.getCost());
+			BigDecimal cost = costTable.getCost();
 			String supplierName = supplierInfoService.getSupplierName(costTable.getSupplierId());
 			costSum =  costSum.add(cost.multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
 			costSumInfo.append(supplierName).append(",").append("单价").append(costTable.getCost()).append(" X 数量").append(costTable.getCount()).append(" X 天数").append(costTable.getDays()).append(" = ").append(cost.multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).setScale(2, BigDecimal.ROUND_HALF_UP).toString()).append(",");
-			canCostSum = canCostSum.add(new BigDecimal(costTable.getRealCost()));
+			canCostSum = canCostSum.add(costTable.getRealCost());
 			if(costTable.getPayStatus()==3){
-				willCostSum = willCostSum.add(new BigDecimal(costTable.getRealCost()));
+				willCostSum = willCostSum.add(costTable.getRealCost());
 				willCostSumInfo.append(supplierName).append(" ").append(costTable.getRealCost()).append(",");
 			}
 			if(costTable.isRemittanced()){
-				realCostSum = realCostSum.add(new BigDecimal(costTable.getRealCost()));
+				realCostSum = realCostSum.add(costTable.getRealCost());
 				realCostSumInfo.append(supplierName).append(" ").append(costTable.getRealCost()).append(",");
 			}
 			if(costTable.getReimbursement()!=null){
-				reimbursementSum = reimbursementSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				reimbursementSum = reimbursementSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 				reimbursementSumInfo.append(supplierName).append(" ").append(costTable.getReimbursement()).append(",");
 			}
 		}
@@ -77,15 +77,15 @@ public class CostService extends BaseService{
 		int payStatus = this.getRoleCode()-1;
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getByHql("SELECT c FROM CostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.tourId=l.id and c.payStatus="+payStatus+" and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+dateFormat.format(fromTo.get("from"))+"' and '"+dateFormat.format(fromTo.get("to"))+"'");
 		for (CostTable costTable : costTables) {
-			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
+			billSum = billSum.add(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
-				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				applicationSum = applicationSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 			}
 			if(costTable.getPayStatus()==3&&!costTable.isRemittanced()){
-				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				willRemittanceSum = willRemittanceSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 			}
 			if(costTable.isRemittanced()){
-				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				remittancedSum = remittancedSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 			}
 		}
 		billInfo.setEmpty(costTables.isEmpty());
@@ -108,15 +108,15 @@ public class CostService extends BaseService{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getByHql("SELECT c FROM CostTable c, LocalTourTable l WHERE c.supplierId="+supplierId+"  and c.bill=true and c.tourId=l.id and l.deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+") and c.costDate between '"+dateFormat.format(fromTo.get("from"))+"' and '"+dateFormat.format(fromTo.get("to"))+"'");
 		for (CostTable costTable : costTables) {
-			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
+			billSum = billSum.add(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
-				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()));
+				applicationSum = applicationSum.add(costTable.getReimbursement());
 			}
 			if(costTable.getPayStatus()==3&&!costTable.isRemittanced()){
-				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				willRemittanceSum = willRemittanceSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 			}
 			if(costTable.isRemittanced()){
-				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()));
+				remittancedSum = remittancedSum.add(costTable.getReimbursement());
 			}
 		}
 		billInfo.setEmpty(costTables.isEmpty());
@@ -138,15 +138,15 @@ public class CostService extends BaseService{
 		billInfo.setSettlementDate(new SimpleDateFormat("yyyy-MM-dd").format(fromTo.get("to")));
 		ArrayList<CostTable> costTables = (ArrayList<CostTable>) this.getAllByString("CostTable", "supplierId=? and bill=true and payStatus=? and costDate between ? and ?", supplierId,payStatus, fromTo.get("from"), fromTo.get("to"));
 		for (CostTable costTable : costTables) {
-			billSum = billSum.add(new BigDecimal(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
+			billSum = billSum.add(costTable.getCost()).multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()));
 			if(costTable.getPayStatus()==1||costTable.getPayStatus()==2){
-				applicationSum = applicationSum.add(new BigDecimal(costTable.getReimbursement()));
+				applicationSum = applicationSum.add(costTable.getReimbursement());
 			}
 			if(costTable.getPayStatus()==3&&!costTable.isRemittanced()){
-				willRemittanceSum = willRemittanceSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				willRemittanceSum = willRemittanceSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 			}
 			if(costTable.isRemittanced()){
-				remittancedSum = remittancedSum.add(new BigDecimal(costTable.getReimbursement()==null?0:costTable.getReimbursement()));
+				remittancedSum = remittancedSum.add(costTable.getReimbursement()==null?new BigDecimal(0):costTable.getReimbursement());
 			}
 		}
 		billInfo.setEmpty(costTables.isEmpty());

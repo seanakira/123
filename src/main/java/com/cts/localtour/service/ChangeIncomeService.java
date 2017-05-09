@@ -24,9 +24,9 @@ public class ChangeIncomeService extends BaseService{
 		ArrayList<ChangeIncomeTable> changeIncomeTables = (ArrayList<ChangeIncomeTable>) this.getAllByString("ChangeIncomeTable", "tourId=? and status=3", tourId);
 		for (ChangeIncomeTable changeIncomeTable : changeIncomeTables) {
 			String customerAgencyName = customerAgencyService.getCustomerAgencyName(changeIncomeTable.getTourId());
-			incomeSum = incomeSum.add(new BigDecimal(changeIncomeTable.getIncome()));
+			incomeSum = incomeSum.add(changeIncomeTable.getIncome());
 			incomeSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getIncome()).append(",");
-			realIncomeSum = realIncomeSum.add(new BigDecimal(changeIncomeTable.getRealIncome()));
+			realIncomeSum = realIncomeSum.add(changeIncomeTable.getRealIncome());
 			realIncomeSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getRealIncome()).append(",");
 		}
 		incomeInfo.setRealIncomeSum(realIncomeSum);

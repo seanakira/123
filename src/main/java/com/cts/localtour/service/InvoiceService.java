@@ -18,13 +18,13 @@ public class InvoiceService extends BaseService{
 	@Autowired
 	private BaseService baseService;
 	@SuppressWarnings("unchecked")
-	public float getInvoiceSum(Integer tourId){
+	public BigDecimal getInvoiceSum(Integer tourId){
 		BigDecimal invoiceSum = new BigDecimal(0);
 		ArrayList<InvoiceTable> InvoiceTables = (ArrayList<InvoiceTable>) this.getAllByString("InvoiceTable", "tourId=?", tourId);
 		for (InvoiceTable invoiceTable : InvoiceTables) {
-			invoiceSum = invoiceSum.add(new BigDecimal(invoiceTable.getInvoiceAmount()));
+			invoiceSum = invoiceSum.add(invoiceTable.getInvoiceAmount());
 		}
-		return invoiceSum.floatValue();
+		return invoiceSum;
 	}
 
 	public FullInvoiceViewModel findInvoice(int tourId) {

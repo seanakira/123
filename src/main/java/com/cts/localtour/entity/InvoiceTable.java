@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-4-25 14:07:33 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,15 +25,15 @@ public class InvoiceTable implements java.io.Serializable {
 	private int customerAgencyId;
 	private String invoiceContent;
 	private String invoiceNo;
-	private float invoiceAmount;
+	private BigDecimal invoiceAmount;
 	private Date issueDate;
 	private int issueUserId;
 
 	public InvoiceTable() {
 	}
 
-	public InvoiceTable(int tourId, int customerAgencyId, String invoiceContent, String invoiceNo, float invoiceAmount,
-			Date issueDate, int issueUserId) {
+	public InvoiceTable(int tourId, int customerAgencyId, String invoiceContent, String invoiceNo,
+			BigDecimal invoiceAmount, Date issueDate, int issueUserId) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.invoiceContent = invoiceContent;
@@ -90,12 +91,12 @@ public class InvoiceTable implements java.io.Serializable {
 		this.invoiceNo = invoiceNo;
 	}
 
-	@Column(name = "invoiceAmount", nullable = false, precision = 12, scale = 0)
-	public float getInvoiceAmount() {
+	@Column(name = "invoiceAmount", nullable = false, precision = 11)
+	public BigDecimal getInvoiceAmount() {
 		return this.invoiceAmount;
 	}
 
-	public void setInvoiceAmount(float invoiceAmount) {
+	public void setInvoiceAmount(BigDecimal invoiceAmount) {
 		this.invoiceAmount = invoiceAmount;
 	}
 
