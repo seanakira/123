@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.ArrTable;
 import com.cts.localtour.entity.ChangeCostTable;
+import com.cts.localtour.entity.ChangeIncomeTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DepartTable;
@@ -159,6 +160,7 @@ public class TourController {
 				if(!costTables.isEmpty()){
 					for (int i = 0; i < costTables.size(); i++) {
 						costTables.get(i).setTourId(tourId);
+						costTables.get(i).setRealCost(new BigDecimal(0));
 						costService.add(costTables.get(i));
 					}
 				}
@@ -166,6 +168,7 @@ public class TourController {
 				if(!incomeTables.isEmpty()){
 					for (int i = 0; i < incomeTables.size(); i++) {
 						incomeTables.get(i).setTourId(tourId);
+						incomeTables.get(i).setRealIncome(new BigDecimal(0));
 						incomeService.add(incomeTables.get(i));
 					}
 				}
@@ -317,6 +320,7 @@ public class TourController {
 					if(costTables.get(i).getSupplierId()==0){
 						return -4;
 					}else{
+						costTables.get(i).setRealCost(new BigDecimal(0));
 						costService.merge(costTables.get(i));
 					}
 				}
@@ -327,6 +331,7 @@ public class TourController {
 					if(incomeTables.get(i).getCustomerAgencyId()==0){
 						return -5;
 					}else{
+						incomeTables.get(i).setRealIncome(new BigDecimal(0));
 						incomeService.merge(incomeTables.get(i));
 					}
 				}
@@ -363,19 +368,21 @@ public class TourController {
 					}*/
 					changeCostTable.setStatus(3);/*设置状态*/
 					changeCostTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					changeCostTable.setRealCost(new BigDecimal(0));
 					costService.add(changeCostTable);
 				}
 			}
 		}
 		/*添加收入*/
 		if(!changeCostIncomeViewModel.getIncomeTables().isEmpty()){
-			for (int i = 0; i < changeCostIncomeViewModel.getIncomeTables().size(); i++) {
-				if(changeCostIncomeViewModel.getIncomeTables().get(i).getCustomerAgencyId()==0){
+			for (ChangeIncomeTable changeIncomeTable : changeCostIncomeViewModel.getIncomeTables()) {
+				if(changeIncomeTable.getCustomerAgencyId()==0){
 					return -5;
 				}else{
-					changeCostIncomeViewModel.getIncomeTables().get(i).setStatus(3);/*设置状态*/
-					changeCostIncomeViewModel.getIncomeTables().get(i).setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					incomeService.add(changeCostIncomeViewModel.getIncomeTables().get(i));
+					changeIncomeTable.setStatus(3);
+					changeIncomeTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					changeIncomeTable.setRealIncome(new BigDecimal(0));
+					incomeService.add(changeIncomeTable);
 				}
 			}
 		}
@@ -396,7 +403,7 @@ public class TourController {
 			boolean hasMainManage = false;
 			boolean hasViceManager = false;
 			for (LoanTable loanTable : loans) {
-				if(loanTable.getLoanAmount().floatValue()>10000){
+				if(((LoanTable)localTourService.getById("LoanTable", loanTable.getId())).getLoanAmount().floatValue()>10000){
 					hasMainManage = true;
 				}else{
 					hasViceManager = true;
@@ -432,7 +439,7 @@ public class TourController {
 		boolean hasViceManager = false;
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
 			for (CostTable cost : full.getCostTables()) {
-				if(cost.getCost().multiply(new BigDecimal(cost.getCount())).multiply(new BigDecimal(cost.getDays())).floatValue()>10000){
+				if(cost.getRealCost().floatValue()>10000){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -442,7 +449,7 @@ public class TourController {
 				}
 			}
 			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
-				if(changeCost.getCost().multiply(new BigDecimal(changeCost.getCount())).multiply(new BigDecimal(changeCost.getDays())).floatValue()>10000){
+				if(changeCost.getRealCost().floatValue()>10000){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -452,14 +459,16 @@ public class TourController {
 				}
 			}
 			errorCode = localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
-			int tourId = !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
-			if((Boolean) session.getAttribute("isMice")){
-				if(!localTourService.sendMessageMice("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核", hasMainManager, hasViceManager)){
-					errorCode = -2;
-				}
-			}else{
-				if(!localTourService.sendMessage("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核")){
-					errorCode = -2;
+			if(errorCode!=-1){
+				int tourId = !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
+				if((Boolean) session.getAttribute("isMice")){
+					if(!localTourService.sendMessageMice("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核", hasMainManager, hasViceManager)){
+						errorCode = -2;
+					}
+				}else{
+					if(!localTourService.sendMessage("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核")){
+						errorCode = -2;
+					}
 				}
 			}
 		}
@@ -631,12 +640,12 @@ public class TourController {
 		return printService.printPayVoucher(type, tourId);
 	}
 	@RequestMapping("/localTourManage/printCountPlus")
-	public void printCountPlus(@RequestParam String ids){
-		printService.printCountPlus(ids.split(","));
+	public void printCountPlus(@RequestParam String ids, @RequestParam(defaultValue="") String type){
+		printService.printCountPlus(ids.split(","), type);
 	}
 	
 	@RequestMapping("/localTourManage/printCountPlus2")
-	public void printCountPlus(@RequestParam String costIds, @RequestParam String changeCostIds){
+	public void printCountPlus2(@RequestParam String costIds, @RequestParam String changeCostIds){
 		printService.printCountPlus(costIds.split(","),changeCostIds.split(","));
 	}
 	/*测试*/

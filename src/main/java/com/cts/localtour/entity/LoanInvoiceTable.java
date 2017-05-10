@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-5-9 11:28:52 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-10 9:45:10 by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,8 +29,10 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	private Date issueDate;
 	private int issueUserId;
 	private Integer applicationerId;
+	private Integer managerId;
 	private String remark;
 	private int status;
+	private Integer printCount;
 
 	public LoanInvoiceTable() {
 	}
@@ -46,8 +48,8 @@ public class LoanInvoiceTable implements java.io.Serializable {
 	}
 
 	public LoanInvoiceTable(int tourId, int customerAgencyId, String invoiceContent, String invoiceNo,
-			BigDecimal invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, String remark,
-			int status) {
+			BigDecimal invoiceAmount, Date issueDate, int issueUserId, Integer applicationerId, Integer managerId,
+			String remark, int status, Integer printCount) {
 		this.tourId = tourId;
 		this.customerAgencyId = customerAgencyId;
 		this.invoiceContent = invoiceContent;
@@ -56,8 +58,10 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.issueDate = issueDate;
 		this.issueUserId = issueUserId;
 		this.applicationerId = applicationerId;
+		this.managerId = managerId;
 		this.remark = remark;
 		this.status = status;
+		this.printCount = printCount;
 	}
 
 	@Id
@@ -145,6 +149,15 @@ public class LoanInvoiceTable implements java.io.Serializable {
 		this.applicationerId = applicationerId;
 	}
 
+	@Column(name = "managerId")
+	public Integer getManagerId() {
+		return this.managerId;
+	}
+
+	public void setManagerId(Integer managerId) {
+		this.managerId = managerId;
+	}
+
 	@Column(name = "remark", length = 65535)
 	public String getRemark() {
 		return this.remark;
@@ -161,6 +174,15 @@ public class LoanInvoiceTable implements java.io.Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	@Column(name = "printCount")
+	public Integer getPrintCount() {
+		return this.printCount;
+	}
+
+	public void setPrintCount(Integer printCount) {
+		this.printCount = printCount;
 	}
 
 }

@@ -163,23 +163,15 @@
 										<a id="incomePrintButton" data-toggle="modal" href="#">打印缴款单</a>
 									</li>
 									
+									<li>
+										<a id="invoicePrintButton" data-toggle="modal" href="#">打印预借发票单</a>
+									</li>
+									
 									<li class="divider"></li>
 									
 									<li>
 										<a id="reimbursementPrintButton" data-toggle="modal" href="#">打印报账单</a>
 									</li>
-									<!-- <li>
-										<a href="#">打印出团通知书</a>
-									</li>
-
-									<li class="divider"></li>
-
-									<li>
-										<a href="#">打印订房单</a>
-									</li>
-									<li>
-										<a href="#">打印预借发票申请</a>
-									</li> -->
 								</ul>
 							</div>
 						</div>
@@ -2893,6 +2885,91 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 打印结束 -->
+<!-- 打印缴款单模板-->
+				<div aria-hidden="true" style="display: none;" id="invoicePrintModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									凭证打印
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div id="printArea" class="tab-pane fade in active costTable">
+					         			<style type="text/css">
+											@media print{
+												table{
+													font-size: 12px;
+													border-collapse: collapse;
+													margin-top: 10px;
+													width: 100%;
+												}
+												td{
+													border: 1px solid;
+												}
+												h3{
+													text-align: center;
+													margin:0px;
+												}
+												span{
+													position: absolute;
+													top:20px;
+													right:10px;
+													font-size: 12px;
+												}
+												input{
+													border: 0px;
+												}
+											}
+											
+										</style>
+										<span class="pull-right">第0次打印</span>
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+									      <tbody>
+										        <tr>
+											        <td style="width: 10%;">团号</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+											        <td style="width: 10%;">团名</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+											        <td style="width: 10%;">部门</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+												</tr>
+												<tr>
+											        <td>客户</td>
+											        <td class="printInfo"></td>
+											        <td>总开票额</td>
+											        <td class="printInfo"></td>
+											        <td>大写</td>
+											        <td class="printInfo"></td>
+												</tr>
+												<tr>
+											        <td>打印时间</td>
+											        <td class="printInfo"></td>
+											        <td>打印人</td>
+											        <td class="printInfo"></td>
+											        <td>备注</td>
+											        <td><input style="width: 100%;" type="text"></td>
+												</tr>
+											</tbody>
+										</table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="invoicePrint" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-print"></i>
+									打印
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 打印结束 -->
 <!-- 打印提示 -->
 				<div aria-hidden="true" style="display: none;" id="printAlert" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
@@ -5059,7 +5136,7 @@
 		        	other.html("");
 		        	$.each(data.costs,function(){
 		        		var tr = $('<tr class="look blue">'+
-										'<td>'+this.costTable.costDate+'</td>'+
+										'<td>'+(this.costTable.costDate==null?"":this.costTable.costDate)+'</td>'+
 										'<td>'+this.contentName+'</td>'+
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+this.costTable.cost+'</td>'+
@@ -5106,7 +5183,7 @@
 		        		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
 		        		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
 		        		var tr = $('<tr class="look blue">'+
-		        						'<td>'+this.incomeTable.incomeDate+'</td>'+
+		        						'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate)+'</td>'+
 		        						'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'" />'+'</td>'+
 		        						'<td>'+this.incomeTable.income+'</td>'+
 		        						'<td>'+realIncome+'</td>'+
@@ -6748,37 +6825,52 @@
 		        		$("#lendPrintModel").find("#printArea").find("input").val("");
 		        		a.attr("href","#lendPrintModel");
 		        		/* 注册事件 */
-			        	printTable.find("tr td:not(tr td:nth-child(1))").click(function(){
+			        	printTable.find("tr:not(:first) td:not(tr td:nth-child(1))").click(function(){
 			        		$(this).parent().find("input.ace").prop("checked",!$(this).parent().find("input.ace").prop("checked"));
 			        		var printCount = 0;
+			        		var amount = 0;
 			        		$.each(printTable.find("input.ace:checked"),function(){
-			        			var td = $(this).parent().parent().siblings().eq(-1);
-			        			if(td.attr("id")>printCount){
-			        				printCount = td.last().attr("id");
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
 			        			}
+			        			amount = amount + parseFloat(tds.eq(1).text());
 			        		});
-			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        		$("#lendPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(3).text(amount.toFixed(2));
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(4).text(moneyTrun(amount));
 			        	});
 			        	printTable.find("input.selectAll").click(function(){
 			        		printTable.find("input.ace").prop("checked",$(this).prop("checked"));
 			        		var printCount = 0;
-			        		$.each(printTable.find("input.ace:checked"),function(){
-			        			var td = $(this).parent().parent().siblings().eq(-1);
-			        			if(td.attr("id")>printCount){
-			        				printCount = td.last().attr("id");
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked:not(.selectAll)"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
 			        			}
+			        			amount = amount + parseFloat(tds.eq(1).text());
 			        		});
-			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        		$("#lendPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(3).text(amount.toFixed(2));
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(4).text(moneyTrun(amount));
 			        	});
 			        	printTable.find("input.ace:not(.selectAll)").click(function(){
 			        		var printCount = 0;
+			        		var amount = 0;
 			        		$.each(printTable.find("input.ace:checked"),function(){
-			        			var td = $(this).parent().parent().siblings().eq(-1);
-			        			if(td.attr("id")>printCount){
-			        				printCount = td.last().attr("id");
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
 			        			}
+			        			amount = amount + parseFloat(tds.eq(1).text());
 			        		});
-			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        		$("#lendPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(3).text(amount.toFixed(2));
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(4).text(moneyTrun(amount));
 			        	});
 		        	}
 		        }
@@ -6949,37 +7041,52 @@
 		        		$("#lendPrintModel").find("#printArea").find("input").val("");
 		        		a.attr("href","#lendPrintModel");
 		        		/* 注册事件 */
-			        	printTable.find("tr td:not(tr td:nth-child(1))").click(function(){
+			        	printTable.find("tr:not(.red) td:not(tr td:nth-child(1))").click(function(){
 			        		$(this).parent().find("input.ace").prop("checked",!$(this).parent().find("input.ace").prop("checked"));
 			        		var printCount = 0;
+			        		var amount = 0;
 			        		$.each(printTable.find("input.ace:checked"),function(){
-			        			var td = $(this).parent().parent().siblings().eq(-1);
-			        			if(td.attr("id")>printCount){
-			        				printCount = td.last().attr("id");
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
 			        			}
+			        			amount = amount + parseFloat(tds.eq(1).text());
 			        		});
-			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        		$("#lendPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(3).text(amount.toFixed(2));
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(4).text(moneyTrun(amount));
 			        	});
 			        	printTable.find("input.selectAll").click(function(){
 			        		printTable.find("input.ace").prop("checked",$(this).prop("checked"));
 			        		var printCount = 0;
-			        		$.each(printTable.find("input.ace:checked"),function(){
-			        			var td = $(this).parent().parent().siblings().eq(-1);
-			        			if(td.attr("id")>printCount){
-			        				printCount = td.last().attr("id");
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked:not(.selectAll)"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
 			        			}
+			        			amount = amount + parseFloat(tds.eq(1).text());
 			        		});
-			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        		$("#lendPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(3).text(amount.toFixed(2));
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(4).text(moneyTrun(amount));
 			        	});
 			        	printTable.find("input.ace:not(.selectAll)").click(function(){
 			        		var printCount = 0;
+			        		var amount = 0;
 			        		$.each(printTable.find("input.ace:checked"),function(){
-			        			var td = $(this).parent().parent().siblings().eq(-1);
-			        			if(td.attr("id")>printCount){
-			        				printCount = td.last().attr("id");
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
 			        			}
+			        			amount = amount + parseFloat(tds.eq(1).text());
 			        		});
-			        		$("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+			        		$("#lendPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(3).text(amount.toFixed(2));
+				        	$("#lendPrintModel").find("#printArea").find(".printInfo").eq(4).text(moneyTrun(amount));
 			        	});
 		        	}
 		        }
@@ -7040,6 +7147,154 @@
 		printHtml.find("h3").remove();
 		printHtml.find("span").text("");
 		alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+	});
+	
+	/* 打印预借发票单 */
+	$("#invoicePrintButton").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+			$(this).attr("href","#");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			$(this).attr("href","#");
+		}else{
+			var a = $(this);
+			var myData = {tourId:checkbox.parent().parent().parent().attr("id"),type:"loanInvoice"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printVoucher",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(data.loanInvoices.length==0){
+		        		alert("暂无可打印的预借发票单，请确认是否已经经过审批或是否已经开出发票");
+		    			$(this).attr("href","#");
+		        	}else{
+		        		$("#invoicePrintModel").find("#printTable").remove();
+		        		var tds = checkbox.parent().parent().siblings();
+		        		var printInfos = $("#invoicePrintModel").find(".printInfo");
+		        		var total = 0;
+		        		var printTable = $('<table id="printTable" class="table table-striped table-bordered table-hover no-margin"><thead><tr><th><label><input class="ace selectAll" value="" type="checkbox"><span class="lbl"></span></label></th><th style="width: 10%;">日期</th><th style="width: 20%;">抬头</th><th style="width: 10%;">内容</th><th style="width: 10%;">金额</th><th style="width: 40%;">发票信息</th><th style="width: 10%;">审批人</th></thead><tbody></tbody></table>');
+		        		var tbody = printTable.children("tbody");
+		        		$.each(data.loanInvoices, function(){
+		        			total = total + this.loanInvoiceTable.invoiceAmount;
+		        			tbody.append('<tr id="'+this.loanInvoiceTable.id+'">'+
+		        								'<td><label><input class="ace" value="" type="checkbox"><span class="lbl"></span></label></td>'+
+		        								'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
+		        								'<td>'+this.customerAgencyName+'</td>'+
+		        								'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
+		        								'<td>'+this.loanInvoiceTable.invoiceAmount.toFixed(2)+'</td>'+
+		        								'<td>'+this.loanInvoiceTable.remark+'</td>'+
+		        								'<td id="'+(this.loanInvoiceTable.printCount==null?0:this.loanInvoiceTable.printCount)+'">'+this.managerName+'</td>'+
+		        						'</tr>');
+		        		});
+		        		$("#invoicePrintModel").find("#printArea").append(printTable);
+		        		printInfos.eq(0).text(tds.eq(0).text());
+		        		printInfos.eq(1).text(tds.eq(1).text());
+		        		printInfos.eq(2).text(data.deptName);
+		        		printInfos.eq(3).text(data.loanInvoices[0].customerAgencyName);
+		        		printInfos.eq(4).text(total.toFixed(2));
+		        		printInfos.eq(5).text(moneyTrun(total));
+		        		var date = new Date();
+		        		printInfos.eq(6).text(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+		        		printInfos.eq(7).text('<%=user.getRealName()%>');
+		        		a.attr("href","#invoicePrintModel");
+		        		
+		        		/* 注册事件 */
+			        	printTable.find("tr:not(.red) td:not(tr td:nth-child(1))").click(function(){
+			        		$(this).parent().find("input.ace").prop("checked",!$(this).parent().find("input.ace").prop("checked"));
+			        		var printCount = 0;
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
+			        			}
+			        			amount = amount + parseFloat(tds.eq(3).text());
+			        		});
+			        		$("#invoicePrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#invoicePrintModel").find("#printArea").find(".printInfo").eq(4).text(amount.toFixed(2));
+				        	$("#invoicePrintModel").find("#printArea").find(".printInfo").eq(5).text(moneyTrun(amount));
+			        	});
+			        	printTable.find("input.selectAll").click(function(){
+			        		printTable.find("input.ace").prop("checked",$(this).prop("checked"));
+			        		var printCount = 0;
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked:not(.selectAll)"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
+			        			}
+			        			amount = amount + parseFloat(tds.eq(3).text());
+			        		});
+			        		$("#invoicePrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#invoicePrintModel").find("#printArea").find(".printInfo").eq(4).text(amount.toFixed(2));
+				        	$("#invoicePrintModel").find("#printArea").find(".printInfo").eq(5).text(moneyTrun(amount));
+			        	});
+			        	printTable.find("input.ace:not(.selectAll)").click(function(){
+			        		var printCount = 0;
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
+			        			}
+			        			amount = amount + parseFloat(tds.eq(3).text());
+			        		});
+			        		$("#invoicePrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#invoicePrintModel").find("#printArea").find(".printInfo").eq(4).text(amount.toFixed(2));
+				        	$("#invoicePrintModel").find("#printArea").find(".printInfo").eq(5).text(moneyTrun(amount));
+			        	});
+		        	}
+		        }
+			});
+		}
+	});
+	
+	/* 打印预借发票按钮 */
+	$("#invoicePrint").click(function(){
+		if($("#invoicePrintModel").find("#printArea").find("input:not(.selectAll):checked").length==0){
+			alert("请选择一个打印项");
+			$("#invoicePrint").attr("data-dismiss","");
+		}else{
+			$("#invoicePrint").attr("data-dismiss","modal");
+			var ids = new Array();
+			$.each($("#invoicePrintModel #printTable input.ace:not(.selectAll)"),function(){
+				if($(this).prop("checked")){
+					ids.push($(this).parent().parent().parent().attr("id"));
+				}else{
+					$(this).parent().parent().parent().hide();
+				}
+			});
+			var myData = {ids:ids.toString(),type:"invoice"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printCountPlus",
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			});
+			$("#invoicePrintModel").find("#printTable").find("tr td:nth-child(1),tr th:nth-child(1)").hide();
+			var printHtml = $("#invoicePrintModel").find("#printArea");
+			printHtml.prepend("<h3>预借发票单</h3>").printArea({
+		        mode       : "iframe",
+		        standard   : "html5",
+		        popTitle   : '导游借款凭证',
+		        popClose   : false,
+		    });
+			printHtml.find("h3").remove();
+			$("#invoicePrintModel").find("#printTable").find("tr,td").show();
+			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		}
 	});
 	
 	/* 数字转汉字大写 */

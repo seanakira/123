@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
+import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.viewModel.PrintVoucherViewModel;
 
@@ -18,12 +19,21 @@ public class PrintService extends BaseService{
 		return payVoucherViewModel.getPrintViewModel(tourId,type);
 	}
 	@SuppressWarnings("unchecked")
-	public void printCountPlus(String[] ids) {
-		for (String id : ids) {
-			LoanTable loan = (LoanTable) this.getById("LoanTable", Integer.parseInt(id));
-			loan.setPrintCount(loan.getPrintCount()==null?1:loan.getPrintCount()+1);
-			this.update(loan);
+	public void printCountPlus(String[] ids, String type) {
+		if("".equals(type)){
+			for (String id : ids) {
+				LoanTable loan = (LoanTable) this.getById("LoanTable", Integer.parseInt(id));
+				loan.setPrintCount(loan.getPrintCount()==null?1:loan.getPrintCount()+1);
+				this.update(loan);
+			}
+		}else if("invoice".equals(type)){
+			for (String id : ids) {
+				LoanInvoiceTable loanInvoice = (LoanInvoiceTable) this.getById("LoanInvoiceTable", Integer.parseInt(id));
+				loanInvoice.setPrintCount(loanInvoice.getPrintCount()==null?1:loanInvoice.getPrintCount()+1);
+				this.update(loanInvoice);
+			}
 		}
+		
 	}
 	@SuppressWarnings("unchecked")
 	public void printCountPlus(String[] costIds, String[] changeCostIds) {

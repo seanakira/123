@@ -17,6 +17,7 @@ public class LoanInvoiceViewModel {
 	private String applicationerRealName;
 	private String status;
 	private String customerAgencyName;
+	private String managerName;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -54,6 +55,12 @@ public class LoanInvoiceViewModel {
 	public void setCustomerAgencyName(String customerAgencyName) {
 		this.customerAgencyName = customerAgencyName;
 	}
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<LoanInvoiceViewModel> getAllLoanInvoiceViewModel(int tourId){
 		ArrayList<LoanInvoiceViewModel> loanInvoiceViewModels = new ArrayList<LoanInvoiceViewModel>();
@@ -64,6 +71,7 @@ public class LoanInvoiceViewModel {
 			invoiceViewModel.setApplicationerRealName(userService.getUserRealName(loanInvoiceTable.getApplicationerId()));
 			invoiceViewModel.setIssueUserRealName(userService.getUserRealName(loanInvoiceTable.getIssueUserId()));
 			invoiceViewModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(tourId));
+			invoiceViewModel.setManagerName(userService.getUserRealName(loanInvoiceTable.getManagerId()));
 			if(loanInvoiceTable.getStatus()==0){
 				invoiceViewModel.setStatus("新建");
 			}else if(loanInvoiceTable.getStatus()==1){
@@ -92,6 +100,7 @@ public class LoanInvoiceViewModel {
 			invoiceViewModel.setApplicationerRealName(userService.getUserRealName(loanInvoiceTable.getApplicationerId()));
 			invoiceViewModel.setIssueUserRealName(userService.getUserRealName(loanInvoiceTable.getIssueUserId()));
 			invoiceViewModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(tourId));
+			invoiceViewModel.setManagerName(userService.getUserRealName(loanInvoiceTable.getManagerId()));
 			if(loanInvoiceTable.getStatus()==0){
 				invoiceViewModel.setStatus("新建");
 			}else if(loanInvoiceTable.getStatus()==1){
