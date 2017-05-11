@@ -479,6 +479,12 @@ public class TourController {
 		return localTourService.sendMessageAgain("payApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核");
 	}
 	
+	/*付款申请补款*/
+	@RequestMapping("/localTourManage/paySupplement")
+	public @ResponseBody boolean paySupplement(@RequestParam int id, @RequestParam String type){
+		return localTourService.paySupplement(id,type);
+	}
+	
 	/*预借发票*/
 	@RequestMapping("/localTourManage/findBorrowInvoice")
 	public @ResponseBody FullLoanInvoiceViewModel findBorrowInvoice(@RequestParam int tourId){

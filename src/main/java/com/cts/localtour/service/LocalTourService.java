@@ -307,6 +307,12 @@ public class LocalTourService extends BaseService{
 		}
 		return errorCode;
 	}
+	
+	public boolean paySupplement(int id, String type) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void loanApplication(ArrayList<LoanTable> loans) {
 		for (LoanTable loan : loans) {
@@ -355,7 +361,7 @@ public class LocalTourService extends BaseService{
 			}
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getNewReimbursementCostTables()) {
-			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().floatValue()!=0){
+			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().floatValue()!=0&&reimbursementCostTable.getCost()!=null){
 				this.add(reimbursementCostTable);
 			}
 		}

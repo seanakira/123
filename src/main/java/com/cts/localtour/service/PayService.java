@@ -109,7 +109,11 @@ public class PayService extends BaseService{
 		}
 		/*¼ÆËã½è¿î¶î*/
 		for (int i = 0; i < loanTables.size(); i++) {
-			total = total.add(loanTables.get(i).getLoanAmount());
+			if(loanTables.get(i).getLoanAmount()==null){
+				total = total.add(((LoanTable)this.getById("LoanTable", loanTables.get(i).getId())).getLoanAmount());
+			}else{
+				total = total.add(loanTables.get(i).getLoanAmount());
+			}
 		}
 		if(total.compareTo(maxLoan)==1){
 			return -3;

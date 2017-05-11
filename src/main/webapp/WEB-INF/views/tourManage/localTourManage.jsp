@@ -2357,16 +2357,22 @@
 											<div id="reimbursementPrintDiv" class="tab-content no-padding" style="z-index: 1400;display: inline-block;float: right;right: -4px;width: 90%;overflow: visible;">
 												<style type="text/css">
 													@media print{
+														.printFrame{
+															height: 13.3cm;
+															margin-bottom: 0.5cm;
+														}
+														.printFrame table{
+															height: 90%;
+														}
 														table{
 															font-size: 10px;
 															border-collapse: collapse;
 															width: 100%;
-															margin-bottom: 30px;
 														}
 														td{
 															border: 1px solid;
 														}
-														.h3{	
+														.h3{
 															font-size: 14x;
 															text-align: center;
 															margin: 0px;
@@ -2376,7 +2382,7 @@
 															margin: 0px;
 														}
 														.h4 span{
-														    float: right;
+															float: right;
 														}
 														#changeCostBlue{
 															display: none;
@@ -2384,8 +2390,12 @@
 														#reimbursementCostRed{
 															display: none;
 														}
+														.autograph{
+															font-size: 10px;
+															width: 25%;
+															display: inline-block;
+														}
 													}
-													
 												</style>
 												<div id="flight5" class="tab-pane in active">
 													<table class="table table-striped table-bordered table-hover no-margin">
@@ -5497,7 +5507,7 @@
 			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
 			        						'<td>'+this.costTable.remark+'</td>'+
-			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right\">| 补款</a>")+'</td>'+
+			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
 		        		}
@@ -5575,7 +5585,7 @@
 			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
 			        						'<td>'+this.costTable.remark+'</td>'+
-			        						'<td>'+this.payStatus+'<a href="#" class="pull-right">| 补款</a></td>'+
+			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
 		        			isPaysChangeCount++;
@@ -5603,6 +5613,25 @@
 			});
 		}
 	});
+	
+	/* 补款 */
+	$("#payModel").delegate(".supplement","click",function(){
+		var myData = {id:$(this).parent().parent().attr("id"),type:($(this).parent().parent().attr("class")=="blue"?"changeCost":"cost")};
+		$.ajax({
+	        type: "GET",  
+	        contentType:"application/json;charset=utf-8",  
+	        url:"${path }localTourManage/paySupplement",  
+	        data:myData,  
+	        dataType: "json",  
+	        async: false,  
+	        success:function(data){
+	        	if(!data){
+	        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+	        	}
+	        }  
+		});
+	});
+	
 	/*提交付款申请*/
 	$("#payApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
@@ -6641,7 +6670,7 @@
 			$.each(trs,function(index){
 				/* 生成表格 */
 				if(index%10==0){
-					table = $('<table style="height: 12cm;"><thead><tr><th style="width: 5%;">日期</th>	<th style="width: 8%;">内容</th><th style="width: 10%;">供应商*</th>	<th style="width: 5%;">成本</th><th style="width: 5%;">数量</th><th style="width: 5%;">天数</th>	<th style="width: 5%;">预估成本</th><th style="width: 5%;">已汇金额</th><th style="width: 5%;">报账金额</th>	<th style="width: 5%;">备注</th><th style="width: 5%;">借款</th><th style="width: 5%;">挂账</th><th style="width: 5%;">状态</th></tr></thead><tbody class="printTable"></tbody></table>');
+					table = $('<div class="printFrame"><table><thead><tr><th style="width: 5%;">日期</th>	<th style="width: 8%;">内容</th><th style="width: 10%;">供应商*</th>	<th style="width: 5%;">成本</th><th style="width: 5%;">数量</th><th style="width: 5%;">天数</th>	<th style="width: 5%;">预估成本</th><th style="width: 5%;">已汇金额</th><th style="width: 5%;">报账金额</th>	<th style="width: 5%;">备注</th><th style="width: 5%;">借款</th><th style="width: 5%;">挂账</th><th style="width: 5%;">状态</th></tr></thead><tbody class="printTable"></tbody></table></div>');
 					$("#reimbursementPrintDiv").append(table);
 					if(i==0){
 						table.prepend('<p class="h4">机票<span>'+tourNo+'  '+tourName+'</span></p>');
@@ -6662,6 +6691,7 @@
 					}
 					/* 添加标题 */
 					table.prepend('<p class="h3">团队报账单</p>');
+					table.append('<span class="autograph">总经理：</span><span class="autograph">中心经理：</span><span class="autograph">财务：</span><span class="autograph">经办人：<%=user.getRealName() %></span>');
 				}
 				/* 隐藏一些不合规的内容 */
 				if(i==7){
@@ -6686,11 +6716,11 @@
 					}
 				});
 				/* 添加此行 */
-				table.append($(this));
+				table.children("table").append($(this));
 				/* 补充行数 */
 				if(index==trs.length-1){
 					for (var int = 0; int < (parseInt((index+1)/10)+((index+1)%10>0?1:0))*10-(index+1); int++) {
-						table.append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')
+						table.children("table").append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')
 					}
 				}
 			});
