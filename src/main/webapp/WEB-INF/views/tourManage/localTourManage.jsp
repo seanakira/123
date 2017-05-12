@@ -2392,7 +2392,7 @@
 														}
 														.autograph{
 															font-size: 10px;
-															width: 25%;
+															width: 20%;
 															display: inline-block;
 														}
 													}
@@ -2984,9 +2984,6 @@
 				<div aria-hidden="true" style="display: none;" id="printAlert" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content" style="background-color:rgba(0,0,0,0.2);border: 1px solid rgba(0,0,0,0);text-align: center;">
-							<img style="width: 400px;" alt="提示1" src="<%=path %>resources/assets/images/print/print1.png">
-							<img style="width: 240px; margin-left: 30px;" alt="提示2" src="<%=path %>resources/assets/images/print/print2.png">
-							<img style="width: 400px; margin-left: 30px;" alt="提示3" src="<%=path %>resources/assets/images/print/print3.png">
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal -->
 				</div>
@@ -6608,11 +6605,11 @@
 		        dataType: "json",
 		        async: false,
 		        success:function(data){
-		        	
+					
 		        }
 			});
-			changeButton("已报账");
-			checkbox.parent().parent().siblings().eq(-2).text("已报账");
+			changeButton("待核销");
+			checkbox.parent().parent().siblings().eq(-2).text("待核销");
 		}
 	});
 	
@@ -6667,6 +6664,7 @@
 		$.each(tbodys, function(i){
 			var trs = $(this).children("tr");
 			var table;
+			var total = 0;
 			$.each(trs,function(index){
 				/* 生成表格 */
 				if(index%10==0){
@@ -6691,7 +6689,10 @@
 					}
 					/* 添加标题 */
 					table.prepend('<p class="h3">团队报账单</p>');
-					table.append('<span class="autograph">总经理：</span><span class="autograph">中心经理：</span><span class="autograph">财务：</span><span class="autograph">经办人：<%=user.getRealName() %></span>');
+					/* 添加签字栏 */
+					table.append('<span class="autograph"></span><span class="autograph">总经理：</span><span class="autograph">中心经理：</span><span class="autograph">财务：</span><span class="autograph">经办人：<%=user.getRealName() %></span>');
+					/* 重置合计数 */
+					total = 0;
 				}
 				/* 隐藏一些不合规的内容 */
 				if(i==7){
@@ -6699,6 +6700,10 @@
 						$(this).find("td").eq(1).text("综费");
 					}
 				}
+				/* 计算合计 */
+				total = total + parseFloat($(this).find("input").eq(1).val());
+				table.children(".autograph").eq(0).text("合计："+total.toFixed(2));
+				
 				/* 设置input为文字 */
 				var inputs = $(this).find("input");
 				$.each(inputs, function(){
@@ -6715,6 +6720,7 @@
 						$(this).parent().html($(this).val());
 					}
 				});
+				
 				/* 添加此行 */
 				table.children("table").append($(this));
 				/* 补充行数 */
@@ -6766,6 +6772,19 @@
 		$("#reimbursementPrintDiv").find(".printIncomes").find("tr th:nth-child(7)").hide();
 		$("#reimbursementPrintDiv").find(".printIncomes").find("tr td:nth-child(7)").hide();
 		
+		/* 火狐弹出提示框 */
+		if(navigator.userAgent.indexOf("Firefox")>0){
+			$("#printAlert").find(".modal-dialog").css("width","90%");
+			$("#printAlert").find(".modal-content").append('<img style="width: 400px;" alt="提示1" src="<%=path %>resources/assets/images/print/print1.png">'+
+					'<img style="width: 240px; margin-left: 30px;" alt="提示2" src="<%=path %>resources/assets/images/print/print2.png">'+
+					'<img style="width: 400px; margin-left: 30px;" alt="提示3" src="<%=path %>resources/assets/images/print/print3.png">');
+			$(this).attr("href","#printAlert");
+		}else if(navigator.userAgent.indexOf("Chrome")>0&&navigator.userAgent.indexOf("WOW64")==-1){
+			$("#printAlert").find(".modal-dialog").css("width","50%");
+			$("#printAlert").find(".modal-content").append('<img style="width: 600px;" alt="提示1" src="<%=path %>resources/assets/images/print/print4.png">');
+			$(this).attr("href","#printAlert");
+		}
+		
 		
 		$("#reimbursementPrintDiv").printArea({
 	        mode       : "iframe",
@@ -6785,6 +6804,7 @@
 	        printAlert : true,
 	        printMsg   : 'Aguarde a impressão'
 	    }); --%>
+	    
 		$("#reimbursementPrintDiv").find("table").show();
 		$("#reimbursementPrintDiv").find("thead").show();
 		$("#reimbursementPrintDiv").find("thead th").show();
@@ -6794,10 +6814,7 @@
 		$(".printIncomes").remove();
 		$(".printStatistical").remove();
 		/* alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”"); */
-		/* 火狐弹出提示框 */
-		if(navigator.userAgent.indexOf("Firefox")>0){
-			$(this).attr("href","#printAlert");
-		}
+		
 	});
 	
 	/* 打印借款凭证 */
@@ -7324,7 +7341,7 @@
 			printHtml.find("h3").remove();
 			$("#invoicePrintModel").find("#printTable").find("tr,td").show();
 			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
-		}
+		} 
 	});
 	
 	/* 数字转汉字大写 */
@@ -7339,8 +7356,6 @@
         for (var i=0; i < num.length; i++)  
           strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
           return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-    };
+    }
 });
-
-
 </script>

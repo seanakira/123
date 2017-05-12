@@ -25,7 +25,6 @@ import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.RegionTable;
-import com.cts.localtour.entity.ReimbursementApplicationTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.ReimbursementIncomeTable;
 import com.cts.localtour.entity.ReimbursementTable;
@@ -394,15 +393,15 @@ public class LocalTourService extends BaseService{
 	public int auditingReimbursement(int tourId) {
 		LocalTourTable tour = (LocalTourTable)this.getById("LocalTourTable", tourId);
 		if(tour.getStatus()==6){
-			tour.setStatus(7);
+			tour.setStatus(8);
 			this.update(tour);
 			/*ÃÌº”…Í«Î*/
-			if(this.getAllByString("ReimbursementApplicationTable", "tourId=?", tourId).isEmpty()){
+			/*if(this.getAllByString("ReimbursementApplicationTable", "tourId=?", tourId).isEmpty()){
 				ReimbursementApplicationTable reimbursementApplicationTable = new ReimbursementApplicationTable();
 				reimbursementApplicationTable.setTourId(tourId);
 				reimbursementApplicationTable.setDeptId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId());
 				this.add(reimbursementApplicationTable);
-			}
+			}*/
 		}else{
 			return -1;
 		}

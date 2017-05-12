@@ -556,7 +556,7 @@ public class TourController {
 	@RequestMapping("/reimbursementManage/auditingReimbursement")
 	public void auditingReimbursement(@RequestParam int tourId){
 		if(localTourService.auditingReimbursement(tourId)==0){
-			localTourService.sendMessage("reimbursementApplication", tourId, 0, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(团队报账)，点击进行审核");
+//			localTourService.sendMessage("reimbursementApplication", tourId, 0, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(团队报账)，点击进行审核");
 		}
 	}
 	
