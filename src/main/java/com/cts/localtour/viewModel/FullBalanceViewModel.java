@@ -28,7 +28,7 @@ public class FullBalanceViewModel {
 	private ArrayList<LoanViewModel> loans;
 	private ArrayList<ChangeCostViewModel> changeCosts;
 	private ArrayList<ReimbursementCostViewModel> reimbursementCosts;
-	private float realIncomeSum;
+	private float willIncomeSum;
 	private float realPaySum;
 	private float reimbursementSum;
 	private ReimbursementTable reimbursementTable;
@@ -77,11 +77,11 @@ public class FullBalanceViewModel {
 	public void setReimbursementTable(ReimbursementTable reimbursementTable) {
 		this.reimbursementTable = reimbursementTable;
 	}
-	public float getRealIncomeSum() {
-		return realIncomeSum;
+	public float getWillIncomeSum() {
+		return willIncomeSum;
 	}
-	public void setRealIncomeSum(float realIncomeSum) {
-		this.realIncomeSum = realIncomeSum;
+	public void setWillIncomeSum(float willIncomeSum) {
+		this.willIncomeSum = willIncomeSum;
 	}
 	public float getRealPaySum() {
 		return realPaySum;
@@ -109,7 +109,7 @@ public class FullBalanceViewModel {
 		for (int i = 0; i < costTables.size(); i++) {
 			CostViewModel cost = new CostViewModel();
 			cost.setCostTable(costTables.get(i));
-			cost.setContentName(contentService.getContentName(costTables.get(i).getContentId()));
+			cost.setContentName(costTables.get(i).getContentId()==null?"":contentService.getContentName(costTables.get(i).getContentId()));
 			cost.setSupplierName(supplierInfoService.getSupplierName(costTables.get(i).getSupplierId()));
 			cost.setBorrowUserName(userService.getUserRealName(costTables.get(i).getBorrowUserId()));
 			if(costTables.get(i).isRemittanced()){
@@ -181,7 +181,7 @@ public class FullBalanceViewModel {
 			loans.add(loan);
 		}
 		full.setLoans(loans);
-		full.setRealIncomeSum(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue());
+		full.setWillIncomeSum(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
 		CostInfo costInfo = costService.getCostInfo(tourId);
 		CostInfo changeCostInfo = changeCostService.getCostInfo(tourId);
 		CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(tourId);

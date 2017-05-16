@@ -2392,7 +2392,7 @@
 														}
 														.autograph{
 															font-size: 10px;
-															width: 20%;
+															width: 16%;
 															display: inline-block;
 														}
 													}
@@ -2680,12 +2680,12 @@
 							            <table class="table table-striped table-bordered table-hover no-margin">
 											<tbody>
 												<tr>
-													<td style="width: 10%;">借款预估</td>
-													<td id="maxLoan" style="width: 15%;"></td>
-													<td style="width: 10%;">电汇预估</td>
+													<td style="width: 10%;">预估成本</td>
 													<td id="willCostSum" style="width: 15%;"></td>
 													<td style="width: 10%;">报账总计</td>
 													<td id="reimbursementSum" style="width: 15%;"></td>
+													<td style="width: 10%;">挂账总计</td>
+													<td id="billSum" style="width: 15%;"></td>
 													<td style="width: 10%;">人头*</td>
 													<td id="headAmount" style="width: 15%;"><input class="form-control" style="width:100%;" type="text"></td>
 												</tr>
@@ -5646,12 +5646,12 @@
 				var changeCostTables = new Array();
 				$.each(checkbox,function(){
 					var tr = $(this).parent().parent().parent();
-					if(tr.children("td").eq(8).children("input").val()>parseFloat(tr.children("td").eq(7).text())){
+					/* if(tr.children("td").eq(8).children("input").val()>parseFloat(tr.children("td").eq(7).text())){
 						alert("申请金额不能大于成本小计");
 						$("#payApplication").attr("data-dismiss","");
 						error = -1;
 						return false;
-					}
+					} */
 					if(tr.children("td").eq(8).children("input").val()==0){
 						alert("申请金额不能为0");
 						$("#payApplication").attr("data-dismiss","");
@@ -5946,6 +5946,7 @@
 	        	var total = 0;
 	        	var maxLoan = 0;
 	        	var reimbursementSum = 0;
+	        	var billSum = 0;
 	        	var willCostSum = 0;
 	        	var willIncomeSum = 0;
 	        	var realIncomeSum = 0;
@@ -6001,10 +6002,11 @@
 	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
         				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
+        				billSum = billSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+        				maxLoan = maxLoan + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}else{
         				willCostSum = willCostSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}
@@ -6070,10 +6072,11 @@
 	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
         				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
+        				billSum = billSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
-        				maxLoan = (parseFloat(maxLoan) + this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2);
+        				maxLoan = maxLoan + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}else{
         				willCostSum = willCostSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
         			}
@@ -6138,6 +6141,7 @@
 	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
         				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
+        				billSum = billSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
         			}
        				
        				reimbursementSum = reimbursementSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
@@ -6191,6 +6195,7 @@
 	        	});
 	        	$("#costs5").find("select").chosen({no_results_text: "查无结果", search_contains: true});
 	        	$("#costs5").find("select").next().attr("style","width:100%;");
+	        	
 	        	/* 设置借款 */
 	        	$("#loanTable").html("");
 	        	$.each(data.loans,function(){
@@ -6267,9 +6272,9 @@
 
 	        	/* 设置借款总计、最大借款额 */
 	        	/* $("#total").text(total.toFixed(2)); */
-	        	$("#maxLoan").text(maxLoan);
+	        	$("#billSum").text(billSum.toFixed(2));
 	        	$("#reimbursementSum").text(reimbursementSum.toFixed(2));
-	        	$("#willCostSum").text(willCostSum.toFixed(2));
+	        	$("#willCostSum").text((willCostSum+maxLoan).toFixed(2));
 	        	$("#willIncomeSum").text(willIncomeSum.toFixed(2));
 	        	$("#realIncomeSum").text(realIncomeSum.toFixed(2));
 	        	$("#realGrossProfit").text((willIncomeSum-reimbursementSum).toFixed(2));
@@ -6690,19 +6695,21 @@
 					/* 添加标题 */
 					table.prepend('<p class="h3">团队报账单</p>');
 					/* 添加签字栏 */
-					table.append('<span class="autograph"></span><span class="autograph">总经理：</span><span class="autograph">中心经理：</span><span class="autograph">财务：</span><span class="autograph">经办人：<%=user.getRealName() %></span>');
+					table.append('<span class="autograph"></span><span class="autograph"></span><span class="autograph">总经理：</span><span class="autograph">中心经理：</span><span class="autograph">财务：</span><span class="autograph">经办人：<%=user.getRealName() %></span>');
 					/* 重置合计数 */
 					total = 0;
 				}
-				/* 隐藏一些不合规的内容 */
+				/* 隐藏或修改一些不合规的内容 */
 				if(i==7){
 					if($(this).find("td").eq(1).text()=="酒水"){
 						$(this).find("td").eq(1).text("综费");
 					}
 				}
+				
 				/* 计算合计 */
 				total = total + parseFloat($(this).find("input").eq(1).val());
 				table.children(".autograph").eq(0).text("合计："+total.toFixed(2));
+				table.children(".autograph").eq(1).text("大写："+moneyTrun(total));
 				
 				/* 设置input为文字 */
 				var inputs = $(this).find("input");
@@ -6733,14 +6740,18 @@
 		});
 		$("#reimbursementPrintDiv").find(".printTable").children("tr").attr("style","height:9%;")
 		
+		/* 添加各种表格 */
 		/* $("#reimbursementPrintDiv").append("<h4>导游借款表</h4>");
 		$("#reimbursementPrintDiv").append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>"); */
 		$("#reimbursementPrintDiv").append('<p class="h4">收入<span>'+tourNo+'  '+tourName+'</span></p>');
 		$("#reimbursementPrintDiv").append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
 		$("#reimbursementPrintDiv").append('<p class="h4">统计信息</p>');
-		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#maxLoan").parent().parent().parent().html()+"</table>");
+		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#headAmount").parent().parent().parent().html()+"</table>");
 		
+		/* 修改人头为综费 */
+		$("#reimbursementPrintDiv").find("#headAmount").prev().text("综费");
 		
+		/* 将input转为text */
 		var inputs = $("#reimbursementPrintDiv").find("input");
 		$.each(inputs, function(){
 			if($(this).parent().parent().prev().children("i").length>0){
@@ -6772,7 +6783,7 @@
 		$("#reimbursementPrintDiv").find(".printIncomes").find("tr th:nth-child(7)").hide();
 		$("#reimbursementPrintDiv").find(".printIncomes").find("tr td:nth-child(7)").hide();
 		
-		/* 火狐弹出提示框 */
+		/* 浏览器弹出提示框 */
 		if(navigator.userAgent.indexOf("Firefox")>0){
 			$("#printAlert").find(".modal-dialog").css("width","90%");
 			$("#printAlert").find(".modal-content").append('<img style="width: 400px;" alt="提示1" src="<%=path %>resources/assets/images/print/print1.png">'+

@@ -410,9 +410,9 @@
 											<tbody>
 												<tr>
 													<td style="width: 10%;">实付总计</td>
-													<td id="realPay" style="width: 15%;"></td>
-													<td style="width: 10%;">实收总计</td>
-													<td id="realIncome" style="width: 15%;"></td>
+													<td id="realPaySum" style="width: 15%;"></td>
+													<td style="width: 10%;">应收总计</td>
+													<td id="willIncomeSum" style="width: 15%;"></td>
 													<td style="width: 10%;">报账总计</td>
 													<td id="reimbursementSum" style="width: 15%;"></td>
 													<td style="width: 10%;">人头*</td>
@@ -521,11 +521,6 @@
 		        	var tickets = $("#tickets5").find("tbody");
 		        	var comprehensive = $("#comprehensive5").find("tbody");
 		        	var other = $("#other5").find("tbody");
-		        	var total = 0;
-		        	var maxLoan = 0;
-		        	var reimbursementSum = 0;
-		        	var willCost = 0;
-		        	var realIncome = 0;
 		        	flight.html("");
 		        	hotel.html("");
 		        	meal.html("");
@@ -692,8 +687,8 @@
 		        	});
 		        	/* 设置借款总计、最大借款额 */
 		        	$("#reimbursementSum").text(data.reimbursementSum);
-		        	$("#realPay").text(data.realPaySum);
-		        	$("#realIncome").text(data.realIncomeSum);
+		        	$("#realPaySum").text(data.realPaySum);
+		        	$("#willIncomeSum").text(data.willIncomeSum);
 		        }  
 			});
 		}

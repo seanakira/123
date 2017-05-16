@@ -1,6 +1,5 @@
 package com.cts.localtour.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -275,9 +274,9 @@ public class LocalTourService extends BaseService{
 		int errorCode = 0;
 		for (CostTable cost : costTables) {
 			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
-			if(cost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
+			/*if(cost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
 				errorCode = -1;
-			}else{
+			}else{*/
 				if(costTable.getPayStatus()==0){
 					costTable.setPayStatus(1);
 					costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
@@ -286,14 +285,13 @@ public class LocalTourService extends BaseService{
 					costTable.setRemark(cost.getRemark());
 					this.update(costTable);
 				}
-			}
+			/*}*/
 		}
 		for (ChangeCostTable changeCost : changeCostTables) {
-			ChangeCostTable costTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
-			if(changeCost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
+			ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
+			/*if(changeCost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
 				errorCode = -1;
-			}else{
-				ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
+			}else{*/
 				if(changeCostTable.getPayStatus()==0){
 					changeCostTable.setPayStatus(1);
 					changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
@@ -302,7 +300,7 @@ public class LocalTourService extends BaseService{
 					changeCostTable.setRemark(changeCost.getRemark());
 					this.update(changeCostTable);
 				}
-			}
+			/*}*/
 		}
 		return errorCode;
 	}
@@ -383,7 +381,7 @@ public class LocalTourService extends BaseService{
 				this.delete(reimbursementTables.get(0));
 			}
 		}else{
-			if(full.getReimbursementTable().getHeadAmount().floatValue()!=0){
+			if(full.getReimbursementTable().getHeadAmount()!=null&&full.getReimbursementTable().getHeadAmount().floatValue()!=0){
 				this.add(full.getReimbursementTable());
 			}
 		}
