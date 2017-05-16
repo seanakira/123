@@ -5435,12 +5435,12 @@
 		        	$.each(data.costs,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill){
 		        			var td;
-		        			if(this.costTable.remark.indexOf("补余款")>-1){
+		        			if(this.costTable.remark!=null&&this.costTable.remark.indexOf("补余款")>-1){
 		        				td = $('<td>'+this.supplierName+'</td>');
 		        			}else{
 		        				td = $('<td><select style="display: none;" value="'+this.costTable.supplierId+'" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
 		        			}
-		        			
+
 		        			var select = td.children("select");
 		        			if(this.costTable.supplierScopeId==1){
 		        	        	$.each(selectInfo.flightSuppliers,function(){
@@ -5486,7 +5486,7 @@
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			        						'<td><input class="realCost" placeholder="双击自动添加" style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
-			        						'<td><input style="width:100%;" type="text" value="'+this.costTable.remark+'"></td>'+
+			        						'<td><input style="width:100%;" type="text" value="'+(this.costTable.remark==null?"":this.costTable.remark)+'"></td>'+
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
@@ -5503,7 +5503,7 @@
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
-			        						'<td>'+this.costTable.remark+'</td>'+
+			        						'<td>'+(this.costTable.remark==null?"":this.costTable.remark)+'</td>'+
 			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
@@ -5514,7 +5514,7 @@
 		        	$.each(data.changeCosts,function(){
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
 		        			var td;
-		        			if(this.costTable.remark.indexOf("补余款")>-1){
+		        			if(this.costTable.remark!=null&&this.costTable.remark.indexOf("补余款")>-1){
 		        				td = $('<td>'+this.supplierName+'</td>');
 		        			}else{
 		        				td = $('<td><select style="display: none;" value="'+this.costTable.supplierId+'" class="width-20 chosen-select form-control" data-placeholder="Choose a Country..."><option value="">&nbsp;</option></select></td>');
@@ -5564,7 +5564,7 @@
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			        						'<td><input class="realCost" placeholder="双击自动添加" style="width:100%;" type="text" value="'+this.costTable.realCost+'"></td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
-			        						'<td><input style="width:100%;" type="text" value="'+this.costTable.remark+'"></td>'+
+			        						'<td><input style="width:100%;" type="text" value="'+(this.costTable.remark==null?"":this.costTable.remark)+'"></td>'+
 			        						'<td>'+this.payStatus+'</td>'+
 			        					'</tr>');
 		        			canPays.append(tr);
@@ -5581,7 +5581,7 @@
 			        						'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
-			        						'<td>'+this.costTable.remark+'</td>'+
+			        						'<td>'+(this.costTable.remark==null?"":this.costTable.remark)+'</td>'+
 			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
@@ -5613,6 +5613,7 @@
 	
 	/* 补款 */
 	$("#payModel").delegate(".supplement","click",function(){
+		var tr = $(this).parent().parent().clone();
 		var myData = {id:$(this).parent().parent().attr("id"),type:($(this).parent().parent().attr("class")=="blue"?"changeCost":"cost")};
 		$.ajax({
 	        type: "GET",  
@@ -5622,8 +5623,19 @@
 	        dataType: "json",  
 	        async: false,  
 	        success:function(data){
-	        	if(!data){
-	        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+	        	if(data!=0){
+	        		tr.attr("id",data);
+	        		tr.attr("class",myData.type=="changeCost"?"blue":"");
+	        		tr.children("td").eq(7).html('<input class="realCost" placeholder="双击自动添加" style="width:100%;" value="'+(parseFloat(tr.children("td").eq(6).text())-parseFloat(tr.children("td").eq(7).text())).toFixed(2)+'" type="text">');
+	        		tr.children("td").eq(3).text("");
+	        		tr.children("td").eq(4).text("");
+	        		tr.children("td").eq(5).text("");
+	        		tr.children("td").eq(6).text("");
+	        		tr.children("td").eq(8).text("");
+	        		tr.children("td").eq(9).html('<input style="width:100%;" value="" type="text">');
+	        		tr.children("td").eq(10).text("可付");
+	        		tr.prepend('<td class="center sorting_1"><label><input class="ace" type="checkbox"><span class="lbl"></span></label></td>');
+	        		$("#payModel").find("#canPays").append(tr);
 	        	}
 	        }  
 		});

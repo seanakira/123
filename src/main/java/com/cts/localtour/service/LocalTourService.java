@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -280,9 +281,15 @@ public class LocalTourService extends BaseService{
 				if(costTable.getPayStatus()==0){
 					costTable.setPayStatus(1);
 					costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					costTable.setSupplierId(cost.getSupplierId());
+					if(cost.getSupplierId()!=0){
+						costTable.setSupplierId(cost.getSupplierId());
+					}
 					costTable.setRealCost(cost.getRealCost());
-					costTable.setRemark(cost.getRemark());
+					if(costTable.getRemark().indexOf("²¹Óà¿î")>-1&&cost.getRemark().indexOf("²¹Óà¿î")==-1){
+						costTable.setRemark(cost.getRemark()+" ²¹Óà¿î");
+					}else{
+						costTable.setRemark(cost.getRemark());
+					}
 					this.update(costTable);
 				}
 			/*}*/
@@ -295,9 +302,15 @@ public class LocalTourService extends BaseService{
 				if(changeCostTable.getPayStatus()==0){
 					changeCostTable.setPayStatus(1);
 					changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					changeCostTable.setSupplierId(changeCost.getSupplierId());
+					if(changeCost.getSupplierId()!=0){
+						changeCostTable.setSupplierId(changeCost.getSupplierId());
+					}
 					changeCostTable.setRealCost(changeCost.getRealCost());
-					changeCostTable.setRemark(changeCost.getRemark());
+					if(changeCostTable.getRemark().indexOf("²¹Óà¿î")>-1&&changeCost.getRemark().indexOf("²¹Óà¿î")==-1){
+						changeCostTable.setRemark(changeCost.getRemark()+" ²¹Óà¿î");
+					}else{
+						changeCostTable.setRemark(changeCost.getRemark());
+					}
 					this.update(changeCostTable);
 				}
 			/*}*/
@@ -305,9 +318,35 @@ public class LocalTourService extends BaseService{
 		return errorCode;
 	}
 	
-	public boolean paySupplement(int id, String type) {
-		// TODO Auto-generated method stub
-		return false;
+	@SuppressWarnings("unchecked")
+	public int paySupplement(int id, String type) {
+		if("cost".equals(type)){
+			CostTable cost = (CostTable) this.getById("CostTable", id);
+			CostTable costTable = new CostTable();
+			costTable.setTourId(cost.getTourId());
+			costTable.setCostDate(cost.getCostDate());
+			costTable.setSupplierId(cost.getSupplierId());
+			costTable.setSupplierScopeId(cost.getSupplierScopeId());
+			costTable.setContentId(cost.getContentId());
+			costTable.setCost(new BigDecimal(0));
+			costTable.setRealCost(new BigDecimal(0));
+			costTable.setRemark("²¹Óà¿î");
+			return ((CostTable)this.add(costTable)).getId();
+		}else if("changeCost".equals(type)){
+			ChangeCostTable cost = (ChangeCostTable) this.getById("ChangeCostTable", id);
+			ChangeCostTable costTable = new ChangeCostTable();
+			costTable.setTourId(cost.getTourId());
+			costTable.setCostDate(cost.getCostDate());
+			costTable.setSupplierId(cost.getSupplierId());
+			costTable.setSupplierScopeId(cost.getSupplierScopeId());
+			costTable.setContentId(cost.getContentId());
+			costTable.setCost(new BigDecimal(0));
+			costTable.setRealCost(new BigDecimal(0));
+			costTable.setStatus(3);
+			costTable.setRemark("²¹Óà¿î");
+			return ((ChangeCostTable)this.add(costTable)).getId();
+		}
+		return 0;
 	}
 	
 	@SuppressWarnings("unchecked")

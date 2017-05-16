@@ -481,7 +481,7 @@ public class TourController {
 	
 	/*∏∂øÓ…Í«Î≤πøÓ*/
 	@RequestMapping("/localTourManage/paySupplement")
-	public @ResponseBody boolean paySupplement(@RequestParam int id, @RequestParam String type){
+	public @ResponseBody int paySupplement(@RequestParam int id, @RequestParam String type){
 		return localTourService.paySupplement(id,type);
 	}
 	
