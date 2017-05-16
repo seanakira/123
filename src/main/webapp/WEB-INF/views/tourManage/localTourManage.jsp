@@ -2358,8 +2358,8 @@
 												<style type="text/css">
 													@media print{
 														.printFrame{
-															height: 13.3cm;
-															margin-bottom: 0.5cm;
+															height: 12.8cm;
+															margin-bottom: 1cm;
 														}
 														.printFrame table{
 															height: 90%;
@@ -6802,7 +6802,7 @@
 					'<img style="width: 240px; margin-left: 30px;" alt="提示2" src="<%=path %>resources/assets/images/print/print2.png">'+
 					'<img style="width: 400px; margin-left: 30px;" alt="提示3" src="<%=path %>resources/assets/images/print/print3.png">');
 			$(this).attr("href","#printAlert");
-		}else if(navigator.userAgent.indexOf("Chrome")>0&&navigator.userAgent.indexOf("WOW64")==-1){
+		}else if(navigator.userAgent.indexOf("Chrome")>0){
 			$("#printAlert").find(".modal-dialog").css("width","50%");
 			$("#printAlert").find(".modal-content").append('<img style="width: 600px;" alt="提示1" src="<%=path %>resources/assets/images/print/print4.png">');
 			$(this).attr("href","#printAlert");
@@ -6810,7 +6810,7 @@
 		
 		
 		$("#reimbursementPrintDiv").printArea({
-	        mode       : "iframe",
+	        mode       : "popup",
 	        standard   : "html5",
 	        popTitle   : '',
 	        popClose   : false,

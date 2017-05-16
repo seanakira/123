@@ -25,7 +25,7 @@ public class TourStatusStartOrEnd {
 	public void firstTask(){
 		/*设置团队状态*/
 		localTourService.updateByString("LocalTourTable", "status=?", "startTime<=? and status=?", 4, new Date() ,3);
-		localTourService.updateByString("LocalTourTable", "status=?", "endTime<=? and status=?", 5, new Date() ,4);
+		localTourService.updateByString("LocalTourTable", "status=?", "(endTime<=? and status=?) or (endTime<=? and status=?)", 5, new Date(), 4, new Date() ,2);
 		
 		/*计算系统使用状况*/
 		sysUsageService.computeSysUsageTable();
