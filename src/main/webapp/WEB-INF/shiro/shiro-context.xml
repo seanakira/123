@@ -182,6 +182,7 @@
                 		/reimbursementManage/findReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
                 		/reimbursementManage/checkReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
                 		/reimbursementManage/updateReimbursement=authc,perms["localTour:manage","localTour:reimbursementApplication"]
+                		/reimbursementManage/printReimbursement=authc,perms["localTour:manage","localTour:reimbursementApplication"]
                 		/localTourManage/findCustomer=authc,perms[localTour:manage]
                 		<!-- 打印 -->
                 		/localTourManage/printVoucher=authc

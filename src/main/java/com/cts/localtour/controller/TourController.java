@@ -1,8 +1,8 @@
 package com.cts.localtour.controller;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +30,7 @@ import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.pdf.PdfMaker;
 import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.CostService;
@@ -71,6 +72,8 @@ public class TourController {
 	private BillService billService;
 	@Autowired
 	private PrintService printService;
+	@Autowired
+	private PdfMaker pdfMaker;
 	@RequestMapping("/localTourManage")
 	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
 		int counts = localTourService.getCounts(key);
@@ -559,6 +562,11 @@ public class TourController {
 //			localTourService.sendMessage("reimbursementApplication", tourId, 0, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(团队报账)，点击进行审核");
 		}
 	}
+	/*打印pdf*/
+	@RequestMapping("/reimbursementManage/printReimbursement")
+	public @ResponseBody boolean printReimbursement(@RequestBody String info){
+		return pdfMaker.make(info.split("&")[0].substring(7),info.split("&")[1].substring(5));
+	}
 	
 	/*签单管理*/
 	@RequestMapping("/billCheckManage")
@@ -654,11 +662,18 @@ public class TourController {
 	public void printCountPlus2(@RequestParam String costIds, @RequestParam String changeCostIds){
 		printService.printCountPlus(costIds.split(","),changeCostIds.split(","));
 	}
+	
 	/*测试*/
 	@RequestMapping("/test")
-	public void test(){
-		System.out.println(localTourService.getAllByString("LocalTourTable", "startTime<=? and status=?", new Date() ,3).size());
-		System.out.println(localTourService.getAllByString("LocalTourTable", "endTime<=? and status=?", new Date() ,4).size());
+	public void test(@RequestBody String info){
+		/*String path = "D://STSworkSpaces/localtour/src/main/webapp/resources/pdfTemp/";*/
+		String path = "/driver/apache-tomcat-8.0.39/webapps/localtour/resources/pdfTemp/";
+		File file = new File(path);
+		String[] list = file.list();
+		for (String name : list) {
+			new File(path+name).delete();
+		}
+		System.out.println("???");
 	}
 	@RequestMapping("/sendTest")
 	public void sendTest(@RequestParam String touser){

@@ -71,13 +71,23 @@ public class LoginController {
 					md.addAttribute("msg","您的密码为123456，请修改初始密码");
 					return "/userSettings/profile";
 				}else{
-					response.sendRedirect(((SavedRequest)subject.getSession().getAttribute("shiroSavedRequest")).getRequestUrl());
+					if(((SavedRequest)subject.getSession().getAttribute("shiroSavedRequest"))==null){
+						response.sendRedirect("../operatingStatus");
+					}else{
+						String uri = ((SavedRequest)subject.getSession().getAttribute("shiroSavedRequest")).getRequestURI();
+						if((uri.indexOf("/localtour/"))>-1){
+							response.sendRedirect("/"+uri.split("/")[1]+"/"+uri.split("/")[2]);
+						}else{
+							response.sendRedirect("/"+uri.split("/")[1]);
+						}
+					}
 				}
 			}else{
 				md.addAttribute("msg","用户名或密码错误");
 				return "/loginManage/login";
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			md.addAttribute("msg","用户名或密码错误");
 		}
 		return "/loginManage/login";

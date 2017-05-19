@@ -1,5 +1,6 @@
 package com.cts.localtour.cron;
 
+import java.io.File;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,14 @@ public class TourStatusStartOrEnd {
 		
 		/*计算系统使用状况*/
 		sysUsageService.computeSysUsageTable();
+		
+		/*删除pdf缓存文件*/
+		/*String path = "D://STSworkSpaces/localtour/src/main/webapp/resources/pdfTemp/";*/
+		String path = "/driver/apache-tomcat-8.0.39/webapps/localtour/resources/pdfTemp/";
+		File file = new File(path);
+		String[] list = file.list();
+		for (String name : list) {
+			new File(path+name).delete();
+		}
 	}
 }

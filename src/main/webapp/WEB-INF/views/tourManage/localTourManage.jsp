@@ -170,7 +170,7 @@
 									<li class="divider"></li>
 									
 									<li>
-										<a id="reimbursementPrintButton" data-toggle="modal" href="#">打印报账单</a>
+										<a id="reimbursementPrintButton" data-toggle="modal" href="#" target="_blank">打印报账单</a>
 									</li>
 								</ul>
 							</div>
@@ -2373,12 +2373,12 @@
 															border: 1px solid;
 														}
 														.h3{
-															font-size: 14x;
+															font-size: 14px;
 															text-align: center;
 															margin: 0px;
 														}
 														.h4{
-															font-size: 12x;
+															font-size: 12px;
 															margin: 0px;
 														}
 														.h4 span{
@@ -3008,7 +3008,7 @@
 		error: function(XMLHttpRequest, textStatus, errorMsg){
 			if(textStatus=="parsererror"){
           		alert("登陆超时！请重新登陆！");
-                window.location.href = '/';
+                window.location.href = '${path }';
 	        } else if(textStatus=="error"){
 				if(XMLHttpRequest.status==400){
 	        		alert("请检查必填项，或其他数据是否正确，（如：天数只可填写整数）");
@@ -6685,29 +6685,29 @@
 			$.each(trs,function(index){
 				/* 生成表格 */
 				if(index%10==0){
-					table = $('<div class="printFrame"><table><thead><tr><th style="width: 5%;">日期</th>	<th style="width: 8%;">内容</th><th style="width: 10%;">供应商*</th>	<th style="width: 5%;">成本</th><th style="width: 5%;">数量</th><th style="width: 5%;">天数</th>	<th style="width: 5%;">预估成本</th><th style="width: 5%;">已汇金额</th><th style="width: 5%;">报账金额</th>	<th style="width: 5%;">备注</th><th style="width: 5%;">借款</th><th style="width: 5%;">挂账</th><th style="width: 5%;">状态</th></tr></thead><tbody class="printTable"></tbody></table></div>');
+					table = $('<div class="printFrame"><table><thead><tr><th style="width: 6%;">日期</th>	<th style="width: 8%;">内容</th><th style="width: 10%;">供应商*</th>	<th style="width: 5%;">成本</th><th style="width: 5%;">数量</th><th style="width: 5%;">天数</th>	<th style="width: 5%;">预估成本</th><th style="width: 5%;">已汇金额</th><th style="width: 5%;">报账金额</th>	<th style="width: 5%;">备注</th><th style="width: 5%;">借款</th><th style="width: 5%;">挂账</th><th style="width: 5%;">状态</th></tr></thead><tbody class="printTable"></tbody></table></div>');
 					$("#reimbursementPrintDiv").append(table);
 					if(i==0){
-						table.prepend('<p class="h4">机票<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">机票</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==1){
-						table.prepend('<p class="h4">订房<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">订房</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==2){
-						table.prepend('<p class="h4">订餐<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">订餐</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==3){
-						table.prepend('<p class="h4">门票<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">门票</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==4){
-						table.prepend('<p class="h4">订车<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">订车</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==5){
-						table.prepend('<p class="h4">票务<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">票务</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==6){
-						table.prepend('<p class="h4">综费<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">综费</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==7){
-						table.prepend('<p class="h4">其他<span>'+tourNo+'  '+tourName+'</span></p>');
+						table.prepend('<div class="h4"><div class="title">其他</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}
 					/* 添加标题 */
-					table.prepend('<p class="h3">团队报账单</p>');
+					table.prepend('<div class="h3">团队报账单</div>');
 					/* 添加签字栏 */
-					table.append('<span class="autograph"></span><span class="autograph"></span><span class="autograph">总经理：</span><span class="autograph">中心经理：</span><span class="autograph">财务：</span><span class="autograph">经办人：<%=user.getRealName() %></span>');
+					table.append('<div><div class="autograph"></div><div class="autographYuan"></div><div class="autograph">总经理：</div><div class="autograph">中心经理：</div><div class="autograph">财务：</div><div class="autograph">经办人：<%=user.getRealName() %></div></div>');
 					/* 重置合计数 */
 					total = 0;
 				}
@@ -6720,8 +6720,8 @@
 				
 				/* 计算合计 */
 				total = total + parseFloat($(this).find("input").eq(1).val());
-				table.children(".autograph").eq(0).text("合计："+total.toFixed(2));
-				table.children(".autograph").eq(1).text("大写："+moneyTrun(total));
+				table.find(".autograph").eq(0).text("合计："+total.toFixed(2));
+				table.find(".autographYuan").text("大写："+moneyTrun(total));
 				
 				/* 设置input为文字 */
 				var inputs = $(this).find("input");
@@ -6755,9 +6755,9 @@
 		/* 添加各种表格 */
 		/* $("#reimbursementPrintDiv").append("<h4>导游借款表</h4>");
 		$("#reimbursementPrintDiv").append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>"); */
-		$("#reimbursementPrintDiv").append('<p class="h4">收入<span>'+tourNo+'  '+tourName+'</span></p>');
+		$("#reimbursementPrintDiv").append('<div class="h4"><div class="title">收入</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 		$("#reimbursementPrintDiv").append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
-		$("#reimbursementPrintDiv").append('<p class="h4">统计信息</p>');
+		$("#reimbursementPrintDiv").append('<div class="h4">统计信息</div>');
 		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#headAmount").parent().parent().parent().html()+"</table>");
 		
 		/* 修改人头为综费 */
@@ -6796,7 +6796,7 @@
 		$("#reimbursementPrintDiv").find(".printIncomes").find("tr td:nth-child(7)").hide();
 		
 		/* 浏览器弹出提示框 */
-		if(navigator.userAgent.indexOf("Firefox")>0){
+		<%-- if(navigator.userAgent.indexOf("Firefox")>0){
 			$("#printAlert").find(".modal-dialog").css("width","90%");
 			$("#printAlert").find(".modal-content").append('<img style="width: 400px;" alt="提示1" src="<%=path %>resources/assets/images/print/print1.png">'+
 					'<img style="width: 240px; margin-left: 30px;" alt="提示2" src="<%=path %>resources/assets/images/print/print2.png">'+
@@ -6806,15 +6806,47 @@
 			$("#printAlert").find(".modal-dialog").css("width","50%");
 			$("#printAlert").find(".modal-content").append('<img style="width: 600px;" alt="提示1" src="<%=path %>resources/assets/images/print/print4.png">');
 			$(this).attr("href","#printAlert");
-		}
+		} --%>
 		
+		/* 打印PDF */
+		var printDiv = $("#reimbursementPrintDiv").clone(); 
+		printDiv.find("style").remove();
+		printDiv.find(".tab-pane").remove();
+		printDiv.find("#changeCostBlue").remove();
+		printDiv.find("#reimbursementCostRed").remove();
+		printDiv.find("input").remove();
+		printDiv.find(".printIncomes").find("tr td:nth-child(7)").remove();
+		printDiv.find(".printIncomes").find("tr th:nth-child(7)").remove();
+		$.each(printDiv.find("select"),function(){
+			$(this).parent().text($(this).parent().find("a").text());
+		});
+		printDiv.prepend('<style type="text/css">.printFrame{height: 14cm}.printFrame table{height: 90%;}table{font-size: 10px;border-collapse: collapse;width: 100%;border-right:1px solid;border-bottom:1px solid;}td{padding-left: 2px;border-top: 1px solid;border-left: 1px solid;}.h3{font-size: 14px;text-align: center;margin: 0px;}.h4{font-size: 12px;padding-bottom: 10px;}.h4 .title{width:50%;float:left;display: inline-block;}.h4 .tourInfo{width:300px;float:right;display: inline-block;text-align: right;}#changeCostBlue{display: none;}#reimbursementCostRed{display: none;}.autograph{width:95px;font-size: 10px;display: inline-block;float:left;}.autographYuan{width:200px;font-size: 10px;display: inline-block;float:left;}.printIncomes tbody tr{height: 30px;}.printStatistical tbody tr{height: 30px;}</style>');
+		var a = $(this);
+		var tourNo = checkbox.parent().parent().siblings().eq(0).text();
+		$.ajax({
+			type: "POST",  
+	        contentType:"application/json;charset=utf-8",
+	        url:"${path }reimbursementManage/printReimbursement",
+	        data:{tourNo:tourNo, html:"<div>"+printDiv.html()+"</div>"},
+	        dataType: "json",  
+	        async: false,  
+	        success:function(data){
+	        	if(data){
+	        		a.attr("target","_blank");
+	        		a.attr("href","${path }resources/pdfTemp/"+tourNo+"reimbursement.pdf");
+	        	}else{
+	        		a.attr("target","");
+	        		alert("打印遇到问题,请联系管理员");
+	        	}
+	        }
+		});
 		
-		$("#reimbursementPrintDiv").printArea({
-	        mode       : "popup",
+		/* $("#reimbursementPrintDiv").printArea({
+	        mode       : "iframe",
 	        standard   : "html5",
 	        popTitle   : '',
 	        popClose   : false,
-	    });
+	    }); */
 		<%-- $("#reimbursementPrintDiv").printArea({
 	        mode       : "popup",
 	        standard   : "html5",
