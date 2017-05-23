@@ -251,9 +251,8 @@ public class FinanceController {
 	}
 	
 	@RequestMapping("/settlementManage/update")
-	public String updateReimbursementApplication(@RequestParam int tourId){
+	public void updateReimbursementApplication(@RequestParam int tourId){
 		settlementService.updateSettlement(tourId);
-		return "/mobile/applicationOk";
 	}
 	
 	@RequestMapping("/settlementManage/cancel")

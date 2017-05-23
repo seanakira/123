@@ -19,6 +19,7 @@ import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LoanService;
 import com.cts.localtour.service.ReimbursementCostService;
+import com.cts.localtour.service.ReimbursementIncomeService;
 import com.cts.localtour.service.SupplierInfoService;
 import com.cts.localtour.service.UserService;
 
@@ -39,6 +40,8 @@ public class FullBalanceViewModel {
 	private IncomeService incomeService;
 	@Autowired
 	private ChangeIncomeService changeIncomeService;
+	@Autowired
+	private ReimbursementIncomeService reimbursementIncomeService;
 	@Autowired
 	private CostService costService;
 	@Autowired
@@ -181,7 +184,7 @@ public class FullBalanceViewModel {
 			loans.add(loan);
 		}
 		full.setLoans(loans);
-		full.setWillIncomeSum(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
+		full.setWillIncomeSum(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum().add(reimbursementIncomeService.getIncomeInfo(tourId).getIncomeSum())).floatValue());
 		CostInfo costInfo = costService.getCostInfo(tourId);
 		CostInfo changeCostInfo = changeCostService.getCostInfo(tourId);
 		CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(tourId);

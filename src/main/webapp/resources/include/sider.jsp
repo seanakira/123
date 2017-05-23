@@ -261,7 +261,7 @@
 								</ul>
 							</li>
 						</shiro-ex:hasAnyPermissions>
-						
+						<shiro-ex:hasAnyPermissions name="statisticalAnalysis:manage">
 							<li id="statisticalAnalysis">
 								<a href="#" class="dropdown-toggle">
 									<i class="icon-bar-chart"></i>
@@ -271,27 +271,41 @@
 								</a>
 	
 								<ul class="submenu">
-									<li id="tourDetails">
-										<a href="${path }tourDetails">
-											<i class="icon-double-angle-right"></i>
-											台账统计
-										</a>
-									</li>
-									<li id="deptGains">
-										<a href="${path }deptGains">
-											<i class="icon-double-angle-right"></i>
-											部门盈利统计
-										</a>
-									</li>
-									<li id="supplierGains">
-										<a href="${path }supplierGains">
-											<i class="icon-double-angle-right"></i>
-											供应商使用分析
-										</a>
-									</li>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:tourDetails">
+										<li id="tourDetails">
+											<a href="${path }tourDetails">
+												<i class="icon-double-angle-right"></i>
+												台账统计
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:deptGains">
+										<li id="deptGains">
+											<a href="${path }deptGains">
+												<i class="icon-double-angle-right"></i>
+												部门盈利统计
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:supplierGains">
+										<li id="supplierGains">
+											<a href="${path }supplierGains">
+												<i class="icon-double-angle-right"></i>
+												供应商使用分析
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:financialSettlementStatistic">
+										<li id="financialSettlementStatistic">
+											<a href="${path } financialSettlementStatistic">
+												<i class="icon-double-angle-right"></i>
+												财务结算统计
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
 								</ul>
 							</li>
-						
+						</shiro-ex:hasAnyPermissions>
 						<shiro-ex:hasAnyPermissions name="businessType:manage or tourType:manage or visitorType:manage or region:manage or supplier:manage or content:manage">
 							<li id="dataManage">
 								<a href="#" class="dropdown-toggle">

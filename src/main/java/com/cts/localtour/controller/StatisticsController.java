@@ -6,6 +6,7 @@ import java.util.Date;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,7 @@ import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.StatisticsService;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
+import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
 import com.cts.localtour.viewModel.SupplierGainsViewModel;
 import com.cts.localtour.viewModel.TourDetailsViewModel;
 
@@ -57,5 +59,17 @@ public class StatisticsController {
 	@RequestMapping("/tourDetails/get")
 	public @ResponseBody ArrayList<TourDetailsViewModel> getTourDetails(@RequestParam Date start, @RequestParam Date end){
 		return statisticsService.getTourDetails(start, end);
+	}
+	
+	/*财务结算表*/
+	@RequestMapping("/financialSettlementStatistic")
+	public String financialSettlementStatistic(Model md){
+		md.addAttribute("depts", statisticsService.getDataDept());
+		return "statistics/financialSettlementStatistic";
+	}
+	
+	@RequestMapping("/financialSettlementStatistic/get")
+	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getfinancialSettlementStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
+		return statisticsService.getFinancialSettlementStatistic(start, end, deptIds, tourNo);
 	}
 }

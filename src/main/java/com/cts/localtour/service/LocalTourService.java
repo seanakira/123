@@ -391,13 +391,13 @@ public class LocalTourService extends BaseService{
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
 			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement().floatValue()==0){
-				this.delete(reimbursementCostTable);
+				this.delById("ReimbursementCostTable", reimbursementCostTable.getId());
 			}else{
 				this.updateByString("ReimbursementCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", reimbursementCostTable.getReimbursement(),reimbursementCostTable.getSupplierId(),reimbursementCostTable.isBill(),reimbursementCostTable.getId());
 			}
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getNewReimbursementCostTables()) {
-			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().floatValue()!=0&&reimbursementCostTable.getCost()!=null){
+			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().floatValue()!=0&&reimbursementCostTable.getCost()!=null&&reimbursementCostTable.getSupplierId()!=0){
 				this.add(reimbursementCostTable);
 			}
 		}

@@ -1,6 +1,7 @@
 package com.cts.localtour.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class SettlementService extends BaseService{
 
 	public void updateSettlement(int tourId) {
 		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==9){
-			this.updateByString("LocalTourTable", "status=10", "id=?", tourId);
+			this.updateByString("LocalTourTable", "status=10, settlementTime=?", "id=?",new Date() , tourId);
 		}
 	}
 

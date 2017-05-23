@@ -1,6 +1,5 @@
 package com.cts.localtour.service;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -23,8 +22,11 @@ public class IncomeService extends BaseService{
 		StringBuffer realIncomeSumInfo = new StringBuffer();
 		StringBuffer incomeSumInfo = new StringBuffer();
 		ArrayList<IncomeTable> incomeTables = (ArrayList<IncomeTable>) this.getAllByString("IncomeTable", "tourId=?", tourId);
+		String customerAgencyName = "";
+		if(!incomeTables.isEmpty()){
+			customerAgencyName = customerAgencyService.getCustomerAgencyName(tourId);
+		}
 		for (IncomeTable incomeTable : incomeTables) {
-			String customerAgencyName = customerAgencyService.getCustomerAgencyName(incomeTable.getTourId());
 			incomeSum = incomeSum.add(incomeTable.getIncome());
 			incomeSumInfo.append(customerAgencyName).append(" ").append(incomeTable.getIncome()).append(",");
 			realIncomeSum = realIncomeSum.add(incomeTable.getRealIncome());

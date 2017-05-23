@@ -238,7 +238,7 @@
 									</button>
 								</shiro:hasPermission>
 								<shiro:hasPermission name="settlement:update">
-									<button id="ok" class="btn btn-sm btn-success pull-right">
+									<button id="ok" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 										<i class="icon-qrcode"></i>
 										同意
 									</button>
@@ -285,7 +285,7 @@
 				$("#table").find("input").prop("checked",false);
 				checkbox.prop("checked",true);
 				/* 设置按钮 */
-				if($(this).siblings().last().text()=="已核销"){
+				if($(this).siblings().last().text()=="待结算"){
 					$("#settlement").show();
 				}else{
 					$("#settlement").hide();
@@ -348,7 +348,7 @@
 			}
 		});
 		/* 鼠标提示事件 */
-		var titleText
+		/* var titleText
 		$("#checkTable").delegate("a","mouseenter",function(){
 			titleText = $(this).attr("title");
 			$(this).attr("title","");
@@ -361,9 +361,9 @@
 		$("#checkTable").delegate("a","mouseout",function(){
 			$(this).attr("title",titleText);
 			$("#title").remove();
-		});
+		}); */
 		/* 二维码 */
-		$("#ok").mouseenter(function(){
+		/* $("#ok").mouseenter(function(){
 			var tourId = $(this).parent().attr("id");
 			var http = (window.document.location.href.substring(0, window.document.location.href.indexOf(window.document.location.pathname)));
 			var div = $('<div id="qrcode" style="display:none;position: absolute;background-color: #444;color: white;padding: 10px;left: 45%;top: 20%;z-index: 1500;"></div>');
@@ -388,7 +388,25 @@
 		        	}
 		        }  
 			});
+		}); */
+		
+		$("#ok").click(function(){
+			var tourId = $(this).parent().attr("id");
+			$("#table").find("#"+tourId).remove();
+			var myData = {tourId:tourId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }settlementManage/update",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	
+		        }  
+			});
 		});
+		
 		$("#cancel").click(function(){
 			var tourId = $(this).parent().attr("id");
 			$("#table").find("#"+tourId).remove();

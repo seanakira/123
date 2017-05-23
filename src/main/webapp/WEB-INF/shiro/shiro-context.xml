@@ -254,8 +254,19 @@
                 		/supplierInfoManage/update=authc,perms["supplierInfo:manage","supplierInfo:update"]
                 		/supplierBusiness/update=authc,perms["supplierInfo:manage","supplierInfo:update"]
                 <!-- 统计分析 -->
-                	/deptGains=authc
-                	/deptGains/get=authc
+                	<!-- 部门盈利表 -->
+                	/deptGains=authc,perms[statisticalAnalysis:deptGains]
+                	/deptGains/get=authc,perms[statisticalAnalysis:deptGains]
+                	<!-- 供应商分析表 -->
+                	/supplierGains=authc,perms[statisticalAnalysis:supplierGains]
+                	/supplierGains/get=authc,perms[statisticalAnalysis:supplierGains]
+                	/supplierGains/init=authc,perms[statisticalAnalysis:supplierGains]
+                	<!-- 台账统计 -->
+                	/tourDetails=authc,perms[statisticalAnalysis:tourDetails]
+                	/tourDetails/get=authc,perms[statisticalAnalysis:tourDetails]
+                	<!-- 财务结算统计 -->
+                	/financialSettlementStatistic=authc,perms[statisticalAnalysis:financialSettlementStatistic]
+                	/financialSettlementStatistic/get=authc,perms[statisticalAnalysis:financialSettlementStatistic]
                 <!-- 数据管理 -->
                 	<!-- 业务类型 -->
                 	/businessTypeManage=authc,perms[businessType:manage]

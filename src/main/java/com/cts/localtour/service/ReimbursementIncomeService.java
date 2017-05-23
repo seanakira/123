@@ -1,17 +1,18 @@
 package com.cts.localtour.service;
 
 import java.math.BigDecimal;
+
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.entity.ChangeIncomeTable;
+import com.cts.localtour.entity.ReimbursementIncomeTable;
 import com.cts.localtour.pojo.IncomeInfo;
 
 @SuppressWarnings("rawtypes")
 @Service
-public class ChangeIncomeService extends BaseService{
+public class ReimbursementIncomeService extends BaseService{
 	@Autowired
 	private CustomerAgencyService customerAgencyService;
 	@SuppressWarnings("unchecked")
@@ -21,16 +22,14 @@ public class ChangeIncomeService extends BaseService{
 		BigDecimal realIncomeSum = new BigDecimal(0);
 		StringBuffer realIncomeSumInfo = new StringBuffer();
 		StringBuffer incomeSumInfo = new StringBuffer();
-		ArrayList<ChangeIncomeTable> changeIncomeTables = (ArrayList<ChangeIncomeTable>) this.getAllByString("ChangeIncomeTable", "tourId=? and status=3", tourId);
+		ArrayList<ReimbursementIncomeTable> incomeTables = (ArrayList<ReimbursementIncomeTable>) this.getAllByString("ReimbursementIncomeTable", "tourId=?", tourId);
 		String customerAgencyName = "";
-		if(!changeIncomeTables.isEmpty()){
+		if(!incomeTables.isEmpty()){
 			customerAgencyName = customerAgencyService.getCustomerAgencyName(tourId);
 		}
-		for (ChangeIncomeTable changeIncomeTable : changeIncomeTables) {
-			incomeSum = incomeSum.add(changeIncomeTable.getIncome());
-			incomeSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getIncome()).append(",");
-			realIncomeSum = realIncomeSum.add(changeIncomeTable.getRealIncome());
-			realIncomeSumInfo.append(customerAgencyName).append(" ").append(changeIncomeTable.getRealIncome()).append(",");
+		for (ReimbursementIncomeTable incomeTable : incomeTables) {
+			incomeSum = incomeSum.add(incomeTable.getIncome());
+			incomeSumInfo.append(customerAgencyName).append(" ").append(incomeTable.getIncome()).append(",");
 		}
 		incomeInfo.setRealIncomeSum(realIncomeSum);
 		incomeInfo.setIncomeSum(incomeSum);

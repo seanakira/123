@@ -90,7 +90,8 @@ public class SupplierInfoService extends BaseService{
 	}
 	
 	public String getSupplierName(int supplierId){
-		return ((SupplierTable)this.getById("SupplierTable", supplierId)).getSupplierName();
+		SupplierTable supplier = (SupplierTable) this.getById("SupplierTable", supplierId);
+		return supplier==null?"":supplier.getSupplierName();
 	}
 	
 	public HashMap<String, Date> getSettlementDateFromTo(int supplierId, int relativePeriod){
