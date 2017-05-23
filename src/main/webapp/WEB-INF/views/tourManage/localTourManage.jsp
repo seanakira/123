@@ -197,9 +197,19 @@
 								<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									团号
 								</th>
-								<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
-									线路
-								</th>
+								
+								<c:choose>
+									<c:when test="${sessionScope.isMice }">
+										<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+											活动名称
+										</th>
+									</c:when>
+									<c:otherwise>
+										<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+											线路
+										</th>
+									</c:otherwise>
+								</c:choose>
 								<th aria-label="Price: activate to sort column ascending" style="width: 5%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									成人
 								</th>
@@ -312,7 +322,7 @@
 										</li>
 					
 					
-										<li>
+										<li <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<a class="trips" data-toggle="tab" href="#trips">
 												<i class="orange icon-calendar bigger-120"></i>
 												行程
@@ -413,13 +423,13 @@
 												</tr>
 											</tbody>
 										</table>
-										<div class="modal-header no-padding">
+										<div class="modal-header no-padding" <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<div class="table-header">
 												抵离信息
 												<a class="white addArrDep" href="#"><i class="icon-plus bigger-100"></i></a>
 											</div>
 										</div>
-										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top" <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<thead>
 												<tr>
 													<th>出发地</th>
@@ -901,7 +911,7 @@
 										</li>
 					
 					
-										<li>
+										<li <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<a data-toggle="tab" href="#trips2">
 												<i class="orange icon-calendar bigger-120"></i>
 												行程
@@ -977,13 +987,13 @@
 												</tr>
 											</tbody>
 										</table>
-										<div class="modal-header no-padding">
+										<div class="modal-header no-padding" <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<div class="table-header">
 												抵离信息
 												<a class="white addArrDep" href="#"><i class="icon-plus bigger-100"></i></a>
 											</div>
 										</div>
-										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top" <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<thead>
 												<tr>
 													<th>出发地</th>
@@ -1299,7 +1309,7 @@
 												基本信息
 											</a>
 										</li>
-										<li>
+										<li <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<a id="editTrip" data-toggle="tab" href="#trips3">
 												<i class="orange icon-calendar bigger-120"></i>
 												行程
@@ -1400,12 +1410,12 @@
 											</tbody>
 										</table>
 										<div class="modal-header no-padding">
-											<div class="table-header">
+											<div class="table-header" <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 												抵离信息
 												<a class="white addArrDep" href="#"><i class="icon-plus bigger-100"></i></a>
 											</div>
 										</div>
-										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+										<table id="arrDepTable" class="table table-striped table-bordered table-hover no-margin-bottom no-border-top" <c:if test="${sessionScope.isMice }">style="display: none;"</c:if>>
 											<thead>
 												<tr>
 													<th>出发地</th>
@@ -4066,6 +4076,12 @@
 	        	var reimbursementTicketsSum = 0;
 	        	var reimbursementComprehensiveSum = 0;
 	        	var reimbursementOtherSum = 0;
+	        	
+	        	var isReimbursement = false;
+	        	if(data.localTourTable.status>6){
+	        		isReimbursement = true;
+	        	}
+	        	
 	        	$.each(data.costs,function(){
 	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
@@ -4109,6 +4125,7 @@
 							'<td>'+this.costTable.count+'</td>'+
 							'<td>'+this.costTable.days+'</td>'+
 							'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+							(isReimbursement?('<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'):'')+
 							'<td>'+this.borrowUserName+'</td>'+
 							'<td>'+this.costTable.remark+'</td>'+
 					'</tr>');
@@ -4124,6 +4141,7 @@
 	        	}else{
 	        		$("#changeIncomeBlue").attr("style","display:none");
 	        	}
+	        	
 	        	$.each(data.changeCosts,function(){
 	        		var tbody;
 	        		if(this.costTable.supplierScopeId==1){
@@ -4167,11 +4185,13 @@
 							'<td>'+this.costTable.count+'</td>'+
 							'<td>'+this.costTable.days+'</td>'+
 							'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+							(isReimbursement?('<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'):'')+
 							'<td>'+this.borrowUserName+'</td>'+
 							'<td>'+this.costTable.remark+'</td>'+
 					'</tr>');
 	        	});
-	        	if(data.localTourTable.status>6){
+	        	
+	        	if(isReimbursement){
 	        		if(data.reimbursementCosts.length > 0){
 		        		$("#costs2").find("#reimbursementCostRed").attr("style","");
 		        	}else{
@@ -4212,6 +4232,7 @@
 								'<td>'+this.costTable.count+'</td>'+
 								'<td>'+this.costTable.days+'</td>'+
 								'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
+								(isReimbursement?('<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'):'')+
 								'<td></td>'+
 								'<td>'+this.costTable.remark+'</td>'+
 						'</tr>');
@@ -4269,7 +4290,7 @@
 	        		reimbursementIncomeSum = reimbursementIncomeSum + this.incomeTable.income;
 	        	});
 	        	
-	        	if(data.localTourTable.status>6){
+	        	if(isReimbursement){
 	        		if(data.reimbursementIncomes.length > 0){
 		        		$("#incomes2").find("#reimbursementIncomeRed").attr("style","");
 		        	}else{
@@ -4301,7 +4322,7 @@
 	        									'<td>预估毛利率</td>'+
 	        									'<td>'+((incomeSum-(flightSum+hotelSum+mealSum+ticketSum+shuttleSum+ticketsSum+comprehensiveSum+otherSum))/incomeSum*100).toFixed(2)+'%</td>'+
 	        						'</tr></tbody></table>');
-	        	if(data.localTourTable.status>6){
+	        	if(isReimbursement){
 	        		$("#totalAll").find("tbody").append('<tr><td>报账成本</td>'+
 							'<td>'+(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum).toFixed(2)+'</td>'+
 							'<td>报账收入</td>'+
@@ -4312,8 +4333,31 @@
 							'<td>'+((reimbursementIncomeSum-(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum))/((data.localTourTable.adultNo==null?0:data.localTourTable.adultNo) + (data.localTourTable.childrenNo==null?0:data.localTourTable.childrenNo))).toFixed(2)+'</td>'+
 							'<td>报账毛利率</td>'+
 							'<td>'+((reimbursementIncomeSum-(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum))/incomeSum*100).toFixed(2)+'%</td>'+
-				'</tr>');
+					'</tr>');
 	        	}
+	        	
+	        	/* 设置成本至基本信息 */
+	        	$("#totalAll").next().next().remove();
+	        	$("#totalAll").next().remove();
+	        	var costDiv = $("#flight2").parent().clone();
+	        	if(isReimbursement){
+	        		costDiv.find("tr th:nth-child(7)").after('<th>报账金额</th>');
+	        	}
+	        	costDiv.attr({"style":"","class":"tab-content no-border padding-6"});
+	        	costDiv.find("th").attr("style","width: 10%;background-color: beige;");
+	        	costDiv.children("div").attr({"id":"","class":""});
+	        	$.each(costDiv.children("div"),function(){
+	        		if($(this).find("tr").length==2){
+	        			$(this).remove();
+	        		}
+	        	});
+	        	
+	        	$("#totalAll").after(costDiv);
+	        	/* 设置收入至基本信息 */
+	        	var incomeDiv = $("#incomes2").clone();
+	        	incomeDiv.attr({"style":"","class":"tab-content no-border padding-6"});
+	        	incomeDiv.find("th").attr("style","width: 10%;background-color: beige;");
+	        	costDiv.after(incomeDiv);
 	        }  
 		});
 	});

@@ -32,10 +32,10 @@ public class RevenueService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleRevenueViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "status>=2 and status<=7 and enable=true", null, page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "status>=2 and status<=9 and enable=true", null, page, maxResults);
 			return simpleRevenueViewModel.getAllSimpleRevenueViewModel(localTours);
 		}else{
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=7 and enable=true", null, page, maxResults);
+			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=9 and enable=true", null, page, maxResults);
 			return simpleRevenueViewModel.getAllSimpleRevenueViewModel(localTours);
 		}
 	}
