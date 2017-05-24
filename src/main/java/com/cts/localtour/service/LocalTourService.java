@@ -2,6 +2,7 @@ package com.cts.localtour.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 
 import org.apache.shiro.SecurityUtils;
@@ -69,17 +70,14 @@ public class LocalTourService extends BaseService{
 	@Autowired
 	private UserService userService;
 	@SuppressWarnings("unchecked")
-	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults) {
-		if(key.equals("")){
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")", null, page, maxResults);
-			return setMd(localTours);
-		}else{
-			Hashtable<String, String> param = new Hashtable<String, String>();
-			param.put("tourNO", "%"+key+"%");
-			param.put("tourName", "%"+key+"%");
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")", param, page, maxResults);
-			return setMd(localTours);
-		}
+	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, int status) {
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("tourNO", "%"+key+"%");
+		param.put("tourName", "%"+key+"%");
+		param.put("start", start);
+		param.put("end", end);
+		ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param, page, maxResults);
+		return setMd(localTours);
 	}
 	public ArrayList<SimpleLocalTourViewModel> setMd(ArrayList<LocalTourTable> localTours){
 		ArrayList<SimpleLocalTourViewModel> simpleLocalTourViewModels = new ArrayList<SimpleLocalTourViewModel>();
@@ -120,17 +118,13 @@ public class LocalTourService extends BaseService{
 	}
 
 	@SuppressWarnings("unchecked")
-	public int getCounts(String key) {
-		if(key.equals("")){
-			String where = "deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")";
-			return this.getCountsByParam("LocalTourTable", where, null);
-		}else{
-			String where = "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")";
-			Hashtable<String, String> param = new Hashtable<String, String>();
-			param.put("tourNO", "%"+key+"%");
-			param.put("tourName", "%"+key+"%");
-			return this.getCountsByParam("LocalTourTable", where, param);
-		}
+	public int getCounts(String key, Date start, Date end, String deptIds, int status) {
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("tourNO", "%"+key+"%");
+		param.put("tourName", "%"+key+"%");
+		param.put("start", start);
+		param.put("end", end);
+		return this.getCountsByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param);
 	}
 
 	public void del(int id) {

@@ -26,6 +26,16 @@
 	.brown{
 		color:brown;
 	}
+	.searchExtra{
+		position: absolute;
+		right: 5px;
+		background-color: #f9f9f9;
+		z-index: 1500;
+		padding-left: 10px;
+		border: 1px solid #aaa;
+		display: none;
+		width: 450px;
+	}
 	
 	@media only screen and (max-width:1280px) {
 		.gainsboro{
@@ -178,9 +188,26 @@
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }localTourManage" method="get">
 								<span class="input-icon">
-									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
+									<input name="key" placeholder="搜索 ..." class="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
 								</span>
+								<div class="searchExtra">
+									开始日期：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 10px;"><input id="start" name="start" class="datepicker" type="text" style="width: 100px;"></div>
+									部门：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select id="select" name="deptIds" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
+										<option value="">&nbsp;</option>
+										<c:forEach var="dept" items="${depts }">
+											<option value="${dept.id }">${dept.deptName }</option>
+										</c:forEach>
+									</select></div>
+									结束日期：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 10px;"><input id="end" name="end" class="datepicker" type="text" style="width: 100px;"></div>
+									 状态：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select name="status"><option value="-1">&nbsp;</option><option value="7">已报账</option><option value="6">未报账</option></select></div>
+									<i class="icon-remove bigger-150 grey" style="width: 50%;padding: 10px;display: inline-block;"></i>
+									<i class="icon-ok bigger-150 grey" style="width: 49%;;padding: 10px;display: inline-block;"></i>
+								</div>
 							</form>
 						</div><!-- #nav-search -->
 					</div>
@@ -3139,6 +3166,29 @@
 			inited = true;
 		}
 	});
+	
+	/* 搜索 按钮事件*/
+	$(".nav-search-input").focus(function(){
+		$(".searchExtra").slideDown();
+		$(".searchExtra").focus();
+	});
+	$(".nav-search-input").keydown(function(event){
+		if(event.which == 13){
+			$(".form-search").submit();
+		}
+	});
+	$(".searchExtra").find(".icon-remove").click(function(){
+		$(".searchExtra").slideUp();
+	});
+	$(".searchExtra").find(".icon-ok").click(function(){
+		$(".form-search").submit();
+	});
+	
+	$(".searchExtra").find("select").chosen({no_results_text: "查无结果", search_contains: true});
+	$(".searchExtra").find("select").eq(0).next().attr("style","width: 200px;top: -3px;")
+	$(".searchExtra").find("select").eq(0).next().find("li").attr("style","height: 25px;");
+	$(".searchExtra").find("select").eq(0).next().find("input").attr("style","height: 25px;position: relative;");
+	$(".searchExtra").find("select").eq(1).next().attr("style","width: 200px;top: -3px;");
 	
 	/* 点击本行复选框选中本行 */
 	$("#table").delegate(".ace","click",function(){

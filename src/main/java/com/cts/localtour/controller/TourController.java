@@ -3,6 +3,7 @@ package com.cts.localtour.controller;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ import com.cts.localtour.service.DepartService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PrintService;
+import com.cts.localtour.service.StatisticsService;
 import com.cts.localtour.service.TripService;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
@@ -73,10 +75,12 @@ public class TourController {
 	@Autowired
 	private PrintService printService;
 	@Autowired
+	private StatisticsService statisticsService;
+	@Autowired
 	private PdfMaker pdfMaker;
 	@RequestMapping("/localTourManage")
-	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		int counts = localTourService.getCounts(key);
+	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key,@RequestParam(defaultValue="2000/05/01") Date start,@RequestParam(defaultValue="2100/05/01") Date end, @RequestParam(defaultValue="") String deptIds, @RequestParam(defaultValue="-1") int status, Model md){
+		int counts = localTourService.getCounts(key, start, end, deptIds, status);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
 			pageMax++;
@@ -87,12 +91,13 @@ public class TourController {
 		if(page<1){
 			page=1;
 		}
-		ArrayList<SimpleLocalTourViewModel> localTours = localTourService.getAll(key,page,maxResults);
+		ArrayList<SimpleLocalTourViewModel> localTours = localTourService.getAll(key,page,maxResults,start,end,deptIds,status);
 		md.addAttribute("localTours", localTours);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
+		md.addAttribute("depts", statisticsService.getDataDept());
 		return "/tourManage/localTourManage";
 	}
 	
