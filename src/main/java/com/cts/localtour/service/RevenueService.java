@@ -43,9 +43,9 @@ public class RevenueService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public int getCounts(String key) {
 		if(key.equals("")){
-			return this.getCountsByParam("LocalTourTable", "status>=2 and status<=7", null);
+			return this.getCountsByParam("LocalTourTable", "status>=2 and status<=9", null);
 		}else{
-			return this.getCountsByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=7", null);
+			return this.getCountsByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=9", null);
 		}
 	}
 

@@ -6825,11 +6825,11 @@
 		});
 		/* 再次设置成本样式 */
 		var tbodys = $("#reimbursementPrintDiv").find(".printTable");
-		/* tbodys.find("tr td:nth-child(4)").hide();
+		/* tbodys.find("tr td:nth-child(10)").hide();
 		tbodys.find("tr td:nth-child(5)").hide();
 		tbodys.find("tr td:nth-child(6)").hide(); */
 		var thead = $("#reimbursementPrintDiv").find(".printTable").parent().children("thead");
-		/* thead.find("tr th:nth-child(4)").hide();
+		/* thead.find("tr th:nth-child(10)").hide();
 		thead.find("tr th:nth-child(5)").hide();
 		thead.find("tr th:nth-child(6)").hide(); */
 		$("#reimbursementPrintDiv").find("#changeCostBlue").hide();
@@ -6853,7 +6853,7 @@
 		} --%>
 		
 		/* 打印PDF */
-		var printDiv = $("#reimbursementPrintDiv").clone(); 
+		var printDiv = $("#reimbursementPrintDiv").clone();
 		printDiv.find("style").remove();
 		printDiv.find(".tab-pane").remove();
 		printDiv.find("#changeCostBlue").remove();
@@ -6861,8 +6861,22 @@
 		printDiv.find("input").remove();
 		printDiv.find(".printIncomes").find("tr td:nth-child(7)").remove();
 		printDiv.find(".printIncomes").find("tr th:nth-child(7)").remove();
+		printDiv.find(".printFrame").find("tr td:nth-child(10)").remove();
+		printDiv.find(".printFrame").find("tr th:nth-child(10)").remove();
+		/* 设置选项 为文本*/
 		$.each(printDiv.find("select"),function(){
-			$(this).parent().text($(this).parent().find("a").text());
+			if($(this).parent().find("a").text()=="导游服务费"){
+				$(this).parent().text("个人")
+			}else{
+				$(this).parent().text($(this).parent().find("a").text());
+			}
+		});
+		/* 删除多余行 */
+		$.each(printDiv.find(".printFrame").find("tr"),function(){
+			var tds = $(this).find("td");
+			if(parseFloat(tds.eq(8).text())==0&&tds.eq(11).text()=="可付"&&tds.eq(10).text()==""&&tds.eq(9).text()==""){
+				$(this).html("<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>");
+			}
 		});
 		printDiv.prepend('<style type="text/css">.printFrame{height: 14cm}.printFrame table{height: 90%;}table{font-size: 10px;border-collapse: collapse;width: 100%;border-right:1px solid;border-bottom:1px solid;}td{padding-left: 2px;border-top: 1px solid;border-left: 1px solid;}.h3{font-size: 14px;text-align: center;margin: 0px;}.h4{font-size: 12px;padding-bottom: 10px;}.h4 .title{width:50%;float:left;display: inline-block;}.h4 .tourInfo{width:300px;float:right;display: inline-block;text-align: right;}#changeCostBlue{display: none;}#reimbursementCostRed{display: none;}.autograph{width:95px;font-size: 10px;display: inline-block;float:left;}.autographYuan{width:200px;font-size: 10px;display: inline-block;float:left;}.printIncomes tbody tr{height: 30px;}.printStatistical tbody tr{height: 30px;}</style>');
 		var a = $(this);

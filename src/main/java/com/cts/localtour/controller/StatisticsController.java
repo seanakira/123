@@ -3,7 +3,6 @@ package com.cts.localtour.controller;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.SupplierTable;
-import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.StatisticsService;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
@@ -25,13 +23,14 @@ public class StatisticsController {
 	private StatisticsService statisticsService;
 	/*部门盈利表*/
 	@RequestMapping("/deptGains")
-	public String deptGains(){
+	public String deptGains(Model md){
+		md.addAttribute("depts", statisticsService.getDataDept());
 		return "statistics/deptGains";
 	}
 	
 	@RequestMapping("/deptGains/get")
-	public @ResponseBody ArrayList<DeptGainsViewModel> getDeptGains (@RequestParam Date start, @RequestParam Date end){
-		return statisticsService.getDeptGains(((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds().split(", "), start, end);
+	public @ResponseBody ArrayList<DeptGainsViewModel> getDeptGains (@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo, @RequestParam int status){
+		return statisticsService.getDeptGains(start, end, deptIds, tourNo, status);
 	}
 	
 	/*供应商分析表*/

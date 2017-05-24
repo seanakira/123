@@ -24,8 +24,8 @@ public class StatisticsService extends BaseService{
 	private TourDetailsViewModel tourDetailsViewModel;
 	@Autowired
 	private FinancialSettlementStatisticModel financialSettlementStatisticModel;
-	public ArrayList<DeptGainsViewModel> getDeptGains(String[] dataDeptIds, Date start, Date end) {
-		return deptGainsViewModel.getAllDeptGainsViewModels(dataDeptIds, start, end);
+	public ArrayList<DeptGainsViewModel> getDeptGains(Date start, Date end, String deptIds, String tourNo, int status) {
+		return deptGainsViewModel.getAllDeptGainsViewModels(start, end, deptIds, tourNo, status);
 	}
 	public ArrayList<SupplierGainsViewModel> getSupplierGains(String supplierIds, Date start, Date end) {
 		return supplierGainsViewModel.getSupplierGainsViewModelAll(supplierIds, start, end);
