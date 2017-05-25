@@ -133,7 +133,7 @@
 							</tbody>
 						</table>
 						
-<!-- 分页查询开始 -->					
+<!-- 分页查询开始 -->			
 						<div class="row">
 							<div class="col-sm-6">
 								<div id="sample-table-2_info" class="dataTables_info">共  ${counts } 个结果 </div>
@@ -144,11 +144,28 @@
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
 											<a href="${path }payManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
 										</li>
-										<c:forEach var="page" begin="1" end="${pageMax }">
-											<li <c:if test="${pageNo==page }">class="active"</c:if>>
-												<a href="${path }payManage?page=${page }&key=${key }">${page }</a>
-											</li>
-										</c:forEach>
+										<c:choose>
+											<c:when test="${pageNo>6 }">
+												<li <c:if test="${pageNo==page }">class="active"</c:if>>
+														<a href="${path }payManage?page=${1 }&key=${key }">1</a>
+												</li>
+												<li>
+													<a>...</a>
+												</li>
+												<c:forEach var="page" begin="${pageNo-5 }" end="${pageNo+4>pageMax?pageMax:pageNo+4 }">
+													<li <c:if test="${pageNo==page }">class="active"</c:if>>
+														<a href="${path }payManage?page=${page }&key=${key }">${page }</a>
+													</li>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="page" begin="1" end="${pageMax>10?10:pageMax }">
+													<li <c:if test="${pageNo==page }">class="active"</c:if>>
+														<a href="${path }payManage?page=${page }&key=${key }">${page }</a>
+													</li>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
 											<a href="${path }payManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
 										</li>

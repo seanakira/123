@@ -18,10 +18,10 @@ public class SettlementService extends BaseService{
 	public ArrayList<SimpleSettlementViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
 			/*这里需要做数据权限*/
-			ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) this.getAllByStringOrderBy("LocalTourTable", "status=?", "id desc", 9);
+			ArrayList<LocalTourTable> localTourTables = this.getAllByParam("LocalTourTable", "status>=9 and enable=true", null, page, maxResults);
 			return simpleSettlementViewModel.getAllSimpleSettlementViewModel(localTourTables);
 		}else{
-			ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) this.getAllByString("LocalTourTable", "(tourNo like '%"+key+"%' or tourName like '%"+key+"%') and status=9");
+			ArrayList<LocalTourTable> localTourTables = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=9 and enable=true", null, page, maxResults);
 			return simpleSettlementViewModel.getAllSimpleSettlementViewModel(localTourTables);
 		}
 	}
@@ -30,9 +30,9 @@ public class SettlementService extends BaseService{
 	public int getCounts(String key) {
 		/*这里需要做数据权限*/
 		if(key.equals("")){
-			return this.getCountsByParam("LocalTourTable", "status=9", null);
+			return this.getCountsByParam("LocalTourTable", "status>=9", null);
 		}else{
-			return this.getCountsByParam("LocalTourTable", "(tourNo like '%"+key+"%' or tourName like '%"+key+"%') and status=9", null);
+			return this.getCountsByParam("LocalTourTable", "(tourNo like '%"+key+"%' or tourName like '%"+key+"%') and status>=9", null);
 		}
 	}
 
