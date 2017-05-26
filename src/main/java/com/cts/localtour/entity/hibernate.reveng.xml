@@ -40,4 +40,5 @@
   <table-filter match-catalog="localtour" match-name="userTable"/>
   <table-filter match-catalog="localtour" match-name="visitorTypeTable"/>
   <table-filter match-catalog="localtour" match-name="wxMessageTable"/>
+  <table-filter match-catalog="localtour" match-name="refundTable"/>
 </hibernate-reverse-engineering>

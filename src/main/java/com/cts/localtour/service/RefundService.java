@@ -1,18 +1,17 @@
 package com.cts.localtour.service;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.entity.ReimbursementIncomeTable;
+import com.cts.localtour.entity.RefundTable;
 import com.cts.localtour.pojo.IncomeInfo;
 
 @SuppressWarnings("rawtypes")
 @Service
-public class ReimbursementIncomeService extends BaseService{
+public class RefundService extends BaseService{
 	@Autowired
 	private CustomerAgencyService customerAgencyService;
 	@SuppressWarnings("unchecked")
@@ -22,18 +21,18 @@ public class ReimbursementIncomeService extends BaseService{
 		BigDecimal realIncomeSum = new BigDecimal(0);
 		StringBuffer realIncomeSumInfo = new StringBuffer();
 		StringBuffer incomeSumInfo = new StringBuffer();
-		ArrayList<ReimbursementIncomeTable> incomeTables = (ArrayList<ReimbursementIncomeTable>) this.getAllByString("ReimbursementIncomeTable", "tourId=?", tourId);
+		ArrayList<RefundTable> refundTables = (ArrayList<RefundTable>) this.getAllByString("RefundTable", "tourId=?", tourId);
 		String customerAgencyName = "";
-		if(!incomeTables.isEmpty()){
+		if(!refundTables.isEmpty()){
 			customerAgencyName = customerAgencyService.getCustomerAgencyName(tourId);
 		}
-		for (ReimbursementIncomeTable incomeTable : incomeTables) {
-			incomeSum = incomeSum.add(incomeTable.getIncome());
-			incomeSumInfo.append(customerAgencyName).append(" ").append(incomeTable.getIncome()).append(",");
+		for (RefundTable refundTable : refundTables) {
+			realIncomeSum = realIncomeSum.add(refundTable.getRefundAmount());
+			realIncomeSumInfo.append(customerAgencyName).append(" ").append(refundTable.getRefundAmount()).append(",");
 		}
+		incomeInfo.setRealIncomeSum(realIncomeSum);
 		incomeInfo.setIncomeSum(incomeSum);
 		incomeInfo.setIncomeSumInfo(incomeSumInfo.toString());
-		incomeInfo.setRealIncomeSum(realIncomeSum);
 		incomeInfo.setRealIncomeSumInfo(realIncomeSumInfo.toString());
 		return incomeInfo;
 	}

@@ -69,18 +69,24 @@
 									<th style="width: 20%;">
 										组团社
 									</th>
-									<th style="width: 10%;">
-										实际收入
+									<th style="width: 8%;">
+										应收
 									</th>
-									<th style="width: 10%;">									
-										实际成本
-									<th style="width: 10%;">
-										实际毛利
+									<th style="width: 8%;">									
+										报账成本
+									<th style="width: 8%;">
+										报账毛利
 									</th>
-									<th style="width: 10%;">
-										实际毛利率
+									<th style="width: 8%;">
+										报账毛利率
 									</th>
-									<th style="width: 10%;">
+									<th style="width: 8%;">
+										人数
+									</th>
+									<th style="width: 8%;">
+										部门
+									</th>
+									<th style="width: 8%;">
 										团控
 									</th>
 								</tr>
@@ -172,15 +178,21 @@
 			        	$(".progress").attr("data-percent","100%");
 						$(".progress-bar").attr("style","width:0"+percent+"100%");
 						progress.remove();
-			        	var index = 0
-			        	var index2 = 0
+						var willIncomeTotal = 0;
+						var willCostTotal = 0;
+						var peopleNoTotal = 0;
 						$.each(data,function(){
-							table.append('<tr><td>'+this.tourNo+'</td><td>'+this.customerAgencyName+'</td><td>'+this.realIncomeSum+'</td><td>'+this.realCostSum+'</td><td>'+this.grossProfit+'</td><td>'+this.grossProfitMargin+'</td><td>'+this.userRealName+'</td></tr>');
+							table.append('<tr><td>'+this.tourNo+'</td><td>'+this.customerAgencyName+'</td><td>'+this.willIncomeSum+'</td><td>'+this.willCostSum+'</td><td>'+this.grossProfit+'</td><td>'+this.grossProfitMargin+'</td><td>'+this.peopleNo+'</td><td>'+this.deptName+'</td><td>'+this.userRealName+'</td></tr>');
+							willIncomeTotal = willIncomeTotal + this.willIncomeSum;
+							willCostTotal = willCostTotal + this.willCostSum;
+							peopleNoTotal = peopleNoTotal + this.peopleNo;
 						});
 			        	if($("#table").html()==""){
 							$("#table").html("没有查询到结果");
+						}else{
+							table.append('<tr><td>合计</td><td></td><td>'+willIncomeTotal.toFixed(2)+'</td><td>'+willCostTotal.toFixed(2)+'</td><td>'+(willIncomeTotal-willCostTotal).toFixed(2)+'</td><td>'+((willIncomeTotal-willCostTotal)/willIncomeTotal*100).toFixed(2)+'%</td><td>'+peopleNoTotal+'</td><td></td><td></td></tr>');
 						}
-			        }
+			         }
 				});
 			}
 		});

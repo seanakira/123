@@ -61,7 +61,7 @@ public class PayService extends BaseService{
 			}else{
 				CostTable costTable = (CostTable) this.getById("CostTable", costTables.get(i).getId());
 				if(!costTables.get(i).isLend()){
-					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
+					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))>1&&costTable.getRemark().indexOf("ฒนำเฟ๎")==-1){
 						return -2;
 					}else{
 						costTable.setRealCost(costTables.get(i).getRealCost());
@@ -83,7 +83,7 @@ public class PayService extends BaseService{
 			}else{
 				ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
 				if(!changeCostTables.get(i).isLend()){
-					if(changeCostTables.get(i).getRealCost().compareTo(changeCostTable.getCost().multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())))>1){
+					if(changeCostTables.get(i).getRealCost().compareTo(changeCostTable.getCost().multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())))>1&&changeCostTable.getRemark().indexOf("ฒนำเฟ๎")==-1){
 						return -2;
 					}else{
 						changeCostTable.setRealCost(changeCostTables.get(i).getRealCost());

@@ -13,18 +13,22 @@ import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.CustomerAgencyService;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.ReimbursementCostService;
+import com.cts.localtour.service.ReimbursementIncomeService;
 import com.cts.localtour.service.UserService;
 @Component
 public class FinancialSettlementStatisticModel {
 	private String tourNo;
 	private String customerAgencyName;
-	private BigDecimal realIncomeSum;
-	private BigDecimal realCostSum;
+	private BigDecimal willIncomeSum;
+	private BigDecimal willCostSum;
 	private BigDecimal grossProfit;
 	private String grossProfitMargin;
 	private String userRealName;
+	private float peopleNo;
+	private String deptName;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -41,7 +45,11 @@ public class FinancialSettlementStatisticModel {
 	@Autowired
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
+	private ReimbursementIncomeService reimbursementIncomeService;
+	@Autowired
 	private UserService userService;
+	@Autowired
+	private DeptService deptService;
 	public String getTourNo() {
 		return tourNo;
 	}
@@ -59,20 +67,21 @@ public class FinancialSettlementStatisticModel {
 	}
 
 	
-	public BigDecimal getRealIncomeSum() {
-		return realIncomeSum;
+
+	public BigDecimal getWillIncomeSum() {
+		return willIncomeSum;
 	}
 
-	public void setRealIncomeSum(BigDecimal realIncomeSum) {
-		this.realIncomeSum = realIncomeSum;
+	public void setWillIncomeSum(BigDecimal willIncomeSum) {
+		this.willIncomeSum = willIncomeSum;
 	}
 
-	public BigDecimal getRealCostSum() {
-		return realCostSum;
+	public BigDecimal getWillCostSum() {
+		return willCostSum;
 	}
 
-	public void setRealCostSum(BigDecimal realCostSum) {
-		this.realCostSum = realCostSum;
+	public void setWillCostSum(BigDecimal willCostSum) {
+		this.willCostSum = willCostSum;
 	}
 
 	public BigDecimal getGrossProfit() {
@@ -99,6 +108,22 @@ public class FinancialSettlementStatisticModel {
 		this.userRealName = userRealName;
 	}
 
+	public float getPeopleNo() {
+		return peopleNo;
+	}
+
+	public void setPeopleNo(float peopleNo) {
+		this.peopleNo = peopleNo;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
 	@SuppressWarnings("unchecked")
 	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatisticAll(Date start, Date end, String deptIds, String tourNo) {
 		ArrayList<FinancialSettlementStatisticModel> financialSettlementStatisticModels = new ArrayList<FinancialSettlementStatisticModel>();
@@ -107,11 +132,17 @@ public class FinancialSettlementStatisticModel {
 			FinancialSettlementStatisticModel financialSettlementStatisticModel = new FinancialSettlementStatisticModel();
 			financialSettlementStatisticModel.setTourNo(localTourTable.getTourNo());
 			financialSettlementStatisticModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(localTourTable.getId()));
-			financialSettlementStatisticModel.setRealIncomeSum(incomeService.getIncomeInfo(localTourTable.getId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(localTourTable.getId()).getRealIncomeSum()));
-			financialSettlementStatisticModel.setRealCostSum(costService.getCostInfo(localTourTable.getId()).getRealCostSum().add(changeCostService.getCostInfo(localTourTable.getId()).getRealCostSum()).add(reimbursementCostService.getReimbursementCostInfo(localTourTable.getId()).getRealCostSum()));
-			financialSettlementStatisticModel.setGrossProfit(financialSettlementStatisticModel.getRealIncomeSum().subtract(financialSettlementStatisticModel.getRealCostSum()));
-			financialSettlementStatisticModel.setGrossProfitMargin((financialSettlementStatisticModel.getRealIncomeSum().subtract(financialSettlementStatisticModel.getRealCostSum())).divide(financialSettlementStatisticModel.getRealIncomeSum(), 4).multiply(new BigDecimal(100))+"%");
+			financialSettlementStatisticModel.setWillIncomeSum(incomeService.getIncomeInfo(localTourTable.getId()).getIncomeSum().add(changeIncomeService.getIncomeInfo(localTourTable.getId()).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(localTourTable.getId()).getIncomeSum()));
+			financialSettlementStatisticModel.setWillCostSum(costService.getCostInfo(localTourTable.getId()).getReimbursementSum().add(changeCostService.getCostInfo(localTourTable.getId()).getReimbursementSum()).add(reimbursementCostService.getReimbursementCostInfo(localTourTable.getId()).getReimbursementSum()));
+			financialSettlementStatisticModel.setGrossProfit(financialSettlementStatisticModel.getWillIncomeSum().subtract(financialSettlementStatisticModel.getWillCostSum()));
+			if(financialSettlementStatisticModel.getWillIncomeSum().floatValue()!=0){
+				financialSettlementStatisticModel.setGrossProfitMargin((financialSettlementStatisticModel.getWillIncomeSum().subtract(financialSettlementStatisticModel.getWillCostSum())).divide(financialSettlementStatisticModel.getWillIncomeSum(), 4).multiply(new BigDecimal(100))+"%");
+			}else{
+				financialSettlementStatisticModel.setGrossProfitMargin("0%");
+			}
 			financialSettlementStatisticModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
+			financialSettlementStatisticModel.setDeptName(deptService.getDeptName(localTourTable.getDeptId()));
+			financialSettlementStatisticModel.setPeopleNo(localTourTable.getAdultNo()+(localTourTable.getChildrenNo()==null?0:localTourTable.getChildrenNo()));
 			financialSettlementStatisticModels.add(financialSettlementStatisticModel);
 		}
 		return financialSettlementStatisticModels;

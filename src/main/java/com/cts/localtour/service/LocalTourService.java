@@ -36,6 +36,7 @@ import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullLoanInvoiceViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.FullRefundViewModel;
 import com.cts.localtour.viewModel.FullReimbursementViewModel;
 import com.cts.localtour.viewModel.SimpleLocalTourViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
@@ -69,6 +70,8 @@ public class LocalTourService extends BaseService{
 	private LoanInvoiceService loanInvoiceService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FullRefundViewModel fullRefundViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, int status) {
 		Hashtable<String, Object> param = new Hashtable<String, Object>();
@@ -437,5 +440,8 @@ public class LocalTourService extends BaseService{
 			return -1;
 		}
 		return 0;
+	}
+	public FullRefundViewModel findRefund(int tourId) {
+		return fullRefundViewModel.getFullRefundViewModel(tourId);
 	}
 }

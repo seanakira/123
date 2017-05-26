@@ -264,4 +264,9 @@ public class DeptService extends BaseService{
 			return false;
 		}
 	}
+
+
+	public String getDeptName(int deptId) {
+		return ((DeptTable)this.getById("DeptTable", deptId)).getDeptName();
+	}
 }

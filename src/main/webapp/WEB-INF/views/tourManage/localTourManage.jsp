@@ -118,6 +118,12 @@
 									预借发票
 								</a>
 							</shiro:hasPermission>
+							<%-- <shiro:hasPermission name="localTour:refund"> --%>
+								<a class="blue" id="refund" data-toggle="modal" href="#" title="退款申请">
+									<i class="icon-tablet bigger-100"></i>
+									退款申请
+								</a>
+							<%-- </shiro:hasPermission> --%>
 							<shiro:hasPermission name="localTour:balance">
 								<a class="blue" id="balance" data-toggle="modal" href="#" title="申请结算">
 									<i class="icon-table bigger-100"></i>
@@ -3226,6 +3232,7 @@
 			$("#pay").hide();
 			$("#chanageCost").hide();
 			$("#loanInvoice").hide();
+			$("#refund").hide();
 			$("#balance").hide();
 			$("#unBalance").hide();
 			$("#reimbursement").hide();
@@ -3241,6 +3248,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3256,6 +3264,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").show();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3271,6 +3280,7 @@
 			$("#pay").show();			/* 付款 */
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").show();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3286,6 +3296,7 @@
 			$("#pay").show();			/* 付款 */
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").show();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3301,6 +3312,7 @@
 			$("#pay").show();			/* 付款 */
 			$("#chanageCost").show();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").show();		/* 退款 */
 			$("#balance").show();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3316,6 +3328,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").show();		/* 取消结算 */
 			$("#reimbursement").show();	/* 报账 */
@@ -3331,6 +3344,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3346,6 +3360,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3361,6 +3376,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3376,6 +3392,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */
@@ -3391,6 +3408,7 @@
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
 			$("#loanInvoice").hide();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
 			$("#reimbursement").hide();	/* 报账 */

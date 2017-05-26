@@ -133,7 +133,7 @@ public class FullBalanceViewModel {
 		for (int i = 0; i < changeCostTables.size(); i++) {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
 			changeCost.setCostTable(changeCostTables.get(i));
-			changeCost.setContentName(contentService.getContentName(changeCostTables.get(i).getContentId()));
+			changeCost.setContentName(changeCostTables.get(i).getContentId()==null?"":contentService.getContentName(changeCostTables.get(i).getContentId()));
 			changeCost.setSupplierName(supplierInfoService.getSupplierName(changeCostTables.get(i).getSupplierId()));
 			changeCost.setBorrowUserName(userService.getUserRealName(changeCostTables.get(i).getBorrowUserId()));
 			if(changeCostTables.get(i).isRemittanced()){
@@ -155,7 +155,7 @@ public class FullBalanceViewModel {
 			ReimbursementCostViewModel reimbursementCostViewModel = new ReimbursementCostViewModel();
 			reimbursementCostViewModel.setCostTable(reimbursementCostTable);
 			reimbursementCostViewModel.setSupplierName(supplierInfoService.getSupplierName(reimbursementCostTable.getSupplierId()));
-			reimbursementCostViewModel.setContentName(contentService.getContentName(reimbursementCostTable.getContentId()));
+			reimbursementCostViewModel.setContentName(reimbursementCostTable.getContentId()==null?"":contentService.getContentName(reimbursementCostTable.getContentId()));
 			reimbursementCosts.add(reimbursementCostViewModel);
 		}
 		full.setReimbursementCosts(reimbursementCosts);

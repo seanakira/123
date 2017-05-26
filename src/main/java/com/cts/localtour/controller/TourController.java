@@ -48,6 +48,7 @@ import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullLoanInvoiceViewModel;
 import com.cts.localtour.viewModel.FullLocalTourViewModel;
 import com.cts.localtour.viewModel.FullPayViewModel;
+import com.cts.localtour.viewModel.FullRefundViewModel;
 import com.cts.localtour.viewModel.FullReimbursementViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
 import com.cts.localtour.viewModel.PrintVoucherViewModel;
@@ -541,6 +542,58 @@ public class TourController {
 			} 
 		}
 		return false;
+	}
+	
+	/*退款申请*/
+	@RequestMapping("/localTourManage/findRefund")
+	public @ResponseBody FullRefundViewModel findRefund(@RequestParam int tourId){
+		return localTourService.findRefund(tourId);
+	}
+	@RequestMapping("/localTourManage/refundApplication")
+	public @ResponseBody int refundApplication(@RequestBody FullPayViewModel full, HttpSession session){
+		int errorCode = 0;
+		boolean hasMainManager = false;
+		boolean hasViceManager = false;
+		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
+			for (CostTable cost : full.getCostTables()) {
+				if(cost.getRealCost().floatValue()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
+			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
+				if(changeCost.getRealCost().floatValue()>10000){
+					hasMainManager = true;
+				}else{
+					hasViceManager = true;
+				}
+				if(hasMainManager&&hasViceManager){
+					break;
+				}
+			}
+			errorCode = localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
+			if(errorCode!=-1){
+				int tourId = !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
+				if((Boolean) session.getAttribute("isMice")){
+					if(!localTourService.sendMessageMice("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核", hasMainManager, hasViceManager)){
+						errorCode = -2;
+					}
+				}else{
+					if(!localTourService.sendMessage("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核")){
+						errorCode = -2;
+					}
+				}
+			}
+		}
+		return errorCode;
+	}
+	@RequestMapping("/localTourManage/refundApplicationAgain")
+	public @ResponseBody boolean refundApplication(@RequestParam int tourId){
+		return localTourService.sendMessageAgain("payApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核");
 	}
 	
 	/*团队报账*/
