@@ -129,10 +129,27 @@ public class DeptGainsViewModel {
 			DeptGainsViewModel dept = new DeptGainsViewModel();
 			dept.setHeaderName(((DeptTable)baseService.getById("DeptTable", Integer.parseInt(dataDeptId))).getDeptName());
 			dept.setType("dept");
+			BigDecimal init = new BigDecimal(0);
+			dept.setWillCostSum(init);
+			dept.setWillGrossMargin(init);
+			dept.setWillGrossProfit(init);
+			dept.setWillIncomeSum(init);
+			dept.setRealCostSum(init);
+			dept.setRealGrossMargin(init);
+			dept.setRealGrossProfit(init);
+			dept.setRealIncomeSum(init);
 			deptGainsViewModels.add(dept);
 			ArrayList<UserTable> users = (ArrayList<UserTable>) baseService.getAllByString("UserTable", "deptId=? and enable=true", Integer.parseInt(dataDeptId));
 			for (UserTable userTable : users) {
 				DeptGainsViewModel user = new DeptGainsViewModel();
+				user.setWillCostSum(init);
+				user.setWillGrossMargin(init);
+				user.setWillGrossProfit(init);
+				user.setWillIncomeSum(init);
+				user.setRealCostSum(init);
+				user.setRealGrossMargin(init);
+				user.setRealGrossProfit(init);
+				user.setRealIncomeSum(init);
 				ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "userId=? and enable=true and startTime between ? and ? and tourNo like '%"+tourNo+"%'"+(status==-1?"":status==7?" and status>=7":" and status<7"), userTable.getId(), start, end);
 				if(!localTourTables.isEmpty()){
 					user.setHeaderName(userTable.getRealName());
@@ -141,7 +158,14 @@ public class DeptGainsViewModel {
 				}
 				for (LocalTourTable localTourTable : localTourTables) {
 					DeptGainsViewModel tour = new DeptGainsViewModel();
-					
+					tour.setWillCostSum(init);
+					tour.setWillGrossMargin(init);
+					tour.setWillGrossProfit(init);
+					tour.setWillIncomeSum(init);
+					tour.setRealCostSum(init);
+					tour.setRealGrossMargin(init);
+					tour.setRealGrossProfit(init);
+					tour.setRealIncomeSum(init);
 					CostInfo costInfo = costService.getCostInfo(localTourTable.getId());
 					CostInfo changeCostInfo = changeCostService.getCostInfo(localTourTable.getId());
 					CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(localTourTable.getId());

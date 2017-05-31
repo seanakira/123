@@ -95,6 +95,7 @@ public class LoanViewModel {
 		for (int i = 0; i < loanTables.size(); i++) {
 			LoanViewModel loan = new LoanViewModel();
 			loan.setLoanTable(loanTables.get(i));
+			loan.setLenderRealName(((UserTable)baseService.getById("UserTable", loanTables.get(i).getLenderId())).getRealName());
 			loan.setApplicationerRealName(loanTables.get(i).getApplicationerId()==null?"":((UserTable)baseService.getById("UserTable", loanTables.get(i).getApplicationerId())).getRealName());
 			if(loanTables.get(i).isLended()){
 				loan.setStatus("ря╫ХЁЖ");

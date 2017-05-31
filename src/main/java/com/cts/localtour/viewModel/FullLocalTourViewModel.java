@@ -37,6 +37,7 @@ public class FullLocalTourViewModel {
 	private ArrayList<IncomeViewModel> incomes;
 	private ArrayList<ChangeIncomeViewModel> changeIncomes;
 	private ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes;
+	private ArrayList<LoanViewModel> loans;
 	private Hashtable<String, String> tourInfo;
 	private Hashtable<String, String> delIds;
 	@SuppressWarnings("rawtypes")
@@ -60,6 +61,8 @@ public class FullLocalTourViewModel {
 	private ReimbursementCostViewModel reimbursementCostViewModel;
 	@Autowired
 	private ReimbursementIncomeViewModel reimbursementIncomeViewModel;
+	@Autowired
+	private LoanViewModel loanViewModel;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -168,6 +171,12 @@ public class FullLocalTourViewModel {
 	public void setReimbursementIncomes(ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes) {
 		this.reimbursementIncomes = reimbursementIncomes;
 	}
+	public ArrayList<LoanViewModel> getLoans() {
+		return loans;
+	}
+	public void setLoans(ArrayList<LoanViewModel> loans) {
+		this.loans = loans;
+	}
 	@SuppressWarnings("unchecked")
 	public FullLocalTourViewModel getFullLocalTourViewModel(int tourId){
 		FullLocalTourViewModel full = new FullLocalTourViewModel();
@@ -201,6 +210,8 @@ public class FullLocalTourViewModel {
 		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModelAll(tourId));
 		
 		full.setReimbursementIncomes(reimbursementIncomeViewModel.getAllIncomeViewModel(tourId));
+		
+		full.setLoans(loanViewModel.getAllLoanViewModel(tourId, 4));
 		return full;
 	}
 }
