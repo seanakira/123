@@ -70,6 +70,7 @@ public class RevenueService extends BaseService{
 		for (ChangeIncomeTable incomeTable : fullRevenueViewModel.getChangeIncomeTables()) {
 			if(incomeTable.getId()==null){
 				incomeTable.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				incomeTable.setIncome(new BigDecimal(0));
 				incomeTable.setStatus(3);
 				this.add(incomeTable);
 			}else{

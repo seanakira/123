@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.SupplierTable;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.StatisticsService;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
@@ -21,10 +22,12 @@ import com.cts.localtour.viewModel.TourDetailsViewModel;
 public class StatisticsController {
 	@Autowired
 	private StatisticsService statisticsService;
+	@Autowired
+	private DeptService deptService;
 	/*部门盈利表*/
 	@RequestMapping("/deptGains")
 	public String deptGains(Model md){
-		md.addAttribute("depts", statisticsService.getDataDept());
+		md.addAttribute("depts", deptService.getDataDept());
 		return "statistics/deptGains";
 	}
 	
@@ -63,7 +66,7 @@ public class StatisticsController {
 	/*财务结算表*/
 	@RequestMapping("/financialSettlementStatistic")
 	public String financialSettlementStatistic(Model md){
-		md.addAttribute("depts", statisticsService.getDataDept());
+		md.addAttribute("depts", deptService.getDataDept());
 		return "statistics/financialSettlementStatistic";
 	}
 	

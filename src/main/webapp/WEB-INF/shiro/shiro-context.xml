@@ -179,6 +179,9 @@
                 		/localTourManage/findBorrowInvoice=authc,perms["localTour:manage","localTour:findBorrowInvoice"]
                 		/localTourManage/saveBorrowInvoice=authc,perms["localTour:manage","localTour:borrowInvoiceApplication"]
                 		/localTourManage/borrowInvoiceAgain=authc,perms["localTour:manage","localTour:borrowInvoiceApplication"]
+                		/localTourManage/findRefund=authc,perms["localTour:manage","localTour:findRefund"]
+                		/localTourManage/refundApplication=authc,perms["localTour:manage","localTour:refundApplication"]
+                		/localTourManage/refundApplicationAgain=authc,perms["localTour:manage","localTour:refundApplication"]
                 		/reimbursementManage/findReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
                 		/reimbursementManage/checkReimbursement=authc,perms["localTour:manage","localTour:findReimbursement"]
                 		/reimbursementManage/updateReimbursement=authc,perms["localTour:manage","localTour:reimbursementApplication"]
@@ -363,6 +366,10 @@
                 	/mobile/billApplication=authc,perms[billApplication:manage]
                 		/mobile/billApplicationOk=authc,perms["billApplication:manage","billApplication:ok"]
                 		/mobile/billApplicationCancel=authc,perms["billApplication:manage","billApplication:cancel"]
+                	<!-- 退款审核 -->
+                	/mobile/refundApplication=authc,perms[refundApplication:manage]
+                		/mobile/refundApplicationOk=authc,perms["refundApplication:manage","refundApplication:ok"]
+                		/mobile/refundApplicationCancel=authc,perms["refundApplication:manage","refundApplication:cancel"]
                 <!-- 其他 -->
                 	<!-- 修改资料-->
                 	/profile=authc

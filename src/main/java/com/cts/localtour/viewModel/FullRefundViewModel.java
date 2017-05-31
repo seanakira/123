@@ -5,50 +5,32 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cts.localtour.entity.RefundTable;
-import com.cts.localtour.service.ChangeIncomeService;
-import com.cts.localtour.service.IncomeService;
-import com.cts.localtour.service.RefundService;
-import com.cts.localtour.service.ReimbursementIncomeService;
-
+import com.cts.localtour.service.CustomerAgencyService;
 @Component
 public class FullRefundViewModel {
-	private float maxRefund;
-	private ArrayList<RefundViewModel> refundTableViewModels;
-	private ArrayList<RefundTable> refundTables;
-	@Autowired
-	private IncomeService incomeService;
-	@Autowired
-	private ChangeIncomeService changeIncomeService;
-	@Autowired
-	private ReimbursementIncomeService reimbursementIncomeService;
-	@Autowired
-	private RefundService refundService;
+	private ArrayList<RefundViewModel> refunds;
+	private String customerAgencyName;
 	@Autowired
 	private RefundViewModel refundViewModel;
-	public float getMaxRefund() {
-		return maxRefund;
+	@Autowired
+	private CustomerAgencyService customerAgencyService;
+	public ArrayList<RefundViewModel> getRefunds() {
+		return refunds;
 	}
-	public void setMaxRefund(float maxRefund) {
-		this.maxRefund = maxRefund;
+	public void setRefunds(ArrayList<RefundViewModel> refunds) {
+		this.refunds = refunds;
 	}
-	public ArrayList<RefundViewModel> getRefundTableViewModels() {
-		return refundTableViewModels;
+	public String getCustomerAgencyName() {
+		return customerAgencyName;
 	}
-	public void setRefundTableViewModels(ArrayList<RefundViewModel> refundTableViewModels) {
-		this.refundTableViewModels = refundTableViewModels;
-	}
-	public ArrayList<RefundTable> getRefundTables() {
-		return refundTables;
-	}
-	public void setRefundTables(ArrayList<RefundTable> refundTables) {
-		this.refundTables = refundTables;
+	public void setCustomerAgencyName(String customerAgencyName) {
+		this.customerAgencyName = customerAgencyName;
 	}
 	public FullRefundViewModel getFullRefundViewModel(int tourId) {
 		FullRefundViewModel fullRefundViewModel = new FullRefundViewModel();
-		fullRefundViewModel.setMaxRefund(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).add(refundService.getIncomeInfo(tourId).getRealIncomeSum()).floatValue());
-		fullRefundViewModel.setRefundTableViewModels(refundViewModel.getRefundTableViewModelAll(tourId));
-		return null;
+		fullRefundViewModel.setRefunds(refundViewModel.getRefundViewModelAll(tourId));
+		fullRefundViewModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(tourId));
+		return fullRefundViewModel;
 	}
 
 }

@@ -28,6 +28,7 @@ import com.cts.localtour.entity.IncomeTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.RefundTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.TripTable;
 import com.cts.localtour.entity.UserTable;
@@ -36,11 +37,12 @@ import com.cts.localtour.service.ArrService;
 import com.cts.localtour.service.BillService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DepartService;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PrintService;
-import com.cts.localtour.service.StatisticsService;
 import com.cts.localtour.service.TripService;
+import com.cts.localtour.service.UserService;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
 import com.cts.localtour.viewModel.CreateInfoViewModel;
@@ -76,12 +78,14 @@ public class TourController {
 	@Autowired
 	private PrintService printService;
 	@Autowired
-	private StatisticsService statisticsService;
-	@Autowired
 	private PdfMaker pdfMaker;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private DeptService deptService;
 	@RequestMapping("/localTourManage")
-	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key,@RequestParam(defaultValue="2000/05/01") Date start,@RequestParam(defaultValue="2100/05/01") Date end, @RequestParam(defaultValue="") String deptIds, @RequestParam(defaultValue="-1") int status, Model md){
-		int counts = localTourService.getCounts(key, start, end, deptIds, status);
+	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key,@RequestParam(defaultValue="2000/05/01") Date start,@RequestParam(defaultValue="2100/05/01") Date end, @RequestParam(defaultValue="") String deptIds, @RequestParam(defaultValue="") String userIds, @RequestParam(defaultValue="-1") int status, Model md){
+		int counts = localTourService.getCounts(key, start, end, deptIds, userIds, status);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
 			pageMax++;
@@ -92,13 +96,14 @@ public class TourController {
 		if(page<1){
 			page=1;
 		}
-		ArrayList<SimpleLocalTourViewModel> localTours = localTourService.getAll(key,page,maxResults,start,end,deptIds,status);
+		ArrayList<SimpleLocalTourViewModel> localTours = localTourService.getAll(key,page,maxResults,start,end,deptIds,userIds,status);
 		md.addAttribute("localTours", localTours);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
-		md.addAttribute("depts", statisticsService.getDataDept());
+		md.addAttribute("depts", deptService.getDataDept());
+		md.addAttribute("users", userService.getDataUser());
 		return "/tourManage/localTourManage";
 	}
 	
@@ -550,13 +555,13 @@ public class TourController {
 		return localTourService.findRefund(tourId);
 	}
 	@RequestMapping("/localTourManage/refundApplication")
-	public @ResponseBody int refundApplication(@RequestBody FullPayViewModel full, HttpSession session){
+	public @ResponseBody int refundApplication(@RequestBody ArrayList<RefundTable> refundTables, HttpSession session){
 		int errorCode = 0;
 		boolean hasMainManager = false;
 		boolean hasViceManager = false;
-		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
-			for (CostTable cost : full.getCostTables()) {
-				if(cost.getRealCost().floatValue()>10000){
+		if(!refundTables.isEmpty()){
+			for (RefundTable refund : refundTables) {
+				if(refund.getRefundAmount().floatValue()>10000){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -565,25 +570,15 @@ public class TourController {
 					break;
 				}
 			}
-			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
-				if(changeCost.getRealCost().floatValue()>10000){
-					hasMainManager = true;
-				}else{
-					hasViceManager = true;
-				}
-				if(hasMainManager&&hasViceManager){
-					break;
-				}
-			}
-			errorCode = localTourService.payApplication(full.getCostTables(), full.getChangeCostTables());
-			if(errorCode!=-1){
-				int tourId = !full.getCostTables().isEmpty()?full.getCostTables().get(0).getTourId():full.getChangeCostTables().get(0).getTourId();
+			errorCode = localTourService.refundApplication(refundTables);
+			if(errorCode!=-1&&errorCode!=-3&&!refundTables.isEmpty()){
+				int tourId = refundTables.get(0).getTourId();
 				if((Boolean) session.getAttribute("isMice")){
-					if(!localTourService.sendMessageMice("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核", hasMainManager, hasViceManager)){
+					if(!localTourService.sendMessageMice("refundApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(退款申请)，点击进行审核", hasMainManager, hasViceManager)){
 						errorCode = -2;
 					}
 				}else{
-					if(!localTourService.sendMessage("payApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核")){
+					if(!localTourService.sendMessage("refundApplication", tourId, 1, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(退款申请)，点击进行审核")){
 						errorCode = -2;
 					}
 				}
@@ -593,7 +588,7 @@ public class TourController {
 	}
 	@RequestMapping("/localTourManage/refundApplicationAgain")
 	public @ResponseBody boolean refundApplication(@RequestParam int tourId){
-		return localTourService.sendMessageAgain("payApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(付款申请)，点击进行审核");
+		return localTourService.sendMessageAgain("refundApplication", tourId, "您有 "+localTourService.getTourNoAndTourName(tourId)+" 待审核的(退款申请)，点击进行审核");
 	}
 	
 	/*团队报账*/

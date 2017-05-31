@@ -3,12 +3,9 @@ package com.cts.localtour.service;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.localtour.entity.DeptTable;
-import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
 import com.cts.localtour.viewModel.SupplierGainsViewModel;
@@ -36,9 +33,4 @@ public class StatisticsService extends BaseService{
 	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(Date start, Date end, String deptIds, String tourNo) {
 		return financialSettlementStatisticModel.getFinancialSettlementStatisticAll(start, end, deptIds, tourNo);
 	}
-	@SuppressWarnings("unchecked")
-	public ArrayList<DeptTable> getDataDept() {
-		return (ArrayList<DeptTable>) this.getAllByString("DeptTable", "id in ("+((UserTable) SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")");
-	}
-
 }

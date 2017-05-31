@@ -118,12 +118,12 @@
 									预借发票
 								</a>
 							</shiro:hasPermission>
-							<%-- <shiro:hasPermission name="localTour:refund"> --%>
+							<shiro:hasPermission name="localTour:findRefund">
 								<a class="blue" id="refund" data-toggle="modal" href="#" title="退款申请">
 									<i class="icon-tablet bigger-100"></i>
 									退款申请
 								</a>
-							<%-- </shiro:hasPermission> --%>
+							</shiro:hasPermission>
 							<shiro:hasPermission name="localTour:balance">
 								<a class="blue" id="balance" data-toggle="modal" href="#" title="申请结算">
 									<i class="icon-table bigger-100"></i>
@@ -183,6 +183,10 @@
 										<a id="invoicePrintButton" data-toggle="modal" href="#">打印预借发票单</a>
 									</li>
 									
+									<li>
+										<a id="refundPrintButton" data-toggle="modal" href="#">打印退款单</a>
+									</li>
+									
 									<li class="divider"></li>
 									
 									<li>
@@ -209,10 +213,19 @@
 									</select></div>
 									结束日期：
 									<div style="display: inline-block;margin-right: 10px;margin-top: 10px;"><input id="end" name="end" class="datepicker" type="text" style="width: 100px;"></div>
-									 状态：
+									人员：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select id="select" name="userIds" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
+										<option value="">&nbsp;</option>
+										<c:forEach var="user" items="${users }">
+											<option value="${user.id }">${user.realName }</option>
+										</c:forEach>
+									</select></div>
+									团队状态：
 									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select name="status"><option value="-1">&nbsp;</option><option value="7">已报账</option><option value="6">未报账</option></select></div>
-									<i class="icon-remove bigger-150 grey" style="width: 50%;padding: 10px;display: inline-block;"></i>
-									<i class="icon-ok bigger-150 grey" style="width: 49%;;padding: 10px;display: inline-block;"></i>
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px; width: 240px">
+										<i class="icon-remove bigger-150 grey" style="width: 49%;padding: 10px;display: inline-block;"></i>
+										<i class="icon-ok bigger-150 grey" style="width: 49%;;padding: 10px;display: inline-block;"></i>
+									</div>
 								</div>
 							</form>
 						</div><!-- #nav-search -->
@@ -2938,7 +2951,7 @@
 					</div><!-- /.modal -->
 				</div>
 <!-- 打印结束 -->
-<!-- 打印缴款单模板-->
+<!-- 打印预借发票模板-->
 				<div aria-hidden="true" style="display: none;" id="invoicePrintModel" class="modal fade" tabindex="-1">
 					<div class="modal-dialog" style="width: 80%;">
 						<div class="modal-content">
@@ -3015,6 +3028,141 @@
 									取消
 								</button>
 								<button id="invoicePrint" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+									<i class="icon-print"></i>
+									打印
+								</button>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 打印结束 -->
+<!-- 退款模板-->
+				<div aria-hidden="true" style="display: none;" id="refundModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									退款申请
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div class="tab-pane fade in active costTable">
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 25%;">客户</th>
+													<th style="width: 10%;">退款内容</th>
+													<th style="width: 10%;">退款方式</th>
+													<th style="width: 10%;">金额*</th>
+													<th style="width: 25%;">退款账户信息</th>
+													<th style="width: 10%;">
+														<a class="blue addRefund" href="#">
+															<i class="icon-plus bigger-130"></i>
+														</a>
+													</th>
+												</tr>
+											</thead>
+											<tbody id="refunds">
+											</tbody>
+							            </table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<shiro:hasPermission name="localTour:refundApplication">
+									<button id="refundApplication" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+										<i class="icon-save"></i>
+										申请
+									</button>
+								</shiro:hasPermission>
+						 	 </div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+<!-- 退款结束 -->
+<!-- 打印退款单模板-->
+				<div aria-hidden="true" style="display: none;" id="refundPrintModel" class="modal fade" tabindex="-1">
+					<div class="modal-dialog" style="width: 80%;">
+						<div class="modal-content">
+					        <div class="modal-header no-padding">
+								<div class="table-header">
+									凭证打印
+						 		</div>
+						  	</div>
+							<div class="modal-body no-padding">
+					         	<div class="tab-content no-border padding-6" style="z-index: 1400;">
+					         		<div id="printArea" class="tab-pane fade in active">
+					         			<style type="text/css">
+											@media print{
+												table{
+													font-size: 12px;
+													border-collapse: collapse;
+													margin-top: 10px;
+													width: 100%;
+												}
+												td{
+													border: 1px solid;
+												}
+												h3{
+													text-align: center;
+													margin:0px;
+												}
+												span{
+													position: absolute;
+													top:20px;
+													right:10px;
+													font-size: 12px;
+												}
+												input{
+													border: 0px;
+												}
+											}
+											
+										</style>
+										<span class="pull-right">第1次打印</span>
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+									      <tbody>
+										        <tr>
+											        <td style="width: 10%;">团号</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+											        <td style="width: 10%;">团名</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+											        <td style="width: 10%;">部门</td>
+											        <td style="width: 20%;" class="printInfo"></td>
+												</tr>
+												<tr>
+											        <td>客户</td>
+											        <td class="printInfo"></td>
+											        <td>退款金额</td>
+											        <td class="printInfo"></td>
+											        <td>大写</td>
+											        <td class="printInfo"></td>
+												</tr>
+												<tr>
+											        <td>打印时间</td>
+											        <td class="printInfo"></td>
+											        <td>打印人</td>
+											        <td class="printInfo"></td>
+											        <td>备注</td>
+											        <td><input style="width: 100%;" type="text"></td>
+												</tr>
+											</tbody>
+										</table>
+					         		</div><!-- 成本tab结束 -->
+					         	</div>
+					         </div>
+							<div class="modal-footer no-margin-top">
+								<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+									<i class="icon-remove"></i>
+									取消
+								</button>
+								<button id="refundPrint" class="btn btn-sm btn-success pull-right" data-dismiss="modal">
 									<i class="icon-print"></i>
 									打印
 								</button>
@@ -3194,8 +3342,10 @@
 	$(".searchExtra").find("select").eq(0).next().attr("style","width: 200px;top: -3px;")
 	$(".searchExtra").find("select").eq(0).next().find("li").attr("style","height: 25px;");
 	$(".searchExtra").find("select").eq(0).next().find("input").attr("style","height: 25px;position: relative;");
-	$(".searchExtra").find("select").eq(1).next().attr("style","width: 200px;top: -3px;");
-	
+	$(".searchExtra").find("select").eq(1).next().attr("style","width: 200px;top: -3px;")
+	$(".searchExtra").find("select").eq(1).next().find("li").attr("style","height: 25px;");
+	$(".searchExtra").find("select").eq(1).next().find("input").attr("style","height: 25px;position: relative;");
+	$(".searchExtra").find("select").eq(2).next().attr("style","width: 100px;top: -3px;");
 	/* 点击本行复选框选中本行 */
 	$("#table").delegate(".ace","click",function(){
 		var checkbox = $(this);
@@ -4405,8 +4555,8 @@
 	        	}
 	        	
 	        	/* 设置成本至基本信息 */
-	        	$("#totalAll").next().next().remove();
-	        	$("#totalAll").next().remove();
+	        	$("#tourInfo2").children("#arrDepTable").next().next().remove();
+	        	$("#tourInfo2").children("#arrDepTable").next().remove();
 	        	var costDiv = $("#flight2").parent().clone();
 	        	if(isReimbursement){
 	        		costDiv.find("tr th:nth-child(7)").after('<th>报账金额</th>');
@@ -4419,8 +4569,7 @@
 	        			$(this).remove();
 	        		}
 	        	});
-	        	
-	        	$("#totalAll").after(costDiv);
+	        	$("#tourInfo2").append(costDiv);
 	        	/* 设置收入至基本信息 */
 	        	var incomeDiv = $("#incomes2").clone();
 	        	incomeDiv.attr({"style":"","class":"tab-content no-border padding-6"});
@@ -5840,6 +5989,122 @@
 		$(this).val(parseFloat($(this).parent().prev().text()));
 	});
 	
+	/* 退款 */
+	$("#refund").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+			$(this).attr("href","#");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			$(this).attr("href","#");
+		}else{
+			$("#refunds").html("");
+			$(this).attr("href","#refundModel");
+			var tourId = checkbox.parent().parent().parent().attr("id");
+			$("#refundApplication").parent().attr("id",tourId);
+			var myData = {tourId:tourId};
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/findRefund",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	customerAgencyName = data.customerAgencyName;
+		        	$.each(data.refunds,function(){
+		        		$("#refunds").append('<tr class="refund">'+
+														'<td>'+this.refundTable.refundDate+'</td>'+
+														'<td>'+this.customerAgencyName+'</td>'+
+														'<td>'+this.refundTable.refundContent+'</td>'+
+														'<td>'+this.refundTable.refundWays+'</td>'+
+														'<td>'+this.refundTable.refundAmount.toFixed(2)+'</td>'+
+														'<td>'+this.refundTable.remark+'</td>'+
+														'<td>'+this.status+'</td>'+
+													'</tr>');
+		        	});
+		        }
+			});
+		}
+	});
+	/*新增退款*/
+	$(".addRefund").click(function(){
+		var date = (new Date()).toLocaleDateString();
+		var tr = $('<tr>'+
+						'<td><input style="width:100%;" class="form-control datepicker" type="text" value="'+date+'"></td>'+
+						'<td>'+customerAgencyName+'</td>'+
+						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
+						'<td><textarea style="width:100%;" class="form-control" rows="1"></textarea></td>'+
+						'<td><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
+					'</tr>');
+		tr.find(".datepicker").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+		});
+		$("#refunds").append(tr);
+	});
+	
+	/* 退款申请 */
+	$("#refundApplication").click(function(){
+		var tourId = $(this).parent().attr("id");
+		var refundTables = new Array();
+		var trs = $("#refunds").children("tr").not(".refund");
+		if(trs.length>0){
+			$.each(trs,function(){
+				var inputs = $(this).find("input");
+				refundTables.push({
+					tourId:tourId,
+					refundDate:new Date(inputs.eq(0).val()),
+					refundContent:inputs.eq(1).val(),
+					refundWays:inputs.eq(2).val(),
+					refundAmount:inputs.eq(3).val(),
+					remark:$(this).find("textarea").val()
+				});
+			});
+			var myData = JSON.stringify(refundTables);
+			$.ajax({
+				type: "POST",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/refundApplication",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	if(data==-1){
+		        		$("#loanInvoiceApplication").attr("data-dismiss","");
+		        		alert("*号为必填项");
+		        	}else if(data==-2){
+		        		$("#loanInvoiceApplication").attr("data-dismiss","");
+		        		alert("微信发送消息失败，请稍后重试");
+		        	}else if(data==-3){
+		        		$("#loanInvoiceApplication").attr("data-dismiss","");
+		        		alert("退款金额不能大于实收款");
+		        	}else{
+		        		$("#loanInvoiceApplication").attr("data-dismiss","modal");
+		        	}
+		        }
+			});
+		}else{
+			var myData = {tourId:tourId};
+			$.ajax({
+				type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/refundApplicationAgain",  
+		        data:myData,  
+		        dataType: "json",
+		        async: false,
+		        success:function(data){
+		        	if(!data){
+		        		alert("发送企业微信消息失败，经理未收到消息，请稍后再试");
+		        	}
+		        }
+			});
+		}
+		
+	});
 	
 	/*预借发票*/
 	var customerAgencyName;
@@ -7521,6 +7786,155 @@
 		    });
 			printHtml.find("h3").remove();
 			$("#invoicePrintModel").find("#printTable").find("tr,td").show();
+			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
+		} 
+	});
+	
+	/* 打印退款单 */
+	$("#refundPrintButton").click(function(){
+		var checkbox = $("#table").find("input:checked");
+		if(checkbox.length==0){
+			alert("请选择一个团队");
+			$(this).attr("href","#");
+		}else if(checkbox.length>1){
+			alert("只能选择一个团队");
+			$(this).attr("href","#");
+		}else{
+			var a = $(this);
+			var myData = {tourId:checkbox.parent().parent().parent().attr("id"),type:"refund"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printVoucher",  
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        	if(data.refunds.length==0){
+		        		alert("暂无可打印的预借发票单，请确认是否已经经过审批或是否已经退款");
+		    			$(this).attr("href","#");
+		        	}else{
+		        		$("#refundPrintModel").find("#printTable").remove();
+		        		var tds = checkbox.parent().parent().siblings();
+		        		var printInfos = $("#refundPrintModel").find(".printInfo");
+		        		var total = 0;
+		        		var printTable = $('<table id="printTable" class="table table-striped table-bordered table-hover no-margin"><thead><tr><td><label><input class="ace selectAll" value="" type="checkbox"><span class="lbl"></span></label></td><td style="width: 10%;">日期</td><td style="width: 20%;">客户</td><td style="width: 10%;">退款内容</td><td style="width: 10%;">退款方式</td><td style="width: 10%;">金额</td><td style="width: 20%;">退款账户信息</td><td style="width: 10%;">经理</td><td style="width: 10%;">总经理</td></tr></thead><tbody></tbody></table>');
+		        		var tbody = printTable.children("tbody");
+		        		$.each(data.refunds, function(){
+		        			total = total + this.refundTable.refundAmount;
+		        			tbody.append('<tr id="'+this.refundTable.id+'">'+
+		        								'<td><label><input class="ace" value="" type="checkbox"><span class="lbl"></span></label></td>'+
+		        								'<td>'+this.refundTable.refundDate+'</td>'+
+		        								'<td>'+this.customerAgencyName+'</td>'+
+		        								'<td>'+this.refundTable.refundContent+'</td>'+
+		        								'<td>'+this.refundTable.refundWays+'</td>'+
+		        								'<td>'+this.refundTable.refundAmount.toFixed(2)+'</td>'+
+		        								'<td>'+this.refundTable.remark+'</td>'+
+		        								'<td>'+this.managerName+'</td>'+
+		        								'<td id="'+(this.refundTable.printCount==null?0:this.refundTable.printCount)+'">'+this.bossName+'</td>'+
+		        						'</tr>');
+		        		});
+		        		$("#refundPrintModel").find("#printArea").append(printTable);
+		        		printInfos.eq(0).text(tds.eq(0).text());
+		        		printInfos.eq(1).text(tds.eq(1).text());
+		        		printInfos.eq(2).text(data.deptName);
+		        		printInfos.eq(3).text(data.refunds[0].customerAgencyName);
+		        		printInfos.eq(4).text(total.toFixed(2));
+		        		printInfos.eq(5).text(moneyTrun(total));
+		        		var date = new Date();
+		        		printInfos.eq(6).text(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+		        		printInfos.eq(7).text('<%=user.getRealName()%>');
+		        		a.attr("href","#refundPrintModel");
+		        		/* 注册事件 */
+			        	printTable.find("tr:not(.red) td:not(tr td:nth-child(1))").click(function(){
+			        		$(this).parent().find("input.ace").prop("checked",!$(this).parent().find("input.ace").prop("checked"));
+			        		var printCount = 0;
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
+			        			}
+			        			amount = amount + parseFloat(tds.eq(3).text());
+			        		});
+			        		$("#refundPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#refundPrintModel").find("#printArea").find(".printInfo").eq(4).text(amount.toFixed(2));
+				        	$("#refundPrintModel").find("#printArea").find(".printInfo").eq(5).text(moneyTrun(amount));
+			        	});
+			        	printTable.find("input.selectAll").click(function(){
+			        		printTable.find("input.ace").prop("checked",$(this).prop("checked"));
+			        		var printCount = 0;
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked:not(.selectAll)"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
+			        			}
+			        			amount = amount + parseFloat(tds.eq(3).text());
+			        		});
+			        		$("#refundPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#refundPrintModel").find("#printArea").find(".printInfo").eq(4).text(amount.toFixed(2));
+				        	$("#refundPrintModel").find("#printArea").find(".printInfo").eq(5).text(moneyTrun(amount));
+			        	});
+			        	printTable.find("input.ace:not(.selectAll)").click(function(){
+			        		var printCount = 0;
+			        		var amount = 0;
+			        		$.each(printTable.find("input.ace:checked"),function(){
+			        			var tds = $(this).parent().parent().siblings();
+			        			if(tds.eq(-1).attr("id")>printCount){
+			        				printCount = tds.eq(-1).attr("id");
+			        			}
+			        			amount = amount + parseFloat(tds.eq(3).text());
+			        		});
+			        		$("#refundPrintModel").find("#printArea").find("span").eq(0).text("第"+(parseInt(printCount)+1)+"次打印");
+				        	/* 设置总金额 */
+				        	$("#refundPrintModel").find("#printArea").find(".printInfo").eq(4).text(amount.toFixed(2));
+				        	$("#refundPrintModel").find("#printArea").find(".printInfo").eq(5).text(moneyTrun(amount));
+			        	});
+		        	}
+		        }
+			});
+		} 
+	});
+	
+	/* 打印退款按钮 */
+	$("#refundPrint").click(function(){
+		if($("#refundPrintModel").find("#printArea").find("input:not(.selectAll):checked").length==0){
+			alert("请选择一个打印项");
+			$("#refundPrint").attr("data-dismiss","");
+		}else{
+			$("#refundPrint").attr("data-dismiss","modal");
+			var ids = new Array();
+			$.each($("#refundPrintModel #printTable input.ace:not(.selectAll)"),function(){
+				if($(this).prop("checked")){
+					ids.push($(this).parent().parent().parent().attr("id"));
+				}else{
+					$(this).parent().parent().parent().hide();
+				}
+			});
+			var myData = {ids:ids.toString(),type:"refund"}
+			$.ajax({
+		        type: "GET",  
+		        contentType:"application/json;charset=utf-8",  
+		        url:"${path }localTourManage/printCountPlus",
+		        data:myData,  
+		        dataType: "json",  
+		        async: false,  
+		        success:function(data){
+		        }
+			});
+			$("#refundPrintModel").find("#printTable").find("tr td:nth-child(1),tr th:nth-child(1)").hide();
+			var printHtml = $("#refundPrintModel").find("#printArea");
+			printHtml.prepend("<h3>退款单</h3>").printArea({
+		        mode       : "iframe",
+		        standard   : "html5",
+		        popTitle   : '退款单',
+		        popClose   : false,
+		    });
+			printHtml.find("h3").remove();
+			$("#refundPrintModel").find("#printTable").find("tr,td").show();
 			alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”");
 		} 
 	});

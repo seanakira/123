@@ -12,6 +12,7 @@ import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
+import com.cts.localtour.service.RefundService;
 import com.cts.localtour.service.ReimbursementCostService;
 import com.cts.localtour.service.UserService;
 
@@ -37,6 +38,8 @@ public class SimpleBalanceViewModel {
 	private UserService userService;
 	@Autowired
 	private ReimbursementCostService reimbursementCostService;
+	@Autowired
+	private RefundService refundService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -95,10 +98,11 @@ public class SimpleBalanceViewModel {
 			CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(localTourTable.getId());
 			IncomeInfo incomeInfo = incomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
+			IncomeInfo refundIncomeInfo = refundService.getIncomeInfo(localTourTable.getId());
 			balanceViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).floatValue());
 			balanceViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).floatValue());
-			balanceViewModel.setWillIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
-			balanceViewModel.setRealIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue());
+			balanceViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue());
+			balanceViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().add(refundIncomeInfo.getRealIncomeSum())).floatValue());
 			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())).floatValue());
 			balanceViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
 			if(localTourTable.getStatus()==0){

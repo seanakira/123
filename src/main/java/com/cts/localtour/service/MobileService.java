@@ -18,6 +18,7 @@ import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.RefundTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.util.WeiXinUtil;
 import com.cts.localtour.viewModel.ChangeCostIncomeViewModel;
@@ -26,6 +27,7 @@ import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementApplicationViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
 import com.cts.localtour.viewModel.LoanViewModel;
+import com.cts.localtour.viewModel.RefundViewModel;
 
 @SuppressWarnings("rawtypes")
 @Service
@@ -48,7 +50,8 @@ public class MobileService extends BaseService{
 	private ReimbursementApplicationService reimbursementApplicationService;
 	@Autowired
 	private FullBillViewModel billViewModel;
-	
+	@Autowired
+	private RefundViewModel refundViewModel;
 	/*成本变更审核*/
 	public ChangeCostIncomeViewModel getAllChangCostIncome(int tourId, int status) {
 		return changeCostIncomeViewModel.getAllChangeCostIncomeViewModel(tourId, status);
@@ -90,7 +93,7 @@ public class MobileService extends BaseService{
 	public void cancelChangeCost(HttpServletRequest request, int id) {
 		ChangeCostTable cost = (ChangeCostTable)this.getById("ChangeCostTable", id);
 		this.delete(cost);
-		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", cost.getApplicationerId())).getUserName(), null, "您的<"+localTourService.getTourNoAndTourName(cost.getTourId())+">团，申请的成本变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
+		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", cost.getApplicationerId())).getUserName()+"@ctssd.com", null, "您的<"+localTourService.getTourNoAndTourName(cost.getTourId())+">团，申请的成本变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,7 +101,7 @@ public class MobileService extends BaseService{
 		ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", id);
 		this.delete(income);
 		LocalTourTable tour = (LocalTourTable) this.getById("LocalTourTable", income.getTourId());
-		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", income.getApplicationerId())).getUserName(), null, "您的"+tour.getTourNo()+"  "+tour.getTourName()+"团，申请的收入变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
+		WeiXinUtil.sendTextMessage(((UserTable)this.getById("UserTable", income.getApplicationerId())).getUserName()+"@ctssd.com", null, "您的"+tour.getTourNo()+"  "+tour.getTourName()+"团，申请的收入变更已经被驳回，并且已经被删除，如需再次申请，请重新添加。", "0");
 	}
 	
 	/*导游借款审核*/
@@ -161,7 +164,7 @@ public class MobileService extends BaseService{
 		LoanTable loan = (LoanTable) this.getById("LoanTable", id);
 		loan.setStatus(1);
 		this.update(loan);
-		WeiXinUtil.sendTextMessage(userService.getUserName(loan.getApplicationerId()), null, "您的<"+localTourService.getTourNoAndTourName(loan.getTourId())+">申请的导游借款已经被驳回，如需再次申请，请联系财务修改借款内容后，再次提交", "0");
+		WeiXinUtil.sendTextMessage(userService.getUserName(loan.getApplicationerId())+"@ctssd.com", null, "您的<"+localTourService.getTourNoAndTourName(loan.getTourId())+">申请的导游借款已经被驳回，如需再次申请，请联系财务修改借款内容后，再次提交", "0");
 	}
 	
 	
@@ -266,14 +269,14 @@ public class MobileService extends BaseService{
 			if(costTable.getPayStatus()!=3){
 				costTable.setPayStatus(0);
 				this.update(costTable);
-				WeiXinUtil.sendTextMessage(userService.getUserName(costTable.getPayApplicationerId()), null, "您的("+localTourService.getTourNoAndTourName(costTable.getTourId())+")申请的付款已经被驳回，如需再次申请，请再次提交", "0");
+				WeiXinUtil.sendTextMessage(userService.getUserName(costTable.getPayApplicationerId())+"@ctssd.com", null, "您的("+localTourService.getTourNoAndTourName(costTable.getTourId())+")申请的付款已经被驳回，如需再次申请，请再次提交", "0");
 			}
-			}else{
+		}else{
 			ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", id);
 			if(changeCostTable.getPayStatus()!=3){
 				changeCostTable.setPayStatus(0);
 				this.update(changeCostTable);
-				WeiXinUtil.sendTextMessage(userService.getUserName(changeCostTable.getPayApplicationerId()), null, "您的("+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+")申请的付款已经被驳回，如需再次申请，请再次提交", "0");
+				WeiXinUtil.sendTextMessage(userService.getUserName(changeCostTable.getPayApplicationerId())+"@ctssd.com", null, "您的("+localTourService.getTourNoAndTourName(changeCostTable.getTourId())+")申请的付款已经被驳回，如需再次申请，请再次提交", "0");
 			}
 		}
 	}
@@ -296,7 +299,7 @@ public class MobileService extends BaseService{
 	public void loanInvoiceApplicationCancel(int id) {
 		LoanInvoiceTable loanInvoiceTable = (LoanInvoiceTable)this.getById("LoanInvoiceTable", id);
 		this.delete(loanInvoiceTable);
-		WeiXinUtil.sendTextMessage(userService.getUserName(loanInvoiceTable.getApplicationerId()), null, "您的("+localTourService.getTourNoAndTourName(loanInvoiceTable.getTourId())+")申请的预借发票已经被驳回，如需再次申请，请再次提交", "0");
+		WeiXinUtil.sendTextMessage(userService.getUserName(loanInvoiceTable.getApplicationerId())+"@ctssd.com", null, "您的("+localTourService.getTourNoAndTourName(loanInvoiceTable.getTourId())+")申请的预借发票已经被驳回，如需再次申请，请再次提交", "0");
 	}
 	/*报账审核*/
 	public FullReimbursementApplicationViewModel getAllReimbursementApplication(int tourId) {
@@ -588,8 +591,89 @@ public class MobileService extends BaseService{
 				    	}
 					}
 				}
+			}else if("refundApplication".equals(mobileControllerMapping)){
+				ArrayList<RefundTable> refundTables = (ArrayList<RefundTable>) this.getAllByString("RefundTable", "tourId=? and (status=1 or status=2)", tourId);
+				for (RefundTable refundTable : refundTables) {
+					if(refundTable.getStatus()==1){
+						hasManager = true;
+						if(refundTable.getRefundAmount().floatValue()>10000){
+							hasMainManager = true;
+						}else{
+							hasViceManager = true;
+						}
+					}else if(refundTable.getStatus()==2){
+						hasBoss = true;
+					}
+				}
+				if(hasManager){
+					String[] ids = userService.getManagerIds(user);
+				    String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+1;
+				    /*如果是会展*/
+				    if((Boolean)SecurityUtils.getSubject().getSession().getAttribute("isMice")){
+				    	if(hasMainManager){
+					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[0]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
+					    		sendOk = false;
+					    	}
+				    	}
+				    	if(hasViceManager){
+				    		UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[1]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
+					    		sendOk = false;
+					    	}
+				    	}
+				    }else{
+				    	for (int i = 0; i < ids.length; i++) {
+					    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
+					    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
+					    		sendOk = false;
+					    	}
+						}
+				    }
+				}
+				if(hasBoss){
+					String[] ids = userService.getBossIds(user);
+				    String url = tempContextUrl+"mobile/"+mobileControllerMapping+"?id="+tourId+"&status="+2;
+				    for (int i = 0; i < ids.length; i++) {
+				    	UserTable manager = (UserTable)this.getById("UserTable", Integer.parseInt(ids[i]));
+				    	if(!WeiXinUtil.sendTextMessage(manager.getUserName()+"@ctssd.com", url, message, "0")){
+				    		sendOk = false;
+				    	}
+					}
+				}
 			}
 		/*}*/
 		return sendOk;
+	}
+
+	public ArrayList<RefundViewModel> getAllRefundApplication(int tourId, int status) {
+		return refundViewModel.getRefundViewModelAll(tourId, status);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void refundApplicationOk(HttpServletRequest request, int id) {
+		int status = this.getRoleCode();
+		if(status!=0){
+			RefundTable refundTable = (RefundTable) this.getById("RefundTable", id);
+			/*状态验证*/
+			if(refundTable.getStatus()==status-1){
+				refundTable.setStatus(status);
+				if(status==2){
+					refundTable.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					this.sendMessage("refundApplication", refundTable.getTourId(), 2, "您有 "+localTourService.getTourNoAndTourName(refundTable.getTourId())+"待审核的(退款申请)，点击进行审核");
+				}else if(status==3){
+					refundTable.setBossId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+					localTourService.sendMessageToMaker(refundTable.getTourId(), " 退款申请："+refundTable.getRefundAmount()+"元，已经经过分管副总批准，可以打印退款凭证了");
+				}
+				this.update(refundTable);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void refundApplicationCancel(int id) {
+		RefundTable refundTable = (RefundTable)this.getById("RefundTable", id);
+		this.delete(refundTable);
+		WeiXinUtil.sendTextMessage(userService.getUserName(refundTable.getApplicationerId())+"@ctssd.com", null, "您的("+localTourService.getTourNoAndTourName(refundTable.getTourId())+")申请的退款已经被驳回，如需再次申请，请再次提交", "0");
 	}
 }

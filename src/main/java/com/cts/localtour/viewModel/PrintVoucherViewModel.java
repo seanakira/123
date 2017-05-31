@@ -22,6 +22,7 @@ public class PrintVoucherViewModel {
 	private float incomeTotal;
 	private ArrayList<PrintPayVoucherViewModel> pays;
 	private ArrayList<LoanInvoiceViewModel> loanInvoices;
+	private ArrayList<RefundViewModel> refunds;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -35,6 +36,8 @@ public class PrintVoucherViewModel {
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private LoanInvoiceViewModel loanInvoiceViewModel;
+	@Autowired
+	private RefundViewModel refundViewModel;
 	public String getDeptName() {
 		return deptName;
 	}
@@ -71,7 +74,12 @@ public class PrintVoucherViewModel {
 	public void setLoanInvoices(ArrayList<LoanInvoiceViewModel> loanInvoices) {
 		this.loanInvoices = loanInvoices;
 	}
-
+	public ArrayList<RefundViewModel> getRefunds() {
+		return refunds;
+	}
+	public void setRefunds(ArrayList<RefundViewModel> refunds) {
+		this.refunds = refunds;
+	}
 	public PrintVoucherViewModel getPrintViewModel(int tourId, String type) {
 		PrintVoucherViewModel payVoucherViewModel = new PrintVoucherViewModel();
 		payVoucherViewModel.setDeptName(((DeptTable)baseService.getById("DeptTable", ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDeptId())).getDeptName());
@@ -85,6 +93,8 @@ public class PrintVoucherViewModel {
 			payVoucherViewModel.setIncomeTotal(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
 		}else if("loanInvoice".equals(type)){
 			payVoucherViewModel.setLoanInvoices(loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, 2));
+		}else if("refund".equals(type)){
+			payVoucherViewModel.setRefunds(refundViewModel.getPrintViewModel(tourId));
 		}
 		return payVoucherViewModel;
 	}

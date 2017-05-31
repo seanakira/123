@@ -17,6 +17,7 @@ import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LoanService;
+import com.cts.localtour.service.RefundService;
 import com.cts.localtour.service.ReimbursementCostService;
 import com.cts.localtour.service.UserService;
 
@@ -50,6 +51,8 @@ public class SimpleReimbursementApplicationViewModel {
 	private ReimbursementCostService reimbursementCostService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RefundService refundService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -125,6 +128,7 @@ public class SimpleReimbursementApplicationViewModel {
 			CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(reimbursementApplicationTable.getTourId());
 			IncomeInfo incomeInfo = incomeService.getIncomeInfo(reimbursementApplicationTable.getTourId());
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(reimbursementApplicationTable.getTourId());
+			IncomeInfo refundIncomeInfo = refundService.getIncomeInfo(localTourTable.getId());
 			LoanInfo loanInfo = loanService.getLoanInfo(reimbursementApplicationTable.getTourId());
 			LocalTourTable localTourTable = (LocalTourTable) baseService.getById("LocalTourTable", reimbursementApplicationTable.getTourId());
 			reimbursementApplicationViewModel.setLocalTourTable(localTourTable);
@@ -133,12 +137,12 @@ public class SimpleReimbursementApplicationViewModel {
 			reimbursementApplicationViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()).floatValue());
 			reimbursementApplicationViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()).floatValue());
 			reimbursementApplicationViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().floatValue());
-			reimbursementApplicationViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
+			reimbursementApplicationViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().add(refundIncomeInfo.getRealIncomeSum())).floatValue());
 			reimbursementApplicationViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum())).floatValue());
 			if(incomeInfo.getRealIncomeSum().floatValue()==0){
 				reimbursementApplicationViewModel.setRealGrossMargin("0");
 			}else{
-				reimbursementApplicationViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
+				reimbursementApplicationViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().add(refundIncomeInfo.getRealIncomeSum())).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
 			}
 			reimbursementApplicationViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
 			if(reimbursementApplicationTable.getStatus()==0){

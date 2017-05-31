@@ -148,6 +148,24 @@ public class MobileController {
 		mobileService.billApplicationCancel(id, change);
 	}
 	
+	/*ÕÀøÓ…Í«Î*/
+	@RequestMapping("/mobile/refundApplication")
+	public String refundApplication(@RequestParam int id, @RequestParam int status, Model md){
+		md.addAttribute("refunds", mobileService.getAllRefundApplication(id, status));
+		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", id));
+		return "/mobile/refundApplication";
+	}
+	
+	@RequestMapping("/mobile/refundApplicationOk")
+	public void refundApplicationOk(HttpServletRequest request, @RequestParam int id){
+		mobileService.refundApplicationOk(request, id);
+	}
+	
+	@RequestMapping("/mobile/refundApplicationCancel")
+	public void refundApplicationCancel(HttpServletRequest request, @RequestParam int id){
+		mobileService.refundApplicationCancel(id);
+	}
+	
 	/*∑¢ÀÕ≤‚ ‘
 	@RequestMapping("/sendTest")
 	public void sendTest(){

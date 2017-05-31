@@ -508,8 +508,7 @@
     	if(tbody.children("tr").length>0){
     		tbody.append('<tr class="blue">'+
 		            		'<td>'+
-			        			'<input class="form-control datepicker" type="text">'+
-			        		'</td>'+
+			        			'<input class="form-control datepicker" type="text" value="'+new Date().toLocaleDateString()+'"/></td>'+
 			        		'<td style="vertical-align: middle;">'+tbody.children("tr").eq(0).children("td").eq(1).html()+'</td>'+
 			        		'<td style="vertical-align: middle;">0</td>'+
 			        		'<td style="vertical-align: middle;"><input class="form-control" type="text"></td>'+

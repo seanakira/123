@@ -25,6 +25,7 @@ import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.RefundTable;
 import com.cts.localtour.entity.RegionTable;
 import com.cts.localtour.entity.ReimbursementCostTable;
 import com.cts.localtour.entity.ReimbursementIncomeTable;
@@ -72,14 +73,18 @@ public class LocalTourService extends BaseService{
 	private UserService userService;
 	@Autowired
 	private FullRefundViewModel fullRefundViewModel;
+	@Autowired
+	private ReimbursementIncomeService reimbursementIncomeService;
+	@Autowired
+	private RefundService refundService;
 	@SuppressWarnings("unchecked")
-	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, int status) {
+	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, String userIds, int status) {
 		Hashtable<String, Object> param = new Hashtable<String, Object>();
 		param.put("tourNO", "%"+key+"%");
 		param.put("tourName", "%"+key+"%");
 		param.put("start", start);
 		param.put("end", end);
-		ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param, page, maxResults);
+		ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and userId in ("+("".equals(userIds)?userService.getDataUserIds():userIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param, page, maxResults);
 		return setMd(localTours);
 	}
 	public ArrayList<SimpleLocalTourViewModel> setMd(ArrayList<LocalTourTable> localTours){
@@ -121,13 +126,13 @@ public class LocalTourService extends BaseService{
 	}
 
 	@SuppressWarnings("unchecked")
-	public int getCounts(String key, Date start, Date end, String deptIds, int status) {
+	public int getCounts(String key, Date start, Date end, String deptIds, String userIds, int status) {
 		Hashtable<String, Object> param = new Hashtable<String, Object>();
 		param.put("tourNO", "%"+key+"%");
 		param.put("tourName", "%"+key+"%");
 		param.put("start", start);
 		param.put("end", end);
-		return this.getCountsByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param);
+		return this.getCountsByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and userId in ("+("".equals(userIds)?userService.getDataUserIds():userIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param);
 	}
 
 	public void del(int id) {
@@ -443,5 +448,30 @@ public class LocalTourService extends BaseService{
 	}
 	public FullRefundViewModel findRefund(int tourId) {
 		return fullRefundViewModel.getFullRefundViewModel(tourId);
+	}
+	@SuppressWarnings("unchecked")
+	public int refundApplication(ArrayList<RefundTable> refundTables) {
+		if(!refundTables.isEmpty()){
+			BigDecimal refundSum = new BigDecimal(0);
+			for (RefundTable refundTable : refundTables) {
+				if(refundTable.getRefundAmount()==null){
+					return -1;
+				}
+				refundSum = refundSum.add(refundTable.getRefundAmount());
+			}
+			ArrayList<RefundTable> refundedTables = (ArrayList<RefundTable>) this.getAllByString("RefundTable", "status=3 and refunded=true", null);
+			for (RefundTable refundTable : refundedTables) {
+				refundSum = refundSum.add(refundTable.getRefundAmount());
+			}
+			if(refundSum.compareTo(incomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()).add(refundService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()))==1){
+				return -3;
+			}
+			for (RefundTable refundTable : refundTables) {
+				refundTable.setStatus(1);
+				refundTable.setCustomerAgencyId(((LocalTourTable)this.getById("LocalTourTable", refundTable.getTourId())).getCustomerAgencyId());
+				refundTable.setApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				this.add(refundTable);
+			}
+		}return 0;
 	}
 }

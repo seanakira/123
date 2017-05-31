@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -252,5 +253,17 @@ public class UserService extends BaseService{
 		dept = (DeptTable) this.getById("DeptTable", user.getDeptId());
 		managerIds = dept.getManagerIds();
 	    return managerIds.split(",");
+	}
+
+	public ArrayList<UserTable> getDataUser() {
+		return (ArrayList<UserTable>) this.getAllByString("UserTable", "enable=true and deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")", null);
+	}
+	
+	public String getDataUserIds() {
+		HashSet<Integer> userIds = new HashSet<Integer>();
+		for (UserTable user : (ArrayList<UserTable>) this.getAllByString("UserTable", "enable=true and deptId in ("+((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")", null)) {
+			userIds.add(user.getId());
+		}
+		return userIds.toString().substring(1, userIds.toString().length()-1);
 	}
 }

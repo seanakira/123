@@ -269,4 +269,10 @@ public class DeptService extends BaseService{
 	public String getDeptName(int deptId) {
 		return ((DeptTable)this.getById("DeptTable", deptId)).getDeptName();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<DeptTable> getDataDept() {
+		return (ArrayList<DeptTable>) this.getAllByString("DeptTable", "id in ("+((UserTable) SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")");
+	}
+
 }

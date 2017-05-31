@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-5-25 17:25:22 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-5-27 11:37:14 by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -31,6 +31,7 @@ public class RefundTable implements java.io.Serializable {
 	private Integer handlerId;
 	private String remark;
 	private int status;
+	private Integer printCount;
 
 	public RefundTable() {
 	}
@@ -49,7 +50,7 @@ public class RefundTable implements java.io.Serializable {
 
 	public RefundTable(int id, int tourId, Date refundDate, String refundContent, String refundWays,
 			BigDecimal refundAmount, boolean refunded, int customerAgencyId, int applicationerId, Integer managerId,
-			Integer bossId, Integer handlerId, String remark, int status) {
+			Integer bossId, Integer handlerId, String remark, int status, Integer printCount) {
 		this.id = id;
 		this.tourId = tourId;
 		this.refundDate = refundDate;
@@ -64,6 +65,7 @@ public class RefundTable implements java.io.Serializable {
 		this.handlerId = handlerId;
 		this.remark = remark;
 		this.status = status;
+		this.printCount = printCount;
 	}
 
 	@Id
@@ -193,6 +195,15 @@ public class RefundTable implements java.io.Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	@Column(name = "printCount")
+	public Integer getPrintCount() {
+		return this.printCount;
+	}
+
+	public void setPrintCount(Integer printCount) {
+		this.printCount = printCount;
 	}
 
 }

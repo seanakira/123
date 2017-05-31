@@ -15,6 +15,7 @@ import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LoanService;
+import com.cts.localtour.service.RefundService;
 import com.cts.localtour.service.UserService;
 
 @Component
@@ -42,6 +43,8 @@ public class SimpleSettlementViewModel {
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RefundService refundService;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -117,13 +120,14 @@ public class SimpleSettlementViewModel {
 			LoanInfo loanInfo = loanService.getLoanInfo(localTourTable.getId());
 			IncomeInfo incomeInfo = incomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
+			IncomeInfo refundIncomeInfo = refundService.getIncomeInfo(localTourTable.getId());
 			simpleSettlementViewModel.setLocalTourTable(localTourTable);
 			simpleSettlementViewModel.setCostSum(costInfo.getCostSum().add(changeCostInfo.getCostSum()).floatValue());
 			simpleSettlementViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(loanInfo.getLoanSum()).floatValue());
 			simpleSettlementViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()).floatValue());
 			simpleSettlementViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).floatValue());
 			simpleSettlementViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().floatValue());
-			simpleSettlementViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue());
+			simpleSettlementViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().add(refundIncomeInfo.getRealIncomeSum())).floatValue());
 			simpleSettlementViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
 			if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){
 				simpleSettlementViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
