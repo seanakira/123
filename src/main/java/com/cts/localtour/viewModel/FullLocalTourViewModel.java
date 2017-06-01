@@ -38,6 +38,8 @@ public class FullLocalTourViewModel {
 	private ArrayList<ChangeIncomeViewModel> changeIncomes;
 	private ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes;
 	private ArrayList<LoanViewModel> loans;
+	private ArrayList<InvoiceViewModel> invoices;
+	private ArrayList<LoanInvoiceViewModel> loanInvoices;
 	private Hashtable<String, String> tourInfo;
 	private Hashtable<String, String> delIds;
 	@SuppressWarnings("rawtypes")
@@ -63,6 +65,10 @@ public class FullLocalTourViewModel {
 	private ReimbursementIncomeViewModel reimbursementIncomeViewModel;
 	@Autowired
 	private LoanViewModel loanViewModel;
+	@Autowired
+	private InvoiceViewModel invoiceViewModel;
+	@Autowired
+	private LoanInvoiceViewModel loanInvoiceViewModel;
 	public LocalTourTable getLocalTourTable() {
 		return localTourTable;
 	}
@@ -177,6 +183,18 @@ public class FullLocalTourViewModel {
 	public void setLoans(ArrayList<LoanViewModel> loans) {
 		this.loans = loans;
 	}
+	public ArrayList<InvoiceViewModel> getInvoices() {
+		return invoices;
+	}
+	public void setInvoices(ArrayList<InvoiceViewModel> invoices) {
+		this.invoices = invoices;
+	}
+	public ArrayList<LoanInvoiceViewModel> getLoanInvoices() {
+		return loanInvoices;
+	}
+	public void setLoanInvoices(ArrayList<LoanInvoiceViewModel> loanInvoices) {
+		this.loanInvoices = loanInvoices;
+	}
 	@SuppressWarnings("unchecked")
 	public FullLocalTourViewModel getFullLocalTourViewModel(int tourId){
 		FullLocalTourViewModel full = new FullLocalTourViewModel();
@@ -212,6 +230,10 @@ public class FullLocalTourViewModel {
 		full.setReimbursementIncomes(reimbursementIncomeViewModel.getAllIncomeViewModel(tourId));
 		
 		full.setLoans(loanViewModel.getAllLoanViewModel(tourId, 4));
+		
+		full.setInvoices(invoiceViewModel.getAllInvoiceViewModel(tourId));
+		
+		full.setLoanInvoices(loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, 3));
 		return full;
 	}
 }

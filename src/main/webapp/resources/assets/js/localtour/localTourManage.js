@@ -327,13 +327,11 @@ function check(data){
 	
 	$.each(data.incomes,function(){
 		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
-		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
 		tbody.append('<tr>'+
 							'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate)+'</td>'+
 							'<td>'+this.customerAgencyName+'</td>'+
 							'<td>'+this.incomeTable.income+'</td>'+
 							'<td>'+realIncome+'</td>'+
-							'<td>'+invoiceAmount+'</td>'+
 							'<td>'+this.incomeTable.remark+'</td>'+
 					'</tr>');
 		incomeSum = incomeSum + this.incomeTable.income;
@@ -347,13 +345,11 @@ function check(data){
 	
 	$.each(data.changeIncomes,function(){
 		var realIncome = this.incomeTable.realIncome==null?0:this.incomeTable.realIncome;
-		var invoiceAmount = this.invoiceAmount==null?0:this.invoiceAmount;
 		tbody.append('<tr class="blue">'+
 							'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate)+'</td>'+
 							'<td>'+this.customerAgencyName+'</td>'+
 							'<td>'+this.incomeTable.income+'</td>'+
 							'<td>'+realIncome+'</td>'+
-							'<td>'+invoiceAmount+'</td>'+
 							'<td>'+this.incomeTable.remark+'</td>'+
 					'</tr>');
 		incomeSum = incomeSum + this.incomeTable.income;
@@ -371,7 +367,6 @@ function check(data){
     							'<td></td>'+
     							'<td>'+this.customerAgencyName+'</td>'+
     							'<td>'+this.incomeTable.income+'</td>'+
-    							'<td></td>'+
     							'<td></td>'+
     							'<td>'+this.incomeTable.remark+'</td>'+
     					'</tr>');
@@ -414,12 +409,14 @@ function check(data){
 		'</tr>');
 	}
 	/* 设置成本至基本信息 */
+	$("#tourInfo2").children("#arrDepTable").next().next().next().next().remove();
 	$("#tourInfo2").children("#arrDepTable").next().next().next().remove();
 	$("#tourInfo2").children("#arrDepTable").next().next().remove();
 	$("#tourInfo2").children("#arrDepTable").next().remove();
 	var costDiv = $("#flight2").parent().clone();
 	costDiv.attr({"style":"","class":"tab-content no-border padding-6"});
-	costDiv.find("th").attr("style",costDiv.find("th").attr("style")+"background-color: beige;");
+	costDiv.find("th").attr("style","width:8%;background-color: beige;");
+	costDiv.find("th:nth-child(3)").attr("style","width:15%;background-color: beige;");
 	costDiv.children("div").attr({"id":"","class":""});
 	$.each(costDiv.children("div"),function(){
 		if($(this).find("tr").length==2){
@@ -430,8 +427,8 @@ function check(data){
 	$("#tourInfo2").append(costDiv);
 	/* 设置收入至基本信息 */
 	var incomeDiv = $("#incomes2").clone();
-	incomeDiv.attr({"style":"","class":"tab-content no-border padding-6"});
-	incomeDiv.find("th").attr("style","width: 10%;background-color: beige;");
+	incomeDiv.attr({"style":"","class":"tab-content no-border padding-6","id":""});
+	incomeDiv.find("th").attr("style","background-color: beige;");
 	incomeDiv.prepend("<h5>收入：</h5>");
 	costDiv.after(incomeDiv);
 	/* 设置借款 */
@@ -440,4 +437,13 @@ function check(data){
 		loanDiv.find("tbody").append('<tr><td>'+this.loanTable.loanDate+'</td><td>'+this.loanTable.loanAmount+'</td><td>'+this.loanTable.remark+'</td><td>'+this.lenderRealName+'</td><td>'+this.status+'</td></tr>');
 	});
 	costDiv.after(loanDiv);
+	/*设置发票*/
+	var invoiceDiv = $('<div class="tab-content no-border padding-6" style=""><h5>发票：</h5><div class="tabbable tabs-left"><div class="tab-content no-padding" style="z-index: 1400;"><table class="table table-striped table-bordered table-hover incomeTable"><thead><tr><th style="width: 10%;background-color: beige;">日期</th><th style="width: 10%;background-color: beige;">票号</th><th style="width: 10%;background-color: beige;">抬头</th><th style="width: 10%;background-color: beige;">内容</th><th style="width: 10%;background-color: beige;">金额</th></tr></thead><tbody></tbody></table></div></div></div>');
+	$.each(data.invoices,function(){
+		invoiceDiv.find("tbody").append('<tr><td>'+this.invoiceTable.issueDate+'</td><td>'+this.invoiceTable.invoiceNo+'</td><td>'+this.customerAgencyName+'</td><td>'+this.invoiceTable.invoiceContent+'</td><td>'+this.invoiceTable.invoiceAmount+'</td></tr>');
+	});
+	$.each(data.loanInvoices,function(){
+		invoiceDiv.find("tbody").append('<tr><td>'+this.loanInvoiceTable.issueDate+'</td><td>'+this.loanInvoiceTable.invoiceNo+'</td><td>'+this.customerAgencyName+'</td><td>'+this.loanInvoiceTable.invoiceContent+'</td><td>'+this.loanInvoiceTable.invoiceAmount+'</td></tr>');
+	})
+	incomeDiv.after(invoiceDiv);
 }

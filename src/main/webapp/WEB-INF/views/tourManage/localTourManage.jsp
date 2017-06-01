@@ -1319,7 +1319,6 @@
 																<th>客户*</th>
 																<th style="width: 10%">收入</th>
 																<th style="width: 10%">实收</th>
-																<th style="width: 10%">已开发票</th>
 																<th style="width: 20%">备注</th>
 															</tr>
 														</thead>
