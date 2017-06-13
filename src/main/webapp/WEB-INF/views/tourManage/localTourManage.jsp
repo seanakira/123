@@ -313,32 +313,32 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="${path }localTourManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }localTourManage?page=${pageNo-1 }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:choose>
 											<c:when test="${pageNo>6 }">
 												<li <c:if test="${pageNo==page }">class="active"</c:if>>
-														<a href="${path }localTourManage?page=${1 }&key=${key }">1</a>
+														<a href="${path }localTourManage?page=${1 }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }">1</a>
 												</li>
 												<li>
 													<a>...</a>
 												</li>
 												<c:forEach var="page" begin="${pageNo-5 }" end="${pageNo+4>pageMax?pageMax:pageNo+4 }">
 													<li <c:if test="${pageNo==page }">class="active"</c:if>>
-														<a href="${path }localTourManage?page=${page }&key=${key }">${page }</a>
+														<a href="${path }localTourManage?page=${page }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }">${page }</a>
 													</li>
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
 												<c:forEach var="page" begin="1" end="${pageMax>10?10:pageMax }">
 													<li <c:if test="${pageNo==page }">class="active"</c:if>>
-														<a href="${path }localTourManage?page=${page }&key=${key }">${page }</a>
+														<a href="${path }localTourManage?page=${page }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }">${page }</a>
 													</li>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="${path }localTourManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }localTourManage?page=${pageNo+1 }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -5488,7 +5488,17 @@
 	        }  
 		});
 	});
-	
+	/* 自动填充借款付款金额 */
+	$(".autoAddLend").click(function(){
+		var inputs = $(this).parent().prev().find("input").not(".ace");
+		if(inputs.length==0){
+			
+		}else{
+			$.each(inputs,function(){
+				$(this).val($(this).parent().prev().text());
+			});
+		}
+	});
 	/*提交付款申请*/
 	$("#payApplication").click(function(){
 		var tourId = $(this).parent().attr("id");
@@ -5498,8 +5508,8 @@
 		if(canTrs.length>0){
 			var error = 0;
 			if(checkbox.length==0){
-				$("#payApplication").attr("data-dismiss","");
-				alert("没有选择要申请的付款项");
+				$("#payApplication").attr("data-dismiss","modal");
+				/* alert("没有选择要申请的付款项"); */
 			}else{
 				$("#payApplication").attr("data-dismiss","modal");
 				var costTables = new Array();
@@ -6437,18 +6447,29 @@
         	$("#realGrossMargin").text(((parseFloat($("#willIncomeSum").text())-reimbursementSum)/parseFloat($("#willIncomeSum").text())*100).toFixed(2)+"%");
 		}
 	});
-	/* 自动填充借款付款金额 */
-	$(".autoAddLend").click(function(){
-		var inputs = $(this).parent().prev().find("input").not(".ace");
-		if(inputs.length==0){
-			
-		}else{
-			$.each(inputs,function(){
-				$(this).val($(this).parent().prev().text());
-			});
-		}
+	
+	/* 失去焦点自动计算报账成本 */
+	$("#costs5").delegate(".reimbursement","blur",function(){
+		var reimbursementSum = 0;
+		$.each($("#costs5").find(".reimbursement"),function(){
+			reimbursementSum = reimbursementSum + $(this).val();
+		});
+		$("#reimbursementModel").find("#reimbursementSum").text(reimbursementSum.toFixed(2));
 	});
 	
+	/* 失去焦点自动计算应收 */
+	$("#incomes5").delegate(".reimbursementIncome","blur",function(){
+		var willIncomeSum = 0;
+		$.each($("#incomes5").find("tbody").find("tr td:nth-child(3)"),function(){
+			if($(this).children("input").length>0){
+				willIncomeSum = willIncomeSum + parseFloat($(this).children("input").val());
+			}else{
+				willIncomeSum = willIncomeSum + parseFloat($(this).text());
+			}
+		});
+		$("#reimbursementModel").find("#willIncomeSum").text(willIncomeSum.toFixed(2));
+	})
+
 	/* 调整报账收入 */
 	$(".reimbursementIncomeAdd").click(function(){
 		var tbody = $(this).parents("table").children("tbody");

@@ -29,6 +29,8 @@ public class RevenueService extends BaseService{
 	private IncomeService incomeService;
 	@Autowired
 	private ChangeIncomeService changeIncomeService;
+	@Autowired
+	private RefundService refundService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleRevenueViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -85,7 +87,7 @@ public class RevenueService extends BaseService{
 	}
 	
 	public boolean invoiceGreaterThanIncome(BigDecimal newInvoiceSum, int tourId){
-		if(newInvoiceSum.add(invoiceService.getInvoiceSum(tourId)).add(loanInvoiceService.getLoanInvoiceSum(tourId)).compareTo(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()))==1){
+		if(newInvoiceSum.add(invoiceService.getInvoiceSum(tourId)).compareTo(incomeService.getIncomeInfo(tourId).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getRealIncomeSum()).add(refundService.getIncomeInfo(tourId).getRealIncomeSum()))==1){
 			return true;
 		}else{
 			return false;
@@ -93,7 +95,7 @@ public class RevenueService extends BaseService{
 	}
 	
 	public boolean loanInvoiceGreaterThanIncome(BigDecimal newInvoiceSum, int tourId){
-		if(newInvoiceSum.add(invoiceService.getInvoiceSum(tourId)).add(loanInvoiceService.getLoanInvoiceSum(tourId)).compareTo(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()))==1){
+		if(newInvoiceSum.compareTo(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).add(refundService.getIncomeInfo(tourId).getRealIncomeSum()))==1){
 			return true;
 		}else{
 			return false;

@@ -125,7 +125,7 @@ public class DeptGainsViewModel {
 		if("".equals(deptIds)){
 			deptIds= ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds();
 		}
-		for (String dataDeptId : deptIds.split(", ")) {
+		for (String dataDeptId : deptIds.split(",")) {
 			DeptGainsViewModel dept = new DeptGainsViewModel();
 			dept.setHeaderName(((DeptTable)baseService.getById("DeptTable", Integer.parseInt(dataDeptId))).getDeptName());
 			dept.setType("dept");

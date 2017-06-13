@@ -394,7 +394,7 @@ function check(data){
 	}
 	if(isReimbursement){
 		/* 设置th */
-		$("#costs2").find("thead").find("tr th:nth-child(8)").after('<th style="width: 8%;">报账金额</th>');
+		$("#costs2").find("thead").find("tr th:nth-child(8)").after('<th style="width: 20%;">报账金额</th>');
 		/* 设置总计 */
 		$("#totalAll").find("tbody").append('<tr><td>报账成本</td>'+
 				'<td>'+(reimbursementFlightSum +reimbursementHotelSum +reimbursementMealSum +reimbursementTicketSum +reimbursementShuttleSum +reimbursementTicketsSum +reimbursementComprehensiveSum +reimbursementOtherSum).toFixed(2)+'</td>'+

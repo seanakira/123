@@ -167,13 +167,18 @@ public class FinanceController {
 	public @ResponseBody int saveLoanInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables){
 		int errorCode = 0;
 		BigDecimal newInvoiceSum = new BigDecimal(0);
+		ArrayList<Integer> notInds = new ArrayList<Integer>();
 		for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-			ArrayList<LoanInvoiceTable> loanInvoiceTables2 = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "id=? and status=2", loanInvoiceTable.getId());
-			newInvoiceSum = newInvoiceSum.add(loanInvoiceTables2.isEmpty()?new BigDecimal(0):loanInvoiceTables2.get(0).getInvoiceAmount());
+			newInvoiceSum = newInvoiceSum.add(loanInvoiceTable.getInvoiceAmount());
 			/*验证发票是否8位*/
 			/*if(loanInvoiceTable.getInvoiceNo().length()!=8){
 				errorCode = -2;
 			}*/
+			notInds.add(loanInvoiceTable.getId());
+		}
+		ArrayList<LoanInvoiceTable> issueLoanInvoiceTable = (ArrayList<LoanInvoiceTable>) loanInvoiceService.getAllByString("LoanInvoiceTable", "tourId=? and status=? and id not in("+notInds.toString().substring(1, notInds.toString().length()-1)+")", loanInvoiceTables.get(0).getTourId(), 3);
+		for (LoanInvoiceTable loanInvoiceTable : issueLoanInvoiceTable) {
+			newInvoiceSum = newInvoiceSum.add(loanInvoiceTable.getInvoiceAmount());
 		}
 		if(!loanInvoiceTables.isEmpty()){
 			if(revenueService.loanInvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){

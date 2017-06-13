@@ -102,6 +102,11 @@ public class TourController {
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
+		md.addAttribute("start", start);
+		md.addAttribute("end", end);
+		md.addAttribute("deptIds", deptIds);
+		md.addAttribute("userIds", userIds);
+		md.addAttribute("status", status);
 		md.addAttribute("depts", deptService.getDataDept());
 		md.addAttribute("users", userService.getDataUser());
 		return "/tourManage/localTourManage";

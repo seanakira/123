@@ -689,6 +689,7 @@
 					if(inputs.length!=0){
 						invoices.push({
 							id:$(this).attr("id"),
+							tourId:tourId,
 							invoiceNo:inputs.eq(0).val(),
 							invoiceAmount:inputs.eq(1).val(),
 						});
