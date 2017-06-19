@@ -2,6 +2,8 @@ package com.cts.localtour.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Hashtable;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +33,27 @@ public class RevenueService extends BaseService{
 	private ChangeIncomeService changeIncomeService;
 	@Autowired
 	private RefundService refundService;
+	@Autowired
+	private UserService userService;
 	@SuppressWarnings("unchecked")
-	public ArrayList<SimpleRevenueViewModel> getAll(String key, int page, int maxResults) {
-		if(key.equals("")){
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "status>=2 and status<=10 and enable=true", null, page, maxResults);
-			return simpleRevenueViewModel.getAllSimpleRevenueViewModel(localTours);
-		}else{
-			ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=10 and enable=true", null, page, maxResults);
-			return simpleRevenueViewModel.getAllSimpleRevenueViewModel(localTours);
-		}
+	public ArrayList<SimpleRevenueViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, String userIds, int status) {
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("tourNO", "%"+key+"%");
+		param.put("tourName", "%"+key+"%");
+		param.put("start", start);
+		param.put("end", end);
+		ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and userId in ("+("".equals(userIds)?userService.getDataUserIds():userIds)+") and startTime between :start and :end"+(status==-1?" and status>=2 and enable=true":status==7?" and status>=7":" and status>=2 and status<7"), param, page, maxResults);
+		return simpleRevenueViewModel.getAllSimpleRevenueViewModel(localTours);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public int getCounts(String key) {
-		if(key.equals("")){
-			return this.getCountsByParam("LocalTourTable", "status>=2 and status<=10", null);
-		}else{
-			return this.getCountsByParam("LocalTourTable", "(tourNO like '%"+key+"%' or tourName like '%"+key+"%') and status>=2 and status<=10", null);
-		}
+	public int getCounts(String key, Date start, Date end, String deptIds, String userIds, int status) {
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("tourNO", "%"+key+"%");
+		param.put("tourName", "%"+key+"%");
+		param.put("start", start);
+		param.put("end", end);
+		return this.getCountsByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and userId in ("+("".equals(userIds)?userService.getDataUserIds():userIds)+") and startTime between :start and :end"+(status==-1?" and status>=2 and enable=true":status==7?" and status>=7":" and status>=2 and status<7"), param);
 	}
 
 	public FullRevenueViewModel findRevenue(int tourId) {

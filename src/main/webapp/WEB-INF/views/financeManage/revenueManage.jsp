@@ -18,6 +18,16 @@
 	#ui-datepicker-div span{
 		text-align: center;
 	}
+	.searchExtra{
+		position: absolute;
+		right: 5px;
+		background-color: #f9f9f9;
+		z-index: 1500;
+		padding-left: 10px;
+		border: 1px solid #aaa;
+		display: none;
+		width: 450px;
+	}
 </style>
 
 <link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
@@ -57,6 +67,10 @@
 									预借发票
 								</a>
 							</shiro:hasPermission>
+							<a id="down" data-toggle="modal" href="#" title="导出Excel" style="padding-left: 10px;">
+								<i class="icon-table bigger-100"></i>
+								导出Excel
+							</a>
 						</div>
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }revenueManage" method="get">
@@ -64,12 +78,38 @@
 									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
 								</span>
+								<div class="searchExtra">
+									开始日期：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 10px;"><input id="start" name="start" class="datepicker" type="text" style="width: 100px;"></div>
+									部门：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select id="select" name="deptIds" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
+										<option value="">&nbsp;</option>
+										<c:forEach var="dept" items="${depts }">
+											<option value="${dept.id }">${dept.deptName }</option>
+										</c:forEach>
+									</select></div>
+									结束日期：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 10px;"><input id="end" name="end" class="datepicker" type="text" style="width: 100px;"></div>
+									人员：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select id="select" name="userIds" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
+										<option value="">&nbsp;</option>
+										<c:forEach var="user" items="${users }">
+											<option value="${user.id }">${user.realName }</option>
+										</c:forEach>
+									</select></div>
+									团队状态：
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px;"><select name="status"><option value="-1">&nbsp;</option><option value="7">已报账</option><option value="6">未报账</option></select></div>
+									<div style="display: inline-block;margin-right: 10px;margin-top: 15px; width: 240px">
+										<i class="icon-remove bigger-150 grey" style="width: 49%;padding: 10px;display: inline-block;"></i>
+										<i class="icon-ok bigger-150 grey" style="width: 49%;;padding: 10px;display: inline-block;"></i>
+									</div>
+								</div>
 							</form>
 						</div><!-- #nav-search -->
 					</div>
 					
 					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid">
-						<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+						<table id="excel" aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 								<tr role="row">
 									<th aria-label="" colspan="1" rowspan="1" role="columnheader" class="center sorting_disabled">
@@ -78,28 +118,34 @@
 											<span class="lbl"></span>
 										</label>
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 20%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 14%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										团号
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 20%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 14%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										线路
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 14%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+										客户
+									</th>
+									<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										应收总计
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										实收总计
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										开票金额
 									</th>
 									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										出团日期
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										状态
 									</th>
-									<th aria-label="Price: activate to sort column ascending" style="width: 10%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+										部门
+									</th>
+									<th aria-label="Price: activate to sort column ascending" style="width: 8%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 										团控人
 									</th>
 								</tr>
@@ -117,11 +163,13 @@
 										</td>
 										<td><a id="editTour" role="button" data-toggle="modal" href="#edit">${revenue.localTourTable.tourNo }</a></td>
 										<td>${revenue.localTourTable.tourName }</td>
+										<td>${revenue.customerAgencyName }</td>
 										<td>${revenue.willIncome }</td>
 										<td>${revenue.realIncome }</td>
 										<td>${revenue.invoice }</td>
 										<td>${revenue.localTourTable.startTime }</td>
 										<td>${revenue.status }</td>
+										<td>${revenue.deptName }</td>
 										<td>${revenue.userRealName }</td>
 									</tr>
 								</c:forEach>
@@ -138,32 +186,32 @@
 								<div class="dataTables_paginate paging_bootstrap">
 									<ul class="pagination">
 										<li <c:choose><c:when test="${pageNo==1 }">class="prev disabled"</c:when><c:otherwise>class="prev"</c:otherwise></c:choose>>
-											<a href="${path }revenueManage?page=${pageNo-1 }&key=${key }"><i class="icon-double-angle-left"></i></a>
+											<a href="${path }revenueManage?page=${pageNo-1 }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }"><i class="icon-double-angle-left"></i></a>
 										</li>
 										<c:choose>
 											<c:when test="${pageNo>6 }">
 												<li <c:if test="${pageNo==page }">class="active"</c:if>>
-														<a href="${path }revenueManage?page=${1 }&key=${key }">1</a>
+														<a href="${path }revenueManage?page=${1 }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }">1</a>
 												</li>
 												<li>
 													<a>...</a>
 												</li>
 												<c:forEach var="page" begin="${pageNo-5 }" end="${pageNo+4>pageMax?pageMax:pageNo+4 }">
 													<li <c:if test="${pageNo==page }">class="active"</c:if>>
-														<a href="${path }revenueManage?page=${page }&key=${key }">${page }</a>
+														<a href="${path }revenueManage?page=${page }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }">${page }</a>
 													</li>
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
 												<c:forEach var="page" begin="1" end="${pageMax>10?10:pageMax }">
 													<li <c:if test="${pageNo==page }">class="active"</c:if>>
-														<a href="${path }revenueManage?page=${page }&key=${key }">${page }</a>
+														<a href="${path }revenueManage?page=${page }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }">${page }</a>
 													</li>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>
 										<li <c:choose><c:when test="${pageNo==pageMax }">class="next disabled"</c:when><c:otherwise>class="next"</c:otherwise></c:choose>>
-											<a href="${path }revenueManage?page=${pageNo+1 }&key=${key }"><i class="icon-double-angle-right"></i></a>
+											<a href="${path }revenueManage?page=${pageNo+1 }&key=${key }&start=${start }&end=${end }&deptIds=${deptIds }&userIds=${userIds }&status=${status }"><i class="icon-double-angle-right"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -349,7 +397,9 @@
 <script src="${path }resources/assets/js/chosen.jquery.min.js"></script>
 <!-- 日历组件依赖 -->
 <script src="${path }resources/assets/js/jquery-ui-1.10.3.full.min.js"></script>
-
+<!-- 导出excel组件 -->
+<script src="${path }resources/assets/js/kayalshri-tableExport/tableExport.js"></script>
+<script src="${path }resources/assets/js/kayalshri-tableExport/jquery.base64.js"></script>
 <script type="text/javascript">
 	$(function(){
 	/* 初始化 */
@@ -369,6 +419,36 @@
 				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
 			}
 		});
+		
+	/* 搜索 按钮事件*/
+		$(".nav-search-input").focus(function(){
+			$(".searchExtra").slideDown();
+			$(".searchExtra").focus();
+		});
+		$(".nav-search-input").keydown(function(event){
+			if(event.which == 13){
+				$(".form-search").submit();
+			}
+		});
+		$(".searchExtra").find(".icon-remove").click(function(){
+			$(".searchExtra").slideUp();
+		});
+		$(".searchExtra").find(".icon-ok").click(function(){
+			$(".form-search").submit();
+		});
+		/* 日历初始化 */
+		$(".form-search").find(".datepicker").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+		});
+		$(".searchExtra").find("select").chosen({no_results_text: "查无结果", search_contains: true});
+		$(".searchExtra").find("select").eq(0).next().attr("style","width: 200px;top: -3px;")
+		$(".searchExtra").find("select").eq(0).next().find("li").attr("style","height: 25px;");
+		$(".searchExtra").find("select").eq(0).next().find("input").attr("style","height: 25px;position: relative;");
+		$(".searchExtra").find("select").eq(1).next().attr("style","width: 200px;top: -3px;")
+		$(".searchExtra").find("select").eq(1).next().find("li").attr("style","height: 25px;");
+		$(".searchExtra").find("select").eq(1).next().find("input").attr("style","height: 25px;position: relative;");
+		$(".searchExtra").find("select").eq(2).next().attr("style","width: 100px;top: -3px;");
 	/* 点击本行选中复选框 */
 		$("#table").find("td").not(".sorting_1").click(function(){
 			var checkbox = $(this).siblings().eq(0).find("input");
@@ -386,6 +466,14 @@
 			}else{
 				$("#table").find("input").prop("checked",false);
 			}
+		});
+	/* 导出excel */
+		$("#down").click(function(){
+			$("#excel").find("tr td:nth-child(1)").hide();
+			$("#excel").find("tr th:nth-child(1)").hide();
+			$('#excel').tableExport({type:'excel',escape:'false'});
+			$("#excel").find("tr td:nth-child(1)").show();
+			$("#excel").find("tr th:nth-child(1)").show();
 		});
 	/* 收入 */
 		$("#revenue").click(function(){

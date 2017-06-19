@@ -3994,8 +3994,8 @@
 	$("#saveNew").click(function(){
 		var inputs = $("#create").find("#tourInfo").find("input");
 		var selects = $("#create").find("#tourInfo").find("select");
-		var tourNo = inputs.eq(0).val();
-		var tourName = inputs.eq(1).val();
+		var tourNo = $.trim(inputs.eq(0).val());
+		var tourName = $.trim(inputs.eq(1).val());
 		var businessTypeId = selects.eq(0).val();
 		var tourTypeId = selects.eq(1).val();
 		var regionId = selects.eq(2).val();
@@ -6265,39 +6265,6 @@
 	        	$("#realIncomeSum").text(realIncomeSum.toFixed(2));
 	        	$("#realGrossProfit").text((willIncomeSum-reimbursementSum).toFixed(2));
 	        	$("#realGrossMargin").text(((willIncomeSum-reimbursementSum)/willIncomeSum*100).toFixed(2)+"%");
-	        	/* 设置自动计算 */
-	        	$("#costs5").find(".reimbursement").blur(function(){
-	        		var reimbursementSum = 0;
-	        		$.each($("#costs5").find(".reimbursement"),function(){
-	        			var val = 0;
-	        			if(!isNaN(parseFloat($(this).val()))){
-	        				val = parseFloat($(this).val());
-	        			}
-	        			reimbursementSum = reimbursementSum + val;
-	        		});
-	        		$("#reimbursementSum").text(reimbursementSum.toFixed(2));
-	        		$("#realGrossProfit").text((parseFloat($("#willIncomeSum").text())-reimbursementSum).toFixed(2));
-	        		$("#realGrossMargin").text(parseFloat(($("#willIncomeSum").text())/(parseFloat($("#willIncomeSum").text()))*100).toFixed(2)+"%");
-	        	});
-	        	$("#incomes5").find(".reimbursementIncome").blur(function(){
-	        		var willIncomeSum = 0;
-	        		$.each($("#incomes5").find("tbody").find("tr"),function(){
-	        			var val = 0;
-	        			if($(this).find("input").length>1){
-	        				if(!isNaN(parseFloat($(this).find("input").eq(1).val()))){
-		        				val = parseFloat($(this).find("input").eq(1).val());
-		        			}
-	        			}else{
-	        				if(!isNaN(parseFloat($(this).find("td").eq(2).text()))){
-		        				val = parseFloat($(this).find("td").eq(2).text());
-		        			}
-	        			}
-	        			willIncomeSum = willIncomeSum + val;
-	        		});
-	        		$("#willIncomeSum").text(willIncomeSum.toFixed(2));
-	        		$("#realGrossProfit").text((willIncomeSum-reimbursementSum).toFixed(2));
-		        	$("#realGrossMargin").text(((willIncomeSum-reimbursementSum)/willIncomeSum*100).toFixed(2)+"%");
-	        	});
 	        }  
 		});
 	}
@@ -6452,24 +6419,51 @@
 	$("#costs5").delegate(".reimbursement","blur",function(){
 		var reimbursementSum = 0;
 		$.each($("#costs5").find(".reimbursement"),function(){
-			reimbursementSum = reimbursementSum + $(this).val();
+			var val = 0;
+			if(!isNaN(parseFloat($(this).val()))){
+				val = parseFloat($(this).val());
+			}
+			reimbursementSum = reimbursementSum + val;
 		});
-		$("#reimbursementModel").find("#reimbursementSum").text(reimbursementSum.toFixed(2));
+		$("#reimbursementSum").text(reimbursementSum.toFixed(2));
+		$("#realGrossProfit").text((parseFloat($("#willIncomeSum").text())-reimbursementSum).toFixed(2));
+		$("#realGrossMargin").text(((parseFloat($("#willIncomeSum").text())-reimbursementSum)/parseFloat($("#willIncomeSum").text())*100).toFixed(2)+"%");
 	});
 	
 	/* 失去焦点自动计算应收 */
 	$("#incomes5").delegate(".reimbursementIncome","blur",function(){
 		var willIncomeSum = 0;
-		$.each($("#incomes5").find("tbody").find("tr td:nth-child(3)"),function(){
-			if($(this).children("input").length>0){
-				willIncomeSum = willIncomeSum + parseFloat($(this).children("input").val());
+		$.each($("#incomes5").find("tbody").find("tr"),function(){
+			var val = 0;
+			if($(this).find("input").length>1){
+				if(!isNaN(parseFloat($(this).find("input").eq(1).val()))){
+    				val = parseFloat($(this).find("input").eq(1).val());
+    			}
 			}else{
-				willIncomeSum = willIncomeSum + parseFloat($(this).text());
+				if(!isNaN(parseFloat($(this).find("td").eq(2).text()))){
+    				val = parseFloat($(this).find("td").eq(2).text());
+    			}
 			}
+			willIncomeSum = willIncomeSum + val;
 		});
-		$("#reimbursementModel").find("#willIncomeSum").text(willIncomeSum.toFixed(2));
+		$("#willIncomeSum").text(willIncomeSum.toFixed(2));
+		$("#realGrossProfit").text((willIncomeSum-(parseFloat($("#reimbursementSum").text()))).toFixed(2));
+    	$("#realGrossMargin").text(((willIncomeSum-(parseFloat($("#reimbursementSum").text())))/willIncomeSum*100).toFixed(2)+"%");
 	})
 
+	/* 勾选挂账自动计算 */
+	$("#costs5").delegate(".ace","click",function(){
+		var billSum = 0;
+		$.each($("#costs5").find(".ace:checked"),function(){
+			var val = 0;
+			if(!isNaN(parseFloat($(this).parents("tr").find(".reimbursement").val()))){
+				val = parseFloat($(this).parents("tr").find(".reimbursement").val());
+			}
+			billSum = billSum + val;
+		});
+		$("#billSum").text(billSum.toFixed(2));
+	});
+	
 	/* 调整报账收入 */
 	$(".reimbursementIncomeAdd").click(function(){
 		var tbody = $(this).parents("table").children("tbody");
@@ -6657,7 +6651,6 @@
 			}
 		}
 		
-		
 		var tbodys = $("#reimbursementPrintDiv").find("tbody").not(".printTable");
 		tbodys.parent().hide();
 		tbodys.find("tr td:nth-child(14)").hide();
@@ -6819,7 +6812,13 @@
 				$(this).html("<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>");
 			}
 		});
+		/* 添加样式 */
 		printDiv.prepend('<style type="text/css">.printFrame{height: 14cm}.printFrame table{height: 90%;}table{font-size: 10px;border-collapse: collapse;width: 100%;border-right:1px solid;border-bottom:1px solid;}td{padding-left: 2px;border-top: 1px solid;border-left: 1px solid;}.h3{font-size: 14px;text-align: center;margin: 0px;}.h4{font-size: 12px;padding-bottom: 10px;}.h4 .title{width:50%;float:left;display: inline-block;}.h4 .tourInfo{width:300px;float:right;display: inline-block;text-align: right;}#changeCostBlue{display: none;}#reimbursementCostRed{display: none;}.autograph{width:95px;font-size: 10px;display: inline-block;float:left;}.autographYuan{width:200px;font-size: 10px;display: inline-block;float:left;}.printIncomes tbody tr{height: 30px;}.printStatistical tbody tr{height: 30px;}</style>');
+		/* 最终数据验证 */
+		if(isNaN(parseFloat(printDiv.find("#reimbursementSum").text()))||parseFloat(printDiv.find("#reimbursementSum").text())==0){
+			alert("计算错误，请截图并联系管理员"+parseFloat(printDiv.find("#reimbursementSum").text()));
+			return;
+		}
 		var a = $(this);
 		var tourNo = checkbox.parent().parent().siblings().eq(0).text();
 		$.ajax({

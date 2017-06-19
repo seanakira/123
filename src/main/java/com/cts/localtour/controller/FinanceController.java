@@ -2,7 +2,7 @@ package com.cts.localtour.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,12 +17,14 @@ import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.service.BalanceService;
 import com.cts.localtour.service.BillService;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
 import com.cts.localtour.service.PayService;
 import com.cts.localtour.service.ReimbursementApplicationService;
 import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.SettlementService;
+import com.cts.localtour.service.UserService;
 import com.cts.localtour.viewModel.FullBalanceViewModel;
 import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullInvoiceViewModel;
@@ -54,6 +56,10 @@ public class FinanceController {
 	private ReimbursementApplicationService reimbursementApplicationService;
 	@Autowired
 	private BillService billService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private DeptService deptService;
 	/*付款管理*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -89,8 +95,8 @@ public class FinanceController {
 	
 	/*收款管理*/
 	@RequestMapping("/revenueManage")
-	public String getCollectManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
-		int counts = revenueService.getCounts(key);
+	public String getCollectManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, @RequestParam(defaultValue="2000/05/01") Date start,@RequestParam(defaultValue="2100/05/01") Date end, @RequestParam(defaultValue="") String deptIds, @RequestParam(defaultValue="") String userIds, @RequestParam(defaultValue="-1") int status, Model md){
+		int counts = revenueService.getCounts(key, start, end, deptIds, userIds, status);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){
 			pageMax++;
@@ -101,12 +107,19 @@ public class FinanceController {
 		if(page<1){
 			page=1;
 		}
-		ArrayList<SimpleRevenueViewModel> revenues = revenueService.getAll(key,page,maxResults);
+		ArrayList<SimpleRevenueViewModel> revenues = revenueService.getAll(key,page,maxResults,start,end,deptIds,userIds,status);
 		md.addAttribute("revenues", revenues);
 		md.addAttribute("counts", counts);
 		md.addAttribute("pageMax", pageMax);
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
+		md.addAttribute("start", start);
+		md.addAttribute("end", end);
+		md.addAttribute("deptIds", deptIds);
+		md.addAttribute("userIds", userIds);
+		md.addAttribute("status", status);
+		md.addAttribute("depts", deptService.getDataDept());
+		md.addAttribute("users", userService.getDataUser());
 		return "/financeManage/revenueManage";
 	}
 	
@@ -181,11 +194,11 @@ public class FinanceController {
 			newInvoiceSum = newInvoiceSum.add(loanInvoiceTable.getInvoiceAmount());
 		}
 		if(!loanInvoiceTables.isEmpty()){
-			if(revenueService.loanInvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
-				errorCode = -1;
-			}else if(errorCode==0){
+//			if(revenueService.loanInvoiceGreaterThanIncome(newInvoiceSum, loanInvoiceTables.get(0).getTourId())){
+//				errorCode = -1;
+//			}else if(errorCode==0){
 				loanInvoiceService.saveLoanInvoice(loanInvoiceTables);
-			}
+//			}
 		}
 		return errorCode;
 	}
