@@ -5376,7 +5376,7 @@
 		        	var canPaysChangeCount = 0;
 		        	var isPaysChangeCount = 0;
 		        	$.each(data.changeCosts,function(){
-		        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("借票调整")>-1){
+		        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("付款调整")>-1){
 		        			return true;
 						}
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
@@ -5449,7 +5449,7 @@
 			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
 			        						'<td>'+(this.costTable.remark==null?"":this.costTable.remark)+'</td>'+
-			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
+			        						'<td>'+this.payStatus+(parseFloat((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2))<=parseFloat(this.costTable.realCost.toFixed(2))?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
 		        			isPaysChangeCount++;
@@ -6072,7 +6072,7 @@
 	        		$("#costs5").find("#changeCostBlue").attr("style","display:none");
 	        	}
 	        	$.each(data.changeCosts,function(){
-	        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("借票调整")>-1){
+	        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("付款调整")>-1){
 	        			return true;
 					}
 	        		var reimbursement = $("<td></td>");

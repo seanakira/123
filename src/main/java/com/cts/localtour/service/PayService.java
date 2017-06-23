@@ -61,14 +61,41 @@ public class PayService extends BaseService{
 			}else{
 				CostTable costTable = (CostTable) this.getById("CostTable", costTables.get(i).getId());
 				if(!costTables.get(i).isLend()){
-					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))>1&&costTable.getRemark().indexOf("补余款")==-1){
+					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1&&costTable.getRemark().indexOf("补余款")==-1&&!costTables.get(i).isRemittanced()&&costTable.getPayStatus()==0){
 						return -2;
 					}else{
+						/*付款调整*/
+						if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1&&costTables.get(i).isRemittanced()&&!costTable.isRemittanced()&&costTable.getPayStatus()==3&&costTable.getRemark().indexOf("补余款")==-1){
+							ChangeCostTable changeCostTable = new ChangeCostTable();
+							changeCostTable.setBill(costTable.isBill());
+							changeCostTable.setBorrowUserId(costTable.getBorrowUserId());
+							changeCostTable.setBossId(costTable.getBossId());
+							changeCostTable.setContentId(costTable.getContentId());
+							changeCostTable.setCostDate(costTable.getCostDate());
+							changeCostTable.setCost(costTables.get(i).getRealCost().subtract(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()))));
+							changeCostTable.setCount(1);
+							changeCostTable.setDays(1);
+							changeCostTable.setLend(costTable.isLend());
+							changeCostTable.setPayApplicationerId(costTable.getPayApplicationerId());
+							changeCostTable.setManagerId(costTable.getManagerId());
+							changeCostTable.setPayStatus(0);
+							changeCostTable.setPrintCount(costTable.getPrintCount());
+							changeCostTable.setRealCost(new BigDecimal(0));
+							changeCostTable.setReimbursement(new BigDecimal(0));
+							changeCostTable.setRemark("付款调整");
+							changeCostTable.setRemittanced(false);
+							changeCostTable.setStatus(3);
+							changeCostTable.setSupplierId(costTable.getSupplierId());
+							changeCostTable.setSupplierScopeId(costTable.getSupplierScopeId());
+							changeCostTable.setTourId(costTable.getTourId());
+							this.add(changeCostTable);
+						}
 						costTable.setRealCost(costTables.get(i).getRealCost());
 						costTable.setRemark(costTables.get(i).getRemark());
 						costTable.setBill(costTables.get(i).isBill());
 						costTable.setRemittanced(costTables.get(i).isRemittanced());
 						this.update(costTable);
+						
 					}
 				}else{
 					maxLoan = maxLoan.add(costTable.getCost().multiply(new BigDecimal(costTable.getCount()).multiply(new BigDecimal(costTable.getDays()))));
@@ -81,20 +108,46 @@ public class PayService extends BaseService{
 			if(changeCostTables.get(i).isLend()&&changeCostTables.get(i).isRemittanced()){
 				return -1;
 			}else{
-				ChangeCostTable changeCostTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
+				ChangeCostTable costTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
 				if(!changeCostTables.get(i).isLend()){
-					if(changeCostTables.get(i).getRealCost().compareTo(changeCostTable.getCost().multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())))>1&&changeCostTable.getRemark().indexOf("补余款")==-1){
+					if(changeCostTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1&&costTable.getRemark().indexOf("补余款")==-1&&!changeCostTables.get(i).isRemittanced()&&costTable.getPayStatus()==0){
 						return -2;
 					}else{
-						changeCostTable.setRealCost(changeCostTables.get(i).getRealCost());
-						changeCostTable.setRemark(changeCostTables.get(i).getRemark());
-						changeCostTable.setBill(changeCostTables.get(i).isBill());
-						changeCostTable.setRemittanced(changeCostTables.get(i).isRemittanced());
-						this.update(changeCostTable);
+						/*付款调整*/
+						if(changeCostTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1&&changeCostTables.get(i).isRemittanced()&&!costTable.isRemittanced()&&costTable.getPayStatus()==3&&costTable.getRemark().indexOf("补余款")==-1){
+							ChangeCostTable changeCostTable = new ChangeCostTable();
+							changeCostTable.setBill(costTable.isBill());
+							changeCostTable.setBorrowUserId(costTable.getBorrowUserId());
+							changeCostTable.setBossId(costTable.getBossId());
+							changeCostTable.setContentId(costTable.getContentId());
+							changeCostTable.setCostDate(costTable.getCostDate());
+							changeCostTable.setCost(changeCostTables.get(i).getRealCost().subtract(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()))));
+							changeCostTable.setCount(1);
+							changeCostTable.setDays(1);
+							changeCostTable.setLend(costTable.isLend());
+							changeCostTable.setPayApplicationerId(costTable.getPayApplicationerId());
+							changeCostTable.setManagerId(costTable.getManagerId());
+							changeCostTable.setPayStatus(0);
+							changeCostTable.setPrintCount(costTable.getPrintCount());
+							changeCostTable.setRealCost(new BigDecimal(0));
+							changeCostTable.setReimbursement(new BigDecimal(0));
+							changeCostTable.setRemark("付款调整");
+							changeCostTable.setRemittanced(false);
+							changeCostTable.setStatus(3);
+							changeCostTable.setSupplierId(costTable.getSupplierId());
+							changeCostTable.setSupplierScopeId(costTable.getSupplierScopeId());
+							changeCostTable.setTourId(costTable.getTourId());
+							this.add(changeCostTable);
+						}
+						costTable.setRealCost(changeCostTables.get(i).getRealCost());
+						costTable.setRemark(changeCostTables.get(i).getRemark());
+						costTable.setBill(changeCostTables.get(i).isBill());
+						costTable.setRemittanced(changeCostTables.get(i).isRemittanced());
+						this.update(costTable);
 					}
 				}else{
-					maxLoan = maxLoan.add(changeCostTable.getCost().multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())));
-					changeCostCache.add(changeCostTable);
+					maxLoan = maxLoan.add(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())));
+					changeCostCache.add(costTable);
 					changeCostCache.add(changeCostTables.get(i));
 				}
 			}

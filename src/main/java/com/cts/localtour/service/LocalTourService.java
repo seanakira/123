@@ -277,32 +277,6 @@ public class LocalTourService extends BaseService{
 		int errorCode = 0;
 		for (CostTable cost : costTables) {
 			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
-			if(cost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
-//				errorCode = -1;
-				ChangeCostTable changeCostTable = new ChangeCostTable();
-				changeCostTable.setBill(costTable.isBill());
-				changeCostTable.setBorrowUserId(costTable.getBorrowUserId());
-				changeCostTable.setBossId(costTable.getBossId());
-				changeCostTable.setContentId(costTable.getContentId());
-				changeCostTable.setCostDate(costTable.getCostDate());
-				changeCostTable.setCost(cost.getRealCost().subtract(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()))));
-				changeCostTable.setCount(1);
-				changeCostTable.setDays(1);
-				changeCostTable.setLend(costTable.isLend());
-				changeCostTable.setPayApplicationerId(costTable.getPayApplicationerId());
-				changeCostTable.setManagerId(costTable.getManagerId());
-				changeCostTable.setPayStatus(0);
-				changeCostTable.setPrintCount(costTable.getPrintCount());
-				changeCostTable.setRealCost(new BigDecimal(0));
-				changeCostTable.setReimbursement(new BigDecimal(0));
-				changeCostTable.setRemark("借票调整");
-				changeCostTable.setRemittanced(false);
-				changeCostTable.setStatus(3);
-				changeCostTable.setSupplierId(costTable.getSupplierId());
-				changeCostTable.setSupplierScopeId(costTable.getSupplierScopeId());
-				changeCostTable.setTourId(costTable.getTourId());
-				this.add(changeCostTable);
-			}
 			if(costTable.getPayStatus()==0){
 				costTable.setPayStatus(1);
 				costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
@@ -320,32 +294,6 @@ public class LocalTourService extends BaseService{
 		}
 		for (ChangeCostTable changeCost : changeCostTables) {
 			ChangeCostTable costTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
-			if(changeCost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
-//				errorCode = -1;
-				ChangeCostTable changeCostTable = new ChangeCostTable();
-				changeCostTable.setBill(costTable.isBill());
-				changeCostTable.setBorrowUserId(costTable.getBorrowUserId());
-				changeCostTable.setBossId(costTable.getBossId());
-				changeCostTable.setContentId(costTable.getContentId());
-				changeCostTable.setCostDate(costTable.getCostDate());
-				changeCostTable.setCost(changeCost.getRealCost().subtract(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()))));
-				changeCostTable.setCount(1);
-				changeCostTable.setDays(1);
-				changeCostTable.setLend(costTable.isLend());
-				changeCostTable.setPayApplicationerId(costTable.getPayApplicationerId());
-				changeCostTable.setManagerId(costTable.getManagerId());
-				changeCostTable.setPayStatus(0);
-				changeCostTable.setPrintCount(costTable.getPrintCount());
-				changeCostTable.setRealCost(new BigDecimal(0));
-				changeCostTable.setReimbursement(new BigDecimal(0));
-				changeCostTable.setRemark("借票调整");
-				changeCostTable.setRemittanced(false);
-				changeCostTable.setStatus(3);
-				changeCostTable.setSupplierId(costTable.getSupplierId());
-				changeCostTable.setSupplierScopeId(costTable.getSupplierScopeId());
-				changeCostTable.setTourId(costTable.getTourId());
-				this.add(changeCostTable);
-			}
 			if(costTable.getPayStatus()==0){
 				costTable.setPayStatus(1);
 				costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());

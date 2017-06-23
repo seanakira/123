@@ -716,6 +716,9 @@
 		        		$("#changeCostBlue").attr("style","display:none");
 		        	}
 		        	$.each(data.changeCosts,function(){
+		        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("付款调整")>-1){
+		        			return true;
+						}
 		        		var realCost = $("<td></td>");
 		        		var payStatus = $("<td></td>");
 		        		var remark = $("<td></td>");
