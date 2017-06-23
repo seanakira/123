@@ -543,6 +543,9 @@
 		        		$("#changeIncomeBlue").attr("style","display:none");
 		        	}
 		        	$.each(data.changeIncomes,function(){
+		        		if(this.incomeTable.remark!=null&&(this.incomeTable.remark.indexOf("借票调整")>-1||this.incomeTable.remark.indexOf("开票调整")>-1)){
+		        			return true;
+		        		}
 		        		var realIncome = $("<td></td>");
 		        		var remark = $("<td></td>");
 		        		if(this.incomeTable.realIncome==0){
@@ -563,6 +566,37 @@
 									'</tr>');
 		        		$("#incomes").find("tbody").append(tr);
 		        	});
+		        	
+		        	/* 设置报账收入 */
+		        	/* if(data.changeIncomes.length > 0){
+		        		$("#changeIncomeBlue").attr("style","");
+		        	}else{
+		        		$("#changeIncomeBlue").attr("style","display:none");
+		        	}
+		        	$.each(data.changeIncomes,function(){
+		        		if(this.incomeTable.remark!=null&&this.incomeTable.remark.indexOf("借票调整")>-1){
+		        			return true;
+		        		}
+		        		var realIncome = $("<td></td>");
+		        		var remark = $("<td></td>");
+		        		if(this.incomeTable.realIncome==0){
+		        			realIncome.html('<input class="realIncome" type="text" value="0"/>');
+		        			remark.html('<input type="text" value="'+this.incomeTable.remark+'"/>');
+		        		}else{
+		        			realIncome.html(this.incomeTable.realIncome);
+		        			remark.html(this.incomeTable.remark);
+		        		}
+		        		var tr = $('<tr class="blue" id="'+this.incomeTable.id+'">'+
+										'<td>'+(this.incomeTable.incomeDate==null?"":this.incomeTable.incomeDate.replace(/-/g,'/'))+'</td>'+
+										'<td>'+this.customerAgencyName+'<input type="hidden" value="'+this.incomeTable.customerAgencyId+'"></td>'+
+										'<td>'+this.incomeTable.income+'</td>'+
+										'<td class="income">'+realIncome.html()+'</td>'+
+										'<td>'+remark.html()+'</td>'+
+										'<td>'+this.handlerRealName+'</td>'+
+										'<td></td>'+
+									'</tr>');
+		        		$("#incomes").find("tbody").append(tr);
+		        	}); */
 		        	
 		        	/* 提示 */
 		        	$("#edit").find("a").tooltip({
@@ -726,8 +760,8 @@
 			        										'<td><a class="green" href="#"><i class="icon-pencil bigger-130"></i></a></td>'
 			        								+'</tr>');
 			        	});
+			        	$("#total").text($("#table").find("#"+tourId).children("td").eq(6).text());
 			        	$("#maxIssue").text($("#table").find("#"+tourId).children("td").eq(4).text());
-			        	$("#total").text($("#table").find("#"+tourId).children("td").eq(5).text());
 			        }
 				});
 			}
