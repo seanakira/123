@@ -3543,6 +3543,22 @@
 			$("#auditingReimbursement").hide();
 			$("#delete").hide();		/* 删除 */
 			$("#recover").hide();		/* 恢复 */
+		}else if(status=="待结算"){
+			$("#editTour").hide();		/* 修改 */
+			$("#auditing").hide();		/* 提交 */
+			$("#unAuditing").hide();	/* 退回 */
+			$("#finance").hide();		/* 报送 */
+			$("#lend").hide();			/* 借款 */
+			$("#pay").hide();			/* 付款 */
+			$("#chanageCost").hide();	/* 变更 */
+			$("#loanInvoice").show();	/* 借票 */
+			$("#refund").hide();		/* 退款 */
+			$("#balance").hide();		/* 结算 */
+			$("#unBalance").hide();		/* 取消结算 */
+			$("#reimbursement").hide();	/* 报账 */
+			$("#auditingReimbursement").hide();
+			$("#delete").hide();		/* 删除 */
+			$("#recover").hide();		/* 恢复 */
 		}else if(status=="已结算"){
 			$("#editTour").hide();		/* 修改 */
 			$("#auditing").hide();		/* 提交 */
@@ -3551,7 +3567,7 @@
 			$("#lend").hide();			/* 借款 */
 			$("#pay").hide();			/* 付款 */
 			$("#chanageCost").hide();	/* 变更 */
-			$("#loanInvoice").hide();	/* 借票 */
+			$("#loanInvoice").show();	/* 借票 */
 			$("#refund").hide();		/* 退款 */
 			$("#balance").hide();		/* 结算 */
 			$("#unBalance").hide();		/* 取消结算 */
@@ -5352,7 +5368,7 @@
 			        						'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
 			        						'<td>'+this.borrowUserName+'</td>'+
 			        						'<td>'+(this.costTable.remark==null?"":this.costTable.remark)+'</td>'+
-			        						'<td>'+this.payStatus+((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)==this.costTable.realCost.toFixed(2)?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
+			        						'<td>'+this.payStatus+(parseFloat((this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2))<=parseFloat(this.costTable.realCost.toFixed(2))?"":"<a href=\"#\" class=\"pull-right supplement\">| 补款</a>")+'</td>'+
 			        					'</tr>');
 		        			isPays.append(tr);
 		        		}
@@ -5360,6 +5376,9 @@
 		        	var canPaysChangeCount = 0;
 		        	var isPaysChangeCount = 0;
 		        	$.each(data.changeCosts,function(){
+		        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("借票调整")>-1){
+		        			return true;
+						}
 		        		if(this.costTable.payStatus==0&&!this.costTable.remittanced&&!this.costTable.lend&&!this.costTable.bill&&this.costTable.status==3){
 		        			var td;
 		        			if(this.costTable.remark!=null&&this.costTable.remark.indexOf("补余款")>-1){
@@ -5988,7 +6007,7 @@
 	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
         				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
-        				billSum = billSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
+        				billSum = billSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
         			}
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
@@ -6053,12 +6072,15 @@
 	        		$("#costs5").find("#changeCostBlue").attr("style","display:none");
 	        	}
 	        	$.each(data.changeCosts,function(){
+	        		if(this.costTable.remark!=null&&this.costTable.remark.indexOf("借票调整")>-1){
+	        			return true;
+					}
 	        		var reimbursement = $("<td></td>");
 	        		var guideLoan = $("<td></td>");
 	        		var bill = $("<td><label><input class=\"ace\" type=\"checkbox\"><span class=\"lbl\"></span></label></td>");
         			if(this.costTable.bill){
         				bill.html("<label><input class=\"ace\" type=\"checkbox\" checked=\"true\"><span class=\"lbl\"></span></label>");
-        				billSum = billSum + (this.costTable.cost*this.costTable.count*this.costTable.days);
+        				billSum = billSum + (this.costTable.reimbursement==null?0:this.costTable.reimbursement);
         			}
         			if(this.costTable.lend){
         				guideLoan.html('<i class="icon-ok bigger-130"></i>');
@@ -6612,7 +6634,7 @@
 	/* 打印报账单 */
 	$("#reimbursementPrintButton").click(function(){
 		var checkbox = $("#table").find("input:checked");
-		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"){
+		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已结算"&&checkbox.parent().parent().siblings().eq(-2).text()!="结算中"){
 			alert("请先报账填写，并报账提交");
 			return;
 		}else if(checkbox.length==0){

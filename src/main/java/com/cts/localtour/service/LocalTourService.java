@@ -277,45 +277,89 @@ public class LocalTourService extends BaseService{
 		int errorCode = 0;
 		for (CostTable cost : costTables) {
 			CostTable costTable = (CostTable)this.getById("CostTable", cost.getId());
-			/*if(cost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
-				errorCode = -1;
-			}else{*/
-				if(costTable.getPayStatus()==0){
-					costTable.setPayStatus(1);
-					costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					if(cost.getSupplierId()!=0){
-						costTable.setSupplierId(cost.getSupplierId());
-					}
-					costTable.setRealCost(cost.getRealCost());
-					if(costTable.getRemark().indexOf("补余款")>-1&&cost.getRemark().indexOf("补余款")==-1){
-						costTable.setRemark(cost.getRemark()+" 补余款");
-					}else{
-						costTable.setRemark(cost.getRemark());
-					}
-					this.update(costTable);
+			if(cost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
+//				errorCode = -1;
+				ChangeCostTable changeCostTable = new ChangeCostTable();
+				changeCostTable.setBill(costTable.isBill());
+				changeCostTable.setBorrowUserId(costTable.getBorrowUserId());
+				changeCostTable.setBossId(costTable.getBossId());
+				changeCostTable.setContentId(costTable.getContentId());
+				changeCostTable.setCostDate(costTable.getCostDate());
+				changeCostTable.setCost(cost.getRealCost().subtract(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()))));
+				changeCostTable.setCount(1);
+				changeCostTable.setDays(1);
+				changeCostTable.setLend(costTable.isLend());
+				changeCostTable.setPayApplicationerId(costTable.getPayApplicationerId());
+				changeCostTable.setManagerId(costTable.getManagerId());
+				changeCostTable.setPayStatus(0);
+				changeCostTable.setPrintCount(costTable.getPrintCount());
+				changeCostTable.setRealCost(new BigDecimal(0));
+				changeCostTable.setReimbursement(new BigDecimal(0));
+				changeCostTable.setRemark("借票调整");
+				changeCostTable.setRemittanced(false);
+				changeCostTable.setStatus(3);
+				changeCostTable.setSupplierId(costTable.getSupplierId());
+				changeCostTable.setSupplierScopeId(costTable.getSupplierScopeId());
+				changeCostTable.setTourId(costTable.getTourId());
+				this.add(changeCostTable);
+			}
+			if(costTable.getPayStatus()==0){
+				costTable.setPayStatus(1);
+				costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				if(cost.getSupplierId()!=0){
+					costTable.setSupplierId(cost.getSupplierId());
 				}
-			/*}*/
+				costTable.setRealCost(cost.getRealCost());
+				if(costTable.getRemark()!=null&&costTable.getRemark().indexOf("补余款")>-1&&cost.getRemark().indexOf("补余款")==-1){
+					costTable.setRemark(cost.getRemark()+" 补余款");
+				}else{
+					costTable.setRemark(cost.getRemark());
+				}
+				this.update(costTable);
+			}
 		}
 		for (ChangeCostTable changeCost : changeCostTables) {
-			ChangeCostTable changeCostTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
-			/*if(changeCost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
-				errorCode = -1;
-			}else{*/
-				if(changeCostTable.getPayStatus()==0){
-					changeCostTable.setPayStatus(1);
-					changeCostTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
-					if(changeCost.getSupplierId()!=0){
-						changeCostTable.setSupplierId(changeCost.getSupplierId());
-					}
-					changeCostTable.setRealCost(changeCost.getRealCost());
-					if(changeCostTable.getRemark().indexOf("补余款")>-1&&changeCost.getRemark().indexOf("补余款")==-1){
-						changeCostTable.setRemark(changeCost.getRemark()+" 补余款");
-					}else{
-						changeCostTable.setRemark(changeCost.getRemark());
-					}
-					this.update(changeCostTable);
+			ChangeCostTable costTable = (ChangeCostTable)this.getById("ChangeCostTable", changeCost.getId());
+			if(changeCost.getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1){
+//				errorCode = -1;
+				ChangeCostTable changeCostTable = new ChangeCostTable();
+				changeCostTable.setBill(costTable.isBill());
+				changeCostTable.setBorrowUserId(costTable.getBorrowUserId());
+				changeCostTable.setBossId(costTable.getBossId());
+				changeCostTable.setContentId(costTable.getContentId());
+				changeCostTable.setCostDate(costTable.getCostDate());
+				changeCostTable.setCost(changeCost.getRealCost().subtract(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays()))));
+				changeCostTable.setCount(1);
+				changeCostTable.setDays(1);
+				changeCostTable.setLend(costTable.isLend());
+				changeCostTable.setPayApplicationerId(costTable.getPayApplicationerId());
+				changeCostTable.setManagerId(costTable.getManagerId());
+				changeCostTable.setPayStatus(0);
+				changeCostTable.setPrintCount(costTable.getPrintCount());
+				changeCostTable.setRealCost(new BigDecimal(0));
+				changeCostTable.setReimbursement(new BigDecimal(0));
+				changeCostTable.setRemark("借票调整");
+				changeCostTable.setRemittanced(false);
+				changeCostTable.setStatus(3);
+				changeCostTable.setSupplierId(costTable.getSupplierId());
+				changeCostTable.setSupplierScopeId(costTable.getSupplierScopeId());
+				changeCostTable.setTourId(costTable.getTourId());
+				this.add(changeCostTable);
+			}
+			if(costTable.getPayStatus()==0){
+				costTable.setPayStatus(1);
+				costTable.setPayApplicationerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				if(changeCost.getSupplierId()!=0){
+					costTable.setSupplierId(changeCost.getSupplierId());
 				}
-			/*}*/
+				costTable.setRealCost(changeCost.getRealCost());
+				if(costTable.getRemark()!=null&&costTable.getRemark().indexOf("补余款")>-1&&changeCost.getRemark().indexOf("补余款")==-1){
+					costTable.setRemark(changeCost.getRemark()+" 补余款");
+				}else{
+					costTable.setRemark(changeCost.getRemark());
+				}
+				this.update(costTable);
+			}
 		}
 		return errorCode;
 	}
