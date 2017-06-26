@@ -71,6 +71,7 @@ public class RevenueService extends BaseService{
 				income.setRealIncome(incomeTable.getRealIncome());
 				income.setRemark(incomeTable.getRemark());
 				income.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				income.setIncomeDate(new Date());
 				this.update(income);
 			/*}else{
 				errorCode = -1;±£¥Ê ß∞‹
@@ -81,12 +82,14 @@ public class RevenueService extends BaseService{
 				incomeTable.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 				incomeTable.setIncome(new BigDecimal(0));
 				incomeTable.setStatus(3);
+				incomeTable.setIncomeDate(new Date());
 				this.add(incomeTable);
 			}else{
 				ChangeIncomeTable income = (ChangeIncomeTable)this.getById("ChangeIncomeTable", incomeTable.getId());
 				income.setRealIncome(incomeTable.getRealIncome());
 				income.setRemark(incomeTable.getRemark());
 				income.setHandlerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
+				income.setIncomeDate(new Date());
 				this.update(income);
 			}
 		}

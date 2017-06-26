@@ -130,7 +130,7 @@ public class FullPayViewModel {
 				}else if(costTable.getPayStatus()==2){
 					cost.setPayStatus("待批");
 				}else if(costTable.getPayStatus()==3){
-					cost.setPayStatus("已批准");
+					cost.setPayStatus("已批");
 				}
 			}
 			costs.add(cost);
@@ -152,7 +152,7 @@ public class FullPayViewModel {
 				}else if(changeCostTable.getPayStatus()==2){
 					changeCost.setPayStatus("待批");
 				}else if(changeCostTable.getPayStatus()==3){
-					changeCost.setPayStatus("已批准");
+					changeCost.setPayStatus("已批");
 				}
 			}
 			changeCosts.add(changeCost);
@@ -207,7 +207,7 @@ public class FullPayViewModel {
 		}
 		full.setChangeCosts(changeCosts);
 		
-		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModel(tourId, 1));
+		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModelAll(tourId));
 		
 		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=?", tourId);
 		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
@@ -223,11 +223,11 @@ public class FullPayViewModel {
 				}else if(loanTables.get(i).getStatus()==1){
 					loan.setStatus("可借");
 				}else if(loanTables.get(i).getStatus()==2){
-					loan.setStatus("待审核");
+					loan.setStatus("待核");
 				}else if(loanTables.get(i).getStatus()==3){
-					loan.setStatus("待批准");
+					loan.setStatus("待准");
 				}else if(loanTables.get(i).getStatus()==4){
-					loan.setStatus("已批准");
+					loan.setStatus("已准");
 				}
 			}
 			loans.add(loan);

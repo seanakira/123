@@ -2,6 +2,7 @@ package com.cts.localtour.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class LoanInvoiceService extends BaseService{
 					invoice.setStatus(3);
 					invoice.setInvoiceNo(loanInvoiceTable.getInvoiceNo());
 					invoice.setInvoiceAmount(loanInvoiceTable.getInvoiceAmount());
+					invoice.setIssueDate(new Date());
 					this.update(invoice);
 				}
 			}

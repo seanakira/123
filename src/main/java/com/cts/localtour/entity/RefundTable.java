@@ -1,10 +1,12 @@
 package com.cts.localtour.entity;
-// Generated 2017-5-27 11:37:14 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-6-26 11:03:25 by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,7 +19,7 @@ import javax.persistence.TemporalType;
 @Table(name = "refundTable", catalog = "localtour")
 public class RefundTable implements java.io.Serializable {
 
-	private int id;
+	private Integer id;
 	private int tourId;
 	private Date refundDate;
 	private String refundContent;
@@ -36,9 +38,8 @@ public class RefundTable implements java.io.Serializable {
 	public RefundTable() {
 	}
 
-	public RefundTable(int id, int tourId, Date refundDate, BigDecimal refundAmount, boolean refunded,
-			int customerAgencyId, int applicationerId, int status) {
-		this.id = id;
+	public RefundTable(int tourId, Date refundDate, BigDecimal refundAmount, boolean refunded, int customerAgencyId,
+			int applicationerId, int status) {
 		this.tourId = tourId;
 		this.refundDate = refundDate;
 		this.refundAmount = refundAmount;
@@ -48,10 +49,9 @@ public class RefundTable implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public RefundTable(int id, int tourId, Date refundDate, String refundContent, String refundWays,
-			BigDecimal refundAmount, boolean refunded, int customerAgencyId, int applicationerId, Integer managerId,
-			Integer bossId, Integer handlerId, String remark, int status, Integer printCount) {
-		this.id = id;
+	public RefundTable(int tourId, Date refundDate, String refundContent, String refundWays, BigDecimal refundAmount,
+			boolean refunded, int customerAgencyId, int applicationerId, Integer managerId, Integer bossId,
+			Integer handlerId, String remark, int status, Integer printCount) {
 		this.tourId = tourId;
 		this.refundDate = refundDate;
 		this.refundContent = refundContent;
@@ -69,13 +69,14 @@ public class RefundTable implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

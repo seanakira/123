@@ -71,9 +71,9 @@ public class LoanViewModel {
 				}else if(loanTables.get(i).getStatus()==1){
 					loan.setStatus("可借");
 				}else if(loanTables.get(i).getStatus()==2){
-					loan.setStatus("已提交");
+					loan.setStatus("待审核（中心经理）");
 				}else if(loanTables.get(i).getStatus()==3){
-					loan.setStatus("已审核");
+					loan.setStatus("待批准（分管副总）");
 				}else if(loanTables.get(i).getStatus()==4){
 					loan.setStatus("已批准");
 				}
@@ -105,9 +105,9 @@ public class LoanViewModel {
 				}else if(loanTables.get(i).getStatus()==1){
 					loan.setStatus("可借");
 				}else if(loanTables.get(i).getStatus()==2){
-					loan.setStatus("待审核");
+					loan.setStatus("待审核（中心经理）");
 				}else if(loanTables.get(i).getStatus()==3){
-					loan.setStatus("待批准");
+					loan.setStatus("待批准（分管副总）");
 				}else if(loanTables.get(i).getStatus()==4){
 					loan.setStatus("已批准");
 				}
@@ -136,9 +136,9 @@ public class LoanViewModel {
 				}else if(loanTable.getStatus()==1){
 					loan.setStatus("可借");
 				}else if(loanTable.getStatus()==2){
-					loan.setStatus("待审核");
+					loan.setStatus("待审核（中心经理）");
 				}else if(loanTable.getStatus()==3){
-					loan.setStatus("待批准");
+					loan.setStatus("待批准（分管副总）");
 				}else if(loanTable.getStatus()==4){
 					loan.setStatus("已批准");
 				}

@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-5-27 11:37:14 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-6-26 11:03:25 by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import java.util.Date;

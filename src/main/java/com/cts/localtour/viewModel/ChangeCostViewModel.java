@@ -128,11 +128,7 @@ public class ChangeCostViewModel {
 			cost.setBorrowUserName(userService.getUserRealName(changeCostTable.getBorrowUserId()));
 			cost.setContentName(changeCostTable.getContentId()==null||changeCostTable.getContentId()==0?"":((SupplierContentTable)baseService.getById("SupplierContentTable", changeCostTable.getContentId())).getContentName());
 			cost.setSupplierName(((SupplierTable)baseService.getById("SupplierTable", changeCostTable.getSupplierId())).getSupplierName());
-			if(changeCostTable.isRemittanced()){
-				cost.setStatus("已电汇");
-			}else{
-				cost.setStatus(changeCostTable.getStatus()==0?"新建":changeCostTable.getStatus()==1?"待审核":changeCostTable.getStatus()==2?"待批准":changeCostTable.getStatus()==3?"已批准":"");
-			}
+			
 			cost.setPayStatus(changeCostTable.getPayStatus()==0?"可付":changeCostTable.getPayStatus()==1?"待审":changeCostTable.getPayStatus()==2?"待批":changeCostTable.getPayStatus()==3?"已批":"");
 			if(changeCostTable.isRemittanced()){
 				cost.setPayStatus("已汇");

@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-5-27 11:37:14 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-6-26 11:03:25 by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,6 +29,7 @@ public class ReimbursementCostTable implements java.io.Serializable {
 	private int count;
 	private int days;
 	private boolean remittanced;
+	private Date remittanceDate;
 	private boolean bill;
 	private String remark;
 	private BigDecimal reimbursement;
@@ -51,7 +52,7 @@ public class ReimbursementCostTable implements java.io.Serializable {
 	}
 
 	public ReimbursementCostTable(int tourId, Date costDate, int supplierScopeId, Integer contentId, int supplierId,
-			BigDecimal cost, int count, int days, boolean remittanced, boolean bill, String remark,
+			BigDecimal cost, int count, int days, boolean remittanced, Date remittanceDate, boolean bill, String remark,
 			BigDecimal reimbursement, int payStatus) {
 		this.tourId = tourId;
 		this.costDate = costDate;
@@ -62,6 +63,7 @@ public class ReimbursementCostTable implements java.io.Serializable {
 		this.count = count;
 		this.days = days;
 		this.remittanced = remittanced;
+		this.remittanceDate = remittanceDate;
 		this.bill = bill;
 		this.remark = remark;
 		this.reimbursement = reimbursement;
@@ -160,6 +162,16 @@ public class ReimbursementCostTable implements java.io.Serializable {
 
 	public void setRemittanced(boolean remittanced) {
 		this.remittanced = remittanced;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "remittanceDate", length = 10)
+	public Date getRemittanceDate() {
+		return this.remittanceDate;
+	}
+
+	public void setRemittanceDate(Date remittanceDate) {
+		this.remittanceDate = remittanceDate;
 	}
 
 	@Column(name = "bill", nullable = false)

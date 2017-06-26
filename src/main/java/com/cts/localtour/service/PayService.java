@@ -94,6 +94,9 @@ public class PayService extends BaseService{
 						costTable.setRemark(costTables.get(i).getRemark());
 						costTable.setBill(costTables.get(i).isBill());
 						costTable.setRemittanced(costTables.get(i).isRemittanced());
+						if(costTables.get(i).isRemittanced()&&costTable.getRemittanceDate()==null){
+							costTable.setRemittanceDate(new Date());
+						}
 						this.update(costTable);
 						
 					}
@@ -143,6 +146,9 @@ public class PayService extends BaseService{
 						costTable.setRemark(changeCostTables.get(i).getRemark());
 						costTable.setBill(changeCostTables.get(i).isBill());
 						costTable.setRemittanced(changeCostTables.get(i).isRemittanced());
+						if(changeCostTables.get(i).isRemittanced()&&costTable.getRemittanceDate()==null){
+							costTable.setRemittanceDate(new Date());
+						}
 						this.update(costTable);
 					}
 				}else{
@@ -157,7 +163,13 @@ public class PayService extends BaseService{
 			if(reimbursementCostTable.isBill()&&reimbursementCostTable.isRemittanced()){
 				return -1;
 			}else{
-				this.updateByString("ReimbursementCostTable", "bill=?, remittanced=?", "id=?", reimbursementCostTable.isBill(), reimbursementCostTable.isRemittanced(), reimbursementCostTable.getId());
+				ReimbursementCostTable costTable = (ReimbursementCostTable) this.getById("ReimbursementCostTable", reimbursementCostTable.getId());
+				costTable.setBill(reimbursementCostTable.isBill());
+				costTable.setRemittanced(reimbursementCostTable.isRemittanced());
+				if(reimbursementCostTable.isRemittanced()&&costTable.getRemittanceDate()==null){
+					costTable.setRemittanceDate(new Date());
+				}
+				this.update(costTable);
 			}
 		}
 		/*¼ÆËã½è¿î¶î*/

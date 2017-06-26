@@ -77,6 +77,8 @@ public class LocalTourService extends BaseService{
 	private ReimbursementIncomeService reimbursementIncomeService;
 	@Autowired
 	private RefundService refundService;
+	@Autowired
+	private InvoiceService invoiceService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, String userIds, int status) {
 		Hashtable<String, Object> param = new Hashtable<String, Object>();
@@ -372,7 +374,7 @@ public class LocalTourService extends BaseService{
 	}
 	
 	public boolean checkReimbursement(int tourId) {
-		return loanInvoiceService.getLoanInvoiceSum(tourId).floatValue()<=(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
+		return loanInvoiceService.getLoanInvoiceSum(tourId).add(invoiceService.getInvoiceSum(tourId)).floatValue()<=(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -396,6 +398,9 @@ public class LocalTourService extends BaseService{
 			}
 		}
 		for (ReimbursementIncomeTable income : full.getReimbursementIncomeTables()) {
+			if(income.getIncome()==null){
+				continue;
+			}
 			if(income.getIncome().floatValue()!=0){
 				this.merge(income);
 			}else if(income.getId()!=null||income.getId()!=0){

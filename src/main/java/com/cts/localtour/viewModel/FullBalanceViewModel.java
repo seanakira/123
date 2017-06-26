@@ -107,7 +107,7 @@ public class FullBalanceViewModel {
 	@SuppressWarnings("unchecked")
 	public FullBalanceViewModel getFullBalanceViewModel (int tourId){
 		FullBalanceViewModel full = new FullBalanceViewModel();
-		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=? and (payStatus=3 or lend=true or bill=true)", tourId);
+		ArrayList<CostTable> costTables = (ArrayList<CostTable>) baseService.getAllByString("CostTable", "tourId=?", tourId);
 		ArrayList<CostViewModel> costs = new ArrayList<CostViewModel>();
 		for (int i = 0; i < costTables.size(); i++) {
 			CostViewModel cost = new CostViewModel();
@@ -128,7 +128,7 @@ public class FullBalanceViewModel {
 		}
 		full.setCosts(costs);
 		
-		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "tourId=? and status=3 and (payStatus=3 or lend=true or bill=true)", tourId);
+		ArrayList<ChangeCostTable> changeCostTables = (ArrayList<ChangeCostTable>) baseService.getAllByString("ChangeCostTable", "tourId=?", tourId);
 		ArrayList<ChangeCostViewModel> changeCosts = new ArrayList<ChangeCostViewModel>();
 		for (int i = 0; i < changeCostTables.size(); i++) {
 			ChangeCostViewModel changeCost = new ChangeCostViewModel();
@@ -149,7 +149,7 @@ public class FullBalanceViewModel {
 		}
 		full.setChangeCosts(changeCosts);
 		
-		ArrayList<ReimbursementCostTable> reimbursementCostTables = (ArrayList<ReimbursementCostTable>) baseService.getAllByString("ReimbursementCostTable", "tourId=? and payStatus=1", tourId);
+		ArrayList<ReimbursementCostTable> reimbursementCostTables = (ArrayList<ReimbursementCostTable>) baseService.getAllByString("ReimbursementCostTable", "tourId=?", tourId);
 		ArrayList<ReimbursementCostViewModel> reimbursementCosts = new ArrayList<ReimbursementCostViewModel>();
 		for (ReimbursementCostTable reimbursementCostTable : reimbursementCostTables) {
 			ReimbursementCostViewModel reimbursementCostViewModel = new ReimbursementCostViewModel();
@@ -160,7 +160,7 @@ public class FullBalanceViewModel {
 		}
 		full.setReimbursementCosts(reimbursementCosts);
 		
-		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=? and status=4", tourId);
+		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=?", tourId);
 		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();
 		for (int i = 0; i < loanTables.size(); i++) {
 			LoanViewModel loan = new LoanViewModel();

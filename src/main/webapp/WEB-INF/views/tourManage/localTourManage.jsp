@@ -5912,7 +5912,7 @@
 				init();
 				inited = true;
 			}
-			$.ajax({
+			/* $.ajax({
 		        type: "GET",  
 		        contentType:"application/json;charset=utf-8",  
 		        url:"${path }reimbursementManage/checkReimbursement",  
@@ -5920,14 +5920,14 @@
 		        dataType: "json",  
 		        async: false,  
 		        success:function(data){
-		        	if(data){
+		        	if(data){ */
 		        		find(myData);
-		        	}else{
+		        	/* }else{
 		        		alert("不能报账，预借发票金额大于实际收款金额");
 		        		$("#reimbursement").attr("href","#");
 		        	}
 		        }
-		    });
+		    }); */
 		}
 	});
 	function find(myData){
@@ -6623,11 +6623,15 @@
 		        dataType: "json",
 		        async: false,
 		        success:function(data){
-					
+					if(data){
+						changeButton("待核销");
+						checkbox.parent().parent().siblings().eq(-2).text("待核销");
+					}else{
+						alert("不能报账，已开发票金额大于实际收款金额，请调整应收后再提交报账");
+		        		$("#auditingReimbursement").attr("href","#");
+					}
 		        }
 			});
-			changeButton("待核销");
-			checkbox.parent().parent().siblings().eq(-2).text("待核销");
 		}
 	});
 	
