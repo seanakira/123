@@ -297,9 +297,17 @@
 									</shiro-ex:hasAnyPermissions>
 									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:financialSettlementStatistic">
 										<li id="financialSettlementStatistic">
-											<a href="${path } financialSettlementStatistic">
+											<a href="${path }financialSettlementStatistic">
 												<i class="icon-double-angle-right"></i>
 												财务结算统计
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:invoiceStatistic">
+										<li id="invoiceStatistic">
+											<a href="${path }invoiceStatistic">
+												<i class="icon-double-angle-right"></i>
+												发票统计
 											</a>
 										</li>
 									</shiro-ex:hasAnyPermissions>

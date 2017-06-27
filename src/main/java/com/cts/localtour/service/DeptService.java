@@ -292,10 +292,12 @@ public class DeptService extends BaseService{
 				idCache.clear();
 				for (DeptTable deptTable : deptTables) {
 					idCache.add(deptTable.getId());
-					idsAll.add(deptTable.getId());
+					if(!idsAll.contains(deptTable.getId())){
+						idsAll.add(deptTable.getId());
+					}
 				}
 			}
-			return idsAll.toString().substring(1, idsAll.toString().length()-1);
+			return idsAll.toString().substring(1, idsAll.toString().length()-1).replaceAll(" ", "");
 		}
 	}
 }

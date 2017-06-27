@@ -31,6 +31,8 @@ public class FullReimbursementViewModel {
 	private ArrayList<ChangeIncomeViewModel> changeIncomes;
 	private ArrayList<ReimbursementIncomeTable> reimbursementIncomeTables;
 	private ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes;
+	private ArrayList<InvoiceViewModel> invoices;
+	private ArrayList<LoanInvoiceViewModel> loanInvoices;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private BaseService baseService;
@@ -44,6 +46,10 @@ public class FullReimbursementViewModel {
 	private ChangeIncomeViewModel changeIncomeViewModel;
 	@Autowired
 	private ReimbursementIncomeViewModel reimbursementIncomeViewModel;
+	@Autowired
+	private InvoiceViewModel invoiceViewModel;
+	@Autowired
+	private LoanInvoiceViewModel loanInvoiceViewModel;
 	public ArrayList<CostViewModel> getCosts() {
 		return costs;
 	}
@@ -121,6 +127,18 @@ public class FullReimbursementViewModel {
 	}
 	public void setReimbursementIncomes(ArrayList<ReimbursementIncomeViewModel> reimbursementIncomes) {
 		this.reimbursementIncomes = reimbursementIncomes;
+	}
+	public ArrayList<InvoiceViewModel> getInvoices() {
+		return invoices;
+	}
+	public void setInvoices(ArrayList<InvoiceViewModel> invoices) {
+		this.invoices = invoices;
+	}
+	public ArrayList<LoanInvoiceViewModel> getLoanInvoices() {
+		return loanInvoices;
+	}
+	public void setLoanInvoices(ArrayList<LoanInvoiceViewModel> loanInvoices) {
+		this.loanInvoices = loanInvoices;
 	}
 	@SuppressWarnings("unchecked")
 	public FullReimbursementViewModel getFullReimbursementViewModel(int tourId, int payStatus){
@@ -260,6 +278,10 @@ public class FullReimbursementViewModel {
 		full.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId));
 		
 		full.setReimbursementIncomes(reimbursementIncomeViewModel.getAllIncomeViewModel(tourId));
+		
+		full.setInvoices(invoiceViewModel.getAllInvoiceViewModel(tourId));
+		
+		full.setLoanInvoices(loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, 3));
 		
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
 		full.setReimbursementTable(reimbursementTables.isEmpty()?null:reimbursementTables.get(0));

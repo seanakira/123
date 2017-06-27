@@ -72,7 +72,19 @@ public class StatisticsController {
 	}
 	
 	@RequestMapping("/financialSettlementStatistic/get")
-	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getfinancialSettlementStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
+	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
 		return statisticsService.getFinancialSettlementStatistic(start, end, deptIds, tourNo);
+	}
+	
+	/*·¢Æ±Í³¼Æ*/
+	@RequestMapping("/invoiceStatistic")
+	public String invoiceStatistic(Model md){
+		md.addAttribute("depts", deptService.getDataDept());
+		return "statistics/invoiceStatistic";
+	}
+	
+	@RequestMapping("/invoiceStatistic/get")
+	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getInvoiceStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
+		return statisticsService.getInvoiceStatistic(start, end, deptIds, tourNo);
 	}
 }

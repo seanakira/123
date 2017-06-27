@@ -33,4 +33,9 @@ public class StatisticsService extends BaseService{
 	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(Date start, Date end, String deptIds, String tourNo) {
 		return financialSettlementStatisticModel.getFinancialSettlementStatisticAll(start, end, deptIds, tourNo);
 	}
+	public ArrayList<FinancialSettlementStatisticModel> getInvoiceStatistic(Date start, Date end, String deptIds,
+			String tourNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

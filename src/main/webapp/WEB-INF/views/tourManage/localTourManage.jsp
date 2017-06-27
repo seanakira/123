@@ -2725,6 +2725,20 @@
 					         	</div>
 					         	<div class="tab-content no-border padding-6">
 					         		<div class="tab-pane fade in active costTable">
+					         			<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">已开发票</div>
+					         			<table class="table table-striped table-bordered table-hover no-margin">
+											<thead>
+												<tr>
+													<th style="width: 10%;">日期</th>
+													<th style="width: 15%;">票号</th>
+													<th style="width: 30%;">抬头</th>
+													<th style="width: 20%;">内容</th>
+													<th style="width: 10%;">金额</th>
+												</tr>
+											</thead>
+											<tbody id="invoiceTable">
+											</tbody>
+							            </table>
 					         			<div style="background-color: silver;font-size: 14px;padding: 3px;padding-left: 10px;color: white;">导游借款</div>
 					         			<table class="table table-striped table-bordered table-hover no-margin">
 											<thead>
@@ -6217,6 +6231,33 @@
         					'</tr>');
         			total = total + this.loanTable.loanAmount;
 	        		$("#loanTable").append(tr);
+	        	});
+	        	
+	        	/* 设置发票 */
+	        	$("#reimbursementModel").find("#invoiceTable").html("");
+	        	$.each(data.invoices,function(){
+	        		var tr;
+        			tr = $('<tr>'+
+        						'<td>'+(this.invoiceTable.issueDate==null?"":this.invoiceTable.issueDate.replace(/-/g,'/'))+'</td>'+
+        						'<td>'+this.invoiceTable.invoiceNo+'</td>'+
+        						'<td>'+this.customerAgencyName+'</td>'+
+        						'<td>'+this.invoiceTable.invoiceContent+'</td>'+
+        						'<td>'+this.invoiceTable.invoiceAmount.toFixed(2)+'</td>'+
+        					'</tr>');
+        			$("#reimbursementModel").find("#invoiceTable").append(tr);
+	        	});
+	        	/* 设置预借发票 */
+	        	alert(data.loanInvoices.length)
+	        	$.each(data.loanInvoices,function(){
+	        		var tr;
+        			tr = $('<tr>'+
+        						'<td>'+(this.loanInvoiceTable.issueDate==null?"":this.loanInvoiceTable.issueDate.replace(/-/g,'/'))+'</td>'+
+        						'<td>'+this.loanInvoiceTable.invoiceNo+'</td>'+
+        						'<td>'+this.customerAgencyName+'</td>'+
+        						'<td>'+this.loanInvoiceTable.invoiceContent+'</td>'+
+        						'<td>'+this.loanInvoiceTable.invoiceAmount.toFixed(2)+'</td>'+
+        					'</tr>');
+        			$("#reimbursementModel").find("#invoiceTable").append(tr);
 	        	});
 	        	
 	        	/* 设置收入 */

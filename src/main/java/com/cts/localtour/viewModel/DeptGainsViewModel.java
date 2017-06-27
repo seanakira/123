@@ -125,7 +125,7 @@ public class DeptGainsViewModel {
 	public ArrayList<DeptGainsViewModel> getAllDeptGainsViewModels(Date start, Date end, String deptIds, String tourNo, int status){
 		ArrayList<DeptGainsViewModel> deptGainsViewModels = new ArrayList<DeptGainsViewModel>();
 		deptIds = deptService.getDownerDpetIds(deptIds);
-		for (String dataDeptId : deptIds.split(", ")) {
+		for (String dataDeptId : deptIds.split(",")) {
 			DeptGainsViewModel dept = new DeptGainsViewModel();
 			dept.setHeaderName(((DeptTable)baseService.getById("DeptTable", Integer.parseInt(dataDeptId))).getDeptName());
 			dept.setType("dept");

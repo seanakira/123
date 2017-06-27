@@ -270,6 +270,9 @@
                 	<!-- 财务结算统计 -->
                 	/financialSettlementStatistic=authc,perms[statisticalAnalysis:financialSettlementStatistic]
                 	/financialSettlementStatistic/get=authc,perms[statisticalAnalysis:financialSettlementStatistic]
+                	<!-- 发票统计 -->
+                	/invoiceStatistic=authc,perms[statisticalAnalysis:invoiceStatistic]
+                	/invoiceStatistic/get=authc,perms[statisticalAnalysis:invoiceStatistic]
                 <!-- 数据管理 -->
                 	<!-- 业务类型 -->
                 	/businessTypeManage=authc,perms[businessType:manage]
