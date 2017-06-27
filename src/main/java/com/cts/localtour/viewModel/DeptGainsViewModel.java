@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +17,7 @@ import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
+import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.LoanService;
 import com.cts.localtour.service.RefundService;
@@ -58,6 +58,8 @@ public class DeptGainsViewModel {
 	private LoanService loanService;
 	@Autowired
 	private RefundService refundService;
+	@Autowired
+	private DeptService deptService;
 	public String getHeaderName() {
 		return headerName;
 	}
@@ -122,10 +124,8 @@ public class DeptGainsViewModel {
 	@SuppressWarnings("unchecked")
 	public ArrayList<DeptGainsViewModel> getAllDeptGainsViewModels(Date start, Date end, String deptIds, String tourNo, int status){
 		ArrayList<DeptGainsViewModel> deptGainsViewModels = new ArrayList<DeptGainsViewModel>();
-		if("".equals(deptIds)){
-			deptIds= ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds();
-		}
-		for (String dataDeptId : deptIds.split(",")) {
+		deptIds = deptService.getDownerDpetIds(deptIds);
+		for (String dataDeptId : deptIds.split(", ")) {
 			DeptGainsViewModel dept = new DeptGainsViewModel();
 			dept.setHeaderName(((DeptTable)baseService.getById("DeptTable", Integer.parseInt(dataDeptId))).getDeptName());
 			dept.setType("dept");

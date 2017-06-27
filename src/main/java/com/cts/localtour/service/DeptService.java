@@ -282,7 +282,7 @@ public class DeptService extends BaseService{
 		}else{
 			ArrayList<Integer> idsAll = new ArrayList<Integer>();
 			ArrayList<Integer> idCache = new ArrayList<Integer>();
-			String[] ids = deptIds.split(", ");
+			String[] ids = deptIds.split(",");
 			for (String id : ids) {
 				idCache.add(Integer.parseInt(id));
 				idsAll.add(Integer.parseInt(id));

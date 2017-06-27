@@ -127,7 +127,8 @@ public class FinancialSettlementStatisticModel {
 	@SuppressWarnings("unchecked")
 	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatisticAll(Date start, Date end, String deptIds, String tourNo) {
 		ArrayList<FinancialSettlementStatisticModel> financialSettlementStatisticModels = new ArrayList<FinancialSettlementStatisticModel>();
-		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "status=10 and settlementTime between ? and ?"+("".equals(deptIds)?"":deptIds.split(",").length==1?" and deptId="+deptIds:" and deptId in ("+deptIds+")")+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'"), start, end);
+		deptIds = deptService.getDownerDpetIds(deptIds);
+		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "status=10 and settlementTime between ? and ? and deptId in ("+deptIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'"), start, end);
 		for (LocalTourTable localTourTable : localTourTables) {
 			FinancialSettlementStatisticModel financialSettlementStatisticModel = new FinancialSettlementStatisticModel();
 			financialSettlementStatisticModel.setTourNo(localTourTable.getTourNo());

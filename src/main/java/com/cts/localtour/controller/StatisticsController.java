@@ -33,6 +33,7 @@ public class StatisticsController {
 	
 	@RequestMapping("/deptGains/get")
 	public @ResponseBody ArrayList<DeptGainsViewModel> getDeptGains (@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo, @RequestParam int status){
+		
 		return statisticsService.getDeptGains(start, end, deptIds, tourNo, status);
 	}
 	

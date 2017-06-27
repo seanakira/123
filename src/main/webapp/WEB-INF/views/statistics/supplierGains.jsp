@@ -46,6 +46,7 @@
 							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><input id="start" class="datepicker" type="text" style="width: 100px;"></div>
 							结束日期：
 							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><input id="end" class="datepicker" type="text" style="width: 100px;"></div>
+							供应商：
 							<select id="select" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
 								<option value="">&nbsp;</option>
 							</select>
