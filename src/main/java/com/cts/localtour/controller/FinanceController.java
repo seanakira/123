@@ -96,6 +96,7 @@ public class FinanceController {
 	/*收款管理*/
 	@RequestMapping("/revenueManage")
 	public String getCollectManageAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, @RequestParam(defaultValue="2000/05/01") Date start,@RequestParam(defaultValue="2100/05/01") Date end, @RequestParam(defaultValue="") String deptIds, @RequestParam(defaultValue="") String userIds, @RequestParam(defaultValue="-1") int status, Model md){
+		deptIds = deptService.getDownerDpetIds(deptIds);
 		int counts = revenueService.getCounts(key, start, end, deptIds, userIds, status);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){

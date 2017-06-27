@@ -22,6 +22,7 @@ import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
+import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
@@ -79,6 +80,8 @@ public class LocalTourService extends BaseService{
 	private RefundService refundService;
 	@Autowired
 	private InvoiceService invoiceService;
+	@Autowired
+	private DeptService deptService;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleLocalTourViewModel> getAll(String key, int page, int maxResults, Date start, Date end, String deptIds, String userIds, int status) {
 		Hashtable<String, Object> param = new Hashtable<String, Object>();
@@ -86,7 +89,7 @@ public class LocalTourService extends BaseService{
 		param.put("tourName", "%"+key+"%");
 		param.put("start", start);
 		param.put("end", end);
-		ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+("".equals(deptIds)?((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds():deptIds)+") and userId in ("+("".equals(userIds)?userService.getDataUserIds():userIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param, page, maxResults);
+		ArrayList<LocalTourTable> localTours = this.getAllByParam("LocalTourTable", "(tourNO like :tourNO or tourName like :tourName) and deptId in ("+deptIds+") and userId in ("+("".equals(userIds)?userService.getDataUserIds():userIds)+") and startTime between :start and :end"+(status==-1?"":status==7?" and status>=7":" and status<7"), param, page, maxResults);
 		return setMd(localTours);
 	}
 	public ArrayList<SimpleLocalTourViewModel> setMd(ArrayList<LocalTourTable> localTours){

@@ -274,5 +274,28 @@ public class DeptService extends BaseService{
 	public ArrayList<DeptTable> getDataDept() {
 		return (ArrayList<DeptTable>) this.getAllByString("DeptTable", "id in ("+((UserTable) SecurityUtils.getSubject().getPrincipal()).getDataDeptIds()+")");
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public String getDownerDpetIds(String deptIds){
+		if("".equals(deptIds)){
+			return ((UserTable)SecurityUtils.getSubject().getPrincipal()).getDataDeptIds();
+		}else{
+			ArrayList<Integer> idsAll = new ArrayList<Integer>();
+			ArrayList<Integer> idCache = new ArrayList<Integer>();
+			String[] ids = deptIds.split(", ");
+			for (String id : ids) {
+				idCache.add(Integer.parseInt(id));
+				idsAll.add(Integer.parseInt(id));
+			}
+			while(idCache.size()>0){
+				ArrayList<DeptTable> deptTables = (ArrayList<DeptTable>) this.getAllByString("DeptTable", "upperDeptId in ("+idCache.toString().substring(1, idCache.toString().length()-1)+")", null);
+				idCache.clear();
+				for (DeptTable deptTable : deptTables) {
+					idCache.add(deptTable.getId());
+					idsAll.add(deptTable.getId());
+				}
+			}
+			return idsAll.toString().substring(1, idsAll.toString().length()-1);
+		}
+	}
 }
