@@ -14,6 +14,7 @@ import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.StatisticsService;
 import com.cts.localtour.service.UserService;
+import com.cts.localtour.viewModel.BudgetExecuteReimbursementContrastViewModel;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
 import com.cts.localtour.viewModel.InvoiceStatisticViewModel;
@@ -91,5 +92,17 @@ public class StatisticsController {
 	@RequestMapping("/invoiceStatistic/get")
 	public @ResponseBody ArrayList<InvoiceStatisticViewModel> getInvoiceStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
 		return statisticsService.getInvoiceStatistic(start, end, deptIds, tourNo);
+	}
+	
+	/*预算执行结算对比*/
+	@RequestMapping("/budgetExecuteReimbursementContrast")
+	public String budgetExecuteReimbursementContrast(Model md){
+		md.addAttribute("depts", deptService.getDataDept());
+		return "statistics/budgetExecuteReimbursementContrast";
+	}
+	
+	@RequestMapping("/budgetExecuteReimbursementContrast/get")
+	public @ResponseBody ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
+		return statisticsService.getBudgetExecuteReimbursementContrast(start, end, deptIds, tourNo);
 	}
 }

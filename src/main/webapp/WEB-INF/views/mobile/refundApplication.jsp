@@ -150,7 +150,7 @@
 															<td style="width: 20%">申请人</td>
 															<td style="width: 30%">${refund.applicationerName }</td>
 															<td style="width: 20%">状态</td>
-															<td style="width: 30%">${refund.remark }</td>
+															<td style="width: 30%">${refund.status }</td>
 														</tr>
 													</tbody>
 												</table>

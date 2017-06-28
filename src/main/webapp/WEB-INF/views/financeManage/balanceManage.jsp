@@ -588,7 +588,7 @@
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td>'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement.toFixed(2))+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
@@ -636,7 +636,7 @@
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td>'+this.costTable.realCost.toFixed(2)+'</td>'+
-										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td>'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement.toFixed(2))+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td>'+guideLoan.html()+'</td>'+
 										'<td>'+bill.html()+'</td>'+
@@ -680,7 +680,7 @@
 										'<td>'+this.supplierName+'</td>'+
 										'<td>'+(this.costTable.cost*this.costTable.count*this.costTable.days).toFixed(2)+'</td>'+
 										'<td> </td>'+
-										'<td>'+this.costTable.reimbursement.toFixed(2)+'</td>'+
+										'<td>'+(this.costTable.reimbursement==null?0:this.costTable.reimbursement.toFixed(2))+'</td>'+
 										'<td>'+this.costTable.remark+'</td>'+
 										'<td></td>'+
 										'<td>'+bill.html()+'</td>'+

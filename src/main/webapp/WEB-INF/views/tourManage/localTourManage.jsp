@@ -3330,19 +3330,19 @@
 	}
 	/* 新增团队初始化选项 */
 	$("#createTour").click(function(){
+		var selects = $("#create").find("select");
 		if(inited==false){
-			var selects = $("#create").find("select");
 			selects.not(".traffic").html('<option value="">&nbsp;</option>');
 			init();
-			selects.eq(0).chosen({no_results_text: "查无结果", search_contains: true});
-        	selects.eq(1).chosen({no_results_text: "查无结果", search_contains: true});
-        	selects.eq(2).chosen({no_results_text: "查无结果", search_contains: true});
-        	selects.eq(3).chosen({no_results_text: "查无结果", search_contains: true});
-        	selects.eq(4).chosen({no_results_text: "查无结果", search_contains: true});
-        	$(".chosen-select").next().attr("style","width:100%;");
-			$(".chosen-select").next().find("input").attr("style","height:100%;");
 			inited = true;
 		}
+		selects.eq(0).chosen({no_results_text: "查无结果", search_contains: true});
+    	selects.eq(1).chosen({no_results_text: "查无结果", search_contains: true});
+    	selects.eq(2).chosen({no_results_text: "查无结果", search_contains: true});
+    	selects.eq(3).chosen({no_results_text: "查无结果", search_contains: true});
+    	selects.eq(4).chosen({no_results_text: "查无结果", search_contains: true});
+    	$(".chosen-select").next().attr("style","width:100%;");
+		$(".chosen-select").next().find("input").attr("style","height:100%;");
 	});
 	
 	/* 搜索 按钮事件*/
@@ -6568,9 +6568,9 @@
 		var tourId= $("#reimbursementApplication").parent().attr("id");
 		if($("#headAmount").children("input").length==0){
 			alert("重复报账")
-		}else if("${sessionScope.isMice }"=="false"&&isNaN(parseFloat($("#headAmount").children("input").val()))){
+		/* }else if("${sessionScope.isMice }"=="false"&&isNaN(parseFloat($("#headAmount").children("input").val()))){
 			$("#reimbursementApplication").attr("data-dismiss","");
-			alert("*号为必填项，请输入数字");
+			alert("*号为必填项，请输入数字"); */
 		}else{
 			$("#reimbursementApplication").attr("data-dismiss","modal");
 			var trs = $("#costs5").find("tbody").find("tr").not(".reimbursementTr");
@@ -6678,7 +6678,7 @@
 	/* 打印报账单 */
 	$("#reimbursementPrintButton").click(function(){
 		var checkbox = $("#table").find("input:checked");
-		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已结算"&&checkbox.parent().parent().siblings().eq(-2).text()!="结算中"){
+		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已结算"){
 			alert("请先报账填写，并报账提交");
 			return;
 		}else if(checkbox.length==0){
@@ -6932,6 +6932,7 @@
 		$(".printLoans").remove();
 		$(".printIncomes").remove();
 		$(".printStatistical").remove();
+		$(".printFrame").remove();
 		/* alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”"); */
 		
 	});

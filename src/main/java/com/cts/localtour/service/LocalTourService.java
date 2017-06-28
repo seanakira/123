@@ -76,8 +76,6 @@ public class LocalTourService extends BaseService{
 	@Autowired
 	private ReimbursementIncomeService reimbursementIncomeService;
 	@Autowired
-	private RefundService refundService;
-	@Autowired
 	private InvoiceService invoiceService;
 	@Autowired
 	private DeptService deptService;
@@ -423,7 +421,7 @@ public class LocalTourService extends BaseService{
 		/*添加人头费*/
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) this.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getTourId());
 		if(reimbursementTables.size()==1){
-			if(full.getReimbursementTable().getHeadAmount().floatValue()!=0){
+			if(full.getReimbursementTable().getHeadAmount()!=null&&full.getReimbursementTable().getHeadAmount().floatValue()!=0){
 				reimbursementTables.get(0).setHeadAmount(full.getReimbursementTable().getHeadAmount());
 				this.update(reimbursementTables.get(0));
 			}else{
@@ -471,7 +469,7 @@ public class LocalTourService extends BaseService{
 			for (RefundTable refundTable : refundedTables) {
 				refundSum = refundSum.add(refundTable.getRefundAmount());
 			}
-			if(refundSum.compareTo(incomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()).add(refundService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()))==1){
+			if(refundSum.compareTo(incomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(refundTables.get(0).getTourId()).getRealIncomeSum()))==1){
 				return -3;
 			}
 			for (RefundTable refundTable : refundTables) {

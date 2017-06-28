@@ -311,6 +311,14 @@
 											</a>
 										</li>
 									</shiro-ex:hasAnyPermissions>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:budgetExecuteReimbursementContrast">
+										<li id="budgetExecuteReimbursementContrast">
+											<a href="${path }budgetExecuteReimbursementContrast">
+												<i class="icon-double-angle-right"></i>
+												预算执行结算对比
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
 								</ul>
 							</li>
 						</shiro-ex:hasAnyPermissions>

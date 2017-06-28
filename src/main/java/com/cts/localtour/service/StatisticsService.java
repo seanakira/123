@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cts.localtour.viewModel.BudgetExecuteReimbursementContrastViewModel;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
 import com.cts.localtour.viewModel.InvoiceStatisticViewModel;
@@ -24,6 +25,8 @@ public class StatisticsService extends BaseService{
 	private FinancialSettlementStatisticModel financialSettlementStatisticModel;
 	@Autowired
 	private InvoiceStatisticViewModel invoiceStatisticViewModel;
+	@Autowired
+	private BudgetExecuteReimbursementContrastViewModel budgetExecuteReimbursementContrastViewModel;
 	public ArrayList<DeptGainsViewModel> getDeptGains(Date start, Date end, String deptIds, String tourNo, int status) {
 		return deptGainsViewModel.getAllDeptGainsViewModels(start, end, deptIds, tourNo, status);
 	}
@@ -38,5 +41,8 @@ public class StatisticsService extends BaseService{
 	}
 	public ArrayList<InvoiceStatisticViewModel> getInvoiceStatistic(Date start, Date end, String deptIds, String tourNo) {
 		return invoiceStatisticViewModel.getInvoiceStatisticViewModelAll(start, end, deptIds, tourNo);
+	}
+	public ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(Date start, Date end,String deptIds, String tourNo) {
+		return budgetExecuteReimbursementContrastViewModel.getBudgetExecuteReimbursementContrastViewModelAll(start, end, deptIds, tourNo);
 	}
 }

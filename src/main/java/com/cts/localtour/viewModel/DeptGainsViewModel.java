@@ -184,7 +184,7 @@ public class DeptGainsViewModel {
 					}
 					
 					tour.setRealCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()));
-					tour.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).add(reimbursementIncomeInfo.getRealIncomeSum().add(refundIncomeInfo.getRealIncomeSum())));
+					tour.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).add(reimbursementIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())));
 					tour.setRealGrossProfit(tour.getRealIncomeSum().subtract(tour.getRealCostSum()));
 					if(tour.getRealIncomeSum().floatValue()!=0){
 						tour.setRealGrossMargin(tour.getRealGrossProfit().divide(tour.getRealIncomeSum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));

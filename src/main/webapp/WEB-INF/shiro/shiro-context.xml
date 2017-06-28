@@ -273,6 +273,9 @@
                 	<!-- 发票统计 -->
                 	/invoiceStatistic=authc,perms[statisticalAnalysis:invoiceStatistic]
                 	/invoiceStatistic/get=authc,perms[statisticalAnalysis:invoiceStatistic]
+                	<!-- 预算执行结算对比 -->
+                	/budgetExecuteReimbursementContrast=authc,perms[statisticalAnalysis:budgetExecuteReimbursementContrast]
+                	/budgetExecuteReimbursementContrast/get=authc,perms[statisticalAnalysis:budgetExecuteReimbursementContrast]
                 <!-- 数据管理 -->
                 	<!-- 业务类型 -->
                 	/businessTypeManage=authc,perms[businessType:manage]
