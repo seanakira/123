@@ -22,7 +22,6 @@ import com.cts.localtour.entity.BusinessTypeTable;
 import com.cts.localtour.entity.ChangeCostTable;
 import com.cts.localtour.entity.CostTable;
 import com.cts.localtour.entity.CustomerAgencyTable;
-import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LoanTable;
 import com.cts.localtour.entity.LocalTourTable;
@@ -254,12 +253,21 @@ public class LocalTourService extends BaseService{
 	
 	public boolean sendMessageToFinance(int tourId, String message){
 		boolean isMice = (Boolean) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession().getAttribute("isMice");
+		ArrayList<UserTable> userTables = deptService.getUserByDept(6);
 		if(isMice){
-			return WeiXinUtil.sendTextMessage("huangyumin@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
+			for (UserTable userTable : userTables) {
+				if(userTable.getPosition().indexOf("会展财务")>-1){
+					return WeiXinUtil.sendTextMessage(userTable.getUserName()+"@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
+				}
+			}
 		}else{
-			return WeiXinUtil.sendTextMessage("lidi@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
+			for (UserTable userTable : userTables) {
+				if(userTable.getPosition().indexOf("地接财务")>-1){
+					return WeiXinUtil.sendTextMessage(userTable.getUserName()+"@ctssd.com", "", this.getTourNoAndTourName(tourId)+message, "0");
+				}
+			}
 		}
-		
+		return false;
 	}
 	
 	public ArrayList<LoanViewModel> findLend(int tourId) {

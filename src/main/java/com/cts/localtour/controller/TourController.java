@@ -86,6 +86,7 @@ public class TourController {
 	@RequestMapping("/localTourManage")
 	public String getLocalTourAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key,@RequestParam(defaultValue="2000/05/01") Date start,@RequestParam(defaultValue="2100/05/01") Date end, @RequestParam(defaultValue="") String deptIds, @RequestParam(defaultValue="") String userIds, @RequestParam(defaultValue="-1") int status, Model md){
 		deptIds = deptService.getDownerDpetIds(deptIds);
+		System.out.println(deptIds);
 		int counts = localTourService.getCounts(key, start, end, deptIds, userIds, status);
 		int pageMax = counts/maxResults;
 		if(counts%maxResults>0){

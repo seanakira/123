@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
+import com.cts.localtour.viewModel.InvoiceStatisticViewModel;
 import com.cts.localtour.viewModel.SupplierGainsViewModel;
 import com.cts.localtour.viewModel.TourDetailsViewModel;
 @SuppressWarnings("rawtypes")
@@ -21,6 +22,8 @@ public class StatisticsService extends BaseService{
 	private TourDetailsViewModel tourDetailsViewModel;
 	@Autowired
 	private FinancialSettlementStatisticModel financialSettlementStatisticModel;
+	@Autowired
+	private InvoiceStatisticViewModel invoiceStatisticViewModel;
 	public ArrayList<DeptGainsViewModel> getDeptGains(Date start, Date end, String deptIds, String tourNo, int status) {
 		return deptGainsViewModel.getAllDeptGainsViewModels(start, end, deptIds, tourNo, status);
 	}
@@ -30,12 +33,10 @@ public class StatisticsService extends BaseService{
 	public ArrayList<TourDetailsViewModel> getTourDetails(Date start, Date end) {
 		return tourDetailsViewModel.getTourDetailsViewModelAll(start, end);
 	}
-	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(Date start, Date end, String deptIds, String tourNo) {
-		return financialSettlementStatisticModel.getFinancialSettlementStatisticAll(start, end, deptIds, tourNo);
+	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(Date start, Date end, String deptIds, String userIds, String tourNo, String status) {
+		return financialSettlementStatisticModel.getFinancialSettlementStatisticAll(start, end, deptIds, userIds, tourNo, status);
 	}
-	public ArrayList<FinancialSettlementStatisticModel> getInvoiceStatistic(Date start, Date end, String deptIds,
-			String tourNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<InvoiceStatisticViewModel> getInvoiceStatistic(Date start, Date end, String deptIds, String tourNo) {
+		return invoiceStatisticViewModel.getInvoiceStatisticViewModelAll(start, end, deptIds, tourNo);
 	}
 }

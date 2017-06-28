@@ -227,7 +227,7 @@
 							<c:when test="${sessionScope.isMice }">
 								<c:choose>
 									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
-										<c:if test="${changeCost.costTable.realCost>10000 }">
+										<c:if test="${changeCost.costTable.realCost>10000||changeCost.payApplicationerRealName==\"林志刚\"  }">
 											<div>
 												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 													<thead>

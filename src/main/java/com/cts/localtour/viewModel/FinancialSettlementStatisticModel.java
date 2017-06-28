@@ -125,10 +125,13 @@ public class FinancialSettlementStatisticModel {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatisticAll(Date start, Date end, String deptIds, String tourNo) {
+	public ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatisticAll(Date start, Date end, String deptIds, String userIds, String tourNo, String status) {
 		ArrayList<FinancialSettlementStatisticModel> financialSettlementStatisticModels = new ArrayList<FinancialSettlementStatisticModel>();
 		deptIds = deptService.getDownerDpetIds(deptIds);
-		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "status=10 and settlementTime between ? and ? and deptId in ("+deptIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'"), start, end);
+		if("".equals(userIds)){
+			userIds = userService.getDataUserIds();
+		}
+		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "deptId in ("+deptIds+") and userId in("+userIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'")+("".equals(status)?" and startTime between ? and ? ":"10".equals(status)?" and status=10 and settlementTime between ? and ? ":" and status<10 and startTime between ? and ? "), start, end);
 		for (LocalTourTable localTourTable : localTourTables) {
 			FinancialSettlementStatisticModel financialSettlementStatisticModel = new FinancialSettlementStatisticModel();
 			financialSettlementStatisticModel.setTourNo(localTourTable.getTourNo());

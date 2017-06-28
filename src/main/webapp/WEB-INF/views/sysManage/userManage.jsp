@@ -639,8 +639,8 @@
 				$("#checkDept").val($(this).attr("id"));
 				checkDeptCache = $(this).text();
 			}else{
-				$("#checkDept").val($("#checkDept").val()+", "+$(this).attr("id"));
-				checkDeptCache = checkDeptCache+", "+$(this).text();
+				$("#checkDept").val($("#checkDept").val()+","+$(this).attr("id"));
+				checkDeptCache = checkDeptCache+","+$(this).text();
 			}
 			$(".widget-body").hide();
 		});

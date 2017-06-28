@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cts.localtour.entity.SupplierTable;
 import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.StatisticsService;
+import com.cts.localtour.service.UserService;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
+import com.cts.localtour.viewModel.InvoiceStatisticViewModel;
 import com.cts.localtour.viewModel.SupplierGainsViewModel;
 import com.cts.localtour.viewModel.TourDetailsViewModel;
 
@@ -24,6 +26,8 @@ public class StatisticsController {
 	private StatisticsService statisticsService;
 	@Autowired
 	private DeptService deptService;
+	@Autowired
+	private UserService userService;
 	/*部门盈利表*/
 	@RequestMapping("/deptGains")
 	public String deptGains(Model md){
@@ -68,12 +72,13 @@ public class StatisticsController {
 	@RequestMapping("/financialSettlementStatistic")
 	public String financialSettlementStatistic(Model md){
 		md.addAttribute("depts", deptService.getDataDept());
+		md.addAttribute("users", userService.getDataUser());
 		return "statistics/financialSettlementStatistic";
 	}
 	
 	@RequestMapping("/financialSettlementStatistic/get")
-	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
-		return statisticsService.getFinancialSettlementStatistic(start, end, deptIds, tourNo);
+	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getFinancialSettlementStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds,  @RequestParam String userIds, @RequestParam String tourNo, @RequestParam String status){
+		return statisticsService.getFinancialSettlementStatistic(start, end, deptIds, userIds, tourNo, status);
 	}
 	
 	/*发票统计*/
@@ -84,7 +89,7 @@ public class StatisticsController {
 	}
 	
 	@RequestMapping("/invoiceStatistic/get")
-	public @ResponseBody ArrayList<FinancialSettlementStatisticModel> getInvoiceStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
+	public @ResponseBody ArrayList<InvoiceStatisticViewModel> getInvoiceStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
 		return statisticsService.getInvoiceStatistic(start, end, deptIds, tourNo);
 	}
 }

@@ -6247,7 +6247,6 @@
         			$("#reimbursementModel").find("#invoiceTable").append(tr);
 	        	});
 	        	/* 设置预借发票 */
-	        	alert(data.loanInvoices.length)
 	        	$.each(data.loanInvoices,function(){
 	        		var tr;
         			tr = $('<tr>'+

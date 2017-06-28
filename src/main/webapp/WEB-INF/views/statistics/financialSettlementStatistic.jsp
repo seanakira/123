@@ -47,14 +47,23 @@
 							结束日期：
 							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><input id="end" class="datepicker" type="text" style="width: 100px;"></div>
 							部门：
-							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><select id="select" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
+							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><select id="depts" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
 								<option value="">&nbsp;</option>
 								<c:forEach var="dept" items="${depts }">
 									<option value="${dept.id }">${dept.deptName }</option>
 								</c:forEach>
 							</select></div>
+							人员：
+							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><select id="users" style="display: none;" multiple="multiple" class="chosen-select" data-placeholder="可选多个...">
+								<option value="">&nbsp;</option>
+								<c:forEach var="user" items="${users }">
+									<option value="${user.id }">${user.realName }</option>
+								</c:forEach>
+							</select></div>
 							 团号：
 							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><input id="tourNo" style="width: 100px;" type="text"></div>
+							 状态：
+							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;" style="width: 100px;"><select id="status"><option value="">&nbsp;</option><option value="9">未结算</option><option value="10">已结算</option></select></div>
 							<button id="find" class="btn btn-xs btn-success" style="width: 70px;position: relative;top: -3px;">查询</button>
 							<button id="down" class="btn btn-xs btn-success" style="width: 70px;position: relative;top: -3px;margin-left: 10px;">导出Excel</button>
 						</div>
@@ -111,10 +120,16 @@
 		$("#statisticalAnalysis").addClass("open");
 		$("#statisticalAnalysis").children("ul").attr("style","display:block");
 		$("#financialSettlementStatistic").addClass("active");
-		$("select").chosen({no_results_text: "查无结果", search_contains: true});
-		$("select").next().attr("style","width: 200px;top: -3px;")
-		$("select").next().find("li").attr("style","height: 25px;");
-		$("select").next().find("input").attr("style","height: 25px;top: -6px;position: relative;");
+		$("#depts").chosen({no_results_text: "查无结果", search_contains: true});
+		$("#depts").next().attr("style","width: 200px;top: -3px;")
+		$("#depts").next().find("li").attr("style","height: 25px;");
+		$("#depts").next().find("input").attr("style","height: 25px;top: -6px;position: relative;");
+		$("#users").chosen({no_results_text: "查无结果", search_contains: true});
+		$("#users").next().attr("style","width: 200px;top: -3px;")
+		$("#users").next().find("li").attr("style","height: 25px;");
+		$("#users").next().find("input").attr("style","height: 25px;top: -6px;position: relative;");
+		$("#status").chosen({no_results_text: "查无结果", search_contains: true});
+		$("#status").next().attr("style","width:100px;top: -3px;");
 	/* 日历初始化 */
 		$(".datepicker").not("#arrTime,#departTime,#costTime,#incomeTime").datepicker({
 			showOtherMonths: true,
@@ -152,7 +167,7 @@
 				table.html("");
 				var start = new Date($("#start").val());
 				var end = new Date($("#end").val());
-				var myData = {deptIds:$("#select").val()==null?"":$("#select").val().join(","),start:start,end:end,tourNo:$("#tourNo").val()};
+				var myData = {deptIds:$("#depts").val()==null?"":$("#depts").val().join(","),userIds:$("#users").val()==null?"":$("#users").val().join(","),start:start,end:end,tourNo:$("#tourNo").val(),status:$("#status").val()};
 				/* var progress = $('<div id="wait" style="position: absolute;top: 300px;width: 30%;left: 45%;text-align: center;"><p>系统正在统计数据，请耐心等待</p><i class="icon-spinner icon-spin orange" style="font-size: 500%"></i></div></div>'); */
 				var progress = $('<div id="wait" style="position: absolute;top: 200px;width: 30%;left: 35%;text-align: center;"><p>系统正在统计数据，请耐心等待</p><div class="progress" data-percent="0%"><div class="progress-bar" style="width:0%;"></div></div></div></div>');
 				var s = 3*(end.getMonth()-start.getMonth()+1);
@@ -190,7 +205,7 @@
 			        	if($("#table").html()==""){
 							$("#table").html("没有查询到结果");
 						}else{
-							table.append('<tr><td>合计</td><td></td><td>'+willIncomeTotal.toFixed(2)+'</td><td>'+willCostTotal.toFixed(2)+'</td><td>'+(willIncomeTotal-willCostTotal).toFixed(2)+'</td><td>'+((willIncomeTotal-willCostTotal)/willIncomeTotal*100).toFixed(2)+'%</td><td>'+peopleNoTotal+'</td><td></td><td></td></tr>');
+							table.append('<tr><td>合计：'+data.length+' 个团</td><td></td><td>'+willIncomeTotal.toFixed(2)+'</td><td>'+willCostTotal.toFixed(2)+'</td><td>'+(willIncomeTotal-willCostTotal).toFixed(2)+'</td><td>'+((willIncomeTotal-willCostTotal)/willIncomeTotal*100).toFixed(2)+'%</td><td>'+peopleNoTotal+'</td><td></td><td></td></tr>');
 						}
 			         }
 				});

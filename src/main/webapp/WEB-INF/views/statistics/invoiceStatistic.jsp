@@ -63,30 +63,25 @@
 						<table id="excel" aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 								<tr role="row">
-									<th style="width: 20%;">
+									<th style="width: 15%;">
 										团号
 									</th>
-									<th style="width: 20%;">
+									<th style="width: 15%;">
+										团名
+									</th>
+									<th style="width: 15%;">
 										组团社
 									</th>
-									<th style="width: 8%;">
+									<th style="width: 10%;">
 										应收
 									</th>
-									<th style="width: 8%;">									
-										报账成本
-									<th style="width: 8%;">
-										报账毛利
+									<th style="width: 10%;">									
+										开票金额
 									</th>
-									<th style="width: 8%;">
-										报账毛利率
-									</th>
-									<th style="width: 8%;">
-										人数
-									</th>
-									<th style="width: 8%;">
+									<th style="width: 10%;">
 										部门
 									</th>
-									<th style="width: 8%;">
+									<th style="width: 10%;">
 										团控
 									</th>
 								</tr>
@@ -169,7 +164,7 @@
 				$.ajax({
 			        type: "GET",  
 			        contentType:"application/json;charset=utf-8",  
-			        url:"${path }financialSettlementStatistic/get",
+			        url:"${path }invoiceStatistic/get",
 			        data:myData,
 			        dataType: "json",
 			        async: true,
@@ -178,19 +173,11 @@
 			        	$(".progress").attr("data-percent","100%");
 						$(".progress-bar").attr("style","width:0"+percent+"100%");
 						progress.remove();
-						var willIncomeTotal = 0;
-						var willCostTotal = 0;
-						var peopleNoTotal = 0;
 						$.each(data,function(){
-							table.append('<tr><td>'+this.tourNo+'</td><td>'+this.customerAgencyName+'</td><td>'+this.willIncomeSum+'</td><td>'+this.willCostSum+'</td><td>'+this.grossProfit+'</td><td>'+this.grossProfitMargin+'</td><td>'+this.peopleNo+'</td><td>'+this.deptName+'</td><td>'+this.userRealName+'</td></tr>');
-							willIncomeTotal = willIncomeTotal + this.willIncomeSum;
-							willCostTotal = willCostTotal + this.willCostSum;
-							peopleNoTotal = peopleNoTotal + this.peopleNo;
+							table.append('<tr><td>'+this.tourNo+'</td><td>'+this.tourName+'</td><td>'+this.customerAgencyName+'</td><td>'+this.willIncomeSum+'</td><td>'+this.allInvoiceSum+'</td><td>'+this.deptName+'</td><td>'+this.userRealName+'</td></tr>');
 						});
 			        	if($("#table").html()==""){
 							$("#table").html("没有查询到结果");
-						}else{
-							table.append('<tr><td>合计</td><td></td><td>'+willIncomeTotal.toFixed(2)+'</td><td>'+willCostTotal.toFixed(2)+'</td><td>'+(willIncomeTotal-willCostTotal).toFixed(2)+'</td><td>'+((willIncomeTotal-willCostTotal)/willIncomeTotal*100).toFixed(2)+'%</td><td>'+peopleNoTotal+'</td><td></td><td></td></tr>');
 						}
 			         }
 				});
