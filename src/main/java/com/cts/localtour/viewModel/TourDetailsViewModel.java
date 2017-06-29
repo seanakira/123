@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,10 +21,10 @@ public class TourDetailsViewModel {
 	private String customerAgencyName;
 	private LocalTourTable localTourTable; 
 	private String tourBusinessTypeName;
-	private float willIncomeSum;
-	private float realIncomeSum;
-	private float realGrossProfit;
-	private float realGrossMargin;
+	private BigDecimal willIncomeSum;
+	private BigDecimal realIncomeSum;
+	private BigDecimal realGrossProfit;
+	private BigDecimal realGrossMargin;
 	private String userName;
 	private String status;
 	@SuppressWarnings("rawtypes")
@@ -57,28 +58,28 @@ public class TourDetailsViewModel {
 	public void setTourBusinessTypeName(String tourBusinessTypeName) {
 		this.tourBusinessTypeName = tourBusinessTypeName;
 	}
-	public float getWillIncomeSum() {
+	public BigDecimal getWillIncomeSum() {
 		return willIncomeSum;
 	}
-	public void setWillIncomeSum(float willIncomeSum) {
+	public void setWillIncomeSum(BigDecimal willIncomeSum) {
 		this.willIncomeSum = willIncomeSum;
 	}
-	public float getRealIncomeSum() {
+	public BigDecimal getRealIncomeSum() {
 		return realIncomeSum;
 	}
-	public void setRealIncomeSum(float realIncomeSum) {
+	public void setRealIncomeSum(BigDecimal realIncomeSum) {
 		this.realIncomeSum = realIncomeSum;
 	}
-	public float getRealGrossProfit() {
+	public BigDecimal getRealGrossProfit() {
 		return realGrossProfit;
 	}
-	public void setRealGrossProfit(float realGrossProfit) {
+	public void setRealGrossProfit(BigDecimal realGrossProfit) {
 		this.realGrossProfit = realGrossProfit;
 	}
-	public float getRealGrossMargin() {
+	public BigDecimal getRealGrossMargin() {
 		return realGrossMargin;
 	}
-	public void setRealGrossMargin(float realGrossMargin) {
+	public void setRealGrossMargin(BigDecimal realGrossMargin) {
 		this.realGrossMargin = realGrossMargin;
 	}
 	public String getUserName() {

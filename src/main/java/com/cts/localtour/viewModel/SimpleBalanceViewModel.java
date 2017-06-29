@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,11 @@ import com.cts.localtour.service.UserService;
 @Component
 public class SimpleBalanceViewModel {
 	private LocalTourTable localTourTable;
-	private float willPaySum;
-	private float realPaySum;
-	private float willIncomeSum;
-	private float realIncomeSum;
-	private float reimbursementSum;
+	private BigDecimal willPaySum;
+	private BigDecimal realPaySum;
+	private BigDecimal willIncomeSum;
+	private BigDecimal realIncomeSum;
+	private BigDecimal reimbursementSum;
 	private String status;
 	private String userRealName;
 	@Autowired
@@ -46,34 +47,34 @@ public class SimpleBalanceViewModel {
 	public void setLocalTourTable(LocalTourTable localTourTable) {
 		this.localTourTable = localTourTable;
 	}
-	public float getWillPaySum() {
+	public BigDecimal getWillPaySum() {
 		return willPaySum;
 	}
-	public void setWillPaySum(float willPaySum) {
+	public void setWillPaySum(BigDecimal willPaySum) {
 		this.willPaySum = willPaySum;
 	}
-	public float getRealPaySum() {
+	public BigDecimal getRealPaySum() {
 		return realPaySum;
 	}
-	public void setRealPaySum(float realPaySum) {
+	public void setRealPaySum(BigDecimal realPaySum) {
 		this.realPaySum = realPaySum;
 	}
-	public float getWillIncomeSum() {
+	public BigDecimal getWillIncomeSum() {
 		return willIncomeSum;
 	}
-	public void setWillIncomeSum(float willIncomeSum) {
+	public void setWillIncomeSum(BigDecimal willIncomeSum) {
 		this.willIncomeSum = willIncomeSum;
 	}
-	public float getRealIncomeSum() {
+	public BigDecimal getRealIncomeSum() {
 		return realIncomeSum;
 	}
-	public void setRealIncomeSum(float realIncomeSum) {
+	public void setRealIncomeSum(BigDecimal realIncomeSum) {
 		this.realIncomeSum = realIncomeSum;
 	}
-	public float getReimbursementSum() {
+	public BigDecimal getReimbursementSum() {
 		return reimbursementSum;
 	}
-	public void setReimbursementSum(float reimbursementSum) {
+	public void setReimbursementSum(BigDecimal reimbursementSum) {
 		this.reimbursementSum = reimbursementSum;
 	}
 	public String getStatus() {
@@ -99,11 +100,11 @@ public class SimpleBalanceViewModel {
 			IncomeInfo incomeInfo = incomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo refundIncomeInfo = refundService.getIncomeInfo(localTourTable.getId());
-			balanceViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).floatValue());
-			balanceViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).floatValue());
-			balanceViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue());
-			balanceViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())).floatValue());
-			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())).floatValue());
+			balanceViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()));
+			balanceViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()));
+			balanceViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()));
+			balanceViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())));
+			balanceViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())));
 			balanceViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));
 			if(localTourTable.getStatus()==0){
 				balanceViewModel.setStatus("ÐÂ½¨");

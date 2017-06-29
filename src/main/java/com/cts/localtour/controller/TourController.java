@@ -388,7 +388,7 @@ public class TourController {
 				}else{
 					/*如果成本小计小于0，为供应商退款*/
 					/*if(changeCostTable.getCost()*changeCostTable.getCount()*changeCostTable.getDays()<0){
-						changeCostTable.setRealCost(new BigDecimal(changeCostTable.getCost()).multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())).floatValue());
+						changeCostTable.setRealCost(new BigDecimal(changeCostTable.getCost()).multiply(new BigDecimal(changeCostTable.getCount())).multiply(new BigDecimal(changeCostTable.getDays())));
 						changeCostTable.setPayStatus(3);
 						changeCostTable.setRemittanced(true);
 					}*/
@@ -429,7 +429,7 @@ public class TourController {
 			boolean hasMainManage = false;
 			boolean hasViceManager = false;
 			for (LoanTable loanTable : loans) {
-				if(((LoanTable)localTourService.getById("LoanTable", loanTable.getId())).getLoanAmount().floatValue()>10000){
+				if(((LoanTable)localTourService.getById("LoanTable", loanTable.getId())).getLoanAmount().compareTo(new BigDecimal(10000))==1){
 					hasMainManage = true;
 				}else{
 					hasViceManager = true;
@@ -465,7 +465,7 @@ public class TourController {
 		boolean hasViceManager = false;
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()){
 			for (CostTable cost : full.getCostTables()) {
-				if(cost.getRealCost().floatValue()>10000){
+				if(cost.getRealCost().compareTo(new BigDecimal(10000))==1){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -475,7 +475,7 @@ public class TourController {
 				}
 			}
 			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
-				if(changeCost.getRealCost().floatValue()>10000){
+				if(changeCost.getRealCost().compareTo(new BigDecimal(10000))==1){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -524,7 +524,7 @@ public class TourController {
 			ArrayList<LoanInvoiceTable> loanInvoices = new ArrayList<LoanInvoiceTable>();
 			int applicationerId = ((UserTable) SecurityUtils.getSubject().getPrincipal()).getId();
 			for (LoanInvoiceTable loanInvoiceTable : loanInvoiceTables) {
-				if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount().floatValue()==0){
+				if("".equals(loanInvoiceTable.getRemark())||loanInvoiceTable.getInvoiceAmount().compareTo(new BigDecimal(0))==0){
 					errorCode = -1;
 					break;
 				}else{
@@ -573,7 +573,7 @@ public class TourController {
 		boolean hasViceManager = false;
 		if(!refundTables.isEmpty()){
 			for (RefundTable refund : refundTables) {
-				if(refund.getRefundAmount().floatValue()>10000){
+				if(refund.getRefundAmount().compareTo(new BigDecimal(10000))==1){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -674,7 +674,7 @@ public class TourController {
 		boolean hasViceManager = false;
 		if(!full.getCostTables().isEmpty()||!full.getChangeCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()){
 			for (CostTable cost : full.getCostTables()) {
-				if(cost.getCost().multiply(new BigDecimal(cost.getCount())).multiply(new BigDecimal(cost.getDays())).floatValue()>10000){
+				if(cost.getCost().multiply(new BigDecimal(cost.getCount())).multiply(new BigDecimal(cost.getDays())).compareTo(new BigDecimal(10000))==1){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -684,7 +684,7 @@ public class TourController {
 				}
 			}
 			for (ChangeCostTable changeCost : full.getChangeCostTables()) {
-				if(changeCost.getCost().multiply(new BigDecimal(changeCost.getCount())).multiply(new BigDecimal(changeCost.getDays())).floatValue()>10000){
+				if(changeCost.getCost().multiply(new BigDecimal(changeCost.getCount())).multiply(new BigDecimal(changeCost.getDays())).compareTo(new BigDecimal(10000))==1){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;
@@ -694,7 +694,7 @@ public class TourController {
 				}
 			}
 			for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
-				if(reimbursementCostTable.getCost().multiply(new BigDecimal(reimbursementCostTable.getCount())).multiply(new BigDecimal(reimbursementCostTable.getDays())).floatValue()>10000){
+				if(reimbursementCostTable.getCost().multiply(new BigDecimal(reimbursementCostTable.getCount())).multiply(new BigDecimal(reimbursementCostTable.getDays())).compareTo(new BigDecimal(10000))==1){
 					hasMainManager = true;
 				}else{
 					hasViceManager = true;

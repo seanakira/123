@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class FullRevenueViewModel {
 	private ArrayList<ChangeIncomeViewModel> changeIncomes;
 	private ArrayList<IncomeTable> incomeTables;
 	private ArrayList<ChangeIncomeTable> changeIncomeTables;
-	private float invoiceSum;
+	private BigDecimal invoiceSum;
 	@Autowired
 	private IncomeViewModel incomeViewModel;
 	@Autowired
@@ -33,10 +34,10 @@ public class FullRevenueViewModel {
 	public void setChangeIncomes(ArrayList<ChangeIncomeViewModel> changeIncomes) {
 		this.changeIncomes = changeIncomes;
 	}
-	public float getInvoiceSum() {
+	public BigDecimal getInvoiceSum() {
 		return invoiceSum;
 	}
-	public void setInvoiceSum(float invoiceSum) {
+	public void setInvoiceSum(BigDecimal invoiceSum) {
 		this.invoiceSum = invoiceSum;
 	}
 	
@@ -56,7 +57,7 @@ public class FullRevenueViewModel {
 		FullRevenueViewModel fullRevenueViewModel = new FullRevenueViewModel();
 		fullRevenueViewModel.setIncomes(incomeViewModel.getAllIncomeViewModel(tourId));
 		fullRevenueViewModel.setChangeIncomes(changeIncomeViewModel.getAllChangeIncomeViewModel(tourId,3));
-		fullRevenueViewModel.setInvoiceSum(invoiceService.getInvoiceSum(tourId).floatValue());
+		fullRevenueViewModel.setInvoiceSum(invoiceService.getInvoiceSum(tourId));
 		return fullRevenueViewModel;
 	}
 }

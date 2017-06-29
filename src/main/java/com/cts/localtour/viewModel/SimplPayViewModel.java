@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,13 @@ import com.cts.localtour.service.ReimbursementCostService;
 @Component
 public class SimplPayViewModel {
 	private LocalTourTable localTourTable;
-	private float loan;
-	private float canCost;
-	private float canPay;
-	private float willPay;
-	private float realPay;
+	private BigDecimal loan;
+	private BigDecimal canCost;
+	private BigDecimal canPay;
+	private BigDecimal willPay;
+	private BigDecimal realPay;
 	private String realName;
-	private float sumCache;
+	private BigDecimal sumCache;
 	private String status;
 	@SuppressWarnings("rawtypes")
 	@Autowired
@@ -42,10 +43,10 @@ public class SimplPayViewModel {
 	public void setLocalTourTable(LocalTourTable localTourTable) {
 		this.localTourTable = localTourTable;
 	}
-	public float getLoan() {
+	public BigDecimal getLoan() {
 		return loan;
 	}
-	public void setLoan(float loan) {
+	public void setLoan(BigDecimal loan) {
 		this.loan = loan;
 	}
 	public String getRealName() {
@@ -54,10 +55,10 @@ public class SimplPayViewModel {
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
-	public float getSumCache() {
+	public BigDecimal getSumCache() {
 		return sumCache;
 	}
-	public void setSumCache(float sumCache) {
+	public void setSumCache(BigDecimal sumCache) {
 		this.sumCache = sumCache;
 	}
 	public String getStatus() {
@@ -66,28 +67,28 @@ public class SimplPayViewModel {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public float getCanPay() {
+	public BigDecimal getCanPay() {
 		return canPay;
 	}
-	public void setCanPay(float canPay) {
+	public void setCanPay(BigDecimal canPay) {
 		this.canPay = canPay;
 	}
-	public float getWillPay() {
+	public BigDecimal getWillPay() {
 		return willPay;
 	}
-	public void setWillPay(float willPay) {
+	public void setWillPay(BigDecimal willPay) {
 		this.willPay = willPay;
 	}
-	public float getCanCost() {
+	public BigDecimal getCanCost() {
 		return canCost;
 	}
-	public void setCanCost(float canCost) {
+	public void setCanCost(BigDecimal canCost) {
 		this.canCost = canCost;
 	}
-	public float getRealPay() {
+	public BigDecimal getRealPay() {
 		return realPay;
 	}
-	public void setRealPay(float realPay) {
+	public void setRealPay(BigDecimal realPay) {
 		this.realPay = realPay;
 	}
 	public ArrayList<SimplPayViewModel> getAllSimplPayViewModel(ArrayList<LocalTourTable> localTours){
@@ -99,11 +100,11 @@ public class SimplPayViewModel {
 			CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(localTourTable.getId());
 			LoanInfo loanInfo = loanService.getLoanInfo(localTourTable.getId());
 			simplPayViewModel.setLocalTourTable(localTourTable);
-			simplPayViewModel.setLoan(loanInfo.getLoanSum().floatValue());
-			simplPayViewModel.setCanCost(costInfo.getCanCostSum().add(changeCostInfo.getCanCostSum()).floatValue());
-			simplPayViewModel.setCanPay(costInfo.getCanCostSum().add(changeCostInfo.getCanCostSum()).add(loanInfo.getLoanSum()).floatValue());
-			simplPayViewModel.setWillPay(loanInfo.getWillLoanSum().add(costInfo.getWillCostSum()).add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).floatValue());
-			simplPayViewModel.setRealPay(loanInfo.getRealLoanSum().add(costInfo.getRealCostSum()).add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()).floatValue());
+			simplPayViewModel.setLoan(loanInfo.getLoanSum());
+			simplPayViewModel.setCanCost(costInfo.getCanCostSum().add(changeCostInfo.getCanCostSum()));
+			simplPayViewModel.setCanPay(costInfo.getCanCostSum().add(changeCostInfo.getCanCostSum()).add(loanInfo.getLoanSum()));
+			simplPayViewModel.setWillPay(loanInfo.getWillLoanSum().add(costInfo.getWillCostSum()).add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()));
+			simplPayViewModel.setRealPay(loanInfo.getRealLoanSum().add(costInfo.getRealCostSum()).add(changeCostInfo.getRealCostSum()).add(reimbursementCostInfo.getRealCostSum()));
 			simplPayViewModel.setRealName(((UserTable) baseService.getById("UserTable", localTourTable.getUserId())).getRealName());
 			if(localTourTable.getStatus()==0){
 				simplPayViewModel.setStatus("ÐÂ½¨");

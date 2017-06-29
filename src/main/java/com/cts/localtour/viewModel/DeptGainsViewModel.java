@@ -179,14 +179,14 @@ public class DeptGainsViewModel {
 					tour.setWillCostSum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum()));
 					tour.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()));
 					tour.setWillGrossProfit(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum())));
-					if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()).floatValue()!=0){
+					if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()).compareTo(new BigDecimal(0))!=0){
 						tour.setWillGrossMargin((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
 					}
 					
 					tour.setRealCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()));
 					tour.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).add(reimbursementIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())));
 					tour.setRealGrossProfit(tour.getRealIncomeSum().subtract(tour.getRealCostSum()));
-					if(tour.getRealIncomeSum().floatValue()!=0){
+					if(tour.getRealIncomeSum().compareTo(new BigDecimal(0))!=0){
 						tour.setRealGrossMargin(tour.getRealGrossProfit().divide(tour.getRealIncomeSum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
 					}
 					deptGainsViewModels.add(tour);
@@ -194,7 +194,7 @@ public class DeptGainsViewModel {
 					user.setWillCostSum(user.getWillCostSum().add(tour.getWillCostSum()));
 					user.setWillIncomeSum(user.getWillIncomeSum().add(tour.getWillIncomeSum()));
 					user.setWillGrossProfit(user.getWillGrossProfit().add(tour.getWillGrossProfit()));
-					if(user.getWillGrossMargin().floatValue()==0){
+					if(user.getWillGrossMargin().compareTo(new BigDecimal(0))==0){
 						user.setWillGrossMargin(tour.getWillGrossMargin());
 					}else{
 						user.setWillGrossMargin((user.getWillGrossMargin().add(tour.getWillGrossMargin())).divide(new BigDecimal(2),2,BigDecimal.ROUND_HALF_UP));
@@ -202,7 +202,7 @@ public class DeptGainsViewModel {
 					user.setRealCostSum(user.getRealCostSum().add(tour.getRealCostSum()));
 					user.setRealIncomeSum(user.getRealIncomeSum().add(tour.getRealIncomeSum()));
 					user.setRealGrossProfit(user.getRealGrossProfit().add(tour.getRealGrossProfit()));
-					if(user.getRealGrossMargin().floatValue()==0){
+					if(user.getRealGrossMargin().compareTo(new BigDecimal(0))==0){
 						user.setRealGrossMargin(tour.getRealGrossMargin());
 					}else{
 						user.setRealGrossMargin((user.getRealGrossMargin().add(tour.getRealGrossMargin())).divide(new BigDecimal(2),2,BigDecimal.ROUND_HALF_UP));
@@ -211,7 +211,7 @@ public class DeptGainsViewModel {
 				dept.setWillCostSum(dept.getWillCostSum().add(user.getWillCostSum()));
 				dept.setWillIncomeSum(dept.getWillIncomeSum().add(user.getWillIncomeSum()));
 				dept.setWillGrossProfit(dept.getWillGrossProfit().add(user.getWillGrossProfit()));
-				if(dept.getWillGrossMargin().floatValue()==0){
+				if(dept.getWillGrossMargin().compareTo(new BigDecimal(0))==0){
 					dept.setWillGrossMargin(user.getWillGrossMargin());
 				}else{
 					dept.setWillGrossMargin((dept.getWillGrossMargin().add(user.getWillGrossMargin())).divide(new BigDecimal(2),2,BigDecimal.ROUND_HALF_UP));
@@ -219,7 +219,7 @@ public class DeptGainsViewModel {
 				dept.setRealCostSum(dept.getRealCostSum().add(user.getRealCostSum()));
 				dept.setRealIncomeSum(dept.getRealIncomeSum().add(user.getRealIncomeSum()));
 				dept.setRealGrossProfit(dept.getRealGrossProfit().add(user.getRealGrossProfit()));
-				if(dept.getRealGrossMargin().floatValue()==0){
+				if(dept.getRealGrossMargin().compareTo(new BigDecimal(0))==0){
 					dept.setRealGrossMargin(user.getRealGrossMargin());
 				}else{
 					dept.setRealGrossMargin((dept.getRealGrossMargin().add(user.getRealGrossMargin())).divide(new BigDecimal(2),2,BigDecimal.ROUND_HALF_UP));

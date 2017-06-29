@@ -146,7 +146,7 @@ public class FinanceController {
 		BigDecimal invoiceSum = new BigDecimal(0);
 		ArrayList<InvoiceTable> invoices = new ArrayList<InvoiceTable>();
 		for (InvoiceTable invoiceTable : invoiceTables) {
-			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount().floatValue()==0){
+			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount().compareTo(new BigDecimal(0))==0){
 				errorCode = -1;
 				break;
 			}else{

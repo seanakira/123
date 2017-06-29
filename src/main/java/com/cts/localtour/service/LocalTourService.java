@@ -384,7 +384,7 @@ public class LocalTourService extends BaseService{
 	}
 	
 	public boolean checkReimbursement(int tourId) {
-		return loanInvoiceService.getLoanInvoiceSum(tourId).add(invoiceService.getInvoiceSum(tourId)).floatValue()<=(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
+		return loanInvoiceService.getLoanInvoiceSum(tourId).add(invoiceService.getInvoiceSum(tourId)).compareTo(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(tourId).getIncomeSum()))<=0;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -396,14 +396,14 @@ public class LocalTourService extends BaseService{
 			this.updateByString("ChangeCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", changeCostTable.getReimbursement(),changeCostTable.getSupplierId(),changeCostTable.isBill(),changeCostTable.getId());
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getReimbursementCostTables()) {
-			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement().floatValue()==0){
+			if(reimbursementCostTable.getReimbursement()==null||reimbursementCostTable.getReimbursement().compareTo(new BigDecimal(0))==0){
 				this.delById("ReimbursementCostTable", reimbursementCostTable.getId());
 			}else{
 				this.updateByString("ReimbursementCostTable", "reimbursement=?, supplierId=?, bill=?", "id=?", reimbursementCostTable.getReimbursement(),reimbursementCostTable.getSupplierId(),reimbursementCostTable.isBill(),reimbursementCostTable.getId());
 			}
 		}
 		for (ReimbursementCostTable reimbursementCostTable : full.getNewReimbursementCostTables()) {
-			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().floatValue()!=0&&reimbursementCostTable.getCost()!=null&&reimbursementCostTable.getSupplierId()!=0){
+			if(reimbursementCostTable.getReimbursement()!=null&&reimbursementCostTable.getReimbursement().compareTo(new BigDecimal(0))!=0&&reimbursementCostTable.getCost()!=null&&reimbursementCostTable.getSupplierId()!=0){
 				this.add(reimbursementCostTable);
 			}
 		}
@@ -411,7 +411,7 @@ public class LocalTourService extends BaseService{
 			if(income.getIncome()==null){
 				continue;
 			}
-			if(income.getIncome().floatValue()!=0){
+			if(income.getIncome().compareTo(new BigDecimal(0))!=0){
 				this.merge(income);
 			}else if(income.getId()!=null||income.getId()!=0){
 				this.delete(income);
@@ -422,14 +422,14 @@ public class LocalTourService extends BaseService{
 		/*添加人头费*/
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) this.getAllByString("ReimbursementTable", "tourId=?", full.getReimbursementTable().getTourId());
 		if(reimbursementTables.size()==1){
-			if(full.getReimbursementTable().getHeadAmount()!=null&&full.getReimbursementTable().getHeadAmount().floatValue()!=0){
+			if(full.getReimbursementTable().getHeadAmount()!=null&&full.getReimbursementTable().getHeadAmount().compareTo(new BigDecimal(0))!=0){
 				reimbursementTables.get(0).setHeadAmount(full.getReimbursementTable().getHeadAmount());
 				this.update(reimbursementTables.get(0));
 			}else{
 				this.delete(reimbursementTables.get(0));
 			}
 		}else{
-			if(full.getReimbursementTable().getHeadAmount()!=null&&full.getReimbursementTable().getHeadAmount().floatValue()!=0){
+			if(full.getReimbursementTable().getHeadAmount()!=null&&full.getReimbursementTable().getHeadAmount().compareTo(new BigDecimal(0))!=0){
 				this.add(full.getReimbursementTable());
 			}
 		}

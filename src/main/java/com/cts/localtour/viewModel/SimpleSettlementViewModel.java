@@ -21,13 +21,13 @@ import com.cts.localtour.service.UserService;
 @Component
 public class SimpleSettlementViewModel {
 	private LocalTourTable localTourTable;
-	private float costSum;
-	private float willPaySum;
-	private float realPaySum;
-	private float reimbursementSum;
-	private float willIncomeSum;
-	private float realIncomeSum;
-	private float realGrossProfit;
+	private BigDecimal costSum;
+	private BigDecimal willPaySum;
+	private BigDecimal realPaySum;
+	private BigDecimal reimbursementSum;
+	private BigDecimal willIncomeSum;
+	private BigDecimal realIncomeSum;
+	private BigDecimal realGrossProfit;
 	private String realGrossMargin;
 	private String userRealName;
 	private String status;
@@ -51,46 +51,46 @@ public class SimpleSettlementViewModel {
 	public void setLocalTourTable(LocalTourTable localTourTable) {
 		this.localTourTable = localTourTable;
 	}
-	public float getCostSum() {
+	public BigDecimal getCostSum() {
 		return costSum;
 	}
-	public void setCostSum(float costSum) {
+	public void setCostSum(BigDecimal costSum) {
 		this.costSum = costSum;
 	}
-	public float getWillPaySum() {
+	public BigDecimal getWillPaySum() {
 		return willPaySum;
 	}
-	public void setWillPaySum(float willPaySum) {
+	public void setWillPaySum(BigDecimal willPaySum) {
 		this.willPaySum = willPaySum;
 	}
-	public float getRealPaySum() {
+	public BigDecimal getRealPaySum() {
 		return realPaySum;
 	}
-	public void setRealPaySum(float realPaySum) {
+	public void setRealPaySum(BigDecimal realPaySum) {
 		this.realPaySum = realPaySum;
 	}
-	public float getReimbursementSum() {
+	public BigDecimal getReimbursementSum() {
 		return reimbursementSum;
 	}
-	public void setReimbursementSum(float reimbursementSum) {
+	public void setReimbursementSum(BigDecimal reimbursementSum) {
 		this.reimbursementSum = reimbursementSum;
 	}
-	public float getWillIncomeSum() {
+	public BigDecimal getWillIncomeSum() {
 		return willIncomeSum;
 	}
-	public void setWillIncomeSum(float willIncomeSum) {
+	public void setWillIncomeSum(BigDecimal willIncomeSum) {
 		this.willIncomeSum = willIncomeSum;
 	}
-	public float getRealIncomeSum() {
+	public BigDecimal getRealIncomeSum() {
 		return realIncomeSum;
 	}
-	public void setRealIncomeSum(float realIncomeSum) {
+	public void setRealIncomeSum(BigDecimal realIncomeSum) {
 		this.realIncomeSum = realIncomeSum;
 	}
-	public float getRealGrossProfit() {
+	public BigDecimal getRealGrossProfit() {
 		return realGrossProfit;
 	}
-	public void setRealGrossProfit(float realGrossProfit) {
+	public void setRealGrossProfit(BigDecimal realGrossProfit) {
 		this.realGrossProfit = realGrossProfit;
 	}
 	public String getRealGrossMargin() {
@@ -122,14 +122,14 @@ public class SimpleSettlementViewModel {
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo refundIncomeInfo = refundService.getIncomeInfo(localTourTable.getId());
 			simpleSettlementViewModel.setLocalTourTable(localTourTable);
-			simpleSettlementViewModel.setCostSum(costInfo.getCostSum().add(changeCostInfo.getCostSum()).floatValue());
-			simpleSettlementViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(loanInfo.getLoanSum()).floatValue());
-			simpleSettlementViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()).floatValue());
-			simpleSettlementViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).floatValue());
-			simpleSettlementViewModel.setWillIncomeSum(incomeInfo.getIncomeSum().floatValue());
-			simpleSettlementViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())).floatValue());
-			simpleSettlementViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())).floatValue());
-			if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).floatValue()!=0){
+			simpleSettlementViewModel.setCostSum(costInfo.getCostSum().add(changeCostInfo.getCostSum()));
+			simpleSettlementViewModel.setWillPaySum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(loanInfo.getLoanSum()));
+			simpleSettlementViewModel.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(loanInfo.getRealLoanSum()));
+			simpleSettlementViewModel.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()));
+			simpleSettlementViewModel.setWillIncomeSum(incomeInfo.getIncomeSum());
+			simpleSettlementViewModel.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())));
+			simpleSettlementViewModel.setRealGrossProfit(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum())));
+			if(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).compareTo(new BigDecimal(0))!=0){
 				simpleSettlementViewModel.setRealGrossMargin((incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()))).divide(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).toString()+"%");
 			}
 			simpleSettlementViewModel.setUserRealName(userService.getUserRealName(localTourTable.getUserId()));

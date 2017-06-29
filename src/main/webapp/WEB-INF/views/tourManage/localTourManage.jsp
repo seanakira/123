@@ -6747,8 +6747,8 @@
 			    });
 			}
 		}
-		
-		var tbodys = $("#reimbursementPrintDiv").find("tbody").not(".printTable");
+		var printDiv = $("#reimbursementPrintDiv").clone();
+		var tbodys = printDiv.find("tbody").not(".printTable");
 		tbodys.parent().hide();
 		tbodys.find("tr td:nth-child(14)").hide();
 		var tourNo = checkbox.parent().parent().next().text();
@@ -6761,7 +6761,7 @@
 				/* 生成表格 */
 				if(index%10==0){
 					table = $('<div class="printFrame"><table><thead><tr><th style="width: 6%;">日期</th>	<th style="width: 8%;">内容</th><th style="width: 10%;">供应商*</th>	<th style="width: 5%;">成本</th><th style="width: 5%;">数量</th><th style="width: 5%;">天数</th>	<th style="width: 5%;">预估成本</th><th style="width: 5%;">已汇金额</th><th style="width: 5%;">报账金额</th>	<th style="width: 5%;">备注</th><th style="width: 5%;">借款</th><th style="width: 5%;">挂账</th><th style="width: 5%;">状态</th></tr></thead><tbody class="printTable"></tbody></table></div>');
-					$("#reimbursementPrintDiv").append(table);
+					printDiv.append(table);
 					if(i==0){
 						table.prepend('<div class="h4"><div class="title">机票</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
 					}else if(i==1){
@@ -6825,21 +6825,21 @@
 				}
 			});
 		});
-		$("#reimbursementPrintDiv").find(".printTable").children("tr").attr("style","height:9%;")
+		printDiv.find(".printTable").children("tr").attr("style","height:9%;")
 		
 		/* 添加各种表格 */
-		/* $("#reimbursementPrintDiv").append("<h4>导游借款表</h4>");
-		$("#reimbursementPrintDiv").append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>"); */
-		$("#reimbursementPrintDiv").append('<div class="h4"><div class="title">收入</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
-		$("#reimbursementPrintDiv").append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
-		$("#reimbursementPrintDiv").append('<div class="h4">统计信息</div>');
-		$("#reimbursementPrintDiv").append('<table class="printStatistical">'+$("#headAmount").parent().parent().parent().html()+"</table>");
+		/* printDiv.append("<h4>导游借款表</h4>");
+		printDiv.append('<table class="printLoans">'+$("#loanTable").parent().html()+"</table>"); */
+		printDiv.append('<div class="h4"><div class="title">收入</div><div class="tourInfo">'+tourNo+'  '+tourName+'</div></div>');
+		printDiv.append('<table class="printIncomes">'+$("#incomes5").find("table").html()+"</table>");
+		printDiv.append('<div class="h4">统计信息</div>');
+		printDiv.append('<table class="printStatistical">'+$("#headAmount").parent().parent().parent().html()+"</table>");
 		
 		/* 修改人头为综费 */
-		$("#reimbursementPrintDiv").find("#headAmount").prev().text("综费");
+		printDiv.find("#headAmount").prev().text("综费");
 		
 		/* 将input转为text */
-		var inputs = $("#reimbursementPrintDiv").find("input");
+		var inputs = printDiv.find("input");
 		$.each(inputs, function(){
 			if($(this).parent().parent().prev().children("i").length>0){
 				$(this).parent().parent().prev().html("是");
@@ -6855,20 +6855,20 @@
 			}
 		});
 		/* 再次设置成本样式 */
-		var tbodys = $("#reimbursementPrintDiv").find(".printTable");
+		var tbodys = printDiv.find(".printTable");
 		/* tbodys.find("tr td:nth-child(10)").hide();
 		tbodys.find("tr td:nth-child(5)").hide();
 		tbodys.find("tr td:nth-child(6)").hide(); */
-		var thead = $("#reimbursementPrintDiv").find(".printTable").parent().children("thead");
+		var thead = printDiv.find(".printTable").parent().children("thead");
 		/* thead.find("tr th:nth-child(10)").hide();
 		thead.find("tr th:nth-child(5)").hide();
 		thead.find("tr th:nth-child(6)").hide(); */
-		$("#reimbursementPrintDiv").find("#changeCostBlue").hide();
-		$("#reimbursementPrintDiv").find("#reimbursementCostRed").hide();
+		printDiv.find("#changeCostBlue").hide();
+		printDiv.find("#reimbursementCostRed").hide();
 		
 		/* 收入样式 */
-		$("#reimbursementPrintDiv").find(".printIncomes").find("tr th:nth-child(7)").hide();
-		$("#reimbursementPrintDiv").find(".printIncomes").find("tr td:nth-child(7)").hide();
+		printDiv.find(".printIncomes").find("tr th:nth-child(7)").hide();
+		printDiv.find(".printIncomes").find("tr td:nth-child(7)").hide();
 		
 		/* 浏览器弹出提示框 */
 		<%-- if(navigator.userAgent.indexOf("Firefox")>0){
@@ -6884,7 +6884,7 @@
 		} --%>
 		
 		/* 打印PDF */
-		var printDiv = $("#reimbursementPrintDiv").clone();
+		
 		printDiv.find("style").remove();
 		printDiv.find(".tab-pane").remove();
 		printDiv.find("#changeCostBlue").remove();
@@ -6936,13 +6936,13 @@
 	        }
 		});
 		
-		/* $("#reimbursementPrintDiv").printArea({
+		/* printDiv.printArea({
 	        mode       : "iframe",
 	        standard   : "html5",
 	        popTitle   : '',
 	        popClose   : false,
 	    }); */
-		<%-- $("#reimbursementPrintDiv").printArea({
+		<%-- printDiv.printArea({
 	        mode       : "popup",
 	        standard   : "html5",
 	        popTitle   : '团队报账单',
@@ -6954,16 +6954,6 @@
 	        printAlert : true,
 	        printMsg   : 'Aguarde a impressão'
 	    }); --%>
-	    
-		$("#reimbursementPrintDiv").find("table").show();
-		$("#reimbursementPrintDiv").find("thead").show();
-		$("#reimbursementPrintDiv").find("thead th").show();
-		$("#reimbursementPrintDiv").children(".h3").remove();
-		$("#reimbursementPrintDiv").children(".h4").remove();
-		$(".printLoans").remove();
-		$(".printIncomes").remove();
-		$(".printStatistical").remove();
-		$(".printFrame").remove();
 		/* alert("正在打印...\n如需调整打印页面请在浏览器的“文件”-“页面设置”-“页边距和页眉/页脚”中设置，\n建议将页边距顶、底、左、右属性调整为5，将页眉页脚左、中、右全部调整为“空白”"); */
 		
 	});

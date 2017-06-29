@@ -186,7 +186,7 @@ public class SettlementTourStatisticViewModel {
 			settlementTourStatisticViewModel.setNotIncomeSum(settlementTourStatisticViewModel.getWillIncomeSum().subtract(settlementTourStatisticViewModel.getRealIncomeSum()));
 			settlementTourStatisticViewModel.setReimbursementCostSum(costService.getCostInfo(localTourTable.getId()).getReimbursementSum().add(changeCostService.getCostInfo(localTourTable.getId()).getReimbursementSum()).add(reimbursementCostService.getReimbursementCostInfo(localTourTable.getId()).getReimbursementSum()));
 			settlementTourStatisticViewModel.setGrossProfit(settlementTourStatisticViewModel.getWillIncomeSum().subtract(settlementTourStatisticViewModel.getReimbursementCostSum()));
-			if(settlementTourStatisticViewModel.getWillIncomeSum().floatValue()!=0){
+			if(settlementTourStatisticViewModel.getWillIncomeSum().compareTo(new BigDecimal(0))!=0){
 				settlementTourStatisticViewModel.setGrossProfitMargin((settlementTourStatisticViewModel.getWillIncomeSum().subtract(settlementTourStatisticViewModel.getReimbursementCostSum())).divide(settlementTourStatisticViewModel.getWillIncomeSum(), 4).multiply(new BigDecimal(100))+"%");
 			}else{
 				settlementTourStatisticViewModel.setGrossProfitMargin("0%");

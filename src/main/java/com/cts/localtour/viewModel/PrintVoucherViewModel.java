@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.shiro.SecurityUtils;
@@ -19,7 +20,7 @@ public class PrintVoucherViewModel {
 	private String deptName;
 	private ArrayList<LoanViewModel> loans;
 	private String customerAgencyName;
-	private float incomeTotal;
+	private BigDecimal incomeTotal;
 	private ArrayList<PrintPayVoucherViewModel> pays;
 	private ArrayList<LoanInvoiceViewModel> loanInvoices;
 	private ArrayList<RefundViewModel> refunds;
@@ -62,10 +63,10 @@ public class PrintVoucherViewModel {
 	public void setCustomerAgencyName(String customerAgencyName) {
 		this.customerAgencyName = customerAgencyName;
 	}
-	public float getIncomeTotal() {
+	public BigDecimal getIncomeTotal() {
 		return incomeTotal;
 	}
-	public void setIncomeTotal(float incomeTotal) {
+	public void setIncomeTotal(BigDecimal incomeTotal) {
 		this.incomeTotal = incomeTotal;
 	}
 	public ArrayList<LoanInvoiceViewModel> getLoanInvoices() {
@@ -90,7 +91,7 @@ public class PrintVoucherViewModel {
 		}else if("income".equals(type)){
 			LocalTourTable localTour = (LocalTourTable)baseService.getById("LocalTourTable", tourId);
 			payVoucherViewModel.setCustomerAgencyName(((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
-			payVoucherViewModel.setIncomeTotal(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()).floatValue());
+			payVoucherViewModel.setIncomeTotal(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()));
 		}else if("loanInvoice".equals(type)){
 			payVoucherViewModel.setLoanInvoices(loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, 2));
 		}else if("refund".equals(type)){

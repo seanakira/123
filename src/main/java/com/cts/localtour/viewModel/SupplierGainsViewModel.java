@@ -21,8 +21,8 @@ import com.cts.localtour.service.BaseService;
 @Component
 public class SupplierGainsViewModel {
 	private String headerName;
-	private float willCostSum;
-	private float realCostSum;
+	private BigDecimal willCostSum;
+	private BigDecimal realCostSum;
 	private int tourCount;
 	private int useCount;
 	private String type;
@@ -37,19 +37,19 @@ public class SupplierGainsViewModel {
 		this.headerName = headerName;
 	}
 
-	public float getWillCostSum() {
+	public BigDecimal getWillCostSum() {
 		return willCostSum;
 	}
 
-	public void setWillCostSum(float willCostSum) {
+	public void setWillCostSum(BigDecimal willCostSum) {
 		this.willCostSum = willCostSum;
 	}
 
-	public float getRealCostSum() {
+	public BigDecimal getRealCostSum() {
 		return realCostSum;
 	}
 
-	public void setRealCostSum(float realCostSum) {
+	public void setRealCostSum(BigDecimal realCostSum) {
 		this.realCostSum = realCostSum;
 	}
 
@@ -134,9 +134,9 @@ public class SupplierGainsViewModel {
 						ArrayList<Integer> contentTourIds = new ArrayList<Integer>();
 						for (CostTable cost : costTables) {
 							if(cost.getContentId()==supplierContentTable.getId()){
-								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(cost.getRealCost()).floatValue());
+								content.setWillCostSum(content.getWillCostSum().add(cost.getRealCost()));
 								if(cost.isRemittanced()){
-									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(cost.getRealCost()).floatValue());
+									content.setRealCostSum(content.getRealCostSum().add(cost.getRealCost()));
 								}
 								content.setUseCount(cost.getCount()*cost.getDays());
 								if(!contentTourIds.contains(cost.getTourId())){
@@ -152,9 +152,9 @@ public class SupplierGainsViewModel {
 						}
 						for (ChangeCostTable changeCost : changeCostTables) {
 							if(changeCost.getContentId()==supplierContentTable.getId()){
-								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(changeCost.getRealCost()).floatValue());
+								content.setWillCostSum(content.getWillCostSum().add(changeCost.getRealCost()));
 								if(changeCost.isRemittanced()){
-									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(changeCost.getRealCost()).floatValue());
+									content.setRealCostSum(content.getRealCostSum().add(changeCost.getRealCost()));
 								}
 								content.setUseCount(changeCost.getCount()*changeCost.getDays());
 								if(!contentTourIds.contains(changeCost.getTourId())){
@@ -170,9 +170,9 @@ public class SupplierGainsViewModel {
 						}
 						for (ReimbursementCostTable reimbursementCost : reimbursementCostTables) {
 							if(reimbursementCost.getContentId()==supplierContentTable.getId()){
-								content.setWillCostSum(new BigDecimal(content.getWillCostSum()).add(reimbursementCost.getReimbursement()).floatValue());
+								content.setWillCostSum(content.getWillCostSum().add(reimbursementCost.getReimbursement()));
 								if(reimbursementCost.isRemittanced()){
-									content.setRealCostSum(new BigDecimal(content.getRealCostSum()).add(reimbursementCost.getReimbursement()).floatValue());
+									content.setRealCostSum(content.getRealCostSum().add(reimbursementCost.getReimbursement()));
 								}
 								content.setUseCount(reimbursementCost.getCount()*reimbursementCost.getDays());
 								if(!contentTourIds.contains(reimbursementCost.getTourId())){
@@ -190,15 +190,15 @@ public class SupplierGainsViewModel {
 						content.setTourCount(contentTourIds.size());
 						supplierGainsViewModels.add(content);
 						
-						scope.setWillCostSum(new BigDecimal(scope.getWillCostSum()).add(new BigDecimal(content.getWillCostSum())).floatValue());
-						scope.setRealCostSum(new BigDecimal(scope.getRealCostSum()).add(new BigDecimal(content.getRealCostSum())).floatValue());
+						scope.setWillCostSum(scope.getWillCostSum().add(content.getWillCostSum()));
+						scope.setRealCostSum(scope.getRealCostSum().add(content.getRealCostSum()));
 						scope.setUseCount(scope.getUseCount()+content.getUseCount());
 					}
 					
 					scope.setTourCount(scopesTourIds.size());
 
-					supplier.setWillCostSum(new BigDecimal(supplier.getWillCostSum()).add(new BigDecimal(scope.getWillCostSum())).floatValue());
-					supplier.setRealCostSum(new BigDecimal(supplier.getRealCostSum()).add(new BigDecimal(scope.getRealCostSum())).floatValue());
+					supplier.setWillCostSum(supplier.getWillCostSum().add(scope.getWillCostSum()));
+					supplier.setRealCostSum(supplier.getRealCostSum().add(scope.getRealCostSum()));
 					supplier.setUseCount(supplier.getUseCount()+scope.getUseCount());
 				}
 				supplier.setTourCount(supplierTourIds.size());

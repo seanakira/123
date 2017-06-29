@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ import com.cts.localtour.service.UserService;
 @Component
 public class SimpleRevenueViewModel {
 	private LocalTourTable localTourTable;
-	private float willIncome;
-	private float realIncome;
-	private float invoice;
+	private BigDecimal willIncome;
+	private BigDecimal realIncome;
+	private BigDecimal invoice;
 	private String customerAgencyName;
 	private String status;
 	private String deptName;
@@ -62,22 +63,22 @@ public class SimpleRevenueViewModel {
 	public void setUserRealName(String userRealName) {
 		this.userRealName = userRealName;
 	}
-	public float getWillIncome() {
+	public BigDecimal getWillIncome() {
 		return willIncome;
 	}
-	public void setWillIncome(float willIncome) {
+	public void setWillIncome(BigDecimal willIncome) {
 		this.willIncome = willIncome;
 	}
-	public float getRealIncome() {
+	public BigDecimal getRealIncome() {
 		return realIncome;
 	}
-	public void setRealIncome(float realIncome) {
+	public void setRealIncome(BigDecimal realIncome) {
 		this.realIncome = realIncome;
 	}
-	public float getInvoice() {
+	public BigDecimal getInvoice() {
 		return invoice;
 	}
-	public void setInvoice(float invoice) {
+	public void setInvoice(BigDecimal invoice) {
 		this.invoice = invoice;
 	}
 	public String getCustomerAgencyName() {
@@ -100,9 +101,9 @@ public class SimpleRevenueViewModel {
 			simpleRevenueViewModel.setCustomerAgencyName(customerAgencyService.getCustomerAgencyName(localTour.getId()));
 			simpleRevenueViewModel.setDeptName(deptService.getDeptName(localTour.getDeptId()));
 			simpleRevenueViewModel.setUserRealName(userService.getUserRealName(localTour.getUserId()));
-			simpleRevenueViewModel.setRealIncome(incomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum().subtract(refundService.getIncomeInfo(localTour.getId()).getRealIncomeSum())).floatValue());
-			simpleRevenueViewModel.setWillIncome(incomeService.getIncomeInfo(localTour.getId()).getIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(localTour.getId()).getIncomeSum()).floatValue());
-			simpleRevenueViewModel.setInvoice((invoiceService.getInvoiceSum(localTour.getId()).add(loanInvoiceService.getLoanInvoiceSum(localTour.getId()))).floatValue());
+			simpleRevenueViewModel.setRealIncome(incomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getRealIncomeSum().subtract(refundService.getIncomeInfo(localTour.getId()).getRealIncomeSum())));
+			simpleRevenueViewModel.setWillIncome(incomeService.getIncomeInfo(localTour.getId()).getIncomeSum().add(changeIncomeService.getIncomeInfo(localTour.getId()).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(localTour.getId()).getIncomeSum()));
+			simpleRevenueViewModel.setInvoice((invoiceService.getInvoiceSum(localTour.getId()).add(loanInvoiceService.getLoanInvoiceSum(localTour.getId()))));
 			if(localTour.getStatus()==0){
 				simpleRevenueViewModel.setStatus("ÐÂ½¨");
 			}else if(localTour.getStatus()==1){

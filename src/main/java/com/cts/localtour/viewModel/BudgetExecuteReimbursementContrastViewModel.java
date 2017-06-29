@@ -22,26 +22,26 @@ import com.cts.localtour.service.UserService;
 
 @Component
 public class BudgetExecuteReimbursementContrastViewModel {
-	private float budgetCostSum;
+	private BigDecimal budgetCostSum;
 	private String budgetCostSumInfo;
-	private float budgetIncomeSum;
+	private BigDecimal budgetIncomeSum;
 	private String budgetIncomeSumInfo;
-	private float budgetGrossProfit;
-	private float budgetGrossMargin;
+	private BigDecimal budgetGrossProfit;
+	private BigDecimal budgetGrossMargin;
 	
-	private float executeCostSum;
+	private BigDecimal executeCostSum;
 	private String executeCostSumInfo;
-	private float executeIncomeSum;
+	private BigDecimal executeIncomeSum;
 	private String executeIncomeSumInfo;
-	private float executeGrossProfit;
-	private float executeGrossMargin;
+	private BigDecimal executeGrossProfit;
+	private BigDecimal executeGrossMargin;
 	
-	private float reimbursementCostSum;
+	private BigDecimal reimbursementCostSum;
 	private String reimbursementCostSumInfo;
-	private float reimbursementIncomeSum;
+	private BigDecimal reimbursementIncomeSum;
 	private String reimbursementIncomeSumInfo;
-	private float reimbursementGrossProfit;
-	private float reimbursementGrossMargin;
+	private BigDecimal reimbursementGrossProfit;
+	private BigDecimal reimbursementGrossMargin;
 	
 	private String tourNo;
 	private String deptName;
@@ -65,10 +65,10 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	private DeptService deptService;
 	@Autowired
 	private UserService userService;
-	public float getBudgetCostSum() {
+	public BigDecimal getBudgetCostSum() {
 		return budgetCostSum;
 	}
-	public void setBudgetCostSum(float budgetCostSum) {
+	public void setBudgetCostSum(BigDecimal budgetCostSum) {
 		this.budgetCostSum = budgetCostSum;
 	}
 	public String getBudgetCostSumInfo() {
@@ -77,10 +77,10 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	public void setBudgetCostSumInfo(String budgetCostSumInfo) {
 		this.budgetCostSumInfo = budgetCostSumInfo;
 	}
-	public float getBudgetIncomeSum() {
+	public BigDecimal getBudgetIncomeSum() {
 		return budgetIncomeSum;
 	}
-	public void setBudgetIncomeSum(float budgetIncomeSum) {
+	public void setBudgetIncomeSum(BigDecimal budgetIncomeSum) {
 		this.budgetIncomeSum = budgetIncomeSum;
 	}
 	public String getBudgetIncomeSumInfo() {
@@ -89,22 +89,22 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	public void setBudgetIncomeSumInfo(String budgetIncomeSumInfo) {
 		this.budgetIncomeSumInfo = budgetIncomeSumInfo;
 	}
-	public float getBudgetGrossProfit() {
+	public BigDecimal getBudgetGrossProfit() {
 		return budgetGrossProfit;
 	}
-	public void setBudgetGrossProfit(float budgetGrossProfit) {
+	public void setBudgetGrossProfit(BigDecimal budgetGrossProfit) {
 		this.budgetGrossProfit = budgetGrossProfit;
 	}
-	public float getBudgetGrossMargin() {
+	public BigDecimal getBudgetGrossMargin() {
 		return budgetGrossMargin;
 	}
-	public void setBudgetGrossMargin(float budgetGrossMargin) {
+	public void setBudgetGrossMargin(BigDecimal budgetGrossMargin) {
 		this.budgetGrossMargin = budgetGrossMargin;
 	}
-	public float getExecuteCostSum() {
+	public BigDecimal getExecuteCostSum() {
 		return executeCostSum;
 	}
-	public void setExecuteCostSum(float executeCostSum) {
+	public void setExecuteCostSum(BigDecimal executeCostSum) {
 		this.executeCostSum = executeCostSum;
 	}
 	public String getExecuteCostSumInfo() {
@@ -113,10 +113,10 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	public void setExecuteCostSumInfo(String executeCostSumInfo) {
 		this.executeCostSumInfo = executeCostSumInfo;
 	}
-	public float getExecuteIncomeSum() {
+	public BigDecimal getExecuteIncomeSum() {
 		return executeIncomeSum;
 	}
-	public void setExecuteIncomeSum(float executeIncomeSum) {
+	public void setExecuteIncomeSum(BigDecimal executeIncomeSum) {
 		this.executeIncomeSum = executeIncomeSum;
 	}
 	public String getExecuteIncomeSumInfo() {
@@ -125,22 +125,22 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	public void setExecuteIncomeSumInfo(String executeIncomeSumInfo) {
 		this.executeIncomeSumInfo = executeIncomeSumInfo;
 	}
-	public float getExecuteGrossProfit() {
+	public BigDecimal getExecuteGrossProfit() {
 		return executeGrossProfit;
 	}
-	public void setExecuteGrossProfit(float executeGrossProfit) {
+	public void setExecuteGrossProfit(BigDecimal executeGrossProfit) {
 		this.executeGrossProfit = executeGrossProfit;
 	}
-	public float getExecuteGrossMargin() {
+	public BigDecimal getExecuteGrossMargin() {
 		return executeGrossMargin;
 	}
-	public void setExecuteGrossMargin(float executeGrossMargin) {
+	public void setExecuteGrossMargin(BigDecimal executeGrossMargin) {
 		this.executeGrossMargin = executeGrossMargin;
 	}
-	public float getReimbursementCostSum() {
+	public BigDecimal getReimbursementCostSum() {
 		return reimbursementCostSum;
 	}
-	public void setReimbursementCostSum(float reimbursementCostSum) {
+	public void setReimbursementCostSum(BigDecimal reimbursementCostSum) {
 		this.reimbursementCostSum = reimbursementCostSum;
 	}
 	public String getReimbursementCostSumInfo() {
@@ -149,10 +149,10 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	public void setReimbursementCostSumInfo(String reimbursementCostSumInfo) {
 		this.reimbursementCostSumInfo = reimbursementCostSumInfo;
 	}
-	public float getReimbursementIncomeSum() {
+	public BigDecimal getReimbursementIncomeSum() {
 		return reimbursementIncomeSum;
 	}
-	public void setReimbursementIncomeSum(float reimbursementIncomeSum) {
+	public void setReimbursementIncomeSum(BigDecimal reimbursementIncomeSum) {
 		this.reimbursementIncomeSum = reimbursementIncomeSum;
 	}
 	public String getReimbursementIncomeSumInfo() {
@@ -161,16 +161,16 @@ public class BudgetExecuteReimbursementContrastViewModel {
 	public void setReimbursementIncomeSumInfo(String reimbursementIncomeSumInfo) {
 		this.reimbursementIncomeSumInfo = reimbursementIncomeSumInfo;
 	}
-	public float getReimbursementGrossProfit() {
+	public BigDecimal getReimbursementGrossProfit() {
 		return reimbursementGrossProfit;
 	}
-	public void setReimbursementGrossProfit(float reimbursementGrossProfit) {
+	public void setReimbursementGrossProfit(BigDecimal reimbursementGrossProfit) {
 		this.reimbursementGrossProfit = reimbursementGrossProfit;
 	}
-	public float getReimbursementGrossMargin() {
+	public BigDecimal getReimbursementGrossMargin() {
 		return reimbursementGrossMargin;
 	}
-	public void setReimbursementGrossMargin(float reimbursementGrossMargin) {
+	public void setReimbursementGrossMargin(BigDecimal reimbursementGrossMargin) {
 		this.reimbursementGrossMargin = reimbursementGrossMargin;
 	}
 	public String getTourNo() {
@@ -205,31 +205,31 @@ public class BudgetExecuteReimbursementContrastViewModel {
 			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
 			IncomeInfo reimbursementIncomeInfo = reimbursementIncomeService.getIncomeInfo(localTourTable.getId());
 			
-			budgetExecuteReimbursementContrastViewModel.setBudgetCostSum(costInfo.getCostSum().floatValue());
+			budgetExecuteReimbursementContrastViewModel.setBudgetCostSum(costInfo.getCostSum());
 			budgetExecuteReimbursementContrastViewModel.setBudgetCostSumInfo(costInfo.getCostSumInfo());
-			budgetExecuteReimbursementContrastViewModel.setBudgetIncomeSum(incomeInfo.getIncomeSum().floatValue());
+			budgetExecuteReimbursementContrastViewModel.setBudgetIncomeSum(incomeInfo.getIncomeSum());
 			budgetExecuteReimbursementContrastViewModel.setBudgetIncomeSumInfo(incomeInfo.getIncomeSumInfo());
-			budgetExecuteReimbursementContrastViewModel.setBudgetGrossProfit(incomeInfo.getIncomeSum().subtract(costInfo.getCostSum()).floatValue());
-			if(incomeInfo.getIncomeSum().floatValue()!=0){
-				budgetExecuteReimbursementContrastViewModel.setBudgetGrossMargin((incomeInfo.getIncomeSum().subtract(costInfo.getCostSum()).divide(incomeInfo.getIncomeSum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue()));
+			budgetExecuteReimbursementContrastViewModel.setBudgetGrossProfit(incomeInfo.getIncomeSum().subtract(costInfo.getCostSum()));
+			if(incomeInfo.getIncomeSum().compareTo(new BigDecimal(0))!=0){
+				budgetExecuteReimbursementContrastViewModel.setBudgetGrossMargin((incomeInfo.getIncomeSum().subtract(costInfo.getCostSum()).divide(incomeInfo.getIncomeSum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100))));
 			}
 			
-			budgetExecuteReimbursementContrastViewModel.setExecuteCostSum(costInfo.getCostSum().add(changeCostInfo.getCostSum()).floatValue());
+			budgetExecuteReimbursementContrastViewModel.setExecuteCostSum(costInfo.getCostSum().add(changeCostInfo.getCostSum()));
 			budgetExecuteReimbursementContrastViewModel.setExecuteCostSumInfo(costInfo.getCostSumInfo()+changeCostInfo.getCostSumInfo());
-			budgetExecuteReimbursementContrastViewModel.setExecuteIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue());
+			budgetExecuteReimbursementContrastViewModel.setExecuteIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()));
 			budgetExecuteReimbursementContrastViewModel.setExecuteIncomeSumInfo(incomeInfo.getIncomeSumInfo()+changeIncomeInfo.getIncomeSumInfo());
-			budgetExecuteReimbursementContrastViewModel.setExecuteGrossProfit((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum())).subtract(costInfo.getCostSum().add(changeCostInfo.getCostSum())).floatValue());
-			if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).floatValue()!=0){
-				budgetExecuteReimbursementContrastViewModel.setExecuteGrossMargin(((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum())).subtract(costInfo.getCostSum().add(changeCostInfo.getCostSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
+			budgetExecuteReimbursementContrastViewModel.setExecuteGrossProfit((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum())).subtract(costInfo.getCostSum().add(changeCostInfo.getCostSum())));
+			if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).compareTo(new BigDecimal(0))!=0){
+				budgetExecuteReimbursementContrastViewModel.setExecuteGrossMargin(((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum())).subtract(costInfo.getCostSum().add(changeCostInfo.getCostSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
 			}
 			
-			budgetExecuteReimbursementContrastViewModel.setReimbursementCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())).floatValue());
+			budgetExecuteReimbursementContrastViewModel.setReimbursementCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())));
 			budgetExecuteReimbursementContrastViewModel.setReimbursementCostSumInfo(costInfo.getReimbursementSumInfo()+changeCostInfo.getReimbursementSumInfo()+reimbursementCostInfo.getReimbursementSumInfo());
-			budgetExecuteReimbursementContrastViewModel.setReimbursementIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum())).floatValue());
+			budgetExecuteReimbursementContrastViewModel.setReimbursementIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum())));
 			budgetExecuteReimbursementContrastViewModel.setReimbursementIncomeSumInfo(incomeInfo.getIncomeSumInfo()+changeIncomeInfo.getIncomeSumInfo()+reimbursementIncomeInfo.getIncomeSumInfo());
-			budgetExecuteReimbursementContrastViewModel.setReimbursementGrossProfit((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum()))).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum())).floatValue());
-			if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum())).floatValue()!=0){
-				budgetExecuteReimbursementContrastViewModel.setReimbursementGrossMargin(((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum()))).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum())),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).floatValue());
+			budgetExecuteReimbursementContrastViewModel.setReimbursementGrossProfit((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum()))).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum())));
+			if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum())).compareTo(new BigDecimal(0))!=0){
+				budgetExecuteReimbursementContrastViewModel.setReimbursementGrossMargin(((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum()))).subtract(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum().add(reimbursementIncomeInfo.getIncomeSum())),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
 			}
 			
 			budgetExecuteReimbursementContrastViewModel.setTourNo(localTourTable.getTourNo());

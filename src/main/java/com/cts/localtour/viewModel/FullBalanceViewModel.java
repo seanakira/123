@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,9 @@ public class FullBalanceViewModel {
 	private ArrayList<LoanViewModel> loans;
 	private ArrayList<ChangeCostViewModel> changeCosts;
 	private ArrayList<ReimbursementCostViewModel> reimbursementCosts;
-	private float willIncomeSum;
-	private float realPaySum;
-	private float reimbursementSum;
+	private BigDecimal willIncomeSum;
+	private BigDecimal realPaySum;
+	private BigDecimal reimbursementSum;
 	private ReimbursementTable reimbursementTable;
 	@SuppressWarnings("rawtypes")
 	@Autowired
@@ -80,22 +81,22 @@ public class FullBalanceViewModel {
 	public void setReimbursementTable(ReimbursementTable reimbursementTable) {
 		this.reimbursementTable = reimbursementTable;
 	}
-	public float getWillIncomeSum() {
+	public BigDecimal getWillIncomeSum() {
 		return willIncomeSum;
 	}
-	public void setWillIncomeSum(float willIncomeSum) {
+	public void setWillIncomeSum(BigDecimal willIncomeSum) {
 		this.willIncomeSum = willIncomeSum;
 	}
-	public float getRealPaySum() {
+	public BigDecimal getRealPaySum() {
 		return realPaySum;
 	}
-	public void setRealPaySum(float realPaySum) {
+	public void setRealPaySum(BigDecimal realPaySum) {
 		this.realPaySum = realPaySum;
 	}
-	public float getReimbursementSum() {
+	public BigDecimal getReimbursementSum() {
 		return reimbursementSum;
 	}
-	public void setReimbursementSum(float reimbursementSum) {
+	public void setReimbursementSum(BigDecimal reimbursementSum) {
 		this.reimbursementSum = reimbursementSum;
 	}
 	public ArrayList<ReimbursementCostViewModel> getReimbursementCosts() {
@@ -184,12 +185,12 @@ public class FullBalanceViewModel {
 			loans.add(loan);
 		}
 		full.setLoans(loans);
-		full.setWillIncomeSum(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum().add(reimbursementIncomeService.getIncomeInfo(tourId).getIncomeSum())).floatValue());
+		full.setWillIncomeSum(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum().add(reimbursementIncomeService.getIncomeInfo(tourId).getIncomeSum())));
 		CostInfo costInfo = costService.getCostInfo(tourId);
 		CostInfo changeCostInfo = changeCostService.getCostInfo(tourId);
 		CostInfo reimbursementCostInfo = reimbursementCostService.getReimbursementCostInfo(tourId);
-		full.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(loanService.getLoanInfo(tourId).getRealLoanSum()).floatValue());
-		full.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())).floatValue());
+		full.setRealPaySum(costInfo.getRealCostSum().add(changeCostInfo.getRealCostSum()).add(loanService.getLoanInfo(tourId).getRealLoanSum()));
+		full.setReimbursementSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum().add(reimbursementCostInfo.getReimbursementSum())));
 		ArrayList<ReimbursementTable> reimbursementTables = (ArrayList<ReimbursementTable>) baseService.getAllByString("ReimbursementTable", "tourId=?", tourId);
 		full.setReimbursementTable(reimbursementTables.isEmpty()?null:reimbursementTables.get(0));
 		return full;

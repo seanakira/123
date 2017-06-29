@@ -1,5 +1,6 @@
 package com.cts.localtour.viewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ import com.cts.localtour.service.ReimbursementCostService;
 public class SimpleBillCheckViewModel {
 	private SupplierTable supplierTable;
 	private String settlementDate;
-	private float billSum;
-	private float applicationSum;
-	private float willRemittanceSum;
-	private float remittancedSum;
+	private BigDecimal billSum;
+	private BigDecimal applicationSum;
+	private BigDecimal willRemittanceSum;
+	private BigDecimal remittancedSum;
 	@Autowired
 	private CostService costService;
 	@Autowired
@@ -31,28 +32,28 @@ public class SimpleBillCheckViewModel {
 	public void setSupplierTable(SupplierTable supplierTable) {
 		this.supplierTable = supplierTable;
 	}
-	public float getBillSum() {
+	public BigDecimal getBillSum() {
 		return billSum;
 	}
-	public void setBillSum(float billSum) {
+	public void setBillSum(BigDecimal billSum) {
 		this.billSum = billSum;
 	}
-	public float getApplicationSum() {
+	public BigDecimal getApplicationSum() {
 		return applicationSum;
 	}
-	public void setApplicationSum(float applicationSum) {
+	public void setApplicationSum(BigDecimal applicationSum) {
 		this.applicationSum = applicationSum;
 	}
-	public float getWillRemittanceSum() {
+	public BigDecimal getWillRemittanceSum() {
 		return willRemittanceSum;
 	}
-	public void setWillRemittanceSum(float willRemittanceSum) {
+	public void setWillRemittanceSum(BigDecimal willRemittanceSum) {
 		this.willRemittanceSum = willRemittanceSum;
 	}
-	public float getRemittancedSum() {
+	public BigDecimal getRemittancedSum() {
 		return remittancedSum;
 	}
-	public void setRemittancedSum(float remittancedSum) {
+	public void setRemittancedSum(BigDecimal remittancedSum) {
 		this.remittancedSum = remittancedSum;
 	}
 	public String getSettlementDate() {
@@ -75,10 +76,10 @@ public class SimpleBillCheckViewModel {
 			SimpleBillCheckViewModel billCheckViewModel = new SimpleBillCheckViewModel();
 			billCheckViewModel.setSupplierTable(supplierTable);
 			billCheckViewModel.setSettlementDate(billinfo.getSettlementDate());
-			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()).floatValue());
-			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()).floatValue());
-			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()).floatValue());
-			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()).floatValue());
+			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()));
+			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()));
+			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()));
+			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()));
 			billCheckViewModels.add(billCheckViewModel);
 		}
 		return billCheckViewModels;
@@ -98,10 +99,10 @@ public class SimpleBillCheckViewModel {
 			SimpleBillCheckViewModel billCheckViewModel = new SimpleBillCheckViewModel();
 			billCheckViewModel.setSupplierTable(supplierTable);
 			billCheckViewModel.setSettlementDate(billinfo.getSettlementDate());
-			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()).floatValue());
-			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()).floatValue());
-			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()).floatValue());
-			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()).floatValue());
+			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()));
+			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()));
+			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()));
+			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()));
 			billCheckViewModels.add(billCheckViewModel);
 		}
 		return billCheckViewModels;
@@ -120,10 +121,10 @@ public class SimpleBillCheckViewModel {
 			SimpleBillCheckViewModel billCheckViewModel = new SimpleBillCheckViewModel();
 			billCheckViewModel.setSupplierTable(supplierTable);
 			billCheckViewModel.setSettlementDate(billinfo.getSettlementDate());
-			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()).floatValue());
-			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()).floatValue());
-			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()).floatValue());
-			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()).floatValue());
+			billCheckViewModel.setBillSum(billinfo.getBillSum().add(changeBillInfo.getBillSum()).add(reimbursementBillInfo.getBillSum()));
+			billCheckViewModel.setApplicationSum(billinfo.getApplicationSum().add(changeBillInfo.getApplicationSum()).add(reimbursementBillInfo.getApplicationSum()));
+			billCheckViewModel.setWillRemittanceSum(billinfo.getWillRemittanceSum().add(changeBillInfo.getWillRemittanceSum()).add(reimbursementBillInfo.getWillRemittanceSum()));
+			billCheckViewModel.setRemittancedSum(billinfo.getRemittancedSum().add(changeBillInfo.getRemittancedSum()).add(reimbursementBillInfo.getRemittancedSum()));
 			billCheckViewModels.add(billCheckViewModel);
 		}
 		return billCheckViewModels;

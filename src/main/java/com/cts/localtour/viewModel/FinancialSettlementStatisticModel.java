@@ -139,7 +139,7 @@ public class FinancialSettlementStatisticModel {
 			financialSettlementStatisticModel.setWillIncomeSum(incomeService.getIncomeInfo(localTourTable.getId()).getIncomeSum().add(changeIncomeService.getIncomeInfo(localTourTable.getId()).getIncomeSum()).add(reimbursementIncomeService.getIncomeInfo(localTourTable.getId()).getIncomeSum()));
 			financialSettlementStatisticModel.setWillCostSum(costService.getCostInfo(localTourTable.getId()).getReimbursementSum().add(changeCostService.getCostInfo(localTourTable.getId()).getReimbursementSum()).add(reimbursementCostService.getReimbursementCostInfo(localTourTable.getId()).getReimbursementSum()));
 			financialSettlementStatisticModel.setGrossProfit(financialSettlementStatisticModel.getWillIncomeSum().subtract(financialSettlementStatisticModel.getWillCostSum()));
-			if(financialSettlementStatisticModel.getWillIncomeSum().floatValue()!=0){
+			if(financialSettlementStatisticModel.getWillIncomeSum().compareTo(new BigDecimal(0))!=0){
 				financialSettlementStatisticModel.setGrossProfitMargin((financialSettlementStatisticModel.getWillIncomeSum().subtract(financialSettlementStatisticModel.getWillCostSum())).divide(financialSettlementStatisticModel.getWillIncomeSum(), 4).multiply(new BigDecimal(100))+"%");
 			}else{
 				financialSettlementStatisticModel.setGrossProfitMargin("0%");

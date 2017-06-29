@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -482,7 +483,7 @@ public class MobileService extends BaseService{
 				for (LoanTable loanTable : loanTables) {
 					if(loanTable.getStatus()==2){
 						hasManager = true;
-						if(loanTable.getLoanAmount().floatValue()>10000){
+						if(loanTable.getLoanAmount().compareTo(new BigDecimal(10000))==1){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;
@@ -533,7 +534,7 @@ public class MobileService extends BaseService{
 				for (CostTable cost : costTables) {
 					if(cost.getPayStatus()==1){
 						hasManager = true;
-						if(cost.getRealCost().floatValue()>10000){
+						if(cost.getRealCost().compareTo(new BigDecimal(10000))==1){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;
@@ -545,7 +546,7 @@ public class MobileService extends BaseService{
 				for (ChangeCostTable changeCost : changeCostTable) {
 					if(changeCost.getPayStatus()==1){
 						hasManager = true;
-						if(changeCost.getRealCost().floatValue()>10000){
+						if(changeCost.getRealCost().compareTo(new BigDecimal(10000))==1){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;
@@ -595,7 +596,7 @@ public class MobileService extends BaseService{
 				for (RefundTable refundTable : refundTables) {
 					if(refundTable.getStatus()==1){
 						hasManager = true;
-						if(refundTable.getRefundAmount().floatValue()>10000){
+						if(refundTable.getRefundAmount().compareTo(new BigDecimal(10000))==1){
 							hasMainManager = true;
 						}else{
 							hasViceManager = true;
