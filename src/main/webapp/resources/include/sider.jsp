@@ -279,6 +279,14 @@
 											</a>
 										</li>
 									</shiro-ex:hasAnyPermissions>
+									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:settlementTourStatistic">
+										<li id="settlementTourStatistic">
+											<a href="${path }settlementTourStatistic">
+												<i class="icon-double-angle-right"></i>
+												结算团队统计
+											</a>
+										</li>
+									</shiro-ex:hasAnyPermissions>
 									<shiro-ex:hasAnyPermissions name="statisticalAnalysis:deptGains">
 										<li id="deptGains">
 											<a href="${path }deptGains">

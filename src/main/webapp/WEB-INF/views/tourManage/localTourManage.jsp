@@ -466,6 +466,19 @@
 												<tr>
 													<td>备注</td>
 													<td><input class="form-control" type="text"></td>
+													<td <c:if test="${!sessionScope.isMice }">style="display: none;"</c:if>>是否为新客户*</td>
+													<td <c:if test="${!sessionScope.isMice }">style="display: none;"</c:if>>
+														<div class="control-group">
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" value="true">
+																<span class="lbl"> 是</span>
+															</label>
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" value="false">
+																<span class="lbl"> 否</span>
+															</label>
+														</div>
+													</td>
 												</tr>
 											</tbody>
 										</table>
@@ -1030,6 +1043,8 @@
 												<tr>
 													<td>备注</td>
 													<td class="tourInfo"></td>
+													<td <c:if test="${!sessionScope.isMice }">style="display: none;"</c:if>>是否为新客户*</td>
+													<td <c:if test="${!sessionScope.isMice }">style="display: none;"</c:if> class="tourInfo"></td>
 												</tr>
 											</tbody>
 										</table>
@@ -1459,6 +1474,19 @@
 												<tr>
 													<td>备注</td>
 													<td class="tourInfo"><input type="text" class="form-control" /></td>
+													<td <c:if test="${!sessionScope.isMice }">style="display: none;"</c:if>>是否为新客户*</td>
+													<td <c:if test="${!sessionScope.isMice }">style="display: none;"</c:if> class="tourInfo">
+														<div class="control-group">
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" value="true">
+																<span class="lbl"> 是</span>
+															</label>
+															<label>
+																<input name="form-field-radio" type="radio" class="ace" value="false">
+																<span class="lbl"> 否</span>
+															</label>
+														</div>
+													</td>
 												</tr>
 											</tbody>
 										</table>
@@ -3242,7 +3270,7 @@
 	$("#gourpManage").addClass("open");
 	$("#gourpManage").children("ul").attr("style","display:block");
 	$("#localTourManage").addClass("active");
-	$("#create").find("input").attr("style","width:100%;");
+	$("#create").find("input").not(".ace").attr("style","width:100%;");
 	$("#create").find("select").attr("style","width:100%;");
 	$(".modal-dialog").attr("style","width:90%;");
 	/* 提示 */
@@ -4039,6 +4067,7 @@
 		var endTime = new Date(inputs.eq(12).val());
 		var guideIds  = selects.eq(5).val();
 		var remark = inputs.eq(14).val();
+		var isNewCustomer = $("#create").find('input[type="radio"]:checked').val();
 		var userId = '<%=user.getId()%>';
 		var deptId = '<%=user.getDeptId()%>';
 		var status = 0;
@@ -4046,7 +4075,7 @@
 		var days = (endTime-startTime)/1000/60/60/24+1;
 		var localTourTable={tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
 					   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
-					   endTime:endTime,remark:remark,userId:userId,deptId:deptId,status:status,enable:enable};
+					   endTime:endTime,remark:remark,isNewCustomer:isNewCustomer,userId:userId,deptId:deptId,status:status,enable:enable};
 		var guideTimeTables = new Array();
 		if(guideIds!=null){
 			for (var int = 0; int < guideIds.length; int++) {
@@ -4311,6 +4340,7 @@
 			        	td.eq(12).children("input").val((data.localTourTable.startTime).replace(/-/g,"/"));
 			        	td.eq(13).children("input").val((data.localTourTable.endTime).replace(/-/g,"/"));
 			        	td.eq(15).children("input").val(data.localTourTable.remark);
+			        	td.eq(16).find("input[type='radio'][value='"+data.localTourTable.isNewCustomer+"']").prop("checked", true);
 			        	/* 设置导游 */
 			        	var select = td.eq(14).children("select");
 						var myData = {startTime:(data.localTourTable.startTime).replace(/-/g,"/"),endTime:(data.localTourTable.endTime).replace(/-/g,"/")};
@@ -4820,10 +4850,11 @@
 		var endTime = new Date(inputs.eq(12).val());
 		var guideIds  = selects.eq(5).val();
 		var remark = inputs.eq(14).val();
+		var isNewCustomer = $("#edit").find('input[type="radio"]:checked').val();
 		var days = (endTime-startTime)/1000/60/60/24+1;
 		var localTourTable={id:id,tourNo:tourNo,tourName:tourName,businessTypeId:businessTypeId,tourTypeId:tourTypeId,regionId:regionId,visitorTypeId:visitorTypeId,
 					   customerAgencyId:customerAgencyId,organizor:organizor,qpGuideNo:qpGuideNo,adultNo:adultNo,childrenNo:childrenNo,startTime:startTime,
-					   endTime:endTime,remark:remark};
+					   endTime:endTime,remark:remark,isNewCustomer:isNewCustomer};
 		
 		var guideTimeTables = new Array();
 		if(guideIds!=null){

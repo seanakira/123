@@ -59,7 +59,7 @@
 						<div class="nav-search" id="nav-search">
 							<form class="form-search" action="${path }settlementManage" method="get">
 								<span class="input-icon">
-									<input name="key" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text" value="${key }" />
+									<input name="key" placeholder="搜索 ..." class="nav-search-input" autocomplete="off" type="text" value="${key }" />
 									<i class="icon-search nav-search-icon"></i>
 								</span>
 							</form>

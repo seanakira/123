@@ -276,6 +276,9 @@
                 	<!-- 预算执行结算对比 -->
                 	/budgetExecuteReimbursementContrast=authc,perms[statisticalAnalysis:budgetExecuteReimbursementContrast]
                 	/budgetExecuteReimbursementContrast/get=authc,perms[statisticalAnalysis:budgetExecuteReimbursementContrast]
+                	<!-- 团队结算统计 -->
+                	/settlementTourStatistic=authc,perms[statisticalAnalysis:settlementTourStatistic]
+                	/settlementTourStatistic/get=authc,perms[statisticalAnalysis:settlementTourStatistic]
                 <!-- 数据管理 -->
                 	<!-- 业务类型 -->
                 	/businessTypeManage=authc,perms[businessType:manage]

@@ -18,6 +18,7 @@ import com.cts.localtour.viewModel.BudgetExecuteReimbursementContrastViewModel;
 import com.cts.localtour.viewModel.DeptGainsViewModel;
 import com.cts.localtour.viewModel.FinancialSettlementStatisticModel;
 import com.cts.localtour.viewModel.InvoiceStatisticViewModel;
+import com.cts.localtour.viewModel.SettlementTourStatisticViewModel;
 import com.cts.localtour.viewModel.SupplierGainsViewModel;
 import com.cts.localtour.viewModel.TourDetailsViewModel;
 
@@ -104,5 +105,18 @@ public class StatisticsController {
 	@RequestMapping("/budgetExecuteReimbursementContrast/get")
 	public @ResponseBody ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
 		return statisticsService.getBudgetExecuteReimbursementContrast(start, end, deptIds, tourNo);
+	}
+	
+	/*团队结算统计*/
+	@RequestMapping("/settlementTourStatistic")
+	public String settlementTourStatistic(Model md){
+		md.addAttribute("depts", deptService.getDataDept());
+		md.addAttribute("users", userService.getDataUser());
+		return "statistics/settlementTourStatistic";
+	}
+	
+	@RequestMapping("/settlementTourStatistic/get")
+	public @ResponseBody ArrayList<SettlementTourStatisticViewModel> getSettlementTourStatistic(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds,  @RequestParam String userIds, @RequestParam String tourNo, @RequestParam String status){
+		return statisticsService.getSettlementTourStatistic(start, end, deptIds, userIds, tourNo, status);
 	}
 }

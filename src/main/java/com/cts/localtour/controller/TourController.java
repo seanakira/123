@@ -126,7 +126,7 @@ public class TourController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/save")
-	public @ResponseBody int save(@RequestBody FullLocalTourViewModel full){
+	public @ResponseBody int save(@RequestBody FullLocalTourViewModel full,HttpSession session){
 		LocalTourTable localTour = full.getLocalTourTable();
 //		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
@@ -134,6 +134,9 @@ public class TourController {
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
+		if((Boolean) session.getAttribute("isMice")&&localTour.getIsNewCustomer()==null){
+			return 0;
+		}
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){
 			return 0;
 		}else{
@@ -286,7 +289,7 @@ public class TourController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/update")
-	public @ResponseBody Integer update(@RequestBody FullLocalTourViewModel full){
+	public @ResponseBody Integer update(@RequestBody FullLocalTourViewModel full, HttpSession session){
 		LocalTourTable localTour = full.getLocalTourTable();
 //		ArrayList<GuideTimeTable> guideTimeTables = full.getGuideTimeTables();
 		ArrayList<ArrTable> arrTables = full.getArrTables();
@@ -295,6 +298,9 @@ public class TourController {
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
+		if((Boolean) session.getAttribute("isMice")&&localTour.getIsNewCustomer()==null){
+			return -1;
+		}
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0||localTour.getStartTime().getTime()>localTour.getEndTime().getTime()){
 			return -1;
 		}else{

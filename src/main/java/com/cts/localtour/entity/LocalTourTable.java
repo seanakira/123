@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-6-26 11:03:25 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-6-29 10:52:58 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -40,6 +40,7 @@ public class LocalTourTable implements java.io.Serializable {
 	private boolean enable;
 	private String guideIds;
 	private Date settlementTime;
+	private Boolean isNewCustomer;
 
 	public LocalTourTable() {
 	}
@@ -67,7 +68,7 @@ public class LocalTourTable implements java.io.Serializable {
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
 			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
 			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
-			String guideIds, Date settlementTime) {
+			String guideIds, Date settlementTime, Boolean isNewCustomer) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -88,6 +89,7 @@ public class LocalTourTable implements java.io.Serializable {
 		this.enable = enable;
 		this.guideIds = guideIds;
 		this.settlementTime = settlementTime;
+		this.isNewCustomer = isNewCustomer;
 	}
 
 	@Id
@@ -283,6 +285,15 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setSettlementTime(Date settlementTime) {
 		this.settlementTime = settlementTime;
+	}
+
+	@Column(name = "isNewCustomer")
+	public Boolean getIsNewCustomer() {
+		return this.isNewCustomer;
+	}
+
+	public void setIsNewCustomer(Boolean isNewCustomer) {
+		this.isNewCustomer = isNewCustomer;
 	}
 
 }
