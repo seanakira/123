@@ -7,11 +7,7 @@
 <% String path = request.getContextPath()+"/"; %>
 
 <jsp:include page="../../../resources/include/header.jsp"></jsp:include>
-<jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
-<jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
 
-<link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
-<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
 <style type="text/css">
 	#ui-datepicker-div a{
 		text-align: center;
@@ -27,7 +23,28 @@
 	。chosen-container{
 		top: -2px;
 	}
+	.fixed{
+		position: fixed;
+		right: 0;
+		left: 190px;
+		top:0;
+	}
+	.fixed div{
+		display: inline-block;
+		border: solid 1px #DDD;
+		color: #707070;
+		background: #f2f2f2;
+		padding: 8px;
+		font-weight: bold;
+	}
 </style>
+
+<link rel="stylesheet" href="${path }resources/assets/css/jquery-ui-1.10.3.full.min.css">
+<link rel="stylesheet" href="${path }resources/assets/css/chosen.css" />
+
+<jsp:include page="../../../resources/include/pageSettings.jsp"></jsp:include>
+<jsp:include page="../../../resources/include/sider.jsp"></jsp:include>
+
 <!-- 正文开始 -->
 				<div class="main-content">
 					<div class="breadcrumbs" id="breadcrumbs">
@@ -69,6 +86,9 @@
 						</div>
 					</div>
 					<div id="sample-table-2_wrapper" class="dataTables_wrapper" role="grid"><table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+						<div class="fixed">
+							<div style="width: 10%;">团号</div><div style="width: 10%;">团名</div><div style="width: 10%;">组团社</div><div style="width: 7%;">结算日期</div><div style="width: 7%;">应收</div><div style="width: 7%;">实收</div><div style="width: 7%;">未收</div><div style="width: 7%;">报账成本</div><div style="width: 7%;">报账毛利</div><div style="width: 7%;">报账毛利率</div><div style="width: 7%;">人数</div><div style="width: 7%;">部门</div><div style="width: 7%;">团控</div>
+						</div>
 						<table id="excel" aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 								<tr role="row">
@@ -212,7 +232,7 @@
 						var realIncomeTotal = 0;
 						var notIncomeTotal = 0;
 						$.each(data,function(){
-							table.append('<tr><td>'+this.tourNo+'</td><td>'+this.tourName+'</td><td>'+this.customerAgencyName+'</td><td>'+(this.settlementTime==null?"":this.settlementTime)+'</td><td>'+this.willIncomeSum+'</td><td>'+this.realIncomeSum+'</td><td>'+this.notIncomeSum+'</td><td>'+this.reimbursementCostSum+'</td><td>'+this.grossProfit+'</td><td>'+this.grossProfitMargin+'</td><td>'+this.peopleNo+'</td><td>'+this.deptName+'</td><td>'+this.userRealName+'</td></tr>');
+							table.append('<tr><td>'+this.tourNo+'</td><td>'+this.tourName+'</td><td>'+this.customerAgencyName+'</td><td>'+(this.settlementTime==null?"":this.settlementTime)+'</td><td>'+this.willIncomeSum+'</td><td>'+this.realIncomeSum+'</td><td>'+this.notIncomeSum+'</td><td>'+this.reimbursementCostSum+'</td><td class="red">'+this.grossProfit+'</td><td>'+this.grossProfitMargin+'</td><td>'+this.peopleNo+'</td><td>'+this.deptName+'</td><td>'+this.userRealName+'</td></tr>');
 							willIncomeTotal = willIncomeTotal + this.willIncomeSum;
 							realIncomeTotal = realIncomeTotal + this.realIncomeSum;
 							notIncomeTotal = notIncomeTotal + this.notIncomeSum;
@@ -226,6 +246,13 @@
 						}
 			         }
 				});
+			}
+		});
+		$("#sidebar-collapse").click(function(){
+			if($(".fixed").css("left")=="190px"){
+				$(".fixed").css("left","43px");
+			}else{
+				$(".fixed").css("left","190px");
 			}
 		});
 	});

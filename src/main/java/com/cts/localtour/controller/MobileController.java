@@ -13,12 +13,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.SupplierTable;
+import com.cts.localtour.service.ChangeIncomeService;
+import com.cts.localtour.service.CustomerAgencyService;
+import com.cts.localtour.service.IncomeService;
 import com.cts.localtour.service.MobileService;
+import com.cts.localtour.service.RefundService;
 
 @Controller
 public class MobileController {
 	@Autowired
 	private MobileService mobileService;
+	@Autowired
+	private CustomerAgencyService customerAgencyService;
+	@Autowired
+	private IncomeService incomeService;
+	@Autowired
+	private ChangeIncomeService changeIncomeService;
+	@Autowired
+	private RefundService refundService;
+	
 	/*成本收入更改*/
 	@RequestMapping("/mobile/changeCostIncomeApplication")
 	public String changeCostApproval(@RequestParam int id, @RequestParam int status, Model md){
@@ -53,6 +66,8 @@ public class MobileController {
 	public String loanApplication(@RequestParam int id, @RequestParam int status, Model md){
 		md.addAttribute("loans", mobileService.getAllLoanApplication(id, status));
 		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", id));
+		md.addAttribute("customerAgencyName",customerAgencyService.getCustomerAgencyName(id));
+		md.addAttribute("realIncomeSum",incomeService.getIncomeInfo(id).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(id).getRealIncomeSum()).subtract(refundService.getIncomeInfo(id).getRealIncomeSum()));
 		return "/mobile/loanApplication";
 	}
 	
@@ -76,6 +91,8 @@ public class MobileController {
 	public String payApplication(@RequestParam int id, @RequestParam int status, Model md){
 		md.addAttribute("full", mobileService.getAllPayApplication(id, status));
 		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", id));
+		md.addAttribute("customerAgencyName",customerAgencyService.getCustomerAgencyName(id));
+		md.addAttribute("realIncomeSum",incomeService.getIncomeInfo(id).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(id).getRealIncomeSum()).subtract(refundService.getIncomeInfo(id).getRealIncomeSum()));
 		return "/mobile/payApplication";
 	}
 	

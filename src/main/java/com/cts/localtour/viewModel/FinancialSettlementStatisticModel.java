@@ -131,7 +131,7 @@ public class FinancialSettlementStatisticModel {
 		if("".equals(userIds)){
 			userIds = userService.getDataUserIds();
 		}
-		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "deptId in ("+deptIds+") and userId in("+userIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'")+("".equals(status)?" and startTime between ? and ? ":"10".equals(status)?" and status=10 and settlementTime between ? and ? ":" and status<10 and startTime between ? and ? "), start, end);
+		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "deptId in ("+deptIds+") and userId in("+userIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'")+("".equals(status)?" and startTime between ? and ? ":"10".equals(status)?" and status=10 and startTime between ? and ? ":" and status<10 and startTime between ? and ? "), start, end);
 		for (LocalTourTable localTourTable : localTourTables) {
 			FinancialSettlementStatisticModel financialSettlementStatisticModel = new FinancialSettlementStatisticModel();
 			financialSettlementStatisticModel.setTourNo(localTourTable.getTourNo());

@@ -207,6 +207,19 @@
 					<div style="text-align: center;">
 						<a id="lended" href="<%=path %>mobile/loanApplication?id=${tour.id }&status=-1">点击查看本团借款申请记录</a>
 					</div>
+					<div>
+						收款信息：
+						<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
+							<tbody>
+								<tr>
+									<td style="width:25%;">客户</td>
+									<td style="width:25%;">${customerAgencyName }</td>
+									<td style="width:25%;">实收</td>
+									<td style="width:25%;">${realIncomeSum }</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 <!-- 分页查询开始 -->					
 						<div class="row">
 							<div class="col-sm-6">

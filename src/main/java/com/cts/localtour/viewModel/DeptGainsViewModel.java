@@ -12,14 +12,12 @@ import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.pojo.CostInfo;
 import com.cts.localtour.pojo.IncomeInfo;
-import com.cts.localtour.pojo.LoanInfo;
 import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.ChangeCostService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.CostService;
 import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.IncomeService;
-import com.cts.localtour.service.LoanService;
 import com.cts.localtour.service.RefundService;
 import com.cts.localtour.service.ReimbursementCostService;
 import com.cts.localtour.service.ReimbursementIncomeService;
@@ -54,8 +52,6 @@ public class DeptGainsViewModel {
 	private ReimbursementCostService reimbursementCostService;
 	@Autowired
 	private ReimbursementIncomeService reimbursementIncomeService;
-	@Autowired
-	private LoanService loanService;
 	@Autowired
 	private RefundService refundService;
 	@Autowired
@@ -173,18 +169,17 @@ public class DeptGainsViewModel {
 					IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(localTourTable.getId());
 					IncomeInfo reimbursementIncomeInfo = reimbursementIncomeService.getIncomeInfo(localTourTable.getId());
 					IncomeInfo refundIncomeInfo = refundService.getIncomeInfo(localTourTable.getId());
-					LoanInfo loanInfo = loanService.getLoanInfo(localTourTable.getId());
 					
 					tour.setHeaderName(localTourTable.getTourNo()+" "+localTourTable.getTourName());
-					tour.setWillCostSum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum()));
+					tour.setWillCostSum(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()));
 					tour.setWillIncomeSum(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()));
-					tour.setWillGrossProfit(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum())));
-					if(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()).compareTo(new BigDecimal(0))!=0){
-						tour.setWillGrossMargin((incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).subtract(costInfo.getWillCostSum().add(changeCostInfo.getWillCostSum()).add(reimbursementCostInfo.getWillCostSum()).add(loanInfo.getWillLoanSum()))).divide(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
+					tour.setWillGrossProfit(tour.getWillIncomeSum().subtract(tour.getWillCostSum()));
+					if(tour.getWillIncomeSum().compareTo(new BigDecimal(0))!=0){
+						tour.setWillGrossMargin(tour.getWillGrossProfit().divide(tour.getWillIncomeSum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
 					}
 					
 					tour.setRealCostSum(costInfo.getReimbursementSum().add(changeCostInfo.getReimbursementSum()).add(reimbursementCostInfo.getReimbursementSum()));
-					tour.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).add(reimbursementIncomeInfo.getRealIncomeSum().subtract(refundIncomeInfo.getRealIncomeSum())));
+					tour.setRealIncomeSum(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(refundIncomeInfo.getRealIncomeSum()));
 					tour.setRealGrossProfit(tour.getRealIncomeSum().subtract(tour.getRealCostSum()));
 					if(tour.getRealIncomeSum().compareTo(new BigDecimal(0))!=0){
 						tour.setRealGrossMargin(tour.getRealGrossProfit().divide(tour.getRealIncomeSum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
