@@ -49,7 +49,7 @@
 										<span class="lbl"></span>
 									</label>
 								</th>
-								<th aria-label="Domain: activate to sort column ascending" style="width: 50px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+								<th aria-label="Domain: activate to sort column ascending" style="width: 10px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									id
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 187px;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
@@ -59,13 +59,15 @@
 									地区
 								</th>
 								<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
+									开票信息
+								</th>
+								<th aria-label="Price: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="sorting">
 									电话
 								</th>
 								<th aria-label="Clicks: activate to sort column ascending" style="width: 15%;" colspan="1" rowspan="1" aria-controls="sample-table-2" tabindex="0" role="columnheader" class="hidden-480 sorting">
 									有效
 								</th>
-								
-								<th aria-label="" style="width: 15%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
+								<th aria-label="" style="width: 10%;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled">
 									操作
 								</th>
 							</tr>
@@ -80,24 +82,21 @@
 										<span class="lbl"></span>
 									</label>
 								</td>
-								<td class="">
-									
-								</td>
-								<td class="">
+								<td></td>
+								<td>
 									<input type="text">
 								</td>
-								<td  class="">
-									
-								</td>	
-								<td  class="">
-									<input id="submit" type="text">
+								<td></td>
+								<td>
+									<textarea rows="5" style="width:100%"></textarea>
+								</td>
+								<td>
+									<input id="submit" type="text" placeholder="回车保存">
 								</td>
 								<td class="hidden-480 ">
-										<span class="label label-sm label-success">有效</span>
+									<span class="label label-sm label-success">有效</span>
 								</td>
-								<td class="">
-									
-								</td>
+								<td></td>
 							</tr>
 <!-- 增加模板结束 -->		
 <!-- 列表循环 -->								
@@ -109,13 +108,14 @@
 											<span class="lbl"></span>
 										</label>
 									</td>
-									<td class="">${customerAgency.customerAgencyTable.id }</td>
-									<td class="">${customerAgency.customerAgencyTable.customerAgencyName }</td>
-									<td class="">
+									<td>${customerAgency.customerAgencyTable.id }</td>
+									<td>${customerAgency.customerAgencyTable.customerAgencyName }</td>
+									<td>
 										${customerAgency.regionName }
 										<span hidden="">${customerAgency.customerAgencyTable.regionId }</span>
 									</td>
-									<td class="">${customerAgency.customerAgencyTable.phone }</td>
+									<td>${customerAgency.customerAgencyTable.invoiceInfo }</td>
+									<td>${customerAgency.customerAgencyTable.phone }</td>
 									<td class="hidden-480 " id="">
 									<c:choose>
 										<c:when test="${customerAgency.customerAgencyTable.enable }">
@@ -274,7 +274,8 @@
 				var regionId = obj.find("select").val();
 				var regionName = obj.find("option:selected").text();
 				var phone = obj.find("input").eq(3).val();
-				var customerAgency = {customerAgencyName:customerAgencyName,regionId:regionId,phone:phone};
+				var invoiceInfo = obj.find("textarea").val();
+				var customerAgency = {customerAgencyName:customerAgencyName,regionId:regionId,phone:phone,invoiceInfo:invoiceInfo};
 				var myData = JSON.stringify(customerAgency);
 			 	$.ajax({  
 			        type: "POST",  
@@ -284,11 +285,14 @@
 			        dataType: "json",  
 			        async: false,  
 			        success:function(data){
-			        	input.parent().prev().prev().html(customerAgencyName);
-			        	input.parent().prev().html(regionName+"<span hidden=''>"+regionId+"</span>");
-			        	input.parent().html(phone);
+			        	input.parent().prev().prev().prev().prev().html(data);
+			        	input.parent().prev().prev().prev().html(customerAgencyName);
+			        	input.parent().prev().prev().html(regionName+"<span hidden=''>"+regionId+"</span>");
+			        	input.parent().prev().html(invoiceInfo.replace(/\n/g,"<br>"));
+			        	input.parent().next().next().html('<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons"><a id="edit" class="green" href="#"><i class="icon-pencil bigger-130"></i></a><span><a id="'+data+'" class="red" href="#"><i class="icon-trash bigger-130"></i></a></span></div>');
+					    input.parent().html(phone);
 			        }  
-				 });
+				});
 				obj.next().find("input").eq(1).focus().select();
 			}
 		});
@@ -341,13 +345,15 @@
 			var info = {id:td.eq(-1).children("a").attr("id"),
 						customerAgencyName:td.eq(2).text(),
 						regionId:td.eq(3).children("span").text(),
-						phone:td.eq(4).text()};
+						phone:td.eq(5).text(),
+						invoiceInfo:td.eq(4).html()};
 			td.eq(2).html("<input id='update' type='text' value='"+info.customerAgencyName+"' style='width:150px' />");
 			td.eq(3).html($("#select").html());
 			td.eq(3).children("select").attr("class","width-20 chosen-select");
 			td.eq(3).children("select").val(info.regionId);
 			$(".chosen-select").chosen({no_results_text: "查无结果", search_contains: true});
-			td.eq(4).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");
+			td.eq(4).html('<textarea rows="5" style="width:100%">'+info.invoiceInfo.replace(/<br>/g,"\n")+'</textarea>');
+			td.eq(5).html("<input id='update' type='text' value='"+info.phone+"' style='width:150px' />");
 			obj.html("<i class='icon-save bigger-130'></i>").attr({"id":"save","class":"grey"});
 		});
 	/*回车更新 */		
@@ -360,7 +366,8 @@
 				var regionId = obj.find("select").val();
 				var regionName = obj.find("option:selected").text();
 				var phone = params.eq(3).val();
-				var customerAgency = {id:id,customerAgencyName:customerAgencyName,regionId:regionId,phone:phone};
+				var invoiceInfo = obj.find("textarea").val();
+				var customerAgency = {id:id,customerAgencyName:customerAgencyName,regionId:regionId,phone:phone,invoiceInfo:invoiceInfo};
 				var myData = JSON.stringify(customerAgency);
 				$.ajax({  
 			        type: "POST",  
@@ -373,6 +380,7 @@
 			        	params.eq(1).parent().html(customerAgencyName);
 			        	obj.find("select").parent().html(regionName+"<span hidden=''>"+regionId+"</span>");
 			        	params.eq(3).parent().html(phone);
+			        	obj.find("textarea").parent().html(invoiceInfo.replace(/\n/g,"<br>"));
 			        }  
 				 }); 
 				obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});
@@ -388,7 +396,8 @@
 			var regionId = obj.find("select").val();
 			var regionName = obj.find("option:selected").text();
 			var phone = params.eq(3).val();
-			var customerAgency = {id:id,customerAgencyName:customerAgencyName,regionId:regionId,phone:phone};
+			var invoiceInfo = obj.find("textarea").val();
+			var customerAgency = {id:id,customerAgencyName:customerAgencyName,regionId:regionId,phone:phone,invoiceInfo:invoiceInfo};
 			var myData = JSON.stringify(customerAgency);
 			$.ajax({  
 		        type: "POST",  
@@ -401,6 +410,7 @@
 		        	params.eq(1).parent().html(customerAgencyName);
 		        	obj.find("select").parent().html(regionName+"<span hidden=''>"+regionId+"</span>");
 		        	params.eq(3).parent().html(phone);
+		        	obj.find("textarea").parent().html(invoiceInfo.replace(/\n/g,"<br>"));
 		        }  
 			 }); 
 			obj.find("a").eq(0).html("<i class='icon-pencil bigger-130'></i>").attr({"id":"edit","class":"green"});

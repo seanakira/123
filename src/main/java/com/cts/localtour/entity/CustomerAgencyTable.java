@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-6-29 10:52:58 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-7-3 13:59:12 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +19,7 @@ public class CustomerAgencyTable implements java.io.Serializable {
 	private String customerAgencyName;
 	private int regionId;
 	private String phone;
+	private String invoiceInfo;
 	private boolean enable;
 
 	public CustomerAgencyTable() {
@@ -28,6 +29,15 @@ public class CustomerAgencyTable implements java.io.Serializable {
 		this.customerAgencyName = customerAgencyName;
 		this.regionId = regionId;
 		this.phone = phone;
+		this.enable = enable;
+	}
+
+	public CustomerAgencyTable(String customerAgencyName, int regionId, String phone, String invoiceInfo,
+			boolean enable) {
+		this.customerAgencyName = customerAgencyName;
+		this.regionId = regionId;
+		this.phone = phone;
+		this.invoiceInfo = invoiceInfo;
 		this.enable = enable;
 	}
 
@@ -68,6 +78,15 @@ public class CustomerAgencyTable implements java.io.Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	@Column(name = "invoiceInfo", length = 65535)
+	public String getInvoiceInfo() {
+		return this.invoiceInfo;
+	}
+
+	public void setInvoiceInfo(String invoiceInfo) {
+		this.invoiceInfo = invoiceInfo;
 	}
 
 	@Column(name = "enable", nullable = false)

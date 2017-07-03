@@ -317,13 +317,15 @@
 									<tbody id="invoiceTable">
 									</tbody>
 					            </table>
-					            <table class="table table-striped table-bordered table-hover no-margin" style="width: 60%;">
+					            <table class="table table-striped table-bordered table-hover no-margin" style="width: 100%;">
 									<tbody>
 										<tr>
-											<td style="width: 25%;">开票总计</td>
-											<td id="total" style="width: 25%;"></td>
-											<td style="width: 25%;">最大开票额</td>
-											<td id="maxIssue" style="width: 25%;"></td>
+											<td style="width: 16%;">开票总计</td>
+											<td id="total" style="width: 16%;"></td>
+											<td style="width: 16%;">最大开票额</td>
+											<td id="maxIssue" style="width: 16%;"></td>
+											<td style="width: 16%;">客户信息</td>
+											<td id="invoiceInfo" style="width: 16%;"></td>
 										</tr>
 									</tbody>
 					            </table>
@@ -731,6 +733,7 @@
 			        	});
 			        	$("#total").text($("#table").find("#"+tourId).children("td").eq(6).text());
 			        	$("#maxIssue").text($("#table").find("#"+tourId).children("td").eq(4).text());
+			        	$("#invoiceInfo").html(data.invoiceInfo);
 			        }
 				});
 			}

@@ -5769,6 +5769,7 @@
 	
 	/*预借发票*/
 	var customerAgencyName;
+	var invoiceInfo;
 	$("#loanInvoice").click(function(){
 		var checkbox = $("#table").find("input:checked");
 		if(checkbox.length==0){
@@ -5792,6 +5793,7 @@
 		        async: false,
 		        success:function(data){
 		        	customerAgencyName = data.customerAgencyName;
+		        	invoiceInfo = data.invoiceInfo;
 		        	$.each(data.invoices,function(){
 		        		$("#loanInvoices").append('<tr class="loanInvoice">'+
 														'<td>'+this.loanInvoiceTable.issueDate+'</td>'+
@@ -5815,7 +5817,7 @@
 						'<td>'+customerAgencyName+'</td>'+
 						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
 						'<td><input style="width:100%;" class="form-control" type="text"></td>'+
-						'<td><textarea style="width:100%;" class="form-control" rows="1"></textarea></td>'+
+						'<td><textarea style="width:100%;" class="form-control" rows="5">'+invoiceInfo+'</textarea></td>'+
 						'<td><a class="red delLine" href="#"><i class="icon-trash bigger-130"></i></a></td>'+
 					'</tr>');
 		tr.find(".datepicker").datepicker({

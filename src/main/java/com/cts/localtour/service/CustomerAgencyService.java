@@ -63,7 +63,7 @@ public class CustomerAgencyService extends BaseService{
 	}
 
 	public void update(CustomerAgencyTable customerAgency) {
-		this.updateByString("CustomerAgencyTable", "customerAgencyName=?,regionId=?,phone=?", "id="+customerAgency.getId(), customerAgency.getCustomerAgencyName(),customerAgency.getRegionId(),customerAgency.getPhone());
+		this.updateByString("CustomerAgencyTable", "customerAgencyName=?,regionId=?,phone=?,invoiceInfo=?", "id="+customerAgency.getId(), customerAgency.getCustomerAgencyName(),customerAgency.getRegionId(),customerAgency.getPhone(),customerAgency.getInvoiceInfo());
 	}
 	
 	public String getCustomerAgencyName(int tourId){

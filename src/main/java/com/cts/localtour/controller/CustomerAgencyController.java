@@ -45,15 +45,14 @@ public class CustomerAgencyController {
 		md.addAttribute("pageNo", page);
 		md.addAttribute("key", key);
 		return "/customerManage/customerAgencyManage";
-		
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/customerAgencyManage/save")
-	public @ResponseBody boolean save(@RequestBody CustomerAgencyTable customerAgency){
+	public @ResponseBody int save(@RequestBody CustomerAgencyTable customerAgency){
 		customerAgency.setEnable(true);
-		customerAgencyService.add(customerAgency);
-		return true;
+		customerAgency.setInvoiceInfo(customerAgency.getInvoiceInfo().replaceAll("\n", "<br>"));
+		return ((CustomerAgencyTable)customerAgencyService.add(customerAgency)).getId();
 	}
 	
 	@RequestMapping("/customerAgencyManage/del")
@@ -70,6 +69,7 @@ public class CustomerAgencyController {
 	
 	@RequestMapping("/customerAgencyManage/update")
 	public @ResponseBody boolean updata(@RequestBody CustomerAgencyTable customerAgency){
+		customerAgency.setInvoiceInfo(customerAgency.getInvoiceInfo().replaceAll("\n", "<br>"));
 		customerAgencyService.update(customerAgency);
 		return true;
 	}
