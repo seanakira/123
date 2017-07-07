@@ -207,7 +207,7 @@ public class FullPayViewModel {
 		}
 		full.setChangeCosts(changeCosts);
 		
-		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModelAll(tourId));
+		full.setReimbursementCosts(reimbursementCostViewModel.getAllReimbursementCostViewModel(tourId));
 		
 		ArrayList<LoanTable> loanTables = (ArrayList<LoanTable>) baseService.getAllByString("LoanTable", "tourId=?", tourId);
 		ArrayList<LoanViewModel> loans = new ArrayList<LoanViewModel>();

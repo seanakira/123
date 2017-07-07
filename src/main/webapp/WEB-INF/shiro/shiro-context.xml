@@ -234,6 +234,10 @@
                 		/settlementManage/update=authc,perms["settlement:manage","settlement:update"]
                 		/settlementManage/cancel=authc,perms["settlement:manage","settlement:cancel"]
                 		/settlementManage/checkStatus=authc,perms["settlement:manage","settlement:update"]
+                		/settlementManage/settlementChange=authc,perms["settlement:manage","settlement:change"]
+                		/settlementManage/settlementChangeSave=authc,perms["settlement:manage","settlement:change"]
+                		/settlementManage/settlementChangeInfo=authc,perms["settlement:manage","settlement:change"]
+                		/settlementManage/findCustomer=authc,perms["settlement:manage","settlement:change"]
                 	<!-- 挂账管理 -->
                 	/billManage=authc,perms[bill:manage]
                 		/billManage/find=authc,perms["bill:manage","bill:find"]

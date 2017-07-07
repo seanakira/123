@@ -25,6 +25,8 @@ function check(data){
 	});
 	td.eq(15).text(data.localTourTable.remark);
 	td.eq(16).text((data.localTourTable.isNewCustomer==null?"":data.localTourTable.isNewCustomer?"是":"否"));
+	td.eq(17).text((data.localTourTable.retainagePeriod==null?"":data.localTourTable.retainagePeriod+"天"));
+	td.eq(18).text((data.localTourTable.advanced==null?"":data.localTourTable.advanced));
 	var arrInfo = $("#find").find(".arrInfo");
 	arrInfo.html("");
 	$.each(data.arrs,function(){
@@ -66,21 +68,21 @@ function check(data){
 			var flag = false;
 			$.each(data.tripTables,function(){
 				if(this.number==int){
-					td.eq(17).text(this.trip);
-	        		td.eq(18).text(this.meal);
-	        		td.eq(19).text(this.stay);
-	        		td.eq(20).text(this.traffic);
-	        		td.eq(21).text(this.remark);
+					td.eq(19).text(this.trip);
+	        		td.eq(20).text(this.meal);
+	        		td.eq(21).text(this.stay);
+	        		td.eq(22).text(this.traffic);
+	        		td.eq(23).text(this.remark);
 	        		div.append('<div id="day'+this.number+'" class="tab-pane in active">'+tripModel.html()+'</div>');
 	        		flag=true;
 				}
 			});
 			if(flag==false){
-				td.eq(17).text("");
-        		td.eq(18).text("");
-        		td.eq(19).text("");
+				td.eq(19).text("");
         		td.eq(20).text("");
         		td.eq(21).text("");
+        		td.eq(22).text("");
+        		td.eq(23).text("");
         		div.append('<div id="day'+int+'" class="tab-pane in active">'+tripModel.html()+'</div>');
 			}
 		}else{
@@ -92,21 +94,21 @@ function check(data){
 			var flag = false;
 			$.each(data.tripTables,function(){
 				if(this.number==int){
-					td.eq(17).text(this.trip);
-	        		td.eq(18).text(this.meal);
-	        		td.eq(19).text(this.stay);
-	        		td.eq(20).text(this.traffic);
-	        		td.eq(21).text(this.remark);
+					td.eq(19).text(this.trip);
+	        		td.eq(20).text(this.meal);
+	        		td.eq(21).text(this.stay);
+	        		td.eq(22).text(this.traffic);
+	        		td.eq(23).text(this.remark);
 	        		div.append('<div id="day'+this.number+'" class="tab-pane">'+tripModel.html()+'</div>');
 	        		flag=true;
 				}
 			});
 			if(flag==false){
-				td.eq(17).text("");
-        		td.eq(18).text("");
-        		td.eq(19).text("");
+				td.eq(19).text("");
         		td.eq(20).text("");
         		td.eq(21).text("");
+        		td.eq(22).text("");
+        		td.eq(23).text("");
         		div.append('<div id="day'+int+'" class="tab-pane">'+tripModel.html()+'</div>');
 			}
 		}
@@ -355,6 +357,17 @@ function check(data){
 					'</tr>');
 		incomeSum = incomeSum + this.incomeTable.income;
 		reimbursementIncomeSum = reimbursementIncomeSum + this.incomeTable.income;
+	});
+	
+	$.each(data.refunds,function(){
+		var realIncome = this.refundTable.refundAmount==null?0:this.refundTable.refundAmount;
+		tbody.append('<tr class="green">'+
+							'<td>'+(this.refundTable.refundDate==null?"":this.refundTable.refundDate)+'</td>'+
+							'<td>'+this.customerAgencyName+'</td>'+
+							'<td></td>'+
+							'<td>'+-realIncome+'</td>'+
+							'<td>'+this.refundTable.remark+'</td>'+
+					'</tr>');
 	});
 	
 	if(isReimbursement){

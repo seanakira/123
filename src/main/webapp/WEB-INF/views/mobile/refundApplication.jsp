@@ -75,7 +75,7 @@
 						<c:choose>
 							<c:when test="${sessionScope.isMice }">
 								<c:choose>
-									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
+									<c:when test="<%=user.getPosition().indexOf(\"中心总经理\")>-1 %>">
 										<c:if test="${refund.refundTable.refundAmount>10000||refund.applicationerName==\"林志刚\" }">
 											<div>
 												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">

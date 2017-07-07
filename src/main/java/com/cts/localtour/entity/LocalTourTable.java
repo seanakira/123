@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-7-3 13:59:12 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-7-7 14:48:25 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -41,6 +41,8 @@ public class LocalTourTable implements java.io.Serializable {
 	private String guideIds;
 	private Date settlementTime;
 	private Boolean isNewCustomer;
+	private Integer retainagePeriod;
+	private Long advanced;
 
 	public LocalTourTable() {
 	}
@@ -68,7 +70,7 @@ public class LocalTourTable implements java.io.Serializable {
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
 			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
 			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
-			String guideIds, Date settlementTime, Boolean isNewCustomer) {
+			String guideIds, Date settlementTime, Boolean isNewCustomer, Integer retainagePeriod, Long advanced) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -90,6 +92,8 @@ public class LocalTourTable implements java.io.Serializable {
 		this.guideIds = guideIds;
 		this.settlementTime = settlementTime;
 		this.isNewCustomer = isNewCustomer;
+		this.retainagePeriod = retainagePeriod;
+		this.advanced = advanced;
 	}
 
 	@Id
@@ -294,6 +298,24 @@ public class LocalTourTable implements java.io.Serializable {
 
 	public void setIsNewCustomer(Boolean isNewCustomer) {
 		this.isNewCustomer = isNewCustomer;
+	}
+
+	@Column(name = "retainagePeriod")
+	public Integer getRetainagePeriod() {
+		return this.retainagePeriod;
+	}
+
+	public void setRetainagePeriod(Integer retainagePeriod) {
+		this.retainagePeriod = retainagePeriod;
+	}
+
+	@Column(name = "advanced", precision = 10, scale = 0)
+	public Long getAdvanced() {
+		return this.advanced;
+	}
+
+	public void setAdvanced(Long advanced) {
+		this.advanced = advanced;
 	}
 
 }

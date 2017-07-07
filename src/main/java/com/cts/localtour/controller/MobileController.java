@@ -64,10 +64,13 @@ public class MobileController {
 	/*ΩËøÓ…Í«Î*/
 	@RequestMapping("/mobile/loanApplication")
 	public String loanApplication(@RequestParam int id, @RequestParam int status, Model md){
+		LocalTourTable tour = (LocalTourTable)mobileService.getById("LocalTourTable", id);
 		md.addAttribute("loans", mobileService.getAllLoanApplication(id, status));
-		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", id));
+		md.addAttribute("tour", tour);
 		md.addAttribute("customerAgencyName",customerAgencyService.getCustomerAgencyName(id));
 		md.addAttribute("realIncomeSum",incomeService.getIncomeInfo(id).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(id).getRealIncomeSum()).subtract(refundService.getIncomeInfo(id).getRealIncomeSum()));
+		md.addAttribute("retainagePeriod", tour.getRetainagePeriod()+"ÃÏ");
+		md.addAttribute("advanced", tour.getAdvanced());
 		return "/mobile/loanApplication";
 	}
 	
@@ -90,9 +93,12 @@ public class MobileController {
 	@RequestMapping("/mobile/payApplication")
 	public String payApplication(@RequestParam int id, @RequestParam int status, Model md){
 		md.addAttribute("full", mobileService.getAllPayApplication(id, status));
-		md.addAttribute("tour",(LocalTourTable)mobileService.getById("LocalTourTable", id));
+		LocalTourTable tour = (LocalTourTable)mobileService.getById("LocalTourTable", id);
+		md.addAttribute("tour", tour);
 		md.addAttribute("customerAgencyName",customerAgencyService.getCustomerAgencyName(id));
 		md.addAttribute("realIncomeSum",incomeService.getIncomeInfo(id).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(id).getRealIncomeSum()).subtract(refundService.getIncomeInfo(id).getRealIncomeSum()));
+		md.addAttribute("retainagePeriod", tour.getRetainagePeriod()+"ÃÏ");
+		md.addAttribute("advanced", tour.getAdvanced());
 		return "/mobile/payApplication";
 	}
 	

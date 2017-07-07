@@ -44,4 +44,17 @@ public class ReimbursementIncomeViewModel {
 		}
 		return incomes;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ReimbursementIncomeViewModel> getAllIncomeViewModel(int tourId, String remark){
+		ArrayList<ReimbursementIncomeTable> incomeTables = (ArrayList<ReimbursementIncomeTable>) baseService.getAllByString("ReimbursementIncomeTable", "tourId=? and remark like '%"+remark+"%'", tourId);
+		ArrayList<ReimbursementIncomeViewModel> incomes = new ArrayList<ReimbursementIncomeViewModel>();
+		for (int i = 0; i < incomeTables.size(); i++) {
+			ReimbursementIncomeViewModel income = new ReimbursementIncomeViewModel();
+			income.setIncomeTable(incomeTables.get(i));
+			income.setCustomerAgencyName(((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", incomeTables.get(i).getCustomerAgencyId())).getCustomerAgencyName());
+			incomes.add(income);
+		}
+		return incomes;
+	}
 }

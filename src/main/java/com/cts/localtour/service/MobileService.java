@@ -291,6 +291,7 @@ public class MobileService extends BaseService{
 	public void loanInvoiceApplicationOk(int id) {
 		LoanInvoiceTable loanInvoiceTable= (LoanInvoiceTable) this.getById("LoanInvoiceTable", id);
 		loanInvoiceTable.setStatus(2);
+		loanInvoiceTable.setManagerId(((UserTable)SecurityUtils.getSubject().getPrincipal()).getId());
 		this.update(loanInvoiceTable);
 		localTourService.sendMessageToMaker(loanInvoiceTable.getTourId(), " 预借发票，已经经过中心经理审核，可以到财务开票了");
 	}
@@ -451,7 +452,7 @@ public class MobileService extends BaseService{
 			    UserTable user = (UserTable) SecurityUtils.getSubject().getPrincipal();
 			    ArrayList<UserTable> users = (ArrayList<UserTable>) this.getAllByString("UserTable", "deptId=?", user.getDeptId());
 			    for (UserTable userTable : users) {
-			    	if(userTable.getPosition().equals("部门经理")){
+			    	if(userTable.getPosition().indexOf("部门经理")>-1){
 			    		if(WeiXinUtil.sendTextMessage(userTable.getUserName()+"@ctssd.com", url, message, "0")==false){
 				    		errorCode = -1;
 				    	}

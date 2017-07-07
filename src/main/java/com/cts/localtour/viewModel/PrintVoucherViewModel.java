@@ -11,9 +11,12 @@ import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.DeptTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.entity.UserTable;
+import com.cts.localtour.pojo.IncomeInfo;
 import com.cts.localtour.service.BaseService;
 import com.cts.localtour.service.ChangeIncomeService;
 import com.cts.localtour.service.IncomeService;
+import com.cts.localtour.service.RefundService;
+import com.cts.localtour.service.ReimbursementIncomeService;
 
 @Component
 public class PrintVoucherViewModel {
@@ -35,6 +38,10 @@ public class PrintVoucherViewModel {
 	private IncomeService incomeService;
 	@Autowired
 	private ChangeIncomeService changeIncomeService;
+	@Autowired
+	private ReimbursementIncomeService reimbursementIncomeService;
+	@Autowired
+	private RefundService refundService;
 	@Autowired
 	private LoanInvoiceViewModel loanInvoiceViewModel;
 	@Autowired
@@ -91,7 +98,10 @@ public class PrintVoucherViewModel {
 		}else if("income".equals(type)){
 			LocalTourTable localTour = (LocalTourTable)baseService.getById("LocalTourTable", tourId);
 			payVoucherViewModel.setCustomerAgencyName(((CustomerAgencyTable)baseService.getById("CustomerAgencyTable", localTour.getCustomerAgencyId())).getCustomerAgencyName());
-			payVoucherViewModel.setIncomeTotal(incomeService.getIncomeInfo(tourId).getIncomeSum().add(changeIncomeService.getIncomeInfo(tourId).getIncomeSum()));
+			IncomeInfo incomeInfo = incomeService.getIncomeInfo(tourId);
+			IncomeInfo changeIncomeInfo = changeIncomeService.getIncomeInfo(tourId);
+			IncomeInfo reimbursementIncomeInfo = reimbursementIncomeService.getIncomeInfo(tourId);
+			payVoucherViewModel.setIncomeTotal(incomeInfo.getIncomeSum().add(changeIncomeInfo.getIncomeSum()).add(reimbursementIncomeInfo.getIncomeSum()).subtract(incomeInfo.getRealIncomeSum().add(changeIncomeInfo.getRealIncomeSum()).subtract(refundService.getIncomeInfo(tourId).getRealIncomeSum())));
 		}else if("loanInvoice".equals(type)){
 			payVoucherViewModel.setLoanInvoices(loanInvoiceViewModel.getAllLoanInvoiceViewModel(tourId, 2));
 		}else if("refund".equals(type)){

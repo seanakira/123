@@ -134,7 +134,7 @@ public class TourController {
 		ArrayList<TripTable> tripTables = full.getTripTables();
 		ArrayList<CostTable> costTables = full.getCostTables();
 		ArrayList<IncomeTable> incomeTables = full.getIncomeTables();
-		if((Boolean) session.getAttribute("isMice")&&localTour.getIsNewCustomer()==null){
+		if((Boolean) session.getAttribute("isMice")&&(localTour.getIsNewCustomer()==null||localTour.getRetainagePeriod()==null||localTour.getAdvanced()==null)){
 			return 0;
 		}
 		if(localTour.getAdultNo()==0||localTour.getBusinessTypeId()==0||localTour.getCustomerAgencyId()==0||localTour.getEndTime()==null||localTour.getOrganizor().equals("")||localTour.getRegionId()==0||localTour.getStartTime()==null||localTour.getTourName().equals("")||localTour.getTourNo().equals("")||localTour.getTourTypeId()==0||localTour.getVisitorTypeId()==0){

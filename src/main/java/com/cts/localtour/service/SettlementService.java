@@ -1,5 +1,6 @@
 package com.cts.localtour.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.localtour.entity.LocalTourTable;
+import com.cts.localtour.entity.ReimbursementCostTable;
+import com.cts.localtour.entity.ReimbursementIncomeTable;
+import com.cts.localtour.viewModel.SettlementChangeViewModel;
 import com.cts.localtour.viewModel.SimpleSettlementViewModel;
 
 @SuppressWarnings("rawtypes")
@@ -14,6 +18,8 @@ import com.cts.localtour.viewModel.SimpleSettlementViewModel;
 public class SettlementService extends BaseService{
 	@Autowired
 	private SimpleSettlementViewModel simpleSettlementViewModel;
+	@Autowired
+	private SettlementChangeViewModel settlementChangeViewModel;
 	@SuppressWarnings("unchecked")
 	public ArrayList<SimpleSettlementViewModel> getAll(String key, int page, int maxResults) {
 		if(key.equals("")){
@@ -51,6 +57,33 @@ public class SettlementService extends BaseService{
 	public int checkStatusSettlement(int tourId) {
 		if(((LocalTourTable)this.getById("LocalTourTable", tourId)).getStatus()==10){
 			return 1;
+		}
+		return 0;
+	}
+
+	public SettlementChangeViewModel settlementChangeFind(int tourId) {
+		return settlementChangeViewModel.getAllSettlementChangeViewModel(tourId);
+	}
+
+	@SuppressWarnings("unchecked")
+	public int settlementChangeSave(SettlementChangeViewModel settlementChangeViewModel) {
+		for (ReimbursementIncomeTable incomeTable : settlementChangeViewModel.getIncomeTables()) {
+			if(incomeTable.getIncome()!=null&&incomeTable.getIncome().compareTo(new BigDecimal(0))!=0){
+				incomeTable.setRemark("财务结算调整");
+				this.add(incomeTable);
+			}
+		}
+		for (ReimbursementCostTable costTable : settlementChangeViewModel.getCostTables()) {
+			if(costTable.getSupplierId()==0||costTable.getCost()==null||costTable.getCount()==0||costTable.getDays()==0){
+				return -1;
+			}
+			if(costTable.getReimbursement()!=null&&costTable.getReimbursement().compareTo(new BigDecimal(0))!=0){
+				costTable.setBill(false);
+				costTable.setPayStatus(1);
+				costTable.setRemittanced(false);
+				costTable.setRemark("财务结算调整");
+				this.add(costTable);
+			}
 		}
 		return 0;
 	}

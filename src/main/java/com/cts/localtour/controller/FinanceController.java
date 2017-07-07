@@ -13,18 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cts.localtour.entity.CustomerAgencyTable;
 import com.cts.localtour.entity.InvoiceTable;
 import com.cts.localtour.entity.LoanInvoiceTable;
+import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.service.BalanceService;
 import com.cts.localtour.service.BillService;
+import com.cts.localtour.service.CustomerAgencyService;
 import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
+import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.PayService;
 import com.cts.localtour.service.ReimbursementApplicationService;
 import com.cts.localtour.service.RevenueService;
 import com.cts.localtour.service.SettlementService;
 import com.cts.localtour.service.UserService;
+import com.cts.localtour.viewModel.CreateInfoViewModel;
 import com.cts.localtour.viewModel.FullBalanceViewModel;
 import com.cts.localtour.viewModel.FullBillViewModel;
 import com.cts.localtour.viewModel.FullInvoiceViewModel;
@@ -32,6 +37,7 @@ import com.cts.localtour.viewModel.FullPayViewModel;
 import com.cts.localtour.viewModel.FullReimbursementApplicationViewModel;
 import com.cts.localtour.viewModel.FullRevenueViewModel;
 import com.cts.localtour.viewModel.LoanInvoiceViewModel;
+import com.cts.localtour.viewModel.SettlementChangeViewModel;
 import com.cts.localtour.viewModel.SimplPayViewModel;
 import com.cts.localtour.viewModel.SimpleBalanceViewModel;
 import com.cts.localtour.viewModel.SimpleBillCheckViewModel;
@@ -60,6 +66,10 @@ public class FinanceController {
 	private UserService userService;
 	@Autowired
 	private DeptService deptService;
+	@Autowired
+	private LocalTourService localTourService;
+	@Autowired
+	private CustomerAgencyService customerAgencyService;
 	/*付款管理*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -263,6 +273,26 @@ public class FinanceController {
 		return settlementService.checkStatusSettlement(tourId);
 	}
 	
+	@RequestMapping("/settlementManage/settlementChange")
+	public @ResponseBody SettlementChangeViewModel settlementChange(@RequestParam int tourId){
+		return settlementService.settlementChangeFind(tourId);
+	}
+	
+	@RequestMapping("/settlementManage/settlementChangeSave")
+	public @ResponseBody int settlementChangeSave(@RequestBody SettlementChangeViewModel settlementChangeViewModel){
+		return settlementService.settlementChangeSave(settlementChangeViewModel);
+	}
+	
+	@RequestMapping("/settlementManage/settlementChangeInfo")
+	public @ResponseBody CreateInfoViewModel settlementChangeInfo(){
+		return localTourService.getCreateInfo();
+	}
+	
+	@RequestMapping("/settlementManage/findCustomer")
+	public @ResponseBody CustomerAgencyTable findCustomer(@RequestParam int tourId){
+		return (CustomerAgencyTable)settlementService.getById("CustomerAgencyTable", ((LocalTourTable)settlementService.getById("LocalTourTable", tourId)).getCustomerAgencyId());
+	}
+
 	/*挂账管理*/
 	@RequestMapping("/billManage")
 	public String getBillCheckAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){

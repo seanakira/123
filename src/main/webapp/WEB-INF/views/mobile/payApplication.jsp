@@ -75,7 +75,7 @@
 						<c:choose>
 							<c:when test="${sessionScope.isMice }">
 								<c:choose>
-									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
+									<c:when test="<%=user.getPosition().indexOf(\"中心总经理\")>-1 %>">
 										<c:if test="${cost.costTable.realCost>10000||cost.payApplicationerRealName==\"林志刚\" }">
 											<div>
 												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
@@ -226,7 +226,7 @@
 						<c:choose>
 							<c:when test="${sessionScope.isMice }">
 								<c:choose>
-									<c:when test="<%=user.getPosition().equals(\"中心总经理\") %>">
+									<c:when test="<%=user.getPosition().indexOf(\"中心总经理\")>-1 %>">
 										<c:if test="${changeCost.costTable.realCost>10000||changeCost.payApplicationerRealName==\"林志刚\"  }">
 											<div>
 												<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
@@ -398,6 +398,7 @@
 					<div style="text-align: center;">
 						<a id="lended" href="<%=path %>mobile/payApplication?id=${tour.id }&status=-1">点击查看本团付款申请记录</a>
 					</div>
+					
 					<div>
 						收款信息：
 						<table aria-describedby="sample-table-2_info" id="sample-table-2" class="table table-striped table-bordered table-hover dataTable">
@@ -407,6 +408,12 @@
 									<td style="width:25%;">${customerAgencyName }</td>
 									<td style="width:25%;">实收</td>
 									<td style="width:25%;">${realIncomeSum }</td>
+								</tr>
+								<tr>
+									<td style="width:25%;">尾款账期</td>
+									<td style="width:25%;">${retainagePeriod }</td>
+									<td style="width:25%;">前期预付款</td>
+									<td style="width:25%;">${advanced }</td>
 								</tr>
 							</tbody>
 						</table>

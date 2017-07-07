@@ -61,7 +61,12 @@ public class PayService extends BaseService{
 			}else{
 				CostTable costTable = (CostTable) this.getById("CostTable", costTables.get(i).getId());
 				if(!costTables.get(i).isLend()){
-					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1&&costTable.getRemark().indexOf("补余款")==-1&&!costTables.get(i).isRemittanced()&&costTable.getPayStatus()==0){
+					if(costTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1
+							&&costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).compareTo(new BigDecimal(0))>-1
+							&&costTables.get(i).getRealCost().compareTo(new BigDecimal(0))!=0
+							&&costTable.getRemark().indexOf("补余款")==-1
+							&&!costTables.get(i).isRemittanced()
+							&&costTable.getPayStatus()==0){
 						return -2;
 					}else{
 						/*付款调整*/
@@ -113,7 +118,12 @@ public class PayService extends BaseService{
 			}else{
 				ChangeCostTable costTable = (ChangeCostTable) this.getById("ChangeCostTable", changeCostTables.get(i).getId());
 				if(!changeCostTables.get(i).isLend()){
-					if(changeCostTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1&&costTable.getRemark().indexOf("补余款")==-1&&!changeCostTables.get(i).isRemittanced()&&costTable.getPayStatus()==0){
+					if(changeCostTables.get(i).getRealCost().compareTo(costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())))==1
+							&&costTable.getCost().multiply(new BigDecimal(costTable.getCount())).multiply(new BigDecimal(costTable.getDays())).compareTo(new BigDecimal(0))>-1
+							&&changeCostTables.get(i).getRealCost().compareTo(new BigDecimal(0))!=0
+							&&costTable.getRemark().indexOf("补余款")==-1
+							&&!changeCostTables.get(i).isRemittanced()
+							&&costTable.getPayStatus()==0){
 						return -2;
 					}else{
 						/*付款调整*/
@@ -212,7 +222,7 @@ public class PayService extends BaseService{
 					this.updateByString("LocalTourTable", "status=3", "id=?", full.getTourId());
 				}
 			}
-			localTourService.sendMessageToMaker(costCache.size()!=0?costCache.get(0).getTourId():changeCostCache.size()!=0?changeCostCache.get(0).getTourId():loanTables.get(0).getTourId(), " 财务借款处理完毕，已可进行借款或付款申请");
+			localTourService.sendMessageToMaker(costTables.size()!=0?costTables.get(0).getTourId():changeCostTables.size()!=0?changeCostTables.get(0).getTourId():loanTables.get(0).getTourId(), " 财务借款处理完毕，已可进行借款或付款申请");
 		}
 		return 1;
 	}

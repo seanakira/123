@@ -217,6 +217,8 @@ public class LocalTourService extends BaseService{
 		localTour.setTourTypeId(localTourTable.getTourTypeId());
 		localTour.setVisitorTypeId(localTourTable.getVisitorTypeId());
 		localTour.setIsNewCustomer(localTourTable.getIsNewCustomer());
+		localTour.setRetainagePeriod(localTourTable.getRetainagePeriod());
+		localTour.setAdvanced(localTourTable.getAdvanced());
 		try {
 			localTourDAO.update(localTour);
 		} catch (Exception e) {
