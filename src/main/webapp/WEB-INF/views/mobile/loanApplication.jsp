@@ -218,10 +218,10 @@
 									<td style="width:25%;">${realIncomeSum }</td>
 								</tr>
 								<tr>
-									<td style="width:25%;">尾款账期</td>
-									<td style="width:25%;">${retainagePeriod }</td>
 									<td style="width:25%;">前期预付款</td>
 									<td style="width:25%;">${advanced }</td>
+									<td style="width:25%;">尾款账期</td>
+									<td style="width:25%;">${retainagePeriod }</td>
 								</tr>
 							</tbody>
 						</table>

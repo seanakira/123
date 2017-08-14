@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.cts.localtour.service.LocalTourService;
 import com.cts.localtour.service.SysUsageService;
+import com.cts.localtour.util.BackgroundImg;
 
 @Component
 public class TourStatusStartOrEnd {
@@ -39,5 +40,8 @@ public class TourStatusStartOrEnd {
 		for (String name : list) {
 			new File(path+name).delete();
 		}
+		
+		/*«Âø’√ø»’±≥æ∞Õº∆¨*/
+		BackgroundImg.clear();
 	}
 }

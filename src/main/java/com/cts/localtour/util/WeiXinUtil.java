@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -50,7 +51,7 @@ public class WeiXinUtil {
 	 */
 	public static void makeAccessToken(String corpid, String sercret) {
 		String requestUrl = access_token_url.replace("CORPID", corpid).replace("SECRECT", sercret);
-		JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
+		JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
 		// 如果请求成功
 		if (null != jsonObject) {
 			try {
@@ -88,7 +89,7 @@ public class WeiXinUtil {
 			text.element("content", content);
 			message.element("text", text);
 			message.element("safe", safe);
-			JSONObject error = httpRequest(requestUrl, "POST", message.toString());
+			JSONObject error = httpsRequest(requestUrl, "POST", message.toString());
 			System.out.println("发送至："+touser);
 			System.out.println("url："+url);
 			System.out.println("内容："+txt);
@@ -141,7 +142,7 @@ public class WeiXinUtil {
 		user.element("mobile", mobile);
 		user.element("email", email);
 		/*user.element("weixinid", weixinid);*/
-		JSONObject error = httpRequest(requestUrl, "POST", user.toString());
+		JSONObject error = httpsRequest(requestUrl, "POST", user.toString());
 		return error;
 	}
 	
@@ -151,14 +152,14 @@ public class WeiXinUtil {
 		JSONObject user = new JSONObject();
 		user.element("userid", userid);
 		user.element("enable", enable);
-		JSONObject error = httpRequest(requestUrl, "POST", user.toString());
+		JSONObject error = httpsRequest(requestUrl, "POST", user.toString());
 		return error;
 	}
 	
 	/*获取userId*/
 	public static String getUserId(String code){
 		String requestUrl = userId_url.replace("ACCESS_TOKEN", accessToken).replace("CODE", code);
-		JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
+		JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
 		String userId = jsonObject.getString("UserId");
 		if(userId==null||userId.equals("")){
 			return null;
@@ -197,7 +198,7 @@ public class WeiXinUtil {
 	 * @param outputStr 提交的数据
 	 * @return JSONObject(通过JSONObject.get(key)的方式获取json对象的属性值)
 	 */
-	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
+	public static JSONObject httpsRequest(String requestUrl, String requestMethod, String outputStr) {
 		JSONObject jsonObject = null;
 		StringBuffer buffer = new StringBuffer();
 		try {
@@ -243,6 +244,60 @@ public class WeiXinUtil {
 			inputStream = null;
 			httpUrlConn.disconnect();
 			jsonObject = JSONObject.fromObject(buffer.toString());
+		} catch (ConnectException ce) {
+			log.error("Weixin server connection timed out.");
+		} catch (Exception e) {
+			log.error("https request error:{}", e);
+		}
+		return jsonObject;
+	}
+	
+	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
+		JSONObject jsonObject = null;
+		StringBuffer buffer = new StringBuffer();
+		try {
+			// 从上述SSLContext对象中得到SSLSocketFactory对象
+
+			URL url = new URL(requestUrl);
+			HttpURLConnection httpUrlConn = (HttpURLConnection) url.openConnection();
+			httpUrlConn.setDoOutput(true);
+			httpUrlConn.setDoInput(true);
+			httpUrlConn.setUseCaches(false);
+			// 设置请求方式（GET/POST）
+			httpUrlConn.setRequestMethod(requestMethod);
+			if ("GET".equalsIgnoreCase(requestMethod))
+				httpUrlConn.connect();
+
+			// 当有数据需要提交时
+			if (null != outputStr) {
+				OutputStream outputStream = httpUrlConn.getOutputStream();
+				// 注意编码格式，防止中文乱码
+				outputStream.write(outputStr.getBytes("UTF-8"));
+				outputStream.close();
+			}
+
+			// 将返回的输入流转换成字符串
+			InputStream inputStream = httpUrlConn.getInputStream();
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+			String str = null;
+			while ((str = bufferedReader.readLine()) != null) {
+				buffer.append(str);
+			}
+			bufferedReader.close();
+			inputStreamReader.close();
+			// 释放资源
+			inputStream.close();
+			inputStream = null;
+			httpUrlConn.disconnect();
+			try {
+				jsonObject = JSONObject.fromObject(buffer.toString());
+			} catch (Exception e) {
+				jsonObject = new JSONObject();
+				jsonObject.put("html", buffer.toString());
+			}
+			
 		} catch (ConnectException ce) {
 			log.error("Weixin server connection timed out.");
 		} catch (Exception e) {

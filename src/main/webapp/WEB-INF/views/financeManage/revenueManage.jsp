@@ -949,10 +949,13 @@
 		        dataType: "json",
 		        async: false,
 		        success:function(data){
+		        	alert(data)
 		        	if(data==-1){
-		        		alert("开票金额大于预估收入金额");
+		        		alert("已结算团队，开票金额不能大于预估收入金额，请进行结算调整");
 		        	}else if(data==-2){
 		        		alert("发票号为8位数字");
+		        	}else if(data==-3){
+		        		alert("没有填写发票号");
 		        	}else{
 		        		var total = 0;
 		        		$.each($("#loanInvoices").find("tr td:nth-child(5)"),function(){

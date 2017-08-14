@@ -192,10 +192,11 @@ public class BudgetExecuteReimbursementContrastViewModel {
 		this.userRealName = userRealName;
 	}
 	@SuppressWarnings("unchecked")
-	public ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrastViewModelAll(Date start, Date end,String deptIds, String tourNo){
+	public ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrastViewModelAll(Date start, Date end,String deptIds, String tourNo, String status){
 		ArrayList<BudgetExecuteReimbursementContrastViewModel> budgetExecuteReimbursementContrastViewModels = new ArrayList<BudgetExecuteReimbursementContrastViewModel>();
 		deptIds = deptService.getDownerDpetIds(deptIds);
-		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "startTime between ? and ? and deptId in ("+deptIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'"+" and status>2"), start, end);
+		System.out.println(status);
+		ArrayList<LocalTourTable> localTourTables = (ArrayList<LocalTourTable>) baseService.getAllByString("LocalTourTable", "startTime between ? and ? and deptId in ("+deptIds+")"+("".equals(tourNo)?"":" and tourNo like '%"+tourNo+"%'")+("".equals(status)?"":"10".equals(status)?" and status=10":" and status between 2 and 10"), start, end);
 		for (LocalTourTable localTourTable : localTourTables) {
 			BudgetExecuteReimbursementContrastViewModel budgetExecuteReimbursementContrastViewModel = new BudgetExecuteReimbursementContrastViewModel();
 			CostInfo costInfo = costService.getCostInfo(localTourTable.getId());

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.UserService;
+import com.cts.localtour.util.BackgroundImg;
 import com.cts.localtour.util.WeiXinUtil;
 
 
@@ -33,7 +34,7 @@ public class LoginController {
 	@Autowired
 	private DeptService deptService;
 	@RequestMapping("/admin")
-	public String admin(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue="") String userId){
+	public String admin(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue="") String userId, Model md){
 		/*微信自动登录*/
 		if(request.getHeader("user-agent").indexOf("MicroMessenger")>=0||request.getHeader("user-agent").indexOf("Mobile MQQBrowser")>=0){
 			if("".equals(userId)){
@@ -56,6 +57,8 @@ public class LoginController {
 				}
 			}
 		}
+		md.addAttribute("img", BackgroundImg.getBackgroundImg());
+		md.addAttribute("imgInfo", BackgroundImg.getBackgroundImgInfo());
 		return "loginManage/login";
 	}
 	
@@ -90,12 +93,16 @@ public class LoginController {
 			e.printStackTrace();
 			md.addAttribute("msg","用户名或密码错误");
 		}
+		md.addAttribute("img", BackgroundImg.getBackgroundImg());
+		md.addAttribute("imgInfo", BackgroundImg.getBackgroundImgInfo());
 		return "/loginManage/login";
 	}
 	
 	@RequestMapping("/admin/logout")
-	public String logout(){
+	public String logout(Model md){
 		SecurityUtils.getSubject().logout();
+		md.addAttribute("img", BackgroundImg.getBackgroundImg());
+		md.addAttribute("imgInfo", BackgroundImg.getBackgroundImgInfo());
 		return "/loginManage/login";
 	}
 	

@@ -4137,7 +4137,6 @@
 		
 		var fullLocalTourViewModel = {localTourTable:localTourTable,guideTimeTables:guideTimeTables,arrTables:arrTables,departTables:departTables,tripTables:tripTables,costTables:costTables,incomeTables:incomeTables};
 		var myData = JSON.stringify(fullLocalTourViewModel);
-		alert(myData)
 		$.ajax({
 	        type: "POST",  
 	        contentType:"application/json;charset=utf-8",  
@@ -6692,7 +6691,7 @@
 	/* 打印报账单 */
 	$("#reimbursementPrintButton").click(function(){
 		var checkbox = $("#table").find("input:checked");
-		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已结算"){
+		if(checkbox.parent().parent().siblings().eq(-2).text()!="已报账"&&checkbox.parent().parent().siblings().eq(-2).text()!="待核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="已核销"&&checkbox.parent().parent().siblings().eq(-2).text()!="待结算"&&checkbox.parent().parent().siblings().eq(-2).text()!="已结算"){
 			alert("请先报账填写，并报账提交");
 			return;
 		}else if(checkbox.length==0){

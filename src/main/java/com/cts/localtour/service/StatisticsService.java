@@ -45,8 +45,8 @@ public class StatisticsService extends BaseService{
 	public ArrayList<InvoiceStatisticViewModel> getInvoiceStatistic(Date start, Date end, String deptIds, String tourNo) {
 		return invoiceStatisticViewModel.getInvoiceStatisticViewModelAll(start, end, deptIds, tourNo);
 	}
-	public ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(Date start, Date end,String deptIds, String tourNo) {
-		return budgetExecuteReimbursementContrastViewModel.getBudgetExecuteReimbursementContrastViewModelAll(start, end, deptIds, tourNo);
+	public ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(Date start, Date end,String deptIds, String tourNo, String status) {
+		return budgetExecuteReimbursementContrastViewModel.getBudgetExecuteReimbursementContrastViewModelAll(start, end, deptIds, tourNo, status);
 	}
 	public ArrayList<SettlementTourStatisticViewModel> getSettlementTourStatistic(Date start, Date end, String deptIds, String userIds, String tourNo, String status) {
 		return settlementTourStatisticViewModel.getSettlementTourStatisticAll(start, end, deptIds, userIds, tourNo, status);

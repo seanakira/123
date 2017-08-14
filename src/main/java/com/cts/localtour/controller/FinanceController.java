@@ -19,7 +19,6 @@ import com.cts.localtour.entity.LoanInvoiceTable;
 import com.cts.localtour.entity.LocalTourTable;
 import com.cts.localtour.service.BalanceService;
 import com.cts.localtour.service.BillService;
-import com.cts.localtour.service.CustomerAgencyService;
 import com.cts.localtour.service.DeptService;
 import com.cts.localtour.service.InvoiceService;
 import com.cts.localtour.service.LoanInvoiceService;
@@ -68,8 +67,6 @@ public class FinanceController {
 	private DeptService deptService;
 	@Autowired
 	private LocalTourService localTourService;
-	@Autowired
-	private CustomerAgencyService customerAgencyService;
 	/*∏∂øÓπ‹¿Ì*/
 	@RequestMapping("/payManage")
 	public String getPayAll(@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="15") int maxResults,@RequestParam(defaultValue="") String key, Model md){
@@ -156,7 +153,7 @@ public class FinanceController {
 		BigDecimal invoiceSum = new BigDecimal(0);
 		ArrayList<InvoiceTable> invoices = new ArrayList<InvoiceTable>();
 		for (InvoiceTable invoiceTable : invoiceTables) {
-			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount().compareTo(new BigDecimal(0))==0){
+			if("".equals(invoiceTable.getInvoiceNo())||invoiceTable.getInvoiceAmount()==null){
 				errorCode = -1;
 				break;
 			}else{
@@ -188,6 +185,9 @@ public class FinanceController {
 	@RequestMapping("/loanInvoiceManage/save")
 	public @ResponseBody int saveLoanInvoice(@RequestBody ArrayList<LoanInvoiceTable> loanInvoiceTables){
 		int errorCode = 0;
+		if(loanInvoiceTables.isEmpty()){
+			return -3;
+		}
 		revenueService.loanInvoiceGreaterThanIncome(loanInvoiceTables);
 		loanInvoiceService.saveLoanInvoice(loanInvoiceTables);
 		return errorCode;

@@ -1,5 +1,5 @@
 package com.cts.localtour.entity;
-// Generated 2017-7-7 14:48:25 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-7-10 15:45:00 by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import javax.persistence.Column;

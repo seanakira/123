@@ -1,6 +1,7 @@
 package com.cts.localtour.entity;
-// Generated 2017-7-7 14:48:25 by Hibernate Tools 3.4.0.CR1
+// Generated 2017-7-10 15:45:00 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +43,7 @@ public class LocalTourTable implements java.io.Serializable {
 	private Date settlementTime;
 	private Boolean isNewCustomer;
 	private Integer retainagePeriod;
-	private Long advanced;
+	private BigDecimal advanced;
 
 	public LocalTourTable() {
 	}
@@ -70,7 +71,7 @@ public class LocalTourTable implements java.io.Serializable {
 	public LocalTourTable(String tourNo, String tourName, int userId, int deptId, int businessTypeId, int tourTypeId,
 			int regionId, int visitorTypeId, int adultNo, Integer childrenNo, Integer qpGuideNo, String organizor,
 			int customerAgencyId, Date startTime, Date endTime, String remark, int status, boolean enable,
-			String guideIds, Date settlementTime, Boolean isNewCustomer, Integer retainagePeriod, Long advanced) {
+			String guideIds, Date settlementTime, Boolean isNewCustomer, Integer retainagePeriod, BigDecimal advanced) {
 		this.tourNo = tourNo;
 		this.tourName = tourName;
 		this.userId = userId;
@@ -309,12 +310,12 @@ public class LocalTourTable implements java.io.Serializable {
 		this.retainagePeriod = retainagePeriod;
 	}
 
-	@Column(name = "advanced", precision = 10, scale = 0)
-	public Long getAdvanced() {
+	@Column(name = "advanced", precision = 10)
+	public BigDecimal getAdvanced() {
 		return this.advanced;
 	}
 
-	public void setAdvanced(Long advanced) {
+	public void setAdvanced(BigDecimal advanced) {
 		this.advanced = advanced;
 	}
 

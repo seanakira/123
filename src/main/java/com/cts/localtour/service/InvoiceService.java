@@ -38,7 +38,11 @@ public class InvoiceService extends BaseService{
 				invoiceTable.setCustomerAgencyId(((LocalTourTable)baseService.getById("LocalTourTable", invoiceTable.getTourId())).getCustomerAgencyId());
 				this.add(invoiceTable);
 			}else{
-				this.updateByString("InvoiceTable", "invoiceNo=?, invoiceAmount=?", "id=?", invoiceTable.getInvoiceNo(), invoiceTable.getInvoiceAmount(), invoiceTable.getId());
+				if(invoiceTable.getInvoiceAmount().compareTo(new BigDecimal(0))==0){
+					this.delById("InvoiceTable", invoiceTable.getId());
+				}else{
+					this.updateByString("InvoiceTable", "invoiceNo=?, invoiceAmount=?", "id=?", invoiceTable.getInvoiceNo(), invoiceTable.getInvoiceAmount(), invoiceTable.getId());
+				}
 			}
 		}
 	}

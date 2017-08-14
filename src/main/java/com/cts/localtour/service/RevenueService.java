@@ -161,6 +161,8 @@ public class RevenueService extends BaseService{
 				changeIncomeTable.setRemark("½èÆ±µ÷Õû");
 				this.add(changeIncomeTable);
 				return true;
+			}else if(newInvoiceSum.compareTo(willIncomeSum)==1){
+				return true;
 			}else{
 				return false;
 			}

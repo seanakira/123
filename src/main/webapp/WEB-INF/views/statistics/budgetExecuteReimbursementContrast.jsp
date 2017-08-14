@@ -58,6 +58,8 @@
 							</select></div>
 							 团号：
 							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;"><input id="tourNo" style="width: 100px;" type="text"></div>
+							 状态：
+							<div style="display: inline-block;margin-right: 10px;margin-top: 2px;" style="width: 100px;"><select id="status"><option value="">&nbsp;</option><option value="9">未结算</option><option value="10">已结算</option></select></div>
 							<button id="find" class="btn btn-xs btn-success" style="width: 70px;position: relative;top: -3px;">查询</button>
 							<button id="down" class="btn btn-xs btn-success" style="width: 70px;position: relative;top: -3px;margin-left: 10px;">导出Excel</button>
 						</div>
@@ -174,7 +176,7 @@
 				table.html("");
 				var start = new Date($("#start").val());
 				var end = new Date($("#end").val());
-				var myData = {deptIds:$("#select").val()==null?"":$("#select").val().join(","),start:start,end:end,tourNo:$("#tourNo").val()};
+				var myData = {deptIds:$("#select").val()==null?"":$("#select").val().join(","),start:start,end:end,tourNo:$("#tourNo").val(),status:$("select").eq(2).val()};
 				/* var progress = $('<div id="wait" style="position: absolute;top: 300px;width: 30%;left: 45%;text-align: center;"><p>系统正在统计数据，请耐心等待</p><i class="icon-spinner icon-spin orange" style="font-size: 500%"></i></div></div>'); */
 				var progress = $('<div id="wait" style="position: absolute;top: 200px;width: 30%;left: 35%;text-align: center;"><p>系统正在统计数据，请耐心等待</p><div class="progress" data-percent="0%"><div class="progress-bar" style="width:0%;"></div></div></div></div>');
 				var s = 3*(end.getMonth()-start.getMonth()+1);

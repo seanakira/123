@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<% String path = request.getContextPath()+"/"; %>
+<% String path = request.getContextPath()+"/";%>
 <!DOCTYPE html>
 <html lang="zh">
 	<head>
@@ -48,84 +48,129 @@
 			}
 			.login-layout {
 			    background-color: #fff;
+			    background: url(<%=request.getAttribute("img")%>) no-repeat center;
 			}
 			
 			.login-layout .widget-box {
 			    background-color: #CECECE;
 			}
-			
 			.grey{
 				color: #6f6f6f !important;
 			}
 			h5{
-				margin-top: 350px;
+				
 			}
 			#login-box{
 				padding: 1px;
+				width:90%;
+				background: rgba(0,0,0,0.1);
+				left: 5%;
 			}
 			.login-layout .widget-box .widget-main{
-				padding: 16px 36px 36px;
-				background: #fbfbfb;
+				padding: 10px 36px 10px 36px;
+				background: rgba(0,0,0,0.1);
+			}
+			.widget-body{
+				background: rgba(0,0,0,0.1);
+			}
+			.button{
+				background: rgba(0,0,0,0.1);
+				border: rgba(230,230,230,0.3) solid 1px;
+				color: rgb(230,230,230);
+				padding: 3px 10px 3px 10px;
+				width: 100px;
+			}
+			.side{
+				background: rgba(0,0,0,0.5);
+			    float: right;
+			    height: 100%;
+			    overflow-y: scroll;
+			    overflow-x: hidden;
+			    position: absolute;
+			    top: 0px;
+			    right: 0px;
+			    padding: 10px;
+			}
+			#hide{
+				position: fixed;
+				top: 50%;
+				right: 398px;
+				color: white;
+				width: 50px;
+				height: 50px;
+				text-align: center;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.input{
+				background-color:transparent;
+			}
+			@media only screen and (max-width:800px) {
+				.side{
+					display: none;
+				}
+				#hide{
+					display: none;
+				}
 			}
         </style>
 	</head>
 
 	<body class="login-layout">
+		<div id="hide"><i class="icon-angle-right bigger-300"></i></div>
+		<div class="side">
+			${imgInfo }
+		</div>
 		<div class="main-container">
 			<div class="main-content">
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="login-container">
-							<div class="center">
-							  <h1> <img alt="logo" src="<%=path %>resources/assets/avatars/logo.png"><span class="grey">星途业务管理系统</span> </h1>
-								<hr>
-							</div>
 							<div class="position-relative">
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-										  <h4 class="header blue lighter bigger" style="display: inline-block;"> <em class="icon-coffee blue"></em> 系统登录 </h4>
-										  <span class="lbl red pull-right" style="margin-top: 25px;">${msg }</span>
+										  <h4 class="center"> <img alt="logo" src="<%=path %>resources/assets/avatars/logo.png"><span style="color: rgb(230,230,230);">星途业务管理系统</span> </h4>
+										  <div class="lbl red" style="margin-top: 25px;">${msg }</div>
 										  <div class="space-6"></div>
-										 
-											<form action="<%=path %>admin/login" method="post">
+										  <form action="<%=path %>admin/login" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input name="userName" type="text" class="form-control" placeholder="用户名" />
+															<input name="userName" type="text" class="form-control input" placeholder="用户名" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input name="pwd" type="password" class="form-control" placeholder="密码" />
+															<input name="pwd" type="password" class="form-control input" placeholder="密码" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>
 
 													<div class="space"></div>
 
-													<div class="clearfix">
+													<div class="clearfix" style="text-align: center;">
 														<!-- <label class="inline">
 															<input type="checkbox" class="ace" />
 															<span class="lbl"> 记住密码 </span>
 														</label> -->
 
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+														<button type="submit" class="button">
 															<i class="icon-key"></i>
 															登陆
-															
 														</button>
 													</div>
-
-													<div class="space-4"></div>
+													
+													<div class="space-4">
+													</div>
 												</fieldset>
 											</form>
 
-											<div class="social-or-login center">
-												<span class="bigger-110"> </span>
-											</div>
+											<!-- <div class="social-or-login center">
+												<span class="bigger-110"></span>
+												<h6 class="blue center">&copy; 港中旅国际（山东）旅行社有限公司 </h6>
+											</div> -->
 
 											
 										</div><!-- /widget-main -->
@@ -249,13 +294,11 @@
 									</div><!-- /widget-body -->
 								</div><!-- /signup-box -->
 							</div><!-- /position-relative -->
-							<h5 class="blue center">&copy; 港中旅国际（山东）旅行社有限公司 </h5>
 						</div>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
 			</div>
 		</div><!-- /.main-container -->
-
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
@@ -293,7 +336,24 @@
 			 jQuery('.widget-box.visible').removeClass('visible');
 			 jQuery('#'+id).addClass('visible');
 			}
+			$(function(){
+				$("#hplaDL").remove();
+				$("#hpBingAppQR").remove();
+				var a = $("#hpla").find("a");
+				$.each(a,function(){
+					/* $(this).attr("href","http://cn.bing.com"+$(this).attr("href")); */
+					$(this).attr("href","https://www.baidu.com/s?wd="+($(this).find("span").length==0?$(this).prev().prev().find("span").last().text():$(this).find("span").last().text()));
+					$(this).attr("target","_blank");
+				})
+				$(".input").css({"background-color":"transparent","color":"rgb(230,230,230)","border-color": "rgba(230,230,230,0.5)"});
+				$(".hplaPvd").text(" ");
+				$(".hplaCopy").remove();
+			});
+			$("#hide").click(function(){
+				$(".side").fadeToggle("fast");
+				$("#hide").css("right",$("#hide").css("right")=="398px"?"0px":"398px");
+				$("#hide").children("i").attr("class",$("#hide").children("i").attr("class")=="icon-angle-right bigger-300"?"icon-angle-left bigger-300":"icon-angle-right bigger-300")
+			});
 		</script>
-	
 </body>
 </html>

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
@@ -379,7 +378,7 @@ public class TourController {
 	}
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/localTourManage/saveChangeCost")
-	public @ResponseBody int saveChangeCost(@RequestBody ChangeCostIncomeViewModel changeCostIncomeViewModel, HttpServletRequest request){
+	public @ResponseBody int saveChangeCost(@RequestBody ChangeCostIncomeViewModel changeCostIncomeViewModel){
 		/*Ìí¼Ó³É±¾*/
 		if(!changeCostIncomeViewModel.getCostTables().isEmpty()){
 			for (ChangeCostTable changeCostTable : changeCostIncomeViewModel.getCostTables()) {
@@ -615,8 +614,8 @@ public class TourController {
 	}
 	
 	@RequestMapping("/reimbursementManage/updateReimbursement")
-	public void updateReimbursement(@RequestBody FullReimbursementViewModel full, HttpServletRequest request){
-		if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()||!full.getNewReimbursementCostTables().isEmpty()){
+	public void updateReimbursement(@RequestBody FullReimbursementViewModel full){
+		if(!full.getChangeCostTables().isEmpty()||!full.getCostTables().isEmpty()||!full.getReimbursementCostTables().isEmpty()||!full.getNewReimbursementCostTables().isEmpty()||!full.getReimbursementIncomeTables().isEmpty()){
 			localTourService.updateReimbursement(full);
 		}
 	}

@@ -2,6 +2,7 @@ package com.cts.localtour.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cts.localtour.entity.UserTable;
 import com.cts.localtour.service.UserService;
+import com.cts.localtour.util.BackgroundImg;
 
 
 
@@ -17,7 +19,9 @@ public class IndexController {
 	@Autowired
 	private UserService userService;
 	@RequestMapping("/")
-	public String index(){
+	public String index(Model md){
+		md.addAttribute("img", BackgroundImg.getBackgroundImg());
+		md.addAttribute("imgInfo", BackgroundImg.getBackgroundImgInfo());
 		return "loginManage/login";
 	}
 	

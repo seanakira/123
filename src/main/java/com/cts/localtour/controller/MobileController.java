@@ -69,8 +69,8 @@ public class MobileController {
 		md.addAttribute("tour", tour);
 		md.addAttribute("customerAgencyName",customerAgencyService.getCustomerAgencyName(id));
 		md.addAttribute("realIncomeSum",incomeService.getIncomeInfo(id).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(id).getRealIncomeSum()).subtract(refundService.getIncomeInfo(id).getRealIncomeSum()));
-		md.addAttribute("retainagePeriod", tour.getRetainagePeriod()+"天");
-		md.addAttribute("advanced", tour.getAdvanced());
+		md.addAttribute("retainagePeriod", tour.getRetainagePeriod()==null?"":tour.getRetainagePeriod()+"天");
+		md.addAttribute("advanced", tour.getAdvanced()==null?"":tour.getAdvanced());
 		return "/mobile/loanApplication";
 	}
 	
@@ -97,8 +97,8 @@ public class MobileController {
 		md.addAttribute("tour", tour);
 		md.addAttribute("customerAgencyName",customerAgencyService.getCustomerAgencyName(id));
 		md.addAttribute("realIncomeSum",incomeService.getIncomeInfo(id).getRealIncomeSum().add(changeIncomeService.getIncomeInfo(id).getRealIncomeSum()).subtract(refundService.getIncomeInfo(id).getRealIncomeSum()));
-		md.addAttribute("retainagePeriod", tour.getRetainagePeriod()+"天");
-		md.addAttribute("advanced", tour.getAdvanced());
+		md.addAttribute("retainagePeriod", tour.getRetainagePeriod()==null?"":tour.getRetainagePeriod()+"天");
+		md.addAttribute("advanced", tour.getAdvanced()==null?"":tour.getAdvanced());
 		return "/mobile/payApplication";
 	}
 	

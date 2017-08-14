@@ -103,8 +103,8 @@ public class StatisticsController {
 	}
 	
 	@RequestMapping("/budgetExecuteReimbursementContrast/get")
-	public @ResponseBody ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo){
-		return statisticsService.getBudgetExecuteReimbursementContrast(start, end, deptIds, tourNo);
+	public @ResponseBody ArrayList<BudgetExecuteReimbursementContrastViewModel> getBudgetExecuteReimbursementContrast(@RequestParam Date start, @RequestParam Date end, @RequestParam String deptIds, @RequestParam String tourNo, @RequestParam String status){
+		return statisticsService.getBudgetExecuteReimbursementContrast(start, end, deptIds, tourNo, status);
 	}
 	
 	/*团队结算统计*/
